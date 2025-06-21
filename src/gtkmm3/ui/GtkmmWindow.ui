@@ -16,10 +16,12 @@
             <property name="orientation">vertical</property>
             <child>
               <object class="GtkButton">
-                <property name="label" translatable="yes">Open images folder (I)</property>
+                <property name="label">gtk-open</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <property name="use-stock">True</property>
+                <property name="always-show-image">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -70,6 +72,7 @@
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
                 <property name="use-stock">True</property>
+                <property name="always-show-image">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -90,11 +93,13 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="tag_search_entry">
+              <object class="GtkButton">
+                <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="max-length">4096</property>
-                <property name="input-hints">GTK_INPUT_HINT_SPELLCHECK | GTK_INPUT_HINT_WORD_COMPLETION | GTK_INPUT_HINT_NONE</property>
+                <property name="receives-default">True</property>
+                <property name="use-stock">True</property>
+                <property name="always-show-image">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -103,12 +108,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton">
-                <property name="label">gtk-ok</property>
+              <object class="GtkSearchEntry">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-                <property name="use-stock">True</property>
+                <property name="primary-icon-name">edit-find-symbolic</property>
+                <property name="primary-icon-activatable">False</property>
+                <property name="primary-icon-sensitive">False</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -160,6 +165,7 @@
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
                 <property name="use-stock">True</property>
+                <property name="always-show-image">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>

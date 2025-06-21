@@ -13,3 +13,4 @@ doc/*-html/*
 out/*
 CMakeSettings.json
 *.log
+*~

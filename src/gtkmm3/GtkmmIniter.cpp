@@ -14,14 +14,14 @@ int GtkmmIniter::run(int& argc, char**& argv)
 
   prepare_widgets();
 
-  assert(window != nullptr);
-  assert(image != nullptr);
+  // assert(window != nullptr);
+  // assert(image != nullptr);
 
-  if (window == nullptr || image == nullptr) {
-    throw std::runtime_error("Unable to find some of the main widgets");
-  }
+  // if (window == nullptr || image == nullptr) {
+  //   throw std::runtime_error("Unable to find some of the main widgets");
+  // }
 
-  prepare_random_logo();
+  // prepare_random_logo();
 
   window->show_all_children();
 
@@ -38,15 +38,15 @@ void GtkmmIniter::prepare_widgets()
 
   builder->get_widget("main_window", window);
 
-  if (window == nullptr) {
-    throw std::runtime_error("Failed to get the main window");
-  }
+  // if (window == nullptr) {
+  //   throw std::runtime_error("Failed to get the main window");
+  // }
 
-  builder->get_widget("random_image", image);
+  // builder->get_widget("random_image", image);
 
-  if (image == nullptr) {
-    throw std::runtime_error("Failed to get an image");
-  }
+  // if (image == nullptr) {
+  //   throw std::runtime_error("Failed to get an image");
+  // }
 }
 
 void GtkmmIniter::prepare_random_logo()

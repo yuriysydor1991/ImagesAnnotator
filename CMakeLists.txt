@@ -2,14 +2,14 @@ cmake_minimum_required(VERSION 3.13)
 
 # Change the PROJECT_NAME var value to change executable name
 set(
-  PROJECT_NAME "CppAppTemplate"
+  PROJECT_NAME "ImagesAnnotator"
   CACHE STRING "Project general name with an executable name"
 )
 
 project(
   ${PROJECT_NAME}
   VERSION 0.10.0
-  DESCRIPTION "A C++ Template project with GTKmm3 and Glade for you!"
+  DESCRIPTION "The data images annotation project with GTKmm3 and Glade usage"
   HOMEPAGE_URL "http://www.kytok.org.ua/"
   LANGUAGES CXX C
 )

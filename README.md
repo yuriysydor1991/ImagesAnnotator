@@ -252,7 +252,7 @@ To avoid any install and run dependencies the `src/gtkmm3/ui/GtkmmWindow.ui` UI 
 
 ## Changing the project and executable name
 
-Change the name of the project in the project's root `CMakeLists.txt` file by introducing a new value for the the `PROJECT_NAME` and/or `PROJECT_BINARY_NAME` variable which is located at `cmake/template-project-misc-variables-declare.cmake`. It is recommended to do so the executable will represent your new application name instead of templated default one - the `CppAppTemplate`.
+Change the name of the project in the project's root `CMakeLists.txt` file by introducing a new value for the the `PROJECT_NAME` and/or `PROJECT_BINARY_NAME` variable which is located at `cmake/template-project-misc-variables-declare.cmake`. It is recommended to do so the executable will represent your new application name instead of templated default one - the `ImagesAnnotator`.
 
 ## Introducing custom command line parameters
 
@@ -358,7 +358,7 @@ Finally build the documentation by executing the command:
 cmake --build . --target Doxygen-doc
 ```
 
-Which in turn will generate the `doc/CppAppTemplate-html` directory (already added to the `.gitignore` file) which will contain the HTML-type documentation. In order to open and examine generated documentation open the `doc/CppAppTemplate-html/index.html` file. The `CppAppTemplate-html` directory name will change if changed default executable name for the project by setting a new value for the `PROJECT_BINARY_NAME` variable in the root `CMakeLists.txt` or the `DOXYGEN_OUT_HTML_NAME` which in turn set the whole name for the directory.
+Which in turn will generate the `doc/ImagesAnnotator-html` directory (already added to the `.gitignore` file) which will contain the HTML-type documentation. In order to open and examine generated documentation open the `doc/ImagesAnnotator-html/index.html` file. The `ImagesAnnotator-html` directory name will change if changed default executable name for the project by setting a new value for the `PROJECT_BINARY_NAME` variable in the root `CMakeLists.txt` or the `DOXYGEN_OUT_HTML_NAME` which in turn set the whole name for the directory.
 
 The `doc/Doxyfile.in` file contains all available Doxygen configuration parameters which may be changed in order to change the documentation output.
 
@@ -485,7 +485,7 @@ Finally, execute the `cpack` command inside the template project build directory
 cpack
 ```
 
-The package file should be generated inside the project build root directory. For example, if project name was't change and it's version is 0.8.0 so the package name may look like `CppAppTemplate-0.8.0-Linux.deb`.
+The package file should be generated inside the project build root directory. For example, if project name was't change and it's version is 0.8.0 so the package name may look like `ImagesAnnotator-0.8.0-Linux.deb`.
 
 In order to examine details of the `deb` package configuration visit the `cmake/template-project-deb-enabler.cmake` file.
 
@@ -509,17 +509,17 @@ And finally to generate the flatpak package run the `flatpak` target for the bui
 cmake --build . --target flatpak
 ```
 
-In case of the success target build, there will be created the flatpak file under the root build directory named, for example, the `CppAppTemplate-0.9.0.flatpak`. In order to examine and/or change the flatpak generation target parameters visit the `cmake/template-project-flatpak-target.cmake` or `misc/flatpak.conf.json.in` files.
+In case of the success target build, there will be created the flatpak file under the root build directory named, for example, the `ImagesAnnotator-0.9.0.flatpak`. In order to examine and/or change the flatpak generation target parameters visit the `cmake/template-project-flatpak-target.cmake` or `misc/flatpak.conf.json.in` files.
 
 Refer to the flatpak documentation on how to install and run applications distributed from a flatpaks files. For the current template project's defaults the install and run command may look like this:
 
 ```
 # to install (version may change)
 # inside the project build directory
-flatpak install --user CppAppTemplate-0.9.0.flatpak
+flatpak install --user ImagesAnnotator-0.9.0.flatpak
 
 # to run the application
-flatpak run ua.org.kytok.template.gtkmm3.0.CppAppTemplate
+flatpak run ua.org.kytok.template.gtkmm3.0.ImagesAnnotator
 ```
 
 ## Enabling the Docker container build and run
@@ -578,10 +578,10 @@ Of course, if your IDE supports CMake build system integration you may just pres
 To find executable in the project build directory execute the `find` command:
 
 ```
-find . -name 'CppAppTemplate'
+find . -name 'ImagesAnnotator'
 ```
 
-The `CppAppTemplate` is a default executable name. Replace it with your custom one if you change the name of the project in the root `CMakeLists.txt` file (the `PROJECT_NAME` and/or `PROJECT_BINARY_NAME` variable).
+The `ImagesAnnotator` is a default executable name. Replace it with your custom one if you change the name of the project in the root `CMakeLists.txt` file (the `PROJECT_NAME` and/or `PROJECT_BINARY_NAME` variable).
 
 ### Starting the generated executable
 
@@ -589,10 +589,10 @@ If executable compiles and is present in the build directory start it in the ter
 
 ```
 # from the build dir
-./src/CppAppTemplate
+./src/ImagesAnnotator
 ```
 
-Once again, the `CppAppTemplate` is the **default** name of the project. Replace it with our own custom one if it was changed in the project's root `CMakeLists.txt` file (the `PROJECT_NAME` and/or `PROJECT_BINARY_NAME` variable).
+Once again, the `ImagesAnnotator` is the **default** name of the project. Replace it with our own custom one if it was changed in the project's root `CMakeLists.txt` file (the `PROJECT_NAME` and/or `PROJECT_BINARY_NAME` variable).
 
 ## Tests run
 

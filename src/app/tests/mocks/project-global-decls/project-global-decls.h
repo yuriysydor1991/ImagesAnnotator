@@ -6,7 +6,7 @@
 namespace project_decls
 {
 
-const std::string PROJECT_NAME = "CppAppTemplate";
+const std::string PROJECT_NAME = "ImagesAnnotator";
 const std::string PROJECT_BUILD_VERSION = "0.2.0";
 const std::string PROJECT_BUILD_COMMIT =
     "848bea167db708811563e941cefb6b7787879599";

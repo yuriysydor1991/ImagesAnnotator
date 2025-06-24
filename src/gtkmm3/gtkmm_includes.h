@@ -7,6 +7,7 @@
 #pragma warning(push, 0)  // MSVC
 
 #include <gtkmm.h>
+#include <gtkmm/entry.h>
 #include <gtkmm/hvbox.h>
 #include <gtkmm/image.h>
 #include <gtkmm/label.h>

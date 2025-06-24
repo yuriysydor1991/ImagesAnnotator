@@ -38,3 +38,4 @@ target_link_libraries(
 )
 
 add_subdirectory(ui)
+add_subdirectory(window)

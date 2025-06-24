@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "src/gtkmm3/gtkmm_includes.h"
+#include "src/gtkmm3/window/WindowDataContext.h"
 
 namespace templateGtkmm3
 {
@@ -21,20 +22,12 @@ class GtkmmIniter
   virtual int run(int& argc, char**& argv);
 
  protected:
-  void prepare_widgets();
+  bool prepare_widgets();
 
  private:
-  inline static constexpr const char* const UI_res_path =
-      "/ua/org/kytok/template/gtkmm3/glade/GtkmmWindow.ui";
-  inline static constexpr const char* const logo_res_path =
-      "/ua/org/kytok/template/gtkmm3/glade/resources/images/"
-      "kytok.org.ua-logo.png";
-
   void prepare_random_logo();
 
-  Glib::RefPtr<Gtk::Builder> builder;
-  Gtk::Window* window{nullptr};
-  Gtk::Image* image{nullptr};
+  std::shared_ptr<window::WindowDataContext> wctx;
 };
 
 }  // namespace templateGtkmm3

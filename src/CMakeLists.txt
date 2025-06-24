@@ -29,3 +29,5 @@ configure_file(
 add_subdirectory(app)
 add_subdirectory(log)
 add_subdirectory(gtkmm3)
+add_subdirectory(annotator-business)
+add_subdirectory(annotator-events)

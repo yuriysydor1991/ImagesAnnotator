@@ -17,16 +17,10 @@ namespace templateGtkmm3::window
 class WindowDataContext
 {
  public:
-  using IdsT = std::set<std::string>;
-
   virtual ~WindowDataContext() = default;
   WindowDataContext() = default;
 
-  bool all_widget_pointers_valid();
-
-  virtual const IdsT& get_ids();
-
-  virtual void set_ptr(const std::string& id, Gtk::Widget* ptr);
+  static const std::set<std::string>& get_ids();
 
   inline static constexpr const char* const UI_res_path =
       "/ua/org/kytok/template/gtkmm3/glade/GtkmmWindow.ui";
@@ -34,17 +28,6 @@ class WindowDataContext
       "/ua/org/kytok/template/gtkmm3/glade/resources/images/"
       "kytok.org.ua-logo.png";
 
-  Gtk::Window* window{nullptr};
-  Gtk::Button* images_open_button{nullptr};
-  Gtk::Button* annotations_open_button{nullptr};
-  Gtk::Button* accept_annotations_button{nullptr};
-  Gtk::Button* delete_image_annotation_button{nullptr};
-  Gtk::SearchEntry* annotations_search_entry{nullptr};
-  Gtk::ListBox* annotations_db_list{nullptr};
-  Gtk::ListBox* images_list{nullptr};
-  Gtk::Image* image{nullptr};
-
- private:
   inline static constexpr const char* const window_id = "main_window";
   inline static constexpr const char* const images_folder_open_button_id =
       "images_folder_open_button";

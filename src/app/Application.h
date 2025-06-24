@@ -3,6 +3,8 @@
 
 #include <memory>
 
+#include "src/annotator-business/AnnotatorController.h"
+#include "src/annotator-events/ImagesAnnotatorEventController.h"
 #include "src/app/ApplicationContext.h"
 #include "src/app/IApplication.h"
 #include "src/gtkmm3/GtkmmIniter.h"
@@ -32,6 +34,13 @@ class Application : public IApplication
 
  protected:
   virtual std::shared_ptr<templateGtkmm3::GtkmmIniter> create_gtkmm_initer();
+  virtual std::shared_ptr<iannotator::AnnotatorController>
+  create_annotator_b_controller();
+  virtual std::shared_ptr<events::ImagesAnnotatorEventController>
+  create_event_controller(std::shared_ptr<ApplicationContext> ctx);
+
+  std::shared_ptr<templateGtkmm3::GtkmmIniter> gtkmmIniter;
+  std::shared_ptr<iannotator::AnnotatorController> abcontroller;
 };
 
 }  // namespace app

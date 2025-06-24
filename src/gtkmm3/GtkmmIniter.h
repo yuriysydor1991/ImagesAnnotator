@@ -3,8 +3,10 @@
 
 #include <memory>
 
+#include "src/app/ApplicationContext.h"
 #include "src/gtkmm3/gtkmm_includes.h"
 #include "src/gtkmm3/window/WindowDataContext.h"
+#include "src/gtkmm3/window/WindowLoader.h"
 
 namespace templateGtkmm3
 {
@@ -17,9 +19,9 @@ class GtkmmIniter
 {
  public:
   virtual ~GtkmmIniter() = default;
-  GtkmmIniter() = default;
+  GtkmmIniter();
 
-  virtual int run(int& argc, char**& argv);
+  virtual bool run(std::shared_ptr<app::ApplicationContext> ctx);
 
  protected:
   bool prepare_widgets();
@@ -28,6 +30,7 @@ class GtkmmIniter
   void prepare_random_logo();
 
   std::shared_ptr<window::WindowDataContext> wctx;
+  std::shared_ptr<window::WindowLoader> wloader;
 };
 
 }  // namespace templateGtkmm3

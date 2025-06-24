@@ -3,62 +3,85 @@
 #include <cassert>
 
 #include "project-global-decls.h"
-#include "src/app/IApplication.h"
-#include "src/gtkmm3/window/WindowLoader.h"
 #include "src/log/log.h"
 
 namespace templateGtkmm3
 {
-
-int GtkmmIniter::run(int& argc, char**& argv)
+GtkmmIniter::GtkmmIniter()
+    : wctx{std::make_shared<window::WindowDataContext>()},
+      wloader{std::make_shared<window::WindowLoader>()}
 {
-  auto app =
-      Gtk::Application::create(argc, argv, project_decls::PROJECT_FLATPAK_URL);
+  assert(wctx != nullptr);
+  assert(wloader != nullptr);
+}
+
+bool GtkmmIniter::run(std::shared_ptr<app::ApplicationContext> ctx)
+{
+  assert(ctx != nullptr);
+  assert(wctx != nullptr);
+  assert(wloader != nullptr);
+
+  if (ctx == nullptr) {
+    return false;
+  }
+
+  auto app = Gtk::Application::create(ctx->argc, ctx->argv,
+                                      project_decls::PROJECT_FLATPAK_URL);
 
   if (!prepare_widgets()) {
-    return app::IApplication::INVALID;
+    return false;
   }
 
-  assert(wctx != nullptr);
-  assert(wctx->window != nullptr);
-  assert(wctx->image != nullptr);
+  assert(wloader->all_widget_are_valid());
 
-  if (wctx == nullptr) {
-    LOGE("No valid window context was found");
-    return app::IApplication::INVALID;
-  }
-
-  if (!wctx->all_widget_pointers_valid()) {
+  if (!wloader->all_widget_are_valid()) {
     LOGE("Some of the widgets were not found");
-    return app::IApplication::INVALID;
+    return false;
   }
 
   // prepare_random_logo();
 
-  wctx->window->show_all_children();
+  wloader->get_window()->show_all_children();
 
-  return app->run(*wctx->window);
+  const auto rt = app->run(*wloader->get_window());
+
+  return rt == 0;
 }
 
 bool GtkmmIniter::prepare_widgets()
 {
-  auto wloader = std::make_shared<window::WindowLoader>();
-  wctx = std::make_shared<window::WindowDataContext>();
+  assert(wctx != nullptr);
+  assert(wloader != nullptr);
 
-  return wloader->load_window(wctx);
+  if (wloader == nullptr) {
+    LOGE("No loader available");
+    return false;
+  }
+
+  if (!wloader->load_window(wctx)) {
+    LOGE("Failure during the window load");
+    return false;
+  }
+
+  assert(wloader->get_window() != nullptr);
+  assert(wloader->all_widget_are_valid());
+
+  wloader->get_window()->maximize();
+
+  return wloader->get_window() != nullptr;
 }
 
 void GtkmmIniter::prepare_random_logo()
 {
   assert(wctx != nullptr);
-  assert(wctx->image != nullptr);
+  assert(wloader != nullptr);
 
-  if (wctx == nullptr || wctx->image == nullptr) {
-    LOGE("No valid context found");
+  if (wloader == nullptr || wloader->get_image() == nullptr) {
+    LOGE("No valid widget pointer found");
     return;
   }
 
-  wctx->image->set_from_resource(wctx->logo_res_path);
+  wloader->get_image()->set_from_resource(wctx->logo_res_path);
 }
 
 }  // namespace templateGtkmm3

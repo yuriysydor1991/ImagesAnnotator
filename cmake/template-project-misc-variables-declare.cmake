@@ -141,6 +141,12 @@ set(
   "Sets the maximum severity of the compiled log messages. Error=0. Trace=5. By default Info=3"
 )
 
+option(
+  ENABLE_COMPONENT_TESTS 
+  "Set to ON value if components tests build and run should be available"
+  OFF
+)
+
 string(TIMESTAMP PROJECT_CONFIGURE_DATE "%Y-%m-%d %H:%M:%S")
 
 execute_process(

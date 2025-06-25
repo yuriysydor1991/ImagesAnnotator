@@ -5,6 +5,7 @@ add_library(
   AnnotationsDirChanged.cpp
   EventsFactory.cpp
   ImagesDirChanged.cpp
+  ImageRecord.cpp
 )
 
 target_include_directories(

@@ -23,19 +23,24 @@ namespace iannotator
  */
 class AnnotatorController
     : virtual public events::events::AnnotationsDirChangedIHandler,
-      virtual public events::events::ImagesDirChangedIHandler
+      virtual public events::events::ImagesDirChangedIHandler,
+      virtual public events::events::ImagesPathsDBProvider,
+      public std::enable_shared_from_this<AnnotatorController>
 {
  public:
   using ImagesDirChanged = events::events::ImagesDirChanged;
   using AnnotationsDirChanged = events::events::AnnotationsDirChanged;
+  using ImagesDirDB = dbs::ImagesDirDB::ImagesDB;
 
   virtual ~AnnotatorController() = default;
-  AnnotatorController() = default;
+  AnnotatorController();
 
   virtual bool init(std::shared_ptr<app::ApplicationContext> ctx);
 
   virtual void handle(std::shared_ptr<ImagesDirChanged> event) override;
   virtual void handle(std::shared_ptr<AnnotationsDirChanged> event) override;
+
+  virtual const ImagesDirDB& get_images_db();
 
  private:
   std::shared_ptr<dbs::ImagesDirDB> images;

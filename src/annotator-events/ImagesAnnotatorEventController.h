@@ -18,7 +18,8 @@ namespace events
 /**
  * @brief Intermediate events class interface between the components.
  */
-class ImagesAnnotatorEventController : public IImagesAnnotatorEventController
+class ImagesAnnotatorEventController
+    : virtual public IImagesAnnotatorEventController
 {
  public:
   virtual ~ImagesAnnotatorEventController() = default;

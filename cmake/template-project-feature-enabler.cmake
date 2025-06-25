@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 
-if(ENABLE_UNIT_TESTS)
+if(ENABLE_UNIT_TESTS OR ENABLE_COMPONENT_TESTS)
   enable_testing()
   include(template-project-make-GTest-available)
 endif()

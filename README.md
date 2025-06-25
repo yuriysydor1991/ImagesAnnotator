@@ -1,89 +1,21 @@
-**Your neat C++ application template project**
+**The images annotator application**
 
-# Goal of the template project
 
-Project is designed to increase the speed of the application creation process at the project startup by providing templated application structure. So developer may just jump straight into implementing a particular application with no or minimum project start structure set up.
+# Goal of the image annotator
 
-**Just fork it and implement your application straight away!**
-
-Examine available branches to find your most applicable variant of the template or combine multiple branches by merging them to assemble the best suited template structure for your needs:
-
-- `main` branch at [project root page](https://github.com/yuriysydor1991/cpp-app-template) just the clear `main` function no additional app infrastructure classes and all available CMake integrations.
-- `app` branch at [app](https://github.com/yuriysydor1991/cpp-app-template/tree/app) with just general application related classes to generate a single binary executable.
-- `applib` branch at [applib](https://github.com/yuriysydor1991/cpp-app-template/tree/applib) for the application binary with additional separate library binary and header files (available for the installation) in order to provide library's code reusability across multiple applications.
-- `lib` branch at [lib](https://github.com/yuriysydor1991/cpp-app-template/tree/lib) for the library with the headers include files (and documentation) without target binary.
-- `appQt6` branch at [appQt6](https://github.com/yuriysydor1991/cpp-app-template/tree/appQt6) for the application general classes with additional defined structure for the Qt6 QML window application development.
-- `appGtkmm3` branch at [appGtkmm3](https://github.com/yuriysydor1991/cpp-app-template/tree/appGtkmm3) for the application general classes with additional defined structure for the Gtkmm-3.0 with C++ window application development.
-- `appGtkmm3Glade` branch at [appGtkmm3Glade](https://github.com/yuriysydor1991/cpp-app-template/tree/appGtkmm3Glade) (**current**) for the application general classes with additional defined structure for the C++ application development with Gtkmm-3.0 and [Glade](https://en.wikipedia.org/wiki/Glade_Interface_Designer) application with XML UI creation.
-- `appFreeGlut` branch at [appFreeGlut](https://github.com/yuriysydor1991/cpp-app-template/tree/appFreeGlut) with just general application related classes to generate a single binary executable with a FreeGlut library for the OpenGL 3D development.
-- `appSDL2` branch at [appSDL2](https://github.com/yuriysydor1991/cpp-app-template/tree/appSDL2) with just general application related classes to generate a single binary executable with a [SDL2](https://en.wikipedia.org/wiki/Simple_DirectMedia_Layer) library for the OpenGL 3D development and more!
-- `appMeson` branch at [appMeson](https://github.com/yuriysydor1991/cpp-app-template/tree/appMeson) with just general application related classes to generate a single binary executable with the [Meson](https://mesonbuild.com/) build system.
-- `appWt4` branch at [appWt4](https://github.com/yuriysydor1991/cpp-app-template/tree/appWt4) the template infrastructure to fast start Web application developing based on the [Wt C++](https://www.webtoolkit.eu/wt) full stack framework.
-- `appPgSQLxx` branch at [appPgSQLxx](https://github.com/yuriysydor1991/cpp-app-template/tree/appPgSQLxx) the template infrastructure to fast start application development with the [PostgreSQL DBMS](https://en.wikipedia.org/wiki/PostgreSQL) usage.
-- `appBoostBeast` branch at [appBoostBeast](https://github.com/yuriysydor1991/cpp-app-template/tree/appBoostBeast) the template infrastructure for the Web application fast start development with the [Boost Beast](https://www.boost.org/libs/beast) HTTP server.
-- `appMySQLCppConn` branch at [appMySQLCppConn](https://github.com/yuriysydor1991/cpp-app-template/tree/appMySQLCppConn) the template infrastructure to fast start application development with the [MySQL DBMS](https://en.wikipedia.org/wiki/MySQL) usage.
-- `appSQLiteCpp3` branch at [appSQLiteCpp3](https://github.com/yuriysydor1991/cpp-app-template/tree/appSQLiteCpp3) the template infrastructure to fast start application development with the [SQLite DBMS](https://en.wikipedia.org/wiki/SQLite) and [SQLiteCpp C++ bind](https://github.com/SRombauts/SQLiteCpp) usage.
-- `appMongoDBCpp4` branch at [appMongoDBCpp4](https://github.com/yuriysydor1991/cpp-app-template/tree/appMongoDBCpp4) the template infrastructure to fast start application development with the [MongoDB NoSQL DBMS](https://en.wikipedia.org/wiki/MongoDB) usage.
-- `appLog4Cpp5` branch at [appLog4Cpp5](https://github.com/yuriysydor1991/cpp-app-template/tree/appLog4Cpp5) the template infrastructure to fast start the application development with the [log4cpp](https://log4cpp.sourceforge.net/) extended logging library.
-- `appBoostLog` branch at [appBoostLog](https://github.com/yuriysydor1991/cpp-app-template/tree/appBoostLog) the template infrastructure to fast start the application development with the [Boost.Log](https://www.boost.org/doc/libs/latest/libs/log/doc/html/index.html) extended logging library.
-
-Alter current `README.md` and a `CHANGELOG.md` files to match your implementation introduced into the template project. Examine the `doc` directory for possible translations of a current md document:
-- `uk_UA` at [doc/README.uk_UA.md](doc/README.uk_UA.md)
+The goal of the image annotator is to provide information about the provided images' located objects in order to supply annotated data to the learning networks.
 
 See more at the [kytok.org.ua](http://www.kytok.org.ua/)
 
 Donate at [http://kytok.org.ua/page/pozertvy](http://kytok.org.ua/page/pozertvy)
 
-# Cloning the C++ template project
-
-In order to fast-start implementing a new application clone this project into your local directory by executing next command in the terminal (GNU/Linux based):
-
-```
-git clone https://github.com/yuriysydor1991/cpp-app-template.git
-```
-
-or 
-
-```
-git clone https://gitlab.com/yuriysydor1991/cpp-app-template.git
-```
-
-After this command executes you should find a directory named `cpp-app-template` inside your current one. So enter it by calling `cd cpp-app-template`.
-
-# Forking and replacing the origin
-
-In order to copy all the template project into your new clean repository (**clean repository with no** `README.md`, `.gitignore`, `LICENCE` or any other files) clone the current cpp-app-template project into your local directory and perform origin replacement command from inside the project root directory:
-
-```
-# REPLACE next URL with yours
-git remote set-url origin https://github.com/yuriysydor1991/cpp-app-template.git
-```
-
-Replace the `https://github.com/yuriysydor1991/cpp-app-template.git` URL with one of your newly created project repository URL.
-
-To verify successful repository remote URL (where all the changes will be pushed) replacement execute next command:
-
-```
-git remote -v
-```
-
-Which should show your new project repository.
-
-Finally push your repository to a new location by executing next command:
-
-```
-git push
-```
-
-Forking may be performed in git Web interface panel.
-
 # Requirements
 
-This section contains list of required packages and/or tools that must be present in the system in order to build templated project.
+This section contains list of required packages and/or tools that must be present in the system in order to build project.
 
 ## Required tools for the GNU/Linux based OS
 
-In order to build minimum template project install the GCC C++ compiler with CMake and Git.
+In order to build minimum project install the GCC C++ compiler with CMake and Git.
 
 ```
 sudo apt install -y git g++ cmake
@@ -188,7 +120,7 @@ Look for the details at the [Enabling the flatpak package generation support](#e
 
 ## Optional for the Docker container runs
 
-In order to be able to start the Docker containers with the built template application install it with the next command:
+In order to be able to start the Docker containers with the built application install it with the next command:
 
 ```
 sudo apt install -y docker.io docker-buildx
@@ -244,15 +176,11 @@ Additional code may be introduced into the `Application` class implementation or
 
 ## UI implementation
 
-The project's templated `src/gtkmm3/ui/GtkmmWindow.ui` file contains the general application's UI default implementation. Open it with the [Glade](https://en.wikipedia.org/wiki/Glade_Interface_Designer) application in order to replace the default UI implementation with the new one of interest.
+The project's `src/gtkmm3/ui/GtkmmWindow.ui` file contains the general application's UI default implementation. Open it with the [Glade](https://en.wikipedia.org/wiki/Glade_Interface_Designer) application in order to replace the default UI implementation with the new one of interest.
 
 ## Resource embedding
 
 To avoid any install and run dependencies the `src/gtkmm3/ui/GtkmmWindow.ui` UI file and any other registered resource are embedding into the binary. Resource embedding is performed through the `src/gtkmm3/ui/template.gresource.xml` GResource file resources of which are compiled into the C-resource by a `glib-compile-resources` command. Register new and remove old resources in the `src/gtkmm3/ui/template.gresource.xml` file in order to make them available in the binary executable. The examples of the resource obtaining and usage in the C++ code side may be examined in the default implementation of the `GtkmmIniter` class.
-
-## Changing the project and executable name
-
-Change the name of the project in the project's root `CMakeLists.txt` file by introducing a new value for the the `PROJECT_NAME` and/or `PROJECT_BINARY_NAME` variable which is located at `cmake/template-project-misc-variables-declare.cmake`. It is recommended to do so the executable will represent your new application name instead of templated default one - the `ImagesAnnotator`.
 
 ## Introducing custom command line parameters
 
@@ -477,7 +405,7 @@ Next, build all available targets required for the `deb` package
 cmake --build . --target all
 ```
 
-Finally, execute the `cpack` command inside the template project build directory:
+Finally, execute the `cpack` command inside the project build directory:
 
 ```
 # inside the project build directory
@@ -491,7 +419,7 @@ In order to examine details of the `deb` package configuration visit the `cmake/
 
 ## Enabling the flatpak package generation support
 
-In order to enable the flatpak generation of the redistribution package on the template project configure it with enabled option `ENABLE_FLATPAK` (GNU/Linux and alike):
+In order to enable the flatpak generation of the redistribution package on the project configure it with enabled option `ENABLE_FLATPAK` (GNU/Linux and alike):
 
 ```
 # inside the project root directory 
@@ -511,7 +439,7 @@ cmake --build . --target flatpak
 
 In case of the success target build, there will be created the flatpak file under the root build directory named, for example, the `ImagesAnnotator-0.9.0.flatpak`. In order to examine and/or change the flatpak generation target parameters visit the `cmake/template-project-flatpak-target.cmake` or `misc/flatpak.conf.json.in` files.
 
-Refer to the flatpak documentation on how to install and run applications distributed from a flatpaks files. For the current template project's defaults the install and run command may look like this:
+Refer to the flatpak documentation on how to install and run applications distributed from a flatpaks files. For the current project defaults the install and run command may look like this:
 
 ```
 # to install (version may change)
@@ -524,7 +452,7 @@ flatpak run ua.org.kytok.template.gtkmm3.0.ImagesAnnotator
 
 ## Enabling the Docker container build and run
 
-To be able to build and run the Docker container with current template project' target binary file enable it's CMake target with setting the `ENABLE_DOCKER` variable into value `ON` by using the next command:
+To be able to build and run the Docker container with current project' target binary file enable it's CMake target with setting the `ENABLE_DOCKER` variable into value `ON` by using the next command:
 
 ```
 # inside the project root directory

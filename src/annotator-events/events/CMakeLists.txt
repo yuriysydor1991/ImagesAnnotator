@@ -6,6 +6,7 @@ add_library(
   EventsFactory.cpp
   ImagesDirChanged.cpp
   ImageRecord.cpp
+  ImagesDirProviderChanged.cpp
 )
 
 target_include_directories(

@@ -11,7 +11,8 @@ GtkmmIniter::GtkmmIniter()
     : wctx{std::make_shared<window::WindowDataContext>()},
       wloader{std::make_shared<window::WindowLoader>()},
       cwFactory{std::make_shared<CWFactory>()},
-      imagesVDB{}
+      imagesVDB{},
+      actx{}
 {
   assert(wctx != nullptr);
   assert(wloader != nullptr);
@@ -27,6 +28,8 @@ bool GtkmmIniter::run(std::shared_ptr<app::ApplicationContext> ctx)
   if (ctx == nullptr) {
     return false;
   }
+
+  actx = ctx;
 
   auto app = Gtk::Application::create(ctx->argc, ctx->argv,
                                       project_decls::PROJECT_FLATPAK_URL);
@@ -44,11 +47,49 @@ bool GtkmmIniter::run(std::shared_ptr<app::ApplicationContext> ctx)
 
   // prepare_random_logo();
 
+  if (!subscribe_4_events(ctx)) {
+    LOGE("Fail to subscribe for events");
+    return false;
+  }
+
   wloader->get_window()->show_all_children();
 
   const auto rt = app->run(*wloader->get_window());
 
   return rt == 0;
+}
+
+bool GtkmmIniter::subscribe_4_events(
+    std::shared_ptr<app::ApplicationContext> ctx)
+{
+  assert(ctx != nullptr);
+  assert(ctx->eventer != nullptr);
+
+  if (ctx == nullptr) {
+    LOGE("No valid context object provided");
+    return false;
+  }
+
+  if (ctx->eventer == nullptr) {
+    LOGE("No valid context' eventer object provided");
+    return false;
+  }
+
+  auto myshared = shared_from_this();
+  std::shared_ptr<ImagesDirProviderChangedHandler> myptr = myshared;
+
+  ctx->eventer->subscribe(myptr);
+
+  /**
+   * Sending requests for the initial objects.
+   */
+  auto efactory = ctx->eventer->get_events_factory();
+
+  auto idbRequest = efactory->create_image_dir_object_request();
+
+  ctx->eventer->submit(idbRequest);
+
+  return true;
 }
 
 bool GtkmmIniter::prepare_widgets()
@@ -116,5 +157,7 @@ void GtkmmIniter::handle(std::shared_ptr<ImagesDirProviderChanged> event)
     imagesListView.append(*r);
   }
 }
+
+void GtkmmIniter::deinit() { actx.reset(); }
 
 }  // namespace templateGtkmm3

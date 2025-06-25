@@ -19,7 +19,8 @@ namespace templateGtkmm3
  * templated GUI window.
  */
 class GtkmmIniter
-    : virtual public events::events::ImagesDirProviderChangedHandler
+    : virtual public events::events::ImagesDirProviderChangedHandler,
+      public std::enable_shared_from_this<GtkmmIniter>
 {
  public:
   virtual ~GtkmmIniter() = default;
@@ -27,10 +28,15 @@ class GtkmmIniter
 
   virtual bool run(std::shared_ptr<app::ApplicationContext> ctx);
 
+  virtual void deinit();
+
  protected:
   using ImagesDirProviderChanged = events::events::ImagesDirProviderChanged;
+  using ImagesDirProviderChangedHandler =
+      events::events::ImagesDirProviderChangedHandler;
 
-  bool prepare_widgets();
+  virtual bool prepare_widgets();
+  virtual bool subscribe_4_events(std::shared_ptr<app::ApplicationContext> ctx);
 
   virtual void handle(std::shared_ptr<ImagesDirProviderChanged> event) override;
 
@@ -44,6 +50,7 @@ class GtkmmIniter
   std::shared_ptr<window::WindowLoader> wloader;
   std::shared_ptr<CWFactory> cwFactory;
   ImagesVisualDB imagesVDB;
+  std::shared_ptr<app::ApplicationContext> actx;
 };
 
 }  // namespace templateGtkmm3

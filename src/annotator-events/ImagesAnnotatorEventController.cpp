@@ -18,7 +18,7 @@ ImagesAnnotatorEventController::ImagesAnnotatorEventController(
     : actx{nactx},
       images_handlers{},
       annotations_handlers{},
-      efactory{std::make_shared<events::EventsFactory>()}
+      efactory{events::EventsFactory::instance()}
 {
 }
 
@@ -94,6 +94,12 @@ void ImagesAnnotatorEventController::subscribe(
   iprovider_handlers.insert(newIDBProvider);
 }
 
+std::shared_ptr<events::EventsFactory>
+ImagesAnnotatorEventController::get_events_factory()
+{
+  return efactory;
+}
+
 template <class SubsQueue, class EventT>
 void ImagesAnnotatorEventController::unified_submit(
     SubsQueue& queue, std::shared_ptr<EventT> event)
@@ -108,6 +114,18 @@ void ImagesAnnotatorEventController::unified_submit(
   for (auto& ih : queue) {
     ih->handle(event);
   }
+}
+
+void ImagesAnnotatorEventController::submit(
+    std::shared_ptr<events::RequestImagesDirProvider> request)
+{
+  unified_submit(imagesDBObject_handlers, request);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    std::shared_ptr<events::RequestImagesDirProviderHandler> request)
+{
+  imagesDBObject_handlers.insert(request);
 }
 
 }  // namespace events

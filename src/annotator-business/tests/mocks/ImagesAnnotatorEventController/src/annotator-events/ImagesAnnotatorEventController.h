@@ -50,6 +50,17 @@ class ImagesAnnotatorEventController : public IImagesAnnotatorEventController
       (std::shared_ptr<events::ImagesDirProviderChangedHandler> newIDBProvider),
       (override));
 
+  MOCK_METHOD(void, submit,
+              (std::shared_ptr<events::RequestImagesDirProvider> request),
+              (override));
+  MOCK_METHOD(
+      void, subscribe,
+      (std::shared_ptr<events::RequestImagesDirProviderHandler> request),
+      (override));
+
+  MOCK_METHOD(std::shared_ptr<events::EventsFactory>, get_events_factory, (),
+              (override));
+
   MOCK_METHOD(bool, deinit, (), (override));
 };
 

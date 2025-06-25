@@ -22,8 +22,6 @@ int Application::run(std::shared_ptr<ApplicationContext> ctx)
 
   ctx->eventer = create_event_controller(ctx);
 
-  gtkmmIniter = create_gtkmm_initer();
-
   abcontroller = create_annotator_b_controller();
 
   if (!abcontroller->init(ctx)) {
@@ -33,12 +31,16 @@ int Application::run(std::shared_ptr<ApplicationContext> ctx)
     return INVALID;
   }
 
+  gtkmmIniter = create_gtkmm_initer();
+
   auto rt = gtkmmIniter->run(ctx) ? 0 : INVALID;
 
   if (rt == INVALID) {
     LOGE("The gtkmm controller returned invalid status");
   }
 
+  gtkmmIniter->deinit();
+  abcontroller->deinit();
   ctx->eventer->deinit();
 
   return rt;

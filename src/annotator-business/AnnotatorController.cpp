@@ -14,7 +14,8 @@ namespace iannotator
 
 AnnotatorController::AnnotatorController()
     : images{std::make_shared<dbs::ImagesDirDB>()},
-      annotations{std::make_shared<dbs::AnnotationsDirDB>()}
+      annotations{std::make_shared<dbs::AnnotationsDirDB>()},
+      actx{}
 {
 }
 
@@ -45,6 +46,8 @@ bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
     return false;
   }
 
+  actx = ctx;
+
   if (!ctx->images_db_path.empty()) {
     LOGD("Found initial images directory path: " << ctx->images_db_path);
 
@@ -54,7 +57,12 @@ bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
     }
 
     /// @todo: emit images db list changed over here
+    // meaningless to send events at this point since window is not created in
+    // the App class.
   }
+
+  ctx->eventer->subscribe(
+      std::shared_ptr<RequestImagesDirProviderHandler>(shared_from_this()));
 
   return true;
 }
@@ -79,7 +87,10 @@ void AnnotatorController::handle(std::shared_ptr<ImagesDirChanged> event)
     return;
   }
 
-  LOGD("The images db dir have changed: " << event->images_dir);
+  LOGD("The images db dir have changed: " << event->images_dir
+                                          << " submitting appropriate event");
+
+  emitImagesProviderChanged();
 }
 
 void AnnotatorController::handle(std::shared_ptr<AnnotationsDirChanged> event)
@@ -113,5 +124,36 @@ AnnotatorController::ImagesDirDB& AnnotatorController::get_images_db()
 
   return images->get_images_db();
 }
+
+void AnnotatorController::handle(
+    [[maybe_unused]] std::shared_ptr<RequestImagesDirProvider> event)
+{
+  emitImagesProviderChanged();
+}
+
+void AnnotatorController::emitImagesProviderChanged()
+{
+  assert(actx != nullptr);
+  assert(actx->eventer != nullptr);
+
+  if (actx == nullptr) {
+    LOGE("No valid application context pointer found");
+    return;
+  }
+
+  if (actx->eventer == nullptr) {
+    LOGE("No valid application context' eventer pointer found");
+    return;
+  }
+
+  auto efactory = actx->eventer->get_events_factory();
+
+  auto imagesProviderChangedE =
+      efactory->create_images_dir_provider_changed(images);
+
+  actx->eventer->submit(imagesProviderChangedE);
+}
+
+void AnnotatorController::deinit() { actx.reset(); }
 
 }  // namespace iannotator

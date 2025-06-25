@@ -10,6 +10,8 @@
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
 #include "src/annotator-events/events/ImagesDirProviderChanged.h"
 #include "src/annotator-events/events/ImagesDirProviderChangedHandler.h"
+#include "src/annotator-events/events/RequestImagesDirProvider.h"
+#include "src/annotator-events/events/RequestImagesDirProviderHandler.h"
 
 namespace events
 {
@@ -38,6 +40,13 @@ class IImagesAnnotatorEventController
   virtual void subscribe(
       std::shared_ptr<events::ImagesDirProviderChangedHandler>
           newIDBProvider) = 0;
+
+  virtual void submit(
+      std::shared_ptr<events::RequestImagesDirProvider> request) = 0;
+  virtual void subscribe(
+      std::shared_ptr<events::RequestImagesDirProviderHandler> request) = 0;
+
+  virtual std::shared_ptr<events::EventsFactory> get_events_factory() = 0;
 
   virtual bool deinit() = 0;
 };

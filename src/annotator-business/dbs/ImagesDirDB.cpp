@@ -62,9 +62,6 @@ bool ImagesDirDB::is_image(const fs::path& tpath)
   return extsDB.find(pathE) != extsDB.end();
 }
 
-const ImagesDirDB::ImagesDB& ImagesDirDB::get_images_db()
-{
-  return images_found;
-}
+ImagesDirDB::ImagesDB& ImagesDirDB::get_images_db() { return images_found; }
 
 }  // namespace iannotator::dbs

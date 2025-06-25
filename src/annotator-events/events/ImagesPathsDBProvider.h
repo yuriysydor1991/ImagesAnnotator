@@ -22,7 +22,7 @@ class ImagesPathsDBProvider : virtual public IProvider
   virtual ~ImagesPathsDBProvider() = default;
   ImagesPathsDBProvider() = default;
 
-  virtual const ImagesDB& get_images_db() = 0;
+  virtual ImagesDB& get_images_db() = 0;
 };
 
 }  // namespace events::events

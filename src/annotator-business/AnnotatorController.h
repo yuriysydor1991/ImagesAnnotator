@@ -40,7 +40,7 @@ class AnnotatorController
   virtual void handle(std::shared_ptr<ImagesDirChanged> event) override;
   virtual void handle(std::shared_ptr<AnnotationsDirChanged> event) override;
 
-  virtual const ImagesDirDB& get_images_db();
+  virtual ImagesDirDB& get_images_db();
 
  private:
   std::shared_ptr<dbs::ImagesDirDB> images;

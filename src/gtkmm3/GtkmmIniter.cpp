@@ -9,10 +9,13 @@ namespace templateGtkmm3
 {
 GtkmmIniter::GtkmmIniter()
     : wctx{std::make_shared<window::WindowDataContext>()},
-      wloader{std::make_shared<window::WindowLoader>()}
+      wloader{std::make_shared<window::WindowLoader>()},
+      cwFactory{std::make_shared<CWFactory>()},
+      imagesVDB{}
 {
   assert(wctx != nullptr);
   assert(wloader != nullptr);
+  assert(cwFactory != nullptr);
 }
 
 bool GtkmmIniter::run(std::shared_ptr<app::ApplicationContext> ctx)
@@ -82,6 +85,36 @@ void GtkmmIniter::prepare_random_logo()
   }
 
   wloader->get_image()->set_from_resource(wctx->logo_res_path);
+}
+
+void GtkmmIniter::handle(std::shared_ptr<ImagesDirProviderChanged> event)
+{
+  assert(event != nullptr);
+  assert(event->images_provider != nullptr);
+  assert(wloader != nullptr);
+  assert(wloader->get_images_list() != nullptr);
+  assert(cwFactory != nullptr);
+
+  if (event == nullptr || event->images_provider == nullptr) {
+    LOGE("No valid event object provided");
+    return;
+  }
+
+  auto& imagesDB = event->images_provider->get_images_db();
+
+  imagesVDB = cwFactory->create_images_visual_db(imagesDB);
+
+  auto& imagesListView = *wloader->get_images_list();
+
+  auto children = imagesListView.get_children();
+
+  for (auto* child : children) {
+    imagesListView.remove(*child);
+  }
+
+  for (auto& r : imagesVDB) {
+    imagesListView.append(*r);
+  }
 }
 
 }  // namespace templateGtkmm3

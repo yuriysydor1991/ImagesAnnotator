@@ -177,7 +177,7 @@ TEST_F(CTEST_AnnotatorController, images_valid_fnames_dir_context_init_success)
 
   EXPECT_TRUE(controller->init(actx));
 
-  const auto& db = controller->get_images_db();
+  auto& db = controller->get_images_db();
 
   EXPECT_FALSE(db.empty());
 
@@ -208,7 +208,7 @@ TEST_F(CTEST_AnnotatorController,
 
   EXPECT_TRUE(controller->init(actx));
 
-  const auto& db = controller->get_images_db();
+  auto& db = controller->get_images_db();
 
   EXPECT_FALSE(db.empty());
 
@@ -236,7 +236,7 @@ TEST_F(CTEST_AnnotatorController,
 
   EXPECT_TRUE(controller->init(actx));
 
-  const auto& db = controller->get_images_db();
+  auto& db = controller->get_images_db();
 
   EXPECT_FALSE(db.empty());
 
@@ -269,7 +269,7 @@ TEST_F(CTEST_AnnotatorController,
 
   EXPECT_TRUE(controller->init(actx));
 
-  const auto& db = controller->get_images_db();
+  auto& db = controller->get_images_db();
 
   EXPECT_FALSE(db.empty());
 
@@ -307,7 +307,7 @@ TEST_F(CTEST_AnnotatorController,
 
   EXPECT_TRUE(controller->init(actx));
 
-  const auto& db = controller->get_images_db();
+  auto& db = controller->get_images_db();
 
   EXPECT_FALSE(db.empty());
 
@@ -326,7 +326,7 @@ TEST_F(CTEST_AnnotatorController, no_images_event_handle_failure)
 {
   controller->handle(std::shared_ptr<ImagesDirChanged>{});
 
-  const auto& db = controller->get_images_db();
+  auto& db = controller->get_images_db();
 
   EXPECT_TRUE(db.empty());
 }
@@ -337,7 +337,7 @@ TEST_F(CTEST_AnnotatorController, images_empty_dirname_handle_failure)
 
   controller->handle(ievent);
 
-  const auto& db = controller->get_images_db();
+  auto& db = controller->get_images_db();
 
   EXPECT_TRUE(db.empty());
 }
@@ -359,7 +359,7 @@ TEST_F(CTEST_AnnotatorController, images_filled_dir_changed_handle_success)
 
   controller->handle(ievent);
 
-  const auto& db = controller->get_images_db();
+  auto& db = controller->get_images_db();
 
   EXPECT_FALSE(db.empty());
 

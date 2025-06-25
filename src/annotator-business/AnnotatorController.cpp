@@ -100,11 +100,11 @@ void AnnotatorController::handle(std::shared_ptr<AnnotationsDirChanged> event)
   LOGD("The annotations dir have changed: " << event->annotations_dir);
 }
 
-const AnnotatorController::ImagesDirDB& AnnotatorController::get_images_db()
+AnnotatorController::ImagesDirDB& AnnotatorController::get_images_db()
 {
   assert(images != nullptr);
 
-  static const ImagesDirDB empty{};
+  static ImagesDirDB empty{};
 
   if (images == nullptr) {
     LOGE("No images object available");

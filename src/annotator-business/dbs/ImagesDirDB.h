@@ -28,7 +28,7 @@ class ImagesDirDB : virtual public events::events::ImagesPathsDBProvider
 
   virtual bool load_directory(const std::string& newPath);
 
-  virtual const ImagesDB& get_images_db() override;
+  virtual ImagesDB& get_images_db() override;
 
  protected:
   virtual bool is_image(const fs::path& tpath);

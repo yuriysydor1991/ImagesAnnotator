@@ -26,7 +26,7 @@ class ImagesAnnotatorEventController : public IImagesAnnotatorEventController
 
   MOCK_METHOD(void, onAnnotationsDirChanged, (const std::string& newPath),
               (override));
-  MOCK_METHOD(void, onDirChanged,
+  MOCK_METHOD(void, submit,
               (std::shared_ptr<events::AnnotationsDirChanged> event),
               (override));
   MOCK_METHOD(void, subscribe,
@@ -35,11 +35,20 @@ class ImagesAnnotatorEventController : public IImagesAnnotatorEventController
 
   MOCK_METHOD(void, onImagesDirChanged, (const std::string& newPath),
               (override));
-  MOCK_METHOD(void, onDirChanged,
-              (std::shared_ptr<events::ImagesDirChanged> event), (override));
+  MOCK_METHOD(void, submit, (std::shared_ptr<events::ImagesDirChanged> event),
+              (override));
   MOCK_METHOD(void, subscribe,
               (std::shared_ptr<events::ImagesDirChangedIHandler> handler),
               (override));
+
+  MOCK_METHOD(
+      void, submit,
+      (std::shared_ptr<events::ImagesDirProviderChanged> newIDBProvider),
+      (override));
+  MOCK_METHOD(
+      void, subscribe,
+      (std::shared_ptr<events::ImagesDirProviderChangedHandler> newIDBProvider),
+      (override));
 
   MOCK_METHOD(bool, deinit, (), (override));
 };

@@ -10,6 +10,8 @@
 #include "src/annotator-events/events/EventsFactory.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
+#include "src/annotator-events/events/ImagesDirProviderChanged.h"
+#include "src/annotator-events/events/ImagesDirProviderChangedHandler.h"
 #include "src/app/ApplicationContext.h"
 
 namespace events
@@ -27,16 +29,20 @@ class ImagesAnnotatorEventController
       std::shared_ptr<app::ApplicationContext> nactx);
 
   virtual void onAnnotationsDirChanged(const std::string& newPath) override;
-  virtual void onDirChanged(
+  virtual void submit(
       std::shared_ptr<events::AnnotationsDirChanged> event) override;
   virtual void subscribe(
       std::shared_ptr<events::AnnotationsDirChangedIHandler> handler) override;
 
   virtual void onImagesDirChanged(const std::string& newPath) override;
-  virtual void onDirChanged(
-      std::shared_ptr<events::ImagesDirChanged> event) override;
+  virtual void submit(std::shared_ptr<events::ImagesDirChanged> event) override;
   virtual void subscribe(
       std::shared_ptr<events::ImagesDirChangedIHandler> handler) override;
+
+  virtual void submit(
+      std::shared_ptr<events::ImagesDirProviderChanged> newIDBProvider);
+  virtual void subscribe(
+      std::shared_ptr<events::ImagesDirProviderChangedHandler> newIDBProvider);
 
   virtual bool deinit() override;
 
@@ -45,11 +51,17 @@ class ImagesAnnotatorEventController
       std::set<std::shared_ptr<events::ImagesDirChangedIHandler>>;
   using annotationsHSet =
       std::set<std::shared_ptr<events::AnnotationsDirChangedIHandler>>;
+  using imagesDBProviderSet =
+      std::set<std::shared_ptr<events::ImagesDirProviderChangedHandler>>;
+
+  template <class SubsQueue, class EventT>
+  void unified_submit(SubsQueue& queue, std::shared_ptr<EventT> event);
 
   std::shared_ptr<app::ApplicationContext> actx;
 
   imagesHSet images_handlers;
   annotationsHSet annotations_handlers;
+  imagesDBProviderSet iprovider_handlers;
 
   std::shared_ptr<events::EventsFactory> efactory;
 };

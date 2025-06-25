@@ -8,6 +8,8 @@
 #include "src/annotator-events/events/EventsFactory.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
+#include "src/annotator-events/events/ImagesDirProviderChanged.h"
+#include "src/annotator-events/events/ImagesDirProviderChangedHandler.h"
 
 namespace events
 {
@@ -22,16 +24,20 @@ class IImagesAnnotatorEventController
   IImagesAnnotatorEventController() = default;
 
   virtual void onAnnotationsDirChanged(const std::string& newPath) = 0;
-  virtual void onDirChanged(
-      std::shared_ptr<events::AnnotationsDirChanged> event) = 0;
+  virtual void submit(std::shared_ptr<events::AnnotationsDirChanged> event) = 0;
   virtual void subscribe(
       std::shared_ptr<events::AnnotationsDirChangedIHandler> handler) = 0;
 
   virtual void onImagesDirChanged(const std::string& newPath) = 0;
-  virtual void onDirChanged(
-      std::shared_ptr<events::ImagesDirChanged> event) = 0;
+  virtual void submit(std::shared_ptr<events::ImagesDirChanged> event) = 0;
   virtual void subscribe(
       std::shared_ptr<events::ImagesDirChangedIHandler> handler) = 0;
+
+  virtual void submit(
+      std::shared_ptr<events::ImagesDirProviderChanged> newIDBProvider) = 0;
+  virtual void subscribe(
+      std::shared_ptr<events::ImagesDirProviderChangedHandler>
+          newIDBProvider) = 0;
 
   virtual bool deinit() = 0;
 };

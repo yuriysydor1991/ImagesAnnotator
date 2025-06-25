@@ -27,22 +27,13 @@ void ImagesAnnotatorEventController::onAnnotationsDirChanged(
 {
   auto annDE = efactory->create_annotations_dir_changed(newPath);
 
-  onDirChanged(annDE);
+  submit(annDE);
 }
 
-void ImagesAnnotatorEventController::onDirChanged(
+void ImagesAnnotatorEventController::submit(
     std::shared_ptr<events::AnnotationsDirChanged> event)
 {
-  assert(event != nullptr);
-
-  if (event == nullptr) {
-    LOGE("No valid event object pointer was given");
-    return;
-  }
-
-  for (auto& ih : annotations_handlers) {
-    ih->handle(event);
-  }
+  unified_submit(annotations_handlers, event);
 }
 
 void ImagesAnnotatorEventController::subscribe(
@@ -63,22 +54,13 @@ void ImagesAnnotatorEventController::onImagesDirChanged(
 {
   auto imagesDE = efactory->create_image_dir_changed(newPath);
 
-  onDirChanged(imagesDE);
+  submit(imagesDE);
 }
 
-void ImagesAnnotatorEventController::onDirChanged(
+void ImagesAnnotatorEventController::submit(
     std::shared_ptr<events::ImagesDirChanged> event)
 {
-  assert(event != nullptr);
-
-  if (event == nullptr) {
-    LOGE("No valid event object pointer was given");
-    return;
-  }
-
-  for (auto& ih : images_handlers) {
-    ih->handle(event);
-  }
+  unified_submit(images_handlers, event);
 }
 
 void ImagesAnnotatorEventController::subscribe(
@@ -98,6 +80,34 @@ bool ImagesAnnotatorEventController::deinit()
 {
   actx.reset();
   return true;
+}
+
+void ImagesAnnotatorEventController::submit(
+    std::shared_ptr<events::ImagesDirProviderChanged> newIDBProvider)
+{
+  unified_submit(iprovider_handlers, newIDBProvider);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    std::shared_ptr<events::ImagesDirProviderChangedHandler> newIDBProvider)
+{
+  iprovider_handlers.insert(newIDBProvider);
+}
+
+template <class SubsQueue, class EventT>
+void ImagesAnnotatorEventController::unified_submit(
+    SubsQueue& queue, std::shared_ptr<EventT> event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("No valid event object pointer was given");
+    return;
+  }
+
+  for (auto& ih : queue) {
+    ih->handle(event);
+  }
 }
 
 }  // namespace events

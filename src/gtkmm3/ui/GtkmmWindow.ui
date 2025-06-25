@@ -220,12 +220,25 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkListBox" id="annotations_db_list">
+                  <object class="GtkScrolledWindow">
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="shadow-type">in</property>
+                    <child>
+                      <object class="GtkViewport">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <child>
+                          <object class="GtkListBox" id="annotations_db_list">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
+                    <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">4</property>
                   </packing>
@@ -243,12 +256,25 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkListBox">
+                  <object class="GtkScrolledWindow">
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="shadow-type">in</property>
+                    <child>
+                      <object class="GtkViewport">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <child>
+                          <object class="GtkListBox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
+                    <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">6</property>
                   </packing>
@@ -266,6 +292,21 @@
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">7</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton">
+                    <property name="label">gtk-edit</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="use-stock">True</property>
+                    <property name="always-show-image">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">8</property>
                   </packing>
                 </child>
               </object>

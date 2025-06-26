@@ -16,12 +16,17 @@ namespace events::events
 class ImageRecord : virtual public IRecord
 {
  public:
+  inline static constexpr const double defaultInitScaling = 1.0;
+  inline static constexpr const double defaultScaleStep = 0.05;
+
   virtual ~ImageRecord() = default;
   ImageRecord(const std::string& npath = "");
 
   std::string path;
 
   ImageRecordRectSet rects;
+
+  double imageScale{defaultInitScaling};
 };
 
 }  // namespace events::events

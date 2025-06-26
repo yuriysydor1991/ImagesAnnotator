@@ -32,9 +32,6 @@ class MainWindowContext : virtual public ComponentTypesAliases,
  public:
   virtual ~MainWindowContext() = default;
 
-  inline static constexpr const double scaleInitValue = 1.0;
-  inline static constexpr const double defaultScaleStep = 0.05;
-
   std::shared_ptr<window::WindowDataContext> wctx;
   std::shared_ptr<window::WindowLoader> wloader;
   std::shared_ptr<CWFactory> cwFactory;
@@ -45,9 +42,6 @@ class MainWindowContext : virtual public ComponentTypesAliases,
 
   std::shared_ptr<ImagePathLabel> current_image;
   Glib::RefPtr<Gdk::Pixbuf> current_image_original_pixbuf;
-
-  /// @brief the current image scale/zoom factor
-  double imageScale{scaleInitValue};
 
   static std::shared_ptr<MainWindowContext> build_context();
 

@@ -51,7 +51,15 @@ void WindowEventsHandler::on_zoom_in_clicked()
     return;
   }
 
-  mwctx->imageScale += mwctx->defaultScaleStep;
+  if (mwctx->current_image == nullptr) {
+    LOGT("No image available");
+    return;
+  }
+
+  assert(mwctx->current_image->get_image_rec() != nullptr);
+
+  mwctx->current_image->get_image_rec()->imageScale +=
+      events::events::ImageRecord::defaultScaleStep;
 
   update_image_zoom();
 }
@@ -65,7 +73,15 @@ void WindowEventsHandler::on_zoom_out_clicked()
     return;
   }
 
-  mwctx->imageScale -= mwctx->defaultScaleStep;
+  if (mwctx->current_image == nullptr) {
+    LOGT("No image available");
+    return;
+  }
+
+  assert(mwctx->current_image->get_image_rec() != nullptr);
+
+  mwctx->current_image->get_image_rec()->imageScale -=
+      events::events::ImageRecord::defaultScaleStep;
 
   update_image_zoom();
 }
@@ -79,12 +95,22 @@ void WindowEventsHandler::update_image_zoom()
     return;
   }
 
-  LOGD("Current image zoom factor: " << mwctx->imageScale);
+  if (mwctx->current_image == nullptr ||
+      mwctx->current_image->get_image_rec() == nullptr) {
+    LOGT("No image available");
+    return;
+  }
+
+  assert(mwctx->current_image->get_image_rec() != nullptr);
+
+  const auto currentScale = mwctx->current_image->get_image_rec()->imageScale;
+
+  LOGD("Current image zoom factor: " << currentScale);
 
   auto pb = mwctx->current_image_original_pixbuf;
 
-  const int width = ceilInt(toD(pb->get_width()) * mwctx->imageScale);
-  const int height = ceilInt(toD(pb->get_height()) * mwctx->imageScale);
+  const int width = ceilInt(toD(pb->get_width()) * currentScale);
+  const int height = ceilInt(toD(pb->get_height()) * currentScale);
 
   auto scaled = pb->scale_simple(width, height, Gdk::INTERP_BILINEAR);
 
@@ -162,7 +188,6 @@ void WindowEventsHandler::on_images_row_selected(Gtk::ListBoxRow* row)
     return;
   }
 
-  mwctx->imageScale = mwctx->scaleInitValue;
   mwctx->current_image = label->shared_from_this();
 
   auto ir = label->get_image_rec();
@@ -183,16 +208,7 @@ void WindowEventsHandler::on_images_row_selected(Gtk::ListBoxRow* row)
   mwctx->current_image_original_pixbuf =
       Gdk::Pixbuf::create_from_file(ir->path);
 
-  mwctx->centralCanvas;
-
-  assert(mwctx->centralCanvas != nullptr);
-
-  if (mwctx->centralCanvas == nullptr) {
-    LOGE("No central working canvas available");
-    return;
-  }
-
-  mwctx->centralCanvas->set_pixbuf(mwctx->current_image_original_pixbuf);
+  update_image_zoom();
 
   LOGT("New image selected: " << ir->path);
 }

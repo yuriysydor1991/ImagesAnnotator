@@ -27,7 +27,8 @@ class ImageRecordRect : virtual public IRecord
   int height{0};
 };
 
-using ImageRecordRectSet = std::unordered_set<std::shared_ptr<ImageRecordRect>>;
+using ImageRecordRectPtr = std::shared_ptr<ImageRecordRect>;
+using ImageRecordRectSet = std::unordered_set<ImageRecordRectPtr>;
 
 }  // namespace events::events
 

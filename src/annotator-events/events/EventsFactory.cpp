@@ -77,4 +77,9 @@ EventsFactory::create_current_image_changed(std::shared_ptr<ImageRecord> ir)
   return std::make_shared<CurrentImageChanged>(ir);
 }
 
+std::shared_ptr<ImageRecordRect> EventsFactory::create_image_rect_record()
+{
+  return std::make_shared<ImageRecordRect>();
+}
+
 }  // namespace events::events

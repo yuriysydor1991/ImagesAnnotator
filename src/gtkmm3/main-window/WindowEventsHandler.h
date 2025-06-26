@@ -32,6 +32,9 @@ class WindowEventsHandler : virtual public ComponentTypesAliases
   virtual void on_zoom_in_clicked();
   virtual void on_zoom_out_clicked();
   virtual bool on_image_scroll(GdkEventScroll* scroll_event);
+  virtual bool on_rectangle_draw_start(GdkEventButton* event);
+  virtual bool on_rectangle_draw_end(GdkEventButton* event);
+  virtual bool on_rectangle_size_change(GdkEventMotion* event);
 
   virtual void update_image_zoom();
 
@@ -40,6 +43,9 @@ class WindowEventsHandler : virtual public ComponentTypesAliases
 
   template <class Ntype>
   static double toD(const Ntype& val);
+
+  template <class Ntype>
+  static int toI(const Ntype& val);
 
  private:
   std::shared_ptr<MainWindowContext> mwctx;

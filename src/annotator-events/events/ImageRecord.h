@@ -25,6 +25,7 @@ class ImageRecord : virtual public IRecord
   std::string path;
 
   ImageRecordRectSet rects;
+  ImageRecordRectPtr current_rect;
 
   double imageScale{defaultInitScaling};
 };

@@ -44,7 +44,12 @@ std::shared_ptr<CentralWorkingCanvas>
 CustomWidgetsFactory::create_working_canvas(
     std::shared_ptr<ImagePathLabel>& nci)
 {
-  return std::make_shared<CentralWorkingCanvas>(nci);
+  auto canvas = std::make_shared<CentralWorkingCanvas>(nci);
+
+  canvas->add_events(Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK |
+                     Gdk::POINTER_MOTION_MASK);
+
+  return canvas;
 }
 
 }  // namespace templateGtkmm3::window::custom_widgets

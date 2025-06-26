@@ -27,10 +27,12 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
   auto* imagesListBox = mwctx->wloader->get_images_list();
   auto* zoomInB = mwctx->wloader->get_current_image_zoom_in();
   auto* zoomOutB = mwctx->wloader->get_current_image_zoom_out();
+  auto& drawArea = mwctx->centralCanvas;
 
   assert(imagesListBox != nullptr);
   assert(zoomInB != nullptr);
   assert(zoomOutB != nullptr);
+  assert(drawArea != nullptr);
 
   imagesListBox->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_row_selected));
@@ -38,6 +40,134 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
       sigc::mem_fun(*this, &WindowEventsHandler::on_zoom_in_clicked));
   zoomOutB->signal_clicked().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_zoom_out_clicked));
+
+  drawArea->signal_button_press_event().connect(
+      sigc::mem_fun(*this, &WindowEventsHandler::on_rectangle_draw_start));
+  drawArea->signal_button_release_event().connect(
+      sigc::mem_fun(*this, &WindowEventsHandler::on_rectangle_draw_end));
+  drawArea->signal_motion_notify_event().connect(
+      sigc::mem_fun(*this, &WindowEventsHandler::on_rectangle_size_change));
+
+  return true;
+}
+
+bool WindowEventsHandler::on_rectangle_draw_start(GdkEventButton* event)
+{
+  assert(mwctx != nullptr);
+  assert(event != nullptr);
+
+  if (event->button != 1) {
+    return true;
+  }
+
+  if (mwctx->current_image == nullptr) {
+    LOGT("No current image available");
+    return true;
+  }
+
+  auto ir = mwctx->current_image->get_image_rec();
+
+  assert(ir != nullptr);
+
+  auto efactory = mwctx->actx->eventer->get_events_factory();
+
+  assert(efactory != nullptr);
+
+  if (efactory == nullptr) {
+    LOGE("No factory avaiable");
+    return true;
+  }
+
+  ir->current_rect = efactory->create_image_rect_record();
+  ir->rects.insert(ir->current_rect);
+
+  assert(ir->current_rect != nullptr);
+
+  const auto& imageScale = ir->imageScale;
+
+  ir->current_rect->x = event->x / imageScale;
+  ir->current_rect->y = event->y / imageScale;
+
+  return true;
+}
+
+bool WindowEventsHandler::on_rectangle_draw_end(GdkEventButton* event)
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->centralCanvas != nullptr);
+  assert(event != nullptr);
+
+  if (mwctx->current_image == nullptr) {
+    LOGT("No current image available");
+    return true;
+  }
+
+  auto ir = mwctx->current_image->get_image_rec();
+
+  assert(ir != nullptr);
+
+  if (ir == nullptr) {
+    LOGT("No current image available");
+    return true;
+  }
+
+  if (event->button != 1 || ir->current_rect == nullptr) {
+    return true;
+  }
+
+  ir->current_rect.reset();
+
+  assert(mwctx->centralCanvas != nullptr);
+
+  mwctx->centralCanvas->queue_draw();  // Final redraw
+
+  return true;
+}
+
+bool WindowEventsHandler::on_rectangle_size_change(GdkEventMotion* event)
+{
+  assert(mwctx != nullptr);
+  assert(event != nullptr);
+
+  if (mwctx == nullptr) {
+    LOGT("No context available");
+    return true;
+  }
+
+  if (mwctx->current_image == nullptr) {
+    LOGT("No current image available");
+    return true;
+  }
+
+  auto ir = mwctx->current_image->get_image_rec();
+
+  assert(ir != nullptr);
+
+  if (ir == nullptr) {
+    LOGT("No current image available");
+    return true;
+  }
+
+  if (ir->current_rect == nullptr) {
+    LOGT("No current image current rectangle available");
+    return true;
+  }
+
+  const auto& imageScale = ir->imageScale;
+
+  const double start_x = toD(ir->current_rect->x);
+  const double start_y = toD(ir->current_rect->y);
+  const double end_x = event->x / imageScale;
+  const double end_y = event->y / imageScale;
+
+  ir->current_rect->x = toI(std::min(start_x, end_x));
+  ir->current_rect->y = toI(std::min(start_y, end_y));
+  ir->current_rect->width = toI(std::abs(end_x - start_x));
+  ir->current_rect->height = toI(std::abs(end_y - start_y));
+
+  assert(mwctx->centralCanvas != nullptr);
+
+  mwctx->centralCanvas->queue_draw();  // Update the drawing
 
   return true;
 }
@@ -136,6 +266,12 @@ inline int WindowEventsHandler::ceilInt(const Ntype& val)
   const auto ceiledV = std::ceil(val);
 
   return static_cast<int>(ceiledV);
+}
+
+template <class Ntype>
+int WindowEventsHandler::toI(const Ntype& val)
+{
+  return static_cast<int>(val);
 }
 
 bool WindowEventsHandler::on_image_scroll(GdkEventScroll* scroll_event)

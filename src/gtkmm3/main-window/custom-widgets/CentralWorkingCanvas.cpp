@@ -27,17 +27,24 @@ bool CentralWorkingCanvas::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 
   cr->paint();
 
-  if (current_image == nullptr || current_image->get_image_rec() == nullptr) {
+  if (current_image == nullptr) {
     LOGT("No image provided");
     return true;
   }
 
   auto ir = current_image->get_image_rec();
 
+  if (ir == nullptr) {
+    LOGT("Current widget contains no image record");
+    return true;
+  }
+
   for (auto& rptr : ir->rects) {
     cr->set_line_width(2.0);
     cr->set_source_rgb(0.8, 0.0, 0.0);
-    cr->rectangle(rptr->x, rptr->y, rptr->width, rptr->height);
+    cr->rectangle((rptr->x * ir->imageScale), (rptr->y * ir->imageScale),
+                  (rptr->width * ir->imageScale),
+                  (rptr->height * ir->imageScale));
     cr->stroke();
   }
 
@@ -54,6 +61,8 @@ bool CentralWorkingCanvas::set_pixbuf(Glib::RefPtr<Gdk::Pixbuf>& npb)
   }
 
   pixbuf = npb;
+
+  set_size_request(pixbuf->get_width(), pixbuf->get_height());
 
   queue_draw();
 

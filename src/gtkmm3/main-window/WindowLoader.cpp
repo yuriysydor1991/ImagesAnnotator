@@ -6,6 +6,7 @@
 #include "src/gtkmm3/MainWindowContext.h"
 #include "src/gtkmm3/gtkmm_includes.h"
 #include "src/gtkmm3/main-window/WindowDataContext.h"
+#include "src/gtkmm3/main-window/custom-widgets/ImagePathLabel.h"
 #include "src/log/log.h"
 
 namespace templateGtkmm3::window
@@ -77,6 +78,29 @@ bool WindowLoader::propagate_params()
   assert(get_window() != nullptr);
 
   get_window()->maximize();
+
+  if (!propagate_css_params()) {
+    LOGE("Fail to propagate the css into the app window");
+    return false;
+  }
+
+  return true;
+}
+
+bool WindowLoader::propagate_css_params()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wctx != nullptr);
+
+  auto css = Gtk::CssProvider::create();
+
+  assert(css);
+
+  css->load_from_resource(mwctx->wctx->main_window_css);
+
+  auto screen = Gdk::Display::get_default()->get_default_screen();
+  Gtk::StyleContext::add_provider_for_screen(
+      screen, css, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
   return true;
 }

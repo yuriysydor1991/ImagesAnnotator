@@ -65,6 +65,8 @@ bool WindowEventsHandler::on_rectangle_draw_start(GdkEventButton* event)
     return true;
   }
 
+  mwctx->current_image->mark_as_has_records();
+
   auto ir = mwctx->current_image->get_image_rec();
 
   assert(ir != nullptr);
@@ -74,7 +76,7 @@ bool WindowEventsHandler::on_rectangle_draw_start(GdkEventButton* event)
   assert(efactory != nullptr);
 
   if (efactory == nullptr) {
-    LOGE("No factory avaiable");
+    LOGE("No factory available");
     return true;
   }
 
@@ -119,7 +121,7 @@ bool WindowEventsHandler::on_rectangle_draw_end(GdkEventButton* event)
 
   assert(mwctx->centralCanvas != nullptr);
 
-  mwctx->centralCanvas->queue_draw();  // Final redraw
+  mwctx->centralCanvas->queue_draw();
 
   return true;
 }
@@ -167,7 +169,7 @@ bool WindowEventsHandler::on_rectangle_size_change(GdkEventMotion* event)
 
   assert(mwctx->centralCanvas != nullptr);
 
-  mwctx->centralCanvas->queue_draw();  // Update the drawing
+  mwctx->centralCanvas->queue_draw();
 
   return true;
 }

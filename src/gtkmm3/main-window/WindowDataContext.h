@@ -10,6 +10,10 @@
 namespace templateGtkmm3::window
 {
 
+#ifndef RESOURCES_PREFIX
+#define RESOURCES_PREFIX "/ua/org/kytok/template/gtkmm3/glade/ImagesAnnotator"
+#endif  // RESOURCES_PREFIX
+
 /**
  * @brief Class holds all the pointers and window element IDs for the
  * GtkmmIniter class usage.
@@ -23,10 +27,12 @@ class WindowDataContext
   static const std::set<std::string>& get_ids();
 
   inline static constexpr const char* const UI_res_path =
-      "/ua/org/kytok/template/gtkmm3/glade/GtkmmWindow.ui";
-  inline static constexpr const char* const logo_res_path =
-      "/ua/org/kytok/template/gtkmm3/glade/resources/images/"
+      RESOURCES_PREFIX "/GtkmmWindow.ui";
+  inline static constexpr const char* const logo_res_path = RESOURCES_PREFIX
+      "/resources/images/"
       "kytok.org.ua-logo.png";
+  inline static constexpr const char* const main_window_css =
+      RESOURCES_PREFIX "/resources/css/main-window.css";
 
   inline static constexpr const char* const window_id = "main_window";
   inline static constexpr const char* const images_folder_open_button_id =

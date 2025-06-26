@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-    <gresource prefix="/ua/org/kytok/template/gtkmm3/glade">
+    <gresource prefix="/ua/org/kytok/template/gtkmm3/glade/ImagesAnnotator">
         <file>resources/images/kytok.org.ua-logo.png</file>
         <file>GtkmmWindow.ui</file>
+        <file>resources/css/main-window.css</file>
     </gresource>
 </gresources>

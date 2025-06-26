@@ -19,10 +19,15 @@ class ImagePathLabel : public Gtk::Label,
  public:
   using ImageRecord = events::events::ImageRecord;
 
+  inline static constexpr const char* const has_records_css_class =
+      "image_row_has_records";
+
   virtual ~ImagePathLabel() = default;
   explicit ImagePathLabel(std::shared_ptr<ImageRecord> nr);
 
   virtual std::shared_ptr<ImageRecord> get_image_rec();
+
+  virtual bool mark_as_has_records();
 
  private:
   std::shared_ptr<ImageRecord> myrec;

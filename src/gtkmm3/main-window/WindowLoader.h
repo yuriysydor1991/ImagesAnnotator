@@ -43,6 +43,7 @@ class WindowLoader : virtual public ComponentTypesAliases
 
  protected:
   virtual bool propagate_params();
+  virtual bool propagate_css_params();
 
  private:
   template <class WidgetType>

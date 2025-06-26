@@ -38,4 +38,11 @@ std::shared_ptr<ImagePathLabel::ImageRecord> ImagePathLabel::get_image_rec()
   return myrec;
 }
 
+bool ImagePathLabel::mark_as_has_records()
+{
+  get_style_context()->add_class(has_records_css_class);
+
+  return true;
+}
+
 }  // namespace templateGtkmm3::window::custom_widgets

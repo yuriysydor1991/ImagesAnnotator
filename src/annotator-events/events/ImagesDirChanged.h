@@ -15,7 +15,7 @@ class ImagesDirChanged : virtual public IEvent
 {
  public:
   virtual ~ImagesDirChanged() = default;
-  ImagesDirChanged(const std::string& newPath);
+  explicit ImagesDirChanged(const std::string& newPath);
 
   std::string images_dir;
 };

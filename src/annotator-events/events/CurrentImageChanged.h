@@ -17,7 +17,7 @@ class CurrentImageChanged : virtual public IEvent
 {
  public:
   virtual ~CurrentImageChanged() = default;
-  CurrentImageChanged(std::shared_ptr<ImageRecord> setCurrentImage);
+  explicit CurrentImageChanged(std::shared_ptr<ImageRecord> setCurrentImage);
 
   std::shared_ptr<ImageRecord> new_current_image;
 };

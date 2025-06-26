@@ -21,7 +21,7 @@ class ImagesAnnotatorEventController : public IImagesAnnotatorEventController
 {
  public:
   virtual ~ImagesAnnotatorEventController() = default;
-  ImagesAnnotatorEventController(
+  explicit ImagesAnnotatorEventController(
       [[maybe_unused]] std::shared_ptr<app::ApplicationContext> nactx){};
 
   MOCK_METHOD(void, onAnnotationsDirChanged, (const std::string& newPath),

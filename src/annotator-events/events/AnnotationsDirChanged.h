@@ -15,7 +15,7 @@ class AnnotationsDirChanged : virtual public IEvent
 {
  public:
   virtual ~AnnotationsDirChanged() = default;
-  AnnotationsDirChanged(const std::string& newPath);
+  explicit AnnotationsDirChanged(const std::string& newPath);
 
   std::string annotations_dir;
 };

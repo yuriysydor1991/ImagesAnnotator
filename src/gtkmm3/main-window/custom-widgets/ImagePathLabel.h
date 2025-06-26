@@ -20,7 +20,7 @@ class ImagePathLabel : public Gtk::Label,
   using ImageRecord = events::events::ImageRecord;
 
   virtual ~ImagePathLabel() = default;
-  ImagePathLabel(std::shared_ptr<ImageRecord> nr);
+  explicit ImagePathLabel(std::shared_ptr<ImageRecord> nr);
 
   virtual std::shared_ptr<ImageRecord> get_image_rec();
 

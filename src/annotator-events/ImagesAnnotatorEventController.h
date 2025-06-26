@@ -29,7 +29,7 @@ class ImagesAnnotatorEventController
 {
  public:
   virtual ~ImagesAnnotatorEventController() = default;
-  ImagesAnnotatorEventController(
+  explicit ImagesAnnotatorEventController(
       std::shared_ptr<app::ApplicationContext> nactx);
 
   virtual std::shared_ptr<events::EventsFactory> get_events_factory() override;
@@ -47,10 +47,11 @@ class ImagesAnnotatorEventController
   virtual void subscribe(
       std::shared_ptr<events::ImagesDirChangedIHandler> handler) override;
 
-  virtual void submit(
-      std::shared_ptr<events::ImagesDirProviderChanged> newIDBProvider);
+  virtual void submit(std::shared_ptr<events::ImagesDirProviderChanged>
+                          newIDBProvider) override;
   virtual void subscribe(
-      std::shared_ptr<events::ImagesDirProviderChangedHandler> newIDBProvider);
+      std::shared_ptr<events::ImagesDirProviderChangedHandler> newIDBProvider)
+      override;
 
   virtual void submit(
       std::shared_ptr<events::RequestImagesDirProvider> request) override;
@@ -76,7 +77,7 @@ class ImagesAnnotatorEventController
       std::set<std::shared_ptr<events::CurrentImageChangedHandler>>;
 
   template <class SubsQueue, class EventT>
-  void unified_submit(SubsQueue& queue, std::shared_ptr<EventT> event);
+  static void unified_submit(SubsQueue& queue, std::shared_ptr<EventT> event);
 
   std::shared_ptr<app::ApplicationContext> actx;
 

@@ -16,7 +16,8 @@ class ImagesDirProviderChanged : virtual public IEvent
 {
  public:
   virtual ~ImagesDirProviderChanged() = default;
-  ImagesDirProviderChanged(std::shared_ptr<ImagesPathsDBProvider> nProvider);
+  explicit ImagesDirProviderChanged(
+      std::shared_ptr<ImagesPathsDBProvider> nProvider);
 
   std::shared_ptr<ImagesPathsDBProvider> images_provider;
 };

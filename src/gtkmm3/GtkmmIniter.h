@@ -28,7 +28,7 @@ class GtkmmIniter
  public:
   virtual ~GtkmmIniter() = default;
   GtkmmIniter();
-  GtkmmIniter(std::shared_ptr<MainWindowContext> nmwctx);
+  explicit GtkmmIniter(std::shared_ptr<MainWindowContext> nmwctx);
 
   virtual bool run(std::shared_ptr<app::ApplicationContext> ctx);
 

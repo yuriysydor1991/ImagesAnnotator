@@ -6,6 +6,7 @@
 
 #include "src/annotator-events/events/ImageRecord.h"
 #include "src/annotator-events/events/ImagesPathsDBProvider.h"
+#include "src/gtkmm3/MainWindowContext.h"
 #include "src/gtkmm3/main-window/custom-widgets/ImagePathLabel.h"
 #include "src/log/log.h"
 
@@ -37,6 +38,13 @@ CustomWidgetsFactory::create_images_visual_db(eImagesDB& queue)
   }
 
   return vdb;
+}
+
+std::shared_ptr<CentralWorkingCanvas>
+CustomWidgetsFactory::create_working_canvas(
+    std::shared_ptr<ImagePathLabel>& nci)
+{
+  return std::make_shared<CentralWorkingCanvas>(nci);
 }
 
 }  // namespace templateGtkmm3::window::custom_widgets

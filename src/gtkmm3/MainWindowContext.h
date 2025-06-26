@@ -8,18 +8,26 @@
 #include "src/gtkmm3/main-window/WindowDataContext.h"
 #include "src/gtkmm3/main-window/WindowEventsHandler.h"
 #include "src/gtkmm3/main-window/WindowLoader.h"
+#include "src/gtkmm3/main-window/custom-widgets/CentralWorkingCanvas.h"
 #include "src/gtkmm3/main-window/custom-widgets/CustomWidgetsFactory.h"
 #include "src/gtkmm3/main-window/custom-widgets/ImagePathLabel.h"
 
 namespace templateGtkmm3::window
 {
 class WindowEventsHandler;
-}
+class WindowLoader;
+}  // namespace templateGtkmm3::window
+
+namespace templateGtkmm3::window::custom_widgets
+{
+class CentralWorkingCanvas;
+}  // namespace templateGtkmm3::window::custom_widgets
 
 namespace templateGtkmm3
 {
 
-class MainWindowContext : virtual public ComponentTypesAliases
+class MainWindowContext : virtual public ComponentTypesAliases,
+                          public std::enable_shared_from_this<MainWindowContext>
 {
  public:
   virtual ~MainWindowContext() = default;
@@ -33,6 +41,8 @@ class MainWindowContext : virtual public ComponentTypesAliases
   ImagesVisualDB imagesVDB;
   std::shared_ptr<app::ApplicationContext> actx;
   std::shared_ptr<window::WindowEventsHandler> mweHandler;
+  std::shared_ptr<CentralWorkingCanvas> centralCanvas;
+
   std::shared_ptr<ImagePathLabel> current_image;
   Glib::RefPtr<Gdk::Pixbuf> current_image_original_pixbuf;
 

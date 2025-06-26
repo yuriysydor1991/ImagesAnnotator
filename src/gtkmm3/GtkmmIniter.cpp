@@ -111,7 +111,7 @@ bool GtkmmIniter::prepare_widgets()
     return false;
   }
 
-  if (!mwctx->wloader->load_window(mwctx->wctx)) {
+  if (!mwctx->wloader->load_window(mwctx)) {
     LOGE("Failure during the window load");
     return false;
   }

@@ -20,9 +20,9 @@ const std::set<std::string>& WindowDataContext::get_ids()
       annotation_search_entry_id,
       annotations_db_list_id,
       images_list_id,
-      central_working_image_id,
       current_image_zoom_in_id,
-      current_image_zoom_out_id};
+      current_image_zoom_out_id,
+      place_4_working_widget_id};
 
   return ids;
 }

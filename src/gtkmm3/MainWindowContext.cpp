@@ -18,8 +18,8 @@ std::shared_ptr<MainWindowContext> MainWindowContext::build_context()
   auto nmwctx = std::make_shared<MainWindowContext>();
 
   nmwctx->wctx = std::make_shared<window::WindowDataContext>();
-  nmwctx->wloader = std::make_shared<window::WindowLoader>();
   nmwctx->cwFactory = std::make_shared<CWFactory>();
+  nmwctx->wloader = std::make_shared<window::WindowLoader>();
   nmwctx->mweHandler = std::make_shared<window::WindowEventsHandler>();
 
   return nmwctx;

@@ -3,8 +3,15 @@
 
 #include <memory>
 
+#include "src/gtkmm3/ComponentTypesAliases.h"
 #include "src/gtkmm3/gtkmm_includes.h"
 #include "src/gtkmm3/main-window/WindowDataContext.h"
+#include "src/gtkmm3/main-window/custom-widgets/CustomWidgetsFactory.h"
+
+namespace templateGtkmm3
+{
+class MainWindowContext;
+}
 
 namespace templateGtkmm3::window
 {
@@ -12,13 +19,13 @@ namespace templateGtkmm3::window
 /**
  * @brief Class to hold the window loader routines from the UI xml files.
  */
-class WindowLoader
+class WindowLoader : virtual public ComponentTypesAliases
 {
  public:
   virtual ~WindowLoader() = default;
   WindowLoader() = default;
 
-  virtual bool load_window(std::shared_ptr<WindowDataContext> nwctx);
+  virtual bool load_window(std::shared_ptr<MainWindowContext> nmwctx);
 
   virtual bool all_widget_are_valid();
 
@@ -30,9 +37,9 @@ class WindowLoader
   virtual Gtk::SearchEntry* get_annotation_search_entry();
   virtual Gtk::ListBox* get_annotations_db_list();
   virtual Gtk::ListBox* get_images_list();
-  virtual Gtk::Image* get_image();
   virtual Gtk::Button* get_current_image_zoom_in();
   virtual Gtk::Button* get_current_image_zoom_out();
+  virtual Gtk::Viewport* get_place_4_working_widget();
 
  protected:
   virtual bool propagate_params();
@@ -41,7 +48,7 @@ class WindowLoader
   template <class WidgetType>
   WidgetType* get_widget(const std::string& id);
 
-  std::shared_ptr<WindowDataContext> wctx;
+  std::shared_ptr<MainWindowContext> mwctx;
   Glib::RefPtr<Gtk::Builder> builder;
 };
 

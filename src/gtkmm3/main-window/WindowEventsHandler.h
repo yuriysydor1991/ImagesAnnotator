@@ -11,7 +11,7 @@
 namespace templateGtkmm3
 {
 class MainWindowContext;
-}
+}  // namespace templateGtkmm3
 
 namespace templateGtkmm3::window
 {

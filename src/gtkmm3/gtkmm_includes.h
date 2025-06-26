@@ -6,6 +6,7 @@
 #pragma GCC diagnostic ignored "-Wall -Wextra -Werror -Wunknown-pragmas"
 #pragma warning(push, 0)  // MSVC
 
+#include <cairomm/context.h>
 #include <gtkmm.h>
 #include <gtkmm/entry.h>
 #include <gtkmm/hvbox.h>

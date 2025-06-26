@@ -2,8 +2,10 @@
 #define YOUR_CPP_APP_TEMPLATE_PROJECT_ANNOTATOR_EVENTS_IMAGERECORD_CLASS_H
 
 #include <string>
+#include <vector>
 
 #include "src/annotator-events/events/IRecord.h"
+#include "src/annotator-events/events/ImageRecordRect.h"
 
 namespace events::events
 {
@@ -18,6 +20,8 @@ class ImageRecord : virtual public IRecord
   ImageRecord(const std::string& npath = "");
 
   std::string path;
+
+  ImageRecordRectSet rects;
 };
 
 }  // namespace events::events

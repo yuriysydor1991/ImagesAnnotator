@@ -43,12 +43,12 @@ class WindowDataContext
   inline static constexpr const char* const annotations_db_list_id =
       "annotations_db_list";
   inline static constexpr const char* const images_list_id = "images_list";
-  inline static constexpr const char* const central_working_image_id =
-      "central_working_image";
   inline static constexpr const char* const current_image_zoom_in_id =
       "current_image_zoom_in";
   inline static constexpr const char* const current_image_zoom_out_id =
       "current_image_zoom_out";
+  inline static constexpr const char* const place_4_working_widget_id =
+      "place_4_working_widget";
 };
 
 }  // namespace templateGtkmm3::window

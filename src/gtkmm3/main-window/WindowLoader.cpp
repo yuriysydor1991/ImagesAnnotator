@@ -3,6 +3,7 @@
 #include <cassert>
 #include <memory>
 
+#include "src/gtkmm3/MainWindowContext.h"
 #include "src/gtkmm3/gtkmm_includes.h"
 #include "src/gtkmm3/main-window/WindowDataContext.h"
 #include "src/log/log.h"
@@ -10,25 +11,41 @@
 namespace templateGtkmm3::window
 {
 
-bool WindowLoader::load_window(std::shared_ptr<WindowDataContext> nwctx)
+bool WindowLoader::load_window(std::shared_ptr<MainWindowContext> nmwctx)
 {
-  assert(nwctx != nullptr);
+  assert(nmwctx != nullptr);
 
-  if (nwctx == nullptr) {
+  if (nmwctx == nullptr) {
     LOGE("No context was given");
     return false;
   }
 
-  wctx = nwctx;
+  mwctx = nmwctx;
 
-  LOGD("Creating the builder from the path " << wctx->UI_res_path);
+  LOGD("Creating the builder from the path " << mwctx->wctx->UI_res_path);
 
-  builder = Gtk::Builder::create_from_resource(wctx->UI_res_path);
+  builder = Gtk::Builder::create_from_resource(mwctx->wctx->UI_res_path);
 
   if (!builder) {
     LOGE("Failed to create the builder");
     return false;
   }
+
+  auto cwaPlace = get_place_4_working_widget();
+
+  assert(cwaPlace != nullptr);
+
+  if (cwaPlace == nullptr) {
+    LOGE("Fail to retrieve central working area placeholder widget");
+    return false;
+  }
+
+  nmwctx->centralCanvas =
+      mwctx->cwFactory->create_working_canvas(nmwctx->current_image);
+
+  assert(nmwctx->centralCanvas != nullptr);
+
+  cwaPlace->add(*nmwctx->centralCanvas);
 
   if (!all_widget_are_valid()) {
     LOGE("Not all widgets are present");
@@ -58,10 +75,8 @@ bool WindowLoader::propagate_params()
   }
 
   assert(get_window() != nullptr);
-  assert(get_image() != nullptr);
 
   get_window()->maximize();
-  get_image()->add_events(Gdk::SCROLL_MASK);
 
   return true;
 }
@@ -93,90 +108,83 @@ WidgetType* WindowLoader::get_widget(const std::string& id)
 
 Gtk::Window* WindowLoader::get_window()
 {
-  assert(wctx != nullptr);
+  assert(mwctx->wctx != nullptr);
 
-  return get_widget<Gtk::Window>(wctx->window_id);
+  return get_widget<Gtk::Window>(mwctx->wctx->window_id);
 }
 
 Gtk::Button* WindowLoader::get_images_folder_open_button()
 {
-  assert(wctx != nullptr);
+  assert(mwctx->wctx != nullptr);
 
-  return get_widget<Gtk::Button>(wctx->images_folder_open_button_id);
+  return get_widget<Gtk::Button>(mwctx->wctx->images_folder_open_button_id);
 }
 
 Gtk::Button* WindowLoader::get_annotations_db_open_button()
 {
-  assert(wctx != nullptr);
+  assert(mwctx->wctx != nullptr);
 
-  return get_widget<Gtk::Button>(wctx->annotations_db_open_button_id);
+  return get_widget<Gtk::Button>(mwctx->wctx->annotations_db_open_button_id);
 }
 
 Gtk::Button* WindowLoader::get_accept_annotation_button()
 {
-  assert(wctx != nullptr);
+  assert(mwctx->wctx != nullptr);
 
-  return get_widget<Gtk::Button>(wctx->accept_annotation_button_id);
+  return get_widget<Gtk::Button>(mwctx->wctx->accept_annotation_button_id);
 }
 
 Gtk::Button* WindowLoader::get_delete_current_image_selected_annotation()
 {
-  assert(wctx != nullptr);
+  assert(mwctx->wctx != nullptr);
 
   return get_widget<Gtk::Button>(
-      wctx->delete_current_image_selected_annotation_id);
+      mwctx->wctx->delete_current_image_selected_annotation_id);
 }
 
 Gtk::SearchEntry* WindowLoader::get_annotation_search_entry()
 {
-  assert(wctx != nullptr);
+  assert(mwctx->wctx != nullptr);
 
-  return get_widget<Gtk::SearchEntry>(wctx->annotation_search_entry_id);
+  return get_widget<Gtk::SearchEntry>(mwctx->wctx->annotation_search_entry_id);
 }
 
 Gtk::ListBox* WindowLoader::get_annotations_db_list()
 {
-  assert(wctx != nullptr);
+  assert(mwctx->wctx != nullptr);
 
-  return get_widget<Gtk::ListBox>(wctx->annotations_db_list_id);
+  return get_widget<Gtk::ListBox>(mwctx->wctx->annotations_db_list_id);
 }
 
 Gtk::ListBox* WindowLoader::get_images_list()
 {
-  assert(wctx != nullptr);
+  assert(mwctx->wctx != nullptr);
 
-  return get_widget<Gtk::ListBox>(wctx->images_list_id);
-}
-
-Gtk::Image* WindowLoader::get_image()
-{
-  assert(wctx != nullptr);
-
-  return get_widget<Gtk::Image>(wctx->central_working_image_id);
+  return get_widget<Gtk::ListBox>(mwctx->wctx->images_list_id);
 }
 
 Gtk::Button* WindowLoader::get_current_image_zoom_in()
 {
-  assert(wctx != nullptr);
+  assert(mwctx->wctx != nullptr);
 
-  return get_widget<Gtk::Button>(wctx->current_image_zoom_in_id);
+  return get_widget<Gtk::Button>(mwctx->wctx->current_image_zoom_in_id);
 }
 
 Gtk::Button* WindowLoader::get_current_image_zoom_out()
 {
-  assert(wctx != nullptr);
+  assert(mwctx->wctx != nullptr);
 
-  return get_widget<Gtk::Button>(wctx->current_image_zoom_out_id);
+  return get_widget<Gtk::Button>(mwctx->wctx->current_image_zoom_out_id);
 }
 
 bool WindowLoader::all_widget_are_valid()
 {
-  if (wctx == nullptr) {
+  if (mwctx->wctx == nullptr) {
     LOGE("No window context given");
     return false;
   }
 
-  const auto& idslist = wctx->get_ids();
+  const auto& idslist = mwctx->wctx->get_ids();
 
   for (const auto& id : idslist) {
     Gtk::Widget* tptr = get_widget<Gtk::Widget>(id);
@@ -190,6 +198,13 @@ bool WindowLoader::all_widget_are_valid()
   }
 
   return true;
+}
+
+Gtk::Viewport* WindowLoader::get_place_4_working_widget()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::Viewport>(mwctx->wctx->place_4_working_widget_id);
 }
 
 }  // namespace templateGtkmm3::window

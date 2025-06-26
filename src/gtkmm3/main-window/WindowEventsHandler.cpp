@@ -27,12 +27,10 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
   auto* imagesListBox = mwctx->wloader->get_images_list();
   auto* zoomInB = mwctx->wloader->get_current_image_zoom_in();
   auto* zoomOutB = mwctx->wloader->get_current_image_zoom_out();
-  auto* image = mwctx->wloader->get_image();
 
   assert(imagesListBox != nullptr);
   assert(zoomInB != nullptr);
   assert(zoomOutB != nullptr);
-  assert(image != nullptr);
 
   imagesListBox->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_row_selected));
@@ -40,8 +38,6 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
       sigc::mem_fun(*this, &WindowEventsHandler::on_zoom_in_clicked));
   zoomOutB->signal_clicked().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_zoom_out_clicked));
-  image->signal_scroll_event().connect(
-      sigc::mem_fun(*this, &WindowEventsHandler::on_image_scroll), false);
 
   return true;
 }
@@ -85,10 +81,6 @@ void WindowEventsHandler::update_image_zoom()
 
   LOGD("Current image zoom factor: " << mwctx->imageScale);
 
-  auto image = mwctx->wloader->get_image();
-
-  assert(image != nullptr);
-
   auto pb = mwctx->current_image_original_pixbuf;
 
   const int width = ceilInt(toD(pb->get_width()) * mwctx->imageScale);
@@ -96,7 +88,14 @@ void WindowEventsHandler::update_image_zoom()
 
   auto scaled = pb->scale_simple(width, height, Gdk::INTERP_BILINEAR);
 
-  image->set(scaled);
+  assert(mwctx->centralCanvas != nullptr);
+
+  if (mwctx->centralCanvas == nullptr) {
+    LOGE("No central canvas available");
+    return;
+  }
+
+  mwctx->centralCanvas->set_pixbuf(scaled);
 }
 
 template <class Ntype>
@@ -181,15 +180,21 @@ void WindowEventsHandler::on_images_row_selected(Gtk::ListBoxRow* row)
 
   mwctx->actx->eventer->submit(event);
 
-  auto* image = mwctx->wloader->get_image();
+  mwctx->current_image_original_pixbuf =
+      Gdk::Pixbuf::create_from_file(ir->path);
 
-  assert(image != nullptr);
+  mwctx->centralCanvas;
 
-  image->set(ir->path);
+  assert(mwctx->centralCanvas != nullptr);
 
-  mwctx->current_image_original_pixbuf = image->get_pixbuf();
+  if (mwctx->centralCanvas == nullptr) {
+    LOGE("No central working canvas available");
+    return;
+  }
 
-  LOGI("New image selected: " << ir->path);
+  mwctx->centralCanvas->set_pixbuf(mwctx->current_image_original_pixbuf);
+
+  LOGT("New image selected: " << ir->path);
 }
 
 }  // namespace templateGtkmm3::window

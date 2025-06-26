@@ -4,6 +4,7 @@ add_library(
   ImageAnnotatorGtkmmWindowCustomWidgetsObj OBJECT
   ImagePathLabel.cpp
   CustomWidgetsFactory.cpp
+  CentralWorkingCanvas.cpp
 )
 
 target_include_directories(

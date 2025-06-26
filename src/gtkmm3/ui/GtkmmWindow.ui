@@ -207,15 +207,11 @@
                             <property name="can-focus">True</property>
                             <property name="shadow-type">in</property>
                             <child>
-                              <object class="GtkViewport">
+                              <object class="GtkViewport" id="place_4_working_widget">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
                                 <child>
-                                  <object class="GtkImage" id="central_working_image">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="stock">gtk-missing-image</property>
-                                  </object>
+                                  <placeholder/>
                                 </child>
                               </object>
                             </child>

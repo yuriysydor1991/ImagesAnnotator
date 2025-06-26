@@ -28,6 +28,9 @@ ImagePathLabel::ImagePathLabel(const std::shared_ptr<ImageRecord> nr)
   }
 
   set_text(myrec->path);
+
+  set_ellipsize(Pango::ELLIPSIZE_START);
+  set_single_line_mode(true);
 }
 
 }  // namespace templateGtkmm3::window::custom_widgets

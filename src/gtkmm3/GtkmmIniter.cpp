@@ -7,6 +7,7 @@
 
 namespace templateGtkmm3
 {
+
 GtkmmIniter::GtkmmIniter()
     : wctx{std::make_shared<window::WindowDataContext>()},
       wloader{std::make_shared<window::WindowLoader>()},

@@ -1,10 +1,10 @@
-#include "src/gtkmm3/window/WindowLoader.h"
+#include "src/gtkmm3/main-window/WindowLoader.h"
 
 #include <cassert>
 #include <memory>
 
 #include "src/gtkmm3/gtkmm_includes.h"
-#include "src/gtkmm3/window/WindowDataContext.h"
+#include "src/gtkmm3/main-window/WindowDataContext.h"
 #include "src/log/log.h"
 
 namespace templateGtkmm3::window
@@ -29,6 +29,39 @@ bool WindowLoader::load_window(std::shared_ptr<WindowDataContext> nwctx)
     LOGE("Failed to create the builder");
     return false;
   }
+
+  if (!all_widget_are_valid()) {
+    LOGE("Not all widgets are present");
+    return false;
+  }
+
+  if (!propagate_params()) {
+    LOGE("Failure to propagate params");
+    return false;
+  }
+
+  return true;
+}
+
+bool WindowLoader::propagate_params()
+{
+  assert(builder);
+
+  if (!builder) {
+    LOGE("No builder present");
+    return false;
+  }
+
+  if (!all_widget_are_valid()) {
+    LOGE("Not all widgets are present");
+    return false;
+  }
+
+  assert(get_window() != nullptr);
+  assert(get_image() != nullptr);
+
+  get_window()->maximize();
+  get_image()->add_events(Gdk::SCROLL_MASK);
 
   return true;
 }
@@ -120,6 +153,20 @@ Gtk::Image* WindowLoader::get_image()
   assert(wctx != nullptr);
 
   return get_widget<Gtk::Image>(wctx->central_working_image_id);
+}
+
+Gtk::Button* WindowLoader::get_current_image_zoom_in()
+{
+  assert(wctx != nullptr);
+
+  return get_widget<Gtk::Button>(wctx->current_image_zoom_in_id);
+}
+
+Gtk::Button* WindowLoader::get_current_image_zoom_out()
+{
+  assert(wctx != nullptr);
+
+  return get_widget<Gtk::Button>(wctx->current_image_zoom_out_id);
 }
 
 bool WindowLoader::all_widget_are_valid()

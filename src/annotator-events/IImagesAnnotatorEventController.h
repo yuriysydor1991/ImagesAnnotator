@@ -5,6 +5,8 @@
 
 #include "src/annotator-events/events/AnnotationsDirChanged.h"
 #include "src/annotator-events/events/AnnotationsDirChangedIHandler.h"
+#include "src/annotator-events/events/CurrentImageChanged.h"
+#include "src/annotator-events/events/CurrentImageChangedHandler.h"
 #include "src/annotator-events/events/EventsFactory.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
@@ -24,6 +26,10 @@ class IImagesAnnotatorEventController
  public:
   virtual ~IImagesAnnotatorEventController() = default;
   IImagesAnnotatorEventController() = default;
+
+  virtual bool deinit() = 0;
+
+  virtual std::shared_ptr<events::EventsFactory> get_events_factory() = 0;
 
   virtual void onAnnotationsDirChanged(const std::string& newPath) = 0;
   virtual void submit(std::shared_ptr<events::AnnotationsDirChanged> event) = 0;
@@ -46,9 +52,10 @@ class IImagesAnnotatorEventController
   virtual void subscribe(
       std::shared_ptr<events::RequestImagesDirProviderHandler> request) = 0;
 
-  virtual std::shared_ptr<events::EventsFactory> get_events_factory() = 0;
-
-  virtual bool deinit() = 0;
+  virtual void submit(
+      std::shared_ptr<events::CurrentImageChanged> newCurrentImage) = 0;
+  virtual void subscribe(
+      std::shared_ptr<events::CurrentImageChangedHandler> request) = 0;
 };
 
 }  // namespace events

@@ -7,6 +7,8 @@
 #include "src/annotator-events/IImagesAnnotatorEventController.h"
 #include "src/annotator-events/events/AnnotationsDirChanged.h"
 #include "src/annotator-events/events/AnnotationsDirChangedIHandler.h"
+#include "src/annotator-events/events/CurrentImageChanged.h"
+#include "src/annotator-events/events/CurrentImageChangedHandler.h"
 #include "src/annotator-events/events/EventsFactory.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
@@ -30,6 +32,10 @@ class ImagesAnnotatorEventController
   ImagesAnnotatorEventController(
       std::shared_ptr<app::ApplicationContext> nactx);
 
+  virtual std::shared_ptr<events::EventsFactory> get_events_factory() override;
+
+  virtual bool deinit() override;
+
   virtual void onAnnotationsDirChanged(const std::string& newPath) override;
   virtual void submit(
       std::shared_ptr<events::AnnotationsDirChanged> event) override;
@@ -52,9 +58,10 @@ class ImagesAnnotatorEventController
       std::shared_ptr<events::RequestImagesDirProviderHandler> request)
       override;
 
-  virtual std::shared_ptr<events::EventsFactory> get_events_factory() override;
-
-  virtual bool deinit() override;
+  virtual void submit(
+      std::shared_ptr<events::CurrentImageChanged> event) override;
+  virtual void subscribe(
+      std::shared_ptr<events::CurrentImageChangedHandler> handler) override;
 
  private:
   using imagesHSet =
@@ -65,6 +72,8 @@ class ImagesAnnotatorEventController
       std::set<std::shared_ptr<events::ImagesDirProviderChangedHandler>>;
   using imagesDBORequestersSet =
       std::set<std::shared_ptr<events::RequestImagesDirProviderHandler>>;
+  using currentImageChangedSet =
+      std::set<std::shared_ptr<events::CurrentImageChangedHandler>>;
 
   template <class SubsQueue, class EventT>
   void unified_submit(SubsQueue& queue, std::shared_ptr<EventT> event);
@@ -75,6 +84,7 @@ class ImagesAnnotatorEventController
   annotationsHSet annotations_handlers;
   imagesDBProviderSet iprovider_handlers;
   imagesDBORequestersSet imagesDBObject_handlers;
+  currentImageChangedSet currentImage_handlers;
 
   std::shared_ptr<events::EventsFactory> efactory;
 };

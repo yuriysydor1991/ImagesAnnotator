@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "src/gtkmm3/gtkmm_includes.h"
-#include "src/gtkmm3/window/WindowDataContext.h"
+#include "src/gtkmm3/main-window/WindowDataContext.h"
 
 namespace templateGtkmm3::window
 {
@@ -31,6 +31,11 @@ class WindowLoader
   virtual Gtk::ListBox* get_annotations_db_list();
   virtual Gtk::ListBox* get_images_list();
   virtual Gtk::Image* get_image();
+  virtual Gtk::Button* get_current_image_zoom_in();
+  virtual Gtk::Button* get_current_image_zoom_out();
+
+ protected:
+  virtual bool propagate_params();
 
  private:
   template <class WidgetType>

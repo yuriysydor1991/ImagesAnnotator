@@ -1,4 +1,4 @@
-#include "src/gtkmm3/window/WindowDataContext.h"
+#include "src/gtkmm3/main-window/WindowDataContext.h"
 
 #include <cassert>
 #include <memory>
@@ -20,7 +20,10 @@ const std::set<std::string>& WindowDataContext::get_ids()
       annotation_search_entry_id,
       annotations_db_list_id,
       images_list_id,
-      central_working_image_id};
+      central_working_image_id,
+      current_image_zoom_in_id,
+      current_image_zoom_out_id};
+
   return ids;
 }
 

@@ -4,6 +4,7 @@ add_library(
   ImageAnnotatorGtkmmWindowObj OBJECT
   WindowLoader.cpp
   WindowDataContext.cpp
+  WindowEventsHandler.cpp
 )
 
 target_include_directories(

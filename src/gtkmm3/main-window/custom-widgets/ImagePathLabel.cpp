@@ -1,11 +1,11 @@
-#include "src/gtkmm3/window/custom-widgets/ImagePathLabel.h"
+#include "src/gtkmm3/main-window/custom-widgets/ImagePathLabel.h"
 
 #include <cassert>
 #include <memory>
 
 #include "src/annotator-events/events/ImageRecord.h"
 #include "src/gtkmm3/gtkmm_includes.h"
-#include "src/gtkmm3/window/WindowDataContext.h"
+#include "src/gtkmm3/main-window/WindowDataContext.h"
 #include "src/log/log.h"
 
 namespace templateGtkmm3::window::custom_widgets
@@ -31,6 +31,11 @@ ImagePathLabel::ImagePathLabel(const std::shared_ptr<ImageRecord> nr)
 
   set_ellipsize(Pango::ELLIPSIZE_START);
   set_single_line_mode(true);
+}
+
+std::shared_ptr<ImagePathLabel::ImageRecord> ImagePathLabel::get_image_rec()
+{
+  return myrec;
 }
 
 }  // namespace templateGtkmm3::window::custom_widgets

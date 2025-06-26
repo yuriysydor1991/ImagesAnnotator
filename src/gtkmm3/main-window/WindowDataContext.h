@@ -45,6 +45,10 @@ class WindowDataContext
   inline static constexpr const char* const images_list_id = "images_list";
   inline static constexpr const char* const central_working_image_id =
       "central_working_image";
+  inline static constexpr const char* const current_image_zoom_in_id =
+      "current_image_zoom_in";
+  inline static constexpr const char* const current_image_zoom_out_id =
+      "current_image_zoom_out";
 };
 
 }  // namespace templateGtkmm3::window

@@ -8,70 +8,77 @@
 namespace templateGtkmm3
 {
 
-GtkmmIniter::GtkmmIniter()
-    : wctx{std::make_shared<window::WindowDataContext>()},
-      wloader{std::make_shared<window::WindowLoader>()},
-      cwFactory{std::make_shared<CWFactory>()},
-      imagesVDB{},
-      actx{}
+GtkmmIniter::GtkmmIniter() : GtkmmIniter(MainWindowContext::build_context())
 {
-  assert(wctx != nullptr);
-  assert(wloader != nullptr);
-  assert(cwFactory != nullptr);
+  assert(mwctx != nullptr);
+  assert(mwctx->wctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+}
+
+GtkmmIniter::GtkmmIniter(std::shared_ptr<MainWindowContext> nmwctx)
+    : mwctx{nmwctx}
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+  assert(mwctx->cwFactory != nullptr);
 }
 
 bool GtkmmIniter::run(std::shared_ptr<app::ApplicationContext> ctx)
 {
   assert(ctx != nullptr);
-  assert(wctx != nullptr);
-  assert(wloader != nullptr);
+  assert(mwctx->wctx != nullptr);
+  assert(mwctx->wloader != nullptr);
 
   if (ctx == nullptr) {
     return false;
   }
 
-  actx = ctx;
+  mwctx->actx = ctx;
 
-  auto app = Gtk::Application::create(ctx->argc, ctx->argv,
-                                      project_decls::PROJECT_FLATPAK_URL);
+  auto app = Gtk::Application::create(mwctx->actx->argc, mwctx->actx->argv,
+                                      mwctx->actx->app_dbus_url);
 
   if (!prepare_widgets()) {
     return false;
   }
 
-  assert(wloader->all_widget_are_valid());
+  assert(mwctx->wloader->all_widget_are_valid());
 
-  if (!wloader->all_widget_are_valid()) {
+  if (!mwctx->wloader->all_widget_are_valid()) {
     LOGE("Some of the widgets were not found");
     return false;
   }
 
-  // prepare_random_logo();
-
-  if (!subscribe_4_events(ctx)) {
+  if (!subscribe_4_events()) {
     LOGE("Fail to subscribe for events");
     return false;
   }
 
-  wloader->get_window()->show_all_children();
+  mwctx->wloader->get_window()->show_all_children();
 
-  const auto rt = app->run(*wloader->get_window());
+  if (!mwctx->mweHandler->init(mwctx)) {
+    LOGE("Failure to initialize the main window event handler instance");
+    return false;
+  }
+
+  const auto rt = app->run(*mwctx->wloader->get_window());
 
   return rt == 0;
 }
 
-bool GtkmmIniter::subscribe_4_events(
-    std::shared_ptr<app::ApplicationContext> ctx)
+bool GtkmmIniter::subscribe_4_events()
 {
-  assert(ctx != nullptr);
-  assert(ctx->eventer != nullptr);
+  assert(mwctx->actx != nullptr);
+  assert(mwctx->actx->eventer != nullptr);
 
-  if (ctx == nullptr) {
+  if (mwctx->actx == nullptr) {
     LOGE("No valid context object provided");
     return false;
   }
 
-  if (ctx->eventer == nullptr) {
+  if (mwctx->actx->eventer == nullptr) {
     LOGE("No valid context' eventer object provided");
     return false;
   }
@@ -79,63 +86,54 @@ bool GtkmmIniter::subscribe_4_events(
   auto myshared = shared_from_this();
   std::shared_ptr<ImagesDirProviderChangedHandler> myptr = myshared;
 
-  ctx->eventer->subscribe(myptr);
+  mwctx->actx->eventer->subscribe(myptr);
 
   /**
    * Sending requests for the initial objects.
    */
-  auto efactory = ctx->eventer->get_events_factory();
+  auto efactory = mwctx->actx->eventer->get_events_factory();
 
   auto idbRequest = efactory->create_image_dir_object_request();
 
-  ctx->eventer->submit(idbRequest);
+  mwctx->actx->eventer->submit(idbRequest);
 
   return true;
 }
 
 bool GtkmmIniter::prepare_widgets()
 {
-  assert(wctx != nullptr);
-  assert(wloader != nullptr);
+  assert(mwctx != nullptr);
+  assert(mwctx->wctx != nullptr);
+  assert(mwctx->wloader != nullptr);
 
-  if (wloader == nullptr) {
+  if (mwctx->wloader == nullptr) {
     LOGE("No loader available");
     return false;
   }
 
-  if (!wloader->load_window(wctx)) {
+  if (!mwctx->wloader->load_window(mwctx->wctx)) {
     LOGE("Failure during the window load");
     return false;
   }
 
-  assert(wloader->get_window() != nullptr);
-  assert(wloader->all_widget_are_valid());
+  assert(mwctx->wloader->get_window() != nullptr);
+  assert(mwctx->wloader->all_widget_are_valid());
 
-  wloader->get_window()->maximize();
-
-  return wloader->get_window() != nullptr;
-}
-
-void GtkmmIniter::prepare_random_logo()
-{
-  assert(wctx != nullptr);
-  assert(wloader != nullptr);
-
-  if (wloader == nullptr || wloader->get_image() == nullptr) {
-    LOGE("No valid widget pointer found");
-    return;
+  if (!mwctx->wloader->all_widget_are_valid()) {
+    LOGE("Window builder returned invalid status");
+    return false;
   }
 
-  wloader->get_image()->set_from_resource(wctx->logo_res_path);
+  return mwctx->wloader->get_window() != nullptr;
 }
 
 void GtkmmIniter::handle(std::shared_ptr<ImagesDirProviderChanged> event)
 {
   assert(event != nullptr);
   assert(event->images_provider != nullptr);
-  assert(wloader != nullptr);
-  assert(wloader->get_images_list() != nullptr);
-  assert(cwFactory != nullptr);
+  assert(mwctx->wloader != nullptr);
+  assert(mwctx->wloader->get_images_list() != nullptr);
+  assert(mwctx->cwFactory != nullptr);
 
   if (event == nullptr || event->images_provider == nullptr) {
     LOGE("No valid event object provided");
@@ -144,9 +142,9 @@ void GtkmmIniter::handle(std::shared_ptr<ImagesDirProviderChanged> event)
 
   auto& imagesDB = event->images_provider->get_images_db();
 
-  imagesVDB = cwFactory->create_images_visual_db(imagesDB);
+  mwctx->imagesVDB = mwctx->cwFactory->create_images_visual_db(imagesDB);
 
-  auto& imagesListView = *wloader->get_images_list();
+  auto& imagesListView = *mwctx->wloader->get_images_list();
 
   auto children = imagesListView.get_children();
 
@@ -154,11 +152,11 @@ void GtkmmIniter::handle(std::shared_ptr<ImagesDirProviderChanged> event)
     imagesListView.remove(*child);
   }
 
-  for (auto& r : imagesVDB) {
+  for (auto& r : mwctx->imagesVDB) {
     imagesListView.append(*r);
   }
 }
 
-void GtkmmIniter::deinit() { actx.reset(); }
+void GtkmmIniter::deinit() { mwctx->clear(); }
 
 }  // namespace templateGtkmm3

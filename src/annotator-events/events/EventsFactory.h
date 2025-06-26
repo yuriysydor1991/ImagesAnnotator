@@ -6,6 +6,7 @@
 
 #include "src/annotator-events/events/AnnotationsDirChanged.h"
 #include "src/annotator-events/events/AnnotationsDirChangedIHandler.h"
+#include "src/annotator-events/events/CurrentImageChanged.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
 #include "src/annotator-events/events/ImagesDirProviderChanged.h"
@@ -28,12 +29,18 @@ class EventsFactory : public std::enable_shared_from_this<EventsFactory>
 
   virtual std::shared_ptr<AnnotationsDirChanged> create_annotations_dir_changed(
       const std::string& newPath);
+
   virtual std::shared_ptr<ImagesDirChanged> create_image_dir_changed(
       const std::string& newPath);
+
   virtual std::shared_ptr<RequestImagesDirProvider>
   create_image_dir_object_request();
+
   virtual std::shared_ptr<ImagesDirProviderChanged>
   create_images_dir_provider_changed(std::shared_ptr<ImagesPathsDBProvider> np);
+
+  virtual std::shared_ptr<CurrentImageChanged> create_current_image_changed(
+      std::shared_ptr<ImageRecord>);
 };
 
 }  // namespace events::events

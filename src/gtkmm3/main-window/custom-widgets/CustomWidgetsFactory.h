@@ -6,7 +6,7 @@
 
 #include "src/annotator-events/events/ImageRecord.h"
 #include "src/annotator-events/events/ImagesPathsDBProvider.h"
-#include "src/gtkmm3/window/custom-widgets/ImagePathLabel.h"
+#include "src/gtkmm3/main-window/custom-widgets/ImagePathLabel.h"
 
 namespace templateGtkmm3::window::custom_widgets
 {

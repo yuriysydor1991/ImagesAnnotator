@@ -7,6 +7,7 @@
 #include "src/annotator-business/dbs/ImagesDirDB.h"
 #include "src/annotator-events/events/AnnotationsDirChanged.h"
 #include "src/annotator-events/events/AnnotationsDirChangedIHandler.h"
+#include "src/annotator-events/events/CurrentImageChangedHandler.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
 #include "src/annotator-events/events/RequestImagesDirProvider.h"
@@ -28,13 +29,17 @@ class AnnotatorController
       virtual public events::events::ImagesDirChangedIHandler,
       virtual public events::events::ImagesPathsDBProvider,
       public std::enable_shared_from_this<AnnotatorController>,
-      virtual public events::events::RequestImagesDirProviderHandler
+      virtual public events::events::RequestImagesDirProviderHandler,
+      virtual public events::events::CurrentImageChangedHandler
 {
  public:
   using ImagesDirChanged = events::events::ImagesDirChanged;
   using AnnotationsDirChanged = events::events::AnnotationsDirChanged;
   using ImagesDirDB = dbs::ImagesDirDB::ImagesDB;
   using RequestImagesDirProvider = events::events::RequestImagesDirProvider;
+  using ImageRecord = events::events::ImageRecord;
+  using CurrentImageChanged = events::events::CurrentImageChanged;
+
   using RequestImagesDirProviderHandler =
       events::events::RequestImagesDirProviderHandler;
 
@@ -46,6 +51,7 @@ class AnnotatorController
   virtual void handle(std::shared_ptr<ImagesDirChanged> event) override;
   virtual void handle(std::shared_ptr<AnnotationsDirChanged> event) override;
   virtual void handle(std::shared_ptr<RequestImagesDirProvider> event) override;
+  virtual void handle(std::shared_ptr<CurrentImageChanged> event) override;
 
   virtual ImagesDirDB& get_images_db();
 

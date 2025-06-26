@@ -128,4 +128,16 @@ void ImagesAnnotatorEventController::subscribe(
   imagesDBObject_handlers.insert(request);
 }
 
+void ImagesAnnotatorEventController::submit(
+    std::shared_ptr<events::CurrentImageChanged> event)
+{
+  unified_submit(currentImage_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    std::shared_ptr<events::CurrentImageChangedHandler> handler)
+{
+  currentImage_handlers.insert(handler);
+}
+
 }  // namespace events

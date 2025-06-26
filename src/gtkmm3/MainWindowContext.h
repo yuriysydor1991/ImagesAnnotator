@@ -1,0 +1,51 @@
+#ifndef YOUR_CPP_APP_TEMPLATE_PROJECT_MAINWINDOWCONTEXT_CLASS_H
+#define YOUR_CPP_APP_TEMPLATE_PROJECT_MAINWINDOWCONTEXT_CLASS_H
+
+#include <memory>
+
+#include "src/app/ApplicationContext.h"
+#include "src/gtkmm3/ComponentTypesAliases.h"
+#include "src/gtkmm3/main-window/WindowDataContext.h"
+#include "src/gtkmm3/main-window/WindowEventsHandler.h"
+#include "src/gtkmm3/main-window/WindowLoader.h"
+#include "src/gtkmm3/main-window/custom-widgets/CustomWidgetsFactory.h"
+#include "src/gtkmm3/main-window/custom-widgets/ImagePathLabel.h"
+
+namespace templateGtkmm3::window
+{
+class WindowEventsHandler;
+}
+
+namespace templateGtkmm3
+{
+
+class MainWindowContext : virtual public ComponentTypesAliases
+{
+ public:
+  virtual ~MainWindowContext() = default;
+
+  inline static constexpr const double scaleInitValue = 1.0;
+  inline static constexpr const double defaultScaleStep = 0.05;
+
+  std::shared_ptr<window::WindowDataContext> wctx;
+  std::shared_ptr<window::WindowLoader> wloader;
+  std::shared_ptr<CWFactory> cwFactory;
+  ImagesVisualDB imagesVDB;
+  std::shared_ptr<app::ApplicationContext> actx;
+  std::shared_ptr<window::WindowEventsHandler> mweHandler;
+  std::shared_ptr<ImagePathLabel> current_image;
+  Glib::RefPtr<Gdk::Pixbuf> current_image_original_pixbuf;
+
+  /// @brief the current image scale/zoom factor
+  double imageScale{scaleInitValue};
+
+  static std::shared_ptr<MainWindowContext> build_context();
+
+  static bool validate_context(std::shared_ptr<MainWindowContext> nmwctx);
+
+  virtual void clear();
+};
+
+}  // namespace templateGtkmm3
+
+#endif  // YOUR_CPP_APP_TEMPLATE_PROJECT_MAINWINDOWCONTEXT_CLASS_H

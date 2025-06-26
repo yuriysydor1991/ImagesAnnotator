@@ -8,6 +8,7 @@
 #include "src/annotator-events/events/AnnotationsDirChangedIHandler.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
+#include "src/log/log.h"
 
 namespace events::events
 {
@@ -22,7 +23,10 @@ std::shared_ptr<EventsFactory> EventsFactory::instance()
 std::shared_ptr<AnnotationsDirChanged>
 EventsFactory::create_annotations_dir_changed(const std::string& newPath)
 {
-  assert(!newPath.empty());
+  if (newPath.empty()) {
+    LOGE("Annotation db path is empty");
+    return {};
+  }
 
   return std::make_shared<AnnotationsDirChanged>(newPath);
 }
@@ -31,6 +35,11 @@ std::shared_ptr<ImagesDirChanged> EventsFactory::create_image_dir_changed(
     const std::string& newPath)
 {
   assert(!newPath.empty());
+
+  if (newPath.empty()) {
+    LOGE("Image db path is empty");
+    return {};
+  }
 
   return std::make_shared<ImagesDirChanged>(newPath);
 }
@@ -47,7 +56,25 @@ EventsFactory::create_images_dir_provider_changed(
 {
   assert(np != nullptr);
 
+  if (np == nullptr) {
+    LOGE("No valid images db provider pointer provided");
+    return {};
+  }
+
   return std::make_shared<ImagesDirProviderChanged>(np);
+}
+
+std::shared_ptr<CurrentImageChanged>
+EventsFactory::create_current_image_changed(std::shared_ptr<ImageRecord> ir)
+{
+  assert(ir != nullptr);
+
+  if (ir == nullptr) {
+    LOGE("No valid image record provided");
+    return {};
+  }
+
+  return std::make_shared<CurrentImageChanged>(ir);
 }
 
 }  // namespace events::events

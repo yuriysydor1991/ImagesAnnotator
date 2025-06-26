@@ -61,8 +61,11 @@ bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
     // the App class.
   }
 
+  auto mptr = shared_from_this();
+
   ctx->eventer->subscribe(
-      std::shared_ptr<RequestImagesDirProviderHandler>(shared_from_this()));
+      std::shared_ptr<RequestImagesDirProviderHandler>(mptr));
+  ctx->eventer->subscribe(std::shared_ptr<CurrentImageChangedHandler>(mptr));
 
   return true;
 }
@@ -155,5 +158,25 @@ void AnnotatorController::emitImagesProviderChanged()
 }
 
 void AnnotatorController::deinit() { actx.reset(); }
+
+void AnnotatorController::handle(std::shared_ptr<CurrentImageChanged> event)
+{
+  assert(event != nullptr);
+  assert(event->new_current_image != nullptr);
+
+  if (event == nullptr) {
+    LOGE("No valid image event pointer provided");
+    return;
+  }
+
+  if (event->new_current_image == nullptr) {
+    LOGE("No new current image pointer was provided");
+    return;
+  }
+
+  LOGI("Current image changed: " << event->new_current_image->path);
+
+  /// @todo: Insert the current image change handler over here
+}
 
 }  // namespace iannotator

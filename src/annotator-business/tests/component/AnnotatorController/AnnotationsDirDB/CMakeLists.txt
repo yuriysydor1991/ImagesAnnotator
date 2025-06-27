@@ -12,6 +12,7 @@ add_executable(
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImageRecord.cpp
   ${CMAKE_SOURCE_DIR}/src/app/ApplicationContext.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImagesDirChanged.cpp
+  ${ANNOTATIONCONTROLLER_CTEST_ROOT}/CTEST_AnnotatorController.cpp
 )
 
 target_include_directories(

@@ -87,8 +87,8 @@ bool WindowEventsHandler::on_rectangle_draw_start(GdkEventButton* event)
 
   const auto& imageScale = ir->imageScale;
 
-  ir->current_rect->x = event->x / imageScale;
-  ir->current_rect->y = event->y / imageScale;
+  ir->current_rect->x = toI(toD(event->x) / imageScale);
+  ir->current_rect->y = toI(toD(event->y) / imageScale);
 
   return true;
 }

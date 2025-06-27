@@ -2,6 +2,7 @@ FROM ubuntu:22.04
 
 RUN apt update
 RUN apt install -y libstdc++6 build-essential git cmake g++ pkg-config libgtkmm-3.0-dev
+RUN apt install -y nlohmann-json3-dev
 
 ARG BUILDDIR=/src/${PROJECT_BINARY_NAME}-build-docker-singlerun
 

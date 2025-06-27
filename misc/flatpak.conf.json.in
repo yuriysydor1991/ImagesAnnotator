@@ -6,6 +6,21 @@
   "command": "${PROJECT_BINARY_NAME}",
   "modules": [
     {
+      "name": "nlohmann-json",
+      "buildsystem": "cmake",
+      "builddir": true,
+      "config-opts": [
+        "-DJSON_BuildTests=OFF"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/nlohmann/json.git",
+          "tag": "v3.11.3"
+        }
+      ]
+    },
+    {
       "name": "graphviz",
       "buildsystem": "autotools",
       "config-opts": [

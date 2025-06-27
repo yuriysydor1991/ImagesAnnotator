@@ -24,6 +24,8 @@ class ImagesAnnotatorEventController : public IImagesAnnotatorEventController
   explicit ImagesAnnotatorEventController(
       [[maybe_unused]] std::shared_ptr<app::ApplicationContext> nactx){};
 
+  MOCK_METHOD(bool, deinit, (), (override));
+
   MOCK_METHOD(void, onAnnotationsDirChanged, (const std::string& newPath),
               (override));
   MOCK_METHOD(void, submit,
@@ -61,7 +63,12 @@ class ImagesAnnotatorEventController : public IImagesAnnotatorEventController
   MOCK_METHOD(std::shared_ptr<events::EventsFactory>, get_events_factory, (),
               (override));
 
-  MOCK_METHOD(bool, deinit, (), (override));
+  MOCK_METHOD(void, submit,
+              (std::shared_ptr<events::CurrentImageChanged> newCurrentImage),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (std::shared_ptr<events::CurrentImageChangedHandler> request),
+              (override));
 };
 
 }  // namespace events

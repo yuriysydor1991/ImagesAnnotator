@@ -1,4 +1,4 @@
-#include "src/annotator-business/dbs/ImagesDirDB.h"
+#include "src/annotator-business/dbs/ImagesDBs/ImagesDirDB.h"
 
 #include <cassert>
 #include <filesystem>

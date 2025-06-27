@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.13)
 
 add_library(
-  ImagesAnnotatorControllerDBsObj OBJECT
-  AnnotationsDirDB.cpp
+  ImagesAnnotatorControllerDBsImagesDBObj OBJECT
+  ImagesDirDB.cpp
 )
 
 target_include_directories(
-  ImagesAnnotatorControllerDBsObj
+  ImagesAnnotatorControllerDBsImagesDBObj
   PRIVATE
     ${CMAKE_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
@@ -14,7 +14,5 @@ target_include_directories(
 
 target_link_libraries(
   ${PROJECT_BINARY_NAME}
-  ImagesAnnotatorControllerDBsObj
+  ImagesAnnotatorControllerDBsImagesDBObj
 )
-
-add_subdirectory(ImagesDBs)

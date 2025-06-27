@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "src/annotator-business/dbs/AnnotationsDirDB.h"
-#include "src/annotator-business/dbs/ImagesDirDB.h"
+#include "src/annotator-business/dbs/ImagesDBs/ImagesDirDB.h"
 #include "src/app/ApplicationContext.h"
 #include "src/app/IApplication.h"
 #include "src/log/log.h"

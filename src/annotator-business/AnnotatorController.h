@@ -35,7 +35,7 @@ class AnnotatorController
  public:
   using ImagesDirChanged = events::events::ImagesDirChanged;
   using AnnotationsDirChanged = events::events::AnnotationsDirChanged;
-  using ImagesDirDB = dbs::ImagesDirDB::ImagesDB;
+  using ImagesDirDB = dbs::images::ImagesDirDB::ImagesDB;
   using RequestImagesDirProvider = events::events::RequestImagesDirProvider;
   using ImageRecord = events::events::ImageRecord;
   using CurrentImageChanged = events::events::CurrentImageChanged;
@@ -60,7 +60,7 @@ class AnnotatorController
  private:
   void emitImagesProviderChanged();
 
-  std::shared_ptr<dbs::ImagesDirDB> images;
+  std::shared_ptr<dbs::images::ImagesDirDB> images;
   std::shared_ptr<dbs::annotations::AnnotationsDirDB> annotations;
 
   std::shared_ptr<app::ApplicationContext> actx;

@@ -5,7 +5,7 @@
 
 #include "src/log/log.h"
 
-namespace iannotator::dbs
+namespace iannotator::dbs::images
 {
 
 bool ImagesDirDB::load_directory(const std::string& newPath)
@@ -64,4 +64,4 @@ bool ImagesDirDB::is_image(const fs::path& tpath)
 
 ImagesDirDB::ImagesDB& ImagesDirDB::get_images_db() { return images_found; }
 
-}  // namespace iannotator::dbs
+}  // namespace iannotator::dbs::images

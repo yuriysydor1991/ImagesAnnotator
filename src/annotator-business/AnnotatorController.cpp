@@ -13,7 +13,7 @@ namespace iannotator
 {
 
 AnnotatorController::AnnotatorController()
-    : images{std::make_shared<dbs::ImagesDirDB>()},
+    : images{std::make_shared<dbs::images::ImagesDirDB>()},
       annotations{std::make_shared<dbs::annotations::AnnotationsDirDB>()},
       actx{}
 {

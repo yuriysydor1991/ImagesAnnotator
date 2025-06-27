@@ -8,7 +8,7 @@
 #include "src/annotator-events/events/ImageRecord.h"
 #include "src/annotator-events/events/ImagesPathsDBProvider.h"
 
-namespace iannotator::dbs
+namespace iannotator::dbs::images
 {
 
 namespace fs = std::filesystem;
@@ -39,6 +39,6 @@ class ImagesDirDB : virtual public events::events::ImagesPathsDBProvider
   ImagesDB images_found;
 };
 
-}  // namespace iannotator::dbs
+}  // namespace iannotator::dbs::images
 
 #endif  // YOUR_CPP_APP_TEMPLATE_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_IMAGES_DB_CLASS_H

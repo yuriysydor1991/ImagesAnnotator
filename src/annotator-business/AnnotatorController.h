@@ -61,7 +61,7 @@ class AnnotatorController
   void emitImagesProviderChanged();
 
   std::shared_ptr<dbs::ImagesDirDB> images;
-  std::shared_ptr<dbs::AnnotationsDirDB> annotations;
+  std::shared_ptr<dbs::annotations::AnnotationsDirDB> annotations;
 
   std::shared_ptr<app::ApplicationContext> actx;
 };

@@ -1,0 +1,85 @@
+{
+  "ImagesAnnotator": {
+    "version": "0.9.0"
+  },
+  "user": {
+    "time-spent": {
+      "value": 1234,
+      "dimension": "seconds" 
+    }
+  },
+  "annotations": [
+    {
+      "db": {
+        "path": "/absolute/path/to/images/db/dir/1"
+      },
+      "annotations": [
+        {
+          "rel_path": "rel/path/to/image/1.img",
+          "annotations": [
+            {
+              "name": "annotation-tag-or-class-name-1",
+              "rect": {
+                "x": 123, "y": 456, "width": 123, "height": 456
+              }
+            },
+            {
+              "name": "annotation-tag-or-class-name-2",
+              "rect": {
+                "x": 654, "y": 321, "width": 654, "height": 321
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "db": {
+        "path": "/absolute/path/to/images/db/dir/2"
+      },
+      "annotations": [
+        {
+          "rel_path": "rel/path/to/image/1.img",
+          "annotations": [
+            {
+              "name": "annotation-tag-or-class-name-3",
+              "rect": {
+                "x": 123, "y": 456, "width": 123, "height": 456
+              }
+            },
+            {
+              "name": "annotation-tag-or-class-name-4",
+              "rect": {
+                "x": 654, "y": 321, "width": 654, "height": 321
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "db": {
+        "path": "/absolute/path/to/images/db/dir/3"
+      },
+      "annotations": [
+        {
+          "rel_path": "rel/path/to/image/1.img",
+          "annotations": [
+            {
+              "name": "annotation-tag-or-class-name-1",
+              "rect": {
+                "x": 123, "y": 456, "width": 123, "height": 456
+              }
+            },
+            {
+              "name": "annotation-tag-or-class-name-4",
+              "rect": {
+                "x": 654, "y": 321, "width": 654, "height": 321
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

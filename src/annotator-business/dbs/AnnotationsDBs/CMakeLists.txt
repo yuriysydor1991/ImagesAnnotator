@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
+find_package(nlohmann_json REQUIRED)
+
 add_library(
   ImagesAnnotatorControllerDBsObj OBJECT
   AnnotationsDirDB.cpp
@@ -15,4 +17,5 @@ target_include_directories(
 target_link_libraries(
   ${PROJECT_BINARY_NAME}
   ImagesAnnotatorControllerDBsObj
+  nlohmann_json::nlohmann_json
 )

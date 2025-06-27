@@ -61,6 +61,16 @@ bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
     // the App class.
   }
 
+  if (!ctx->annotation_db_path.empty()) {
+    LOGD("Found initial annotations directory path: "
+         << ctx->annotation_db_path);
+
+    if (!annotations->load_db(ctx->annotation_db_path)) {
+      LOGE("Fail to load directory: " << ctx->annotation_db_path);
+      return false;
+    }
+  }
+
   auto mptr = shared_from_this();
 
   ctx->eventer->subscribe(

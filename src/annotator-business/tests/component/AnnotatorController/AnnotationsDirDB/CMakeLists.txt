@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 
-set(CCTNAME "AnnotationsDirDB")
+set(CCTNAME "CTEST_AnnotationsDirDB")
 
 add_executable(
   ${CCTNAME}
@@ -13,6 +13,11 @@ add_executable(
   ${CMAKE_SOURCE_DIR}/src/app/ApplicationContext.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImagesDirChanged.cpp
   ${ANNOTATIONCONTROLLER_CTEST_ROOT}/CTEST_AnnotatorController.cpp
+)
+
+target_compile_options(
+  ${CCTNAME}
+  PRIVATE -DCTEST_DATA_ROOT="${CMAKE_CURRENT_SOURCE_DIR}/ctest_data"
 )
 
 target_include_directories(

@@ -7,6 +7,10 @@
 namespace events::events
 {
 
-ImageRecord ::ImageRecord(const std::string& npath) : path{npath} {}
+ImageRecord::ImageRecord(const std::string& npath) : path{npath} {}
+
+void ImageRecord::scaleStepIn() { imageScale += defaultScaleStep; }
+
+void ImageRecord::scaleStepOut() { imageScale -= defaultScaleStep; }
 
 }  // namespace events::events

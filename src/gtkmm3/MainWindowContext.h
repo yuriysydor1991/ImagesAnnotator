@@ -48,6 +48,8 @@ class MainWindowContext : virtual public ComponentTypesAliases,
   static bool validate_context(std::shared_ptr<MainWindowContext> nmwctx);
 
   virtual void clear();
+
+  virtual std::shared_ptr<ImageRecord> current_irecord();
 };
 
 }  // namespace templateGtkmm3

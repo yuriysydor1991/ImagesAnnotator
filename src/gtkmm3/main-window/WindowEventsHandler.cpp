@@ -67,7 +67,7 @@ bool WindowEventsHandler::on_rectangle_draw_start(GdkEventButton* event)
 
   mwctx->current_image->mark_as_has_records();
 
-  auto ir = mwctx->current_image->get_image_rec();
+  auto ir = mwctx->current_irecord();
 
   assert(ir != nullptr);
 
@@ -104,7 +104,7 @@ bool WindowEventsHandler::on_rectangle_draw_end(GdkEventButton* event)
     return true;
   }
 
-  auto ir = mwctx->current_image->get_image_rec();
+  auto ir = mwctx->current_irecord();
 
   assert(ir != nullptr);
 
@@ -141,7 +141,7 @@ bool WindowEventsHandler::on_rectangle_size_change(GdkEventMotion* event)
     return true;
   }
 
-  auto ir = mwctx->current_image->get_image_rec();
+  auto ir = mwctx->current_irecord();
 
   assert(ir != nullptr);
 
@@ -188,10 +188,9 @@ void WindowEventsHandler::on_zoom_in_clicked()
     return;
   }
 
-  assert(mwctx->current_image->get_image_rec() != nullptr);
+  assert(mwctx->current_irecord() != nullptr);
 
-  mwctx->current_image->get_image_rec()->imageScale +=
-      events::events::ImageRecord::defaultScaleStep;
+  mwctx->current_irecord()->scaleStepIn();
 
   update_image_zoom();
 }
@@ -210,10 +209,9 @@ void WindowEventsHandler::on_zoom_out_clicked()
     return;
   }
 
-  assert(mwctx->current_image->get_image_rec() != nullptr);
+  assert(mwctx->current_irecord() != nullptr);
 
-  mwctx->current_image->get_image_rec()->imageScale -=
-      events::events::ImageRecord::defaultScaleStep;
+  mwctx->current_irecord()->scaleStepOut();
 
   update_image_zoom();
 }
@@ -227,15 +225,14 @@ void WindowEventsHandler::update_image_zoom()
     return;
   }
 
-  if (mwctx->current_image == nullptr ||
-      mwctx->current_image->get_image_rec() == nullptr) {
-    LOGT("No image available");
+  if (mwctx->current_irecord() == nullptr) {
+    LOGT("No current image record available");
     return;
   }
 
-  assert(mwctx->current_image->get_image_rec() != nullptr);
+  assert(mwctx->current_irecord() != nullptr);
 
-  const auto currentScale = mwctx->current_image->get_image_rec()->imageScale;
+  const auto currentScale = mwctx->current_irecord()->imageScale;
 
   LOGD("Current image zoom factor: " << currentScale);
 

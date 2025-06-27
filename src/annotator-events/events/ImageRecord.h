@@ -28,6 +28,9 @@ class ImageRecord : virtual public IRecord
   ImageRecordRectPtr current_rect;
 
   double imageScale{defaultInitScaling};
+
+  void scaleStepIn();
+  void scaleStepOut();
 };
 
 }  // namespace events::events

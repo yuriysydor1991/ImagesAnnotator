@@ -1,6 +1,7 @@
 #ifndef YOUR_CPP_APP_TEMPLATE_PROJECT_COMPONENTTYPEALIASES_CLASS_H
 #define YOUR_CPP_APP_TEMPLATE_PROJECT_COMPONENTTYPEALIASES_CLASS_H
 
+#include "src/annotator-events/events/ImageRecord.h"
 #include "src/gtkmm3/main-window/custom-widgets/CentralWorkingCanvas.h"
 #include "src/gtkmm3/main-window/custom-widgets/CustomWidgetsFactory.h"
 
@@ -23,6 +24,7 @@ class ComponentTypesAliases
   using ImagePathLabel = window::custom_widgets::ImagePathLabel;
   using CentralWorkingCanvas =
       templateGtkmm3::window::custom_widgets::CentralWorkingCanvas;
+  using ImageRecord = events::events::ImageRecord;
 };
 
 }  // namespace templateGtkmm3

@@ -34,6 +34,17 @@ void MainWindowContext::clear()
   wloader.reset();
 }
 
+std::shared_ptr<MainWindowContext::ImageRecord>
+MainWindowContext::current_irecord()
+{
+  if (current_image == nullptr) {
+    LOGT("No current image available");
+    return {};
+  }
+
+  return current_image->get_image_rec();
+}
+
 bool MainWindowContext::validate_context(
     std::shared_ptr<MainWindowContext> nmwctx)
 {

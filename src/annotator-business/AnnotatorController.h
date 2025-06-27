@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "src/annotator-business/dbs/AnnotationsDirDB.h"
+#include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsDirDB.h"
 #include "src/annotator-business/dbs/ImagesDBs/ImagesDirDB.h"
 #include "src/annotator-events/events/AnnotationsDirChanged.h"
 #include "src/annotator-events/events/AnnotationsDirChangedIHandler.h"

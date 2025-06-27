@@ -6,7 +6,7 @@ add_executable(
   ${CCTNAME}
   CTEST_ImagesDirDB.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-business/AnnotatorController.cpp
-  ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/AnnotationsDirDB.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/AnnotationsDBs/AnnotationsDirDB.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/ImagesDBs/ImagesDirDB.cpp
   ${CMAKE_SOURCE_DIR}/src/log/simple-logger/SimpleLogger.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImageRecord.cpp

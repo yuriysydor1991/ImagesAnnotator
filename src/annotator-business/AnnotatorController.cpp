@@ -3,7 +3,7 @@
 #include <cassert>
 #include <memory>
 
-#include "src/annotator-business/dbs/AnnotationsDirDB.h"
+#include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsDirDB.h"
 #include "src/annotator-business/dbs/ImagesDBs/ImagesDirDB.h"
 #include "src/app/ApplicationContext.h"
 #include "src/app/IApplication.h"

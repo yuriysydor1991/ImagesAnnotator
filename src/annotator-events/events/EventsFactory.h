@@ -7,6 +7,7 @@
 #include "src/annotator-events/events/AnnotationsDirChanged.h"
 #include "src/annotator-events/events/AnnotationsDirChangedIHandler.h"
 #include "src/annotator-events/events/CurrentImageChanged.h"
+#include "src/annotator-events/events/ImageRecord.h"
 #include "src/annotator-events/events/ImageRecordRect.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
@@ -44,6 +45,12 @@ class EventsFactory : public std::enable_shared_from_this<EventsFactory>
       std::shared_ptr<ImageRecord>);
 
   virtual std::shared_ptr<ImageRecordRect> create_image_rect_record();
+  virtual std::shared_ptr<ImageRecordRect> create_image_rect_record(
+      const std::string& npath, const int& nx, const int& ny, const int& nwidth,
+      const int& nheight);
+
+  virtual std::shared_ptr<ImageRecord> create_image_record(
+      const std::string& nirpath = "");
 };
 
 }  // namespace events::events

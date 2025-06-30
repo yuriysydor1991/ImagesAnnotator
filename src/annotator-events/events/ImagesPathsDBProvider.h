@@ -17,7 +17,7 @@ namespace events::events
 class ImagesPathsDBProvider : virtual public IProvider
 {
  public:
-  using ImagesDB = std::unordered_set<std::shared_ptr<ImageRecord>>;
+  using ImagesDB = ImageRecordsSet;
 
   virtual ~ImagesPathsDBProvider() = default;
   ImagesPathsDBProvider() = default;

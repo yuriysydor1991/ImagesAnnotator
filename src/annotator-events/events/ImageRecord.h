@@ -33,6 +33,9 @@ class ImageRecord : virtual public IRecord
   void scaleStepOut();
 };
 
+using ImageRecordPtr = std::shared_ptr<ImageRecord>;
+using ImageRecordsSet = std::unordered_set<ImageRecordPtr>;
+
 }  // namespace events::events
 
 #endif  // YOUR_CPP_APP_TEMPLATE_PROJECT_ANNOTATOR_EVENTS_IMAGERECORD_CLASS_H

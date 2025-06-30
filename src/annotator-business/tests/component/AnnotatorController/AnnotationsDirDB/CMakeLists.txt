@@ -13,6 +13,13 @@ add_executable(
   ${CMAKE_SOURCE_DIR}/src/app/ApplicationContext.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImagesDirChanged.cpp
   ${ANNOTATIONCONTROLLER_CTEST_ROOT}/CTEST_AnnotatorController.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/AnnotationsDBs/AnnotationsJSONSerializator.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/AnnotationsDBs/converters/JSON2ImageRecordsConverter.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImageRecordRect.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/EventsFactory.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImagesDirProviderChanged.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/CurrentImageChanged.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/AnnotationsDirChanged.cpp
 )
 
 target_compile_options(

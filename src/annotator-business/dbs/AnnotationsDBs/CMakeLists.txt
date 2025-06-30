@@ -5,6 +5,7 @@ find_package(nlohmann_json REQUIRED)
 add_library(
   ImagesAnnotatorControllerDBsObj OBJECT
   AnnotationsDirDB.cpp
+  AnnotationsJSONSerializator.cpp
 )
 
 target_include_directories(
@@ -19,3 +20,5 @@ target_link_libraries(
   ImagesAnnotatorControllerDBsObj
   nlohmann_json::nlohmann_json
 )
+
+add_subdirectory(converters)

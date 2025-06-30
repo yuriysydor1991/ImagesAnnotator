@@ -82,4 +82,17 @@ std::shared_ptr<ImageRecordRect> EventsFactory::create_image_rect_record()
   return std::make_shared<ImageRecordRect>();
 }
 
+std::shared_ptr<ImageRecordRect> EventsFactory::create_image_rect_record(
+    const std::string& npath, const int& nx, const int& ny, const int& nwidth,
+    const int& nheight)
+{
+  return std::make_shared<ImageRecordRect>(npath, nx, ny, nwidth, nheight);
+}
+
+std::shared_ptr<ImageRecord> EventsFactory::create_image_record(
+    const std::string& nirpath)
+{
+  return std::make_shared<ImageRecord>(nirpath);
+}
+
 }  // namespace events::events

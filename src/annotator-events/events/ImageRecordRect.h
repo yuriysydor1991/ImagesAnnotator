@@ -17,7 +17,9 @@ class ImageRecordRect : virtual public IRecord
 {
  public:
   virtual ~ImageRecordRect() = default;
-  ImageRecordRect() = default;
+  ImageRecordRect();
+  ImageRecordRect(const std::string& nname, const int& nx, const int& ny,
+                  const int& nwidth, const int& nheight);
 
   std::string name;
 

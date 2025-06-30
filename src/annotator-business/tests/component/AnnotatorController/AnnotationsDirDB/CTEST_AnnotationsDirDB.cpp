@@ -59,13 +59,14 @@ TEST_F(CTEST_AnnotationsDirDB, non_empty_invalid_annotation_db_init_failure)
   EXPECT_FALSE(controller->init(actx));
 }
 
-TEST_F(CTEST_AnnotationsDirDB, non_empty_annotation_db_init_success)
+TEST_F(CTEST_AnnotationsDirDB, non_empty_annotation_db_init_serialize_failure)
 {
-  static const std::string dbpath = "non_empty_annotation_db_init_success.json";
+  static const std::string dbpath =
+      "non_empty_annotation_db_init_serialize_failure.json";
 
   set_actx_annotations_db(dbpath);
 
-  EXPECT_TRUE(controller->init(actx));
+  EXPECT_FALSE(controller->init(actx));
 }
 
 TEST_F(CTEST_AnnotationsDirDB, basic_json_plan_db_init_success)

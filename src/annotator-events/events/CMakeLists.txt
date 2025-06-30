@@ -8,6 +8,7 @@ add_library(
   ImageRecord.cpp
   ImagesDirProviderChanged.cpp
   CurrentImageChanged.cpp
+  ImageRecordRect.cpp
 )
 
 target_include_directories(

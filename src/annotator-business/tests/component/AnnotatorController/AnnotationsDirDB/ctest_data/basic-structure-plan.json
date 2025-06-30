@@ -1,6 +1,6 @@
 {
   "ImagesAnnotator": {
-    "version": "0.9.0"
+    "version": "0.10.0"
   },
   "user": {
     "time-spent": {
@@ -27,6 +27,40 @@
               "name": "annotation-tag-or-class-name-2",
               "rect": {
                 "x": 654, "y": 321, "width": 654, "height": 321
+              }
+            }
+          ]
+        },
+        {
+          "rel_path": "rel/path/to/image/2.img",
+          "annotations": [
+            {
+              "name": "annotation-tag-or-class-name-3",
+              "rect": {
+                "x": 987, "y": 876, "width": 987, "height": 876
+              }
+            },
+            {
+              "name": "annotation-tag-or-class-name-1",
+              "rect": {
+                "x": 567, "y": 890, "width": 123, "height": 456
+              }
+            }
+          ]
+        },
+        {
+          "rel_path": "rel/path/to/image/3.img",
+          "annotations": [
+            {
+              "name": "annotation-tag-or-class-name-2",
+              "rect": {
+                "x": 321, "y": 654, "width": 987, "height": 654
+              }
+            },
+            {
+              "name": "annotation-tag-or-class-name-4",
+              "rect": {
+                "x": 987, "y": 654, "width": 321, "height": 456
               }
             }
           ]

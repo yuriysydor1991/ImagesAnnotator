@@ -8,7 +8,6 @@
 
 #include "ctests_decls.h"
 #include "src/annotator-business/AnnotatorController.h"
-#include "src/annotator-events/ImagesAnnotatorEventController.h"
 #include "src/app/ApplicationContext.h"
 #include "src/log/log.h"
 

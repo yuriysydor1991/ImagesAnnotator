@@ -22,6 +22,8 @@ JSON2ImageRecordsConverter::fetch_records(const nlohmann::json& allAJSon)
 {
   ImageRecordsSet rset;
 
+  LOGT("Given JSON: " << allAJSon.dump(2));
+
   for (const auto& afolder : allAJSon) {
     assert(afolder.contains(fdb));
     assert(afolder[fdb].contains(fpath));
@@ -30,10 +32,12 @@ JSON2ImageRecordsConverter::fetch_records(const nlohmann::json& allAJSon)
 
     const std::string& absdirpath = afolder[fdb][fpath].get<std::string>();
 
-    if (!absdirpath.empty()) {
+    if (absdirpath.empty()) {
       LOGE("No abs path for the db record");
       return rset;
     }
+
+    LOGT("Filling the images set for the " << absdirpath);
 
     const auto& annjson = afolder[fann];
 
@@ -43,21 +47,37 @@ JSON2ImageRecordsConverter::fetch_records(const nlohmann::json& allAJSon)
 
       const auto& arp = absdirpath + "/" + fan[frel_path].get<std::string>();
 
+      LOGT("Creating image record for path: " << arp);
+
       auto ir = efactory->create_image_record(arp);
 
       assert(ir != nullptr);
 
+      rset.insert(ir);
+
       for (const auto& rect : fan[fann]) {
+        LOGT("The json rect: " << rect.dump(2));
+
         assert(rect.contains(fname));
-        assert(rect.contains(fx));
-        assert(rect.contains(fy));
-        assert(rect.contains(fwidth));
-        assert(rect.contains(fheight));
+        assert(rect.contains(frect));
+
+        const auto& rd = rect[frect];
+
+        assert(rd.contains(fx));
+        assert(rd.contains(fy));
+        assert(rd.contains(fwidth));
+        assert(rd.contains(fheight));
+
+        LOGT("Adding rect name: " << rect[fname].get<std::string>());
+        LOGT("Adding rect x: " << rd[fx].get<int>());
+        LOGT("Adding rect y: " << rd[fy].get<int>());
+        LOGT("Adding rect w: " << rd[fwidth].get<int>());
+        LOGT("Adding rect h: " << rd[fheight].get<int>());
 
         const auto irr = efactory->create_image_rect_record(
-            rect[fname].get<std::string>(), rect[fx].get<int>(),
-            rect[fy].get<int>(), rect[fwidth].get<int>(),
-            rect[fheight].get<int>());
+            rect[fname].get<std::string>(), rd[fx].get<int>(),
+            rd[fy].get<int>(), rd[fwidth].get<int>(),
+            rd[fheight].get<int>());
 
         ir->rects.insert(irr);
       }

@@ -21,6 +21,8 @@ bool AnnotationsDirDB::load_db(const std::string& fpath)
   }
 
   try {
+    LOGT("Trying to open the file: " << fpath);
+
     std::ifstream f(fpath);
 
     if (!f.is_open()) {
@@ -29,12 +31,18 @@ bool AnnotationsDirDB::load_db(const std::string& fpath)
       return false;
     }
 
+    LOGT("Trying to parse the given db json");
+
     json = nlohmann::json::parse(f);
 
     if (!serialize()) {
       LOGE("Fail to serialize the JSON: " << json.dump());
       return false;
     }
+
+    irdb = load_the_irs();
+
+    LOGT("DB contains " << irdb.size() << " records");
   }
   catch (const std::exception& e) {
     LOGE("Exception occurred: " << e.what());
@@ -51,9 +59,11 @@ bool AnnotationsDirDB::serialize()
   return s->serialize(json);
 }
 
-AnnotationsDirDB::ImageRecordsSet AnnotationsDirDB::get_image_records()
+AnnotationsDirDB::ImageRecordsSet AnnotationsDirDB::load_the_irs()
 {
-  const auto& fannotations =
+  LOGT("Trying to load the ImageRecords into the memory");
+
+  static const auto& fannotations =
       AnnotationsJSONSerializator::annotations_field_name;
 
   assert(json.contains(fannotations));
@@ -61,6 +71,11 @@ AnnotationsDirDB::ImageRecordsSet AnnotationsDirDB::get_image_records()
   auto converter = std::make_shared<converters::JSON2ImageRecordsConverter>();
 
   return converter->fetch_records(json[fannotations]);
+}
+
+AnnotationsDirDB::ImageRecordsSet AnnotationsDirDB::get_image_records()
+{
+  return irdb;
 }
 
 }  // namespace iannotator::dbs::annotations

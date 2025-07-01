@@ -32,6 +32,7 @@ class AnnotationsJSONSerializator
       "rel_path";
 
   inline static constexpr const char* const annotation_rect_name = "name";
+  inline static constexpr const char* const annotation_rect = "rect";
   inline static constexpr const char* const annotation_rect_x = "x";
   inline static constexpr const char* const annotation_rect_y = "y";
   inline static constexpr const char* const annotation_rect_width = "width";

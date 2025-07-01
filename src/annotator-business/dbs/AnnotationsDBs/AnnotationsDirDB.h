@@ -25,8 +25,10 @@ class AnnotationsDirDB : public virtual AnnotationsDBTypes
 
  protected:
   virtual bool serialize();
+  virtual ImageRecordsSet load_the_irs();
 
   nlohmann::json json;
+  ImageRecordsSet irdb;
 };
 
 }  // namespace iannotator::dbs::annotations

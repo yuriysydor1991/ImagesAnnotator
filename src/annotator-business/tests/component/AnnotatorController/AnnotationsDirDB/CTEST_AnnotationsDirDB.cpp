@@ -24,8 +24,7 @@ class CTEST_AnnotationsDirDB : public CTEST_AnnotatorController
 
   inline static const std::string ctest_data_json_plan_name =
       "basic-structure-plan.json";
-  inline static const std::string nonexist_ctest_data_json_plan =
-      ctest_data_dir + "/nonexistent-annotations-db-file.not-a-json";
+  inline static const std::string nonexist_ctest_data_json_plan = "nonexistent-annotations-db-file.not-a-json";
 
   ~CTEST_AnnotationsDirDB() = default;
 
@@ -74,4 +73,7 @@ TEST_F(CTEST_AnnotationsDirDB, basic_json_plan_db_init_success)
   set_actx_annotations_db(ctest_data_json_plan_name);
 
   EXPECT_TRUE(controller->init(actx));
+
+  EXPECT_FALSE(controller->get_image_records().empty());
+  EXPECT_EQ(controller->get_image_records().size(), 5);
 }

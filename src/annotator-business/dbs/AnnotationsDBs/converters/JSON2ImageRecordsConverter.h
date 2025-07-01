@@ -33,6 +33,7 @@ class JSON2ImageRecordsConverter : public virtual AnnotationsDBTypes
       AnnotationsJSONSerializator::annotation_recerod_rel_path_field;
   inline static const auto& fname =
       AnnotationsJSONSerializator::annotation_rect_name;
+  inline static const auto& frect = AnnotationsJSONSerializator::annotation_rect;
   inline static const auto& fx = AnnotationsJSONSerializator::annotation_rect_x;
   inline static const auto& fy = AnnotationsJSONSerializator::annotation_rect_y;
   inline static const auto& fwidth =

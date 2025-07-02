@@ -78,6 +78,31 @@ CustomWidgetsFactory::create_json_db_dialog(Gtk::Window* parentWindow)
 }
 
 std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_save_json_db_dialog(Gtk::Window* parentWindow)
+{
+  auto dialog = std::make_shared<Gtk::FileChooserDialog>(
+      *parentWindow, "Save annotations JSON db file",
+      Gtk::FILE_CHOOSER_ACTION_SAVE);
+
+  // Add a JSON filter
+  auto filter_json = Gtk::FileFilter::create();
+  filter_json->set_name("JSON files");
+  filter_json->add_pattern("*.json");
+  dialog->add_filter(filter_json);
+
+  // Allow all files as a fallback
+  auto filter_all = Gtk::FileFilter::create();
+  filter_all->set_name("All files");
+  filter_all->add_pattern("*");
+  dialog->add_filter(filter_all);
+
+  dialog->add_button("_Cancel", Gtk::RESPONSE_CANCEL);
+  dialog->add_button("_Select", Gtk::RESPONSE_OK);
+
+  return dialog;
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
 CustomWidgetsFactory::create_folder_choose_dialog(Gtk::Window* parentWindow)
 {
   auto dialog = std::make_shared<Gtk::FileChooserDialog>(

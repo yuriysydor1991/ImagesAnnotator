@@ -21,6 +21,8 @@ class ImagesPathsDBProvider : virtual public IProvider
   ImagesPathsDBProvider() = default;
 
   virtual ImageRecordsSet& get_images_db() = 0;
+
+  virtual std::string get_db_path() = 0;
 };
 
 }  // namespace events::events

@@ -32,6 +32,7 @@ void MainWindowContext::clear()
   mweHandler.reset();
   cwFactory.reset();
   wloader.reset();
+  images_provider.reset();
 }
 
 std::shared_ptr<MainWindowContext::ImageRecord>

@@ -142,6 +142,8 @@ void GtkmmIniter::handle(std::shared_ptr<ImagesDirProviderChanged> event)
     return;
   }
 
+  mwctx->images_provider = event->images_provider;
+
   auto& imagesDB = event->images_provider->get_images_db();
 
   LOGT("New images count: " << imagesDB.size());

@@ -54,7 +54,7 @@ class EventsFactory : public std::enable_shared_from_this<EventsFactory>
       const std::string& nirpath = "");
 
   virtual std::shared_ptr<StoreRequest> create_store_request(
-      const std::string& newdbpath);
+      const std::string& newdbpath = "");
 };
 
 }  // namespace events::events

@@ -24,6 +24,7 @@ class AnnotationsDirDB : public virtual AnnotationsDBTypes,
   virtual bool load_db(const std::string& fpath);
 
   virtual ImageRecordsSet& get_images_db() override;
+  virtual std::string get_db_path() override;
 
   virtual void add_images_db(const ImageRecordsSet& andb);
 

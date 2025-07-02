@@ -32,6 +32,8 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
   auto* imagesFolderB = mwctx->wloader->get_images_folder_open_button();
   auto* miOpenImagesF = mwctx->wloader->get_images_open_mi();
   auto* miOpenAnnotationsF = mwctx->wloader->get_annotations_db_open_mi();
+  auto* annSaveM = mwctx->wloader->get_annotations_db_save_mi();
+  auto* annSaveAsM = mwctx->wloader->get_annotations_db_saveas_mi();
 
   assert(imagesListBox != nullptr);
   assert(zoomInB != nullptr);
@@ -41,6 +43,8 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
   assert(imagesFolderB != nullptr);
   assert(miOpenImagesF != nullptr);
   assert(miOpenAnnotationsF != nullptr);
+  assert(annSaveM != nullptr);
+  assert(annSaveAsM != nullptr);
 
   imagesListBox->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_row_selected));
@@ -65,6 +69,10 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
       *this, &WindowEventsHandler::on_menu_images_folder_open_activate));
   miOpenAnnotationsF->signal_activate().connect(sigc::mem_fun(
       *this, &WindowEventsHandler::on_menu_annotations_db_open_activate));
+  annSaveM->signal_activate().connect(sigc::mem_fun(
+      *this, &WindowEventsHandler::on_menu_annotations_db_save_activate));
+  annSaveAsM->signal_activate().connect(sigc::mem_fun(
+      *this, &WindowEventsHandler::on_menu_annotations_db_saveas_activate));
 
   return true;
 }
@@ -412,6 +420,52 @@ void WindowEventsHandler::on_menu_images_folder_open_activate()
 void WindowEventsHandler::on_menu_annotations_db_open_activate()
 {
   on_annotations_db_open_click();
+}
+
+void WindowEventsHandler::on_menu_annotations_db_save_activate()
+{
+  LOGT("Trying to store current project");
+
+  if (mwctx->images_provider->get_db_path().empty()) {
+    LOGD("No path given, calling for save as");
+    on_menu_annotations_db_saveas_activate();
+    return;
+  }
+
+  auto ef = mwctx->actx->eventer->get_events_factory();
+
+  assert(ef != nullptr);
+
+  auto saveE = ef->create_store_request();
+
+  mwctx->actx->eventer->submit(saveE);
+}
+
+void WindowEventsHandler::on_menu_annotations_db_saveas_activate()
+{
+  LOGT("Trying to save as current project");
+
+  auto dialog = mwctx->cwFactory->create_save_json_db_dialog(
+      mwctx->wloader->get_window());
+
+  assert(dialog != nullptr);
+
+  const int result = dialog->run();
+
+  if (result != Gtk::RESPONSE_OK) {
+    LOGD("Dialog is closed");
+    return;
+  }
+
+  LOGD("Selected json db file: " << dialog->get_filename());
+
+  auto ef = mwctx->actx->eventer->get_events_factory();
+
+  assert(ef != nullptr);
+
+  auto saveE = ef->create_store_request(dialog->get_filename());
+
+  mwctx->actx->eventer->submit(saveE);
 }
 
 }  // namespace templateGtkmm3::window

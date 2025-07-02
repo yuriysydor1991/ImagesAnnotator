@@ -3,6 +3,7 @@
 
 #include <memory>
 
+#include "src/annotator-events/events/ImagesPathsDBProvider.h"
 #include "src/app/ApplicationContext.h"
 #include "src/gtkmm3/ComponentTypesAliases.h"
 #include "src/gtkmm3/main-window/WindowDataContext.h"
@@ -42,6 +43,8 @@ class MainWindowContext : virtual public ComponentTypesAliases,
 
   std::shared_ptr<ImagePathLabel> current_image;
   Glib::RefPtr<Gdk::Pixbuf> current_image_original_pixbuf;
+
+  std::shared_ptr<events::events::ImagesPathsDBProvider> images_provider;
 
   static std::shared_ptr<MainWindowContext> build_context();
 

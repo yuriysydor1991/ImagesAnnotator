@@ -39,6 +39,8 @@ class WindowEventsHandler : virtual public ComponentTypesAliases
   virtual void on_images_dir_open_click();
   virtual void on_menu_images_folder_open_activate();
   virtual void on_menu_annotations_db_open_activate();
+  virtual void on_menu_annotations_db_save_activate();
+  virtual void on_menu_annotations_db_saveas_activate();
 
   virtual void update_image_zoom();
 

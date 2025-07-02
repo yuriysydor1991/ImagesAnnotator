@@ -37,6 +37,8 @@ class CustomWidgetsFactory
       Gtk::Window* parentWindow);
   virtual std::shared_ptr<Gtk::FileChooserDialog> create_folder_choose_dialog(
       Gtk::Window* parentWindow);
+  virtual std::shared_ptr<Gtk::FileChooserDialog> create_save_json_db_dialog(
+      Gtk::Window* parentWindow);
 };
 
 }  // namespace templateGtkmm3::window::custom_widgets

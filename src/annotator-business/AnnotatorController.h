@@ -60,6 +60,7 @@ class AnnotatorController
   virtual void handle(std::shared_ptr<StoreRequest> event) override;
 
   virtual ImageRecordsSet& get_images_db() override;
+  virtual std::string get_db_path() override;
 
   virtual void deinit();
 

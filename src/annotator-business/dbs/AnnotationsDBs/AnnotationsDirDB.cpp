@@ -98,4 +98,6 @@ bool AnnotationsDirDB::store_db(const std::string& fpath)
   return irsConverter->store(get_images_db(), fpath);
 }
 
+std::string AnnotationsDirDB::get_db_path() { return current_db_path; }
+
 }  // namespace iannotator::dbs::annotations

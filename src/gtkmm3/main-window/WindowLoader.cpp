@@ -245,4 +245,20 @@ Gtk::ImageMenuItem* WindowLoader::get_annotations_db_open_mi()
   return get_widget<Gtk::ImageMenuItem>(mwctx->wctx->annotations_db_open_menu);
 }
 
+Gtk::ImageMenuItem* WindowLoader::get_annotations_db_save_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_db_save_menu_id);
+}
+
+Gtk::ImageMenuItem* WindowLoader::get_annotations_db_saveas_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_db_save_as_menu_id);
+}
+
 }  // namespace templateGtkmm3::window

@@ -59,6 +59,10 @@ class WindowDataContext
       "images_open_menu_item";
   inline static constexpr const char* const annotations_db_open_menu =
       "annotations_db_open_menu";
+  inline static constexpr const char* const annotations_db_save_menu_id =
+      "annotations_db_save_menu";
+  inline static constexpr const char* const annotations_db_save_as_menu_id =
+      "annotations_db_save_as_menu";
 };
 
 }  // namespace templateGtkmm3::window

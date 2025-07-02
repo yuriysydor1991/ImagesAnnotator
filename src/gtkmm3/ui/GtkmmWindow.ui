@@ -55,6 +55,24 @@
                         <property name="use-stock">True</property>
                       </object>
                     </child>
+                    <child>
+                      <object class="GtkImageMenuItem" id="annotations_db_save_menu">
+                        <property name="label">gtk-save</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="use-underline">True</property>
+                        <property name="use-stock">True</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkImageMenuItem" id="annotations_db_save_as_menu">
+                        <property name="label">gtk-save-as</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="use-underline">True</property>
+                        <property name="use-stock">True</property>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>

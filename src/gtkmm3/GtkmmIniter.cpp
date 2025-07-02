@@ -129,6 +129,8 @@ bool GtkmmIniter::prepare_widgets()
 
 void GtkmmIniter::handle(std::shared_ptr<ImagesDirProviderChanged> event)
 {
+  LOGT("The images db provider have changed");
+
   assert(event != nullptr);
   assert(event->images_provider != nullptr);
   assert(mwctx->wloader != nullptr);
@@ -142,6 +144,8 @@ void GtkmmIniter::handle(std::shared_ptr<ImagesDirProviderChanged> event)
 
   auto& imagesDB = event->images_provider->get_images_db();
 
+  LOGT("New images count: " << imagesDB.size());
+
   mwctx->imagesVDB = mwctx->cwFactory->create_images_visual_db(imagesDB);
 
   auto& imagesListView = *mwctx->wloader->get_images_list();
@@ -152,9 +156,13 @@ void GtkmmIniter::handle(std::shared_ptr<ImagesDirProviderChanged> event)
     imagesListView.remove(*child);
   }
 
+  LOGT("Created images widgets count: " << mwctx->imagesVDB.size());
+
   for (auto& r : mwctx->imagesVDB) {
     imagesListView.append(*r);
   }
+
+  imagesListView.show_all_children();
 }
 
 void GtkmmIniter::deinit() { mwctx->clear(); }

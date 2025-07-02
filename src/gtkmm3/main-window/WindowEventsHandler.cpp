@@ -225,38 +225,18 @@ void WindowEventsHandler::on_annotations_db_open_click()
 {
   LOGT("Open new annotations dir");
 
-  Gtk::FileChooserDialog dialog(
-    *mwctx->wloader->get_window(), 
-    "Select annotations JSON db file", 
-    Gtk::FILE_CHOOSER_ACTION_OPEN
-  );
+  auto dialog = mwctx->cwFactory->create_json_db_dialog(mwctx->wloader->get_window());
 
-  // Add a JSON filter
-  auto filter_json = Gtk::FileFilter::create();
-  filter_json->set_name("JSON files");
-  filter_json->add_pattern("*.json");
-  dialog.add_filter(filter_json);
-
-  // Optional: allow all files as a fallback
-  auto filter_all = Gtk::FileFilter::create();
-  filter_all->set_name("All files");
-  filter_all->add_pattern("*");
-  dialog.add_filter(filter_all);
-
-
-  dialog.add_button("_Cancel", Gtk::RESPONSE_CANCEL);
-  dialog.add_button("_Select", Gtk::RESPONSE_OK);
-
-  const int result = dialog.run();
+  const int result = dialog->run();
 
   if (result != Gtk::RESPONSE_OK) {
     LOGD("Dialog is closed");
     return;
   }
 
-  const std::string newDbFilePath = dialog.get_filename();
+  LOGD("Selected json db file: " << dialog->get_filename());
 
-  LOGD("Selected json db file: " << newDbFilePath);
+  mwctx->actx->eventer->onAnnotationsDirChanged(dialog->get_filename());
 }
 
 void WindowEventsHandler::update_image_zoom()

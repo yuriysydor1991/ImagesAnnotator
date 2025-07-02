@@ -27,6 +27,8 @@ ImagePathLabel::ImagePathLabel(const std::shared_ptr<ImageRecord> nr)
     return;
   }
 
+  LOGT("My path: " << myrec->path);
+
   set_text(myrec->path);
 
   set_ellipsize(Pango::ELLIPSIZE_START);

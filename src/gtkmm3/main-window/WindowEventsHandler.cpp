@@ -28,11 +28,13 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
   auto* zoomInB = mwctx->wloader->get_current_image_zoom_in();
   auto* zoomOutB = mwctx->wloader->get_current_image_zoom_out();
   auto& drawArea = mwctx->centralCanvas;
+  auto* oAnnB = mwctx->wloader->get_annotations_db_open_button();
 
   assert(imagesListBox != nullptr);
   assert(zoomInB != nullptr);
   assert(zoomOutB != nullptr);
   assert(drawArea != nullptr);
+  assert(oAnnB != nullptr);
 
   imagesListBox->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_row_selected));
@@ -47,6 +49,9 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
       sigc::mem_fun(*this, &WindowEventsHandler::on_rectangle_draw_end));
   drawArea->signal_motion_notify_event().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_rectangle_size_change));
+  
+  oAnnB->signal_clicked().connect(
+      sigc::mem_fun(*this, &WindowEventsHandler::on_annotations_db_open_click));
 
   return true;
 }
@@ -214,6 +219,44 @@ void WindowEventsHandler::on_zoom_out_clicked()
   mwctx->current_irecord()->scaleStepOut();
 
   update_image_zoom();
+}
+
+void WindowEventsHandler::on_annotations_db_open_click()
+{
+  LOGT("Open new annotations dir");
+
+  Gtk::FileChooserDialog dialog(
+    *mwctx->wloader->get_window(), 
+    "Select annotations JSON db file", 
+    Gtk::FILE_CHOOSER_ACTION_OPEN
+  );
+
+  // Add a JSON filter
+  auto filter_json = Gtk::FileFilter::create();
+  filter_json->set_name("JSON files");
+  filter_json->add_pattern("*.json");
+  dialog.add_filter(filter_json);
+
+  // Optional: allow all files as a fallback
+  auto filter_all = Gtk::FileFilter::create();
+  filter_all->set_name("All files");
+  filter_all->add_pattern("*");
+  dialog.add_filter(filter_all);
+
+
+  dialog.add_button("_Cancel", Gtk::RESPONSE_CANCEL);
+  dialog.add_button("_Select", Gtk::RESPONSE_OK);
+
+  const int result = dialog.run();
+
+  if (result != Gtk::RESPONSE_OK) {
+    LOGD("Dialog is closed");
+    return;
+  }
+
+  const std::string newDbFilePath = dialog.get_filename();
+
+  LOGD("Selected json db file: " << newDbFilePath);
 }
 
 void WindowEventsHandler::update_image_zoom()

@@ -29,7 +29,7 @@ ImagePathLabel::ImagePathLabel(const std::shared_ptr<ImageRecord> nr)
 
   LOGT("My path: " << myrec->path);
 
-  set_text(myrec->path);
+  set_text(myrec->get_full_path());
 
   set_ellipsize(Pango::ELLIPSIZE_START);
   set_single_line_mode(true);

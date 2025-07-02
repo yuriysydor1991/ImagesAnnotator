@@ -46,11 +46,12 @@ JSON2ImageRecordsConverter::fetch_records(const nlohmann::json& allAJSon)
       assert(fan.contains(fann));
       assert(fan.contains(fannIScale));
 
-      const auto& arp = absdirpath + "/" + fan[frel_path].get<std::string>();
+      const auto& relPath = fan[frel_path].get<std::string>();
+      const auto& arp = absdirpath + "/" + relPath;
 
       LOGT("Creating image record for path: " << arp);
 
-      auto ir = efactory->create_image_record(arp);
+      auto ir = efactory->create_image_record(relPath, absdirpath);
 
       LOGT("image scale factor: " << fan[fannIScale].get<double>());
 

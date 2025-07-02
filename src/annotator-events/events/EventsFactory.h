@@ -51,7 +51,7 @@ class EventsFactory : public std::enable_shared_from_this<EventsFactory>
       const int& nheight);
 
   virtual std::shared_ptr<ImageRecord> create_image_record(
-      const std::string& nirpath = "");
+      const std::string& nirpath = "", const std::string& nabsPath = "");
 
   virtual std::shared_ptr<StoreRequest> create_store_request(
       const std::string& newdbpath = "");

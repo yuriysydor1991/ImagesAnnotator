@@ -90,9 +90,9 @@ std::shared_ptr<ImageRecordRect> EventsFactory::create_image_rect_record(
 }
 
 std::shared_ptr<ImageRecord> EventsFactory::create_image_record(
-    const std::string& nirpath)
+    const std::string& nirpath, const std::string& nabsPath)
 {
-  return std::make_shared<ImageRecord>(nirpath);
+  return std::make_shared<ImageRecord>(nirpath, nabsPath);
 }
 
 std::shared_ptr<StoreRequest> EventsFactory::create_store_request(

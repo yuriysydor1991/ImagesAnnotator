@@ -41,6 +41,8 @@ class JSON2ImageRecordsConverter : public virtual AnnotationsDBTypes
       AnnotationsJSONSerializator::annotation_rect_width;
   inline static const auto& fheight =
       AnnotationsJSONSerializator::annotation_rect_height;
+  inline static const auto& fannIScale =
+      AnnotationsJSONSerializator::annotation_image_scale_factor;
 
   virtual ~JSON2ImageRecordsConverter() = default;
   JSON2ImageRecordsConverter();

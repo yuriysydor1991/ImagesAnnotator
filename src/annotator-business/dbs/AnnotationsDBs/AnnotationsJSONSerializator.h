@@ -37,6 +37,8 @@ class AnnotationsJSONSerializator
   inline static constexpr const char* const annotation_rect_y = "y";
   inline static constexpr const char* const annotation_rect_width = "width";
   inline static constexpr const char* const annotation_rect_height = "height";
+  inline static constexpr const char* const annotation_image_scale_factor =
+      "scale_factor";
 
  protected:
   virtual bool serialize_app_info(const nlohmann::json& json);

@@ -21,13 +21,15 @@
               "name": "annotation-tag-or-class-name-1",
               "rect": {
                 "x": 123, "y": 456, "width": 123, "height": 456
-              }
+              },
+              "scale_factor": 1.55
             },
             {
               "name": "annotation-tag-or-class-name-2",
               "rect": {
                 "x": 654, "y": 321, "width": 654, "height": 321
-              }
+              },
+              "scale_factor": 0.55
             }
           ]
         },
@@ -38,13 +40,15 @@
               "name": "annotation-tag-or-class-name-3",
               "rect": {
                 "x": 987, "y": 876, "width": 987, "height": 876
-              }
+              },
+              "scale_factor": 0.65
             },
             {
               "name": "annotation-tag-or-class-name-1",
               "rect": {
                 "x": 567, "y": 890, "width": 123, "height": 456
-              }
+              },
+              "scale_factor": 0.95
             }
           ]
         },
@@ -55,13 +59,15 @@
               "name": "annotation-tag-or-class-name-2",
               "rect": {
                 "x": 321, "y": 654, "width": 987, "height": 654
-              }
+              },
+              "scale_factor": 0.75
             },
             {
               "name": "annotation-tag-or-class-name-4",
               "rect": {
                 "x": 987, "y": 654, "width": 321, "height": 456
-              }
+              },
+              "scale_factor": 2.55
             }
           ]
         }
@@ -79,13 +85,15 @@
               "name": "annotation-tag-or-class-name-3",
               "rect": {
                 "x": 123, "y": 456, "width": 123, "height": 456
-              }
+              },
+              "scale_factor": 0.25
             },
             {
               "name": "annotation-tag-or-class-name-4",
               "rect": {
                 "x": 654, "y": 321, "width": 654, "height": 321
-              }
+              },
+              "scale_factor": 0.55
             }
           ]
         }
@@ -103,13 +111,15 @@
               "name": "annotation-tag-or-class-name-1",
               "rect": {
                 "x": 123, "y": 456, "width": 123, "height": 456
-              }
+              },
+              "scale_factor": 0.55
             },
             {
               "name": "annotation-tag-or-class-name-4",
               "rect": {
                 "x": 654, "y": 321, "width": 654, "height": 321
-              }
+              },
+              "scale_factor": 0.55
             }
           ]
         }

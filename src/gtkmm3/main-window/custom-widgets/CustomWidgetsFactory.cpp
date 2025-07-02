@@ -52,13 +52,12 @@ CustomWidgetsFactory::create_working_canvas(
   return canvas;
 }
 
-std::shared_ptr<Gtk::FileChooserDialog> CustomWidgetsFactory::create_json_db_dialog(Gtk::Window* parentWindow)
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_json_db_dialog(Gtk::Window* parentWindow)
 {
   auto dialog = std::make_shared<Gtk::FileChooserDialog>(
-    *parentWindow,
-    "Select annotations JSON db file", 
-    Gtk::FILE_CHOOSER_ACTION_OPEN
-  );
+      *parentWindow, "Select annotations JSON db file",
+      Gtk::FILE_CHOOSER_ACTION_OPEN);
 
   // Add a JSON filter
   auto filter_json = Gtk::FileFilter::create();
@@ -72,26 +71,23 @@ std::shared_ptr<Gtk::FileChooserDialog> CustomWidgetsFactory::create_json_db_dia
   filter_all->add_pattern("*");
   dialog->add_filter(filter_all);
 
-
   dialog->add_button("_Cancel", Gtk::RESPONSE_CANCEL);
   dialog->add_button("_Select", Gtk::RESPONSE_OK);
 
   return dialog;
 }
 
-std::shared_ptr<Gtk::FileChooserDialog> CustomWidgetsFactory::create_folder_choose_dialog(Gtk::Window* parentWindow)
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_folder_choose_dialog(Gtk::Window* parentWindow)
 {
   auto dialog = std::make_shared<Gtk::FileChooserDialog>(
-    *parentWindow,
-    "Select annotations JSON db file", 
-    Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER
-  );
+      *parentWindow, "Select annotations JSON db file",
+      Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER);
 
   dialog->add_button("_Cancel", Gtk::RESPONSE_CANCEL);
   dialog->add_button("_Select", Gtk::RESPONSE_OK);
 
   return dialog;
 }
-
 
 }  // namespace templateGtkmm3::window::custom_widgets

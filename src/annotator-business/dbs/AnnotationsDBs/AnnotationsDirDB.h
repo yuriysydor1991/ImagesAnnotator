@@ -14,7 +14,8 @@ namespace iannotator::dbs::annotations
 /**
  * @brief The annotator annotations dir db controller.
  */
-class AnnotationsDirDB : public virtual AnnotationsDBTypes, virtual public events::events::ImagesPathsDBProvider
+class AnnotationsDirDB : public virtual AnnotationsDBTypes,
+                         virtual public events::events::ImagesPathsDBProvider
 {
  public:
   virtual ~AnnotationsDirDB() = default;

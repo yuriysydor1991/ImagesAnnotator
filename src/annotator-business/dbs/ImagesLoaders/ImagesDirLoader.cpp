@@ -8,7 +8,8 @@
 namespace iannotator::dbs::images
 {
 
-ImagesDirLoader::ImageRecordsSet ImagesDirLoader::load(const std::string& newPath)
+ImagesDirLoader::ImageRecordsSet ImagesDirLoader::load(
+    const std::string& newPath)
 {
   LOGD("Trying to load the directory: " << newPath);
 

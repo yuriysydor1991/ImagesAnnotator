@@ -55,7 +55,8 @@ class WindowDataContext
       "current_image_zoom_out";
   inline static constexpr const char* const place_4_working_widget_id =
       "place_4_working_widget";
-  inline static constexpr const char* const images_open_menu_item_id = "images_open_menu_item";
+  inline static constexpr const char* const images_open_menu_item_id =
+      "images_open_menu_item";
 };
 
 }  // namespace templateGtkmm3::window

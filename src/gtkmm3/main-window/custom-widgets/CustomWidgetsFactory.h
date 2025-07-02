@@ -33,8 +33,10 @@ class CustomWidgetsFactory
 
   virtual ImagesVisualDB create_images_visual_db(ImageRecordsSet& queue);
 
-  virtual std::shared_ptr<Gtk::FileChooserDialog> create_json_db_dialog(Gtk::Window* parentWindow);
-  virtual std::shared_ptr<Gtk::FileChooserDialog> create_folder_choose_dialog(Gtk::Window* parentWindow);
+  virtual std::shared_ptr<Gtk::FileChooserDialog> create_json_db_dialog(
+      Gtk::Window* parentWindow);
+  virtual std::shared_ptr<Gtk::FileChooserDialog> create_folder_choose_dialog(
+      Gtk::Window* parentWindow);
 };
 
 }  // namespace templateGtkmm3::window::custom_widgets

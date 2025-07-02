@@ -92,7 +92,7 @@ void AnnotatorController::handle(std::shared_ptr<ImagesDirChanged> event)
   try_to_append_images_dir(event->images_dir);
 
   LOGD("The images db dir " << event->images_dir << " have been loaded"
-                                          << " submitting appropriate event");
+                            << " submitting appropriate event");
 
   emitImagesProviderChanged();
 }
@@ -118,7 +118,7 @@ void AnnotatorController::handle(std::shared_ptr<AnnotationsDirChanged> event)
   }
 
   LOGI("The annotations db " << event->annotations_dir << " have been loaded"
-                                          << " submitting appropriate event");
+                             << " submitting appropriate event");
 
   emitImagesProviderChanged();
 }
@@ -188,10 +188,11 @@ void AnnotatorController::handle(std::shared_ptr<CurrentImageChanged> event)
   /// @todo: Insert the current image change handler over here
 }
 
-AnnotatorController::ImageRecordsSet AnnotatorController::load_fs_images_records(const std::string& path)
+AnnotatorController::ImageRecordsSet
+AnnotatorController::load_fs_images_records(const std::string& path)
 {
   const auto newLoaded = std::make_shared<dbs::images::ImagesDirLoader>();
-  
+
   return newLoaded->load(path);
 }
 

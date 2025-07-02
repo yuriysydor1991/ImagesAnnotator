@@ -201,7 +201,8 @@ TEST_F(CTEST_ImagesDirLoader,
   }
 }
 
-TEST_F(CTEST_ImagesDirLoader, images_junk_and_valid_fnames_dir_context_init_success)
+TEST_F(CTEST_ImagesDirLoader,
+       images_junk_and_valid_fnames_dir_context_init_success)
 {
   static const std::string tmpdir =
       tmp_data_dir + "/images_junk_and_valid_fnames_dir_context_init_success";

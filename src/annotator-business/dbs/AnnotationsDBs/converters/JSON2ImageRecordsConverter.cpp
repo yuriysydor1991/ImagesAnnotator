@@ -76,8 +76,7 @@ JSON2ImageRecordsConverter::fetch_records(const nlohmann::json& allAJSon)
 
         const auto irr = efactory->create_image_rect_record(
             rect[fname].get<std::string>(), rd[fx].get<int>(),
-            rd[fy].get<int>(), rd[fwidth].get<int>(),
-            rd[fheight].get<int>());
+            rd[fy].get<int>(), rd[fwidth].get<int>(), rd[fheight].get<int>());
 
         ir->rects.insert(irr);
       }

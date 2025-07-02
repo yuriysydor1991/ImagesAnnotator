@@ -24,7 +24,8 @@ class CTEST_AnnotationsDirDB : public CTEST_AnnotatorController
 
   inline static const std::string ctest_data_json_plan_name =
       "basic-structure-plan.json";
-  inline static const std::string nonexist_ctest_data_json_plan = "nonexistent-annotations-db-file.not-a-json";
+  inline static const std::string nonexist_ctest_data_json_plan =
+      "nonexistent-annotations-db-file.not-a-json";
 
   ~CTEST_AnnotationsDirDB() = default;
 

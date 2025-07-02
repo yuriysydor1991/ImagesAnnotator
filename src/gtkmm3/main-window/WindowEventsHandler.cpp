@@ -53,13 +53,14 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
       sigc::mem_fun(*this, &WindowEventsHandler::on_rectangle_draw_end));
   drawArea->signal_motion_notify_event().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_rectangle_size_change));
-  
+
   oAnnB->signal_clicked().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_annotations_db_open_click));
   imagesFolderB->signal_clicked().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_dir_open_click));
 
-  miOpenImagesF->signal_activate().connect(sigc::mem_fun(*this, &WindowEventsHandler::on_menu_images_folder_open_activate));
+  miOpenImagesF->signal_activate().connect(sigc::mem_fun(
+      *this, &WindowEventsHandler::on_menu_images_folder_open_activate));
 
   return true;
 }
@@ -233,7 +234,8 @@ void WindowEventsHandler::on_annotations_db_open_click()
 {
   LOGT("Open new annotations dir");
 
-  auto dialog = mwctx->cwFactory->create_json_db_dialog(mwctx->wloader->get_window());
+  auto dialog =
+      mwctx->cwFactory->create_json_db_dialog(mwctx->wloader->get_window());
 
   const int result = dialog->run();
 
@@ -383,7 +385,8 @@ void WindowEventsHandler::on_images_dir_open_click()
 {
   LOGT("Open new images dir");
 
-  auto dialog = mwctx->cwFactory->create_folder_choose_dialog(mwctx->wloader->get_window());
+  auto dialog = mwctx->cwFactory->create_folder_choose_dialog(
+      mwctx->wloader->get_window());
 
   const int result = dialog->run();
 

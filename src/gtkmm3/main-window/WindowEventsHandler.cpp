@@ -386,11 +386,11 @@ void WindowEventsHandler::on_images_row_selected(Gtk::ListBoxRow* row)
   mwctx->actx->eventer->submit(event);
 
   mwctx->current_image_original_pixbuf =
-      Gdk::Pixbuf::create_from_file(ir->path);
+      Gdk::Pixbuf::create_from_file(ir->get_full_path());
 
   update_image_zoom();
 
-  LOGT("New image selected: " << ir->path);
+  LOGT("New image selected: " << ir->get_full_path());
 }
 
 void WindowEventsHandler::on_images_dir_open_click()

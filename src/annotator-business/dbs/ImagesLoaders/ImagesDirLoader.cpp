@@ -1,5 +1,6 @@
 #include "src/annotator-business/dbs/ImagesLoaders/ImagesDirLoader.h"
 
+#include <algorithm>
 #include <cassert>
 #include <filesystem>
 
@@ -39,16 +40,28 @@ ImagesDirLoader::ImageRecordsSet ImagesDirLoader::load(
 
     LOGT("Image found: " << entry.path().string());
 
-    images_found.insert(create_record(entry));
+    images_found.insert(create_record(entry, newPath));
   }
 
   return images_found;
 }
 
 std::shared_ptr<ImagesDirLoader::ImageRecord> ImagesDirLoader::create_record(
-    const fs::path& npath)
+    const fs::path& npath, const std::string& newAbs)
 {
-  return std::make_shared<ImageRecord>(npath.string());
+  auto pstr = npath.string();
+
+  auto absI =
+      std::search(pstr.begin(), pstr.end(), newAbs.begin(), newAbs.end());
+
+  if (absI == pstr.begin() && pstr.size() > newAbs.size()) {
+    LOGT("Erasing abs path from the string with slash");
+    pstr.erase(pstr.begin(), pstr.begin() + newAbs.size() + 1U);
+  }
+
+  LOGT("Creating a new image record with rel: " << pstr);
+
+  return std::make_shared<ImageRecord>(pstr, newAbs);
 }
 
 bool ImagesDirLoader::is_image(const fs::path& tpath)

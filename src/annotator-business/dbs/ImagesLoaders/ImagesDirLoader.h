@@ -29,7 +29,8 @@ class ImagesDirLoader
  protected:
   virtual bool is_image(const fs::path& tpath);
 
-  virtual std::shared_ptr<ImageRecord> create_record(const fs::path& npath);
+  virtual std::shared_ptr<ImageRecord> create_record(const fs::path& npath,
+                                                     const std::string& newAbs);
 };
 
 }  // namespace iannotator::dbs::images

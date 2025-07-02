@@ -20,7 +20,7 @@ class ImageRecord : virtual public IRecord
   inline static constexpr const double defaultScaleStep = 0.05;
 
   virtual ~ImageRecord() = default;
-  ImageRecord(const std::string& npath = "");
+  ImageRecord(const std::string& npath = "", const std::string& nabspath = "");
 
   /// @brief The root directory from which this record was taken
   std::string abs_dir_path;
@@ -35,6 +35,8 @@ class ImageRecord : virtual public IRecord
 
   void scaleStepIn();
   void scaleStepOut();
+
+  std::string get_full_path();
 };
 
 using ImageRecordPtr = std::shared_ptr<ImageRecord>;

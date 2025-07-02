@@ -36,6 +36,7 @@ class WindowEventsHandler : virtual public ComponentTypesAliases
   virtual bool on_rectangle_draw_end(GdkEventButton* event);
   virtual bool on_rectangle_size_change(GdkEventMotion* event);
   virtual void on_annotations_db_open_click();
+  virtual void on_images_dir_open_click();
 
   virtual void update_image_zoom();
 

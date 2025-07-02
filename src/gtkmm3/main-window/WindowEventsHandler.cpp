@@ -29,12 +29,14 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
   auto* zoomOutB = mwctx->wloader->get_current_image_zoom_out();
   auto& drawArea = mwctx->centralCanvas;
   auto* oAnnB = mwctx->wloader->get_annotations_db_open_button();
+  auto* imagesFolderB = mwctx->wloader->get_images_folder_open_button();
 
   assert(imagesListBox != nullptr);
   assert(zoomInB != nullptr);
   assert(zoomOutB != nullptr);
   assert(drawArea != nullptr);
   assert(oAnnB != nullptr);
+  assert(imagesFolderB != nullptr);
 
   imagesListBox->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_row_selected));
@@ -52,6 +54,8 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
   
   oAnnB->signal_clicked().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_annotations_db_open_click));
+  imagesFolderB->signal_clicked().connect(
+      sigc::mem_fun(*this, &WindowEventsHandler::on_images_dir_open_click));
 
   return true;
 }
@@ -369,6 +373,24 @@ void WindowEventsHandler::on_images_row_selected(Gtk::ListBoxRow* row)
   update_image_zoom();
 
   LOGT("New image selected: " << ir->path);
+}
+
+void WindowEventsHandler::on_images_dir_open_click()
+{
+  LOGT("Open new images dir");
+
+  auto dialog = mwctx->cwFactory->create_folder_choose_dialog(mwctx->wloader->get_window());
+
+  const int result = dialog->run();
+
+  if (result != Gtk::RESPONSE_OK) {
+    LOGD("Dialog is closed");
+    return;
+  }
+
+  LOGD("Selected new images directory: " << dialog->get_filename());
+
+  mwctx->actx->eventer->onImagesDirChanged(dialog->get_filename());
 }
 
 }  // namespace templateGtkmm3::window

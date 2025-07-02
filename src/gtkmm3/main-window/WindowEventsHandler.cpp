@@ -31,6 +31,7 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
   auto* oAnnB = mwctx->wloader->get_annotations_db_open_button();
   auto* imagesFolderB = mwctx->wloader->get_images_folder_open_button();
   auto* miOpenImagesF = mwctx->wloader->get_images_open_mi();
+  auto* miOpenAnnotationsF = mwctx->wloader->get_annotations_db_open_mi();
 
   assert(imagesListBox != nullptr);
   assert(zoomInB != nullptr);
@@ -39,6 +40,7 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
   assert(oAnnB != nullptr);
   assert(imagesFolderB != nullptr);
   assert(miOpenImagesF != nullptr);
+  assert(miOpenAnnotationsF != nullptr);
 
   imagesListBox->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_row_selected));
@@ -61,6 +63,8 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
 
   miOpenImagesF->signal_activate().connect(sigc::mem_fun(
       *this, &WindowEventsHandler::on_menu_images_folder_open_activate));
+  miOpenAnnotationsF->signal_activate().connect(sigc::mem_fun(
+      *this, &WindowEventsHandler::on_menu_annotations_db_open_activate));
 
   return true;
 }
@@ -403,6 +407,11 @@ void WindowEventsHandler::on_images_dir_open_click()
 void WindowEventsHandler::on_menu_images_folder_open_activate()
 {
   on_images_dir_open_click();
+}
+
+void WindowEventsHandler::on_menu_annotations_db_open_activate()
+{
+  on_annotations_db_open_click();
 }
 
 }  // namespace templateGtkmm3::window

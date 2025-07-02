@@ -57,6 +57,8 @@ class WindowDataContext
       "place_4_working_widget";
   inline static constexpr const char* const images_open_menu_item_id =
       "images_open_menu_item";
+  inline static constexpr const char* const annotations_db_open_menu =
+      "annotations_db_open_menu";
 };
 
 }  // namespace templateGtkmm3::window

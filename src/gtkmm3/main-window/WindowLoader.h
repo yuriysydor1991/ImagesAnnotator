@@ -44,6 +44,7 @@ class WindowLoader : virtual public ComponentTypesAliases
   /// @brief menus
 
   virtual Gtk::ImageMenuItem* get_images_open_mi();
+  virtual Gtk::ImageMenuItem* get_annotations_db_open_mi();
 
  protected:
   virtual bool propagate_params();

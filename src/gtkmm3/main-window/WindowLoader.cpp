@@ -238,4 +238,11 @@ Gtk::ImageMenuItem* WindowLoader::get_images_open_mi()
   return get_widget<Gtk::ImageMenuItem>(mwctx->wctx->images_open_menu_item_id);
 }
 
+Gtk::ImageMenuItem* WindowLoader::get_annotations_db_open_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(mwctx->wctx->annotations_db_open_menu);
+}
+
 }  // namespace templateGtkmm3::window

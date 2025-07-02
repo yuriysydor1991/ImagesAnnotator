@@ -30,6 +30,7 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
   auto& drawArea = mwctx->centralCanvas;
   auto* oAnnB = mwctx->wloader->get_annotations_db_open_button();
   auto* imagesFolderB = mwctx->wloader->get_images_folder_open_button();
+  auto* miOpenImagesF = mwctx->wloader->get_images_open_mi();
 
   assert(imagesListBox != nullptr);
   assert(zoomInB != nullptr);
@@ -37,6 +38,7 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
   assert(drawArea != nullptr);
   assert(oAnnB != nullptr);
   assert(imagesFolderB != nullptr);
+  assert(miOpenImagesF != nullptr);
 
   imagesListBox->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_row_selected));
@@ -56,6 +58,8 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
       sigc::mem_fun(*this, &WindowEventsHandler::on_annotations_db_open_click));
   imagesFolderB->signal_clicked().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_dir_open_click));
+
+  miOpenImagesF->signal_activate().connect(sigc::mem_fun(*this, &WindowEventsHandler::on_menu_images_folder_open_activate));
 
   return true;
 }
@@ -391,6 +395,11 @@ void WindowEventsHandler::on_images_dir_open_click()
   LOGD("Selected new images directory: " << dialog->get_filename());
 
   mwctx->actx->eventer->onImagesDirChanged(dialog->get_filename());
+}
+
+void WindowEventsHandler::on_menu_images_folder_open_activate()
+{
+  on_images_dir_open_click();
 }
 
 }  // namespace templateGtkmm3::window

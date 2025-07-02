@@ -231,4 +231,11 @@ Gtk::Viewport* WindowLoader::get_place_4_working_widget()
   return get_widget<Gtk::Viewport>(mwctx->wctx->place_4_working_widget_id);
 }
 
+Gtk::ImageMenuItem* WindowLoader::get_images_open_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(mwctx->wctx->images_open_menu_item_id);
+}
+
 }  // namespace templateGtkmm3::window

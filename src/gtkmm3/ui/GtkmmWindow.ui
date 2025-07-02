@@ -25,8 +25,8 @@
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <child>
-                      <object class="GtkImageMenuItem">
-                        <property name="label">gtk-about</property>
+                      <object class="GtkImageMenuItem" id="images_open_menu_item">
+                        <property name="label">gtk-open</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="use-underline">True</property>

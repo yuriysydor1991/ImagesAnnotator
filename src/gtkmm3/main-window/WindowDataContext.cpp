@@ -22,7 +22,8 @@ const std::set<std::string>& WindowDataContext::get_ids()
       images_list_id,
       current_image_zoom_in_id,
       current_image_zoom_out_id,
-      place_4_working_widget_id};
+      place_4_working_widget_id,
+      images_open_menu_item_id};
 
   return ids;
 }

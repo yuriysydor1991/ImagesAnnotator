@@ -41,6 +41,10 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual Gtk::Button* get_current_image_zoom_out();
   virtual Gtk::Viewport* get_place_4_working_widget();
 
+  /// @brief menus 
+
+  virtual Gtk::ImageMenuItem* get_images_open_mi();
+
  protected:
   virtual bool propagate_params();
   virtual bool propagate_css_params();

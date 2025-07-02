@@ -23,7 +23,13 @@ std::shared_ptr<ImagePathLabel> CustomWidgetsFactory::create_image_db_label(
     return {};
   }
 
-  return std::make_shared<ImagePathLabel>(ir);
+  auto rt = std::make_shared<ImagePathLabel>(ir);
+
+  if (!rt->get_image_rec()->rects.empty()) {
+    rt->mark_as_has_records();
+  }
+
+  return rt;
 }
 
 CustomWidgetsFactory::ImagesVisualDB

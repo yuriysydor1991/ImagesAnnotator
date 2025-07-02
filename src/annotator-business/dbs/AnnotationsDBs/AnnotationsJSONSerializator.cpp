@@ -79,8 +79,14 @@ bool AnnotationsJSONSerializator::serialize_annotations_record(
     return false;
   }
 
-  LOGI("Annotation db source directory: "
-       << db[annotations_db_path_field_name].get<std::string>());
+  const auto& dbdir = db[annotations_db_path_field_name].get<std::string>();
+
+  if (dbdir.empty()) {
+    LOGE("Empty root database dir abs path");
+    return false;
+  }
+
+  LOGI("Annotation db source directory: " << dbdir);
   LOGI("has: " << arecords[annotations_field_name].size() << " annotations");
 
   return true;

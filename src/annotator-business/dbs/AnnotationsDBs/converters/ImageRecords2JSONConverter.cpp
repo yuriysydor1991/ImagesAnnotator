@@ -104,10 +104,10 @@ nlohmann::json ImageRecords2JSONConverter::convert(
                        << r->width << "/" << r->height);
 
     jr[fname] = r->name;
-    jr[fx] = r->x;
-    jr[fy] = r->y;
-    jr[fwidth] = r->width;
-    jr[fheight] = r->height;
+    jr[frect][fx] = r->x;
+    jr[frect][fy] = r->y;
+    jr[frect][fwidth] = r->width;
+    jr[frect][fheight] = r->height;
 
     j.emplace_back(jr);
   }

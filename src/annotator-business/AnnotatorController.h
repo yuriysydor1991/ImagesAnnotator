@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsDirDB.h"
-#include "src/annotator-business/dbs/ImagesDBs/ImagesDirDB.h"
+#include "src/annotator-business/dbs/ImagesLoaders/ImagesDirLoader.h"
 #include "src/annotator-events/events/AnnotationsDirChanged.h"
 #include "src/annotator-events/events/AnnotationsDirChangedIHandler.h"
 #include "src/annotator-events/events/CurrentImageChangedHandler.h"
@@ -35,10 +35,11 @@ class AnnotatorController
  public:
   using ImagesDirChanged = events::events::ImagesDirChanged;
   using AnnotationsDirChanged = events::events::AnnotationsDirChanged;
-  using ImagesDirDB = dbs::images::ImagesDirDB::ImagesDB;
+  using ImagesDirLoader = dbs::images::ImagesDirLoader;
   using RequestImagesDirProvider = events::events::RequestImagesDirProvider;
   using ImageRecord = events::events::ImageRecord;
   using CurrentImageChanged = events::events::CurrentImageChanged;
+  using ImageRecordsSet = events::events::ImageRecordsSet;
 
   using RequestImagesDirProviderHandler =
       events::events::RequestImagesDirProviderHandler;
@@ -53,14 +54,16 @@ class AnnotatorController
   virtual void handle(std::shared_ptr<RequestImagesDirProvider> event) override;
   virtual void handle(std::shared_ptr<CurrentImageChanged> event) override;
 
-  virtual ImagesDirDB& get_images_db();
+  virtual ImageRecordsSet& get_images_db() override;
 
   virtual void deinit();
 
  private:
   void emitImagesProviderChanged();
 
-  std::shared_ptr<dbs::images::ImagesDirDB> images;
+  ImageRecordsSet load_fs_images_records(const std::string& path);
+  void try_to_append_images_dir(const std::string& path);
+
   std::shared_ptr<dbs::annotations::AnnotationsDirDB> annotations;
 
   std::shared_ptr<app::ApplicationContext> actx;

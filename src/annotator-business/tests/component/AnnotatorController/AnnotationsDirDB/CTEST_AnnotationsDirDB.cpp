@@ -74,6 +74,6 @@ TEST_F(CTEST_AnnotationsDirDB, basic_json_plan_db_init_success)
 
   EXPECT_TRUE(controller->init(actx));
 
-  EXPECT_FALSE(controller->get_image_records().empty());
-  EXPECT_EQ(controller->get_image_records().size(), 5);
+  EXPECT_FALSE(controller->get_images_db().empty());
+  EXPECT_EQ(controller->get_images_db().size(), 5);
 }

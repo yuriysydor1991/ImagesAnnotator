@@ -16,11 +16,11 @@
 
 namespace fs = std::filesystem;
 
-class CTEST_ImagesDirDB : public CTEST_AnnotatorController
+class CTEST_ImagesDirLoader : public CTEST_AnnotatorController
 {
  public:
   inline static const std::string tmp_data_dir =
-      ctests_decls::tmp_data_path_root + "/CTEST_ImagesDirDB";
+      ctests_decls::tmp_data_path_root + "/CTEST_ImagesDirLoader";
 
   inline static std::unordered_set<std::string> default_junk_names{
       "default.junkfile.name.1",           "default.junkfile.name.2",
@@ -41,9 +41,9 @@ class CTEST_ImagesDirDB : public CTEST_AnnotatorController
 
   inline static constexpr const unsigned int SUBSC = 100U;
 
-  ~CTEST_ImagesDirDB() = default;
+  ~CTEST_ImagesDirLoader() = default;
 
-  CTEST_ImagesDirDB()
+  CTEST_ImagesDirLoader()
   {
     EXPECT_NE(controller, nullptr);
     EXPECT_NE(actx, nullptr);
@@ -105,17 +105,17 @@ class CTEST_ImagesDirDB : public CTEST_AnnotatorController
   }
 };
 
-TEST_F(CTEST_ImagesDirDB, no_context_init_failure)
+TEST_F(CTEST_ImagesDirLoader, no_context_init_failure)
 {
   EXPECT_FALSE(controller->init({}));
 }
 
-TEST_F(CTEST_ImagesDirDB, empty_context_init_success)
+TEST_F(CTEST_ImagesDirLoader, empty_context_init_success)
 {
   EXPECT_TRUE(controller->init(actx));
 }
 
-TEST_F(CTEST_ImagesDirDB, images_empty_dir_context_init_success)
+TEST_F(CTEST_ImagesDirLoader, images_empty_dir_context_init_success)
 {
   static const std::string tmpdir =
       tmp_data_dir + "/images_dir_context_init_success";
@@ -129,7 +129,7 @@ TEST_F(CTEST_ImagesDirDB, images_empty_dir_context_init_success)
   EXPECT_TRUE(controller->get_images_db().empty());
 }
 
-TEST_F(CTEST_ImagesDirDB, images_junk_dir_context_init_success)
+TEST_F(CTEST_ImagesDirLoader, images_junk_dir_context_init_success)
 {
   static const std::string tmpdir =
       tmp_data_dir + "/images_dir_context_init_success";
@@ -144,7 +144,7 @@ TEST_F(CTEST_ImagesDirDB, images_junk_dir_context_init_success)
   EXPECT_TRUE(controller->get_images_db().empty());
 }
 
-TEST_F(CTEST_ImagesDirDB, images_valid_fnames_dir_context_init_success)
+TEST_F(CTEST_ImagesDirLoader, images_valid_fnames_dir_context_init_success)
 {
   static const std::string tmpdir =
       tmp_data_dir + "/images_valid_fnames_dir_context_init_success";
@@ -170,7 +170,7 @@ TEST_F(CTEST_ImagesDirDB, images_valid_fnames_dir_context_init_success)
   }
 }
 
-TEST_F(CTEST_ImagesDirDB,
+TEST_F(CTEST_ImagesDirLoader,
        images_valid_fnames_dir_with_subdir_context_init_success)
 {
   static const std::string tmpdir =
@@ -201,7 +201,7 @@ TEST_F(CTEST_ImagesDirDB,
   }
 }
 
-TEST_F(CTEST_ImagesDirDB, images_junk_and_valid_fnames_dir_context_init_success)
+TEST_F(CTEST_ImagesDirLoader, images_junk_and_valid_fnames_dir_context_init_success)
 {
   static const std::string tmpdir =
       tmp_data_dir + "/images_junk_and_valid_fnames_dir_context_init_success";
@@ -228,7 +228,7 @@ TEST_F(CTEST_ImagesDirDB, images_junk_and_valid_fnames_dir_context_init_success)
   }
 }
 
-TEST_F(CTEST_ImagesDirDB,
+TEST_F(CTEST_ImagesDirLoader,
        images_junk_and_valid_fnames_dir_with_sub_context_init_success)
 {
   static const std::string tmpdir =
@@ -261,7 +261,7 @@ TEST_F(CTEST_ImagesDirDB,
   }
 }
 
-TEST_F(CTEST_ImagesDirDB,
+TEST_F(CTEST_ImagesDirLoader,
        images_junk_and_valid_fnames_dir_with_multisub_context_init_success)
 {
   static const std::string tmpdir =
@@ -300,7 +300,7 @@ TEST_F(CTEST_ImagesDirDB,
   }
 }
 
-TEST_F(CTEST_ImagesDirDB, no_images_event_handle_failure)
+TEST_F(CTEST_ImagesDirLoader, no_images_event_handle_failure)
 {
   controller->handle(std::shared_ptr<ImagesDirChanged>{});
 
@@ -309,7 +309,7 @@ TEST_F(CTEST_ImagesDirDB, no_images_event_handle_failure)
   EXPECT_TRUE(db.empty());
 }
 
-TEST_F(CTEST_ImagesDirDB, images_empty_dirname_handle_failure)
+TEST_F(CTEST_ImagesDirLoader, images_empty_dirname_handle_failure)
 {
   auto ievent = std::make_shared<ImagesDirChanged>("");
 
@@ -320,7 +320,7 @@ TEST_F(CTEST_ImagesDirDB, images_empty_dirname_handle_failure)
   EXPECT_TRUE(db.empty());
 }
 
-TEST_F(CTEST_ImagesDirDB, images_filled_dir_changed_handle_success)
+TEST_F(CTEST_ImagesDirLoader, images_filled_dir_changed_handle_success)
 {
   static const std::string tmpdir =
       tmp_data_dir + "/images_dir_changed_handle_success";

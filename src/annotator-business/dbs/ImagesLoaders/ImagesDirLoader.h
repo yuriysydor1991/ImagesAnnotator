@@ -6,7 +6,6 @@
 #include <unordered_set>
 
 #include "src/annotator-events/events/ImageRecord.h"
-#include "src/annotator-events/events/ImagesPathsDBProvider.h"
 
 namespace iannotator::dbs::images
 {
@@ -16,27 +15,21 @@ namespace fs = std::filesystem;
 /**
  * @brief The annotator images dir db controller.
  */
-class ImagesDirDB : virtual public events::events::ImagesPathsDBProvider
+class ImagesDirLoader
 {
  public:
-  using ImagesPathsDBProvider = events::events::ImagesPathsDBProvider;
-  using ImagesDB = ImagesPathsDBProvider::ImagesDB;
   using ImageRecord = events::events::ImageRecord;
+  using ImageRecordsSet = events::events::ImageRecordsSet;
 
-  virtual ~ImagesDirDB() = default;
-  ImagesDirDB() = default;
+  virtual ~ImagesDirLoader() = default;
+  ImagesDirLoader() = default;
 
-  virtual bool load_directory(const std::string& newPath);
-
-  virtual ImagesDB& get_images_db() override;
+  virtual ImageRecordsSet load(const std::string& newPath);
 
  protected:
   virtual bool is_image(const fs::path& tpath);
 
   virtual std::shared_ptr<ImageRecord> create_record(const fs::path& npath);
-
-  fs::path current_path;
-  ImagesDB images_found;
 };
 
 }  // namespace iannotator::dbs::images

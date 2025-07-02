@@ -1,4 +1,4 @@
-#include "src/annotator-business/dbs/ImagesDBs/ImagesDirDB.h"
+#include "src/annotator-business/dbs/ImagesLoaders/ImagesDirLoader.h"
 
 #include <cassert>
 #include <filesystem>
@@ -8,7 +8,7 @@
 namespace iannotator::dbs::images
 {
 
-bool ImagesDirDB::load_directory(const std::string& newPath)
+ImagesDirLoader::ImageRecordsSet ImagesDirLoader::load(const std::string& newPath)
 {
   LOGD("Trying to load the directory: " << newPath);
 
@@ -16,12 +16,12 @@ bool ImagesDirDB::load_directory(const std::string& newPath)
 
   if (newPath.empty()) {
     LOGE("No path provided");
-    return false;
+    return {};
   }
 
-  images_found.clear();
+  ImageRecordsSet images_found;
 
-  current_path = newPath;
+  fs::path current_path = newPath;
 
   for (const auto& entry : fs::recursive_directory_iterator(current_path)) {
     LOGT("Found entry: " << entry.path().string());
@@ -41,16 +41,16 @@ bool ImagesDirDB::load_directory(const std::string& newPath)
     images_found.insert(create_record(entry));
   }
 
-  return true;
+  return images_found;
 }
 
-std::shared_ptr<ImagesDirDB::ImageRecord> ImagesDirDB::create_record(
+std::shared_ptr<ImagesDirLoader::ImageRecord> ImagesDirLoader::create_record(
     const fs::path& npath)
 {
   return std::make_shared<ImageRecord>(npath.string());
 }
 
-bool ImagesDirDB::is_image(const fs::path& tpath)
+bool ImagesDirLoader::is_image(const fs::path& tpath)
 {
   static const std::unordered_set<std::string> extsDB{
       ".png", ".jpg",  ".jpeg", ".webp", ".jpe", ".jp2", ".avif", ".bmp",
@@ -61,7 +61,5 @@ bool ImagesDirDB::is_image(const fs::path& tpath)
 
   return extsDB.find(pathE) != extsDB.end();
 }
-
-ImagesDirDB::ImagesDB& ImagesDirDB::get_images_db() { return images_found; }
 
 }  // namespace iannotator::dbs::images

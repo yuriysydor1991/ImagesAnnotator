@@ -19,7 +19,7 @@ class CustomWidgetsFactory
 {
  public:
   using ImageRecord = events::events::ImageRecord;
-  using eImagesDB = events::events::ImagesPathsDBProvider::ImagesDB;
+  using ImageRecordsSet = events::events::ImageRecordsSet;
   using ImagesVisualDB = std::vector<std::shared_ptr<ImagePathLabel>>;
 
   virtual ~CustomWidgetsFactory() = default;
@@ -31,7 +31,7 @@ class CustomWidgetsFactory
   virtual std::shared_ptr<CentralWorkingCanvas> create_working_canvas(
       std::shared_ptr<ImagePathLabel>& nci);
 
-  virtual ImagesVisualDB create_images_visual_db(eImagesDB& queue);
+  virtual ImagesVisualDB create_images_visual_db(ImageRecordsSet& queue);
 };
 
 }  // namespace templateGtkmm3::window::custom_widgets

@@ -17,12 +17,10 @@ namespace events::events
 class ImagesPathsDBProvider : virtual public IProvider
 {
  public:
-  using ImagesDB = ImageRecordsSet;
-
   virtual ~ImagesPathsDBProvider() = default;
   ImagesPathsDBProvider() = default;
 
-  virtual ImagesDB& get_images_db() = 0;
+  virtual ImageRecordsSet& get_images_db() = 0;
 };
 
 }  // namespace events::events

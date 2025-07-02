@@ -27,7 +27,7 @@ std::shared_ptr<ImagePathLabel> CustomWidgetsFactory::create_image_db_label(
 }
 
 CustomWidgetsFactory::ImagesVisualDB
-CustomWidgetsFactory::create_images_visual_db(eImagesDB& queue)
+CustomWidgetsFactory::create_images_visual_db(ImageRecordsSet& queue)
 {
   ImagesVisualDB vdb;
 

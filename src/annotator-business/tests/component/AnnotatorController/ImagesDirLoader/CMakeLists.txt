@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 3.13)
 
-set(CCTNAME "CTEST_ImagesDirDB")
+set(CCTNAME "CTEST_ImagesDirLoader")
 
 add_executable(
   ${CCTNAME}
-  CTEST_ImagesDirDB.cpp
+  CTEST_ImagesDirLoader.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-business/AnnotatorController.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/AnnotationsDBs/AnnotationsDirDB.cpp
-  ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/ImagesDBs/ImagesDirDB.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/ImagesLoaders/ImagesDirLoader.cpp
   ${CMAKE_SOURCE_DIR}/src/log/simple-logger/SimpleLogger.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImageRecord.cpp
   ${CMAKE_SOURCE_DIR}/src/app/ApplicationContext.cpp

@@ -42,7 +42,7 @@ bool AnnotationsDirDB::load_db(const std::string& fpath)
 
     irdb = load_the_irs();
 
-    LOGT("DB contains " << irdb.size() << " records");
+    LOGT("Now DB contains " << irdb.size() << " records");
   }
   catch (const std::exception& e) {
     LOGE("Exception occurred: " << e.what());
@@ -73,9 +73,14 @@ AnnotationsDirDB::ImageRecordsSet AnnotationsDirDB::load_the_irs()
   return converter->fetch_records(json[fannotations]);
 }
 
-AnnotationsDirDB::ImageRecordsSet AnnotationsDirDB::get_image_records()
+AnnotationsDirDB::ImageRecordsSet& AnnotationsDirDB::get_images_db()
 {
   return irdb;
+}
+
+void AnnotationsDirDB::add_images_db(const ImageRecordsSet& andb)
+{
+  irdb.insert(andb.begin(), andb.end());
 }
 
 }  // namespace iannotator::dbs::annotations

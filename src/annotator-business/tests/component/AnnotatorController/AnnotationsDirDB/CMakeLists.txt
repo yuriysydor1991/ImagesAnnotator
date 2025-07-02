@@ -20,6 +20,8 @@ add_executable(
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImagesDirProviderChanged.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/CurrentImageChanged.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/AnnotationsDirChanged.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/AnnotationsDBs/converters/ImageRecords2JSONConverter.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/StoreRequest.cpp
 )
 
 target_compile_options(

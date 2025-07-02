@@ -95,4 +95,10 @@ std::shared_ptr<ImageRecord> EventsFactory::create_image_record(
   return std::make_shared<ImageRecord>(nirpath);
 }
 
+std::shared_ptr<StoreRequest> EventsFactory::create_store_request(
+    const std::string& newdbpath)
+{
+  return std::make_shared<StoreRequest>(newdbpath);
+}
+
 }  // namespace events::events

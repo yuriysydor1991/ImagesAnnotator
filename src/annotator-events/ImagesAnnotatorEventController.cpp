@@ -101,7 +101,7 @@ ImagesAnnotatorEventController::get_events_factory()
 }
 
 template <class SubsQueue, class EventT>
-void ImagesAnnotatorEventController::unified_submit(
+inline void ImagesAnnotatorEventController::unified_submit(
     SubsQueue& queue, std::shared_ptr<EventT> event)
 {
   assert(event != nullptr);
@@ -138,6 +138,18 @@ void ImagesAnnotatorEventController::subscribe(
     std::shared_ptr<events::CurrentImageChangedHandler> handler)
 {
   currentImage_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
+    std::shared_ptr<events::StoreRequest> event)
+{
+  unified_submit(store_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    std::shared_ptr<events::StoreRequestHandler> handler)
+{
+  store_handlers.insert(handler);
 }
 
 }  // namespace events

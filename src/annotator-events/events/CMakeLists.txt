@@ -9,6 +9,7 @@ add_library(
   ImagesDirProviderChanged.cpp
   CurrentImageChanged.cpp
   ImageRecordRect.cpp
+  StoreRequest.cpp
 )
 
 target_include_directories(

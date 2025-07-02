@@ -14,6 +14,7 @@
 #include "src/annotator-events/events/ImagesDirProviderChanged.h"
 #include "src/annotator-events/events/ImagesPathsDBProvider.h"
 #include "src/annotator-events/events/RequestImagesDirProvider.h"
+#include "src/annotator-events/events/StoreRequest.h"
 
 namespace events::events
 {
@@ -51,6 +52,9 @@ class EventsFactory : public std::enable_shared_from_this<EventsFactory>
 
   virtual std::shared_ptr<ImageRecord> create_image_record(
       const std::string& nirpath = "");
+
+  virtual std::shared_ptr<StoreRequest> create_store_request(
+      const std::string& newdbpath);
 };
 
 }  // namespace events::events

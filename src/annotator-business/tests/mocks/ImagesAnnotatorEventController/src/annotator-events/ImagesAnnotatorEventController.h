@@ -69,6 +69,12 @@ class ImagesAnnotatorEventController : public IImagesAnnotatorEventController
   MOCK_METHOD(void, subscribe,
               (std::shared_ptr<events::CurrentImageChangedHandler> request),
               (override));
+
+  MOCK_METHOD(void, submit, (std::shared_ptr<events::StoreRequest> event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (std::shared_ptr<events::StoreRequestHandler> handler),
+              (override));
 };
 
 }  // namespace events

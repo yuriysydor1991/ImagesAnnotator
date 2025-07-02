@@ -5,6 +5,7 @@
 #include <nlohmann/json.hpp>
 
 #include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h"
+#include "src/annotator-business/dbs/AnnotationsDBs/converters/ImageRecords2JSONConverter.h"
 #include "src/annotator-business/dbs/AnnotationsDBs/converters/JSON2ImageRecordsConverter.h"
 #include "src/log/log.h"
 
@@ -19,6 +20,8 @@ bool AnnotationsDirDB::load_db(const std::string& fpath)
     LOGE("No filepath is given");
     return false;
   }
+
+  current_db_path = fpath;
 
   try {
     LOGT("Trying to open the file: " << fpath);
@@ -81,6 +84,18 @@ AnnotationsDirDB::ImageRecordsSet& AnnotationsDirDB::get_images_db()
 void AnnotationsDirDB::add_images_db(const ImageRecordsSet& andb)
 {
   irdb.insert(andb.begin(), andb.end());
+}
+
+bool AnnotationsDirDB::store_db() { return store_db(current_db_path); }
+
+bool AnnotationsDirDB::store_db(const std::string& fpath)
+{
+  auto irsConverter =
+      std::make_shared<converters::ImageRecords2JSONConverter>();
+
+  LOGD("Trying to store annotations to " << fpath);
+
+  return irsConverter->store(get_images_db(), fpath);
 }
 
 }  // namespace iannotator::dbs::annotations

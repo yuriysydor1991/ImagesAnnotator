@@ -69,6 +69,7 @@ bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
   ctx->eventer->subscribe(std::shared_ptr<CurrentImageChangedHandler>(mptr));
   ctx->eventer->subscribe(std::shared_ptr<AnnotationsDirChangedIHandler>(mptr));
   ctx->eventer->subscribe(std::shared_ptr<ImagesDirChangedIHandler>(mptr));
+  ctx->eventer->subscribe(std::shared_ptr<StoreRequestHandler>(mptr));
 
   return true;
 }
@@ -201,6 +202,30 @@ void AnnotatorController::try_to_append_images_dir(const std::string& path)
   auto irs = load_fs_images_records(path);
 
   annotations->add_images_db(irs);
+}
+
+void AnnotatorController::handle(std::shared_ptr<StoreRequest> event)
+{
+  assert(annotations != nullptr);
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer given");
+    return;
+  }
+
+  if (event->dbpath.empty()) {
+    if (!annotations->store_db()) {
+      LOGE("Fail to store data");
+    }
+    return;
+  }
+
+  LOGT("Trying to store to the path: " << event->dbpath);
+
+  if (!annotations->store_db(event->dbpath)) {
+    LOGE("Fail to store data to path " << event->dbpath);
+  }
 }
 
 }  // namespace iannotator

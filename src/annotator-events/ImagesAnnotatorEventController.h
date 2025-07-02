@@ -16,6 +16,8 @@
 #include "src/annotator-events/events/ImagesDirProviderChangedHandler.h"
 #include "src/annotator-events/events/RequestImagesDirProvider.h"
 #include "src/annotator-events/events/RequestImagesDirProviderHandler.h"
+#include "src/annotator-events/events/StoreRequest.h"
+#include "src/annotator-events/events/StoreRequestHandler.h"
 #include "src/app/ApplicationContext.h"
 
 namespace events
@@ -64,6 +66,10 @@ class ImagesAnnotatorEventController
   virtual void subscribe(
       std::shared_ptr<events::CurrentImageChangedHandler> handler) override;
 
+  virtual void submit(std::shared_ptr<events::StoreRequest> event) override;
+  virtual void subscribe(
+      std::shared_ptr<events::StoreRequestHandler> handler) override;
+
  private:
   using imagesHSet =
       std::set<std::shared_ptr<events::ImagesDirChangedIHandler>>;
@@ -75,6 +81,8 @@ class ImagesAnnotatorEventController
       std::set<std::shared_ptr<events::RequestImagesDirProviderHandler>>;
   using currentImageChangedSet =
       std::set<std::shared_ptr<events::CurrentImageChangedHandler>>;
+  using storeProjectSet =
+      std::set<std::shared_ptr<events::StoreRequestHandler>>;
 
   template <class SubsQueue, class EventT>
   static void unified_submit(SubsQueue& queue, std::shared_ptr<EventT> event);
@@ -86,6 +94,7 @@ class ImagesAnnotatorEventController
   imagesDBProviderSet iprovider_handlers;
   imagesDBORequestersSet imagesDBObject_handlers;
   currentImageChangedSet currentImage_handlers;
+  storeProjectSet store_handlers;
 
   std::shared_ptr<events::EventsFactory> efactory;
 };

@@ -22,6 +22,10 @@ class ImageRecord : virtual public IRecord
   virtual ~ImageRecord() = default;
   ImageRecord(const std::string& npath = "");
 
+  /// @brief The root directory from which this record was taken
+  std::string abs_dir_path;
+
+  /// @brief rel path to the image starting from abs_dir_path
   std::string path;
 
   ImageRecordRectSet rects;

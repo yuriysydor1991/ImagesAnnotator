@@ -14,6 +14,8 @@
 #include "src/annotator-events/events/ImagesDirProviderChangedHandler.h"
 #include "src/annotator-events/events/RequestImagesDirProvider.h"
 #include "src/annotator-events/events/RequestImagesDirProviderHandler.h"
+#include "src/annotator-events/events/StoreRequest.h"
+#include "src/annotator-events/events/StoreRequestHandler.h"
 
 namespace events
 {
@@ -56,6 +58,10 @@ class IImagesAnnotatorEventController
       std::shared_ptr<events::CurrentImageChanged> newCurrentImage) = 0;
   virtual void subscribe(
       std::shared_ptr<events::CurrentImageChangedHandler> request) = 0;
+
+  virtual void submit(std::shared_ptr<events::StoreRequest> event) = 0;
+  virtual void subscribe(
+      std::shared_ptr<events::StoreRequestHandler> handler) = 0;
 };
 
 }  // namespace events

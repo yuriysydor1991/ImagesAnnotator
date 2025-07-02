@@ -27,12 +27,16 @@ class AnnotationsDirDB : public virtual AnnotationsDBTypes,
 
   virtual void add_images_db(const ImageRecordsSet& andb);
 
+  virtual bool store_db();
+  virtual bool store_db(const std::string& fpath);
+
  protected:
   virtual bool serialize();
   virtual ImageRecordsSet load_the_irs();
 
   nlohmann::json json;
   ImageRecordsSet irdb;
+  std::string current_db_path;
 };
 
 }  // namespace iannotator::dbs::annotations

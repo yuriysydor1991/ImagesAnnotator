@@ -101,4 +101,9 @@ std::shared_ptr<StoreRequest> EventsFactory::create_store_request(
   return std::make_shared<StoreRequest>(newdbpath);
 }
 
+std::shared_ptr<CloseCurrentProject> EventsFactory::create_close_event()
+{
+  return std::make_shared<CloseCurrentProject>();
+}
+
 }  // namespace events::events

@@ -7,6 +7,8 @@
 #include "src/annotator-business/dbs/ImagesLoaders/ImagesDirLoader.h"
 #include "src/annotator-events/events/AnnotationsDirChanged.h"
 #include "src/annotator-events/events/AnnotationsDirChangedIHandler.h"
+#include "src/annotator-events/events/CloseCurrentProject.h"
+#include "src/annotator-events/events/CloseCurrentProjectHandler.h"
 #include "src/annotator-events/events/CurrentImageChangedHandler.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
@@ -33,7 +35,8 @@ class AnnotatorController
       public std::enable_shared_from_this<AnnotatorController>,
       virtual public events::events::RequestImagesDirProviderHandler,
       virtual public events::events::CurrentImageChangedHandler,
-      virtual public events::events::StoreRequestHandler
+      virtual public events::events::StoreRequestHandler,
+      virtual public events::events::CloseCurrentProjectHandler
 {
  public:
   using ImagesDirChanged = events::events::ImagesDirChanged;
@@ -44,6 +47,7 @@ class AnnotatorController
   using CurrentImageChanged = events::events::CurrentImageChanged;
   using ImageRecordsSet = events::events::ImageRecordsSet;
   using StoreRequest = events::events::StoreRequest;
+  using CloseCurrentProject = events::events::CloseCurrentProject;
 
   using RequestImagesDirProviderHandler =
       events::events::RequestImagesDirProviderHandler;
@@ -58,6 +62,7 @@ class AnnotatorController
   virtual void handle(std::shared_ptr<RequestImagesDirProvider> event) override;
   virtual void handle(std::shared_ptr<CurrentImageChanged> event) override;
   virtual void handle(std::shared_ptr<StoreRequest> event) override;
+  virtual void handle(std::shared_ptr<CloseCurrentProject> event) override;
 
   virtual ImageRecordsSet& get_images_db() override;
   virtual std::string get_db_path() override;
@@ -69,6 +74,8 @@ class AnnotatorController
 
   ImageRecordsSet load_fs_images_records(const std::string& path);
   void try_to_append_images_dir(const std::string& path);
+  std::shared_ptr<dbs::annotations::AnnotationsDirDB>
+  create_project_data_instance();
 
   std::shared_ptr<dbs::annotations::AnnotationsDirDB> annotations;
 

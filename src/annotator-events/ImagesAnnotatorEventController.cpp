@@ -152,4 +152,16 @@ void ImagesAnnotatorEventController::subscribe(
   store_handlers.insert(handler);
 }
 
+void ImagesAnnotatorEventController::submit(
+    std::shared_ptr<events::CloseCurrentProject> event)
+{
+  unified_submit(pclose_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    std::shared_ptr<events::CloseCurrentProjectHandler> handler)
+{
+  pclose_handlers.insert(handler);
+}
+
 }  // namespace events

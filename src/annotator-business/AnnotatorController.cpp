@@ -13,9 +13,14 @@ namespace iannotator
 {
 
 AnnotatorController::AnnotatorController()
-    : annotations{std::make_shared<dbs::annotations::AnnotationsDirDB>()},
-      actx{}
+    : annotations{create_project_data_instance()}, actx{}
 {
+}
+
+std::shared_ptr<dbs::annotations::AnnotationsDirDB>
+AnnotatorController::create_project_data_instance()
+{
+  return std::make_shared<dbs::annotations::AnnotationsDirDB>();
 }
 
 bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
@@ -70,6 +75,7 @@ bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
   ctx->eventer->subscribe(std::shared_ptr<AnnotationsDirChangedIHandler>(mptr));
   ctx->eventer->subscribe(std::shared_ptr<ImagesDirChangedIHandler>(mptr));
   ctx->eventer->subscribe(std::shared_ptr<StoreRequestHandler>(mptr));
+  ctx->eventer->subscribe(std::shared_ptr<CloseCurrentProjectHandler>(mptr));
 
   return true;
 }
@@ -238,6 +244,16 @@ void AnnotatorController::handle(std::shared_ptr<StoreRequest> event)
   if (!annotations->store_db(event->dbpath)) {
     LOGE("Fail to store data to path " << event->dbpath);
   }
+}
+
+void AnnotatorController::handle(
+    [[maybe_unused]] std::shared_ptr<CloseCurrentProject> event)
+{
+  LOGT("Erasing previous project data and creating a new data instance");
+
+  annotations = create_project_data_instance();
+
+  emitImagesProviderChanged();
 }
 
 }  // namespace iannotator

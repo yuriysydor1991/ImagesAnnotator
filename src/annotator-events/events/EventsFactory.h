@@ -6,6 +6,7 @@
 
 #include "src/annotator-events/events/AnnotationsDirChanged.h"
 #include "src/annotator-events/events/AnnotationsDirChangedIHandler.h"
+#include "src/annotator-events/events/CloseCurrentProject.h"
 #include "src/annotator-events/events/CurrentImageChanged.h"
 #include "src/annotator-events/events/ImageRecord.h"
 #include "src/annotator-events/events/ImageRecordRect.h"
@@ -55,6 +56,8 @@ class EventsFactory : public std::enable_shared_from_this<EventsFactory>
 
   virtual std::shared_ptr<StoreRequest> create_store_request(
       const std::string& newdbpath = "");
+
+  virtual std::shared_ptr<CloseCurrentProject> create_close_event();
 };
 
 }  // namespace events::events

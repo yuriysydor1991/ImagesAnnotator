@@ -7,6 +7,7 @@
 #include "src/annotator-events/IImagesAnnotatorEventController.h"
 #include "src/annotator-events/events/AnnotationsDirChanged.h"
 #include "src/annotator-events/events/AnnotationsDirChangedIHandler.h"
+#include "src/annotator-events/events/CloseCurrentProjectHandler.h"
 #include "src/annotator-events/events/CurrentImageChanged.h"
 #include "src/annotator-events/events/CurrentImageChangedHandler.h"
 #include "src/annotator-events/events/EventsFactory.h"
@@ -70,6 +71,11 @@ class ImagesAnnotatorEventController
   virtual void subscribe(
       std::shared_ptr<events::StoreRequestHandler> handler) override;
 
+  virtual void submit(
+      std::shared_ptr<events::CloseCurrentProject> event) override;
+  virtual void subscribe(
+      std::shared_ptr<events::CloseCurrentProjectHandler> handler) override;
+
  private:
   using imagesHSet =
       std::set<std::shared_ptr<events::ImagesDirChangedIHandler>>;
@@ -83,6 +89,8 @@ class ImagesAnnotatorEventController
       std::set<std::shared_ptr<events::CurrentImageChangedHandler>>;
   using storeProjectSet =
       std::set<std::shared_ptr<events::StoreRequestHandler>>;
+  using projectCloserSet =
+      std::set<std::shared_ptr<events::CloseCurrentProjectHandler>>;
 
   template <class SubsQueue, class EventT>
   static void unified_submit(SubsQueue& queue, std::shared_ptr<EventT> event);
@@ -95,6 +103,7 @@ class ImagesAnnotatorEventController
   imagesDBORequestersSet imagesDBObject_handlers;
   currentImageChangedSet currentImage_handlers;
   storeProjectSet store_handlers;
+  projectCloserSet pclose_handlers;
 
   std::shared_ptr<events::EventsFactory> efactory;
 };

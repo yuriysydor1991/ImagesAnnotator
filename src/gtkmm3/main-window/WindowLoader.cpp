@@ -261,4 +261,12 @@ Gtk::ImageMenuItem* WindowLoader::get_annotations_db_saveas_mi()
       mwctx->wctx->annotations_db_save_as_menu_id);
 }
 
+Gtk::ImageMenuItem* WindowLoader::get_annotations_project_close_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_project_close_id);
+}
+
 }  // namespace templateGtkmm3::window

@@ -34,6 +34,7 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
   auto* miOpenAnnotationsF = mwctx->wloader->get_annotations_db_open_mi();
   auto* annSaveM = mwctx->wloader->get_annotations_db_save_mi();
   auto* annSaveAsM = mwctx->wloader->get_annotations_db_saveas_mi();
+  auto* annClose = mwctx->wloader->get_annotations_project_close_mi();
 
   assert(imagesListBox != nullptr);
   assert(zoomInB != nullptr);
@@ -45,6 +46,7 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
   assert(miOpenAnnotationsF != nullptr);
   assert(annSaveM != nullptr);
   assert(annSaveAsM != nullptr);
+  assert(annClose != nullptr);
 
   imagesListBox->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_row_selected));
@@ -73,6 +75,8 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
       *this, &WindowEventsHandler::on_menu_annotations_db_save_activate));
   annSaveAsM->signal_activate().connect(sigc::mem_fun(
       *this, &WindowEventsHandler::on_menu_annotations_db_saveas_activate));
+  annClose->signal_activate().connect(sigc::mem_fun(
+      *this, &WindowEventsHandler::on_menu_annotations_project_close_activate));
 
   return true;
 }
@@ -466,6 +470,19 @@ void WindowEventsHandler::on_menu_annotations_db_saveas_activate()
   auto saveE = ef->create_store_request(dialog->get_filename());
 
   mwctx->actx->eventer->submit(saveE);
+}
+
+void WindowEventsHandler::on_menu_annotations_project_close_activate()
+{
+  LOGT(
+      "Trying to "
+      "close the project project");
+
+  auto ef = mwctx->actx->eventer->get_events_factory();
+
+  auto pcloseE = ef->create_close_event();
+
+  mwctx->actx->eventer->submit(pcloseE);
 }
 
 }  // namespace templateGtkmm3::window

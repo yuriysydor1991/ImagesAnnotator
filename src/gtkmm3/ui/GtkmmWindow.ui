@@ -73,6 +73,15 @@
                         <property name="use-stock">True</property>
                       </object>
                     </child>
+                    <child>
+                      <object class="GtkImageMenuItem" id="annotations_project_close">
+                        <property name="label">gtk-close</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="use-underline">True</property>
+                        <property name="use-stock">True</property>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>

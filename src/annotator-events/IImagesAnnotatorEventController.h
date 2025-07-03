@@ -5,6 +5,8 @@
 
 #include "src/annotator-events/events/AnnotationsDirChanged.h"
 #include "src/annotator-events/events/AnnotationsDirChangedIHandler.h"
+#include "src/annotator-events/events/CloseCurrentProject.h"
+#include "src/annotator-events/events/CloseCurrentProjectHandler.h"
 #include "src/annotator-events/events/CurrentImageChanged.h"
 #include "src/annotator-events/events/CurrentImageChangedHandler.h"
 #include "src/annotator-events/events/EventsFactory.h"
@@ -62,6 +64,10 @@ class IImagesAnnotatorEventController
   virtual void submit(std::shared_ptr<events::StoreRequest> event) = 0;
   virtual void subscribe(
       std::shared_ptr<events::StoreRequestHandler> handler) = 0;
+
+  virtual void submit(std::shared_ptr<events::CloseCurrentProject> event) = 0;
+  virtual void subscribe(
+      std::shared_ptr<events::CloseCurrentProjectHandler> handler) = 0;
 };
 
 }  // namespace events

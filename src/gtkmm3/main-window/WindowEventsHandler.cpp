@@ -110,7 +110,7 @@ bool WindowEventsHandler::on_rectangle_draw_start(GdkEventButton* event)
     return true;
   }
 
-  ir->current_rect = efactory->create_image_rect_record();
+  ir->current_rect = efactory->create_image_rect_record(ir);
   ir->rects.insert(ir->current_rect);
 
   assert(ir->current_rect != nullptr);

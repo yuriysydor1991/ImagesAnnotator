@@ -77,9 +77,19 @@ EventsFactory::create_current_image_changed(std::shared_ptr<ImageRecord> ir)
   return std::make_shared<CurrentImageChanged>(ir);
 }
 
-std::shared_ptr<ImageRecordRect> EventsFactory::create_image_rect_record()
+std::shared_ptr<ImageRecordRect> EventsFactory::create_image_rect_record(
+    const ImageRecordPtr& ir)
 {
-  return std::make_shared<ImageRecordRect>();
+  auto rt = std::make_shared<ImageRecordRect>();
+
+  if (ir == nullptr) {
+    rt->name = default_name_record;
+  } else {
+    rt->name =
+        default_numbered_name_record_prefix + std::to_string(ir->rects.size());
+  }
+
+  return rt;
 }
 
 std::shared_ptr<ImageRecordRect> EventsFactory::create_image_rect_record(

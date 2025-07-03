@@ -26,6 +26,10 @@ namespace events::events
 class EventsFactory : public std::enable_shared_from_this<EventsFactory>
 {
  public:
+  inline static const std::string default_name_record = "rectangle_default";
+  inline static const std::string default_numbered_name_record_prefix =
+      "rectangle_default_";
+
   virtual ~EventsFactory() = default;
   EventsFactory() = default;
 
@@ -46,7 +50,8 @@ class EventsFactory : public std::enable_shared_from_this<EventsFactory>
   virtual std::shared_ptr<CurrentImageChanged> create_current_image_changed(
       std::shared_ptr<ImageRecord>);
 
-  virtual std::shared_ptr<ImageRecordRect> create_image_rect_record();
+  virtual std::shared_ptr<ImageRecordRect> create_image_rect_record(
+      const ImageRecordPtr& ir = nullptr);
   virtual std::shared_ptr<ImageRecordRect> create_image_rect_record(
       const std::string& npath, const int& nx, const int& ny, const int& nwidth,
       const int& nheight);

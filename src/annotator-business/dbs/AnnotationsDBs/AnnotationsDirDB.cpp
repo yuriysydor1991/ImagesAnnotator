@@ -83,7 +83,7 @@ AnnotationsDirDB::ImageRecordsSet& AnnotationsDirDB::get_images_db()
 
 void AnnotationsDirDB::add_images_db(const ImageRecordsSet& andb)
 {
-  irdb.insert(andb.begin(), andb.end());
+  irdb.insert(irdb.begin(), andb.begin(), andb.end());
 }
 
 bool AnnotationsDirDB::store_db() { return store_db(current_db_path); }

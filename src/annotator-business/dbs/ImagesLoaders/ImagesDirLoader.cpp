@@ -23,6 +23,8 @@ ImagesDirLoader::ImageRecordsSet ImagesDirLoader::load(
 
   ImageRecordsSet images_found;
 
+  images_found.reserve(1024U);
+
   fs::path current_path = newPath;
 
   for (const auto& entry : fs::recursive_directory_iterator(current_path)) {
@@ -40,7 +42,7 @@ ImagesDirLoader::ImageRecordsSet ImagesDirLoader::load(
 
     LOGT("Image found: " << entry.path().string());
 
-    images_found.insert(create_record(entry, newPath));
+    images_found.emplace_back(create_record(entry, newPath));
   }
 
   return images_found;

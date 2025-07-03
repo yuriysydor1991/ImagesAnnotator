@@ -41,6 +41,8 @@ JSON2ImageRecordsConverter::fetch_records(const nlohmann::json& allAJSon)
 
     const auto& annjson = afolder[fann];
 
+    rset.reserve(annjson.size());
+
     for (const auto& fan : annjson) {
       assert(fan.contains(frel_path));
       assert(fan.contains(fann));
@@ -59,7 +61,7 @@ JSON2ImageRecordsConverter::fetch_records(const nlohmann::json& allAJSon)
 
       assert(ir != nullptr);
 
-      rset.insert(ir);
+      rset.emplace_back(ir);
 
       for (const auto& rect : fan[fann]) {
         LOGT("The json rect: " << rect.dump(2));

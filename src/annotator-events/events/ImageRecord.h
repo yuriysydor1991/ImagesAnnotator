@@ -40,7 +40,7 @@ class ImageRecord : virtual public IRecord
 };
 
 using ImageRecordPtr = std::shared_ptr<ImageRecord>;
-using ImageRecordsSet = std::unordered_set<ImageRecordPtr>;
+using ImageRecordsSet = std::vector<ImageRecordPtr>;
 
 }  // namespace events::events
 

@@ -16,7 +16,7 @@ void ImageRecord::scaleStepIn() { imageScale += defaultScaleStep; }
 
 void ImageRecord::scaleStepOut() { imageScale -= defaultScaleStep; }
 
-std::string ImageRecord::get_full_path()
+std::string ImageRecord::get_full_path() const
 {
   return abs_dir_path.empty() ? path : abs_dir_path + "/" + path;
 }

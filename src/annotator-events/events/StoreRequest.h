@@ -15,7 +15,7 @@ class StoreRequest : virtual public IRequestEvent
 {
  public:
   virtual ~StoreRequest() = default;
-  StoreRequest(const std::string& newdbpath);
+  explicit StoreRequest(const std::string& newdbpath);
 
   std::string dbpath;
 };

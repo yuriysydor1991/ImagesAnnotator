@@ -14,7 +14,7 @@ namespace iannotator::dbs::annotations
 
 bool AnnotationsDirDB::load_db(const std::string& fpath)
 {
-  assert(fpath != nullptr);
+  assert(!fpath.empty());
 
   if (fpath.empty()) {
     LOGE("No filepath is given");

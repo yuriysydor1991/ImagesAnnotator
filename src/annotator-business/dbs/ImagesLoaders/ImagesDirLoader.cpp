@@ -56,7 +56,8 @@ std::shared_ptr<ImagesDirLoader::ImageRecord> ImagesDirLoader::create_record(
 
   if (absI == pstr.begin() && pstr.size() > newAbs.size()) {
     LOGT("Erasing abs path from the string with slash");
-    pstr.erase(pstr.begin(), pstr.begin() + newAbs.size() + 1U);
+    pstr.erase(pstr.begin(),
+               pstr.begin() + static_cast<long>(newAbs.size() + 1U));
   }
 
   LOGT("Creating a new image record with rel: " << pstr);

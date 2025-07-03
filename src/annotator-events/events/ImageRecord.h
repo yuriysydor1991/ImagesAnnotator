@@ -36,7 +36,7 @@ class ImageRecord : virtual public IRecord
   void scaleStepIn();
   void scaleStepOut();
 
-  std::string get_full_path();
+  std::string get_full_path() const;
 };
 
 using ImageRecordPtr = std::shared_ptr<ImageRecord>;

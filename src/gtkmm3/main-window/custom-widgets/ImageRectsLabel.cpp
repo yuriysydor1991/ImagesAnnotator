@@ -16,15 +16,9 @@ void ImageRectsLabel::set(ImageRecordRectPtr nptr)
   myrec = nptr;
 
   assert(myrec != nullptr);
-  assert(!myrec->name.empty());
 
   if (myrec == nullptr) {
     LOGE("No valid image record provided");
-    return;
-  }
-
-  if (myrec->name.empty()) {
-    LOGW("Image db record contains no path");
     return;
   }
 

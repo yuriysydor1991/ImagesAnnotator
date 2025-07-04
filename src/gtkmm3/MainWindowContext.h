@@ -47,6 +47,7 @@ class MainWindowContext : virtual public ComponentTypesAliases,
   ImageRectsLabelSet currentVisualRects;
 
   std::shared_ptr<events::events::ImagesPathsDBProvider> images_provider;
+  ImageRectsLabelPtr currentVisualRect;
 
   static std::shared_ptr<MainWindowContext> build_context();
 

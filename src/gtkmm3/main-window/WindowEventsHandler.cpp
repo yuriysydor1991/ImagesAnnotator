@@ -63,6 +63,7 @@ void WindowEventsHandler::subscribe_4_visual_events()
   auto* cImageA = mwctx->wloader->get_current_image_annotations();
   auto* crDeleteB =
       mwctx->wloader->get_delete_current_image_selected_annotation();
+  auto* aSearchE = mwctx->wloader->get_annotation_search_entry();
 
   assert(imagesListBox != nullptr);
   assert(zoomInB != nullptr);
@@ -76,6 +77,7 @@ void WindowEventsHandler::subscribe_4_visual_events()
   assert(annSaveAsM != nullptr);
   assert(annClose != nullptr);
   assert(crDeleteB != nullptr);
+  assert(aSearchE != nullptr);
 
   imagesListBox->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_row_selected));
@@ -111,6 +113,9 @@ void WindowEventsHandler::subscribe_4_visual_events()
 
   crDeleteB->signal_clicked().connect(sigc::mem_fun(
       *this, &WindowEventsHandler::on_current_rectangle_delete_click));
+
+  aSearchE->signal_search_changed().connect(
+      sigc::mem_fun(*this, &WindowEventsHandler::on_search_text_changed));
 }
 
 bool WindowEventsHandler::on_rectangle_draw_start(GdkEventButton* event)
@@ -640,11 +645,67 @@ void WindowEventsHandler::on_current_image_rect_row_selected(
     return;
   }
 
+  mwctx->currentVisualRect = rectLabel->shared_from_this();
+
   assert(mwctx->current_image->get_image_rec() != nullptr);
 
   mwctx->current_image->get_image_rec()->current_rect = rectLabel->get();
 
+  update_search_entry();
+
   LOGT("Current image rect changed: " << rectLabel->get_text());
+}
+
+void WindowEventsHandler::update_search_entry()
+{
+  assert(mwctx != nullptr);
+
+  if (mwctx->current_image == nullptr) {
+    LOGE("No current image selected");
+    return;
+  }
+
+  if (mwctx->current_image->get_image_rec() == nullptr) {
+    LOGE("Current image label contains no image record");
+    return;
+  }
+
+  auto* asearch = mwctx->wloader->get_annotation_search_entry();
+
+  assert(asearch != nullptr);
+
+  asearch->set_text(mwctx->current_image->get_image_rec()->current_rect->name);
+}
+
+void WindowEventsHandler::on_search_text_changed()
+{
+  assert(mwctx != nullptr);
+
+  if (mwctx->current_image == nullptr) {
+    LOGT("No current image selected");
+    return;
+  }
+
+  if (mwctx->currentVisualRect == nullptr) {
+    LOGT("No current visual rect contained");
+    return;
+  }
+
+  if (mwctx->current_image->get_image_rec()->current_rect == nullptr) {
+    LOGT("No selected current rectangle");
+    return;
+  }
+
+  auto* asearch = mwctx->wloader->get_annotation_search_entry();
+
+  assert(mwctx->current_image->get_image_rec() != nullptr);
+
+  LOGT("Reneming current image selected rectangle to " << asearch->get_text());
+
+  mwctx->current_image->get_image_rec()->current_rect->name =
+      asearch->get_text();
+
+  mwctx->currentVisualRect->set_text(asearch->get_text());
 }
 
 void WindowEventsHandler::on_current_rectangle_delete_click()

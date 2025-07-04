@@ -50,6 +50,7 @@ class WindowEventsHandler
   virtual void on_menu_annotations_project_close_activate();
   virtual void on_current_image_rect_row_selected(Gtk::ListBoxRow* row);
   virtual void on_current_rectangle_delete_click();
+  virtual void on_search_text_changed();
 
   virtual void update_image_zoom();
 
@@ -62,6 +63,7 @@ class WindowEventsHandler
 
   void update_images_list();
   void update_current_rects_list();
+  void update_search_entry();
 
   template <class Ntype>
   static int ceilInt(const Ntype& val);

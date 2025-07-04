@@ -5,9 +5,11 @@
 #include <vector>
 
 #include "src/annotator-events/events/ImageRecord.h"
+#include "src/annotator-events/events/ImageRecordRect.h"
 #include "src/annotator-events/events/ImagesPathsDBProvider.h"
 #include "src/gtkmm3/main-window/custom-widgets/CentralWorkingCanvas.h"
 #include "src/gtkmm3/main-window/custom-widgets/ImagePathLabel.h"
+#include "src/gtkmm3/main-window/custom-widgets/ImageRectsLabel.h"
 
 namespace templateGtkmm3::window::custom_widgets
 {
@@ -21,6 +23,8 @@ class CustomWidgetsFactory
   using ImageRecord = events::events::ImageRecord;
   using ImageRecordsSet = events::events::ImageRecordsSet;
   using ImagesVisualDB = std::vector<std::shared_ptr<ImagePathLabel>>;
+  using ImageRecordRectPtr = events::events::ImageRecordRectPtr;
+  using ImageRecordRectSet = events::events::ImageRecordRectSet;
 
   virtual ~CustomWidgetsFactory() = default;
   CustomWidgetsFactory() = default;
@@ -39,6 +43,9 @@ class CustomWidgetsFactory
       Gtk::Window* parentWindow);
   virtual std::shared_ptr<Gtk::FileChooserDialog> create_save_json_db_dialog(
       Gtk::Window* parentWindow);
+
+  virtual ImageRectsLabelPtr create_rect_label(ImageRecordRectPtr rect);
+  virtual ImageRectsLabelSet create_rects_labels(ImageRecordRectSet& rectRecs);
 };
 
 }  // namespace templateGtkmm3::window::custom_widgets

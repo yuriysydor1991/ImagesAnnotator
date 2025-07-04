@@ -24,6 +24,31 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
 
   mwctx = nmwctx;
 
+  subscribe_4_visual_events();
+  subscribe_4_system_events();
+
+  return true;
+}
+
+void WindowEventsHandler::subscribe_4_system_events()
+{
+  auto myshared = shared_from_this();
+  std::shared_ptr<ImagesDirProviderChangedHandler> myptr = myshared;
+
+  mwctx->actx->eventer->subscribe(myptr);
+
+  /**
+   * Sending requests for the initial objects.
+   */
+  auto efactory = mwctx->actx->eventer->get_events_factory();
+
+  auto idbRequest = efactory->create_image_dir_object_request();
+
+  mwctx->actx->eventer->submit(idbRequest);
+}
+
+void WindowEventsHandler::subscribe_4_visual_events()
+{
   auto* imagesListBox = mwctx->wloader->get_images_list();
   auto* zoomInB = mwctx->wloader->get_current_image_zoom_in();
   auto* zoomOutB = mwctx->wloader->get_current_image_zoom_out();
@@ -35,6 +60,7 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
   auto* annSaveM = mwctx->wloader->get_annotations_db_save_mi();
   auto* annSaveAsM = mwctx->wloader->get_annotations_db_saveas_mi();
   auto* annClose = mwctx->wloader->get_annotations_project_close_mi();
+  auto* cImageA = mwctx->wloader->get_current_image_annotations();
 
   assert(imagesListBox != nullptr);
   assert(zoomInB != nullptr);
@@ -77,8 +103,8 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
       *this, &WindowEventsHandler::on_menu_annotations_db_saveas_activate));
   annClose->signal_activate().connect(sigc::mem_fun(
       *this, &WindowEventsHandler::on_menu_annotations_project_close_activate));
-
-  return true;
+  cImageA->signal_row_selected().connect(sigc::mem_fun(
+      *this, &WindowEventsHandler::on_current_image_rect_row_selected));
 }
 
 bool WindowEventsHandler::on_rectangle_draw_start(GdkEventButton* event)
@@ -94,6 +120,8 @@ bool WindowEventsHandler::on_rectangle_draw_start(GdkEventButton* event)
     LOGT("No current image available");
     return true;
   }
+
+  dragging = true;
 
   mwctx->current_image->mark_as_has_records();
 
@@ -119,6 +147,8 @@ bool WindowEventsHandler::on_rectangle_draw_start(GdkEventButton* event)
 
   ir->current_rect->x = toI(toD(event->x) / imageScale);
   ir->current_rect->y = toI(toD(event->y) / imageScale);
+
+  update_current_rects_list();
 
   return true;
 }
@@ -147,11 +177,13 @@ bool WindowEventsHandler::on_rectangle_draw_end(GdkEventButton* event)
     return true;
   }
 
-  ir->current_rect.reset();
+  dragging = false;
 
   assert(mwctx->centralCanvas != nullptr);
 
   mwctx->centralCanvas->queue_draw();
+
+  update_current_rects_list();
 
   return true;
 }
@@ -166,7 +198,7 @@ bool WindowEventsHandler::on_rectangle_size_change(GdkEventMotion* event)
     return true;
   }
 
-  if (mwctx->current_image == nullptr) {
+  if (!dragging) {
     LOGT("No current image available");
     return true;
   }
@@ -394,6 +426,8 @@ void WindowEventsHandler::on_images_row_selected(Gtk::ListBoxRow* row)
 
   update_image_zoom();
 
+  update_current_rects_list();
+
   LOGT("New image selected: " << ir->get_full_path());
 }
 
@@ -474,15 +508,137 @@ void WindowEventsHandler::on_menu_annotations_db_saveas_activate()
 
 void WindowEventsHandler::on_menu_annotations_project_close_activate()
 {
-  LOGT(
-      "Trying to "
-      "close the project project");
+  LOGT("Trying to close the project project");
+
+  dragging = false;
 
   auto ef = mwctx->actx->eventer->get_events_factory();
 
   auto pcloseE = ef->create_close_event();
 
   mwctx->actx->eventer->submit(pcloseE);
+}
+
+void WindowEventsHandler::handle(
+    std::shared_ptr<ImagesDirProviderChanged> event)
+{
+  LOGT("The images db provider have changed");
+
+  assert(event != nullptr);
+  assert(event->images_provider != nullptr);
+  assert(mwctx->wloader != nullptr);
+  assert(mwctx->wloader->get_images_list() != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  if (event == nullptr || event->images_provider == nullptr) {
+    LOGE("No valid event object provided");
+    return;
+  }
+
+  mwctx->images_provider = event->images_provider;
+
+  update_images_list();
+}
+
+void WindowEventsHandler::clean_list_box(Gtk::ListBox* listBox)
+{
+  assert(listBox != nullptr);
+
+  auto children = listBox->get_children();
+
+  for (auto* child : children) {
+    listBox->remove(*child);
+  }
+}
+
+void WindowEventsHandler::update_images_list()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->images_provider != nullptr);
+
+  auto& imagesDB = mwctx->images_provider->get_images_db();
+
+  LOGT("New images count: " << imagesDB.size());
+
+  mwctx->imagesVDB = mwctx->cwFactory->create_images_visual_db(imagesDB);
+
+  auto& imagesListView = *mwctx->wloader->get_images_list();
+
+  clean_list_box(&imagesListView);
+
+  LOGT("Created images widgets count: " << mwctx->imagesVDB.size());
+
+  for (auto& r : mwctx->imagesVDB) {
+    imagesListView.append(*r);
+  }
+
+  imagesListView.show_all_children();
+}
+
+void WindowEventsHandler::update_current_rects_list()
+{
+  LOGT("Updating rects list");
+
+  assert(mwctx != nullptr);
+  assert(mwctx->current_image != nullptr);
+  assert(mwctx->current_image->get_image_rec() != nullptr);
+
+  auto* ciRectsList = mwctx->wloader->get_current_image_annotations();
+
+  assert(ciRectsList != nullptr);
+
+  clean_list_box(ciRectsList);
+
+  auto& rectsList = mwctx->current_image->get_image_rec()->rects;
+
+  auto labelsList = mwctx->cwFactory->create_rects_labels(rectsList);
+
+  mwctx->currentVisualRects = labelsList;
+
+  for (auto& r : labelsList) {
+    LOGT("Inserting the rect: " << r->get_text());
+    ciRectsList->append(*r);
+  }
+
+  ciRectsList->show_all_children();
+}
+
+void WindowEventsHandler::on_current_image_rect_row_selected(
+    Gtk::ListBoxRow* row)
+{
+  assert(MainWindowContext::validate_context(mwctx));
+
+  if (!MainWindowContext::validate_context(mwctx)) {
+    LOGE("Invalid context pointer provided");
+    return;
+  }
+
+  assert(row != nullptr);
+
+  if (row == nullptr) {
+    LOGE("No row pointer provided");
+    return;
+  }
+
+  ImageRectsLabel* rectLabel = dynamic_cast<ImageRectsLabel*>(row->get_child());
+
+  assert(rectLabel != nullptr);
+
+  if (rectLabel == nullptr) {
+    LOGE("Invalid label type for the obtained row widget");
+    return;
+  }
+
+  if (mwctx->current_image == nullptr) {
+    LOGE("No current image selected");
+    return;
+  }
+
+  assert(mwctx->current_image->get_image_rec() != nullptr);
+
+  mwctx->current_image->get_image_rec()->current_rect = rectLabel->get();
+
+  LOGT("Current image rect changed: " << rectLabel->get_text());
 }
 
 }  // namespace templateGtkmm3::window

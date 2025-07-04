@@ -5,6 +5,7 @@ add_library(
   ImagePathLabel.cpp
   CustomWidgetsFactory.cpp
   CentralWorkingCanvas.cpp
+  ImageRectsLabel.cpp
 )
 
 target_include_directories(

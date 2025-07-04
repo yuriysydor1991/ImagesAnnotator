@@ -49,6 +49,8 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual Gtk::ImageMenuItem* get_annotations_db_saveas_mi();
   virtual Gtk::ImageMenuItem* get_annotations_project_close_mi();
 
+  virtual Gtk::ListBox* get_current_image_annotations();
+
  protected:
   virtual bool propagate_params();
   virtual bool propagate_css_params();

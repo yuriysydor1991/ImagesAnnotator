@@ -368,7 +368,7 @@
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <child>
-                              <object class="GtkListBox">
+                              <object class="GtkListBox" id="current_image_annotations">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
                               </object>

@@ -27,7 +27,6 @@ bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
 {
   assert(ctx != nullptr);
   assert(ctx->eventer != nullptr);
-  assert(images != nullptr);
   assert(annotations != nullptr);
 
   if (ctx == nullptr) {
@@ -83,7 +82,6 @@ bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
 void AnnotatorController::handle(std::shared_ptr<ImagesDirChanged> event)
 {
   assert(event != nullptr);
-  assert(images != nullptr);
   assert(annotations != nullptr);
 
   if (event == nullptr) {

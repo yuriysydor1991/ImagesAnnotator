@@ -12,6 +12,7 @@
 #include "src/gtkmm3/main-window/custom-widgets/CentralWorkingCanvas.h"
 #include "src/gtkmm3/main-window/custom-widgets/CustomWidgetsFactory.h"
 #include "src/gtkmm3/main-window/custom-widgets/ImagePathLabel.h"
+#include "src/gtkmm3/main-window/custom-widgets/ImageRectsLabel.h"
 
 namespace templateGtkmm3::window
 {
@@ -43,6 +44,7 @@ class MainWindowContext : virtual public ComponentTypesAliases,
 
   std::shared_ptr<ImagePathLabel> current_image;
   Glib::RefPtr<Gdk::Pixbuf> current_image_original_pixbuf;
+  ImageRectsLabelSet currentVisualRects;
 
   std::shared_ptr<events::events::ImagesPathsDBProvider> images_provider;
 

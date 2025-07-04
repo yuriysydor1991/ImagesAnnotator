@@ -65,6 +65,9 @@ class WindowDataContext
       "annotations_db_save_as_menu";
   inline static constexpr const char* const annotations_project_close_id =
       "annotations_project_close";
+
+  inline static constexpr const char* const current_image_annotations_id =
+      "current_image_annotations";
 };
 
 }  // namespace templateGtkmm3::window

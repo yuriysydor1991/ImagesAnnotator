@@ -8,6 +8,7 @@
 #include "src/annotator-events/events/ImagesPathsDBProvider.h"
 #include "src/gtkmm3/MainWindowContext.h"
 #include "src/gtkmm3/main-window/custom-widgets/ImagePathLabel.h"
+#include "src/gtkmm3/main-window/custom-widgets/ImageRectsLabel.h"
 #include "src/log/log.h"
 
 namespace templateGtkmm3::window::custom_widgets
@@ -119,6 +120,30 @@ CustomWidgetsFactory::create_folder_choose_dialog(Gtk::Window* parentWindow)
   dialog->add_button("_Select", Gtk::RESPONSE_OK);
 
   return dialog;
+}
+
+ImageRectsLabelPtr CustomWidgetsFactory::create_rect_label(
+    ImageRecordRectPtr rect)
+{
+  ImageRectsLabelPtr rt = std::make_shared<ImageRectsLabel>();
+
+  rt->set(rect);
+
+  return rt;
+}
+
+ImageRectsLabelSet CustomWidgetsFactory::create_rects_labels(
+    ImageRecordRectSet& rectRecs)
+{
+  ImageRectsLabelSet rectsLabels;
+
+  rectsLabels.reserve(rectRecs.size());
+
+  for (auto& rr : rectRecs) {
+    rectsLabels.emplace_back(create_rect_label(rr));
+  }
+
+  return rectsLabels;
 }
 
 }  // namespace templateGtkmm3::window::custom_widgets

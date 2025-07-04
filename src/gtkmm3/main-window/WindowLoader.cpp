@@ -269,4 +269,11 @@ Gtk::ImageMenuItem* WindowLoader::get_annotations_project_close_mi()
       mwctx->wctx->annotations_project_close_id);
 }
 
+Gtk::ListBox* WindowLoader::get_current_image_annotations()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ListBox>(mwctx->wctx->current_image_annotations_id);
+}
+
 }  // namespace templateGtkmm3::window

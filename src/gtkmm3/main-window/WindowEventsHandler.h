@@ -3,6 +3,7 @@
 
 #include <memory>
 
+#include "src/annotator-events/events/ImagesDirProviderChangedHandler.h"
 #include "src/gtkmm3/ComponentTypesAliases.h"
 #include "src/gtkmm3/MainWindowContext.h"
 #include "src/gtkmm3/gtkmm_includes.h"
@@ -19,9 +20,14 @@ namespace templateGtkmm3::window
 /**
  * @brief Class to hold the window loader routines from the UI xml files.
  */
-class WindowEventsHandler : virtual public ComponentTypesAliases
+class WindowEventsHandler
+    : virtual public ComponentTypesAliases,
+      virtual public events::events::ImagesDirProviderChangedHandler,
+      public std::enable_shared_from_this<WindowEventsHandler>
 {
  public:
+  using ImagesDirProviderChanged = events::events::ImagesDirProviderChanged;
+
   virtual ~WindowEventsHandler() = default;
   WindowEventsHandler() = default;
 
@@ -42,8 +48,19 @@ class WindowEventsHandler : virtual public ComponentTypesAliases
   virtual void on_menu_annotations_db_save_activate();
   virtual void on_menu_annotations_db_saveas_activate();
   virtual void on_menu_annotations_project_close_activate();
+  virtual void on_current_image_rect_row_selected(Gtk::ListBoxRow* row);
 
   virtual void update_image_zoom();
+
+  virtual void subscribe_4_visual_events();
+  virtual void subscribe_4_system_events();
+
+  virtual void handle(std::shared_ptr<ImagesDirProviderChanged> event) override;
+
+  void clean_list_box(Gtk::ListBox* listBox);
+
+  void update_images_list();
+  void update_current_rects_list();
 
   template <class Ntype>
   static int ceilInt(const Ntype& val);
@@ -56,6 +73,8 @@ class WindowEventsHandler : virtual public ComponentTypesAliases
 
  private:
   std::shared_ptr<MainWindowContext> mwctx;
+
+  bool dragging{false};
 };
 
 }  // namespace templateGtkmm3::window

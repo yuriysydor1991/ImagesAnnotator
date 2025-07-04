@@ -25,7 +25,9 @@ const std::set<std::string>& WindowDataContext::get_ids()
       place_4_working_widget_id,
       images_open_menu_item_id,
       annotations_db_save_menu_id,
-      annotations_db_save_as_menu_id};
+      annotations_db_save_as_menu_id,
+      annotations_project_close_id,
+      current_image_annotations_id};
 
   return ids;
 }

@@ -4,7 +4,6 @@
 #include <memory>
 
 #include "src/annotator-events/events/ImagesDirProviderChanged.h"
-#include "src/annotator-events/events/ImagesDirProviderChangedHandler.h"
 #include "src/app/ApplicationContext.h"
 #include "src/gtkmm3/ComponentTypesAliases.h"
 #include "src/gtkmm3/MainWindowContext.h"
@@ -20,10 +19,8 @@ namespace templateGtkmm3
  * @brief The root GTKmm window class to show
  * templated GUI window.
  */
-class GtkmmIniter
-    : virtual public events::events::ImagesDirProviderChangedHandler,
-      public std::enable_shared_from_this<GtkmmIniter>,
-      virtual public ComponentTypesAliases
+class GtkmmIniter : public std::enable_shared_from_this<GtkmmIniter>,
+                    virtual public ComponentTypesAliases
 {
  public:
   virtual ~GtkmmIniter() = default;
@@ -40,9 +37,6 @@ class GtkmmIniter
       events::events::ImagesDirProviderChangedHandler;
 
   virtual bool prepare_widgets();
-  virtual bool subscribe_4_events();
-
-  virtual void handle(std::shared_ptr<ImagesDirProviderChanged> event) override;
 
  private:
   std::shared_ptr<MainWindowContext> mwctx;

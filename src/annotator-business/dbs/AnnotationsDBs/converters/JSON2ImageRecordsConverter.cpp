@@ -28,7 +28,7 @@ JSON2ImageRecordsConverter::fetch_records(const nlohmann::json& allAJSon)
     assert(afolder.contains(fdb));
     assert(afolder[fdb].contains(fpath));
     assert(!afolder[fdb][fpath].get<std::string>().empty());
-    assert(afolder[fdb][fpath].contains(fann));
+    assert(afolder.contains(fann));
 
     const std::string& absdirpath = afolder[fdb][fpath].get<std::string>();
 

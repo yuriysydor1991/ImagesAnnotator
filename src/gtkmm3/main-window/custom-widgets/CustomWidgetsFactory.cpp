@@ -154,7 +154,7 @@ CustomWidgetsFactory::create_annotations_labels(const AnnotationsList& strList)
   list.reserve(strList.size());
 
   for (const auto& s : strList) {
-    list.emplace_back(std::make_shared<Gtk::Label>(s));
+    list.emplace_back(std::make_shared<AllAnnotationsLabel>(s));
   }
 
   return list;

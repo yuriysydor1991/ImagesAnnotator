@@ -7,6 +7,7 @@
 #include "src/annotator-events/events/ImageRecord.h"
 #include "src/annotator-events/events/ImageRecordRect.h"
 #include "src/annotator-events/events/ImagesPathsDBProvider.h"
+#include "src/gtkmm3/main-window/custom-widgets/AllAnnotationsLabel.h"
 #include "src/gtkmm3/main-window/custom-widgets/CentralWorkingCanvas.h"
 #include "src/gtkmm3/main-window/custom-widgets/ImagePathLabel.h"
 #include "src/gtkmm3/main-window/custom-widgets/ImageRectsLabel.h"
@@ -27,7 +28,8 @@ class CustomWidgetsFactory
   using ImageRecordRectSet = events::events::ImageRecordRectSet;
   using AnnotationsList =
       events::events::ImagesPathsDBProvider::AnnotationsList;
-  using AnnotationsVisualList = std::vector<std::shared_ptr<Gtk::Label>>;
+  using AnnotationsVisualList =
+      std::vector<std::shared_ptr<AllAnnotationsLabel>>;
 
   virtual ~CustomWidgetsFactory() = default;
   CustomWidgetsFactory() = default;

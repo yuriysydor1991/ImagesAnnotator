@@ -50,6 +50,9 @@ class MainWindowContext : virtual public ComponentTypesAliases,
   std::shared_ptr<events::events::ImagesPathsDBProvider> images_provider;
   ImageRectsLabelPtr currentVisualRect;
 
+  /// @brief current selected annotation in the all annotations list box
+  AllAnnotationsLabelPtr current_annotation_name;
+
   static std::shared_ptr<MainWindowContext> build_context();
 
   static bool validate_context(std::shared_ptr<MainWindowContext> nmwctx);

@@ -64,6 +64,7 @@ void WindowEventsHandler::subscribe_4_visual_events()
   auto* crDeleteB =
       mwctx->wloader->get_delete_current_image_selected_annotation();
   auto* aSearchE = mwctx->wloader->get_annotation_search_entry();
+  auto* allAnnL = mwctx->wloader->get_annotations_db_list();
 
   assert(imagesListBox != nullptr);
   assert(zoomInB != nullptr);
@@ -78,6 +79,7 @@ void WindowEventsHandler::subscribe_4_visual_events()
   assert(annClose != nullptr);
   assert(crDeleteB != nullptr);
   assert(aSearchE != nullptr);
+  assert(allAnnL != nullptr);
 
   imagesListBox->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_row_selected));
@@ -116,6 +118,9 @@ void WindowEventsHandler::subscribe_4_visual_events()
 
   aSearchE->signal_search_changed().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_search_text_changed));
+
+  allAnnL->signal_row_selected().connect(
+      sigc::mem_fun(*this, &WindowEventsHandler::on_all_annotations_selected));
 }
 
 bool WindowEventsHandler::on_rectangle_draw_start(GdkEventButton* event)
@@ -154,13 +159,22 @@ bool WindowEventsHandler::on_rectangle_draw_start(GdkEventButton* event)
 
   assert(ir->current_rect != nullptr);
 
+  if (mwctx->current_annotation_name != nullptr) {
+    LOGT("Setting text to the currently selected "
+         << mwctx->current_annotation_name->get_text());
+    ir->current_rect->name = mwctx->current_annotation_name->get_text();
+  }
+
   const auto& imageScale = ir->imageScale;
 
   ir->current_rect->x = toI(toD(event->x) / imageScale);
   ir->current_rect->y = toI(toD(event->y) / imageScale);
 
   update_current_rects_list();
-  update_annotations_list();
+
+  if (mwctx->current_annotation_name == nullptr) {
+    update_annotations_list();
+  }
 
   return true;
 }
@@ -540,6 +554,7 @@ void WindowEventsHandler::on_menu_annotations_project_close_activate()
   mwctx->imagesVDB.clear();
   mwctx->centralCanvas->clear();
   mwctx->annotationsList.clear();
+  mwctx->current_annotation_name.reset();
 }
 
 void WindowEventsHandler::handle(
@@ -640,6 +655,7 @@ void WindowEventsHandler::on_current_image_rect_row_selected(
   }
 
   if (row == nullptr) {
+    mwctx->currentVisualRect.reset();
     LOGE("No row pointer provided");
     return;
   }
@@ -766,6 +782,34 @@ void WindowEventsHandler::update_annotations_list()
   }
 
   aListBox->show_all_children();
+}
+
+void WindowEventsHandler::on_all_annotations_selected(Gtk::ListBoxRow* row)
+{
+  assert(MainWindowContext::validate_context(mwctx));
+
+  if (!MainWindowContext::validate_context(mwctx)) {
+    LOGE("Invalid context pointer provided");
+    return;
+  }
+
+  if (row == nullptr) {
+    LOGE("No row pointer provided");
+    return;
+  }
+
+  AllAnnotationsLabel* aLabel =
+      dynamic_cast<AllAnnotationsLabel*>(row->get_child());
+
+  if (aLabel == nullptr) {
+    LOGE("Unexpected label type provided");
+    return;
+  }
+
+  mwctx->current_annotation_name = aLabel->shared_from_this();
+
+  LOGT("Current label changed to "
+       << mwctx->current_annotation_name->get_text());
 }
 
 }  // namespace templateGtkmm3::window

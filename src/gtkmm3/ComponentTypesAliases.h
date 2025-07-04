@@ -3,6 +3,7 @@
 
 #include "src/annotator-events/events/ImageRecord.h"
 #include "src/annotator-events/events/ImageRecordRect.h"
+#include "src/gtkmm3/main-window/custom-widgets/AllAnnotationsLabel.h"
 #include "src/gtkmm3/main-window/custom-widgets/CentralWorkingCanvas.h"
 #include "src/gtkmm3/main-window/custom-widgets/CustomWidgetsFactory.h"
 #include "src/gtkmm3/main-window/custom-widgets/ImageRectsLabel.h"
@@ -32,6 +33,8 @@ class ComponentTypesAliases
   using ImageRectsLabelSet = window::custom_widgets::ImageRectsLabelSet;
   using ImageRectsLabelPtr = window::custom_widgets::ImageRectsLabelPtr;
   using AnnotationsVisualList = CWFactory::AnnotationsVisualList;
+  using AllAnnotationsLabel = window::custom_widgets::AllAnnotationsLabel;
+  using AllAnnotationsLabelPtr = window::custom_widgets::AllAnnotationsLabelPtr;
 };
 
 }  // namespace templateGtkmm3

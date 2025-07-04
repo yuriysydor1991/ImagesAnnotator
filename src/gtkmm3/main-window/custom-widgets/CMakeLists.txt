@@ -6,6 +6,7 @@ add_library(
   CustomWidgetsFactory.cpp
   CentralWorkingCanvas.cpp
   ImageRectsLabel.cpp
+  AllAnnotationsLabel.cpp
 )
 
 target_include_directories(

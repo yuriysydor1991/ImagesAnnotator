@@ -399,9 +399,8 @@ void WindowEventsHandler::on_images_row_selected(Gtk::ListBoxRow* row)
     return;
   }
 
-  assert(row != nullptr);
-
   if (row == nullptr) {
+    mwctx->current_image.reset();
     LOGE("No row pointer provided");
     return;
   }

@@ -95,6 +95,8 @@ bool AnnotationsDirDB::store_db(const std::string& fpath)
 
   LOGD("Trying to store annotations to " << fpath);
 
+  current_db_path = fpath;
+
   return irsConverter->store(get_images_db(), fpath);
 }
 

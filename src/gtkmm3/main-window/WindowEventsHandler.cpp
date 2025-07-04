@@ -654,6 +654,8 @@ void WindowEventsHandler::on_current_image_rect_row_selected(
   update_search_entry();
 
   LOGT("Current image rect changed: " << rectLabel->get_text());
+
+  mwctx->centralCanvas->queue_draw();
 }
 
 void WindowEventsHandler::update_search_entry()

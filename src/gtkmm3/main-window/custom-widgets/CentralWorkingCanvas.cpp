@@ -41,7 +41,13 @@ bool CentralWorkingCanvas::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 
   for (auto& rptr : ir->rects) {
     cr->set_line_width(2.0);
-    cr->set_source_rgb(0.8, 0.0, 0.0);
+
+    if (ir->current_rect == rptr) {
+      cr->set_source_rgb(0.9, 0.0, 0.0);
+    } else {
+      cr->set_source_rgb(0.0, 0.2, 0.8);
+    }
+
     cr->rectangle((rptr->x * ir->imageScale), (rptr->y * ir->imageScale),
                   (rptr->width * ir->imageScale),
                   (rptr->height * ir->imageScale));

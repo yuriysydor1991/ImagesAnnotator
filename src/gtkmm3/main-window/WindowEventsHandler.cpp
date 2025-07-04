@@ -160,6 +160,7 @@ bool WindowEventsHandler::on_rectangle_draw_start(GdkEventButton* event)
   ir->current_rect->y = toI(toD(event->y) / imageScale);
 
   update_current_rects_list();
+  update_annotations_list();
 
   return true;
 }
@@ -527,6 +528,18 @@ void WindowEventsHandler::on_menu_annotations_project_close_activate()
   auto pcloseE = ef->create_close_event();
 
   mwctx->actx->eventer->submit(pcloseE);
+
+  clean_list_box(mwctx->wloader->get_images_list());
+  clean_list_box(mwctx->wloader->get_annotations_db_list());
+  clean_list_box(mwctx->wloader->get_current_image_annotations());
+
+  mwctx->wloader->get_annotation_search_entry()->set_text("");
+
+  mwctx->annotationsList.clear();
+  mwctx->currentVisualRects.clear();
+  mwctx->imagesVDB.clear();
+  mwctx->centralCanvas->clear();
+  mwctx->annotationsList.clear();
 }
 
 void WindowEventsHandler::handle(
@@ -548,6 +561,7 @@ void WindowEventsHandler::handle(
   mwctx->images_provider = event->images_provider;
 
   update_images_list();
+  update_annotations_list();
 }
 
 void WindowEventsHandler::clean_list_box(Gtk::ListBox* listBox)
@@ -726,8 +740,32 @@ void WindowEventsHandler::on_current_rectangle_delete_click()
   mwctx->current_image->get_image_rec()->erase_current_rect();
 
   update_current_rects_list();
+  update_annotations_list();
 
   LOGT("Current rect erased");
+}
+
+void WindowEventsHandler::update_annotations_list()
+{
+  assert(mwctx != nullptr);
+
+  auto* aListBox = mwctx->wloader->get_annotations_db_list();
+
+  assert(aListBox != nullptr);
+
+  auto alist = mwctx->images_provider->get_available_annotations();
+
+  clean_list_box(aListBox);
+
+  mwctx->annotationsList = mwctx->cwFactory->create_annotations_labels(alist);
+
+  alist.clear();
+
+  for (auto& a : mwctx->annotationsList) {
+    aListBox->append(*a);
+  }
+
+  aListBox->show_all_children();
 }
 
 }  // namespace templateGtkmm3::window

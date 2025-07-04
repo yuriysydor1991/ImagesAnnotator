@@ -113,7 +113,7 @@ std::shared_ptr<Gtk::FileChooserDialog>
 CustomWidgetsFactory::create_folder_choose_dialog(Gtk::Window* parentWindow)
 {
   auto dialog = std::make_shared<Gtk::FileChooserDialog>(
-      *parentWindow, "Select annotations JSON db file",
+      *parentWindow, "Select directory containing source images",
       Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER);
 
   dialog->add_button("_Cancel", Gtk::RESPONSE_CANCEL);
@@ -144,6 +144,20 @@ ImageRectsLabelSet CustomWidgetsFactory::create_rects_labels(
   }
 
   return rectsLabels;
+}
+
+CustomWidgetsFactory::AnnotationsVisualList
+CustomWidgetsFactory::create_annotations_labels(const AnnotationsList& strList)
+{
+  AnnotationsVisualList list;
+
+  list.reserve(strList.size());
+
+  for (const auto& s : strList) {
+    list.emplace_back(std::make_shared<Gtk::Label>(s));
+  }
+
+  return list;
 }
 
 }  // namespace templateGtkmm3::window::custom_widgets

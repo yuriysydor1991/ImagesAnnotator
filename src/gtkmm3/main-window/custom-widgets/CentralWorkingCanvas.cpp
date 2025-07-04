@@ -75,4 +75,11 @@ bool CentralWorkingCanvas::set_pixbuf(Glib::RefPtr<Gdk::Pixbuf>& npb)
   return true;
 }
 
+void CentralWorkingCanvas::clear()
+{
+  pixbuf.reset();
+
+  queue_draw();
+}
+
 }  // namespace templateGtkmm3::window::custom_widgets

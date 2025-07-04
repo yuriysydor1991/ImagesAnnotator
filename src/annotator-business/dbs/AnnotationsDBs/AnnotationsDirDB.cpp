@@ -102,4 +102,20 @@ bool AnnotationsDirDB::store_db(const std::string& fpath)
 
 std::string AnnotationsDirDB::get_db_path() { return current_db_path; }
 
+AnnotationsDirDB::AnnotationsList AnnotationsDirDB::get_available_annotations()
+{
+  AnnotationsList alist;
+
+  for (const auto& ir : irdb) {
+    assert(ir != nullptr);
+
+    for (const auto& rect : ir->rects) {
+      assert(rect != nullptr);
+      alist.insert(rect->name);
+    }
+  }
+
+  return alist;
+}
+
 }  // namespace iannotator::dbs::annotations

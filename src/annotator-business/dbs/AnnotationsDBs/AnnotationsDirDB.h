@@ -18,6 +18,9 @@ class AnnotationsDirDB : public virtual AnnotationsDBTypes,
                          virtual public events::events::ImagesPathsDBProvider
 {
  public:
+  using AnnotationsList =
+      events::events::ImagesPathsDBProvider::AnnotationsList;
+
   virtual ~AnnotationsDirDB() = default;
   AnnotationsDirDB() = default;
 
@@ -25,6 +28,7 @@ class AnnotationsDirDB : public virtual AnnotationsDBTypes,
 
   virtual ImageRecordsSet& get_images_db() override;
   virtual std::string get_db_path() override;
+  virtual AnnotationsList get_available_annotations() override;
 
   virtual void add_images_db(const ImageRecordsSet& andb);
 

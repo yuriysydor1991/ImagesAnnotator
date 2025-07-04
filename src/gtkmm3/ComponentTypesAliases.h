@@ -31,6 +31,7 @@ class ComponentTypesAliases
   using ImageRectsLabel = window::custom_widgets::ImageRectsLabel;
   using ImageRectsLabelSet = window::custom_widgets::ImageRectsLabelSet;
   using ImageRectsLabelPtr = window::custom_widgets::ImageRectsLabelPtr;
+  using AnnotationsVisualList = CWFactory::AnnotationsVisualList;
 };
 
 }  // namespace templateGtkmm3

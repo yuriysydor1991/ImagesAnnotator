@@ -128,32 +128,6 @@ void AnnotatorController::handle(std::shared_ptr<AnnotationsDirChanged> event)
   emitImagesProviderChanged();
 }
 
-AnnotatorController::ImageRecordsSet& AnnotatorController::get_images_db()
-{
-  assert(annotations != nullptr);
-
-  static ImageRecordsSet empty{};
-
-  if (annotations == nullptr) {
-    LOGE("No images object available");
-    return empty;
-  }
-
-  return annotations->get_images_db();
-}
-
-std::string AnnotatorController::get_db_path()
-{
-  assert(annotations != nullptr);
-
-  if (annotations == nullptr) {
-    LOGE("No images object available");
-    return {};
-  }
-
-  return annotations->get_db_path();
-}
-
 void AnnotatorController::handle(
     [[maybe_unused]] std::shared_ptr<RequestImagesDirProvider> event)
 {

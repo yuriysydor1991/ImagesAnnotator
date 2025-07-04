@@ -45,6 +45,7 @@ class MainWindowContext : virtual public ComponentTypesAliases,
   std::shared_ptr<ImagePathLabel> current_image;
   Glib::RefPtr<Gdk::Pixbuf> current_image_original_pixbuf;
   ImageRectsLabelSet currentVisualRects;
+  AnnotationsVisualList annotationsList;
 
   std::shared_ptr<events::events::ImagesPathsDBProvider> images_provider;
   ImageRectsLabelPtr currentVisualRect;

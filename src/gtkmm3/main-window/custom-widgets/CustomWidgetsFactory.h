@@ -25,6 +25,9 @@ class CustomWidgetsFactory
   using ImagesVisualDB = std::vector<std::shared_ptr<ImagePathLabel>>;
   using ImageRecordRectPtr = events::events::ImageRecordRectPtr;
   using ImageRecordRectSet = events::events::ImageRecordRectSet;
+  using AnnotationsList =
+      events::events::ImagesPathsDBProvider::AnnotationsList;
+  using AnnotationsVisualList = std::vector<std::shared_ptr<Gtk::Label>>;
 
   virtual ~CustomWidgetsFactory() = default;
   CustomWidgetsFactory() = default;
@@ -46,6 +49,9 @@ class CustomWidgetsFactory
 
   virtual ImageRectsLabelPtr create_rect_label(ImageRecordRectPtr rect);
   virtual ImageRectsLabelSet create_rects_labels(ImageRecordRectSet& rectRecs);
+
+  virtual AnnotationsVisualList create_annotations_labels(
+      const AnnotationsList& strList);
 };
 
 }  // namespace templateGtkmm3::window::custom_widgets

@@ -64,6 +64,7 @@ class WindowEventsHandler
   void update_images_list();
   void update_current_rects_list();
   void update_search_entry();
+  void update_annotations_list();
 
   template <class Ntype>
   static int ceilInt(const Ntype& val);

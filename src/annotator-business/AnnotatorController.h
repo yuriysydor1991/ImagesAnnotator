@@ -31,7 +31,6 @@ namespace iannotator
 class AnnotatorController
     : virtual public events::events::AnnotationsDirChangedIHandler,
       virtual public events::events::ImagesDirChangedIHandler,
-      virtual public events::events::ImagesPathsDBProvider,
       public std::enable_shared_from_this<AnnotatorController>,
       virtual public events::events::RequestImagesDirProviderHandler,
       virtual public events::events::CurrentImageChangedHandler,
@@ -63,9 +62,6 @@ class AnnotatorController
   virtual void handle(std::shared_ptr<CurrentImageChanged> event) override;
   virtual void handle(std::shared_ptr<StoreRequest> event) override;
   virtual void handle(std::shared_ptr<CloseCurrentProject> event) override;
-
-  virtual ImageRecordsSet& get_images_db() override;
-  virtual std::string get_db_path() override;
 
   virtual void deinit();
 

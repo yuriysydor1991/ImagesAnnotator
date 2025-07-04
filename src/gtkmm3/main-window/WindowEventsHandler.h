@@ -49,6 +49,7 @@ class WindowEventsHandler
   virtual void on_menu_annotations_db_saveas_activate();
   virtual void on_menu_annotations_project_close_activate();
   virtual void on_current_image_rect_row_selected(Gtk::ListBoxRow* row);
+  virtual void on_current_rectangle_delete_click();
 
   virtual void update_image_zoom();
 

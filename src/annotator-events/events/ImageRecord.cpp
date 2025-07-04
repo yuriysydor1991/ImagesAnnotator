@@ -3,6 +3,7 @@
 #include <string>
 
 #include "src/annotator-events/events/IRecord.h"
+#include "src/log/log.h"
 
 namespace events::events
 {
@@ -19,6 +20,26 @@ void ImageRecord::scaleStepOut() { imageScale -= defaultScaleStep; }
 std::string ImageRecord::get_full_path() const
 {
   return abs_dir_path.empty() ? path : abs_dir_path + "/" + path;
+}
+
+bool ImageRecord::erase_current_rect()
+{
+  if (current_rect == nullptr) {
+    LOGT("No current rect avaiable");
+    return false;
+  }
+
+  auto rIter = rects.find(current_rect);
+
+  if (rIter == rects.end()) {
+    LOGE("Current rect is not in the rects queue");
+    return false;
+  }
+
+  rects.erase(rIter);
+  current_rect.reset();
+
+  return true;
 }
 
 }  // namespace events::events

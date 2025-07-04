@@ -37,6 +37,8 @@ class ImageRecord : virtual public IRecord
   void scaleStepOut();
 
   std::string get_full_path() const;
+
+  bool erase_current_rect();
 };
 
 using ImageRecordPtr = std::shared_ptr<ImageRecord>;

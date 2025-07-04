@@ -61,6 +61,8 @@ void WindowEventsHandler::subscribe_4_visual_events()
   auto* annSaveAsM = mwctx->wloader->get_annotations_db_saveas_mi();
   auto* annClose = mwctx->wloader->get_annotations_project_close_mi();
   auto* cImageA = mwctx->wloader->get_current_image_annotations();
+  auto* crDeleteB =
+      mwctx->wloader->get_delete_current_image_selected_annotation();
 
   assert(imagesListBox != nullptr);
   assert(zoomInB != nullptr);
@@ -73,6 +75,7 @@ void WindowEventsHandler::subscribe_4_visual_events()
   assert(annSaveM != nullptr);
   assert(annSaveAsM != nullptr);
   assert(annClose != nullptr);
+  assert(crDeleteB != nullptr);
 
   imagesListBox->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_row_selected));
@@ -105,6 +108,9 @@ void WindowEventsHandler::subscribe_4_visual_events()
       *this, &WindowEventsHandler::on_menu_annotations_project_close_activate));
   cImageA->signal_row_selected().connect(sigc::mem_fun(
       *this, &WindowEventsHandler::on_current_image_rect_row_selected));
+
+  crDeleteB->signal_clicked().connect(sigc::mem_fun(
+      *this, &WindowEventsHandler::on_current_rectangle_delete_click));
 }
 
 bool WindowEventsHandler::on_rectangle_draw_start(GdkEventButton* event)
@@ -601,6 +607,8 @@ void WindowEventsHandler::update_current_rects_list()
   }
 
   ciRectsList->show_all_children();
+
+  mwctx->centralCanvas->queue_draw();
 }
 
 void WindowEventsHandler::on_current_image_rect_row_selected(
@@ -612,8 +620,6 @@ void WindowEventsHandler::on_current_image_rect_row_selected(
     LOGE("Invalid context pointer provided");
     return;
   }
-
-  assert(row != nullptr);
 
   if (row == nullptr) {
     LOGE("No row pointer provided");
@@ -639,6 +645,27 @@ void WindowEventsHandler::on_current_image_rect_row_selected(
   mwctx->current_image->get_image_rec()->current_rect = rectLabel->get();
 
   LOGT("Current image rect changed: " << rectLabel->get_text());
+}
+
+void WindowEventsHandler::on_current_rectangle_delete_click()
+{
+  assert(mwctx != nullptr);
+
+  if (mwctx->current_image == nullptr) {
+    LOGE("No current image avaialble");
+    return;
+  }
+
+  if (mwctx->current_image->get_image_rec()->current_rect == nullptr) {
+    LOGT("No current rect avaialble");
+    return;
+  }
+
+  mwctx->current_image->get_image_rec()->erase_current_rect();
+
+  update_current_rects_list();
+
+  LOGT("Current rect erased");
 }
 
 }  // namespace templateGtkmm3::window

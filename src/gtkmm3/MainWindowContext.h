@@ -60,6 +60,8 @@ class MainWindowContext : virtual public ComponentTypesAliases,
   virtual void clear();
 
   virtual std::shared_ptr<ImageRecord> current_irecord();
+
+  virtual ImageRectsLabelPtr find_current_image_current_visual_rect();
 };
 
 }  // namespace templateGtkmm3

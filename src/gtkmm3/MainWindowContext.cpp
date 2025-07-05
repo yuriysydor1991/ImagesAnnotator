@@ -100,4 +100,31 @@ bool MainWindowContext::validate_context(
   return true;
 }
 
+MainWindowContext::ImageRectsLabelPtr
+MainWindowContext::find_current_image_current_visual_rect()
+{
+  if (current_image == nullptr) {
+    LOGT("No current image selected");
+    return {};
+  }
+
+  assert(current_image->get_image_rec() != nullptr);
+
+  if (current_image->get_image_rec()->current_rect == nullptr) {
+    LOGT("No current image rect selected");
+    return {};
+  }
+
+  for (auto& r : currentVisualRects) {
+    if (r->get() == current_image->get_image_rec()->current_rect) {
+      currentVisualRect = r;
+      return r;
+    }
+  }
+
+  LOGT("Current image rect not found");
+
+  return {};
+}
+
 }  // namespace templateGtkmm3

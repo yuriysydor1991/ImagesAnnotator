@@ -216,8 +216,6 @@ bool WindowEventsHandler::on_rectangle_draw_end(GdkEventButton* event)
 
   mwctx->centralCanvas->queue_draw();
 
-  update_current_rects_list();
-
   return true;
 }
 
@@ -649,6 +647,47 @@ void WindowEventsHandler::update_current_rects_list()
   ciRectsList->show_all_children();
 
   mwctx->centralCanvas->queue_draw();
+
+  mwctx->find_current_image_current_visual_rect();
+
+  update_current_annotations_selection();
+}
+
+void WindowEventsHandler::update_current_annotations_selection()
+{
+  auto* ciRectsList = mwctx->wloader->get_current_image_annotations();
+
+  assert(ciRectsList != nullptr);
+
+  if (ciRectsList == nullptr) {
+    LOGE("Current image rects list box doesn't exists");
+    return;
+  }
+
+  auto children = ciRectsList->get_children();
+
+  for (Gtk::Widget* child : children) {
+    auto row = dynamic_cast<Gtk::ListBoxRow*>(child);
+
+    if (row == nullptr) continue;
+
+    Gtk::Widget* row_child = row->get_child();
+
+    if (row_child == nullptr) continue;
+
+    auto* label = dynamic_cast<ImageRectsLabel*>(row_child);
+
+    if (label == nullptr) {
+      LOGE("Unexpected list box row type for current image annotations box");
+      continue;
+    }
+
+    if (label == mwctx->currentVisualRect.get()) {
+      LOGT("Selecting the row");
+      ciRectsList->select_row(*row);
+      return;
+    }
+  }
 }
 
 void WindowEventsHandler::on_current_image_rect_row_selected(

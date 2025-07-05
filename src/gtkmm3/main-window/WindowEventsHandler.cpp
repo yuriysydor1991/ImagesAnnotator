@@ -66,6 +66,7 @@ void WindowEventsHandler::subscribe_4_visual_events()
   auto* aSearchE = mwctx->wloader->get_annotation_search_entry();
   auto* allAnnL = mwctx->wloader->get_annotations_db_list();
   auto* rectEntry = mwctx->wloader->get_edit_current_rect_entry();
+  auto* copyNameB = mwctx->wloader->get_copy_annotation_name_button();
 
   assert(imagesListBox != nullptr);
   assert(zoomInB != nullptr);
@@ -82,6 +83,7 @@ void WindowEventsHandler::subscribe_4_visual_events()
   assert(aSearchE != nullptr);
   assert(allAnnL != nullptr);
   assert(rectEntry != nullptr);
+  assert(copyNameB != nullptr);
 
   imagesListBox->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_row_selected));
@@ -123,6 +125,9 @@ void WindowEventsHandler::subscribe_4_visual_events()
 
   allAnnL->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_all_annotations_selected));
+
+  copyNameB->signal_clicked().connect(sigc::mem_fun(
+      *this, &WindowEventsHandler::on_annotations_name_copy_click));
 }
 
 bool WindowEventsHandler::on_rectangle_draw_start(GdkEventButton* event)
@@ -816,6 +821,46 @@ void WindowEventsHandler::on_all_annotations_selected(Gtk::ListBoxRow* row)
 
   LOGT("Current label changed to "
        << mwctx->current_annotation_name->get_text());
+}
+
+void WindowEventsHandler::on_annotations_name_copy_click()
+{
+  assert(MainWindowContext::validate_context(mwctx));
+
+  if (!MainWindowContext::validate_context(mwctx)) {
+    LOGE("Invalid context pointer provided");
+    return;
+  }
+
+  if (mwctx->current_annotation_name == nullptr) {
+    LOGT("No current all annotations list row selected");
+    return;
+  }
+
+  if (mwctx->current_image == nullptr) {
+    LOGT("No current image selected");
+    return;
+  }
+
+  if (mwctx->currentVisualRect == nullptr) {
+    LOGT("No current image rect selected");
+    return;
+  }
+
+  assert(mwctx->current_image->get_image_rec() != nullptr);
+
+  if (mwctx->current_image->get_image_rec()->current_rect == nullptr) {
+    LOGT("No current image rect record selected");
+    return;
+  }
+
+  mwctx->current_image->get_image_rec()->current_rect->name =
+      mwctx->current_annotation_name->get_text();
+
+  mwctx->currentVisualRect->set_text(
+      mwctx->current_annotation_name->get_text());
+
+  update_rect_edit_entry();
 }
 
 }  // namespace templateGtkmm3::window

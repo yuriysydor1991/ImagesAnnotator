@@ -142,6 +142,9 @@ void WindowEventsHandler::subscribe_4_visual_events()
 
   dupCurretAnn->signal_clicked().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_ci_annotation_copy_click));
+
+  aSearchE->signal_search_changed().connect(sigc::mem_fun(
+      *this, &WindowEventsHandler::on_annotations_search_text_changed));
 }
 
 void WindowEventsHandler::on_next_file_button_click()
@@ -650,6 +653,7 @@ void WindowEventsHandler::on_menu_annotations_project_close_activate()
   clean_list_box(mwctx->wloader->get_current_image_annotations());
 
   mwctx->wloader->get_annotation_search_entry()->set_text("");
+  mwctx->wloader->get_edit_current_rect_entry()->set_text("");
 
   mwctx->annotationsList.clear();
   mwctx->currentVisualRects.clear();
@@ -680,6 +684,7 @@ void WindowEventsHandler::handle(
   update_images_list();
   update_annotations_list();
   update_status_bar();
+  update_current_rects_list();
 }
 
 void WindowEventsHandler::update_status_bar()
@@ -734,14 +739,17 @@ void WindowEventsHandler::update_current_rects_list()
   LOGT("Updating rects list");
 
   assert(mwctx != nullptr);
-  assert(mwctx->current_image != nullptr);
-  assert(mwctx->current_image->get_image_rec() != nullptr);
 
   auto* ciRectsList = mwctx->wloader->get_current_image_annotations();
 
   assert(ciRectsList != nullptr);
 
   clean_list_box(ciRectsList);
+
+  if (mwctx->current_image == nullptr) {
+    LOGT("No current image selected");
+    return;
+  }
 
   auto& rectsList = mwctx->current_image->get_image_rec()->rects;
 
@@ -892,6 +900,8 @@ void WindowEventsHandler::on_rect_edit_entry_changed()
   mwctx->current_image->get_image_rec()->current_rect->name = redit->get_text();
 
   mwctx->currentVisualRect->set_text(redit->get_text());
+
+  update_annotations_list();
 }
 
 void WindowEventsHandler::on_current_rectangle_delete_click()
@@ -942,6 +952,8 @@ void WindowEventsHandler::update_annotations_list()
   }
 
   aListBox->show_all_children();
+
+  on_annotations_search_text_changed();
 }
 
 void WindowEventsHandler::on_all_annotations_selected(Gtk::ListBoxRow* row)
@@ -1050,6 +1062,43 @@ void WindowEventsHandler::on_ci_annotation_copy_click()
   mwctx->current_image->get_image_rec()->rects.insert(dup);
 
   update_current_rects_list();
+}
+
+void WindowEventsHandler::on_annotations_search_text_changed()
+{
+  assert(MainWindowContext::validate_context(mwctx));
+
+  if (!MainWindowContext::validate_context(mwctx)) {
+    LOGE("Invalid context pointer provided");
+    return;
+  }
+
+  auto* aListBox = mwctx->wloader->get_annotations_db_list();
+
+  auto searchText = mwctx->wloader->get_annotation_search_entry()->get_text();
+
+  const auto filter_text = searchText.lowercase();
+
+  for (auto* child : aListBox->get_children()) {
+    auto* row = dynamic_cast<Gtk::ListBoxRow*>(child);
+
+    if (row == nullptr) {
+      LOGT("Unexpected row type on the Gtk::ListBox");
+      continue;
+    }
+
+    auto* label = dynamic_cast<AllAnnotationsLabel*>(row->get_child());
+
+    if (label == nullptr) {
+      LOGT("Unexpected label type in the ListBox");
+      continue;
+    }
+
+    Glib::ustring text = label->get_text().lowercase();
+
+    row->set_visible(filter_text.empty() ||
+                     text.find(filter_text) != Glib::ustring::npos);
+  }
 }
 
 }  // namespace templateGtkmm3::window

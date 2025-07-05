@@ -56,6 +56,7 @@ class WindowEventsHandler
   virtual void on_next_file_button_click();
   virtual void on_prev_file_button_click();
   virtual void on_ci_annotation_copy_click();
+  virtual void on_annotations_search_text_changed();
 
   virtual void update_image_zoom();
 

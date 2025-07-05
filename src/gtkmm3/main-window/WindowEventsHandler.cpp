@@ -674,6 +674,19 @@ void WindowEventsHandler::handle(
 
   update_images_list();
   update_annotations_list();
+  update_status_bar();
+}
+
+void WindowEventsHandler::update_status_bar()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+  assert(mwctx->wloader->get_window_status_bar() != nullptr);
+
+  auto stCtx = mwctx->wloader->get_window_status_bar()->get_context_id("info");
+
+  mwctx->wloader->get_window_status_bar()->push(
+      mwctx->images_provider->get_db_path(), stCtx);
 }
 
 void WindowEventsHandler::clean_list_box(Gtk::ListBox* listBox)

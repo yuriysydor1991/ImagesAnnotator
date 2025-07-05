@@ -76,6 +76,8 @@ class WindowDataContext
       "previous_image_button";
   inline static constexpr const char* const next_image_button_id =
       "next_image_button";
+  inline static constexpr const char* const main_window_status_bar_id =
+      "main_window_status_bar";
 };
 
 }  // namespace templateGtkmm3::window

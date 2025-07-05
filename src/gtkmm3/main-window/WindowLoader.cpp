@@ -299,4 +299,11 @@ Gtk::Button* WindowLoader::get_next_file_button()
   return get_widget<Gtk::Button>(mwctx->wctx->next_image_button_id);
 }
 
+Gtk::Statusbar* WindowLoader::get_window_status_bar()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::Statusbar>(mwctx->wctx->main_window_status_bar_id);
+}
+
 }  // namespace templateGtkmm3::window

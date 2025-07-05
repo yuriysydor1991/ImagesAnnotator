@@ -71,6 +71,7 @@ class WindowEventsHandler
   void update_rect_edit_entry();
   void update_annotations_list();
   void update_current_annotations_selection();
+  void update_status_bar();
 
   template <class Ntype>
   static int ceilInt(const Ntype& val);

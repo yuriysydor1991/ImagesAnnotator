@@ -294,21 +294,6 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkButton" id="accept_annotation_button">
-                        <property name="label">gtk-ok</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">True</property>
-                        <property name="use-stock">True</property>
-                        <property name="always-show-image">True</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                    <child>
                       <object class="GtkSearchEntry" id="annotation_search_entry">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
@@ -319,7 +304,7 @@
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
-                        <property name="position">3</property>
+                        <property name="position">2</property>
                       </packing>
                     </child>
                     <child>
@@ -343,14 +328,28 @@
                       <packing>
                         <property name="expand">True</property>
                         <property name="fill">True</property>
+                        <property name="position">3</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="copy_annotation_name_to_current_rect">
+                        <property name="label" translatable="yes">Copy annotation name</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
                         <property name="position">4</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkEntry" id="current_image_selected_annotation_edit">
                         <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">Current image annotations:</property>
+                        <property name="can-focus">True</property>
+                        <property name="primary-icon-tooltip-text" translatable="yes">Edit name for a current image selected annotation.	</property>
+                        <property name="secondary-icon-tooltip-text" translatable="yes">Edit name for a current image selected annotation.</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>

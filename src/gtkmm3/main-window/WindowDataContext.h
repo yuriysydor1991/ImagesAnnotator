@@ -39,8 +39,6 @@ class WindowDataContext
       "images_folder_open_button";
   inline static constexpr const char* const annotations_db_open_button_id =
       "annotations_db_open_button";
-  inline static constexpr const char* const accept_annotation_button_id =
-      "accept_annotation_button";
   inline static constexpr const char* const
       delete_current_image_selected_annotation_id =
           "delete_current_image_selected_annotation";
@@ -68,6 +66,12 @@ class WindowDataContext
 
   inline static constexpr const char* const current_image_annotations_id =
       "current_image_annotations";
+  inline static constexpr const char* const
+      current_image_selected_annotation_edit_id =
+          "current_image_selected_annotation_edit";
+  inline static constexpr const char* const
+      copy_annotation_name_to_current_rect_id =
+          "copy_annotation_name_to_current_rect";
 };
 
 }  // namespace templateGtkmm3::window

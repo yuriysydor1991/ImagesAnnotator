@@ -32,7 +32,6 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual Gtk::Window* get_window();
   virtual Gtk::Button* get_images_folder_open_button();
   virtual Gtk::Button* get_annotations_db_open_button();
-  virtual Gtk::Button* get_accept_annotation_button();
   virtual Gtk::Button* get_delete_current_image_selected_annotation();
   virtual Gtk::SearchEntry* get_annotation_search_entry();
   virtual Gtk::ListBox* get_annotations_db_list();
@@ -40,6 +39,8 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual Gtk::Button* get_current_image_zoom_in();
   virtual Gtk::Button* get_current_image_zoom_out();
   virtual Gtk::Viewport* get_place_4_working_widget();
+  virtual Gtk::Button* get_copy_annotation_name_button();
+  virtual Gtk::Entry* get_edit_current_rect_entry();
 
   /// @brief menus
 

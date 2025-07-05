@@ -15,7 +15,6 @@ const std::set<std::string>& WindowDataContext::get_ids()
       window_id,
       images_folder_open_button_id,
       annotations_db_open_button_id,
-      accept_annotation_button_id,
       delete_current_image_selected_annotation_id,
       annotation_search_entry_id,
       annotations_db_list_id,
@@ -27,7 +26,9 @@ const std::set<std::string>& WindowDataContext::get_ids()
       annotations_db_save_menu_id,
       annotations_db_save_as_menu_id,
       annotations_project_close_id,
-      current_image_annotations_id};
+      current_image_annotations_id,
+      current_image_selected_annotation_edit_id,
+      copy_annotation_name_to_current_rect_id};
 
   return ids;
 }

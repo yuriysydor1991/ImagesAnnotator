@@ -151,13 +151,6 @@ Gtk::Button* WindowLoader::get_annotations_db_open_button()
   return get_widget<Gtk::Button>(mwctx->wctx->annotations_db_open_button_id);
 }
 
-Gtk::Button* WindowLoader::get_accept_annotation_button()
-{
-  assert(mwctx->wctx != nullptr);
-
-  return get_widget<Gtk::Button>(mwctx->wctx->accept_annotation_button_id);
-}
-
 Gtk::Button* WindowLoader::get_delete_current_image_selected_annotation()
 {
   assert(mwctx->wctx != nullptr);
@@ -274,6 +267,22 @@ Gtk::ListBox* WindowLoader::get_current_image_annotations()
   assert(mwctx->wctx != nullptr);
 
   return get_widget<Gtk::ListBox>(mwctx->wctx->current_image_annotations_id);
+}
+
+Gtk::Button* WindowLoader::get_copy_annotation_name_button()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::Button>(
+      mwctx->wctx->current_image_selected_annotation_edit_id);
+}
+
+Gtk::Entry* WindowLoader::get_edit_current_rect_entry()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::Entry>(
+      mwctx->wctx->copy_annotation_name_to_current_rect_id);
 }
 
 }  // namespace templateGtkmm3::window

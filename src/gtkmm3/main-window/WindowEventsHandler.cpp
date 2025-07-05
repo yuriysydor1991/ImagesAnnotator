@@ -680,14 +680,14 @@ void WindowEventsHandler::on_current_image_rect_row_selected(
 
   mwctx->current_image->get_image_rec()->current_rect = rectLabel->get();
 
-  update_search_entry();
+  update_rect_edit_entry();
 
   LOGT("Current image rect changed: " << rectLabel->get_text());
 
   mwctx->centralCanvas->queue_draw();
 }
 
-void WindowEventsHandler::update_search_entry()
+void WindowEventsHandler::update_rect_edit_entry()
 {
   assert(mwctx != nullptr);
 
@@ -701,11 +701,11 @@ void WindowEventsHandler::update_search_entry()
     return;
   }
 
-  auto* asearch = mwctx->wloader->get_annotation_search_entry();
+  auto* rentry = mwctx->wloader->get_edit_current_rect_entry();
 
-  assert(asearch != nullptr);
+  assert(rentry != nullptr);
 
-  asearch->set_text(mwctx->current_image->get_image_rec()->current_rect->name);
+  rentry->set_text(mwctx->current_image->get_image_rec()->current_rect->name);
 }
 
 void WindowEventsHandler::on_search_text_changed()

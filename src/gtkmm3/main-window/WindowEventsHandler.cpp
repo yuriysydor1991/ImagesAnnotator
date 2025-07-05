@@ -65,6 +65,7 @@ void WindowEventsHandler::subscribe_4_visual_events()
       mwctx->wloader->get_delete_current_image_selected_annotation();
   auto* aSearchE = mwctx->wloader->get_annotation_search_entry();
   auto* allAnnL = mwctx->wloader->get_annotations_db_list();
+  auto* rectEntry = mwctx->wloader->get_edit_current_rect_entry();
 
   assert(imagesListBox != nullptr);
   assert(zoomInB != nullptr);
@@ -80,6 +81,7 @@ void WindowEventsHandler::subscribe_4_visual_events()
   assert(crDeleteB != nullptr);
   assert(aSearchE != nullptr);
   assert(allAnnL != nullptr);
+  assert(rectEntry != nullptr);
 
   imagesListBox->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_row_selected));
@@ -116,8 +118,8 @@ void WindowEventsHandler::subscribe_4_visual_events()
   crDeleteB->signal_clicked().connect(sigc::mem_fun(
       *this, &WindowEventsHandler::on_current_rectangle_delete_click));
 
-  aSearchE->signal_search_changed().connect(
-      sigc::mem_fun(*this, &WindowEventsHandler::on_search_text_changed));
+  rectEntry->signal_changed().connect(
+      sigc::mem_fun(*this, &WindowEventsHandler::on_rect_edit_entry_changed));
 
   allAnnL->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_all_annotations_selected));
@@ -708,7 +710,7 @@ void WindowEventsHandler::update_rect_edit_entry()
   rentry->set_text(mwctx->current_image->get_image_rec()->current_rect->name);
 }
 
-void WindowEventsHandler::on_search_text_changed()
+void WindowEventsHandler::on_rect_edit_entry_changed()
 {
   assert(mwctx != nullptr);
 
@@ -727,16 +729,15 @@ void WindowEventsHandler::on_search_text_changed()
     return;
   }
 
-  auto* asearch = mwctx->wloader->get_annotation_search_entry();
+  auto* redit = mwctx->wloader->get_edit_current_rect_entry();
 
   assert(mwctx->current_image->get_image_rec() != nullptr);
 
-  LOGT("Reneming current image selected rectangle to " << asearch->get_text());
+  LOGT("Reneming current image selected rectangle to " << redit->get_text());
 
-  mwctx->current_image->get_image_rec()->current_rect->name =
-      asearch->get_text();
+  mwctx->current_image->get_image_rec()->current_rect->name = redit->get_text();
 
-  mwctx->currentVisualRect->set_text(asearch->get_text());
+  mwctx->currentVisualRect->set_text(redit->get_text());
 }
 
 void WindowEventsHandler::on_current_rectangle_delete_click()

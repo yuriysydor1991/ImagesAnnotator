@@ -47,4 +47,11 @@ bool ImagePathLabel::mark_as_has_records()
   return true;
 }
 
+bool ImagePathLabel::remove_has_records_mark()
+{
+  get_style_context()->remove_class(has_records_css_class);
+
+  return true;
+}
+
 }  // namespace templateGtkmm3::window::custom_widgets

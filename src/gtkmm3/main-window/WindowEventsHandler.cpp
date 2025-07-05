@@ -759,6 +759,11 @@ void WindowEventsHandler::on_current_rectangle_delete_click()
   update_current_rects_list();
   update_annotations_list();
 
+  if (mwctx->current_image->get_image_rec()->rects.empty()) {
+    LOGT("Current images no longer have rects, deleting the marking");
+    mwctx->current_image->remove_has_records_mark();
+  }
+
   LOGT("Current rect erased");
 }
 

@@ -28,6 +28,7 @@ class ImagePathLabel : public Gtk::Label,
   virtual std::shared_ptr<ImageRecord> get_image_rec();
 
   virtual bool mark_as_has_records();
+  virtual bool remove_has_records_mark();
 
  private:
   std::shared_ptr<ImageRecord> myrec;

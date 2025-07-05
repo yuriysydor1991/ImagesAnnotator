@@ -53,6 +53,8 @@ class WindowEventsHandler
   virtual void on_rect_edit_entry_changed();
   virtual void on_all_annotations_selected(Gtk::ListBoxRow* row);
   virtual void on_annotations_name_copy_click();
+  virtual void on_next_file_button_click();
+  virtual void on_prev_file_button_click();
 
   virtual void update_image_zoom();
 
@@ -62,6 +64,7 @@ class WindowEventsHandler
   virtual void handle(std::shared_ptr<ImagesDirProviderChanged> event) override;
 
   void clean_list_box(Gtk::ListBox* listBox);
+  void select_list_box_child(Gtk::ListBox* listBox, Gtk::Widget* child);
 
   void update_images_list();
   void update_current_rects_list();

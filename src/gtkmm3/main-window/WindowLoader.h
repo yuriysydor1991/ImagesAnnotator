@@ -41,6 +41,8 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual Gtk::Viewport* get_place_4_working_widget();
   virtual Gtk::Button* get_copy_annotation_name_button();
   virtual Gtk::Entry* get_edit_current_rect_entry();
+  virtual Gtk::Button* get_prev_file_button();
+  virtual Gtk::Button* get_next_file_button();
 
   /// @brief menus
 

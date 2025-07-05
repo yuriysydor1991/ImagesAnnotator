@@ -28,7 +28,9 @@ const std::set<std::string>& WindowDataContext::get_ids()
       annotations_project_close_id,
       current_image_annotations_id,
       current_image_selected_annotation_edit_id,
-      copy_annotation_name_to_current_rect_id};
+      copy_annotation_name_to_current_rect_id,
+      previous_image_button_id,
+      next_image_button_id};
 
   return ids;
 }

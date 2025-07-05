@@ -67,6 +67,8 @@ void WindowEventsHandler::subscribe_4_visual_events()
   auto* allAnnL = mwctx->wloader->get_annotations_db_list();
   auto* rectEntry = mwctx->wloader->get_edit_current_rect_entry();
   auto* copyNameB = mwctx->wloader->get_copy_annotation_name_button();
+  auto* prevButton = mwctx->wloader->get_prev_file_button();
+  auto* nextButton = mwctx->wloader->get_next_file_button();
 
   assert(imagesListBox != nullptr);
   assert(zoomInB != nullptr);
@@ -84,6 +86,8 @@ void WindowEventsHandler::subscribe_4_visual_events()
   assert(allAnnL != nullptr);
   assert(rectEntry != nullptr);
   assert(copyNameB != nullptr);
+  assert(prevButton != nullptr);
+  assert(nextButton != nullptr);
 
   imagesListBox->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_row_selected));
@@ -128,6 +132,94 @@ void WindowEventsHandler::subscribe_4_visual_events()
 
   copyNameB->signal_clicked().connect(sigc::mem_fun(
       *this, &WindowEventsHandler::on_annotations_name_copy_click));
+
+  prevButton->signal_clicked().connect(
+      sigc::mem_fun(*this, &WindowEventsHandler::on_prev_file_button_click));
+  nextButton->signal_clicked().connect(
+      sigc::mem_fun(*this, &WindowEventsHandler::on_next_file_button_click));
+}
+
+void WindowEventsHandler::on_next_file_button_click()
+{
+  auto* imagesBox = mwctx->wloader->get_images_list();
+
+  assert(imagesBox != nullptr);
+
+  auto children = imagesBox->get_children();
+  auto current = imagesBox->get_selected_row();
+
+  if (current == nullptr) {
+    select_list_box_child(imagesBox, *children.begin());
+    return;
+  }
+
+  auto it = std::find(children.begin(), children.end(), current);
+
+  if (it == children.end()) {
+    LOGD("The end of the images list reached");
+    return;
+  }
+
+  if (std::next(it) == children.end()) {
+    LOGD("The end of the images list reached");
+    return;
+  }
+
+  select_list_box_child(imagesBox, *std::next(it));
+}
+
+void WindowEventsHandler::on_prev_file_button_click()
+{
+  auto* imagesBox = mwctx->wloader->get_images_list();
+
+  assert(imagesBox != nullptr);
+
+  auto children = imagesBox->get_children();
+  auto current = imagesBox->get_selected_row();
+
+  if (current == nullptr && !children.empty()) {
+    select_list_box_child(imagesBox, *std::prev(children.end()));
+    return;
+  }
+
+  auto it = std::find(children.begin(), children.end(), current);
+
+  if (it == children.end()) {
+    LOGD("The top of the images list reached");
+    return;
+  }
+
+  if (it == children.begin()) {
+    LOGD("The top of the images list reached");
+    return;
+  }
+
+  select_list_box_child(imagesBox, *std::prev(it));
+}
+
+void WindowEventsHandler::select_list_box_child(Gtk::ListBox* listBox,
+                                                Gtk::Widget* child)
+{
+  assert(listBox != nullptr);
+
+  if (listBox == nullptr) {
+    LOGE("List box was not provided");
+    return;
+  }
+
+  if (listBox == nullptr) {
+    LOGD("List box child pointer was not provided");
+    return;
+  }
+
+  auto* row = dynamic_cast<Gtk::ListBoxRow*>(child);
+
+  if (row == nullptr) {
+    LOGE("Unexpected row type");
+    return;
+  }
+
+  listBox->select_row(*row);
 }
 
 bool WindowEventsHandler::on_rectangle_draw_start(GdkEventButton* event)

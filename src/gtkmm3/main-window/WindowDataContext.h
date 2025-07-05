@@ -72,6 +72,10 @@ class WindowDataContext
   inline static constexpr const char* const
       copy_annotation_name_to_current_rect_id =
           "copy_annotation_name_to_current_rect";
+  inline static constexpr const char* const previous_image_button_id =
+      "previous_image_button";
+  inline static constexpr const char* const next_image_button_id =
+      "next_image_button";
 };
 
 }  // namespace templateGtkmm3::window

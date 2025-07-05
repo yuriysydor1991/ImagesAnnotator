@@ -285,4 +285,18 @@ Gtk::Entry* WindowLoader::get_edit_current_rect_entry()
       mwctx->wctx->current_image_selected_annotation_edit_id);
 }
 
+Gtk::Button* WindowLoader::get_prev_file_button()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::Button>(mwctx->wctx->previous_image_button_id);
+}
+
+Gtk::Button* WindowLoader::get_next_file_button()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::Button>(mwctx->wctx->next_image_button_id);
+}
+
 }  // namespace templateGtkmm3::window

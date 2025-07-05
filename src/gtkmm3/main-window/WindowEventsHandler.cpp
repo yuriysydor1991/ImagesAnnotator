@@ -69,6 +69,7 @@ void WindowEventsHandler::subscribe_4_visual_events()
   auto* copyNameB = mwctx->wloader->get_copy_annotation_name_button();
   auto* prevButton = mwctx->wloader->get_prev_file_button();
   auto* nextButton = mwctx->wloader->get_next_file_button();
+  auto* dupCurretAnn = mwctx->wloader->get_copy_current_annotation_button();
 
   assert(imagesListBox != nullptr);
   assert(zoomInB != nullptr);
@@ -88,6 +89,7 @@ void WindowEventsHandler::subscribe_4_visual_events()
   assert(copyNameB != nullptr);
   assert(prevButton != nullptr);
   assert(nextButton != nullptr);
+  assert(dupCurretAnn != nullptr);
 
   imagesListBox->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_row_selected));
@@ -137,6 +139,9 @@ void WindowEventsHandler::subscribe_4_visual_events()
       sigc::mem_fun(*this, &WindowEventsHandler::on_prev_file_button_click));
   nextButton->signal_clicked().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_next_file_button_click));
+
+  dupCurretAnn->signal_clicked().connect(
+      sigc::mem_fun(*this, &WindowEventsHandler::on_ci_annotation_copy_click));
 }
 
 void WindowEventsHandler::on_next_file_button_click()
@@ -1005,6 +1010,46 @@ void WindowEventsHandler::on_annotations_name_copy_click()
       mwctx->current_annotation_name->get_text());
 
   update_rect_edit_entry();
+}
+
+void WindowEventsHandler::on_ci_annotation_copy_click()
+{
+  assert(MainWindowContext::validate_context(mwctx));
+
+  if (!MainWindowContext::validate_context(mwctx)) {
+    LOGE("Invalid context pointer provided");
+    return;
+  }
+
+  if (mwctx->current_annotation_name == nullptr) {
+    LOGT("No current all annotations list row selected");
+    return;
+  }
+
+  if (mwctx->current_image == nullptr) {
+    LOGT("No current image selected");
+    return;
+  }
+
+  if (mwctx->currentVisualRect == nullptr) {
+    LOGT("No current image rect selected");
+    return;
+  }
+
+  assert(mwctx->current_image->get_image_rec() != nullptr);
+
+  if (mwctx->current_image->get_image_rec()->current_rect == nullptr) {
+    LOGT("No current image rect record selected");
+    return;
+  }
+
+  auto dup =
+      mwctx->current_image->get_image_rec()->current_rect->duplicate_shared();
+
+  mwctx->current_image->get_image_rec()->current_rect = dup;
+  mwctx->current_image->get_image_rec()->rects.insert(dup);
+
+  update_current_rects_list();
 }
 
 }  // namespace templateGtkmm3::window

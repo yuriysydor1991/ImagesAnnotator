@@ -306,4 +306,11 @@ Gtk::Statusbar* WindowLoader::get_window_status_bar()
   return get_widget<Gtk::Statusbar>(mwctx->wctx->main_window_status_bar_id);
 }
 
+Gtk::Button* WindowLoader::get_copy_current_annotation_button()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::Button>(mwctx->wctx->duplicate_current_annotation_id);
+}
+
 }  // namespace templateGtkmm3::window

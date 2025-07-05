@@ -13,9 +13,12 @@ namespace events::events
 /**
  * @brief The particular image rectangular record class.
  */
-class ImageRecordRect : virtual public IRecord
+class ImageRecordRect : virtual public IRecord,
+                        std::enable_shared_from_this<ImageRecordRect>
 {
  public:
+  using ImageRecordRectPtr = std::shared_ptr<ImageRecordRect>;
+
   virtual ~ImageRecordRect() = default;
   ImageRecordRect();
   ImageRecordRect(const std::string& nname, const int& nx, const int& ny,
@@ -27,9 +30,11 @@ class ImageRecordRect : virtual public IRecord
   int y{0};
   int width{0};
   int height{0};
+
+  ImageRecordRectPtr duplicate_shared();
 };
 
-using ImageRecordRectPtr = std::shared_ptr<ImageRecordRect>;
+using ImageRecordRectPtr = ImageRecordRect::ImageRecordRectPtr;
 using ImageRecordRectSet = std::unordered_set<ImageRecordRectPtr>;
 
 }  // namespace events::events

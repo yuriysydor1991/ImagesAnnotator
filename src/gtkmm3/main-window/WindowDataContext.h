@@ -78,6 +78,8 @@ class WindowDataContext
       "next_image_button";
   inline static constexpr const char* const main_window_status_bar_id =
       "main_window_status_bar";
+  inline static constexpr const char* const duplicate_current_annotation_id =
+      "duplicate_current_annotation";
 };
 
 }  // namespace templateGtkmm3::window

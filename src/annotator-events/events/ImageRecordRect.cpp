@@ -18,4 +18,9 @@ ImageRecordRect::ImageRecordRect(const std::string& nname, const int& nx,
 {
 }
 
+ImageRecordRectPtr ImageRecordRect::duplicate_shared()
+{
+  return std::make_shared<ImageRecordRect>(*this);
+}
+
 }  // namespace events::events

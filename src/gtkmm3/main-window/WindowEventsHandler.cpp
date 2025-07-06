@@ -157,6 +157,8 @@ void WindowEventsHandler::subscribe_4_visual_events()
   spinner->set_valign(Gtk::ALIGN_CENTER);
   spinner->set_halign(Gtk::ALIGN_CENTER);
   spinner->set_size_request(100, 100);
+
+  drawArea->set_halign(Gtk::ALIGN_CENTER);
 }
 
 void WindowEventsHandler::show_spinner()

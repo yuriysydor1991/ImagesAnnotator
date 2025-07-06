@@ -80,6 +80,10 @@ class WindowDataContext
       "main_window_status_bar";
   inline static constexpr const char* const duplicate_current_annotation_id =
       "duplicate_current_annotation";
+
+  inline static constexpr const char* const spinner_id = "spinner";
+  inline static constexpr const char* const main_window_overlay_id =
+      "main_window_overlay";
 };
 
 }  // namespace templateGtkmm3::window

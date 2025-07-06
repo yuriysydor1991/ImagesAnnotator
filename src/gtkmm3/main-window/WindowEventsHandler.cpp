@@ -145,6 +145,50 @@ void WindowEventsHandler::subscribe_4_visual_events()
 
   aSearchE->signal_search_changed().connect(sigc::mem_fun(
       *this, &WindowEventsHandler::on_annotations_search_text_changed));
+
+  auto* overlay = mwctx->wloader->get_main_overlay();
+  auto* spinner = mwctx->wloader->get_spinner();
+
+  assert(overlay != nullptr);
+  assert(spinner != nullptr);
+
+  overlay->add_overlay(*spinner);
+
+  spinner->set_valign(Gtk::ALIGN_CENTER);
+  spinner->set_halign(Gtk::ALIGN_CENTER);
+  spinner->set_size_request(100, 100);
+}
+
+void WindowEventsHandler::show_spinner()
+{
+  LOGT("Starting spinner");
+
+  assert(mwctx->wloader->get_spinner() != nullptr);
+  assert(mwctx->wloader->get_main_overlay() != nullptr);
+
+  auto* overlay = mwctx->wloader->get_main_overlay();
+  auto* spinner = mwctx->wloader->get_spinner();
+
+  overlay->get_style_context()->add_class(overlay_class);
+
+  spinner->start();
+  spinner->show();
+}
+
+void WindowEventsHandler::hide_spinner()
+{
+  LOGT("Stopping spinner");
+
+  assert(mwctx->wloader->get_spinner() != nullptr);
+  assert(mwctx->wloader->get_main_overlay() != nullptr);
+
+  auto* spinner = mwctx->wloader->get_spinner();
+  auto* overlay = mwctx->wloader->get_main_overlay();
+
+  spinner->stop();
+  spinner->hide();
+
+  overlay->get_style_context()->remove_class(overlay_class);
 }
 
 void WindowEventsHandler::on_next_file_button_click()
@@ -413,6 +457,8 @@ void WindowEventsHandler::on_annotations_db_open_click()
 {
   LOGT("Open new annotations dir");
 
+  show_spinner();
+
   auto dialog =
       mwctx->cwFactory->create_json_db_dialog(mwctx->wloader->get_window());
 
@@ -420,12 +466,18 @@ void WindowEventsHandler::on_annotations_db_open_click()
 
   if (result != Gtk::RESPONSE_OK) {
     LOGD("Dialog is closed");
+    hide_spinner();
     return;
   }
 
-  LOGD("Selected json db file: " << dialog->get_filename());
+  const auto newFileName = dialog->get_filename();
 
-  mwctx->actx->eventer->onAnnotationsDirChanged(dialog->get_filename());
+  LOGD("Selected json db file: " << newFileName);
+
+  // Run this after window becomes idle (rendered)
+  Glib::signal_idle().connect_once([this, newFileName]() {
+    mwctx->actx->eventer->onAnnotationsDirChanged(newFileName);
+  });
 }
 
 void WindowEventsHandler::update_image_zoom()
@@ -565,6 +617,8 @@ void WindowEventsHandler::on_images_dir_open_click()
 {
   LOGT("Open new images dir");
 
+  show_spinner();
+
   auto dialog = mwctx->cwFactory->create_folder_choose_dialog(
       mwctx->wloader->get_window());
 
@@ -572,6 +626,7 @@ void WindowEventsHandler::on_images_dir_open_click()
 
   if (result != Gtk::RESPONSE_OK) {
     LOGD("Dialog is closed");
+    hide_spinner();
     return;
   }
 
@@ -685,6 +740,8 @@ void WindowEventsHandler::handle(
   update_annotations_list();
   update_status_bar();
   update_current_rects_list();
+
+  hide_spinner();
 }
 
 void WindowEventsHandler::update_status_bar()

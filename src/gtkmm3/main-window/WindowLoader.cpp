@@ -313,4 +313,18 @@ Gtk::Button* WindowLoader::get_copy_current_annotation_button()
   return get_widget<Gtk::Button>(mwctx->wctx->duplicate_current_annotation_id);
 }
 
+Gtk::Overlay* WindowLoader::get_main_overlay()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::Overlay>(mwctx->wctx->main_window_overlay_id);
+}
+
+Gtk::Spinner* WindowLoader::get_spinner()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::Spinner>(mwctx->wctx->spinner_id);
+}
+
 }  // namespace templateGtkmm3::window

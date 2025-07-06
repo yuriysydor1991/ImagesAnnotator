@@ -2,3 +2,8 @@
 {
   background-color: #255A1B;
 }
+
+.almost_non_transparent {
+  background-color: #000;
+  opacity: 0.2;
+}

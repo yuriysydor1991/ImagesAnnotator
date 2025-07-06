@@ -75,6 +75,9 @@ class WindowEventsHandler
   void update_current_annotations_selection();
   void update_status_bar();
 
+  void show_spinner();
+  void hide_spinner();
+
   template <class Ntype>
   static int ceilInt(const Ntype& val);
 
@@ -83,6 +86,9 @@ class WindowEventsHandler
 
   template <class Ntype>
   static int toI(const Ntype& val);
+
+  inline static constexpr const char* const overlay_class =
+      "almost_non_transparent";
 
  private:
   std::shared_ptr<MainWindowContext> mwctx;

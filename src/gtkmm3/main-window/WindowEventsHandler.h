@@ -89,7 +89,7 @@ class WindowEventsHandler
 
   inline static constexpr const char* const overlay_class =
       "almost_non_transparent";
-  inline static constexpr const double load_image_scale_helper = 1.05;
+  inline static constexpr const double load_image_scale_helper = 1.015;
 
  private:
   std::shared_ptr<MainWindowContext> mwctx;

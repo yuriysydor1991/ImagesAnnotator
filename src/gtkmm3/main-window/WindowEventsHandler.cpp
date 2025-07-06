@@ -599,18 +599,36 @@ void WindowEventsHandler::on_images_row_selected(Gtk::ListBoxRow* row)
 
   auto eventsFactory = mwctx->actx->eventer->get_events_factory();
 
-  auto event = eventsFactory->create_current_image_changed(ir);
-
-  mwctx->actx->eventer->submit(event);
-
+  /// @todo seperate into the content loader infrastructure
   mwctx->current_image_original_pixbuf =
       Gdk::Pixbuf::create_from_file(ir->get_full_path());
+
+  if (!mwctx->current_image_original_pixbuf) {
+    LOGE("Fail to load the image " << ir->get_full_path());
+    return;
+  }
+
+  assert(mwctx->wloader->get_central_scrolled_window() != nullptr);
+
+  const auto origHeight = mwctx->current_image_original_pixbuf->get_height();
+  const auto centralHeight =
+      mwctx->wloader->get_central_scrolled_window()->get_allocated_height();
+
+  ir->imageScale =
+      static_cast<double>(centralHeight) / static_cast<double>(origHeight);
+  ir->imageScale /= load_image_scale_helper;
+
+  LOGT("Image new scale factor: " << ir->imageScale);
 
   update_image_zoom();
 
   update_current_rects_list();
 
   LOGT("New image selected: " << ir->get_full_path());
+
+  auto event = eventsFactory->create_current_image_changed(ir);
+
+  mwctx->actx->eventer->submit(event);
 }
 
 void WindowEventsHandler::on_images_dir_open_click()

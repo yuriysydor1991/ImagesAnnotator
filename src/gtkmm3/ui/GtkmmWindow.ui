@@ -263,7 +263,8 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkScrolledWindow">
+                              <object class="GtkScrolledWindow" id="central_canvas_scrolled_window">
+                                <property name="name">central_canvas_scrolled_window</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="shadow-type">in</property>

@@ -32,7 +32,10 @@ const std::set<std::string>& WindowDataContext::get_ids()
       previous_image_button_id,
       next_image_button_id,
       main_window_status_bar_id,
-      duplicate_current_annotation_id};
+      duplicate_current_annotation_id,
+      spinner_id,
+      main_window_overlay_id,
+      central_canvas_scrolled_window_id};
 
   return ids;
 }

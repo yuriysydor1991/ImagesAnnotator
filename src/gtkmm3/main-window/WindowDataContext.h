@@ -84,6 +84,8 @@ class WindowDataContext
   inline static constexpr const char* const spinner_id = "spinner";
   inline static constexpr const char* const main_window_overlay_id =
       "main_window_overlay";
+  inline static constexpr const char* const central_canvas_scrolled_window_id =
+      "central_canvas_scrolled_window";
 };
 
 }  // namespace templateGtkmm3::window

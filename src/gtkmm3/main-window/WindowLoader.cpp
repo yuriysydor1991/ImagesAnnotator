@@ -121,11 +121,11 @@ WidgetType* WindowLoader::get_widget(const std::string& id)
 
   builder->get_widget(id, tptr);
 
-  assert(tptr != nullptr);
-
   if (tptr == nullptr) {
     LOGE("Failure during retrieving the widget by id: " << id);
   }
+
+  assert(tptr != nullptr);
 
   return tptr;
 }
@@ -325,6 +325,14 @@ Gtk::Spinner* WindowLoader::get_spinner()
   assert(mwctx->wctx != nullptr);
 
   return get_widget<Gtk::Spinner>(mwctx->wctx->spinner_id);
+}
+
+Gtk::ScrolledWindow* WindowLoader::get_central_scrolled_window()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ScrolledWindow>(
+      mwctx->wctx->central_canvas_scrolled_window_id);
 }
 
 }  // namespace templateGtkmm3::window

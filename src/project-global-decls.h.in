@@ -16,6 +16,9 @@ const std::string PROJECT_BUILD_COMMIT = "${PROJECT_GIT_COMMIT}" ;
 const std::string PROJECT_CONFIGURE_DATE = "${PROJECT_CONFIGURE_DATE}" ;
 /// @brief Global project' flatpak App URL
 const std::string PROJECT_FLATPAK_URL = "${FLATPAK_PROJECT_URL}" ;
+const std::string PROJECT_MAINTAINER = "${PROJECT_MAINTAINER}" ;
+const std::string PROJECT_MAINTAINER_EMAIL = "${PROJECT_MAINTAINER_EMAIL}" ;
+const std::string PROJECT_HOMEPAGE_URL = "${CMAKE_PROJECT_HOMEPAGE_URL}" ;
 
 } // namespace project_decls
 

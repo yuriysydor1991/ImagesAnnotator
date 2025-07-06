@@ -54,6 +54,9 @@ class CustomWidgetsFactory
 
   virtual AnnotationsVisualList create_annotations_labels(
       const AnnotationsList& strList);
+
+  virtual void prepare_about(Gtk::AboutDialog* about,
+                             Gtk::Window* parentWindow);
 };
 
 }  // namespace templateGtkmm3::window::custom_widgets

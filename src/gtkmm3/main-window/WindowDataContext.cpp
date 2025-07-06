@@ -35,7 +35,9 @@ const std::set<std::string>& WindowDataContext::get_ids()
       duplicate_current_annotation_id,
       spinner_id,
       main_window_overlay_id,
-      central_canvas_scrolled_window_id};
+      central_canvas_scrolled_window_id,
+      about_dialog_id,
+      about_menu_item_id};
 
   return ids;
 }

@@ -4,9 +4,11 @@
 #include <memory>
 #include <vector>
 
+#include "project-global-decls.h"
 #include "src/annotator-events/events/ImageRecord.h"
 #include "src/annotator-events/events/ImagesPathsDBProvider.h"
 #include "src/gtkmm3/MainWindowContext.h"
+#include "src/gtkmm3/main-window/WindowDataContext.h"
 #include "src/gtkmm3/main-window/custom-widgets/ImagePathLabel.h"
 #include "src/gtkmm3/main-window/custom-widgets/ImageRectsLabel.h"
 #include "src/log/log.h"
@@ -158,6 +160,42 @@ CustomWidgetsFactory::create_annotations_labels(const AnnotationsList& strList)
   }
 
   return list;
+}
+
+void CustomWidgetsFactory::prepare_about(Gtk::AboutDialog* about,
+                                         Gtk::Window* parentWindow)
+{
+  assert(about != nullptr);
+  assert(parentWindow != nullptr);
+
+  if (about == nullptr) {
+    LOGE("No about window valid pointer was given");
+    return;
+  }
+
+  if (parentWindow == nullptr) {
+    LOGE("No parent window was given");
+    return;
+  }
+
+  about->set_authors({project_decls::PROJECT_MAINTAINER + " " +
+                      project_decls::PROJECT_MAINTAINER_EMAIL});
+  about->set_website(project_decls::PROJECT_HOMEPAGE_URL);
+  about->set_version(project_decls::PROJECT_BUILD_VERSION);
+  about->set_program_name(project_decls::PROJECT_NAME);
+
+  about->set_modal(true);
+  about->set_transient_for(*parentWindow);
+
+  try {
+    auto pixbuf =
+        Gdk::Pixbuf::create_from_resource(WindowDataContext::logo_res_path);
+
+    about->set_logo(pixbuf);
+  }
+  catch (const Glib::Error& ex) {
+    LOGE("Failed to load icon: " << ex.what());
+  }
 }
 
 }  // namespace templateGtkmm3::window::custom_widgets

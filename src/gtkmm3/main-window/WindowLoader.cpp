@@ -335,4 +335,18 @@ Gtk::ScrolledWindow* WindowLoader::get_central_scrolled_window()
       mwctx->wctx->central_canvas_scrolled_window_id);
 }
 
+Gtk::AboutDialog* WindowLoader::get_about()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::AboutDialog>(mwctx->wctx->about_dialog_id);
+}
+
+Gtk::ImageMenuItem* WindowLoader::get_about_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(mwctx->wctx->about_menu_item_id);
+}
+
 }  // namespace templateGtkmm3::window

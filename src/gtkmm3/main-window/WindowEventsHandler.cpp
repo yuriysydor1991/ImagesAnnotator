@@ -70,6 +70,7 @@ void WindowEventsHandler::subscribe_4_visual_events()
   auto* prevButton = mwctx->wloader->get_prev_file_button();
   auto* nextButton = mwctx->wloader->get_next_file_button();
   auto* dupCurretAnn = mwctx->wloader->get_copy_current_annotation_button();
+  auto* aboutM = mwctx->wloader->get_about_mi();
 
   assert(imagesListBox != nullptr);
   assert(zoomInB != nullptr);
@@ -145,6 +146,9 @@ void WindowEventsHandler::subscribe_4_visual_events()
 
   aSearchE->signal_search_changed().connect(sigc::mem_fun(
       *this, &WindowEventsHandler::on_annotations_search_text_changed));
+
+  aboutM->signal_activate().connect(
+      sigc::mem_fun(*this, &WindowEventsHandler::on_menu_about_activate));
 
   auto* overlay = mwctx->wloader->get_main_overlay();
   auto* spinner = mwctx->wloader->get_spinner();
@@ -1205,6 +1209,19 @@ void WindowEventsHandler::on_annotations_search_text_changed()
     row->set_visible(filter_text.empty() ||
                      text.find(filter_text) != Glib::ustring::npos);
   }
+}
+
+void WindowEventsHandler::on_menu_about_activate()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wloader->get_about() != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  auto about = mwctx->wloader->get_about();
+
+  mwctx->cwFactory->prepare_about(about, mwctx->wloader->get_window());
+
+  about->show();
 }
 
 }  // namespace templateGtkmm3::window

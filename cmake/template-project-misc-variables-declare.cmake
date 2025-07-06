@@ -11,12 +11,12 @@ set(
 )
 
 set(
-  PROJECT_MAINTAINER "Your Name"
+  PROJECT_MAINTAINER "Yuriy Sydor"
   CACHE STRING "Project maintainer name (used for the DEB package)"
 )
 
 set(
-  PROJECT_MAINTAINER_EMAIL "yourname@your.email.org"
+  PROJECT_MAINTAINER_EMAIL "yuriysydor1991@gmail.com"
   CACHE STRING "Project maintainer email (used for the DEB package)"
 )
 

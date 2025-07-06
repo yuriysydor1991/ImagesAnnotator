@@ -86,6 +86,9 @@ class WindowDataContext
       "main_window_overlay";
   inline static constexpr const char* const central_canvas_scrolled_window_id =
       "central_canvas_scrolled_window";
+  inline static constexpr const char* const about_dialog_id = "about_dialog";
+  inline static constexpr const char* const about_menu_item_id =
+      "about_menu_item";
 };
 
 }  // namespace templateGtkmm3::window

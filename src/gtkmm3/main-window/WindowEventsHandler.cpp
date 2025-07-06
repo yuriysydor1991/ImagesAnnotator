@@ -156,7 +156,7 @@ void WindowEventsHandler::subscribe_4_visual_events()
 
   spinner->set_valign(Gtk::ALIGN_CENTER);
   spinner->set_halign(Gtk::ALIGN_CENTER);
-  spinner->set_size_request(100, 100);
+  spinner->set_size_request(spinner_size, spinner_size);
 
   drawArea->set_halign(Gtk::ALIGN_CENTER);
 }
@@ -396,6 +396,8 @@ bool WindowEventsHandler::on_rectangle_size_change(GdkEventMotion* event)
 
   auto pixbuf = mwctx->centralCanvas->get_pixbuf();
 
+  assert(pixbuf);
+
   const auto& imageScale = ir->imageScale;
 
   double start_x = toD(ir->current_rect->x);
@@ -416,21 +418,26 @@ bool WindowEventsHandler::on_rectangle_size_change(GdkEventMotion* event)
   ir->current_rect->width = toI(std::abs(end_x - start_x));
   ir->current_rect->height = toI(std::abs(end_y - start_y));
 
+  assert(mwctx->centralCanvas != nullptr);
+
+  mwctx->centralCanvas->queue_draw();
+
+  if (!pixbuf) {
+    LOGE("Canvas doesn't contain image pixbuf");
+    return true;
+  }
+
   if (((ir->current_rect->width + ir->current_rect->x) * imageScale) >
       pixbuf->get_width()) {
-    ir->current_rect->width =
-        (pixbuf->get_width() / imageScale) - ir->current_rect->x;
+    const auto scaledWidth = toD(pixbuf->get_width()) / imageScale;
+    ir->current_rect->width = toI(scaledWidth) - ir->current_rect->x;
   }
 
   if (((ir->current_rect->height + ir->current_rect->y) * imageScale) >
       pixbuf->get_height()) {
-    ir->current_rect->height =
-        (pixbuf->get_height() / imageScale) - ir->current_rect->y;
+    const auto scaledHeight = toD(pixbuf->get_height()) / imageScale;
+    ir->current_rect->height = toI(scaledHeight) - ir->current_rect->y;
   }
-
-  assert(mwctx->centralCanvas != nullptr);
-
-  mwctx->centralCanvas->queue_draw();
 
   return true;
 }

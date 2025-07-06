@@ -82,4 +82,6 @@ void CentralWorkingCanvas::clear()
   queue_draw();
 }
 
+Glib::RefPtr<Gdk::Pixbuf> CentralWorkingCanvas::get_pixbuf() { return pixbuf; }
+
 }  // namespace templateGtkmm3::window::custom_widgets

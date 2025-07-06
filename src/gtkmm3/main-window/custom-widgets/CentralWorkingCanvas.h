@@ -32,6 +32,8 @@ class CentralWorkingCanvas
 
   virtual void clear();
 
+  virtual Glib::RefPtr<Gdk::Pixbuf> get_pixbuf();
+
  private:
   // Called when the widget needs to redraw
   virtual bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr) override;

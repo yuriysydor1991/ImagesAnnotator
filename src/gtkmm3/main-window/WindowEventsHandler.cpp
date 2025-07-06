@@ -394,17 +394,39 @@ bool WindowEventsHandler::on_rectangle_size_change(GdkEventMotion* event)
     return true;
   }
 
+  auto pixbuf = mwctx->centralCanvas->get_pixbuf();
+
   const auto& imageScale = ir->imageScale;
 
-  const double start_x = toD(ir->current_rect->x);
-  const double start_y = toD(ir->current_rect->y);
+  double start_x = toD(ir->current_rect->x);
+  double start_y = toD(ir->current_rect->y);
   const double end_x = event->x / imageScale;
   const double end_y = event->y / imageScale;
+
+  if (start_x < 0) {
+    start_x = 0;
+  }
+  
+  if (start_y < 0) {
+    start_y = 0;
+  }
 
   ir->current_rect->x = toI(std::min(start_x, end_x));
   ir->current_rect->y = toI(std::min(start_y, end_y));
   ir->current_rect->width = toI(std::abs(end_x - start_x));
   ir->current_rect->height = toI(std::abs(end_y - start_y));
+
+  if (((ir->current_rect->width + ir->current_rect->x) * imageScale) >
+      pixbuf->get_width()) {
+    ir->current_rect->width = pixbuf->get_width() - ir->current_rect->x;
+    ir->current_rect->width /= imageScale;
+  }
+
+  if (((ir->current_rect->height + ir->current_rect->y) * imageScale) >
+      pixbuf->get_height()) {
+    ir->current_rect->height = pixbuf->get_height() - ir->current_rect->y;
+    ir->current_rect->height /= imageScale;
+  }
 
   assert(mwctx->centralCanvas != nullptr);
 

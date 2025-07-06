@@ -406,7 +406,7 @@ bool WindowEventsHandler::on_rectangle_size_change(GdkEventMotion* event)
   if (start_x < 0) {
     start_x = 0;
   }
-  
+
   if (start_y < 0) {
     start_y = 0;
   }

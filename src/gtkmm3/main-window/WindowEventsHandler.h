@@ -8,6 +8,7 @@
 #include "src/gtkmm3/MainWindowContext.h"
 #include "src/gtkmm3/gtkmm_includes.h"
 #include "src/gtkmm3/main-window/WindowDataContext.h"
+#include "src/helpers/TypeHelper.h"
 
 namespace templateGtkmm3
 {
@@ -23,7 +24,8 @@ namespace templateGtkmm3::window
 class WindowEventsHandler
     : virtual public ComponentTypesAliases,
       virtual public events::events::ImagesDirProviderChangedHandler,
-      public std::enable_shared_from_this<WindowEventsHandler>
+      public std::enable_shared_from_this<WindowEventsHandler>,
+      virtual public helpers::TypeHelper
 {
  public:
   using ImagesDirProviderChanged = events::events::ImagesDirProviderChanged;
@@ -88,15 +90,6 @@ class WindowEventsHandler
 
   void show_spinner();
   void hide_spinner();
-
-  template <class Ntype>
-  static int ceilInt(const Ntype& val);
-
-  template <class Ntype>
-  static double toD(const Ntype& val);
-
-  template <class Ntype>
-  static int toI(const Ntype& val);
 
   inline static constexpr const char* const overlay_class =
       "almost_non_transparent";

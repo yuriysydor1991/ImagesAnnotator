@@ -1,7 +1,6 @@
 #include "src/gtkmm3/main-window/WindowEventsHandler.h"
 
 #include <cassert>
-#include <cmath>
 #include <memory>
 
 #include "src/gtkmm3/MainWindowContext.h"
@@ -265,11 +264,6 @@ void WindowEventsHandler::select_list_box_child(Gtk::ListBox* listBox,
   assert(listBox != nullptr);
 
   if (listBox == nullptr) {
-    LOGE("List box was not provided");
-    return;
-  }
-
-  if (listBox == nullptr) {
     LOGD("List box child pointer was not provided");
     return;
   }
@@ -404,9 +398,9 @@ bool WindowEventsHandler::on_mouse_motion_start(GdkEventButton* event)
     return true;
   }
 
-  isOverResize =
-      mwctx->centralCanvas->mouse_is_over_resize(event->x, event->y) &&
-      mwctx->centralCanvas->get_mouse_over_rect() != nullptr;
+  isOverResize = mwctx->centralCanvas->mouse_is_over_resize(toI(event->x),
+                                                            toI(event->y)) &&
+                 mwctx->centralCanvas->get_mouse_over_rect() != nullptr;
 
   if (isOverResize) {
     return on_mouse_resize_motion_start(event);
@@ -462,7 +456,8 @@ bool WindowEventsHandler::update_current_resize(GdkEventMotion* event)
   return true;
 }
 
-bool WindowEventsHandler::on_mouse_resize_motion_start(GdkEventButton* event)
+bool WindowEventsHandler::on_mouse_resize_motion_start(
+    [[maybe_unused]] GdkEventButton* event)
 {
   assert(mwctx != nullptr);
   assert(event != nullptr);
@@ -538,7 +533,7 @@ bool WindowEventsHandler::on_mouse_motion_event(GdkEventMotion* event)
   }
 
   const bool currentlyIsOverResize =
-      mwctx->centralCanvas->mouse_is_over_resize(event->x, event->y);
+      mwctx->centralCanvas->mouse_is_over_resize(toI(event->x), toI(event->y));
 
   if (currentlyIsOverResize) {
     LOGT("Setting the resize cursor");
@@ -733,26 +728,6 @@ void WindowEventsHandler::update_image_zoom()
   }
 
   mwctx->centralCanvas->set_pixbuf(scaled);
-}
-
-template <class Ntype>
-inline double WindowEventsHandler::toD(const Ntype& val)
-{
-  return static_cast<double>(val);
-}
-
-template <class Ntype>
-inline int WindowEventsHandler::ceilInt(const Ntype& val)
-{
-  const auto ceiledV = std::ceil(val);
-
-  return static_cast<int>(ceiledV);
-}
-
-template <class Ntype>
-int WindowEventsHandler::toI(const Ntype& val)
-{
-  return static_cast<int>(val);
 }
 
 bool WindowEventsHandler::on_image_scroll(GdkEventScroll* scroll_event)

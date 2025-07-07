@@ -6,6 +6,7 @@
 #include "src/annotator-events/events/ImageRecord.h"
 #include "src/gtkmm3/gtkmm_includes.h"
 #include "src/gtkmm3/main-window/custom-widgets/ImagePathLabel.h"
+#include "src/helpers/TypeHelper.h"
 
 namespace templateGtkmm3
 {
@@ -20,7 +21,8 @@ namespace templateGtkmm3::window::custom_widgets
  */
 class CentralWorkingCanvas
     : public Gtk::DrawingArea,
-      public std::enable_shared_from_this<CentralWorkingCanvas>
+      public std::enable_shared_from_this<CentralWorkingCanvas>,
+      virtual public helpers::TypeHelper
 {
  public:
   using ImageRecord = events::events::ImageRecord;

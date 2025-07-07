@@ -18,7 +18,7 @@ class AllAnnotationsLabel
 {
  public:
   virtual ~AllAnnotationsLabel() = default;
-  AllAnnotationsLabel(const std::string& ntext);
+  explicit AllAnnotationsLabel(const std::string& ntext);
 };
 
 using AllAnnotationsLabelPtr = std::shared_ptr<AllAnnotationsLabel>;

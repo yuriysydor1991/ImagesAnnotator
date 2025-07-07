@@ -76,10 +76,10 @@ void CentralWorkingCanvas::draw_rectangle(
 
   const double& is = ir->imageScale;
 
-  const int tx = rptr->x * is;
-  const int ty = rptr->y * is;
-  const int tw = rptr->width * is;
-  const int th = rptr->height * is;
+  const int tx = toI(toD(rptr->x) * is);
+  const int ty = toI(toD(rptr->y) * is);
+  const int tw = toI(toD(rptr->width) * is);
+  const int th = toI(toD(rptr->height) * is);
 
   cr->rectangle(tx, ty, tw, th);
 
@@ -237,10 +237,10 @@ bool CentralWorkingCanvas::is_inside_or_near_by(const int& dx, const int& dy,
 
   const double& is = ir->imageScale;
 
-  const int tx = (rptr->x * is) - nearByDistPixelSize;
-  const int ty = (rptr->y * is) - nearByDistPixelSize;
-  const int tw = (rptr->width * is) + nearByDistPixelSize;
-  const int th = (rptr->height * is) + nearByDistPixelSize;
+  const int tx = toI(toD(rptr->x) * is) - nearByDistPixelSize;
+  const int ty = toI(toD(rptr->y) * is) - nearByDistPixelSize;
+  const int tw = toI(toD(rptr->width) * is) + nearByDistPixelSize;
+  const int th = toI(toD(rptr->height) * is) + nearByDistPixelSize;
 
   return is_in_rect(dx, dy, tx, ty, tw, th);
 }
@@ -264,10 +264,10 @@ bool CentralWorkingCanvas::is_in_one_of_resize_rects(
 
   const double& is = ir->imageScale;
 
-  const int tx = rptr->x * is;
-  const int ty = rptr->y * is;
-  const int tw = rptr->width * is;
-  const int th = rptr->height * is;
+  const int tx = toI(toD(rptr->x) * is);
+  const int ty = toI(toD(rptr->y) * is);
+  const int tw = toI(toD(rptr->width) * is);
+  const int th = toI(toD(rptr->height) * is);
 
   if (!is_in_rect(dx, dy, tx, ty, tw, th)) {
     LOGT("Given point is out of the main rectangle");

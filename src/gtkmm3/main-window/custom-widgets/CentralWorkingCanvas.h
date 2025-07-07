@@ -24,6 +24,8 @@ class CentralWorkingCanvas
 {
  public:
   using ImageRecord = events::events::ImageRecord;
+  using ImageRecordRectPtr = events::events::ImageRecordRectPtr;
+  using ImageRecordPtr = events::events::ImageRecordPtr;
 
   virtual ~CentralWorkingCanvas() = default;
   explicit CentralWorkingCanvas(std::shared_ptr<ImagePathLabel>& nci);
@@ -37,6 +39,12 @@ class CentralWorkingCanvas
  private:
   // Called when the widget needs to redraw
   virtual bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr) override;
+
+  virtual void draw_rectangle(const Cairo::RefPtr<Cairo::Context>& cr,
+                              const ImageRecordRectPtr& rptr,
+                              ImageRecordPtr ir);
+
+  inline static const int cornersPixelSize = 10;
 
   std::shared_ptr<ImagePathLabel>& current_image;
   Glib::RefPtr<Gdk::Pixbuf> pixbuf;

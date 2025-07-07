@@ -40,23 +40,78 @@ bool CentralWorkingCanvas::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
   }
 
   for (auto& rptr : ir->rects) {
-    cr->set_line_width(2.0);
-
-    if (ir->current_rect == rptr) {
-      cr->set_line_width(2.0);
-      cr->set_source_rgb(0.9, 0.0, 0.0);
-    } else {
-      cr->set_line_width(1.0);
-      cr->set_source_rgb(0.0, 0.2, 0.8);
-    }
-
-    cr->rectangle((rptr->x * ir->imageScale), (rptr->y * ir->imageScale),
-                  (rptr->width * ir->imageScale),
-                  (rptr->height * ir->imageScale));
-    cr->stroke();
+    draw_rectangle(cr, rptr, ir);
   }
 
   return true;
+}
+
+void CentralWorkingCanvas::draw_rectangle(
+    const Cairo::RefPtr<Cairo::Context>& cr, const ImageRecordRectPtr& rptr,
+    ImageRecordPtr ir)
+{
+  assert(cr);
+  assert(rptr != nullptr);
+  assert(ir != nullptr);
+
+  if (rptr == nullptr) {
+    LOGE("Invalid rectangle pointer");
+    return;
+  }
+
+  if (ir == nullptr) {
+    LOGE("No image record pointer provided");
+    return;
+  }
+
+  cr->set_line_width(2.0);
+
+  if (ir->current_rect == rptr) {
+    cr->set_line_width(2.0);
+    cr->set_source_rgb(0.9, 0.0, 0.0);
+  } else {
+    cr->set_line_width(1.0);
+    cr->set_source_rgb(0.0, 0.2, 0.8);
+  }
+
+  const double is = ir->imageScale;
+
+  const int tx = rptr->x * is;
+  const int ty = rptr->y * is;
+  const int tw = rptr->width * is;
+  const int th = rptr->height * is;
+
+  cr->rectangle(tx, ty, tw, th);
+
+  cr->stroke();
+
+  static const int minSize = cornersPixelSize * 2 + 2;
+
+  if (tw < minSize) {
+    LOGD("The rectangle has no width to draw resize corners");
+    return;
+  }
+
+  if (th < minSize) {
+    LOGD("The rectangle has no height to draw resize corners");
+    return;
+  }
+
+  cr->set_line_width(1.0);
+
+  // up left corner
+  cr->rectangle(tx, ty, cornersPixelSize, cornersPixelSize);
+  // up right corner
+  cr->rectangle(tx + tw - cornersPixelSize, ty, cornersPixelSize,
+                cornersPixelSize);
+  // dow left corner
+  cr->rectangle(tx, ty + th - cornersPixelSize, cornersPixelSize,
+                cornersPixelSize);
+  // up right corner
+  cr->rectangle(tx + tw - cornersPixelSize, ty + th - cornersPixelSize,
+                cornersPixelSize, cornersPixelSize);
+
+  cr->stroke();
 }
 
 bool CentralWorkingCanvas::set_pixbuf(Glib::RefPtr<Gdk::Pixbuf>& npb)

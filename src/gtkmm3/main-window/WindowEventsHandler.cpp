@@ -207,7 +207,11 @@ void WindowEventsHandler::on_next_file_button_click()
   auto current = imagesBox->get_selected_row();
 
   if (current == nullptr) {
-    select_list_box_child(imagesBox, *children.begin());
+    if (!children.empty()) {
+      select_list_box_child(imagesBox, *children.begin());
+      return;
+    }
+    LOGT("No files are loaded");
     return;
   }
 

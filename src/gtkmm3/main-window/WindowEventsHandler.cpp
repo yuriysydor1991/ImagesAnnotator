@@ -998,6 +998,8 @@ void WindowEventsHandler::handle(
   update_status_bar();
   update_current_rects_list();
 
+  mwctx->wloader->update_window_title(mwctx->images_provider->get_db_path());
+
   hide_spinner();
 }
 

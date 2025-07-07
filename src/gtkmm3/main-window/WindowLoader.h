@@ -61,6 +61,8 @@ class WindowLoader : virtual public ComponentTypesAliases
 
   virtual Gtk::ListBox* get_current_image_annotations();
 
+  virtual void update_window_title(const std::string& openedFile = "");
+
  protected:
   virtual bool propagate_params();
   virtual bool propagate_css_params();

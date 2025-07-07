@@ -78,6 +78,7 @@ bool WindowLoader::propagate_params()
   assert(get_window() != nullptr);
 
   get_window()->maximize();
+  update_window_title();
 
   if (!propagate_css_params()) {
     LOGE("Fail to propagate the css into the app window");
@@ -85,6 +86,17 @@ bool WindowLoader::propagate_params()
   }
 
   return true;
+}
+
+void WindowLoader::update_window_title(const std::string& openedFile)
+{
+  static const std::string basicTitle =
+      project_decls::PROJECT_NAME + " " + project_decls::PROJECT_BUILD_VERSION;
+
+  const auto usedTitle =
+      openedFile.empty() ? basicTitle : basicTitle + " [" + openedFile + "]";
+
+  get_window()->set_title(usedTitle);
 }
 
 bool WindowLoader::propagate_css_params()

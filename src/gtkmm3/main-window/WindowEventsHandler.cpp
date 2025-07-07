@@ -838,16 +838,35 @@ void WindowEventsHandler::on_images_row_selected(Gtk::ListBoxRow* row)
 
   auto eventsFactory = mwctx->actx->eventer->get_events_factory();
 
-  /// @todo seperate into the content loader infrastructure
-  mwctx->current_image_original_pixbuf =
-      Gdk::Pixbuf::create_from_file(ir->get_full_path());
-
-  if (!mwctx->current_image_original_pixbuf) {
-    LOGE("Fail to load the image " << ir->get_full_path());
+  if (!load_image(ir->get_full_path())) {
+    LOGE("Failure while loading the image");
     return;
   }
 
+  update_image_zoom();
+  update_current_rects_list();
+
+  LOGT("New image selected: " << ir->get_full_path());
+
+  auto event = eventsFactory->create_current_image_changed(ir);
+
+  mwctx->actx->eventer->submit(event);
+}
+
+void WindowEventsHandler::normilize_initial_image_load_scale()
+{
+  assert(MainWindowContext::validate_context(mwctx));
+
   assert(mwctx->wloader->get_central_scrolled_window() != nullptr);
+
+  if (mwctx->current_image == nullptr) {
+    LOGE("No image loaded");
+    return;
+  }
+
+  auto ir = mwctx->current_image->get_image_rec();
+
+  assert(ir != nullptr);
 
   const auto origHeight = mwctx->current_image_original_pixbuf->get_height();
   const auto centralHeight =
@@ -858,16 +877,52 @@ void WindowEventsHandler::on_images_row_selected(Gtk::ListBoxRow* row)
   ir->imageScale /= load_image_scale_helper;
 
   LOGT("Image new scale factor: " << ir->imageScale);
+}
 
-  update_image_zoom();
+bool WindowEventsHandler::load_image(const std::string& filepath)
+{
+  assert(MainWindowContext::validate_context(mwctx));
 
-  update_current_rects_list();
+  std::string errorIfAny;
 
-  LOGT("New image selected: " << ir->get_full_path());
+  try {
+    /// @todo seperate into the content loader infrastructure
+    mwctx->current_image_original_pixbuf =
+        Gdk::Pixbuf::create_from_file(filepath);
+  }
+  catch (const Glib::Error& ex) {
+    errorIfAny = ex.what();
+    LOGE("Failed to load icon; " << errorIfAny << ":" << filepath);
+  }
 
-  auto event = eventsFactory->create_current_image_changed(ir);
+  if (mwctx->current_image_original_pixbuf) {
+    LOGD("Image seems to be loaded");
+    normilize_initial_image_load_scale();
+    return true;
+  }
 
-  mwctx->actx->eventer->submit(event);
+  const std::string emsg = "Fail to load the image:\n\n" + filepath +
+                           (errorIfAny.empty() ? "" : "\n\n" + errorIfAny);
+
+  show_error_dialog(emsg);
+
+  return false;
+}
+
+void WindowEventsHandler::show_error_dialog(const std::string& emsg)
+{
+  show_spinner();
+
+  LOGE(emsg);
+
+  auto errD =
+      mwctx->cwFactory->create_error_dialog(emsg, mwctx->wloader->get_window());
+
+  assert(errD != nullptr);
+
+  errD->run();
+
+  hide_spinner();
 }
 
 void WindowEventsHandler::on_images_dir_open_click()

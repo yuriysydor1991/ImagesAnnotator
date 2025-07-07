@@ -86,12 +86,17 @@ class WindowEventsHandler
   void update_status_bar();
 
   void normalize_current_rect();
+  void normilize_initial_image_load_scale();
 
   void set_resize_cursor();
   void reset_cursor();
 
   void show_spinner();
   void hide_spinner();
+
+  void show_error_dialog(const std::string& emsg);
+
+  virtual bool load_image(const std::string& filepath);
 
   inline static constexpr const char* const overlay_class =
       "almost_non_transparent";

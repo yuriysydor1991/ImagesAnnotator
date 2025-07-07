@@ -200,4 +200,17 @@ void CustomWidgetsFactory::prepare_about(Gtk::AboutDialog* about,
   }
 }
 
+std::shared_ptr<Gtk::MessageDialog> CustomWidgetsFactory::create_error_dialog(
+    const std::string& errDesc, Gtk::Window* parentWindow)
+{
+  auto dialog = std::make_shared<Gtk::MessageDialog>(
+      *parentWindow, "Error!", false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK,
+      true  // modal
+  );
+
+  dialog->set_secondary_text(errDesc);
+
+  return dialog;
+}
+
 }  // namespace templateGtkmm3::window::custom_widgets

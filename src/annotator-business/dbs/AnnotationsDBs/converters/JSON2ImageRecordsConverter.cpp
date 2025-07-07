@@ -55,9 +55,11 @@ JSON2ImageRecordsConverter::fetch_records(const nlohmann::json& allAJSon)
 
       auto ir = efactory->create_image_record(relPath, absdirpath);
 
-      LOGT("image scale factor: " << fan[fannIScale].get<double>());
+      if (fan.contains(fannIScale)) {
+        LOGT("image scale factor: " << fan[fannIScale].get<double>());
 
-      ir->imageScale = fan[fannIScale].get<double>();
+        ir->imageScale = fan[fannIScale].get<double>();
+      }
 
       assert(ir != nullptr);
 

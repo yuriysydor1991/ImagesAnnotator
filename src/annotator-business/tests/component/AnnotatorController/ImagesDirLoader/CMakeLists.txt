@@ -22,6 +22,7 @@ add_executable(
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/CurrentImageChanged.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/AnnotationsDBs/converters/ImageRecords2JSONConverter.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/StoreRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/helpers/SortHelper.cpp
 )
 
 target_include_directories(

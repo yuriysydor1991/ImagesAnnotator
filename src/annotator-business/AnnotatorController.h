@@ -35,7 +35,8 @@ class AnnotatorController
       virtual public events::events::RequestImagesDirProviderHandler,
       virtual public events::events::CurrentImageChangedHandler,
       virtual public events::events::StoreRequestHandler,
-      virtual public events::events::CloseCurrentProjectHandler
+      virtual public events::events::CloseCurrentProjectHandler,
+      virtual public events::events::ImagesPathsDBProvider
 {
  public:
   using ImagesDirChanged = events::events::ImagesDirChanged;
@@ -62,6 +63,10 @@ class AnnotatorController
   virtual void handle(std::shared_ptr<CurrentImageChanged> event) override;
   virtual void handle(std::shared_ptr<StoreRequest> event) override;
   virtual void handle(std::shared_ptr<CloseCurrentProject> event) override;
+
+  virtual ImageRecordsSet& get_images_db() override;
+  virtual std::string get_db_path() override;
+  virtual AnnotationsList get_available_annotations() override;
 
   virtual void deinit();
 

@@ -38,10 +38,14 @@ bool AnnotationsDirDB::load_db(const std::string& fpath)
 
     json = nlohmann::json::parse(f);
 
+    LOGT("Trying to serialize retrieved file");
+
     if (!serialize()) {
       LOGE("Fail to serialize the JSON: " << json.dump());
       return false;
     }
+
+    LOGT("Trying to extract the records");
 
     irdb = load_the_irs();
 

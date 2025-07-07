@@ -228,4 +228,26 @@ void AnnotatorController::handle(
   emitImagesProviderChanged();
 }
 
+AnnotatorController::ImageRecordsSet& AnnotatorController::get_images_db()
+{
+  assert(annotations != nullptr);
+
+  return annotations->get_images_db();
+}
+
+std::string AnnotatorController::get_db_path()
+{
+  assert(annotations != nullptr);
+
+  return annotations->get_db_path();
+}
+
+AnnotatorController::AnnotationsList
+AnnotatorController::get_available_annotations()
+{
+  assert(annotations != nullptr);
+
+  return annotations->get_available_annotations();
+}
+
 }  // namespace iannotator

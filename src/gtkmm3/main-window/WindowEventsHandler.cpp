@@ -373,18 +373,51 @@ bool WindowEventsHandler::on_rectangle_draw_end(GdkEventButton* event)
   return true;
 }
 
+void WindowEventsHandler::set_resize_cursor()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+  assert(mwctx->wloader->get_window() != nullptr);
+
+  auto display = Gdk::Display::get_default();
+  auto cursor = Gdk::Cursor::create(display, Gdk::FLEUR);
+
+  mwctx->wloader->get_window()->get_window()->set_cursor(cursor);
+}
+
+void WindowEventsHandler::reset_cursor()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+  assert(mwctx->wloader->get_window() != nullptr);
+
+  mwctx->wloader->get_window()->get_window()->set_cursor();
+}
+
 bool WindowEventsHandler::on_rectangle_size_change(GdkEventMotion* event)
 {
   assert(mwctx != nullptr);
   assert(event != nullptr);
+  assert(mwctx->centralCanvas != nullptr);
 
   if (mwctx == nullptr) {
     LOGT("No context available");
     return true;
   }
 
+  auto isOverResize =
+      mwctx->centralCanvas->mouse_is_over_resize(event->x, event->y);
+
+  if (isOverResize) {
+    LOGT("Setting the resize cursor");
+    set_resize_cursor();
+  } else {
+    LOGT("resetting the cursor");
+    reset_cursor();
+  }
+
   if (!dragging) {
-    LOGT("No current image available");
+    LOGT("No dragging");
     return true;
   }
 

@@ -141,4 +141,98 @@ void CentralWorkingCanvas::clear()
 
 Glib::RefPtr<Gdk::Pixbuf> CentralWorkingCanvas::get_pixbuf() { return pixbuf; }
 
+bool CentralWorkingCanvas::mouse_is_over_resize(const int& dx, const int& dy)
+{
+  if (current_image == nullptr) {
+    LOGT("No image provided");
+    return false;
+  }
+
+  auto ir = current_image->get_image_rec();
+
+  if (ir == nullptr) {
+    LOGT("Current widget contains no image record");
+    return false;
+  }
+
+  for (auto& rptr : ir->rects) {
+    if (!is_in_one_of_resize_rects(dx, dy, rptr, ir)) {
+      continue;
+    }
+
+    LOGT("Found inside one of the rects");
+    return true;
+  }
+
+  return false;
+}
+
+bool CentralWorkingCanvas::is_in_rect(const int& dx, const int& dy,
+                                      const int& rx, const int& ry,
+                                      const int& rw, const int& rh)
+{
+  LOGT("Checking the [" << dx << "," << dy << "] to [" << rx << "," << ry << ","
+                        << (rx + rw) << "," << (ry + rh) << "]");
+
+  const bool isInX = dx >= rx && dx <= (rx + rw);
+  const bool isInY = dy >= ry && dy <= (ry + rh);
+
+  return isInX && isInY;
+}
+
+bool CentralWorkingCanvas::is_in_one_of_resize_rects(
+    const int& dx, const int& dy, const ImageRecordRectPtr& rptr,
+    ImageRecordPtr ir)
+{
+  assert(rptr != nullptr);
+  assert(ir != nullptr);
+
+  if (rptr == nullptr) {
+    LOGE("Invalid rectangle pointer");
+    return false;
+  }
+
+  if (ir == nullptr) {
+    LOGE("No image record pointer provided");
+    return false;
+  }
+
+  const double is = ir->imageScale;
+
+  const int tx = rptr->x * is;
+  const int ty = rptr->y * is;
+  const int tw = rptr->width * is;
+  const int th = rptr->height * is;
+
+  if (!is_in_rect(dx, dy, tx, ty, tw, th)) {
+    LOGT("Given point is out of the main rectangle");
+    return false;
+  }
+
+  rectMouseOver = rptr;
+
+  // up left corner
+  isUL = is_in_rect(dx, dy, tx, ty, cornersPixelSize, cornersPixelSize);
+  // up right corner
+  isUR = is_in_rect(dx, dy, tx + tw - cornersPixelSize, ty, cornersPixelSize,
+                    cornersPixelSize);
+  // dow left corner
+  isDL = is_in_rect(dx, dy, tx, ty + th - cornersPixelSize, cornersPixelSize,
+                    cornersPixelSize);
+  // up right corner
+  isDR =
+      is_in_rect(dx, dy, tx + tw - cornersPixelSize, ty + th - cornersPixelSize,
+                 cornersPixelSize, cornersPixelSize);
+
+  return isUL || isUR || isDL || isDR;
+}
+
+bool CentralWorkingCanvas::is_over_up_left() { return isUL; }
+
+bool CentralWorkingCanvas::is_over_up_right() { return isUR; }
+
+bool CentralWorkingCanvas::is_over_down_left() { return isDL; }
+
+bool CentralWorkingCanvas::is_over_down_right() { return isDR; }
+
 }  // namespace templateGtkmm3::window::custom_widgets

@@ -36,6 +36,13 @@ class CentralWorkingCanvas
 
   virtual Glib::RefPtr<Gdk::Pixbuf> get_pixbuf();
 
+  virtual bool mouse_is_over_resize(const int& dx, const int& dy);
+
+  virtual bool is_over_up_left();
+  virtual bool is_over_up_right();
+  virtual bool is_over_down_left();
+  virtual bool is_over_down_right();
+
  private:
   // Called when the widget needs to redraw
   virtual bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr) override;
@@ -44,10 +51,27 @@ class CentralWorkingCanvas
                               const ImageRecordRectPtr& rptr,
                               ImageRecordPtr ir);
 
+  virtual bool is_in_one_of_resize_rects(const int& dx, const int& dy,
+                                         const ImageRecordRectPtr& rptr,
+                                         ImageRecordPtr ir);
+
+  virtual bool is_in_rect(const int& dx, const int& dy, const int& rx,
+                          const int& ry, const int& rw, const int& rh);
+
   inline static const int cornersPixelSize = 10;
 
   std::shared_ptr<ImagePathLabel>& current_image;
   Glib::RefPtr<Gdk::Pixbuf> pixbuf;
+  ImageRecordRectPtr rectMouseOver;
+
+  // up left corner
+  bool isUL{false};
+  // up right corner
+  bool isUR{false};
+  // dow left corner
+  bool isDL{false};
+  // up right corner
+  bool isDR{false};
 };
 
 }  // namespace templateGtkmm3::window::custom_widgets

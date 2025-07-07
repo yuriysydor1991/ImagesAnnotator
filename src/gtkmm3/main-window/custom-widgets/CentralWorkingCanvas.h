@@ -43,6 +43,8 @@ class CentralWorkingCanvas
   virtual bool is_over_down_left();
   virtual bool is_over_down_right();
 
+  virtual ImageRecordRectPtr get_mouse_over_rect();
+
  private:
   // Called when the widget needs to redraw
   virtual bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr) override;

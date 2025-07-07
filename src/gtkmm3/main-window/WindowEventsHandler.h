@@ -38,9 +38,6 @@ class WindowEventsHandler
   virtual void on_zoom_in_clicked();
   virtual void on_zoom_out_clicked();
   virtual bool on_image_scroll(GdkEventScroll* scroll_event);
-  virtual bool on_rectangle_draw_start(GdkEventButton* event);
-  virtual bool on_rectangle_draw_end(GdkEventButton* event);
-  virtual bool on_rectangle_size_change(GdkEventMotion* event);
   virtual void on_annotations_db_open_click();
   virtual void on_images_dir_open_click();
   virtual void on_menu_images_folder_open_activate();
@@ -58,6 +55,16 @@ class WindowEventsHandler
   virtual void on_ci_annotation_copy_click();
   virtual void on_annotations_search_text_changed();
   virtual void on_menu_about_activate();
+
+  virtual bool on_mouse_motion_start(GdkEventButton* event);
+  virtual bool on_mouse_motion_end(GdkEventButton* event);
+  virtual bool on_mouse_motion_event(GdkEventMotion* event);
+  virtual bool on_rectangle_draw_start(GdkEventButton* event);
+  virtual bool on_rectangle_draw_end(GdkEventButton* event);
+  virtual bool on_rectangle_size_change(GdkEventMotion* event);
+  virtual bool on_mouse_resize_motion_start(GdkEventButton* event);
+  virtual bool on_mouse_resize_motion_event(GdkEventMotion* event);
+  virtual bool update_current_resize(GdkEventMotion* event);
 
   virtual void update_image_zoom();
 
@@ -100,6 +107,7 @@ class WindowEventsHandler
   std::shared_ptr<MainWindowContext> mwctx;
 
   bool dragging{false};
+  bool isOverResize{false};
 };
 
 }  // namespace templateGtkmm3::window

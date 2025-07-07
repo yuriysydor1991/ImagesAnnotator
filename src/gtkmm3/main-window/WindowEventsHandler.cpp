@@ -100,11 +100,11 @@ void WindowEventsHandler::subscribe_4_visual_events()
       sigc::mem_fun(*this, &WindowEventsHandler::on_zoom_out_clicked));
 
   drawArea->signal_button_press_event().connect(
-      sigc::mem_fun(*this, &WindowEventsHandler::on_rectangle_draw_start));
+      sigc::mem_fun(*this, &WindowEventsHandler::on_mouse_motion_start));
   drawArea->signal_button_release_event().connect(
-      sigc::mem_fun(*this, &WindowEventsHandler::on_rectangle_draw_end));
+      sigc::mem_fun(*this, &WindowEventsHandler::on_mouse_motion_end));
   drawArea->signal_motion_notify_event().connect(
-      sigc::mem_fun(*this, &WindowEventsHandler::on_rectangle_size_change));
+      sigc::mem_fun(*this, &WindowEventsHandler::on_mouse_motion_event));
 
   oAnnB->signal_clicked().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_annotations_db_open_click));
@@ -394,7 +394,129 @@ void WindowEventsHandler::reset_cursor()
   mwctx->wloader->get_window()->get_window()->set_cursor();
 }
 
-bool WindowEventsHandler::on_rectangle_size_change(GdkEventMotion* event)
+bool WindowEventsHandler::on_mouse_motion_start(GdkEventButton* event)
+{
+  assert(mwctx != nullptr);
+  assert(event != nullptr);
+  assert(mwctx->centralCanvas != nullptr);
+
+  if (event->button != 1) {
+    return true;
+  }
+
+  isOverResize =
+      mwctx->centralCanvas->mouse_is_over_resize(event->x, event->y) &&
+      mwctx->centralCanvas->get_mouse_over_rect() != nullptr;
+
+  if (isOverResize) {
+    return on_mouse_resize_motion_start(event);
+  } else {
+    return on_rectangle_draw_start(event);
+  }
+
+  return true;
+}
+
+bool WindowEventsHandler::update_current_resize(GdkEventMotion* event)
+{
+  assert(mwctx != nullptr);
+  assert(event != nullptr);
+
+  auto rectOver = mwctx->centralCanvas->get_mouse_over_rect();
+
+  if (rectOver == nullptr) {
+    LOGE("No mouse over rectangle was provided");
+    return false;
+  }
+
+  auto im = mwctx->current_irecord();
+
+  const double& is = im->imageScale;
+
+  const auto tx = toI(toD(event->x) / is);
+  const auto ty = toI(toD(event->y) / is);
+
+  const auto origX = rectOver->x;
+  const auto origY = rectOver->y;
+
+  if (mwctx->centralCanvas->is_over_up_left()) {
+    rectOver->x = tx;
+    rectOver->y = ty;
+    rectOver->width += origX - tx;
+    rectOver->height += origY - ty;
+  } else if (mwctx->centralCanvas->is_over_up_right()) {
+    rectOver->width = tx - rectOver->x;
+    rectOver->y = ty;
+    rectOver->height += origY - ty;
+  } else if (mwctx->centralCanvas->is_over_down_left()) {
+    rectOver->x = tx;
+    rectOver->height = ty - rectOver->y;
+    rectOver->width += origX - tx;
+  } else if (mwctx->centralCanvas->is_over_down_right()) {
+    rectOver->width = tx - rectOver->x;
+    rectOver->height = ty - rectOver->y;
+  }
+
+  mwctx->centralCanvas->queue_draw();
+
+  return true;
+}
+
+bool WindowEventsHandler::on_mouse_resize_motion_start(GdkEventButton* event)
+{
+  assert(mwctx != nullptr);
+  assert(event != nullptr);
+
+  if (!isOverResize) {
+    LOGE("Not in the resize mode");
+    return false;
+  }
+
+  auto rectOver = mwctx->centralCanvas->get_mouse_over_rect();
+
+  if (rectOver == nullptr) {
+    LOGE("No mouse over rectangle was provided");
+    return false;
+  }
+
+  auto ir = mwctx->current_irecord();
+
+  ir->current_rect = rectOver;
+
+  update_current_annotations_selection();
+
+  return true;
+}
+
+bool WindowEventsHandler::on_mouse_resize_motion_event(GdkEventMotion* event)
+{
+  assert(mwctx != nullptr);
+  assert(event != nullptr);
+  assert(mwctx->centralCanvas != nullptr);
+
+  if (!isOverResize) {
+    LOGE("Not in the resize mode");
+    return false;
+  }
+
+  return update_current_resize(event);
+}
+
+bool WindowEventsHandler::on_mouse_motion_end(GdkEventButton* event)
+{
+  assert(mwctx != nullptr);
+  assert(event != nullptr);
+
+  if (dragging) {
+    return on_rectangle_draw_end(event);
+  }
+
+  isOverResize = false;
+
+  return true;
+}
+
+bool WindowEventsHandler::on_mouse_motion_event(GdkEventMotion* event)
 {
   assert(mwctx != nullptr);
   assert(event != nullptr);
@@ -405,15 +527,37 @@ bool WindowEventsHandler::on_rectangle_size_change(GdkEventMotion* event)
     return true;
   }
 
-  auto isOverResize =
-      mwctx->centralCanvas->mouse_is_over_resize(event->x, event->y);
+  if (dragging) {
+    return on_rectangle_size_change(event);
+  }
 
   if (isOverResize) {
+    return on_mouse_resize_motion_event(event);
+  }
+
+  const bool currentlyIsOverResize =
+      mwctx->centralCanvas->mouse_is_over_resize(event->x, event->y);
+
+  if (currentlyIsOverResize) {
     LOGT("Setting the resize cursor");
     set_resize_cursor();
   } else {
     LOGT("resetting the cursor");
     reset_cursor();
+  }
+
+  return true;
+}
+
+bool WindowEventsHandler::on_rectangle_size_change(GdkEventMotion* event)
+{
+  assert(mwctx != nullptr);
+  assert(event != nullptr);
+  assert(mwctx->centralCanvas != nullptr);
+
+  if (mwctx == nullptr) {
+    LOGT("No context available");
+    return true;
   }
 
   if (!dragging) {

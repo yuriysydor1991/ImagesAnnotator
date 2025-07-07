@@ -74,7 +74,7 @@ void CentralWorkingCanvas::draw_rectangle(
     cr->set_source_rgb(0.0, 0.2, 0.8);
   }
 
-  const double is = ir->imageScale;
+  const double& is = ir->imageScale;
 
   const int tx = rptr->x * is;
   const int ty = rptr->y * is;
@@ -197,7 +197,7 @@ bool CentralWorkingCanvas::is_in_one_of_resize_rects(
     return false;
   }
 
-  const double is = ir->imageScale;
+  const double& is = ir->imageScale;
 
   const int tx = rptr->x * is;
   const int ty = rptr->y * is;
@@ -234,5 +234,11 @@ bool CentralWorkingCanvas::is_over_up_right() { return isUR; }
 bool CentralWorkingCanvas::is_over_down_left() { return isDL; }
 
 bool CentralWorkingCanvas::is_over_down_right() { return isDR; }
+
+CentralWorkingCanvas::ImageRecordRectPtr
+CentralWorkingCanvas::get_mouse_over_rect()
+{
+  return rectMouseOver;
+}
 
 }  // namespace templateGtkmm3::window::custom_widgets

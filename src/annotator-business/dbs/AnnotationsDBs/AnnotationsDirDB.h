@@ -46,6 +46,8 @@ class AnnotationsDirDB : public virtual AnnotationsDBTypes,
   std::string current_db_path;
 };
 
+using AnnotationsDirDBPtr = std::shared_ptr<AnnotationsDirDB>;
+
 }  // namespace iannotator::dbs::annotations
 
 #endif  // IMAGEANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_ANNOTATIONS_DB_CLASS_H

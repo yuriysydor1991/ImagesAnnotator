@@ -5,6 +5,7 @@
 
 #include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsDirDB.h"
 #include "src/annotator-business/dbs/ImagesLoaders/ImagesDirLoader.h"
+#include "src/annotator-business/exporters/PlainTxt2FolderExporter.h"
 #include "src/app/ApplicationContext.h"
 #include "src/app/IApplication.h"
 #include "src/log/log.h"
@@ -17,7 +18,7 @@ AnnotatorController::AnnotatorController()
 {
 }
 
-std::shared_ptr<dbs::annotations::AnnotationsDirDB>
+AnnotatorController::AnnotationsDirDBPtr
 AnnotatorController::create_project_data_instance()
 {
   return std::make_shared<dbs::annotations::AnnotationsDirDB>();
@@ -251,6 +252,19 @@ AnnotatorController::get_available_annotations()
   return annotations->get_available_annotations();
 }
 
+AnnotatorController::ExportContextPtr AnnotatorController::build_export_context(
+    const std::string& dirPath)
+{
+  assert(annotations != nullptr);
+
+  auto ectx = std::make_shared<exporters::ExportContext>();
+
+  ectx->export_path = dirPath;
+  ectx->dbProvider = annotations;
+
+  return ectx;
+}
+
 void AnnotatorController::handle(ExportPlainTxt2FolderRequestPtr event)
 {
   assert(event != nullptr);
@@ -260,7 +274,20 @@ void AnnotatorController::handle(ExportPlainTxt2FolderRequestPtr event)
     return;
   }
 
-  LOGD("Need to implement the basic export to " << event->dst_folder_path);
+  LOGD("Trying to export to " << event->dst_folder_path);
+
+  auto ectx = build_export_context(event->dst_folder_path);
+
+  assert(ectx != nullptr);
+
+  auto exporter = std::make_shared<exporters::PlainTxt2FolderExporter>();
+
+  if (!exporter->export_db(ectx)) {
+    LOGE("Invalid export status");
+    return;
+  }
+
+  LOGD("DB seems to be exported");
 }
 
 }  // namespace iannotator

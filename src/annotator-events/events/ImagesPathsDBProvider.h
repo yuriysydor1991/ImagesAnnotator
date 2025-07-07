@@ -29,6 +29,8 @@ class ImagesPathsDBProvider : virtual public IProvider
   virtual AnnotationsList get_available_annotations() = 0;
 };
 
+using ImagesPathsDBProviderPtr = std::shared_ptr<ImagesPathsDBProvider>;
+
 }  // namespace events::events
 
 #endif  // YOUR_CPP_APP_TEMPLATE_PROJECT_ANNOTATOR_EVENTS_IMAGESPATHSDBPROVIDER_ABSTRACT_CLASS_H

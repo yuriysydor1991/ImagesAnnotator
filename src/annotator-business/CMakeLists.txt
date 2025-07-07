@@ -19,3 +19,4 @@ target_link_libraries(
 
 add_subdirectory(dbs)
 add_subdirectory(tests)
+add_subdirectory(exporters)

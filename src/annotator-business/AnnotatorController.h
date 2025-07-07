@@ -5,6 +5,7 @@
 
 #include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsDirDB.h"
 #include "src/annotator-business/dbs/ImagesLoaders/ImagesDirLoader.h"
+#include "src/annotator-business/exporters/ExportContext.h"
 #include "src/annotator-events/events/AnnotationsDirChanged.h"
 #include "src/annotator-events/events/AnnotationsDirChangedIHandler.h"
 #include "src/annotator-events/events/CloseCurrentProject.h"
@@ -54,6 +55,8 @@ class AnnotatorController
       events::events::ExportPlainTxt2FolderRequestHandlerPtr;
   using ExportPlainTxt2FolderRequestPtr =
       events::events::ExportPlainTxt2FolderRequestPtr;
+  using AnnotationsDirDBPtr = dbs::annotations::AnnotationsDirDBPtr;
+  using ExportContextPtr = exporters::ExportContextPtr;
 
   using RequestImagesDirProviderHandler =
       events::events::RequestImagesDirProviderHandler;
@@ -77,15 +80,17 @@ class AnnotatorController
 
   virtual void deinit();
 
+ protected:
+  virtual ExportContextPtr build_export_context(const std::string& dirPath);
+
  private:
   void emitImagesProviderChanged();
 
   ImageRecordsSet load_fs_images_records(const std::string& path);
   void try_to_append_images_dir(const std::string& path);
-  std::shared_ptr<dbs::annotations::AnnotationsDirDB>
-  create_project_data_instance();
+  AnnotationsDirDBPtr create_project_data_instance();
 
-  std::shared_ptr<dbs::annotations::AnnotationsDirDB> annotations;
+  AnnotationsDirDBPtr annotations;
 
   std::shared_ptr<app::ApplicationContext> actx;
 };

@@ -5,6 +5,7 @@
 #include "project-global-decls.h"
 #include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsDBTypes.h"
 #include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h"
+#include "src/annotator-business/dbs/AnnotationsDBs/converters/ImageRecordRectJSON2RecordConverter.h"
 #include "src/annotator-events/events/ImageRecord.h"
 #include "src/log/log.h"
 
@@ -23,6 +24,9 @@ JSON2ImageRecordsConverter::fetch_records(const nlohmann::json& allAJSon)
   ImageRecordsSet rset;
 
   LOGT("Given JSON: " << allAJSon.dump(2));
+
+  auto rectConv =
+      std::make_shared<ImageRecordRectJSON2RecordConverter>(efactory);
 
   for (const auto& afolder : allAJSon) {
     assert(afolder.contains(fdb));
@@ -66,27 +70,13 @@ JSON2ImageRecordsConverter::fetch_records(const nlohmann::json& allAJSon)
       rset.emplace_back(ir);
 
       for (const auto& rect : fan[fann]) {
-        LOGT("The json rect: " << rect.dump(2));
+        auto irr = rectConv->convert(rect);
 
-        assert(rect.contains(fname));
-        assert(rect.contains(frect));
+        assert(irr != nullptr);
 
-        const auto& rd = rect[frect];
-
-        assert(rd.contains(fx));
-        assert(rd.contains(fy));
-        assert(rd.contains(fwidth));
-        assert(rd.contains(fheight));
-
-        LOGT("Adding rect name: " << rect[fname].get<std::string>());
-        LOGT("Adding rect x: " << rd[fx].get<int>());
-        LOGT("Adding rect y: " << rd[fy].get<int>());
-        LOGT("Adding rect w: " << rd[fwidth].get<int>());
-        LOGT("Adding rect h: " << rd[fheight].get<int>());
-
-        const auto irr = efactory->create_image_rect_record(
-            rect[fname].get<std::string>(), rd[fx].get<int>(),
-            rd[fy].get<int>(), rd[fwidth].get<int>(), rd[fheight].get<int>());
+        if (irr == nullptr) {
+          continue;
+        }
 
         ir->rects.insert(irr);
       }

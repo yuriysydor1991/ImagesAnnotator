@@ -4,6 +4,7 @@ add_library(
   ImagesAnnotatorControllerDBsAnnotationsConvertersObj OBJECT
   JSON2ImageRecordsConverter.cpp
   ImageRecords2JSONConverter.cpp
+  ImageRecordRectJSON2RecordConverter.cpp
 )
 
 target_include_directories(

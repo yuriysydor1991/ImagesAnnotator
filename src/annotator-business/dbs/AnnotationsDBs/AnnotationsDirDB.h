@@ -7,6 +7,7 @@
 #include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsDBTypes.h"
 #include "src/annotator-events/events/ImageRecord.h"
 #include "src/annotator-events/events/ImagesPathsDBProvider.h"
+#include "src/helpers/SortHelper.h"
 
 namespace iannotator::dbs::annotations
 {
@@ -15,7 +16,8 @@ namespace iannotator::dbs::annotations
  * @brief The annotator annotations dir db controller.
  */
 class AnnotationsDirDB : public virtual AnnotationsDBTypes,
-                         virtual public events::events::ImagesPathsDBProvider
+                         virtual public events::events::ImagesPathsDBProvider,
+                         virtual public helpers::SortHelper
 {
  public:
   using AnnotationsList =

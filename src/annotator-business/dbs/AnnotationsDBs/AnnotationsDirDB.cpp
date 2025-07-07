@@ -83,7 +83,11 @@ AnnotationsDirDB::ImageRecordsSet& AnnotationsDirDB::get_images_db()
 
 void AnnotationsDirDB::add_images_db(const ImageRecordsSet& andb)
 {
+  irdb.reserve(irdb.size() + andb.size());
+
   irdb.insert(irdb.begin(), andb.begin(), andb.end());
+
+  std::sort(irdb.begin(), irdb.end(), get_image_records_sorter());
 }
 
 bool AnnotationsDirDB::store_db() { return store_db(current_db_path); }

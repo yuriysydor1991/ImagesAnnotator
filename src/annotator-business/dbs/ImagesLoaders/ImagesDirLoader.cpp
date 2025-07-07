@@ -45,6 +45,9 @@ ImagesDirLoader::ImageRecordsSet ImagesDirLoader::load(
     images_found.emplace_back(create_record(entry, newPath));
   }
 
+  std::sort(images_found.begin(), images_found.end(),
+            get_image_records_sorter());
+
   return images_found;
 }
 

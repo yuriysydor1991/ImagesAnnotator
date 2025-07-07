@@ -6,6 +6,7 @@
 #include <unordered_set>
 
 #include "src/annotator-events/events/ImageRecord.h"
+#include "src/helpers/SortHelper.h"
 
 namespace iannotator::dbs::images
 {
@@ -15,11 +16,12 @@ namespace fs = std::filesystem;
 /**
  * @brief The annotator images dir db controller.
  */
-class ImagesDirLoader
+class ImagesDirLoader : virtual public helpers::SortHelper
 {
  public:
   using ImageRecord = events::events::ImageRecord;
   using ImageRecordsSet = events::events::ImageRecordsSet;
+  using ImageRecordPtr = events::events::ImageRecordPtr;
 
   virtual ~ImagesDirLoader() = default;
   ImagesDirLoader() = default;

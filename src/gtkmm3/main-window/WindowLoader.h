@@ -71,6 +71,8 @@ class WindowLoader : virtual public ComponentTypesAliases
   template <class WidgetType>
   WidgetType* get_widget(const std::string& id);
 
+  inline static constexpr const int spinner_size = 100;
+
   std::shared_ptr<MainWindowContext> mwctx;
   Glib::RefPtr<Gtk::Builder> builder;
 };

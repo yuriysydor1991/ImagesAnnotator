@@ -148,20 +148,6 @@ void WindowEventsHandler::subscribe_4_visual_events()
 
   aboutM->signal_activate().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_menu_about_activate));
-
-  auto* overlay = mwctx->wloader->get_main_overlay();
-  auto* spinner = mwctx->wloader->get_spinner();
-
-  assert(overlay != nullptr);
-  assert(spinner != nullptr);
-
-  overlay->add_overlay(*spinner);
-
-  spinner->set_valign(Gtk::ALIGN_CENTER);
-  spinner->set_halign(Gtk::ALIGN_CENTER);
-  spinner->set_size_request(spinner_size, spinner_size);
-
-  drawArea->set_halign(Gtk::ALIGN_CENTER);
 }
 
 void WindowEventsHandler::show_spinner()

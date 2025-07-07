@@ -85,6 +85,21 @@ bool WindowLoader::propagate_params()
     return false;
   }
 
+  auto* overlay = get_main_overlay();
+  auto* spinner = get_spinner();
+
+  assert(overlay != nullptr);
+  assert(spinner != nullptr);
+  assert(mwctx->centralCanvas != nullptr);
+
+  overlay->add_overlay(*spinner);
+
+  spinner->set_valign(Gtk::ALIGN_CENTER);
+  spinner->set_halign(Gtk::ALIGN_CENTER);
+  spinner->set_size_request(spinner_size, spinner_size);
+
+  mwctx->centralCanvas->set_halign(Gtk::ALIGN_CENTER);
+
   return true;
 }
 

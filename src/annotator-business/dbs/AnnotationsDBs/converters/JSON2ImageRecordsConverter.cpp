@@ -25,65 +25,84 @@ JSON2ImageRecordsConverter::fetch_records(const nlohmann::json& allAJSon)
 
   LOGT("Given JSON: " << allAJSon.dump(2));
 
-  auto rectConv =
-      std::make_shared<ImageRecordRectJSON2RecordConverter>(efactory);
-
   for (const auto& afolder : allAJSon) {
-    assert(afolder.contains(fdb));
-    assert(afolder[fdb].contains(fpath));
-    assert(!afolder[fdb][fpath].get<std::string>().empty());
-    assert(afolder.contains(fann));
-
-    const std::string& absdirpath = afolder[fdb][fpath].get<std::string>();
-
-    if (absdirpath.empty()) {
-      LOGE("No abs path for the db record");
-      return rset;
-    }
-
-    LOGT("Filling the images set for the " << absdirpath);
-
-    const auto& annjson = afolder[fann];
-
-    rset.reserve(annjson.size());
-
-    for (const auto& fan : annjson) {
-      assert(fan.contains(frel_path));
-      assert(fan.contains(fann));
-      assert(fan.contains(fannIScale));
-
-      const auto& relPath = fan[frel_path].get<std::string>();
-      const auto& arp = absdirpath + "/" + relPath;
-
-      LOGT("Creating image record for path: " << arp);
-
-      auto ir = efactory->create_image_record(relPath, absdirpath);
-
-      if (fan.contains(fannIScale)) {
-        LOGT("image scale factor: " << fan[fannIScale].get<double>());
-
-        ir->imageScale = fan[fannIScale].get<double>();
-      }
-
-      assert(ir != nullptr);
-
-      rset.emplace_back(ir);
-
-      for (const auto& rect : fan[fann]) {
-        auto irr = rectConv->convert(rect);
-
-        assert(irr != nullptr);
-
-        if (irr == nullptr) {
-          continue;
-        }
-
-        ir->rects.insert(irr);
-      }
+    if (!convert_folder(afolder, rset)) {
+      LOGE("Fail to convert single folder");
     }
   }
 
   return rset;
+}
+
+bool JSON2ImageRecordsConverter::convert_folder(const nlohmann::json& afolder,
+                                                ImageRecordsSet& rset)
+{
+  assert(afolder.contains(fdb));
+  assert(afolder[fdb].contains(fpath));
+  assert(!afolder[fdb][fpath].get<std::string>().empty());
+  assert(afolder.contains(fann));
+
+  const std::string& absdirpath = afolder[fdb][fpath].get<std::string>();
+
+  if (absdirpath.empty()) {
+    LOGE("No abs path for the db record");
+    return false;
+  }
+
+  LOGT("Filling the images set for the " << absdirpath);
+
+  const auto& annjson = afolder[fann];
+
+  rset.reserve(rset.size() + annjson.size());
+
+  for (const auto& fan : annjson) {
+    auto ir = convert_annotation(fan, absdirpath);
+
+    rset.emplace_back(ir);
+  }
+
+  return true;
+}
+
+JSON2ImageRecordsConverter::ImageRecordPtr
+JSON2ImageRecordsConverter::convert_annotation(const nlohmann::json& fan,
+                                               const std::string& absdirpath)
+{
+  assert(fan.contains(frel_path));
+  assert(fan.contains(fann));
+  assert(fan.contains(fannIScale));
+
+  const auto& relPath = fan[frel_path].get<std::string>();
+  const auto& arp = absdirpath + "/" + relPath;
+
+  LOGT("Creating image record for path: " << arp);
+
+  auto ir = efactory->create_image_record(relPath, absdirpath);
+
+  if (fan.contains(fannIScale)) {
+    LOGT("image scale factor: " << fan[fannIScale].get<double>());
+
+    ir->imageScale = fan[fannIScale].get<double>();
+  }
+
+  assert(ir != nullptr);
+
+  auto rectConv =
+      std::make_shared<ImageRecordRectJSON2RecordConverter>(efactory);
+
+  for (const auto& rect : fan[fann]) {
+    auto irr = rectConv->convert(rect);
+
+    assert(irr != nullptr);
+
+    if (irr == nullptr) {
+      continue;
+    }
+
+    ir->rects.insert(irr);
+  }
+
+  return ir;
 }
 
 }  // namespace iannotator::dbs::annotations::converters

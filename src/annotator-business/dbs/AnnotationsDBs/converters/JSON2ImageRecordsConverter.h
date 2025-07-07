@@ -26,6 +26,12 @@ class JSON2ImageRecordsConverter : public virtual AnnotationsDBTypes,
 
   virtual ImageRecordsSet fetch_records(const nlohmann::json& allAJSon);
 
+ protected:
+  virtual bool convert_folder(const nlohmann::json& afolder,
+                              ImageRecordsSet& rset);
+  virtual ImageRecordPtr convert_annotation(const nlohmann::json& fan,
+                                            const std::string& absdirpath);
+
  private:
   std::shared_ptr<EventsFactory> efactory;
 };

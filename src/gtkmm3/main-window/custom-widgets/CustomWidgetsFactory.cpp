@@ -124,6 +124,20 @@ CustomWidgetsFactory::create_folder_choose_dialog(Gtk::Window* parentWindow)
   return dialog;
 }
 
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_txt_export_folder_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  auto dialog = std::make_shared<Gtk::FileChooserDialog>(
+      *parentWindow, "Select plain txt files export directory",
+      Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER);
+
+  dialog->add_button("_Cancel", Gtk::RESPONSE_CANCEL);
+  dialog->add_button("_Select", Gtk::RESPONSE_OK);
+
+  return dialog;
+}
+
 ImageRectsLabelPtr CustomWidgetsFactory::create_rect_label(
     ImageRecordRectPtr rect)
 {

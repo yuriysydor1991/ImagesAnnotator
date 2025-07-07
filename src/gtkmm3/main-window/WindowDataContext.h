@@ -89,6 +89,9 @@ class WindowDataContext
   inline static constexpr const char* const about_dialog_id = "about_dialog";
   inline static constexpr const char* const about_menu_item_id =
       "about_menu_item";
+
+  inline static constexpr const char* const annotations_export_txt_2_folder_id =
+      "annotations_export_txt_2_folder";
 };
 
 }  // namespace templateGtkmm3::window

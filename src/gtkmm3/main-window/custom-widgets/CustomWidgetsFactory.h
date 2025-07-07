@@ -58,6 +58,9 @@ class CustomWidgetsFactory
   virtual void prepare_about(Gtk::AboutDialog* about,
                              Gtk::Window* parentWindow);
 
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_txt_export_folder_choose_dialog(Gtk::Window* parentWindow);
+
   virtual std::shared_ptr<Gtk::MessageDialog> create_error_dialog(
       const std::string& errDesc, Gtk::Window* parentWindow);
 };

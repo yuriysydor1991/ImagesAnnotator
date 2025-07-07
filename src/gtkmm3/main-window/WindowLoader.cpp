@@ -376,4 +376,12 @@ Gtk::ImageMenuItem* WindowLoader::get_about_mi()
   return get_widget<Gtk::ImageMenuItem>(mwctx->wctx->about_menu_item_id);
 }
 
+Gtk::ImageMenuItem* WindowLoader::get_export_txt2_folder_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_export_txt_2_folder_id);
+}
+
 }  // namespace templateGtkmm3::window

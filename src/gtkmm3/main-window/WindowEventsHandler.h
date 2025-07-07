@@ -57,6 +57,7 @@ class WindowEventsHandler
   virtual void on_ci_annotation_copy_click();
   virtual void on_annotations_search_text_changed();
   virtual void on_menu_about_activate();
+  virtual void on_export_txt_2_folder_activate();
 
   virtual bool on_mouse_motion_start(GdkEventButton* event);
   virtual bool on_mouse_motion_end(GdkEventButton* event);
@@ -97,6 +98,8 @@ class WindowEventsHandler
   void show_error_dialog(const std::string& emsg);
 
   virtual bool load_image(const std::string& filepath);
+
+  virtual bool has_to_export();
 
   inline static constexpr const char* const overlay_class =
       "almost_non_transparent";

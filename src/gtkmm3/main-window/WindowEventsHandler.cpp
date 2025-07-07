@@ -70,6 +70,7 @@ void WindowEventsHandler::subscribe_4_visual_events()
   auto* nextButton = mwctx->wloader->get_next_file_button();
   auto* dupCurretAnn = mwctx->wloader->get_copy_current_annotation_button();
   auto* aboutM = mwctx->wloader->get_about_mi();
+  auto* exportTxt2FolderM = mwctx->wloader->get_export_txt2_folder_mi();
 
   assert(imagesListBox != nullptr);
   assert(zoomInB != nullptr);
@@ -148,6 +149,9 @@ void WindowEventsHandler::subscribe_4_visual_events()
 
   aboutM->signal_activate().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_menu_about_activate));
+
+  exportTxt2FolderM->signal_activate().connect(sigc::mem_fun(
+      *this, &WindowEventsHandler::on_export_txt_2_folder_activate));
 }
 
 void WindowEventsHandler::show_spinner()
@@ -1471,6 +1475,46 @@ void WindowEventsHandler::on_menu_about_activate()
   mwctx->cwFactory->prepare_about(about, mwctx->wloader->get_window());
 
   about->show();
+}
+
+void WindowEventsHandler::on_export_txt_2_folder_activate()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  if (!has_to_export()) {
+    const std::string errmsg = "No images found or db opened to export!";
+    show_error_dialog(errmsg);
+    return;
+  }
+
+  show_spinner();
+
+  auto dialog = mwctx->cwFactory->create_txt_export_folder_choose_dialog(
+      mwctx->wloader->get_window());
+
+  const int result = dialog->run();
+
+  if (result != Gtk::RESPONSE_OK) {
+    LOGD("Dialog is closed");
+    hide_spinner();
+    return;
+  }
+
+  const auto newFileName = dialog->get_filename();
+
+  LOGD("Selected txt export folder: " << newFileName);
+
+  hide_spinner();
+}
+
+bool WindowEventsHandler::has_to_export()
+{
+  assert(mwctx != nullptr);
+
+  return mwctx != nullptr && (!mwctx->imagesVDB.empty() ||
+                              (mwctx->images_provider != nullptr &&
+                               !mwctx->images_provider->get_db_path().empty()));
 }
 
 }  // namespace templateGtkmm3::window

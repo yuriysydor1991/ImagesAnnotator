@@ -186,6 +186,7 @@ void CustomWidgetsFactory::prepare_about(Gtk::AboutDialog* about,
 
   about->set_modal(true);
   about->set_transient_for(*parentWindow);
+  about->set_comments(project_decls::PROJECT_DESCRIPTION);
 
   try {
     auto pixbuf =

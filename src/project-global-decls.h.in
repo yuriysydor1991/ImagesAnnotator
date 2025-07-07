@@ -19,6 +19,7 @@ const std::string PROJECT_FLATPAK_URL = "${FLATPAK_PROJECT_URL}" ;
 const std::string PROJECT_MAINTAINER = "${PROJECT_MAINTAINER}" ;
 const std::string PROJECT_MAINTAINER_EMAIL = "${PROJECT_MAINTAINER_EMAIL}" ;
 const std::string PROJECT_HOMEPAGE_URL = "${CMAKE_PROJECT_HOMEPAGE_URL}" ;
+const std::string PROJECT_DESCRIPTION = "${CMAKE_PROJECT_DESCRIPTION}";
 
 } // namespace project_decls
 

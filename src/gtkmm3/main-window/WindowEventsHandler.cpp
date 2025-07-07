@@ -483,6 +483,8 @@ bool WindowEventsHandler::on_mouse_resize_motion_start(GdkEventButton* event)
 
   ir->current_rect = rectOver;
 
+  mwctx->currentVisualRect = mwctx->find_current_image_current_visual_rect();
+
   update_current_annotations_selection();
 
   return true;
@@ -1097,6 +1099,8 @@ void WindowEventsHandler::update_current_annotations_selection()
       return;
     }
   }
+
+  LOGD("ERROR no current rect found");
 }
 
 void WindowEventsHandler::on_current_image_rect_row_selected(

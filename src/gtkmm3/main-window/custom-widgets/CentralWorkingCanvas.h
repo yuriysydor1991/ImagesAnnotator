@@ -57,10 +57,18 @@ class CentralWorkingCanvas
                                          const ImageRecordRectPtr& rptr,
                                          ImageRecordPtr ir);
 
+  virtual bool is_inside_or_near_by(const int& dx, const int& dy,
+                                    const ImageRecordRectPtr& rptr,
+                                    ImageRecordPtr ir);
+
+  virtual bool is_inside_or_near_by_any(const int& dx, const int& dy,
+                                        ImageRecordPtr ir);
+
   virtual bool is_in_rect(const int& dx, const int& dy, const int& rx,
                           const int& ry, const int& rw, const int& rh);
 
-  inline static const int cornersPixelSize = 10;
+  inline static constexpr const int cornersPixelSize = 10;
+  inline static constexpr const int nearByDistPixelSize = cornersPixelSize;
 
   std::shared_ptr<ImagePathLabel>& current_image;
   Glib::RefPtr<Gdk::Pixbuf> pixbuf;
@@ -74,6 +82,12 @@ class CentralWorkingCanvas
   bool isDL{false};
   // up right corner
   bool isDR{false};
+
+  /// @brief latest recorded mouse X and Y coordinates
+  int x{0};
+  int y{0};
+
+  bool resizersDrawed{false};
 };
 
 }  // namespace templateGtkmm3::window::custom_widgets

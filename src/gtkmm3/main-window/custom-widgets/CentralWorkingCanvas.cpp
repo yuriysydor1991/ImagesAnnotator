@@ -97,6 +97,11 @@ void CentralWorkingCanvas::draw_rectangle(
     return;
   }
 
+  if (!is_inside_or_near_by(x, y, rptr, ir)) {
+    LOGT("Mouse in not inside nor near by the given rectangle");
+    return;
+  }
+
   cr->set_line_width(1.0);
 
   // up left corner
@@ -143,6 +148,9 @@ Glib::RefPtr<Gdk::Pixbuf> CentralWorkingCanvas::get_pixbuf() { return pixbuf; }
 
 bool CentralWorkingCanvas::mouse_is_over_resize(const int& dx, const int& dy)
 {
+  x = dx;
+  y = dy;
+
   if (current_image == nullptr) {
     LOGT("No image provided");
     return false;
@@ -153,6 +161,15 @@ bool CentralWorkingCanvas::mouse_is_over_resize(const int& dx, const int& dy)
   if (ir == nullptr) {
     LOGT("Current widget contains no image record");
     return false;
+  }
+
+  const bool nResizersDraw =
+      is_inside_or_near_by_any(dx, dy, current_image->get_image_rec());
+
+  if (nResizersDraw || (resizersDrawed != nResizersDraw)) {
+    resizersDrawed = nResizersDraw;
+    LOGT("Need to redraw since cursor near by some rect");
+    queue_draw();
   }
 
   for (auto& rptr : ir->rects) {
@@ -178,6 +195,54 @@ bool CentralWorkingCanvas::is_in_rect(const int& dx, const int& dy,
   const bool isInY = dy >= ry && dy <= (ry + rh);
 
   return isInX && isInY;
+}
+
+bool CentralWorkingCanvas::is_inside_or_near_by_any(const int& dx,
+                                                    const int& dy,
+                                                    ImageRecordPtr ir)
+{
+  if (ir == nullptr) {
+    LOGT("Current widget contains no image record");
+    return false;
+  }
+
+  for (auto& rptr : ir->rects) {
+    if (!is_inside_or_near_by(dx, dy, rptr, ir)) {
+      continue;
+    }
+
+    LOGT("Found inside one of the rects");
+    return true;
+  }
+
+  return false;
+}
+
+bool CentralWorkingCanvas::is_inside_or_near_by(const int& dx, const int& dy,
+                                                const ImageRecordRectPtr& rptr,
+                                                ImageRecordPtr ir)
+{
+  assert(rptr != nullptr);
+  assert(ir != nullptr);
+
+  if (rptr == nullptr) {
+    LOGE("Invalid rectangle pointer");
+    return false;
+  }
+
+  if (ir == nullptr) {
+    LOGE("No image record pointer provided");
+    return false;
+  }
+
+  const double& is = ir->imageScale;
+
+  const int tx = (rptr->x * is) - nearByDistPixelSize;
+  const int ty = (rptr->y * is) - nearByDistPixelSize;
+  const int tw = (rptr->width * is) + nearByDistPixelSize;
+  const int th = (rptr->height * is) + nearByDistPixelSize;
+
+  return is_in_rect(dx, dy, tx, ty, tw, th);
 }
 
 bool CentralWorkingCanvas::is_in_one_of_resize_rects(

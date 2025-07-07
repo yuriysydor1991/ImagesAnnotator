@@ -3,9 +3,7 @@
 #include <nlohmann/json.hpp>
 
 #include "project-global-decls.h"
-#include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsDBTypes.h"
-#include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h"
-#include "src/annotator-business/dbs/AnnotationsDBs/converters/ImageRecordRectJSON2RecordConverter.h"
+#include "src/annotator-business/dbs/AnnotationsDBs/converters/ImageRecordJSON2RecordConverter.h"
 #include "src/annotator-events/events/ImageRecord.h"
 #include "src/log/log.h"
 
@@ -58,6 +56,13 @@ bool JSON2ImageRecordsConverter::convert_folder(const nlohmann::json& afolder,
   for (const auto& fan : annjson) {
     auto ir = convert_annotation(fan, absdirpath);
 
+    assert(ir != nullptr);
+
+    if (ir == nullptr) {
+      LOGE("Failure during conversion of the image record: " << fan.dump(2));
+      continue;
+    }
+
     rset.emplace_back(ir);
   }
 
@@ -68,41 +73,10 @@ JSON2ImageRecordsConverter::ImageRecordPtr
 JSON2ImageRecordsConverter::convert_annotation(const nlohmann::json& fan,
                                                const std::string& absdirpath)
 {
-  assert(fan.contains(frel_path));
-  assert(fan.contains(fann));
-  assert(fan.contains(fannIScale));
+  auto irConverter =
+      std::make_shared<ImageRecordJSON2RecordConverter>(efactory);
 
-  const auto& relPath = fan[frel_path].get<std::string>();
-  const auto& arp = absdirpath + "/" + relPath;
-
-  LOGT("Creating image record for path: " << arp);
-
-  auto ir = efactory->create_image_record(relPath, absdirpath);
-
-  if (fan.contains(fannIScale)) {
-    LOGT("image scale factor: " << fan[fannIScale].get<double>());
-
-    ir->imageScale = fan[fannIScale].get<double>();
-  }
-
-  assert(ir != nullptr);
-
-  auto rectConv =
-      std::make_shared<ImageRecordRectJSON2RecordConverter>(efactory);
-
-  for (const auto& rect : fan[fann]) {
-    auto irr = rectConv->convert(rect);
-
-    assert(irr != nullptr);
-
-    if (irr == nullptr) {
-      continue;
-    }
-
-    ir->rects.insert(irr);
-  }
-
-  return ir;
+  return irConverter->convert(fan, absdirpath);
 }
 
 }  // namespace iannotator::dbs::annotations::converters

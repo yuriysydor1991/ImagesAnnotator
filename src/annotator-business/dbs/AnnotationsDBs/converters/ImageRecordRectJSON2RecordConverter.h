@@ -15,7 +15,7 @@ namespace iannotator::dbs::annotations::converters
 {
 
 /**
- * @brief The image record JSON data to ImageRecordsSet converter.
+ * @brief The image record rect JSON data to ImageRecordsSet converter.
  */
 class ImageRecordRectJSON2RecordConverter : public virtual AnnotationsDBTypes,
                                             virtual public ConvertersAliases

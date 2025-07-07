@@ -5,6 +5,7 @@ add_library(
   JSON2ImageRecordsConverter.cpp
   ImageRecords2JSONConverter.cpp
   ImageRecordRectJSON2RecordConverter.cpp
+  ImageRecordJSON2RecordConverter.cpp
 )
 
 target_include_directories(

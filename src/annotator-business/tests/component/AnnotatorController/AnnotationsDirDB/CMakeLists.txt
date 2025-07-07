@@ -25,6 +25,7 @@ add_executable(
   ${CMAKE_SOURCE_DIR}/src/helpers/SortHelper.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/AnnotationsDBs/converters/ImageRecordRectJSON2RecordConverter.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/AnnotationsDBs/converters/ImageRecordJSON2RecordConverter.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportPlainTxt2FolderRequest.cpp
 )
 
 target_compile_options(

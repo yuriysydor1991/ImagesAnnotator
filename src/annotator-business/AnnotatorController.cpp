@@ -75,6 +75,7 @@ bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
   ctx->eventer->subscribe(std::shared_ptr<ImagesDirChangedIHandler>(mptr));
   ctx->eventer->subscribe(std::shared_ptr<StoreRequestHandler>(mptr));
   ctx->eventer->subscribe(std::shared_ptr<CloseCurrentProjectHandler>(mptr));
+  ctx->eventer->subscribe(ExportPlainTxt2FolderRequestHandlerPtr{mptr});
 
   return true;
 }
@@ -248,6 +249,18 @@ AnnotatorController::get_available_annotations()
   assert(annotations != nullptr);
 
   return annotations->get_available_annotations();
+}
+
+void AnnotatorController::handle(ExportPlainTxt2FolderRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  LOGD("Need to implement the basic export to " << event->dst_folder_path);
 }
 
 }  // namespace iannotator

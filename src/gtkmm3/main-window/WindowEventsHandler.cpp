@@ -1505,6 +1505,14 @@ void WindowEventsHandler::on_export_txt_2_folder_activate()
 
   LOGD("Selected txt export folder: " << newFileName);
 
+  auto efactory = mwctx->actx->eventer->get_events_factory();
+
+  assert(efactory != nullptr);
+
+  auto exportEvent = efactory->create_plain_txt_2_folder_export(newFileName);
+
+  mwctx->actx->eventer->submit(exportEvent);
+
   hide_spinner();
 }
 

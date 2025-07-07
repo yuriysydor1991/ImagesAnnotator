@@ -164,4 +164,16 @@ void ImagesAnnotatorEventController::subscribe(
   pclose_handlers.insert(handler);
 }
 
+void ImagesAnnotatorEventController::submit(
+    events::ExportPlainTxt2FolderRequestPtr event)
+{
+  unified_submit(plainTxtExporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ExportPlainTxt2FolderRequestHandlerPtr handler)
+{
+  plainTxtExporters_handlers.insert(handler);
+}
+
 }  // namespace events

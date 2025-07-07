@@ -10,6 +10,7 @@
 #include "src/annotator-events/events/CloseCurrentProject.h"
 #include "src/annotator-events/events/CloseCurrentProjectHandler.h"
 #include "src/annotator-events/events/CurrentImageChangedHandler.h"
+#include "src/annotator-events/events/ExportPlainTxt2FolderRequestHandler.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
 #include "src/annotator-events/events/RequestImagesDirProvider.h"
@@ -36,7 +37,8 @@ class AnnotatorController
       virtual public events::events::CurrentImageChangedHandler,
       virtual public events::events::StoreRequestHandler,
       virtual public events::events::CloseCurrentProjectHandler,
-      virtual public events::events::ImagesPathsDBProvider
+      virtual public events::events::ImagesPathsDBProvider,
+      virtual public events::events::ExportPlainTxt2FolderRequestHandler
 {
  public:
   using ImagesDirChanged = events::events::ImagesDirChanged;
@@ -48,6 +50,10 @@ class AnnotatorController
   using ImageRecordsSet = events::events::ImageRecordsSet;
   using StoreRequest = events::events::StoreRequest;
   using CloseCurrentProject = events::events::CloseCurrentProject;
+  using ExportPlainTxt2FolderRequestHandlerPtr =
+      events::events::ExportPlainTxt2FolderRequestHandlerPtr;
+  using ExportPlainTxt2FolderRequestPtr =
+      events::events::ExportPlainTxt2FolderRequestPtr;
 
   using RequestImagesDirProviderHandler =
       events::events::RequestImagesDirProviderHandler;
@@ -63,6 +69,7 @@ class AnnotatorController
   virtual void handle(std::shared_ptr<CurrentImageChanged> event) override;
   virtual void handle(std::shared_ptr<StoreRequest> event) override;
   virtual void handle(std::shared_ptr<CloseCurrentProject> event) override;
+  virtual void handle(ExportPlainTxt2FolderRequestPtr event) override;
 
   virtual ImageRecordsSet& get_images_db() override;
   virtual std::string get_db_path() override;

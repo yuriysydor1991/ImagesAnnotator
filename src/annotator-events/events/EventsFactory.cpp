@@ -116,4 +116,10 @@ std::shared_ptr<CloseCurrentProject> EventsFactory::create_close_event()
   return std::make_shared<CloseCurrentProject>();
 }
 
+ExportPlainTxt2FolderRequestPtr EventsFactory::create_plain_txt_2_folder_export(
+    const std::string& eDirPath)
+{
+  return std::make_shared<ExportPlainTxt2FolderRequest>(eDirPath);
+}
+
 }  // namespace events::events

@@ -8,6 +8,7 @@
 #include "src/annotator-events/events/AnnotationsDirChangedIHandler.h"
 #include "src/annotator-events/events/CloseCurrentProject.h"
 #include "src/annotator-events/events/CurrentImageChanged.h"
+#include "src/annotator-events/events/ExportPlainTxt2FolderRequest.h"
 #include "src/annotator-events/events/ImageRecord.h"
 #include "src/annotator-events/events/ImageRecordRect.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
@@ -63,6 +64,9 @@ class EventsFactory : public std::enable_shared_from_this<EventsFactory>
       const std::string& newdbpath = "");
 
   virtual std::shared_ptr<CloseCurrentProject> create_close_event();
+
+  virtual ExportPlainTxt2FolderRequestPtr create_plain_txt_2_folder_export(
+      const std::string& eDirPath);
 };
 
 }  // namespace events::events

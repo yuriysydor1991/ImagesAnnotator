@@ -10,6 +10,8 @@
 #include "src/annotator-events/events/CurrentImageChanged.h"
 #include "src/annotator-events/events/CurrentImageChangedHandler.h"
 #include "src/annotator-events/events/EventsFactory.h"
+#include "src/annotator-events/events/ExportPlainTxt2FolderRequest.h"
+#include "src/annotator-events/events/ExportPlainTxt2FolderRequestHandler.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
 #include "src/annotator-events/events/ImagesDirProviderChanged.h"
@@ -68,6 +70,10 @@ class IImagesAnnotatorEventController
   virtual void submit(std::shared_ptr<events::CloseCurrentProject> event) = 0;
   virtual void subscribe(
       std::shared_ptr<events::CloseCurrentProjectHandler> handler) = 0;
+
+  virtual void submit(events::ExportPlainTxt2FolderRequestPtr event) = 0;
+  virtual void subscribe(
+      events::ExportPlainTxt2FolderRequestHandlerPtr handler) = 0;
 };
 
 }  // namespace events

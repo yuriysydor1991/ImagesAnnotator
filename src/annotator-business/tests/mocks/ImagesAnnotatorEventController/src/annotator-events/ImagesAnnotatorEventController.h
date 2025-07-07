@@ -10,6 +10,8 @@
 #include "src/annotator-events/events/AnnotationsDirChanged.h"
 #include "src/annotator-events/events/AnnotationsDirChangedIHandler.h"
 #include "src/annotator-events/events/EventsFactory.h"
+#include "src/annotator-events/events/ExportPlainTxt2FolderRequest.h"
+#include "src/annotator-events/events/ExportPlainTxt2FolderRequestHandler.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
 #include "src/app/ApplicationContext.h"
@@ -80,6 +82,12 @@ class ImagesAnnotatorEventController : public IImagesAnnotatorEventController
               (std::shared_ptr<events::CloseCurrentProject> event), (override));
   MOCK_METHOD(void, subscribe,
               (std::shared_ptr<events::CloseCurrentProjectHandler> handler),
+              (override));
+
+  MOCK_METHOD(void, submit, (events::ExportPlainTxt2FolderRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::ExportPlainTxt2FolderRequestHandlerPtr handler),
               (override));
 };
 

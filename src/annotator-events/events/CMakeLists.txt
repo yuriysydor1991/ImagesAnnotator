@@ -10,6 +10,7 @@ add_library(
   CurrentImageChanged.cpp
   ImageRecordRect.cpp
   StoreRequest.cpp
+  ExportPlainTxt2FolderRequest.cpp
 )
 
 target_include_directories(

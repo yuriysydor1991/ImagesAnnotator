@@ -85,6 +85,8 @@ class WindowEventsHandler
   void update_current_annotations_selection();
   void update_status_bar();
 
+  void normalize_current_rect();
+
   void set_resize_cursor();
   void reset_cursor();
 

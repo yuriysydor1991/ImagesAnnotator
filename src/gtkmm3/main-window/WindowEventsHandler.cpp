@@ -451,6 +451,8 @@ bool WindowEventsHandler::update_current_resize(GdkEventMotion* event)
     rectOver->height = ty - rectOver->y;
   }
 
+  normalize_current_rect();
+
   mwctx->centralCanvas->queue_draw();
 
   return true;
@@ -609,6 +611,41 @@ bool WindowEventsHandler::on_rectangle_size_change(GdkEventMotion* event)
     return true;
   }
 
+  normalize_current_rect();
+
+  return true;
+}
+
+void WindowEventsHandler::normalize_current_rect()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->centralCanvas != nullptr);
+
+  if (mwctx == nullptr) {
+    LOGT("No context available");
+    return;
+  }
+
+  auto ir = mwctx->current_irecord();
+
+  assert(ir != nullptr);
+
+  if (ir == nullptr) {
+    LOGT("No current image available");
+    return;
+  }
+
+  if (ir->current_rect == nullptr) {
+    LOGT("No current image current rectangle available");
+    return;
+  }
+
+  auto pixbuf = mwctx->centralCanvas->get_pixbuf();
+
+  assert(pixbuf);
+
+  const auto& imageScale = ir->imageScale;
+
   if (((ir->current_rect->width + ir->current_rect->x) * imageScale) >
       pixbuf->get_width()) {
     const auto scaledWidth = toD(pixbuf->get_width()) / imageScale;
@@ -621,7 +658,16 @@ bool WindowEventsHandler::on_rectangle_size_change(GdkEventMotion* event)
     ir->current_rect->height = toI(scaledHeight) - ir->current_rect->y;
   }
 
-  return true;
+  if (ir->current_rect->width < 0) {
+    ir->current_rect->x += ir->current_rect->width;
+
+    ir->current_rect->width = 1;
+  }
+
+  if (ir->current_rect->height < 0) {
+    ir->current_rect->y += ir->current_rect->height;
+    ir->current_rect->height = 1;
+  }
 }
 
 void WindowEventsHandler::on_zoom_in_clicked()

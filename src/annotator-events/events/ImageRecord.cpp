@@ -27,6 +27,8 @@
 
 #include "src/annotator-events/events/ImageRecord.h"
 
+#include <algorithm>
+#include <cassert>
 #include <string>
 
 #include "src/annotator-events/events/IRecord.h"
@@ -67,6 +69,55 @@ bool ImageRecord::erase_current_rect()
   current_rect.reset();
 
   return true;
+}
+
+bool ImageRecord::equal(const ImageRecordsSet& l, const ImageRecordsSet& r)
+{
+  if (&l == &r) {
+    return true;
+  }
+
+  if (l.size() != r.size()) {
+    return false;
+  }
+
+  return std::equal(l.begin(), l.end(), r.begin(), r.end(),
+                    [](const ImageRecordPtr& lir, const ImageRecordPtr& rir) {
+                      return equal(lir, rir);
+                    });
+}
+
+bool ImageRecord::equal(const ImageRecordPtr& l, const ImageRecordPtr& r)
+{
+  return l.get() == r.get() ||
+         (l->abs_dir_path == r->abs_dir_path && l->path != r->path &&
+          l->imageScale == r->imageScale &&
+          ImageRecordRect::equal(l->rects, r->rects));
+}
+
+ImageRecordPtr ImageRecord::duplicate_shared() const
+{
+  auto irdup = std::make_shared<ImageRecord>(path, abs_dir_path);
+
+  for (const auto& rect : rects) {
+    irdup->rects.insert(rect->duplicate_shared());
+  }
+
+  return irdup;
+}
+
+ImageRecordsSet ImageRecord::duplicate(const ImageRecordsSet& orig)
+{
+  ImageRecordsSet dup;
+
+  dup.reserve(orig.size());
+
+  for (const auto& o : orig) {
+    assert(o != nullptr);
+    dup.emplace_back(o->duplicate_shared());
+  }
+
+  return dup;
 }
 
 }  // namespace events::events

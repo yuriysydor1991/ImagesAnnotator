@@ -45,6 +45,7 @@ class ImageRecordRect : virtual public IRecord,
 {
  public:
   using ImageRecordRectPtr = std::shared_ptr<ImageRecordRect>;
+  using ImageRecordRectSet = std::unordered_set<ImageRecordRectPtr>;
 
   virtual ~ImageRecordRect() = default;
   ImageRecordRect();
@@ -58,11 +59,14 @@ class ImageRecordRect : virtual public IRecord,
   int width{0};
   int height{0};
 
-  ImageRecordRectPtr duplicate_shared();
+  ImageRecordRectPtr duplicate_shared() const;
+
+  static bool equal(const ImageRecordRectSet& l, const ImageRecordRectSet& r);
+  static bool equal(const ImageRecordRectPtr& l, const ImageRecordRectPtr& r);
 };
 
 using ImageRecordRectPtr = ImageRecordRect::ImageRecordRectPtr;
-using ImageRecordRectSet = std::unordered_set<ImageRecordRectPtr>;
+using ImageRecordRectSet = ImageRecordRect::ImageRecordRectSet;
 
 }  // namespace events::events
 

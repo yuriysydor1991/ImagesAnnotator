@@ -27,6 +27,8 @@
 
 #include "src/annotator-events/events/ImageRecordRect.h"
 
+#include <algorithm>
+#include <cassert>
 #include <memory>
 #include <string>
 #include <unordered_set>
@@ -45,9 +47,34 @@ ImageRecordRect::ImageRecordRect(const std::string& nname, const int& nx,
 {
 }
 
-ImageRecordRectPtr ImageRecordRect::duplicate_shared()
+ImageRecordRectPtr ImageRecordRect::duplicate_shared() const
 {
   return std::make_shared<ImageRecordRect>(*this);
+}
+
+bool ImageRecordRect::equal(const ImageRecordRectSet& l,
+                            const ImageRecordRectSet& r)
+{
+  if (&l == &r) {
+    return true;
+  }
+
+  return std::equal(
+      l.begin(), l.end(), r.begin(), r.end(),
+      [](const ImageRecordRectPtr& lirr, const ImageRecordRectPtr& rirr) {
+        return equal(lirr, rirr);
+      });
+}
+
+bool ImageRecordRect::equal(const ImageRecordRectPtr& l,
+                            const ImageRecordRectPtr& r)
+{
+  if (l.get() == r.get()) {
+    return true;
+  }
+
+  return l->name == r->name && l->x == r->x && l->y == r->y &&
+         l->width == r->width && l->height == r->height;
 }
 
 }  // namespace events::events

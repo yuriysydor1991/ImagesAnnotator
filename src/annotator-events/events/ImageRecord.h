@@ -43,6 +43,9 @@ namespace events::events
 class ImageRecord : virtual public IRecord
 {
  public:
+  using ImageRecordPtr = std::shared_ptr<ImageRecord>;
+  using ImageRecordsSet = std::vector<ImageRecordPtr>;
+
   inline static constexpr const double defaultInitScaling = 1.0;
   inline static constexpr const double defaultScaleStep = 0.05;
 
@@ -66,10 +69,17 @@ class ImageRecord : virtual public IRecord
   std::string get_full_path() const;
 
   bool erase_current_rect();
+
+  static bool equal(const ImageRecordsSet& l, const ImageRecordsSet& r);
+  static bool equal(const ImageRecordPtr& l, const ImageRecordPtr& r);
+
+  ImageRecordPtr duplicate_shared() const;
+
+  static ImageRecordsSet duplicate(const ImageRecordsSet& orig);
 };
 
-using ImageRecordPtr = std::shared_ptr<ImageRecord>;
-using ImageRecordsSet = std::vector<ImageRecordPtr>;
+using ImageRecordPtr = ImageRecord::ImageRecordPtr;
+using ImageRecordsSet = ImageRecord::ImageRecordsSet;
 
 }  // namespace events::events
 

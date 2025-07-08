@@ -30,6 +30,8 @@
 
 #include <cmath>
 
+#include "src/annotator-events/events/ImageRecord.h"
+#include "src/annotator-events/events/ImageRecordRect.h"
 #include "src/helpers/IHelper.h"
 
 namespace helpers
@@ -41,6 +43,12 @@ namespace helpers
 class TypeHelper : virtual public IHelper
 {
  public:
+  using ImageRecordsSet = events::events::ImageRecordsSet;
+  using ImageRecordPtr = events::events::ImageRecordPtr;
+  using ImageRecordRect = events::events::ImageRecordRect;
+  using ImageRecordRectSet = events::events::ImageRecordRectSet;
+  using ImageRecordRectPtr = events::events::ImageRecordRectPtr;
+
   virtual ~TypeHelper() = default;
   TypeHelper() = default;
 

@@ -1,13 +1,16 @@
 **The images annotator application**
 
+# Goal of the ImageAnnotator
 
-# Goal of the image annotator
+The goal of the image annotator is to provide information about the provided images' located objects in order to supply annotated data to the learning networks with next load into libraries like [OpenCV](https://github.com/opencv/opencv).
 
-The goal of the image annotator is to provide information about the provided images' located objects in order to supply annotated data to the learning networks.
+Current project serves also as a research purposes. So may look a bit over engineered.
+
+Fast started with help of the C++ templated project located at [https://github.com/yuriysydor1991/cpp-app-template](https://github.com/yuriysydor1991/cpp-app-template)
 
 See more at the [kytok.org.ua](http://www.kytok.org.ua/)
 
-Donate at [http://kytok.org.ua/page/pozertvy](http://kytok.org.ua/page/pozertvy)
+💵 Donate at [http://kytok.org.ua/page/pozertvy](http://kytok.org.ua/page/pozertvy)
 
 # Requirements
 
@@ -164,23 +167,13 @@ Details at the section [Enabling the Docker container build and run](#enabling-t
 
 # Project structure
 
-## Implement code straight away!
-
-To proceed the application implementation right away look for the `GtkmmIniter` class' `GtkmmIniter.cpp` and/or `GtkmmIniter.h` files which is designed to accept initial code of the application's window. The UI may be designed in the `src/gtkmm3/ui/GtkmmWindow.ui`.
-
-**But do not forget about the SOLID principles and code decomposing!**
-
-It's preferable to create other directories which would contain implemented components of the application and include them into the `GtkmmIniter` class implementation, rather than put all the code inside the `GtkmmIniter` class itself.
-
-Additional code may be introduced into the `Application` class implementation or by creation `IApplication` class descendant in order to provide binary level variety.
-
 ## UI implementation
 
-The project's `src/gtkmm3/ui/GtkmmWindow.ui` file contains the general application's UI default implementation. Open it with the [Glade](https://en.wikipedia.org/wiki/Glade_Interface_Designer) application in order to replace the default UI implementation with the new one of interest.
+The project's `src/gtkmm3/ui/GtkmmWindow.ui` file contains the general application's UI default implementation. Open it with the [Glade](https://en.wikipedia.org/wiki/Glade_Interface_Designer) application in order to edit project's UI implementation.
 
 ## Resource embedding
 
-To avoid any install and run dependencies the `src/gtkmm3/ui/GtkmmWindow.ui` UI file and any other registered resource are embedding into the binary. Resource embedding is performed through the `src/gtkmm3/ui/template.gresource.xml` GResource file resources of which are compiled into the C-resource by a `glib-compile-resources` command. Register new and remove old resources in the `src/gtkmm3/ui/template.gresource.xml` file in order to make them available in the binary executable. The examples of the resource obtaining and usage in the C++ code side may be examined in the default implementation of the `GtkmmIniter` class.
+To avoid any install and run dependencies the `src/gtkmm3/ui/GtkmmWindow.ui` UI file and any other registered resource are embedding into the binary. Resource embedding is performed through the `src/gtkmm3/ui/template.gresource.xml` GResource file resources of which are compiled into the C-resource by a `glib-compile-resources` command. Register new resources in the `src/gtkmm3/ui/template.gresource.xml` file in order to make them available in the binary executable. The examples of the resource obtaining and usage in the C++ code side may be examined in the default implementation of the `gtkmm3` component.
 
 ## Introducing custom command line parameters
 
@@ -189,16 +182,6 @@ In order to introduce some additional command line parameters for the binary loo
 Add some additional custom fields into the `ApplicationContext` class in order to pass some custom command line flags and/or data to the `IApplication` interface abstract class descendants that will be created by the `ApplicationFactory` during command line arguments parse.
 
 The GTKmm library also supports some of the command line parameters which are passed to the GTKmm application by default.
-
-## Implement your own IApplication descendants
-
-You may implement another custom `IApplication` descendant classes in order to support high level variety of the application behavior to not to mess original `Application` class with irrelevant `if`-s statements and mixing up code (remember about the SOLID's single responsibility principle).
-
-You may accomplish `IApplication` subclassing by directly creating an `IApplication` subclass in a new file or extend existing `IApplication` descendant like `Application`, `ApplicationHelpPrinter` or a `ApplicationVersionPrinter`.
-
-Register newly created custom `IApplication` descendant in the `ApplicationFactory`'s `create_application` method which is responsible to create appropriate application instance with accordance of a provided data through the command line parameters.
-
-That may be accomplished by implementing a custom `ApplicationFactory` descendant and overriding it's create methods like `create_application` and/or others (call appropriate static member in the `main` function of the `main.cpp` file).
 
 ## Version tracking and other project parameters
 
@@ -212,15 +195,11 @@ See the [Project build](#project-build) subsection to enable unit testing with C
 
 ### Google Test
 
-Currently test samples are based on the GTest framework. GTest framework by itself becomes available by the `FetchContent_Declare`/`FetchContent_MakeAvailable` CMake-commands if no system GTest is available. 
+Currently tests are based on the GTest framework. GTest framework by itself becomes available by the `FetchContent_Declare`/`FetchContent_MakeAvailable` CMake-commands if no system GTest is available. 
 
 Of course, the project's CMakeLists.txt files are probing the GTest only if tests are enabled by `ENABLE_UNIT_TESTS` CMake variable. System GTest probe may be turned OFF by setting appropriate value to the `GTEST_TRY_SYSTEM_PROBE` CMake variable.
 
 Look for a `cmake/template-project-make-GTest-available.cmake` to see details or change GTest version etc.
-
-## Extensions
-
-There will be introduced some other standard project features in the future.
 
 # Project build
 
@@ -253,6 +232,20 @@ To enable project unit test availability (for building and running) reconfigure 
 
 mkdir -vp build && cd build && cmake ../ -DENABLE_UNIT_TESTS=ON && cmake --build . --target all
 ```
+
+The `ctest` may be used afterwards.
+
+### Enabling component testing
+
+To enable project unit test availability (for building and running) reconfigure it with enabled `ENABLE_COMPONENT_TESTS` variable as follows (GNU/Linux based):
+
+```
+# from the project root
+
+mkdir -vp build && cd build && cmake ../ -DENABLE_COMPONENT_TESTS=ON && cmake --build . --target all
+```
+
+The `ctest` may be used afterwards.
 
 ### Disabling system GTest probe 
 

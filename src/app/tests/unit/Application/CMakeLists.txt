@@ -14,6 +14,8 @@ target_include_directories(
   PRIVATE ${APP_MOCKS_ROOT}/FreeGlutIniter
   PRIVATE ${APP_MOCKS_ROOT}/project-global-decls
   PRIVATE ${APP_MOCKS_ROOT}/log
+  PRIVATE ${APP_MOCKS_ROOT}/AnnotatorController
+  PRIVATE ${APP_MOCKS_ROOT}/ImagesAnnotatorEventController
   PRIVATE ${CMAKE_SOURCE_DIR}
 )
 

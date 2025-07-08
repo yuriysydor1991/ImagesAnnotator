@@ -8,7 +8,7 @@ add_executable(
 
 target_include_directories(
   UTEST_ApplicationContext
-  PRIVATE ${CMAKE_SOURCE_DIR}
+  PRIVATE ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}
 )
 
 target_link_libraries(

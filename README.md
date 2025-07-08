@@ -11,6 +11,8 @@ Fast started with help of the C++ templated project located at [https://github.c
 Translations of the current README.md may be found in the `doc` subdirectory:
 - [doc/README.uk_UA.md](doc/README.uk_UA.md)
 
+**WARNING! Project is in the alpha stage! Save and backup your data often!**
+
 See more at the [kytok.org.ua](http://www.kytok.org.ua/)
 
 💵 Donate at [http://kytok.org.ua/page/pozertvy](http://kytok.org.ua/page/pozertvy)
@@ -36,8 +38,6 @@ On the right panel there are list all the annotations in the project list box an
 On the bottom of the window there is a status panel that currently indicates only opened JSON db file.
 
 After annotating the images of interest, use the export submenu of the `Annotations` menu to export data to widely used annotation formats.
-
-**WARNING! Currently there is no indication for introduced JSON annotations DB project changes. So annotations project will be closed without any warnings with a subsequent data lose! Manually save the project and then close it**
 
 # Requirements
 

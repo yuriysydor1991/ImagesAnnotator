@@ -366,7 +366,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [unreleased](https://github.com/yuriysydor1991/ImagesAnnotator)
 
-[v0.11.0](https://github.com/yuriysydor1991/ImagesAnnotator/releases/tag/0.11.0)
+[v0.11.0](https://github.com/yuriysydor1991/ImagesAnnotator/releases/tag/v0.11.0)
 [appGtkmm3Glade0.9.0](https://github.com/yuriysydor1991/cpp-app-template/releases/tag/appGtkmm3Glade0.9.0)
 [appGtkmm3Glade0.8.0](https://github.com/yuriysydor1991/cpp-app-template/releases/tag/appGtkmm3Glade0.8.0)
 [appGtkmm30.7.0](https://github.com/yuriysydor1991/cpp-app-template/releases/tag/appGtkmm30.7.0)

@@ -1,6 +1,6 @@
 **The images annotator application**
 
-# Goal of the ImageAnnotator
+# Goal of the ImagesAnnotator
 
 The goal of the image annotator is to provide information about the provided images' located objects in order to supply annotated data to the learning networks with next load into libraries like [OpenCV](https://github.com/opencv/opencv).
 

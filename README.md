@@ -37,6 +37,8 @@ On the bottom of the window there is a status panel that currently indicates onl
 
 After annotating the images of interest, use the export submenu of the `Annotations` menu to export data to widely used annotation formats.
 
+**WARNING! Currently there is no indication for introduced JSON annotations DB project changes. So annotations project will be closed without any warnings with a subsequent data lose! Manually save the project and then close it**
+
 # Requirements
 
 This section contains list of required packages and/or tools that must be present in the system in order to build project.

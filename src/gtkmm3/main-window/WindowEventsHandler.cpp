@@ -1259,6 +1259,12 @@ void WindowEventsHandler::update_rect_edit_entry()
 
   assert(rentry != nullptr);
 
+  if (mwctx->current_image->get_image_rec()->current_rect == nullptr) {
+    LOGT("No current rect selected, cleaning entry");
+    rentry->set_text("");
+    return;
+  }
+
   rentry->set_text(mwctx->current_image->get_image_rec()->current_rect->name);
 }
 
@@ -1312,6 +1318,7 @@ void WindowEventsHandler::on_current_rectangle_delete_click()
 
   update_current_rects_list();
   update_annotations_list();
+  update_rect_edit_entry();
 
   if (mwctx->current_image->get_image_rec()->rects.empty()) {
     LOGT("Current images no longer have rects, deleting the marking");

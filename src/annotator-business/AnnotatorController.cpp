@@ -317,4 +317,11 @@ void AnnotatorController::handle(ExportPlainTxt2FolderRequestPtr event)
   LOGD("DB seems to be exported");
 }
 
+bool AnnotatorController::changed()
+{
+  assert(annotations != nullptr);
+
+  return annotations != nullptr && annotations->changed();
+}
+
 }  // namespace iannotator

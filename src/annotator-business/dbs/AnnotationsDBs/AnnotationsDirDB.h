@@ -59,6 +59,8 @@ class AnnotationsDirDB : public virtual AnnotationsDBTypes,
   virtual std::string get_db_path() override;
   virtual AnnotationsList get_available_annotations() override;
 
+  virtual bool changed() override;
+
   virtual void add_images_db(const ImageRecordsSet& andb);
 
   virtual bool store_db();
@@ -68,9 +70,13 @@ class AnnotationsDirDB : public virtual AnnotationsDBTypes,
   virtual bool serialize();
   virtual ImageRecordsSet load_the_irs();
 
+  virtual void update_current_last_saved();
+
   nlohmann::json json;
   ImageRecordsSet irdb;
   std::string current_db_path;
+
+  ImageRecordsSet last_saved_db;
 };
 
 using AnnotationsDirDBPtr = std::shared_ptr<AnnotationsDirDB>;

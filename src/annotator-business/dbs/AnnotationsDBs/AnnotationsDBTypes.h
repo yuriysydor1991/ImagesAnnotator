@@ -43,6 +43,7 @@ class AnnotationsDBTypes
 {
  public:
   using ImageRecordsSet = events::events::ImageRecordsSet;
+  using ImageRecord = events::events::ImageRecord;
 
   AnnotationsDBTypes() = default;
   virtual ~AnnotationsDBTypes() = default;

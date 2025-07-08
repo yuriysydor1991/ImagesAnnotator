@@ -104,6 +104,7 @@ class AnnotatorController
   virtual ImageRecordsSet& get_images_db() override;
   virtual std::string get_db_path() override;
   virtual AnnotationsList get_available_annotations() override;
+  virtual bool changed() override;
 
   virtual void deinit();
 

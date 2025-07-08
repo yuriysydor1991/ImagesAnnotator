@@ -54,6 +54,8 @@ class ImagesPathsDBProvider : virtual public IProvider
   virtual std::string get_db_path() = 0;
 
   virtual AnnotationsList get_available_annotations() = 0;
+
+  virtual bool changed() = 0;
 };
 
 using ImagesPathsDBProviderPtr = std::shared_ptr<ImagesPathsDBProvider>;

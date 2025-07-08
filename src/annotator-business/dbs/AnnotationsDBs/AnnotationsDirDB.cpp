@@ -27,6 +27,7 @@
 
 #include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsDirDB.h"
 
+#include <cassert>
 #include <exception>
 #include <fstream>
 #include <nlohmann/json.hpp>
@@ -83,7 +84,20 @@ bool AnnotationsDirDB::load_db(const std::string& fpath)
     return false;
   }
 
+  update_current_last_saved();
+
   return true;
+}
+
+void AnnotationsDirDB::update_current_last_saved()
+{
+  last_saved_db = ImageRecord::duplicate(irdb);
+
+  assert(ImageRecord::equal(last_saved_db, irdb));
+
+  if (changed()) {
+    LOGE("Duplicated images record set is not equal to original");
+  }
 }
 
 bool AnnotationsDirDB::serialize()
@@ -132,7 +146,15 @@ bool AnnotationsDirDB::store_db(const std::string& fpath)
 
   current_db_path = fpath;
 
-  return irsConverter->store(get_images_db(), fpath);
+  const bool sret = irsConverter->store(get_images_db(), fpath);
+
+  if (sret) {
+    update_current_last_saved();
+  } else {
+    LOGE("Failure during records saving");
+  }
+
+  return sret;
 }
 
 std::string AnnotationsDirDB::get_db_path() { return current_db_path; }
@@ -151,6 +173,11 @@ AnnotationsDirDB::AnnotationsList AnnotationsDirDB::get_available_annotations()
   }
 
   return alist;
+}
+
+bool AnnotationsDirDB::changed()
+{
+  return ImageRecord::equal(last_saved_db, irdb);
 }
 
 }  // namespace iannotator::dbs::annotations

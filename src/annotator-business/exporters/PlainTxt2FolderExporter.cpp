@@ -10,6 +10,8 @@
 namespace iannotator::exporters
 {
 
+PlainTxt2FolderExporter::~PlainTxt2FolderExporter() { clear(); }
+
 bool PlainTxt2FolderExporter::export_db(ExportContextPtr ectx)
 {
   assert(ectx != nullptr);
@@ -32,7 +34,9 @@ bool PlainTxt2FolderExporter::export_db(ExportContextPtr ectx)
     return false;
   }
 
-  LOGD("Will be trying to export some data to " << ectx->export_path);
+  const auto& exportDir = ectx->export_path;
+
+  LOGD("Will be trying to export some data to " << exportDir);
 
   auto dbset = ectx->dbProvider->get_images_db();
 
@@ -40,51 +44,72 @@ bool PlainTxt2FolderExporter::export_db(ExportContextPtr ectx)
     assert(ir != nullptr);
 
     if (ir == nullptr) {
-      LOGE("Located invalid pointer in the queue");
+      LOGE("Located invalid pointer in the image records queue");
       continue;
     }
 
-    const auto& imagePath = ir->get_full_path();
-
-    LOGT("Trying to export image: " << imagePath);
-
-    irDataTmpDB tag2data;
-
-    for (const auto& irr : ir->rects) {
-      auto& dp = tag2data[irr->name];
-
-      std::stringstream oss;
-
-      oss << irr->x << " " << irr->y << " " << irr->width << " " << irr->height;
-
-      dp.first++;
-      dp.second +=
-          (dp.second.empty() ? std::string{} : std::string{" "}) + oss.str();
-    }
-
-    for (const auto& p : tag2data) {
-      auto f = get_file(ectx->export_path, p.first);
-
-      assert(f != nullptr);
-
-      if (f == nullptr) {
-        LOGE("Invalid file pointer obtained for " << p.first << " in the file "
-                                                  << imagePath);
-        continue;
-      }
-
-      if (p.second.first == 0) {
-        continue;
-      }
-
-      *f << imagePath << " " << p.second.first << " " << p.second.second
-         << std::endl;
-    }
+    export_ir(ir, exportDir);
   }
 
   clear();
 
   return false;
+}
+
+PlainTxt2FolderExporter::irDataTmpDB PlainTxt2FolderExporter::gather_ir_data(
+    const ImageRecordPtr& ir)
+{
+  irDataTmpDB tag2data;
+
+  for (const auto& irr : ir->rects) {
+    auto& dp = tag2data[irr->name];
+
+    std::stringstream oss;
+
+    oss << irr->x << " " << irr->y << " " << irr->width << " " << irr->height;
+
+    dp.first++;
+    dp.second +=
+        (dp.second.empty() ? std::string{} : std::string{" "}) + oss.str();
+  }
+
+  return tag2data;
+}
+
+void PlainTxt2FolderExporter::export_ir(const ImageRecordPtr& ir,
+                                        const std::string& exportDir)
+{
+  const auto& imagePath = ir->get_full_path();
+
+  LOGT("Trying to export image: " << imagePath);
+
+  const auto tag2data = gather_ir_data(ir);
+
+  write_ir_data(tag2data, exportDir, imagePath);
+}
+
+void PlainTxt2FolderExporter::write_ir_data(const irDataTmpDB& tag2data,
+                                            const std::string& exportDir,
+                                            const std::string& imagePath)
+{
+  for (const auto& p : tag2data) {
+    auto f = get_file(exportDir, p.first);
+
+    assert(f != nullptr);
+
+    if (f == nullptr) {
+      LOGE("Invalid file pointer obtained for " << p.first << " in the file "
+                                                << imagePath);
+      continue;
+    }
+
+    if (p.second.first == 0) {
+      continue;
+    }
+
+    *f << imagePath << " " << p.second.first << " " << p.second.second
+       << std::endl;
+  }
 }
 
 void PlainTxt2FolderExporter::clear()

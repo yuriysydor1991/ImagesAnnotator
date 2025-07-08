@@ -16,12 +16,13 @@ namespace iannotator::exporters
 class PlainTxt2FolderExporter : virtual public IExporter
 {
  public:
-  virtual ~PlainTxt2FolderExporter() = default;
+  virtual ~PlainTxt2FolderExporter();
   PlainTxt2FolderExporter() = default;
 
   virtual bool export_db(ExportContextPtr) override;
 
  private:
+  using ImageRecordPtr = events::events::ImageRecordPtr;
   using FilePtr = std::shared_ptr<std::fstream>;
   using tag2file = std::unordered_map<std::string, FilePtr>;
   using irDataTmpDB =
@@ -30,6 +31,11 @@ class PlainTxt2FolderExporter : virtual public IExporter
   void clear();
 
   FilePtr get_file(const std::string& dirPath, const std::string& tagName);
+
+  void export_ir(const ImageRecordPtr& ir, const std::string& exportDir);
+  irDataTmpDB gather_ir_data(const ImageRecordPtr& ir);
+  void write_ir_data(const irDataTmpDB& tag2data, const std::string& exportDir,
+                     const std::string& imagePath);
 
   tag2file exFiles;
 };

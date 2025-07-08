@@ -8,9 +8,34 @@ Current project serves also as a research purposes. So may look a bit over engin
 
 Fast started with help of the C++ templated project located at [https://github.com/yuriysydor1991/cpp-app-template](https://github.com/yuriysydor1991/cpp-app-template)
 
+Translations of the current README.md may be found in the `doc` subdirectory:
+- [doc/README.uk_UA.md](doc/README.uk_UA.md)
+
 See more at the [kytok.org.ua](http://www.kytok.org.ua/)
 
 💵 Donate at [http://kytok.org.ua/page/pozertvy](http://kytok.org.ua/page/pozertvy)
+
+# Usage
+
+The main application window looks like next.
+
+![ImagesAnnotator window view example](doc/images/ImagesAnnotator-0.11.0.png)
+
+On the top located regular menu:
+
+- `Images` to import images directories,
+- `Annotations` to manage current project,
+- `Help` for help options.
+
+Next in line located buttons to open and append new image containing directory (duplicated functionality from `Images` menu), increase and decrease zoom on the current opened image, the next and previous image if any from the opened images in the queue (left list panel), and finally duplicated button to open already existing annotations DB (currently only internal JSON format is supported).
+
+The images that are listed on the green background on the left panel indicating having at least one annotation.
+
+On the right panel there are list all the annotations in the project list box and the currently opened image annotations only list box. The `Copy annotation name` button designed to copy text from a top list box selected annotation to the current image selected annotation. The `copy annotation` duplicates current selected image annotation. The delete button in the bottom of the current image annotations list designed to delete current image selected annotation respectively.
+
+On the bottom of the window there is a status panel that currently indicates only opened JSON db file.
+
+After annotating the images of interest, use the export submenu of the `Annotations` menu to export data to widely used annotation formats.
 
 # Requirements
 

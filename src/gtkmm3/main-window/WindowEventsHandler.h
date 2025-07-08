@@ -111,7 +111,9 @@ class WindowEventsHandler
   void update_rect_edit_entry();
   void update_annotations_list();
   void update_current_annotations_selection();
-  void update_status_bar();
+  void update_status_bar(const std::string& nstatus);
+  void update_title(const std::string& ntitle);
+  void update_statuses();
 
   void normalize_current_rect();
   void normilize_initial_image_load_scale();
@@ -128,9 +130,12 @@ class WindowEventsHandler
 
   virtual bool has_to_export();
 
+  virtual std::string compute_title(const bool changes);
+
   inline static constexpr const char* const overlay_class =
       "almost_non_transparent";
   inline static constexpr const double load_image_scale_helper = 1.015;
+  inline static const std::string changesI = "*";
 
  private:
   std::shared_ptr<MainWindowContext> mwctx;

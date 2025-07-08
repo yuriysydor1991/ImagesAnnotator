@@ -51,7 +51,7 @@ class AnnotationsDirDB : public virtual AnnotationsDBTypes,
       events::events::ImagesPathsDBProvider::AnnotationsList;
 
   virtual ~AnnotationsDirDB() = default;
-  AnnotationsDirDB() = default;
+  AnnotationsDirDB();
 
   virtual bool load_db(const std::string& fpath);
 
@@ -70,7 +70,7 @@ class AnnotationsDirDB : public virtual AnnotationsDBTypes,
   virtual bool serialize();
   virtual ImageRecordsSet load_the_irs();
 
-  virtual void update_current_last_saved();
+  void update_current_last_saved();
 
   nlohmann::json json;
   ImageRecordsSet irdb;

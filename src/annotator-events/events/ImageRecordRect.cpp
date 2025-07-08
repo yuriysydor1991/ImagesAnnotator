@@ -34,6 +34,7 @@
 #include <unordered_set>
 
 #include "src/annotator-events/events/IRecord.h"
+#include "src/log/log.h"
 
 namespace events::events
 {
@@ -56,25 +57,41 @@ bool ImageRecordRect::equal(const ImageRecordRectSet& l,
                             const ImageRecordRectSet& r)
 {
   if (&l == &r) {
+    LOGT("The same object given as parameters");
     return true;
   }
 
-  return std::equal(
+  const bool rt = std::equal(
       l.begin(), l.end(), r.begin(), r.end(),
       [](const ImageRecordRectPtr& lirr, const ImageRecordRectPtr& rirr) {
         return equal(lirr, rirr);
       });
+
+  LOGT("Equality value: " << rt);
+
+  return rt;
 }
 
 bool ImageRecordRect::equal(const ImageRecordRectPtr& l,
                             const ImageRecordRectPtr& r)
 {
   if (l.get() == r.get()) {
+    LOGT("The same object given");
     return true;
   }
 
-  return l->name == r->name && l->x == r->x && l->y == r->y &&
-         l->width == r->width && l->height == r->height;
+  LOGT("Comparing: " << l->name << " ?= " << r->name);
+  LOGT("         : " << l->x << " ?= " << r->x);
+  LOGT("         : " << l->y << " ?= " << r->y);
+  LOGT("         : " << l->width << " ?= " << r->width);
+  LOGT("         : " << l->height << " ?= " << r->height);
+
+  const bool rt = l->name == r->name && l->x == r->x && l->y == r->y &&
+                  l->width == r->width && l->height == r->height;
+
+  LOGT("Equality value for " << l->name << " = " << rt);
+
+  return rt;
 }
 
 }  // namespace events::events

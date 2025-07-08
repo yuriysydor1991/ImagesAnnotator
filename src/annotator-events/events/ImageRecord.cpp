@@ -58,7 +58,7 @@ bool ImageRecord::erase_current_rect()
     return false;
   }
 
-  auto rIter = rects.find(current_rect);
+  auto rIter = std::find(rects.begin(), rects.end(), current_rect);
 
   if (rIter == rects.end()) {
     LOGE("Current rect is not in the rects queue");
@@ -78,29 +78,53 @@ bool ImageRecord::equal(const ImageRecordsSet& l, const ImageRecordsSet& r)
   }
 
   if (l.size() != r.size()) {
+    LOGT("Size differs");
     return false;
   }
 
-  return std::equal(l.begin(), l.end(), r.begin(), r.end(),
-                    [](const ImageRecordPtr& lir, const ImageRecordPtr& rir) {
-                      return equal(lir, rir);
-                    });
+  const bool rt =
+      std::equal(l.begin(), l.end(), r.begin(), r.end(),
+                 [](const ImageRecordPtr& lir, const ImageRecordPtr& rir) {
+                   return equal(lir, rir);
+                 });
+
+  LOGT("Equal value: " << rt);
+
+  return rt;
 }
 
 bool ImageRecord::equal(const ImageRecordPtr& l, const ImageRecordPtr& r)
 {
-  return l.get() == r.get() ||
-         (l->abs_dir_path == r->abs_dir_path && l->path != r->path &&
-          l->imageScale == r->imageScale &&
-          ImageRecordRect::equal(l->rects, r->rects));
+  assert(l != nullptr);
+  assert(r != nullptr);
+
+  LOGT("Comparing: " << l->abs_dir_path << " ?= " << r->abs_dir_path << " = "
+                     << (l->abs_dir_path == r->abs_dir_path));
+  LOGT("         : " << l->path << " ?= " << r->path);
+  LOGT("         : " << l->imageScale << " ?= " << r->imageScale << " = "
+                     << (l->imageScale == r->imageScale));
+  LOGT("         : " << l->rects.size() << " ?= " << r->rects.size());
+
+  const bool rt = l.get() == r.get() ||
+                  (l->abs_dir_path == r->abs_dir_path && l->path == r->path &&
+                   l->imageScale == r->imageScale &&
+                   ImageRecordRect::equal(l->rects, r->rects));
+
+  LOGT("Equal value: " << rt);
+
+  return rt;
 }
 
 ImageRecordPtr ImageRecord::duplicate_shared() const
 {
   auto irdup = std::make_shared<ImageRecord>(path, abs_dir_path);
 
+  irdup->imageScale = imageScale;
+
+  irdup->rects.reserve(rects.size());
+
   for (const auto& rect : rects) {
-    irdup->rects.insert(rect->duplicate_shared());
+    irdup->rects.emplace_back(rect->duplicate_shared());
   }
 
   return irdup;

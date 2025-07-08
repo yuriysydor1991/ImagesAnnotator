@@ -40,6 +40,8 @@
 namespace iannotator::dbs::annotations
 {
 
+AnnotationsDirDB::AnnotationsDirDB() { update_current_last_saved(); }
+
 bool AnnotationsDirDB::load_db(const std::string& fpath)
 {
   assert(!fpath.empty());
@@ -177,7 +179,7 @@ AnnotationsDirDB::AnnotationsList AnnotationsDirDB::get_available_annotations()
 
 bool AnnotationsDirDB::changed()
 {
-  return ImageRecord::equal(last_saved_db, irdb);
+  return !ImageRecord::equal(last_saved_db, irdb);
 }
 
 }  // namespace iannotator::dbs::annotations

@@ -327,7 +327,7 @@ bool WindowEventsHandler::on_rectangle_draw_start(GdkEventButton* event)
   }
 
   ir->current_rect = efactory->create_image_rect_record(ir);
-  ir->rects.insert(ir->current_rect);
+  ir->rects.emplace_back(ir->current_rect);
 
   assert(ir->current_rect != nullptr);
 
@@ -347,6 +347,8 @@ bool WindowEventsHandler::on_rectangle_draw_start(GdkEventButton* event)
   if (mwctx->current_annotation_name == nullptr) {
     update_annotations_list();
   }
+
+  update_statuses();
 
   return true;
 }
@@ -500,6 +502,7 @@ bool WindowEventsHandler::on_mouse_resize_motion_start(
   mwctx->currentVisualRect = mwctx->find_current_image_current_visual_rect();
 
   update_current_annotations_selection();
+  update_statuses();
 
   return true;
 }
@@ -528,6 +531,7 @@ bool WindowEventsHandler::on_mouse_motion_end(GdkEventButton* event)
   }
 
   isOverResize = false;
+  update_statuses();
 
   return true;
 }
@@ -706,6 +710,7 @@ void WindowEventsHandler::on_zoom_in_clicked()
   mwctx->current_irecord()->scaleStepIn();
 
   update_image_zoom();
+  update_statuses();
 }
 
 void WindowEventsHandler::on_zoom_out_clicked()
@@ -727,6 +732,7 @@ void WindowEventsHandler::on_zoom_out_clicked()
   mwctx->current_irecord()->scaleStepOut();
 
   update_image_zoom();
+  update_statuses();
 }
 
 void WindowEventsHandler::on_annotations_db_open_click()
@@ -750,10 +756,9 @@ void WindowEventsHandler::on_annotations_db_open_click()
 
   LOGD("Selected json db file: " << newFileName);
 
-  // Run this after window becomes idle (rendered)
-  Glib::signal_idle().connect_once([this, newFileName]() {
-    mwctx->actx->eventer->onAnnotationsDirChanged(newFileName);
-  });
+  mwctx->actx->eventer->onAnnotationsDirChanged(newFileName);
+
+  update_statuses();
 }
 
 void WindowEventsHandler::update_image_zoom()
@@ -894,6 +899,8 @@ void WindowEventsHandler::normilize_initial_image_load_scale()
   ir->imageScale /= load_image_scale_helper;
 
   LOGT("Image new scale factor: " << ir->imageScale);
+
+  update_statuses();
 }
 
 bool WindowEventsHandler::load_image(const std::string& filepath)
@@ -962,6 +969,8 @@ void WindowEventsHandler::on_images_dir_open_click()
   LOGD("Selected new images directory: " << dialog->get_filename());
 
   mwctx->actx->eventer->onImagesDirChanged(dialog->get_filename());
+
+  update_statuses();
 }
 
 void WindowEventsHandler::on_menu_images_folder_open_activate()
@@ -991,6 +1000,8 @@ void WindowEventsHandler::on_menu_annotations_db_save_activate()
   auto saveE = ef->create_store_request();
 
   mwctx->actx->eventer->submit(saveE);
+
+  update_statuses();
 }
 
 void WindowEventsHandler::on_menu_annotations_db_saveas_activate()
@@ -1018,6 +1029,8 @@ void WindowEventsHandler::on_menu_annotations_db_saveas_activate()
   auto saveE = ef->create_store_request(dialog->get_filename());
 
   mwctx->actx->eventer->submit(saveE);
+
+  update_statuses();
 }
 
 void WindowEventsHandler::on_menu_annotations_project_close_activate()
@@ -1045,6 +1058,8 @@ void WindowEventsHandler::on_menu_annotations_project_close_activate()
   mwctx->centralCanvas->clear();
   mwctx->annotationsList.clear();
   mwctx->current_annotation_name.reset();
+
+  update_statuses();
 }
 
 void WindowEventsHandler::handle(
@@ -1054,6 +1069,7 @@ void WindowEventsHandler::handle(
 
   assert(event != nullptr);
   assert(event->images_provider != nullptr);
+  assert(mwctx != nullptr);
   assert(mwctx->wloader != nullptr);
   assert(mwctx->wloader->get_images_list() != nullptr);
   assert(mwctx->cwFactory != nullptr);
@@ -1067,15 +1083,45 @@ void WindowEventsHandler::handle(
 
   update_images_list();
   update_annotations_list();
-  update_status_bar();
   update_current_rects_list();
-
-  mwctx->wloader->update_window_title(mwctx->images_provider->get_db_path());
+  update_statuses();
 
   hide_spinner();
 }
 
-void WindowEventsHandler::update_status_bar()
+void WindowEventsHandler::update_statuses()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->images_provider != nullptr);
+
+  const bool changes =
+      mwctx->images_provider != nullptr && mwctx->images_provider->changed();
+
+  const std::string cstatus = compute_title(changes);
+
+  update_title(cstatus);
+  update_status_bar(cstatus);
+}
+
+void WindowEventsHandler::update_title(const std::string& ntitle)
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+  assert(mwctx->images_provider != nullptr);
+
+  mwctx->wloader->update_window_title(ntitle);
+}
+
+std::string WindowEventsHandler::compute_title(const bool changes)
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->images_provider != nullptr);
+
+  return mwctx->images_provider->get_db_path() +
+         (changes ? changesI : std::string{});
+}
+
+void WindowEventsHandler::update_status_bar(const std::string& nstatus)
 {
   assert(mwctx != nullptr);
   assert(mwctx->wloader != nullptr);
@@ -1083,8 +1129,7 @@ void WindowEventsHandler::update_status_bar()
 
   auto stCtx = mwctx->wloader->get_window_status_bar()->get_context_id("info");
 
-  mwctx->wloader->get_window_status_bar()->push(
-      mwctx->images_provider->get_db_path(), stCtx);
+  mwctx->wloader->get_window_status_bar()->push(nstatus, stCtx);
 }
 
 void WindowEventsHandler::clean_list_box(Gtk::ListBox* listBox)
@@ -1210,7 +1255,7 @@ void WindowEventsHandler::on_current_image_rect_row_selected(
 
   if (row == nullptr) {
     mwctx->currentVisualRect.reset();
-    LOGE("No row pointer provided");
+    LOGT("No row pointer provided");
     return;
   }
 
@@ -1298,6 +1343,7 @@ void WindowEventsHandler::on_rect_edit_entry_changed()
   mwctx->currentVisualRect->set_text(redit->get_text());
 
   update_annotations_list();
+  update_statuses();
 }
 
 void WindowEventsHandler::on_current_rectangle_delete_click()
@@ -1319,6 +1365,7 @@ void WindowEventsHandler::on_current_rectangle_delete_click()
   update_current_rects_list();
   update_annotations_list();
   update_rect_edit_entry();
+  update_statuses();
 
   if (mwctx->current_image->get_image_rec()->rects.empty()) {
     LOGT("Current images no longer have rects, deleting the marking");
@@ -1363,7 +1410,7 @@ void WindowEventsHandler::on_all_annotations_selected(Gtk::ListBoxRow* row)
   }
 
   if (row == nullptr) {
-    LOGE("No row pointer provided");
+    LOGT("No row pointer provided");
     return;
   }
 
@@ -1419,6 +1466,7 @@ void WindowEventsHandler::on_annotations_name_copy_click()
       mwctx->current_annotation_name->get_text());
 
   update_rect_edit_entry();
+  update_statuses();
 }
 
 void WindowEventsHandler::on_ci_annotation_copy_click()
@@ -1456,9 +1504,10 @@ void WindowEventsHandler::on_ci_annotation_copy_click()
       mwctx->current_image->get_image_rec()->current_rect->duplicate_shared();
 
   mwctx->current_image->get_image_rec()->current_rect = dup;
-  mwctx->current_image->get_image_rec()->rects.insert(dup);
+  mwctx->current_image->get_image_rec()->rects.emplace_back(dup);
 
   update_current_rects_list();
+  update_statuses();
 }
 
 void WindowEventsHandler::on_annotations_search_text_changed()
@@ -1546,6 +1595,8 @@ void WindowEventsHandler::on_export_txt_2_folder_activate()
   auto exportEvent = efactory->create_plain_txt_2_folder_export(newFileName);
 
   mwctx->actx->eventer->submit(exportEvent);
+
+  update_statuses();
 
   hide_spinner();
 }

@@ -82,6 +82,8 @@ ImageRecordJSON2RecordConverter::convert(const nlohmann::json& fan,
   auto rectConv =
       std::make_shared<ImageRecordRectJSON2RecordConverter>(efactory);
 
+  ir->rects.reserve(fan[fann].size());
+
   for (const auto& rect : fan[fann]) {
     auto irr = rectConv->convert(rect);
 
@@ -91,7 +93,7 @@ ImageRecordJSON2RecordConverter::convert(const nlohmann::json& fan,
       continue;
     }
 
-    ir->rects.insert(irr);
+    ir->rects.emplace_back(irr);
   }
 
   return ir;

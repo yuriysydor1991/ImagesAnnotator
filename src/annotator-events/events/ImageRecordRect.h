@@ -30,7 +30,7 @@
 
 #include <memory>
 #include <string>
-#include <unordered_set>
+#include <vector>
 
 #include "src/annotator-events/events/IRecord.h"
 
@@ -45,7 +45,7 @@ class ImageRecordRect : virtual public IRecord,
 {
  public:
   using ImageRecordRectPtr = std::shared_ptr<ImageRecordRect>;
-  using ImageRecordRectSet = std::unordered_set<ImageRecordRectPtr>;
+  using ImageRecordRectSet = std::vector<ImageRecordRectPtr>;
 
   virtual ~ImageRecordRect() = default;
   ImageRecordRect();

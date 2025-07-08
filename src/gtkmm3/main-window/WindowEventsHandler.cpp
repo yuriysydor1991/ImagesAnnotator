@@ -75,6 +75,10 @@ void WindowEventsHandler::subscribe_4_system_events()
 
 void WindowEventsHandler::subscribe_4_visual_events()
 {
+  assert(mwctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+  assert(mwctx->wloader->all_widget_are_valid());
+
   auto* imagesListBox = mwctx->wloader->get_images_list();
   auto* zoomInB = mwctx->wloader->get_current_image_zoom_in();
   auto* zoomOutB = mwctx->wloader->get_current_image_zoom_out();
@@ -98,26 +102,7 @@ void WindowEventsHandler::subscribe_4_visual_events()
   auto* dupCurretAnn = mwctx->wloader->get_copy_current_annotation_button();
   auto* aboutM = mwctx->wloader->get_about_mi();
   auto* exportTxt2FolderM = mwctx->wloader->get_export_txt2_folder_mi();
-
-  assert(imagesListBox != nullptr);
-  assert(zoomInB != nullptr);
-  assert(zoomOutB != nullptr);
-  assert(drawArea != nullptr);
-  assert(oAnnB != nullptr);
-  assert(imagesFolderB != nullptr);
-  assert(miOpenImagesF != nullptr);
-  assert(miOpenAnnotationsF != nullptr);
-  assert(annSaveM != nullptr);
-  assert(annSaveAsM != nullptr);
-  assert(annClose != nullptr);
-  assert(crDeleteB != nullptr);
-  assert(aSearchE != nullptr);
-  assert(allAnnL != nullptr);
-  assert(rectEntry != nullptr);
-  assert(copyNameB != nullptr);
-  assert(prevButton != nullptr);
-  assert(nextButton != nullptr);
-  assert(dupCurretAnn != nullptr);
+  auto* window = mwctx->wloader->get_window();
 
   imagesListBox->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_row_selected));
@@ -179,6 +164,9 @@ void WindowEventsHandler::subscribe_4_visual_events()
 
   exportTxt2FolderM->signal_activate().connect(sigc::mem_fun(
       *this, &WindowEventsHandler::on_export_txt_2_folder_activate));
+
+  window->signal_delete_event().connect(
+      sigc::mem_fun(*this, &WindowEventsHandler::on_window_close), false);
 }
 
 void WindowEventsHandler::show_spinner()
@@ -1033,9 +1021,54 @@ void WindowEventsHandler::on_menu_annotations_db_saveas_activate()
   update_statuses();
 }
 
+bool WindowEventsHandler::ask_about_unsaved_changes()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+  assert(mwctx->wloader->get_window() != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  show_spinner();
+
+  auto dialog = mwctx->cwFactory->create_save_changes_ask_user(
+      mwctx->wloader->get_window());
+
+  assert(dialog != nullptr);
+
+  int result = dialog->run();
+
+  if (result == Gtk::RESPONSE_YES) {
+    LOGT("user choose to save data");
+    on_menu_annotations_db_save_activate();
+    hide_spinner();
+    return true;
+  } else if (result == Gtk::RESPONSE_NO) {
+    LOGI("user discards the changes");
+    hide_spinner();
+    return true;
+  } else if (result == Gtk::RESPONSE_CANCEL) {
+    LOGT("user cancels project close");
+    hide_spinner();
+    return false;
+  } else {
+    LOGE("Unknown dialog response, saving data");
+  }
+
+  hide_spinner();
+
+  return false;
+}
+
 void WindowEventsHandler::on_menu_annotations_project_close_activate()
 {
   LOGT("Trying to close the project project");
+
+  if (lastChangedStatus) {
+    if (!ask_about_unsaved_changes()) {
+      LOGT("User doesn't want to close project anymore");
+      return;
+    }
+  }
 
   dragging = false;
 
@@ -1094,10 +1127,10 @@ void WindowEventsHandler::update_statuses()
   assert(mwctx != nullptr);
   assert(mwctx->images_provider != nullptr);
 
-  const bool changes =
+  lastChangedStatus =
       mwctx->images_provider != nullptr && mwctx->images_provider->changed();
 
-  const std::string cstatus = compute_title(changes);
+  const std::string cstatus = compute_title(lastChangedStatus);
 
   update_title(cstatus);
   update_status_bar(cstatus);
@@ -1608,6 +1641,24 @@ bool WindowEventsHandler::has_to_export()
   return mwctx != nullptr && (!mwctx->imagesVDB.empty() ||
                               (mwctx->images_provider != nullptr &&
                                !mwctx->images_provider->get_db_path().empty()));
+}
+
+bool WindowEventsHandler::on_window_close(GdkEventAny*)
+{
+  if (!lastChangedStatus) {
+    LOGT("Seems like no changes made - allowing window close");
+    return false;
+  }
+
+  const bool continueWClose = ask_about_unsaved_changes();
+
+  if (continueWClose) {
+    LOGT("user alowed window to close");
+    return false;
+  }
+
+  LOGT("Interupting window close");
+  return true;
 }
 
 }  // namespace templateGtkmm3::window

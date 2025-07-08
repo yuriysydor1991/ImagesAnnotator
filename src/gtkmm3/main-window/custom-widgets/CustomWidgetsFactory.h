@@ -90,6 +90,9 @@ class CustomWidgetsFactory
 
   virtual std::shared_ptr<Gtk::MessageDialog> create_error_dialog(
       const std::string& errDesc, Gtk::Window* parentWindow);
+
+  virtual std::shared_ptr<Gtk::MessageDialog> create_save_changes_ask_user(
+      Gtk::Window* parentWindow);
 };
 
 }  // namespace templateGtkmm3::window::custom_widgets

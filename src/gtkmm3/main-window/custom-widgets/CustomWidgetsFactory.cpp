@@ -254,4 +254,20 @@ std::shared_ptr<Gtk::MessageDialog> CustomWidgetsFactory::create_error_dialog(
   return dialog;
 }
 
+std::shared_ptr<Gtk::MessageDialog>
+CustomWidgetsFactory::create_save_changes_ask_user(Gtk::Window* parentWindow)
+{
+  auto dialog = std::make_shared<Gtk::MessageDialog>(
+      *parentWindow, "Do you want to save changes?", false,
+      Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_NONE, true);
+
+  dialog->add_button("_Cancel", Gtk::RESPONSE_CANCEL);
+  dialog->add_button("_Discard", Gtk::RESPONSE_NO);
+  dialog->add_button("_Save", Gtk::RESPONSE_YES);
+
+  dialog->set_default_response(Gtk::RESPONSE_YES);
+
+  return dialog;
+}
+
 }  // namespace templateGtkmm3::window::custom_widgets

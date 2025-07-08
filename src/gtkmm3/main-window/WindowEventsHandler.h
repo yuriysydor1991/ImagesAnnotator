@@ -85,6 +85,7 @@ class WindowEventsHandler
   virtual void on_annotations_search_text_changed();
   virtual void on_menu_about_activate();
   virtual void on_export_txt_2_folder_activate();
+  virtual bool on_window_close(GdkEventAny*);
 
   virtual bool on_mouse_motion_start(GdkEventButton* event);
   virtual bool on_mouse_motion_end(GdkEventButton* event);
@@ -132,6 +133,10 @@ class WindowEventsHandler
 
   virtual std::string compute_title(const bool changes);
 
+  /// @brief Asks user about unsaved changes
+  /// @return Returns true if project may be closed.
+  virtual bool ask_about_unsaved_changes();
+
   inline static constexpr const char* const overlay_class =
       "almost_non_transparent";
   inline static constexpr const double load_image_scale_helper = 1.015;
@@ -142,6 +147,7 @@ class WindowEventsHandler
 
   bool dragging{false};
   bool isOverResize{false};
+  bool lastChangedStatus{false};
 };
 
 }  // namespace templateGtkmm3::window

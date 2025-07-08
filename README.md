@@ -4,7 +4,7 @@
 
 The goal of the image annotator is to provide information about the provided images' located objects in order to supply annotated data to the learning networks with next load into libraries like [OpenCV](https://github.com/opencv/opencv).
 
-Current project serves also for a research purposes. So may look a bit over engineered.
+Current project also serves research purposes. So may look a bit over engineered.
 
 Fast started with help of the C++ templated project located at [https://github.com/yuriysydor1991/cpp-app-template](https://github.com/yuriysydor1991/cpp-app-template)
 

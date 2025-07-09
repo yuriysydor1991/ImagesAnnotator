@@ -996,6 +996,8 @@ void WindowEventsHandler::on_menu_annotations_db_save_activate()
 
   mwctx->actx->eventer->submit(saveE);
 
+  lastChangedStatus = false;
+
   update_statuses();
 }
 
@@ -1024,6 +1026,8 @@ void WindowEventsHandler::on_menu_annotations_db_saveas_activate()
   auto saveE = ef->create_store_request(dialog->get_filename());
 
   mwctx->actx->eventer->submit(saveE);
+
+  lastChangedStatus = false;
 
   update_statuses();
 }
@@ -1134,8 +1138,8 @@ void WindowEventsHandler::update_statuses()
   assert(mwctx != nullptr);
   assert(mwctx->images_provider != nullptr);
 
-  lastChangedStatus =
-      mwctx->images_provider != nullptr && mwctx->images_provider->changed();
+  lastChangedStatus = lastChangedStatus || (mwctx->images_provider != nullptr &&
+                                            mwctx->images_provider->changed());
 
   const std::string cstatus = compute_title(lastChangedStatus);
 

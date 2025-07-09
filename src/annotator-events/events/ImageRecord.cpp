@@ -105,10 +105,11 @@ bool ImageRecord::equal(const ImageRecordPtr& l, const ImageRecordPtr& r)
                      << (l->imageScale == r->imageScale));
   LOGT("         : " << l->rects.size() << " ?= " << r->rects.size());
 
-  const bool rt = l.get() == r.get() ||
-                  (l->abs_dir_path == r->abs_dir_path && l->path == r->path &&
-                   l->imageScale == r->imageScale &&
-                   ImageRecordRect::equal(l->rects, r->rects));
+  const bool rt =
+      l.get() == r.get() ||
+      (l->abs_dir_path == r->abs_dir_path && l->path == r->path &&
+       l->imageScale == r->imageScale && l->iwidth == r->iwidth &&
+       l->iheight == r->iheight && ImageRecordRect::equal(l->rects, r->rects));
 
   LOGT("Equal value: " << rt);
 
@@ -120,6 +121,9 @@ ImageRecordPtr ImageRecord::duplicate_shared() const
   auto irdup = std::make_shared<ImageRecord>(path, abs_dir_path);
 
   irdup->imageScale = imageScale;
+
+  irdup->iwidth = iwidth;
+  irdup->iheight = iheight;
 
   irdup->rects.reserve(rects.size());
 

@@ -61,6 +61,10 @@ class ImageRecord : virtual public IRecord
   ImageRecordRectSet rects;
   ImageRecordRectPtr current_rect;
 
+  /// @brief Image width and height respectively
+  int iwidth{0};
+  int iheight{0};
+
   double imageScale{defaultInitScaling};
 
   void scaleStepIn();

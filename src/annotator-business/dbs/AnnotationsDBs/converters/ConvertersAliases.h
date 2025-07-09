@@ -75,6 +75,11 @@ class ConvertersAliases
   inline static const auto& fversion =
       AnnotationsJSONSerializator::file_version_field_name;
 
+  inline static const auto& fiwidth =
+      AnnotationsJSONSerializator::annotation_image_width;
+  inline static const auto& fiheight =
+      AnnotationsJSONSerializator::annotation_image_height;
+
   virtual ~ConvertersAliases() = default;
   ConvertersAliases() = default;
 };

@@ -67,6 +67,11 @@ class AnnotationsJSONSerializator
   inline static constexpr const char* const annotation_image_scale_factor =
       "scale_factor";
 
+  inline static constexpr const char* const annotation_image_width =
+      annotation_rect_width;
+  inline static constexpr const char* const annotation_image_height =
+      annotation_rect_height;
+
  protected:
   virtual bool serialize_app_info(const nlohmann::json& json);
   virtual bool serialize_annotations_records(const nlohmann::json& json);

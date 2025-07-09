@@ -77,6 +77,18 @@ ImageRecordJSON2RecordConverter::convert(const nlohmann::json& fan,
     ir->imageScale = fan[fannIScale].get<double>();
   }
 
+  if (fan.contains(fiwidth)) {
+    LOGT("image width: " << fan[fiwidth].get<int>());
+
+    ir->iwidth = fan[fiwidth].get<int>();
+  }
+
+  if (fan.contains(fiheight)) {
+    LOGT("image scale factor: " << fan[fiheight].get<int>());
+
+    ir->iheight = fan[fiheight].get<int>();
+  }
+
   assert(ir != nullptr);
 
   auto rectConv =

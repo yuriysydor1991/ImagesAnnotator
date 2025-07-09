@@ -112,6 +112,8 @@ nlohmann::json ImageRecords2JSONConverter::convert(const ImageRecordPtr& ir)
 
   j[frel_path] = ir->path;
   j[fannIScale] = ir->imageScale;
+  j[fiwidth] = ir->iwidth;
+  j[fiheight] = ir->iheight;
   j[fann] = convert(ir->rects);
 
   LOGT("The IR json: " << j.dump(2));

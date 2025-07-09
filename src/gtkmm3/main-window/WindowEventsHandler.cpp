@@ -890,6 +890,9 @@ void WindowEventsHandler::normilize_initial_image_load_scale()
       static_cast<double>(centralHeight) / static_cast<double>(origHeight);
   ir->imageScale /= load_image_scale_helper;
 
+  ir->iwidth = mwctx->current_image_original_pixbuf->get_width();
+  ir->iheight = mwctx->current_image_original_pixbuf->get_height();
+
   LOGT("Image new scale factor: " << ir->imageScale);
 
   update_statuses();

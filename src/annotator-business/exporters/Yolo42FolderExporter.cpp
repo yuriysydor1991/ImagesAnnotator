@@ -296,7 +296,7 @@ bool Yolo42FolderExporter::express_image_annotations(
 
     const IndexType classIndex = std::distance(aList.begin(), classIter);
 
-    if (!express_rectangle_data(ftxt, classIndex, irr)) {
+    if (!express_rectangle_data(ftxt, ir, classIndex, irr)) {
       LOGE("Failture while expressing rectangle name: " << irr->name);
       continue;
     }
@@ -308,17 +308,17 @@ bool Yolo42FolderExporter::express_image_annotations(
 }
 
 bool Yolo42FolderExporter::express_rectangle_data(std::fstream& ftxt,
+                                                  ImageRecordPtr& ir,
                                                   const IndexType& index,
                                                   ImageRecordRectPtr& irr)
 {
   assert(ftxt.is_open());
   assert(irr != nullptr);
 
-  /// @todo Normalize values [0.0;1.0]
-  const double nx = toD(irr->x);
-  const double ny = toD(irr->y);
-  const double nwidth = toD(irr->width);
-  const double nheight = toD(irr->height);
+  const double nx = toD(irr->x) / toD(ir->iwidth);
+  const double ny = toD(irr->y) / toD(ir->iheight);
+  const double nwidth = toD(irr->width) / toD(ir->iwidth);
+  const double nheight = toD(irr->height) / toD(ir->iheight);
 
   ftxt << index << " " << nx << " " << ny << " " << nwidth << " " << nheight
        << std::endl;

@@ -76,8 +76,8 @@ class Yolo42FolderExporter : virtual public IExporter,
   DataImage2TxtRec prepare_image(ExportContextPtr ectx, ImageRecordPtr& ir);
   bool express_image_annotations(ExportContextPtr ectx, ImageRecordPtr& ir,
                                  const std::string& irtxtpath);
-  bool express_rectangle_data(std::fstream& ftxt, const IndexType& index,
-                              ImageRecordRectPtr& irr);
+  bool express_rectangle_data(std::fstream& ftxt, ImageRecordPtr& ir,
+                              const IndexType& index, ImageRecordRectPtr& irr);
 
   AnnotationsList aList;
 };

@@ -33,6 +33,7 @@
 #include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsDirDB.h"
 #include "src/annotator-business/dbs/ImagesLoaders/ImagesDirLoader.h"
 #include "src/annotator-business/exporters/PlainTxt2FolderExporter.h"
+#include "src/annotator-business/exporters/Yolo42FolderExporter.h"
 #include "src/app/ApplicationContext.h"
 #include "src/app/IApplication.h"
 #include "src/log/log.h"
@@ -302,20 +303,10 @@ void AnnotatorController::handle(ExportPlainTxt2FolderRequestPtr event)
     return;
   }
 
-  LOGD("Trying to export to " << event->dst_folder_path);
-
-  auto ectx = build_export_context(event->dst_folder_path);
-
-  assert(ectx != nullptr);
-
-  auto exporter = std::make_shared<exporters::PlainTxt2FolderExporter>();
-
-  if (!exporter->export_db(ectx)) {
-    LOGE("Invalid export status");
-    return;
+  if (!handle_export<exporters::PlainTxt2FolderExporter>(
+          event->dst_folder_path)) {
+    LOGE("Failure during the export");
   }
-
-  LOGD("DB seems to be exported");
 }
 
 bool AnnotatorController::changed()
@@ -334,7 +325,35 @@ void AnnotatorController::handle(ExportYolo4FolderRequestPtr event)
     return;
   }
 
-  LOGE("Need to implement the yolo4 exporter");
+  if (!handle_export<exporters::Yolo42FolderExporter>(event->dst_folder_path)) {
+    LOGE("Failure during the export");
+  }
+}
+
+template <class ExporterT>
+bool AnnotatorController::handle_export(const std::string& dirPath)
+{
+  if (dirPath.empty()) {
+    LOGE("Empty dir path provided");
+    return true;
+  }
+
+  LOGD("Trying to export to " << dirPath);
+
+  auto ectx = build_export_context(dirPath);
+
+  assert(ectx != nullptr);
+
+  auto exporter = std::make_shared<ExporterT>();
+
+  if (!exporter->export_db(ectx)) {
+    LOGE("Invalid export status");
+    return false;
+  }
+
+  LOGD("DB seems to be exported");
+
+  return true;
 }
 
 }  // namespace iannotator

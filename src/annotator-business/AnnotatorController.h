@@ -126,6 +126,9 @@ class AnnotatorController
   void try_to_append_images_dir(const std::string& path);
   AnnotationsDirDBPtr create_project_data_instance();
 
+  template <class ExporterT>
+  bool handle_export(const std::string& dirPath);
+
   AnnotationsDirDBPtr annotations;
 
   std::shared_ptr<app::ApplicationContext> actx;

@@ -38,7 +38,7 @@ namespace iannotator::exporters
 {
 
 /**
- * @brief The annotator business controller class.
+ * @brief The annotations to plain txt format exporter class.
  */
 class PlainTxt2FolderExporter : virtual public IExporter
 {

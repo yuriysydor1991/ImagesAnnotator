@@ -149,4 +149,10 @@ ExportPlainTxt2FolderRequestPtr EventsFactory::create_plain_txt_2_folder_export(
   return std::make_shared<ExportPlainTxt2FolderRequest>(eDirPath);
 }
 
+ExportYolo4FolderRequestPtr EventsFactory::create_yolo4_export_request(
+    const std::string& exportDirPath)
+{
+  return std::make_shared<ExportYolo4FolderRequest>(exportDirPath);
+}
+
 }  // namespace events::events

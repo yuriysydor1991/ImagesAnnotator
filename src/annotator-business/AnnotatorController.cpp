@@ -104,6 +104,7 @@ bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
   ctx->eventer->subscribe(std::shared_ptr<StoreRequestHandler>(mptr));
   ctx->eventer->subscribe(std::shared_ptr<CloseCurrentProjectHandler>(mptr));
   ctx->eventer->subscribe(ExportPlainTxt2FolderRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ExportYolo4FolderRequestHandlerPtr{mptr});
 
   return true;
 }
@@ -322,6 +323,18 @@ bool AnnotatorController::changed()
   assert(annotations != nullptr);
 
   return annotations != nullptr && annotations->changed();
+}
+
+void AnnotatorController::handle(ExportYolo4FolderRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  LOGE("Need to implement the yolo4 exporter");
 }
 
 }  // namespace iannotator

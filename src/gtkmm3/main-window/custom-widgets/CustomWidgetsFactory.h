@@ -93,6 +93,14 @@ class CustomWidgetsFactory
 
   virtual std::shared_ptr<Gtk::MessageDialog> create_save_changes_ask_user(
       Gtk::Window* parentWindow);
+
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_yolo4_export_folder_choose_dialog(Gtk::Window* parentWindow);
+
+ private:
+  std::shared_ptr<Gtk::FileChooserDialog>
+  create_folder_choose_dialog_with_title(Gtk::Window* parentWindow,
+                                         const std::string& title);
 };
 
 }  // namespace templateGtkmm3::window::custom_widgets

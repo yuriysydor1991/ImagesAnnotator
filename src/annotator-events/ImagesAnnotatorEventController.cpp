@@ -203,4 +203,16 @@ void ImagesAnnotatorEventController::subscribe(
   plainTxtExporters_handlers.insert(handler);
 }
 
+void ImagesAnnotatorEventController::submit(
+    events::ExportYolo4FolderRequestPtr event)
+{
+  unified_submit(yolo4Exporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ExportYolo4FolderRequestHandlerPtr handler)
+{
+  yolo4Exporters_handlers.insert(handler);
+}
+
 }  // namespace events

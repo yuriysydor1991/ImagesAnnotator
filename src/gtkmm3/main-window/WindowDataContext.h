@@ -119,6 +119,10 @@ class WindowDataContext
 
   inline static constexpr const char* const annotations_export_txt_2_folder_id =
       "annotations_export_txt_2_folder";
+
+  inline static constexpr const char* const
+      annotations_export_yolo4_2_folder2_id =
+          "annotations_export_yolo4_2_folder2";
 };
 
 }  // namespace templateGtkmm3::window

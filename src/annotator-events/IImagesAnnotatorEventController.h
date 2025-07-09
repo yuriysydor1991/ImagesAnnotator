@@ -39,6 +39,8 @@
 #include "src/annotator-events/events/EventsFactory.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequest.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequestHandler.h"
+#include "src/annotator-events/events/ExportYolo4FolderRequest.h"
+#include "src/annotator-events/events/ExportYolo4FolderRequestHandler.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
 #include "src/annotator-events/events/ImagesDirProviderChanged.h"
@@ -101,6 +103,10 @@ class IImagesAnnotatorEventController
   virtual void submit(events::ExportPlainTxt2FolderRequestPtr event) = 0;
   virtual void subscribe(
       events::ExportPlainTxt2FolderRequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ExportYolo4FolderRequestPtr event) = 0;
+  virtual void subscribe(
+      events::ExportYolo4FolderRequestHandlerPtr handler) = 0;
 };
 
 }  // namespace events

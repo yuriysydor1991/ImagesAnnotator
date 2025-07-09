@@ -34,6 +34,11 @@
     <property name="can-focus">False</property>
     <property name="stock">gtk-open</property>
   </object>
+  <object class="GtkImage" id="image2">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="stock">gtk-open</property>
+  </object>
   <object class="GtkWindow" id="main_window">
     <property name="can-focus">False</property>
     <property name="hexpand">False</property>
@@ -110,15 +115,6 @@
                           </object>
                         </child>
                         <child>
-                          <object class="GtkImageMenuItem" id="annotations_project_close">
-                            <property name="label">gtk-close</property>
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="use-underline">True</property>
-                            <property name="use-stock">True</property>
-                          </object>
-                        </child>
-                        <child>
                           <object class="GtkMenuItem">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
@@ -136,8 +132,26 @@
                                     <property name="use-stock">False</property>
                                   </object>
                                 </child>
+                                <child>
+                                  <object class="GtkImageMenuItem" id="annotations_export_yolo4_2_folder2">
+                                    <property name="label" translatable="yes">Export to YOLO4 folder</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="image">image2</property>
+                                    <property name="use-stock">False</property>
+                                  </object>
+                                </child>
                               </object>
                             </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkImageMenuItem" id="annotations_project_close">
+                            <property name="label">gtk-close</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="use-underline">True</property>
+                            <property name="use-stock">True</property>
                           </object>
                         </child>
                       </object>

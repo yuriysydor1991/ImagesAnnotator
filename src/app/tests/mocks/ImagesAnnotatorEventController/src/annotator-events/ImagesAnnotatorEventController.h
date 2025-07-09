@@ -125,6 +125,11 @@ class ImagesAnnotatorEventController
   MOCK_METHOD(void, subscribe,
               (events::ExportPlainTxt2FolderRequestHandlerPtr handler),
               (override));
+
+  MOCK_METHOD(void, submit, (events::ExportYolo4FolderRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::ExportYolo4FolderRequestHandlerPtr handler), (override));
 };
 
 }  // namespace events

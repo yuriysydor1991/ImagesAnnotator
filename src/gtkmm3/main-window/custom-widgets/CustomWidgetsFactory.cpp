@@ -155,9 +155,24 @@ std::shared_ptr<Gtk::FileChooserDialog>
 CustomWidgetsFactory::create_txt_export_folder_choose_dialog(
     Gtk::Window* parentWindow)
 {
+  return create_folder_choose_dialog_with_title(
+      parentWindow, "Select plain txt files export directory");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_yolo4_export_folder_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_folder_choose_dialog_with_title(
+      parentWindow, "Select YOLO4 export directory");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_folder_choose_dialog_with_title(
+    Gtk::Window* parentWindow, const std::string& title)
+{
   auto dialog = std::make_shared<Gtk::FileChooserDialog>(
-      *parentWindow, "Select plain txt files export directory",
-      Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER);
+      *parentWindow, title, Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER);
 
   dialog->add_button("_Cancel", Gtk::RESPONSE_CANCEL);
   dialog->add_button("_Select", Gtk::RESPONSE_OK);

@@ -11,6 +11,7 @@ add_library(
   ImageRecordRect.cpp
   StoreRequest.cpp
   ExportPlainTxt2FolderRequest.cpp
+  ExportYolo4FolderRequest.cpp
 )
 
 target_include_directories(

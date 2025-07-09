@@ -39,6 +39,8 @@
 #include "src/annotator-events/events/CloseCurrentProjectHandler.h"
 #include "src/annotator-events/events/CurrentImageChangedHandler.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequestHandler.h"
+#include "src/annotator-events/events/ExportYolo4FolderRequest.h"
+#include "src/annotator-events/events/ExportYolo4FolderRequestHandler.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
 #include "src/annotator-events/events/RequestImagesDirProvider.h"
@@ -66,7 +68,8 @@ class AnnotatorController
       virtual public events::events::StoreRequestHandler,
       virtual public events::events::CloseCurrentProjectHandler,
       virtual public events::events::ImagesPathsDBProvider,
-      virtual public events::events::ExportPlainTxt2FolderRequestHandler
+      virtual public events::events::ExportPlainTxt2FolderRequestHandler,
+      virtual public events::events::ExportYolo4FolderRequestHandler
 {
  public:
   using ImagesDirChanged = events::events::ImagesDirChanged;
@@ -87,6 +90,10 @@ class AnnotatorController
 
   using RequestImagesDirProviderHandler =
       events::events::RequestImagesDirProviderHandler;
+  using ExportYolo4FolderRequestPtr =
+      events::events::ExportYolo4FolderRequestPtr;
+  using ExportYolo4FolderRequestHandlerPtr =
+      events::events::ExportYolo4FolderRequestHandlerPtr;
 
   virtual ~AnnotatorController() = default;
   AnnotatorController();
@@ -100,6 +107,7 @@ class AnnotatorController
   virtual void handle(std::shared_ptr<StoreRequest> event) override;
   virtual void handle(std::shared_ptr<CloseCurrentProject> event) override;
   virtual void handle(ExportPlainTxt2FolderRequestPtr event) override;
+  virtual void handle(ExportYolo4FolderRequestPtr event) override;
 
   virtual ImageRecordsSet& get_images_db() override;
   virtual std::string get_db_path() override;

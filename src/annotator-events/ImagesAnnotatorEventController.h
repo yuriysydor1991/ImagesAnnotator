@@ -107,6 +107,10 @@ class ImagesAnnotatorEventController
   virtual void subscribe(
       events::ExportPlainTxt2FolderRequestHandlerPtr handler) override;
 
+  virtual void submit(events::ExportYolo4FolderRequestPtr event) override;
+  virtual void subscribe(
+      events::ExportYolo4FolderRequestHandlerPtr handler) override;
+
  private:
   using imagesHSet =
       std::set<std::shared_ptr<events::ImagesDirChangedIHandler>>;
@@ -124,6 +128,8 @@ class ImagesAnnotatorEventController
       std::set<std::shared_ptr<events::CloseCurrentProjectHandler>>;
   using plainTxtEportersSet =
       std::set<events::ExportPlainTxt2FolderRequestHandlerPtr>;
+  using yolo4ExportersSet =
+      std::set<events::ExportYolo4FolderRequestHandlerPtr>;
 
   template <class SubsQueue, class EventT>
   static void unified_submit(SubsQueue& queue, std::shared_ptr<EventT> event);
@@ -138,6 +144,7 @@ class ImagesAnnotatorEventController
   storeProjectSet store_handlers;
   projectCloserSet pclose_handlers;
   plainTxtEportersSet plainTxtExporters_handlers;
+  yolo4ExportersSet yolo4Exporters_handlers;
 
   std::shared_ptr<events::EventsFactory> efactory;
 };

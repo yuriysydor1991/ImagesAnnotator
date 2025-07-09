@@ -103,6 +103,7 @@ void WindowEventsHandler::subscribe_4_visual_events()
   auto* aboutM = mwctx->wloader->get_about_mi();
   auto* exportTxt2FolderM = mwctx->wloader->get_export_txt2_folder_mi();
   auto* window = mwctx->wloader->get_window();
+  auto* exportYolo42FolderM = mwctx->wloader->get_export_yolo4_folder_mi();
 
   imagesListBox->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_row_selected));
@@ -167,6 +168,9 @@ void WindowEventsHandler::subscribe_4_visual_events()
 
   window->signal_delete_event().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_window_close), false);
+
+  exportYolo42FolderM->signal_activate().connect(sigc::mem_fun(
+      *this, &WindowEventsHandler::on_export_yolo4_folder_activate));
 }
 
 void WindowEventsHandler::show_spinner()
@@ -1659,6 +1663,47 @@ bool WindowEventsHandler::on_window_close(GdkEventAny*)
 
   LOGT("Interupting window close");
   return true;
+}
+
+void WindowEventsHandler::on_export_yolo4_folder_activate()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  if (!has_to_export()) {
+    const std::string errmsg = "No images found or db opened to export!";
+    show_error_dialog(errmsg);
+    return;
+  }
+
+  show_spinner();
+
+  auto dialog = mwctx->cwFactory->create_yolo4_export_folder_choose_dialog(
+      mwctx->wloader->get_window());
+
+  const int result = dialog->run();
+
+  if (result != Gtk::RESPONSE_OK) {
+    LOGD("Dialog is closed");
+    hide_spinner();
+    return;
+  }
+
+  const auto newFileName = dialog->get_filename();
+
+  LOGD("Selected yolo4 export folder: " << newFileName);
+
+  auto efactory = mwctx->actx->eventer->get_events_factory();
+
+  assert(efactory != nullptr);
+
+  auto exportEvent = efactory->create_yolo4_export_request(newFileName);
+
+  mwctx->actx->eventer->submit(exportEvent);
+
+  update_statuses();
+
+  hide_spinner();
 }
 
 }  // namespace templateGtkmm3::window

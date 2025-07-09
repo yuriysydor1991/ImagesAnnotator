@@ -210,12 +210,30 @@ bool Yolo42FolderExporter::express_train_and_val(ExportContextPtr ectx)
   }
 
   for (auto& ir : ectx->dbProvider->get_images_db()) {
+    assert(ir != nullptr);
+
+    if (ir->rects.empty()) {
+      LOGT("Skipping image without annotations: " << ir->get_full_path());
+      continue;
+    }
+
+    if (ir->iwidth == 0 || ir->iheight == 0) {
+      LOGT("Skipping image record with 0 width or height: "
+           << ir->get_full_path());
+      continue;
+    }
+
     const auto p = prepare_image(ectx, ir);
+
+    if (p.first.empty() || p.second.empty()) {
+      LOGE("skipping image: " << ir->get_full_path());
+      continue;
+    }
 
     const fs::path fullTxt = fs::path{ectx->export_path} / p.second;
 
     if (!express_image_annotations(ectx, ir, fullTxt.string())) {
-      LOGE("Fail to express annotations");
+      LOGE("Fail to express annotations for " << ir->get_full_path());
       continue;
     }
 
@@ -297,7 +315,7 @@ bool Yolo42FolderExporter::express_image_annotations(
     const IndexType classIndex = std::distance(aList.begin(), classIter);
 
     if (!express_rectangle_data(ftxt, ir, classIndex, irr)) {
-      LOGE("Failture while expressing rectangle name: " << irr->name);
+      LOGE("Failure while expressing rectangle name: " << irr->name);
       continue;
     }
   }
@@ -315,12 +333,25 @@ bool Yolo42FolderExporter::express_rectangle_data(std::fstream& ftxt,
   assert(ftxt.is_open());
   assert(irr != nullptr);
 
-  const double nx = toD(irr->x) / toD(ir->iwidth);
-  const double ny = toD(irr->y) / toD(ir->iheight);
+  if (ir->iwidth == 0) {
+    LOGE("Image record contains 0 width " << ir->get_full_path());
+    return false;
+  }
+
+  if (ir->iheight == 0) {
+    LOGE("Image record contains 0 height " << ir->get_full_path());
+    return false;
+  }
+
+  const double cx = toD(irr->x) + (toD(irr->width) / 2.0);
+  const double cy = toD(irr->y) + (toD(irr->height) / 2.0);
+
+  const double ncx = cx / toD(ir->iwidth);
+  const double ncy = cy / toD(ir->iheight);
   const double nwidth = toD(irr->width) / toD(ir->iwidth);
   const double nheight = toD(irr->height) / toD(ir->iheight);
 
-  ftxt << index << " " << nx << " " << ny << " " << nwidth << " " << nheight
+  ftxt << index << " " << ncx << " " << ncy << " " << nwidth << " " << nheight
        << std::endl;
 
   return true;

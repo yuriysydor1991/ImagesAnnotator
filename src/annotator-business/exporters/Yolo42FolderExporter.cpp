@@ -267,10 +267,21 @@ Yolo42FolderExporter::DataImage2TxtRec Yolo42FolderExporter::prepare_image(
   const fs::path newpath =
       fs::path{ectx->export_path} / dataRel / origPath.filename();
 
+  if (fs::is_regular_file(newpath)) {
+    LOGE("File already present in: " << newpath.string());
+    return {};
+  }
+
   LOGT("Copying file " << origPath.string() << " to " << newpath.string());
 
-  if (!fs::copy_file(origPath, newpath)) {
-    LOGE("Fail to copy file " << origPath.string());
+  try {
+    if (!fs::copy_file(origPath, newpath)) {
+      LOGE("Fail to copy file " << origPath.string());
+      return {};
+    }
+  }
+  catch (std::exception& e) {
+    LOGE("failure during file copying " << origPath << " reason: " << e.what());
     return {};
   }
 

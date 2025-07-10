@@ -28,6 +28,7 @@
 #ifndef IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_YOLO42FOLDEREXPORTER_CLASS_H
 #define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_YOLO42FOLDEREXPORTER_CLASS_H
 
+#include <filesystem>
 #include <fstream>
 #include <memory>
 #include <unordered_map>
@@ -78,6 +79,8 @@ class Yolo42FolderExporter : virtual public IExporter,
                                  const std::string& irtxtpath);
   bool express_rectangle_data(std::fstream& ftxt, ImageRecordPtr& ir,
                               const IndexType& index, ImageRecordRectPtr& irr);
+  std::filesystem::path get_new_filepath(ExportContextPtr ectx,
+                                         ImageRecordPtr& ir);
 
   AnnotationsList aList;
 };

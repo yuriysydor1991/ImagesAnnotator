@@ -153,9 +153,9 @@ bool Yolo42FolderExporter::express_obj_data(ExportContextPtr ectx)
   }
 
   objDFile << "classes: " << aList.size() << std::endl;
-  objDFile << "train = data/train.txt" << std::endl;
-  objDFile << "valid = data/val.txt" << std::endl;
-  objDFile << "names = data/obj.names" << std::endl;
+  objDFile << "train = " << trainTxtRel << std::endl;
+  objDFile << "valid = " << valTxtRel << std::endl;
+  objDFile << "names = " << objNamesRel << std::endl;
   objDFile << "backup = backup/" << std::endl;
 
   objDFile.close();
@@ -264,11 +264,12 @@ Yolo42FolderExporter::DataImage2TxtRec Yolo42FolderExporter::prepare_image(
     return {};
   }
 
-  const fs::path newpath =
-      fs::path{ectx->export_path} / dataRel / origPath.filename();
+  const fs::path newpath = get_new_filepath(ectx, ir);
 
-  if (fs::is_regular_file(newpath)) {
-    LOGE("File already present in: " << newpath.string());
+  assert(!newpath.string().empty());
+
+  if (newpath.string().empty()) {
+    LOGE("Failure during new file path obtaining");
     return {};
   }
 
@@ -286,8 +287,32 @@ Yolo42FolderExporter::DataImage2TxtRec Yolo42FolderExporter::prepare_image(
   }
 
   return std::make_pair<std::string, std::string>(
-      (fs::path{dataRel} / origPath.filename()).string(),
-      (fs::path{dataRel} / (origPath.stem().string() + ".txt")).string());
+      (fs::path{dataRel} / newpath.filename()).string(),
+      (fs::path{dataRel} / (newpath.stem().string() + ".txt")).string());
+}
+
+fs::path Yolo42FolderExporter::get_new_filepath(ExportContextPtr ectx,
+                                                ImageRecordPtr& ir)
+{
+  const fs::path origPath = ir->get_full_path();
+
+  fs::path newpath =
+      fs::path{ectx->export_path} / dataRel / origPath.filename();
+
+  if (!fs::is_regular_file(newpath)) {
+    return newpath;
+  }
+
+  LOGT("File with the same name already exists, creating the new one");
+
+  unsigned long long index{1};
+  do {
+    newpath = fs::path{ectx->export_path} / dataRel /
+              (origPath.stem().string() + "-" + std::to_string(index) +
+               origPath.extension().string());
+  } while (fs::is_regular_file(newpath));
+
+  return newpath;
 }
 
 bool Yolo42FolderExporter::express_image_annotations(

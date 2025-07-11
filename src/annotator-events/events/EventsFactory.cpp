@@ -155,4 +155,11 @@ ExportYolo4FolderRequestPtr EventsFactory::create_yolo4_export_request(
   return std::make_shared<ExportYolo4FolderRequest>(exportDirPath);
 }
 
+Export2PyTorchVisionRequestPtr
+EventsFactory::create_pytorch_vision_export_request(
+    const std::string& exportDirPath)
+{
+  return std::make_shared<Export2PyTorchVisionRequest>(exportDirPath);
+}
+
 }  // namespace events::events

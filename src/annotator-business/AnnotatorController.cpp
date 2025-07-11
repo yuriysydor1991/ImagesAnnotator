@@ -33,6 +33,7 @@
 #include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsDirDB.h"
 #include "src/annotator-business/dbs/ImagesLoaders/ImagesDirLoader.h"
 #include "src/annotator-business/exporters/PlainTxt2FolderExporter.h"
+#include "src/annotator-business/exporters/PyTorchVisionFolderExporter.h"
 #include "src/annotator-business/exporters/Yolo42FolderExporter.h"
 #include "src/app/ApplicationContext.h"
 #include "src/app/IApplication.h"
@@ -106,6 +107,7 @@ bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
   ctx->eventer->subscribe(std::shared_ptr<CloseCurrentProjectHandler>(mptr));
   ctx->eventer->subscribe(ExportPlainTxt2FolderRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ExportYolo4FolderRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(Export2PyTorchVisionRequestHandlerPtr{mptr});
 
   return true;
 }
@@ -354,6 +356,66 @@ bool AnnotatorController::handle_export(const std::string& dirPath)
   LOGD("DB seems to be exported");
 
   return true;
+}
+
+AnnotatorController::ExportContextPtr AnnotatorController::build_export_context(
+    Export2PyTorchVisionRequestPtr event)
+{
+  assert(event != nullptr);
+  assert(!event->dst_folder_path.empty());
+  assert(event->cropper != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return {};
+  }
+
+  assert(annotations != nullptr);
+
+  auto ectx = std::make_shared<exporters::ExportContext>();
+
+  ectx->export_path = event->dst_folder_path;
+  ectx->dbProvider = annotations;
+  ectx->cropper = event->cropper;
+
+  return ectx;
+}
+
+void AnnotatorController::handle(Export2PyTorchVisionRequestPtr event)
+{
+  assert(event != nullptr);
+  assert(!event->dst_folder_path.empty());
+  assert(event->cropper != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (event->dst_folder_path.empty()) {
+    LOGE("No dst folder export path given");
+    return;
+  }
+
+  if (event->cropper == nullptr) {
+    LOGE("No image cropper provided");
+    return;
+  }
+
+  auto ectx = build_export_context(event);
+
+  assert(ectx != nullptr);
+
+  auto exporter = std::make_shared<exporters::PyTorchVisionFolderExporter>();
+
+  LOGI("Handle the PyTorch export event to " << ectx->export_path);
+
+  if (!exporter->export_db(ectx)) {
+    LOGE("Invalid export status");
+    return;
+  }
+
+  LOGD("DB seems to be exported");
 }
 
 }  // namespace iannotator

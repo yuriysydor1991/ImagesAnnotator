@@ -38,6 +38,8 @@
 #include "src/annotator-events/events/CloseCurrentProject.h"
 #include "src/annotator-events/events/CloseCurrentProjectHandler.h"
 #include "src/annotator-events/events/CurrentImageChangedHandler.h"
+#include "src/annotator-events/events/Export2PyTorchVisionRequest.h"
+#include "src/annotator-events/events/Export2PyTorchVisionRequestHandler.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequestHandler.h"
 #include "src/annotator-events/events/ExportYolo4FolderRequest.h"
 #include "src/annotator-events/events/ExportYolo4FolderRequestHandler.h"
@@ -69,7 +71,8 @@ class AnnotatorController
       virtual public events::events::CloseCurrentProjectHandler,
       virtual public events::events::ImagesPathsDBProvider,
       virtual public events::events::ExportPlainTxt2FolderRequestHandler,
-      virtual public events::events::ExportYolo4FolderRequestHandler
+      virtual public events::events::ExportYolo4FolderRequestHandler,
+      virtual public events::events::Export2PyTorchVisionRequestHandler
 {
  public:
   using ImagesDirChanged = events::events::ImagesDirChanged;
@@ -94,6 +97,10 @@ class AnnotatorController
       events::events::ExportYolo4FolderRequestPtr;
   using ExportYolo4FolderRequestHandlerPtr =
       events::events::ExportYolo4FolderRequestHandlerPtr;
+  using Export2PyTorchVisionRequestPtr =
+      events::events::Export2PyTorchVisionRequestPtr;
+  using Export2PyTorchVisionRequestHandlerPtr =
+      events::events::Export2PyTorchVisionRequestHandlerPtr;
 
   virtual ~AnnotatorController() = default;
   AnnotatorController();
@@ -108,6 +115,7 @@ class AnnotatorController
   virtual void handle(std::shared_ptr<CloseCurrentProject> event) override;
   virtual void handle(ExportPlainTxt2FolderRequestPtr event) override;
   virtual void handle(ExportYolo4FolderRequestPtr event) override;
+  virtual void handle(Export2PyTorchVisionRequestPtr event) override;
 
   virtual ImageRecordsSet& get_images_db() override;
   virtual std::string get_db_path() override;
@@ -118,6 +126,7 @@ class AnnotatorController
 
  protected:
   virtual ExportContextPtr build_export_context(const std::string& dirPath);
+  virtual ExportContextPtr build_export_context(Export2PyTorchVisionRequestPtr);
 
  private:
   void emitImagesProviderChanged();

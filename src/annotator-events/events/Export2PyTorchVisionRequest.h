@@ -25,47 +25,35 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef IMAGES_ANNOTATOR_TEMPLATE_PROJECT_WINDOWDATACONTEXT_CLASS_H
-#define IMAGES_ANNOTATOR_TEMPLATE_PROJECT_WINDOWDATACONTEXT_CLASS_H
+#ifndef IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_EXPORT2PYTORCHVISIONREQUEST_CLASS_H
+#define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_EXPORT2PYTORCHVISIONREQUEST_CLASS_H
 
-#include <functional>
-#include <map>
 #include <memory>
+#include <string>
 
 #include "src/annotator-events/events/IImageCropperFacilityProvider.h"
-#include "src/annotator-events/events/ImageRecord.h"
-#include "src/annotator-events/events/ImageRecordRect.h"
-#include "src/gtkmm3/gtkmm_includes.h"
+#include "src/annotator-events/events/IRequestEvent.h"
 
-namespace templateGtkmm3::window
+namespace events::events
 {
 
 /**
- * @brief The IImageCropperFacilityProvider facility interface implementation.
+ * @brief Event to export available data to the PyTorch Vision folder format.
  */
-class GtkmmImageCropperProvider
-    : virtual public events::events::IImageCropperFacilityProvider,
-      public std::enable_shared_from_this<GtkmmImageCropperProvider>
+class Export2PyTorchVisionRequest : virtual public IRequestEvent
 {
  public:
-  using ImageRecordPtr = events::events::ImageRecordPtr;
-  using ImageRecordRectPtr = events::events::ImageRecordRectPtr;
+  virtual ~Export2PyTorchVisionRequest() = default;
+  explicit Export2PyTorchVisionRequest(const std::string& newFolderPath);
 
-  virtual ~GtkmmImageCropperProvider() = default;
-  GtkmmImageCropperProvider() = default;
+  std::string dst_folder_path;
 
-  virtual bool crop_out_2_fs(ImageRecordPtr ir, ImageRecordRectPtr irr,
-                             const std::string& tofpath) override;
-
-  virtual IImageCropperFacilityProviderPtr clone() override;
-
- private:
-  Glib::RefPtr<Gdk::Pixbuf> load_and_crop(Glib::RefPtr<Gdk::Pixbuf>& pixbuf,
-                                          ImageRecordPtr ir,
-                                          ImageRecordRectPtr irr);
-  bool save_crop(Glib::RefPtr<Gdk::Pixbuf> crop, const std::string& tofpath);
+  IImageCropperFacilityProviderPtr cropper;
 };
 
-}  // namespace templateGtkmm3::window
+using Export2PyTorchVisionRequestPtr =
+    std::shared_ptr<Export2PyTorchVisionRequest>;
 
-#endif  // IMAGES_ANNOTATOR_TEMPLATE_PROJECT_WINDOWDATACONTEXT_CLASS_H
+}  // namespace events::events
+
+#endif  // IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_EXPORT2PYTORCHVISIONREQUEST_CLASS_H

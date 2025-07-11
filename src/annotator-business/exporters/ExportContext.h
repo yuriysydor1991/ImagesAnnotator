@@ -31,6 +31,7 @@
 #include <memory>
 #include <string>
 
+#include "src/annotator-events/events/IImageCropperFacilityProvider.h"
 #include "src/annotator-events/events/ImagesPathsDBProvider.h"
 
 namespace iannotator::exporters
@@ -43,6 +44,8 @@ class ExportContext
 {
  public:
   using ImagesPathsDBProviderPtr = events::events::ImagesPathsDBProviderPtr;
+  using IImageCropperFacilityProvider =
+      events::events::IImageCropperFacilityProviderPtr;
 
   virtual ~ExportContext() = default;
   ExportContext() = default;
@@ -51,6 +54,9 @@ class ExportContext
   std::string export_path;
 
   ImagesPathsDBProviderPtr dbProvider;
+
+  /// @brief The image cropper instance if needed
+  IImageCropperFacilityProvider cropper;
 };
 
 using ExportContextPtr = std::shared_ptr<ExportContext>;

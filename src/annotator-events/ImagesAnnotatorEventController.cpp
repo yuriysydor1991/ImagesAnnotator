@@ -215,4 +215,16 @@ void ImagesAnnotatorEventController::subscribe(
   yolo4Exporters_handlers.insert(handler);
 }
 
+void ImagesAnnotatorEventController::submit(
+    events::Export2PyTorchVisionRequestPtr event)
+{
+  unified_submit(pytorchvision_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::Export2PyTorchVisionRequestHandlerPtr handler)
+{
+  pytorchvision_handlers.insert(handler);
+}
+
 }  // namespace events

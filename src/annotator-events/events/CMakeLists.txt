@@ -12,6 +12,7 @@ add_library(
   StoreRequest.cpp
   ExportPlainTxt2FolderRequest.cpp
   ExportYolo4FolderRequest.cpp
+  Export2PyTorchVisionRequest.cpp
 )
 
 target_include_directories(

@@ -25,36 +25,33 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_IIMAGECROPPERFACILITYPROVIDER_ABSTRACT_CLASS_H
-#define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_IIMAGECROPPERFACILITYPROVIDER_ABSTRACT_CLASS_H
+#ifndef IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_EXPORT2PYTORCHFOLDERREQUESTHANDLER_CLASS_H
+#define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_EXPORT2PYTORCHFOLDERREQUESTHANDLER_CLASS_H
 
-#include "src/annotator-events/events/IProvider.h"
-#include "src/annotator-events/events/ImageRecord.h"
+#include <memory>
+
+#include "src/annotator-events/events/EventIHandler.h"
+#include "src/annotator-events/events/Export2PyTorchVisionRequest.h"
+#include "src/annotator-events/events/ImagesDirChanged.h"
 
 namespace events::events
 {
 
 /**
- * @brief The general abstract class for the image croppers.
+ * @brief The PyTorch Vision folder format export event handler abstract class.
  */
-class IImageCropperFacilityProvider
+class Export2PyTorchVisionRequestHandler : virtual public EventIHandler
 {
  public:
-  using IImageCropperFacilityProviderPtr =
-      std::shared_ptr<IImageCropperFacilityProvider>;
+  virtual ~Export2PyTorchVisionRequestHandler() = default;
+  Export2PyTorchVisionRequestHandler() = default;
 
-  virtual ~IImageCropperFacilityProvider() = default;
-  IImageCropperFacilityProvider() = default;
-
-  virtual bool crop_out_2_fs(ImageRecordPtr ir, ImageRecordRectPtr irr,
-                             const std::string& tofpath) = 0;
-
-  virtual IImageCropperFacilityProviderPtr clone() = 0;
+  virtual void handle(Export2PyTorchVisionRequestPtr event) = 0;
 };
 
-using IImageCropperFacilityProviderPtr =
-    IImageCropperFacilityProvider::IImageCropperFacilityProviderPtr;
+using Export2PyTorchVisionRequestHandlerPtr =
+    std::shared_ptr<Export2PyTorchVisionRequestHandler>;
 
 }  // namespace events::events
 
-#endif  // IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_IIMAGECROPPERFACILITYPROVIDER_ABSTRACT_CLASS_H
+#endif  // IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_EXPORT2PYTORCHFOLDERREQUESTHANDLER_CLASS_H

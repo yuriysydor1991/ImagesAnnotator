@@ -111,6 +111,10 @@ class ImagesAnnotatorEventController
   virtual void subscribe(
       events::ExportYolo4FolderRequestHandlerPtr handler) override;
 
+  virtual void submit(events::Export2PyTorchVisionRequestPtr event) override;
+  virtual void subscribe(
+      events::Export2PyTorchVisionRequestHandlerPtr handler) override;
+
  private:
   using imagesHSet =
       std::set<std::shared_ptr<events::ImagesDirChangedIHandler>>;
@@ -130,6 +134,8 @@ class ImagesAnnotatorEventController
       std::set<events::ExportPlainTxt2FolderRequestHandlerPtr>;
   using yolo4ExportersSet =
       std::set<events::ExportYolo4FolderRequestHandlerPtr>;
+  using pytorchVisionExportersSet =
+      std::set<events::Export2PyTorchVisionRequestHandlerPtr>;
 
   template <class SubsQueue, class EventT>
   static void unified_submit(SubsQueue& queue, std::shared_ptr<EventT> event);
@@ -145,6 +151,7 @@ class ImagesAnnotatorEventController
   projectCloserSet pclose_handlers;
   plainTxtEportersSet plainTxtExporters_handlers;
   yolo4ExportersSet yolo4Exporters_handlers;
+  pytorchVisionExportersSet pytorchvision_handlers;
 
   std::shared_ptr<events::EventsFactory> efactory;
 };

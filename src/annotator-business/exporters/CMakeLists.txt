@@ -4,6 +4,7 @@ add_library(
   ImagesAnnotatorControllerExportersObj OBJECT
   PlainTxt2FolderExporter.cpp
   Yolo42FolderExporter.cpp
+  PyTorchVisionFolderExporter.cpp
 )
 
 target_include_directories(

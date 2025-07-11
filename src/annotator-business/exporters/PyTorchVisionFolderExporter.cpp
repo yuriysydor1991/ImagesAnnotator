@@ -25,7 +25,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "src/annotator-business/exporters/PyTorchFolderExporter.h"
+#include "src/annotator-business/exporters/PyTorchVisionFolderExporter.h"
 
 #include <filesystem>
 #include <fstream>
@@ -38,9 +38,6 @@
 namespace iannotator::exporters
 {
 
-bool PyTorchFolderExporter::export_db(ExportContextPtr ectx)
-{
-
-}
+bool PyTorchVisionFolderExporter::export_db(ExportContextPtr ectx) {}
 
 }  // namespace iannotator::exporters

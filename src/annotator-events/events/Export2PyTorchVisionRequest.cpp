@@ -25,36 +25,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_IIMAGECROPPERFACILITYPROVIDER_ABSTRACT_CLASS_H
-#define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_IIMAGECROPPERFACILITYPROVIDER_ABSTRACT_CLASS_H
+#include "src/annotator-events/events/Export2PyTorchVisionRequest.h"
 
-#include "src/annotator-events/events/IProvider.h"
-#include "src/annotator-events/events/ImageRecord.h"
+#include <string>
 
 namespace events::events
 {
 
-/**
- * @brief The general abstract class for the image croppers.
- */
-class IImageCropperFacilityProvider
+Export2PyTorchVisionRequest::Export2PyTorchVisionRequest(
+    const std::string& newFolderPath)
+    : dst_folder_path{newFolderPath}
 {
- public:
-  using IImageCropperFacilityProviderPtr =
-      std::shared_ptr<IImageCropperFacilityProvider>;
-
-  virtual ~IImageCropperFacilityProvider() = default;
-  IImageCropperFacilityProvider() = default;
-
-  virtual bool crop_out_2_fs(ImageRecordPtr ir, ImageRecordRectPtr irr,
-                             const std::string& tofpath) = 0;
-
-  virtual IImageCropperFacilityProviderPtr clone() = 0;
-};
-
-using IImageCropperFacilityProviderPtr =
-    IImageCropperFacilityProvider::IImageCropperFacilityProviderPtr;
+}
 
 }  // namespace events::events
-
-#endif  // IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_IIMAGECROPPERFACILITYPROVIDER_ABSTRACT_CLASS_H

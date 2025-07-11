@@ -27,20 +27,22 @@
 
 #include "src/gtkmm3/helpers/GtkmmImageCropperProvider.h"
 
+#include <cassert>
+#include <filesystem>
 #include <functional>
 #include <map>
 #include <memory>
-#include <cassert>
-#include <filesystem>
 
-#include "src/gtkmm3/gtkmm_includes.h"
 #include "src/annotator-events/events/IImageCropperFacilityProvider.h"
+#include "src/gtkmm3/gtkmm_includes.h"
 #include "src/log/log.h"
 
 namespace templateGtkmm3::window
 {
 
-bool GtkmmImageCropperProvider::crop_out_2_fs(ImageRecordPtr ir, ImageRecordRectPtr irr, const std::string& tofpath)
+bool GtkmmImageCropperProvider::crop_out_2_fs(ImageRecordPtr ir,
+                                              ImageRecordRectPtr irr,
+                                              const std::string& tofpath)
 {
   assert(ir != nullptr);
   assert(irr != nullptr);
@@ -62,7 +64,7 @@ bool GtkmmImageCropperProvider::crop_out_2_fs(ImageRecordPtr ir, ImageRecordRect
   }
 
   Glib::RefPtr<Gdk::Pixbuf> pixbuf;
-  
+
   auto crop = load_and_crop(pixbuf, ir, irr);
 
   if (!crop) {
@@ -78,7 +80,9 @@ bool GtkmmImageCropperProvider::crop_out_2_fs(ImageRecordPtr ir, ImageRecordRect
   return true;
 }
 
-Glib::RefPtr<Gdk::Pixbuf> GtkmmImageCropperProvider::load_and_crop(Glib::RefPtr<Gdk::Pixbuf>& pixbuf, ImageRecordPtr ir, ImageRecordRectPtr irr)
+Glib::RefPtr<Gdk::Pixbuf> GtkmmImageCropperProvider::load_and_crop(
+    Glib::RefPtr<Gdk::Pixbuf>& pixbuf, ImageRecordPtr ir,
+    ImageRecordRectPtr irr)
 {
   assert(ir != nullptr);
   assert(irr != nullptr);
@@ -91,8 +95,7 @@ Glib::RefPtr<Gdk::Pixbuf> GtkmmImageCropperProvider::load_and_crop(Glib::RefPtr<
   }
 
   try {
-    pixbuf =
-        Gdk::Pixbuf::create_from_file(filepath);
+    pixbuf = Gdk::Pixbuf::create_from_file(filepath);
   }
   catch (const Glib::Error& ex) {
     LOGE("Failed to load the image: " << ex.what() << ":" << filepath);
@@ -104,12 +107,14 @@ Glib::RefPtr<Gdk::Pixbuf> GtkmmImageCropperProvider::load_and_crop(Glib::RefPtr<
     return {};
   }
 
-  Glib::RefPtr<Gdk::Pixbuf> crop = Gdk::Pixbuf::create_subpixbuf(pixbuf, irr->x, irr->y, irr->width, irr->height);
+  Glib::RefPtr<Gdk::Pixbuf> crop = Gdk::Pixbuf::create_subpixbuf(
+      pixbuf, irr->x, irr->y, irr->width, irr->height);
 
   return crop;
 }
 
-bool GtkmmImageCropperProvider::save_crop(Glib::RefPtr<Gdk::Pixbuf> crop, const std::string& tofpath)
+bool GtkmmImageCropperProvider::save_crop(Glib::RefPtr<Gdk::Pixbuf> crop,
+                                          const std::string& tofpath)
 {
   assert(crop);
   assert(!tofpath.empty());
@@ -127,7 +132,8 @@ bool GtkmmImageCropperProvider::save_crop(Glib::RefPtr<Gdk::Pixbuf> crop, const 
   return true;
 }
 
-GtkmmImageCropperProvider::IImageCropperFacilityProviderPtr GtkmmImageCropperProvider::clone()
+GtkmmImageCropperProvider::IImageCropperFacilityProviderPtr
+GtkmmImageCropperProvider::clone()
 {
   return std::make_shared<GtkmmImageCropperProvider>(*this);
 }

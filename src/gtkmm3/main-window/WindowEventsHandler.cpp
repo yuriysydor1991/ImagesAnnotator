@@ -733,6 +733,13 @@ void WindowEventsHandler::on_annotations_db_open_click()
 
   show_spinner();
 
+  if (lastChangedStatus) {
+    if (!ask_about_unsaved_changes()) {
+      LOGD("User interupted data changes discard");
+      return;
+    }
+  }
+
   auto dialog =
       mwctx->cwFactory->create_json_db_dialog(mwctx->wloader->get_window());
 
@@ -911,7 +918,7 @@ bool WindowEventsHandler::load_image(const std::string& filepath)
   }
   catch (const Glib::Error& ex) {
     errorIfAny = ex.what();
-    LOGE("Failed to load icon; " << errorIfAny << ":" << filepath);
+    LOGE("Failed to load the iamge: " << errorIfAny << " : " << filepath);
   }
 
   if (mwctx->current_image_original_pixbuf) {

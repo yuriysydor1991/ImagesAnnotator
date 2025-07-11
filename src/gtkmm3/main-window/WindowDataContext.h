@@ -123,6 +123,10 @@ class WindowDataContext
   inline static constexpr const char* const
       annotations_export_yolo4_2_folder2_id =
           "annotations_export_yolo4_2_folder2";
+
+  inline static constexpr const char* const
+      annotations_export_pytorchvision_2_folder_id =
+          "annotations_export_pytorchvision_2_folder";
 };
 
 }  // namespace templateGtkmm3::window

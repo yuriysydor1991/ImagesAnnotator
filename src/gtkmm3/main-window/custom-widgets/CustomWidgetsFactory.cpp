@@ -168,6 +168,14 @@ CustomWidgetsFactory::create_yolo4_export_folder_choose_dialog(
 }
 
 std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_pytorch_export_folder_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_folder_choose_dialog_with_title(
+      parentWindow, "Select PyTorch Vision export directory");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
 CustomWidgetsFactory::create_folder_choose_dialog_with_title(
     Gtk::Window* parentWindow, const std::string& title)
 {

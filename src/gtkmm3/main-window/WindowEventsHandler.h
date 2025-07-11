@@ -87,6 +87,7 @@ class WindowEventsHandler
   virtual void on_export_txt_2_folder_activate();
   virtual bool on_window_close(GdkEventAny*);
   virtual void on_export_yolo4_folder_activate();
+  virtual void on_export_pytorchvision_folder_activate();
 
   virtual bool on_mouse_motion_start(GdkEventButton* event);
   virtual bool on_mouse_motion_end(GdkEventButton* event);

@@ -97,6 +97,9 @@ class CustomWidgetsFactory
   virtual std::shared_ptr<Gtk::FileChooserDialog>
   create_yolo4_export_folder_choose_dialog(Gtk::Window* parentWindow);
 
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_pytorch_export_folder_choose_dialog(Gtk::Window* parentWindow);
+
  private:
   std::shared_ptr<Gtk::FileChooserDialog>
   create_folder_choose_dialog_with_title(Gtk::Window* parentWindow,

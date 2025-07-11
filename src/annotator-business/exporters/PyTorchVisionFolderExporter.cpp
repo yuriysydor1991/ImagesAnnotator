@@ -27,6 +27,7 @@
 
 #include "src/annotator-business/exporters/PyTorchVisionFolderExporter.h"
 
+#include <cassert>
 #include <filesystem>
 #include <fstream>
 #include <memory>
@@ -34,10 +35,33 @@
 #include "src/annotator-business/exporters/IExporter.h"
 #include "src/annotator-events/events/ImageRecordRect.h"
 #include "src/annotator-events/events/ImagesPathsDBProvider.h"
+#include "src/log/log.h"
 
 namespace iannotator::exporters
 {
 
-bool PyTorchVisionFolderExporter::export_db(ExportContextPtr ectx) {}
+bool PyTorchVisionFolderExporter::export_db(ExportContextPtr ectx)
+{
+  assert(ectx != nullptr);
+  assert(ectx->cropper != nullptr);
+  assert(!ectx->export_path.empty());
+
+  if (ectx == nullptr) {
+    LOGE("Invalid export context pointer provided");
+    return false;
+  }
+
+  if (ectx->export_path.empty()) {
+    LOGE("No dst folder export path given");
+    return false;
+  }
+
+  if (ectx->cropper == nullptr) {
+    LOGE("No image cropper provided");
+    return false;
+  }
+
+  return true;
+}
 
 }  // namespace iannotator::exporters

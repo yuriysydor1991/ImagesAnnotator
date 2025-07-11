@@ -25,8 +25,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef IMAGES_ANNOTATOR_TEMPLATE_PROJECT_WINDOWDATACONTEXT_CLASS_H
-#define IMAGES_ANNOTATOR_TEMPLATE_PROJECT_WINDOWDATACONTEXT_CLASS_H
+#ifndef IMAGES_ANNOTATOR_TEMPLATE_PROJECT_GTKMMIMAGECROPPERPROVIDER_CLASS_H
+#define IMAGES_ANNOTATOR_TEMPLATE_PROJECT_GTKMMIMAGECROPPERPROVIDER_CLASS_H
 
 #include <functional>
 #include <map>
@@ -37,7 +37,7 @@
 #include "src/annotator-events/events/ImageRecordRect.h"
 #include "src/gtkmm3/gtkmm_includes.h"
 
-namespace templateGtkmm3::window
+namespace templateGtkmm3::window::helpers
 {
 
 /**
@@ -66,6 +66,6 @@ class GtkmmImageCropperProvider
   bool save_crop(Glib::RefPtr<Gdk::Pixbuf> crop, const std::string& tofpath);
 };
 
-}  // namespace templateGtkmm3::window
+}  // namespace templateGtkmm3::window::helpers
 
-#endif  // IMAGES_ANNOTATOR_TEMPLATE_PROJECT_WINDOWDATACONTEXT_CLASS_H
+#endif  // IMAGES_ANNOTATOR_TEMPLATE_PROJECT_GTKMMIMAGECROPPERPROVIDER_CLASS_H

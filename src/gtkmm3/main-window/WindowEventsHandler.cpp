@@ -32,6 +32,7 @@
 
 #include "src/gtkmm3/MainWindowContext.h"
 #include "src/gtkmm3/gtkmm_includes.h"
+#include "src/gtkmm3/helpers/GtkmmImageCropperProvider.h"
 #include "src/gtkmm3/main-window/WindowDataContext.h"
 #include "src/gtkmm3/main-window/custom-widgets/ImagePathLabel.h"
 #include "src/log/log.h"
@@ -104,6 +105,7 @@ void WindowEventsHandler::subscribe_4_visual_events()
   auto* exportTxt2FolderM = mwctx->wloader->get_export_txt2_folder_mi();
   auto* window = mwctx->wloader->get_window();
   auto* exportYolo42FolderM = mwctx->wloader->get_export_yolo4_folder_mi();
+  auto* export2PyTorchVM = mwctx->wloader->get_export_pytorchvision_folder_mi();
 
   imagesListBox->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_row_selected));
@@ -171,6 +173,9 @@ void WindowEventsHandler::subscribe_4_visual_events()
 
   exportYolo42FolderM->signal_activate().connect(sigc::mem_fun(
       *this, &WindowEventsHandler::on_export_yolo4_folder_activate));
+
+  export2PyTorchVM->signal_activate().connect(sigc::mem_fun(
+      *this, &WindowEventsHandler::on_export_pytorchvision_folder_activate));
 }
 
 void WindowEventsHandler::show_spinner()
@@ -1712,6 +1717,52 @@ void WindowEventsHandler::on_export_yolo4_folder_activate()
   assert(efactory != nullptr);
 
   auto exportEvent = efactory->create_yolo4_export_request(newFileName);
+
+  mwctx->actx->eventer->submit(exportEvent);
+
+  update_statuses();
+
+  hide_spinner();
+}
+
+void WindowEventsHandler::on_export_pytorchvision_folder_activate()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  if (!has_to_export()) {
+    const std::string errmsg = "No images found or db opened to export!";
+    show_error_dialog(errmsg);
+    return;
+  }
+
+  show_spinner();
+
+  auto dialog = mwctx->cwFactory->create_pytorch_export_folder_choose_dialog(
+      mwctx->wloader->get_window());
+
+  const int result = dialog->run();
+
+  if (result != Gtk::RESPONSE_OK) {
+    LOGD("Dialog is closed");
+    hide_spinner();
+    return;
+  }
+
+  const auto newFileName = dialog->get_filename();
+
+  LOGD("Selected yolo4 export folder: " << newFileName);
+
+  auto efactory = mwctx->actx->eventer->get_events_factory();
+
+  assert(efactory != nullptr);
+
+  auto exportEvent =
+      efactory->create_pytorch_vision_export_request(newFileName);
+
+  assert(exportEvent != nullptr);
+
+  exportEvent->cropper = std::make_shared<helpers::GtkmmImageCropperProvider>();
 
   mwctx->actx->eventer->submit(exportEvent);
 

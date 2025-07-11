@@ -141,6 +141,15 @@
                                     <property name="use-stock">False</property>
                                   </object>
                                 </child>
+                                <child>
+                                  <object class="GtkImageMenuItem" id="annotations_export_pytorchvision_2_folder">
+                                    <property name="label" translatable="yes">PyTorch Vision folder format</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="image">image3</property>
+                                    <property name="use-stock">False</property>
+                                  </object>
+                                </child>
                               </object>
                             </child>
                           </object>
@@ -569,6 +578,11 @@
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkImage" id="image3">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="stock">gtk-open</property>
   </object>
   <object class="GtkSpinner" id="spinner">
     <property name="name">spinner</property>

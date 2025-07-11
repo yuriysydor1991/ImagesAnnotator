@@ -37,7 +37,7 @@
 #include "src/gtkmm3/gtkmm_includes.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm3::window
+namespace templateGtkmm3::window::helpers
 {
 
 bool GtkmmImageCropperProvider::crop_out_2_fs(ImageRecordPtr ir,
@@ -138,4 +138,4 @@ GtkmmImageCropperProvider::clone()
   return std::make_shared<GtkmmImageCropperProvider>(*this);
 }
 
-}  // namespace templateGtkmm3::window
+}  // namespace templateGtkmm3::window::helpers

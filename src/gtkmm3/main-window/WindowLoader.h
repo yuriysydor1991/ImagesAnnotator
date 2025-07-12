@@ -76,6 +76,7 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual Gtk::Spinner* get_spinner();
   virtual Gtk::ScrolledWindow* get_central_scrolled_window();
   virtual Gtk::AboutDialog* get_about();
+  virtual Gtk::SearchEntry* get_images_search_entry();
 
   /// @brief menus
 

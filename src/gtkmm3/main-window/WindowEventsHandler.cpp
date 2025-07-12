@@ -106,6 +106,7 @@ void WindowEventsHandler::subscribe_4_visual_events()
   auto* window = mwctx->wloader->get_window();
   auto* exportYolo42FolderM = mwctx->wloader->get_export_yolo4_folder_mi();
   auto* export2PyTorchVM = mwctx->wloader->get_export_pytorchvision_folder_mi();
+  auto* imagesSearchE = mwctx->wloader->get_images_search_entry();
 
   imagesListBox->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_row_selected));
@@ -176,6 +177,9 @@ void WindowEventsHandler::subscribe_4_visual_events()
 
   export2PyTorchVM->signal_activate().connect(sigc::mem_fun(
       *this, &WindowEventsHandler::on_export_pytorchvision_folder_activate));
+
+  imagesSearchE->signal_search_changed().connect(sigc::mem_fun(
+      *this, &WindowEventsHandler::on_images_search_text_changed));
 }
 
 void WindowEventsHandler::show_spinner()
@@ -219,12 +223,12 @@ void WindowEventsHandler::on_next_file_button_click()
   auto children = imagesBox->get_children();
   auto current = imagesBox->get_selected_row();
 
-  if (current == nullptr) {
-    if (!children.empty()) {
-      select_list_box_child(imagesBox, *children.begin());
-      return;
+  if (current == nullptr && !children.empty()) {
+    auto tmprit = std::find_if(children.begin(), children.end(),
+                               get_wvisibility_unary_op());
+    if (tmprit != children.end()) {
+      select_list_box_child(imagesBox, *tmprit);
     }
-    LOGT("No files are loaded");
     return;
   }
 
@@ -235,12 +239,15 @@ void WindowEventsHandler::on_next_file_button_click()
     return;
   }
 
-  if (std::next(it) == children.end()) {
+  auto tmpit =
+      std::find_if(std::next(it), children.end(), get_wvisibility_unary_op());
+
+  if (tmpit == children.end()) {
     LOGD("The end of the images list reached");
     return;
   }
 
-  select_list_box_child(imagesBox, *std::next(it));
+  select_list_box_child(imagesBox, *tmpit);
 }
 
 void WindowEventsHandler::on_prev_file_button_click()
@@ -253,23 +260,39 @@ void WindowEventsHandler::on_prev_file_button_click()
   auto current = imagesBox->get_selected_row();
 
   if (current == nullptr && !children.empty()) {
-    select_list_box_child(imagesBox, *std::prev(children.end()));
+    auto tmprit = std::find_if(children.rbegin(), children.rend(),
+                               get_wvisibility_unary_op());
+    if (tmprit != children.rend()) {
+      select_list_box_child(imagesBox, *tmprit);
+    }
     return;
   }
 
-  auto it = std::find(children.begin(), children.end(), current);
+  auto rit = std::find(children.rbegin(), children.rend(), current);
 
-  if (it == children.end()) {
+  if (rit == children.rend()) {
     LOGD("The top of the images list reached");
     return;
   }
 
-  if (it == children.begin()) {
+  auto tmprit =
+      std::find_if(std::next(rit), children.rend(), get_wvisibility_unary_op());
+
+  if (tmprit == children.rend()) {
     LOGD("The top of the images list reached");
     return;
   }
 
-  select_list_box_child(imagesBox, *std::prev(it));
+  select_list_box_child(imagesBox, *tmprit);
+}
+
+std::function<bool(const Gtk::Widget*)>
+WindowEventsHandler::get_wvisibility_unary_op()
+{
+  return [](const Gtk::Widget* wptr) -> bool {
+    assert(wptr != nullptr);
+    return wptr->is_visible();
+  };
 }
 
 void WindowEventsHandler::select_list_box_child(Gtk::ListBox* listBox,
@@ -1769,6 +1792,43 @@ void WindowEventsHandler::on_export_pytorchvision_folder_activate()
   update_statuses();
 
   hide_spinner();
+}
+
+void WindowEventsHandler::on_images_search_text_changed()
+{
+  assert(MainWindowContext::validate_context(mwctx));
+
+  if (!MainWindowContext::validate_context(mwctx)) {
+    LOGE("Invalid context pointer provided");
+    return;
+  }
+
+  auto* aListBox = mwctx->wloader->get_images_list();
+
+  auto searchText = mwctx->wloader->get_images_search_entry()->get_text();
+
+  const auto filter_text = searchText.lowercase();
+
+  for (auto* child : aListBox->get_children()) {
+    auto* row = dynamic_cast<Gtk::ListBoxRow*>(child);
+
+    if (row == nullptr) {
+      LOGT("Unexpected row type on the Gtk::ListBox");
+      continue;
+    }
+
+    auto* label = dynamic_cast<ImagePathLabel*>(row->get_child());
+
+    if (label == nullptr) {
+      LOGT("Unexpected label type in the ListBox");
+      continue;
+    }
+
+    Glib::ustring text = label->get_text().lowercase();
+
+    row->set_visible(filter_text.empty() ||
+                     text.find(filter_text) != Glib::ustring::npos);
+  }
 }
 
 }  // namespace templateGtkmm3::window

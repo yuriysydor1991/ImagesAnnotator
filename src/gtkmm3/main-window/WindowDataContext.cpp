@@ -67,7 +67,8 @@ const std::set<std::string>& WindowDataContext::get_ids()
       about_menu_item_id,
       annotations_export_txt_2_folder_id,
       annotations_export_yolo4_2_folder2_id,
-      annotations_export_pytorchvision_2_folder_id};
+      annotations_export_pytorchvision_2_folder_id,
+      images_search_entry_id};
 
   return ids;
 }

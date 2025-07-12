@@ -427,4 +427,11 @@ Gtk::ImageMenuItem* WindowLoader::get_export_pytorchvision_folder_mi()
       mwctx->wctx->annotations_export_pytorchvision_2_folder_id);
 }
 
+Gtk::SearchEntry* WindowLoader::get_images_search_entry()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::SearchEntry>(mwctx->wctx->images_search_entry_id);
+}
+
 }  // namespace templateGtkmm3::window

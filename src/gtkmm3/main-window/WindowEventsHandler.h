@@ -28,6 +28,7 @@
 #ifndef IMAGES_ANNOTATOR_PROJECT_GTKMM_WINDOWEVENTSHANDLER_CLASS_H
 #define IMAGES_ANNOTATOR_PROJECT_GTKMM_WINDOWEVENTSHANDLER_CLASS_H
 
+#include <functional>
 #include <memory>
 
 #include "src/annotator-events/events/ImagesDirProviderChangedHandler.h"
@@ -88,6 +89,7 @@ class WindowEventsHandler
   virtual bool on_window_close(GdkEventAny*);
   virtual void on_export_yolo4_folder_activate();
   virtual void on_export_pytorchvision_folder_activate();
+  virtual void on_images_search_text_changed();
 
   virtual bool on_mouse_motion_start(GdkEventButton* event);
   virtual bool on_mouse_motion_end(GdkEventButton* event);
@@ -134,6 +136,8 @@ class WindowEventsHandler
   virtual bool has_to_export();
 
   virtual std::string compute_title(const bool changes);
+
+  std::function<bool(const Gtk::Widget*)> get_wvisibility_unary_op();
 
   /// @brief Asks user about unsaved changes
   /// @return Returns true if project may be closed.

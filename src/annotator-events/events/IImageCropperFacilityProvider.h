@@ -47,7 +47,7 @@ class IImageCropperFacilityProvider
   IImageCropperFacilityProvider() = default;
 
   virtual bool crop_out_2_fs(ImageRecordPtr ir, ImageRecordRectPtr irr,
-                             const std::string& tofpath) = 0;
+                             std::string& tofpath) = 0;
 
   virtual IImageCropperFacilityProviderPtr clone() = 0;
 };

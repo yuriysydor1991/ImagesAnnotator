@@ -28,6 +28,7 @@
 #ifndef IMAGES_ANNOTATOR_TEMPLATE_PROJECT_GTKMMIMAGECROPPERPROVIDER_CLASS_H
 #define IMAGES_ANNOTATOR_TEMPLATE_PROJECT_GTKMMIMAGECROPPERPROVIDER_CLASS_H
 
+#include <filesystem>
 #include <functional>
 #include <map>
 #include <memory>
@@ -55,7 +56,7 @@ class GtkmmImageCropperProvider
   GtkmmImageCropperProvider() = default;
 
   virtual bool crop_out_2_fs(ImageRecordPtr ir, ImageRecordRectPtr irr,
-                             const std::string& tofpath) override;
+                             std::string& tofpath) override;
 
   virtual IImageCropperFacilityProviderPtr clone() override;
 
@@ -63,7 +64,9 @@ class GtkmmImageCropperProvider
   Glib::RefPtr<Gdk::Pixbuf> load_and_crop(Glib::RefPtr<Gdk::Pixbuf>& pixbuf,
                                           ImageRecordPtr ir,
                                           ImageRecordRectPtr irr);
-  bool save_crop(Glib::RefPtr<Gdk::Pixbuf> crop, const std::string& tofpath);
+  bool save_crop(Glib::RefPtr<Gdk::Pixbuf> crop, std::string& tofpath);
+
+  std::string get_ext_only(const std::filesystem::path& fspath);
 };
 
 }  // namespace templateGtkmm3::window::helpers

@@ -28,7 +28,6 @@
 #include "src/gtkmm3/helpers/GtkmmImageCropperProvider.h"
 
 #include <cassert>
-#include <filesystem>
 #include <functional>
 #include <map>
 #include <memory>
@@ -42,7 +41,7 @@ namespace templateGtkmm3::window::helpers
 
 bool GtkmmImageCropperProvider::crop_out_2_fs(ImageRecordPtr ir,
                                               ImageRecordRectPtr irr,
-                                              const std::string& tofpath)
+                                              std::string& tofpath)
 {
   assert(ir != nullptr);
   assert(irr != nullptr);
@@ -107,22 +106,54 @@ Glib::RefPtr<Gdk::Pixbuf> GtkmmImageCropperProvider::load_and_crop(
     return {};
   }
 
-  Glib::RefPtr<Gdk::Pixbuf> crop = Gdk::Pixbuf::create_subpixbuf(
-      pixbuf, irr->x, irr->y, irr->width, irr->height);
+  const auto nx = std::max(0, irr->x);
+  const auto ny = std::max(0, irr->y);
+  const auto nwidth = std::min(irr->width, pixbuf->get_width() - irr->x);
+  const auto nheight = std::min(irr->height, pixbuf->get_height() - irr->y);
+
+  Glib::RefPtr<Gdk::Pixbuf> crop =
+      Gdk::Pixbuf::create_subpixbuf(pixbuf, nx, ny, nwidth, nheight);
 
   return crop;
 }
 
 bool GtkmmImageCropperProvider::save_crop(Glib::RefPtr<Gdk::Pixbuf> crop,
-                                          const std::string& tofpath)
+                                          std::string& tofpath)
 {
+  static const std::string extPNG = "png";
+
   assert(crop);
   assert(!tofpath.empty());
 
   const std::filesystem::path fspath{tofpath};
 
+  const std::string ext = get_ext_only(fspath);
+  const std::string extUsed = extPNG;
+
+  if (ext != extUsed) {
+    auto newfs =
+        fspath.parent_path() / (fspath.stem().string() + "." + extUsed);
+    tofpath = newfs.string();
+  }
+
+  if (std::filesystem::is_regular_file(tofpath)) {
+    LOGT("Path already exists: " << tofpath << " creating new name");
+
+    unsigned long long fiter{0U};
+    do {
+      auto newfs =
+          fspath.parent_path() / (fspath.stem().string() + "-" +
+                                  std::to_string(fiter++) + "." + extUsed);
+
+      tofpath = newfs.string();
+
+    } while (std::filesystem::is_regular_file(tofpath));
+
+    LOGT("Created a new filename: " << tofpath);
+  }
+
   try {
-    crop->save(tofpath, fspath.extension().string());
+    crop->save(tofpath, extUsed);
   }
   catch (const Glib::Error& ex) {
     LOGE("Failed to save the image: " << ex.what() << " : " << tofpath);
@@ -130,6 +161,28 @@ bool GtkmmImageCropperProvider::save_crop(Glib::RefPtr<Gdk::Pixbuf> crop,
   };
 
   return true;
+}
+
+std::string GtkmmImageCropperProvider::get_ext_only(
+    const std::filesystem::path& fspath)
+{
+  if (fspath.empty()) {
+    LOGE("Empty path privided");
+    return {};
+  }
+
+  std::string dotext = fspath.extension().string();
+
+  if (dotext.empty()) {
+    LOGT("Empty string extention retrieved");
+    return {};
+  }
+
+  if (dotext[0] == '.') {
+    dotext.erase(dotext.begin());
+  }
+
+  return dotext;
 }
 
 GtkmmImageCropperProvider::IImageCropperFacilityProviderPtr

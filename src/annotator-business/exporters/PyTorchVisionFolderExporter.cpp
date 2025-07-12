@@ -40,6 +40,11 @@
 namespace iannotator::exporters
 {
 
+namespace
+{
+namespace fs = std::filesystem;
+}
+
 bool PyTorchVisionFolderExporter::export_db(ExportContextPtr ectx)
 {
   assert(ectx != nullptr);
@@ -58,6 +63,100 @@ bool PyTorchVisionFolderExporter::export_db(ExportContextPtr ectx)
 
   if (ectx->cropper == nullptr) {
     LOGE("No image cropper provided");
+    return false;
+  }
+
+  auto irs = ectx->dbProvider->get_images_db();
+
+  for (auto& ir : irs) {
+    assert(ir != nullptr);
+
+    if (ir == nullptr) {
+      LOGE("Invalid image record pointer provided");
+      continue;
+    }
+
+    const fs::path origfs = ir->get_full_path();
+
+    assert(!origfs.empty());
+
+    if (origfs.empty()) {
+      LOGE("Image with an empty path");
+      continue;
+    }
+
+    if (ir->rects.empty()) {
+      LOGT("No rects to crop out");
+      continue;
+    }
+
+    if (!export_rects(ir, ectx->cropper, ectx->export_path, origfs)) {
+      LOGE("Fail to crop out rects for image: " << ir->get_full_path());
+      continue;
+    }
+  }
+
+  return true;
+}
+
+bool PyTorchVisionFolderExporter::export_rects(
+    ImageRecordPtr& ir, IImageCropperFacilityProvider cropper,
+    const std::filesystem::path& exportPath,
+    const std::filesystem::path& imageOrigPath)
+{
+  assert(ir != nullptr);
+  assert(cropper != nullptr);
+
+  for (auto& irr : ir->rects) {
+    assert(irr != nullptr);
+
+    if (irr == nullptr) {
+      LOGE("Invalid rect pointer in the queue");
+      continue;
+    }
+
+    if (irr->name.empty()) {
+      LOGT("Tag name is empty for " << imageOrigPath.string());
+      continue;
+    }
+
+    fs::path cTagDir = exportPath / irr->name;
+
+    if (!check_directory(cTagDir)) {
+      LOGE("Failure while checking the directory: " << cTagDir.string());
+      continue;
+    }
+
+    fs::path nipath = cTagDir / imageOrigPath.filename();
+
+    // string path may be altered
+    std::string spath = nipath.string();
+
+    if (!cropper->crop_out_2_fs(ir, irr, spath)) {
+      LOGE("Failure during image cropping out");
+      continue;
+    }
+  }
+
+  return true;
+}
+
+bool PyTorchVisionFolderExporter::check_directory(
+    const std::filesystem::path dirPath)
+{
+  if (fs::is_directory(dirPath)) {
+    LOGT("Directory already present " << dirPath.string());
+    return true;
+  }
+
+  try {
+    if (!fs::create_directory(dirPath)) {
+      LOGE("Failure during the directory creation: " << dirPath.string());
+      return false;
+    }
+  }
+  catch (const std::exception& e) {
+    LOGE("Failure during directory creation " << e.what());
     return false;
   }
 

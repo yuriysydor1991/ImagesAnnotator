@@ -152,7 +152,7 @@ bool Yolo42FolderExporter::express_obj_data(ExportContextPtr ectx)
     return false;
   }
 
-  objDFile << "classes: " << aList.size() << std::endl;
+  objDFile << "classes = " << aList.size() << std::endl;
   objDFile << "train = " << trainTxtRel << std::endl;
   objDFile << "valid = " << valTxtRel << std::endl;
   objDFile << "names = " << objNamesRel << std::endl;
@@ -179,6 +179,7 @@ bool Yolo42FolderExporter::express_yolocfg(ExportContextPtr ectx)
     return false;
   }
 
+  yoloCfgFile << "classes = " << aList.size() << std::endl;
   yoloCfgFile << "filters = " << ((aList.size() + 5) * 3) << std::endl;
 
   yoloCfgFile.close();

@@ -61,6 +61,8 @@ class AnnotationsDirDB : public virtual AnnotationsDBTypes,
 
   virtual bool changed() override;
 
+  virtual bool delete_image_record(const std::string& irFullPath) override;
+
   virtual void add_images_db(const ImageRecordsSet& andb);
 
   virtual bool store_db();

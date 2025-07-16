@@ -434,4 +434,11 @@ Gtk::SearchEntry* WindowLoader::get_images_search_entry()
   return get_widget<Gtk::SearchEntry>(mwctx->wctx->images_search_entry_id);
 }
 
+Gtk::Button* WindowLoader::get_delete_image_record()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::Button>(mwctx->wctx->delete_image_record_id);
+}
+
 }  // namespace templateGtkmm3::window

@@ -35,6 +35,7 @@
 #include "src/annotator-events/events/AnnotationsDirChangedIHandler.h"
 #include "src/annotator-events/events/CloseCurrentProject.h"
 #include "src/annotator-events/events/CurrentImageChanged.h"
+#include "src/annotator-events/events/DeleteCurrentImageRequest.h"
 #include "src/annotator-events/events/Export2PyTorchVisionRequest.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequest.h"
 #include "src/annotator-events/events/ExportYolo4FolderRequest.h"
@@ -102,6 +103,9 @@ class EventsFactory : public std::enable_shared_from_this<EventsFactory>
 
   virtual Export2PyTorchVisionRequestPtr create_pytorch_vision_export_request(
       const std::string& exportDirPath);
+
+  virtual DeleteCurrentImageRequestPtr create_delete_current_image_request(
+      const std::string& irFullPath);
 };
 
 }  // namespace events::events

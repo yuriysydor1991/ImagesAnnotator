@@ -162,4 +162,10 @@ EventsFactory::create_pytorch_vision_export_request(
   return std::make_shared<Export2PyTorchVisionRequest>(exportDirPath);
 }
 
+DeleteCurrentImageRequestPtr EventsFactory::create_delete_current_image_request(
+    const std::string& irFullPath)
+{
+  return std::make_shared<DeleteCurrentImageRequest>(irFullPath);
+}
+
 }  // namespace events::events

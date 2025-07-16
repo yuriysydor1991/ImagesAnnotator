@@ -27,6 +27,7 @@
 
 #include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsDirDB.h"
 
+#include <algorithm>
 #include <cassert>
 #include <exception>
 #include <fstream>
@@ -180,6 +181,18 @@ AnnotationsDirDB::AnnotationsList AnnotationsDirDB::get_available_annotations()
 bool AnnotationsDirDB::changed()
 {
   return !ImageRecord::equal(last_saved_db, irdb);
+}
+
+bool AnnotationsDirDB::delete_image_record(const std::string& irFullPath)
+{
+  auto nend =
+      std::remove_if(irdb.begin(), irdb.end(), [irFullPath](ImageRecordPtr ir) {
+        return ir != nullptr && ir->get_full_path() == irFullPath;
+      });
+
+  irdb.erase(nend, irdb.end());
+
+  return true;
 }
 
 }  // namespace iannotator::dbs::annotations

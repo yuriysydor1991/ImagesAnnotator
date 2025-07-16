@@ -108,6 +108,7 @@ bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
   ctx->eventer->subscribe(ExportPlainTxt2FolderRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ExportYolo4FolderRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(Export2PyTorchVisionRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(DeleteCurrentImageRequestHandlerPtr{mptr});
 
   return true;
 }
@@ -416,6 +417,37 @@ void AnnotatorController::handle(Export2PyTorchVisionRequestPtr event)
   }
 
   LOGD("DB seems to be exported");
+}
+
+void AnnotatorController::handle(DeleteCurrentImageRequestPtr event)
+{
+  assert(event != nullptr);
+  assert(!event->image_full_path.empty());
+  assert(annotations != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (event->image_full_path.empty()) {
+    LOGE("No image full path given");
+    return;
+  }
+
+  if (!annotations->delete_image_record(event->image_full_path)) {
+    LOGE("Fail to remove the image: " << event->image_full_path);
+    return;
+  }
+
+  emitImagesProviderChanged();
+}
+
+bool AnnotatorController::delete_image_record(const std::string& irFullPath)
+{
+  assert(annotations != nullptr);
+
+  return annotations->delete_image_record(irFullPath);
 }
 
 }  // namespace iannotator

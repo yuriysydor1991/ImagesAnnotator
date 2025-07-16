@@ -227,4 +227,16 @@ void ImagesAnnotatorEventController::subscribe(
   pytorchvision_handlers.insert(handler);
 }
 
+void ImagesAnnotatorEventController::submit(
+    events::DeleteCurrentImageRequestPtr event)
+{
+  unified_submit(deletecir_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::DeleteCurrentImageRequestHandlerPtr handler)
+{
+  deletecir_handlers.insert(handler);
+}
+
 }  // namespace events

@@ -107,6 +107,7 @@ void WindowEventsHandler::subscribe_4_visual_events()
   auto* exportYolo42FolderM = mwctx->wloader->get_export_yolo4_folder_mi();
   auto* export2PyTorchVM = mwctx->wloader->get_export_pytorchvision_folder_mi();
   auto* imagesSearchE = mwctx->wloader->get_images_search_entry();
+  auto* deleteImageB = mwctx->wloader->get_delete_image_record();
 
   imagesListBox->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_row_selected));
@@ -180,6 +181,9 @@ void WindowEventsHandler::subscribe_4_visual_events()
 
   imagesSearchE->signal_search_changed().connect(sigc::mem_fun(
       *this, &WindowEventsHandler::on_images_search_text_changed));
+
+  deleteImageB->signal_clicked().connect(sigc::mem_fun(
+      *this, &WindowEventsHandler::on_current_image_delete_click));
 }
 
 void WindowEventsHandler::show_spinner()
@@ -869,7 +873,7 @@ void WindowEventsHandler::on_images_row_selected(Gtk::ListBoxRow* row)
 
   if (row == nullptr) {
     mwctx->current_image.reset();
-    LOGE("No row pointer provided");
+    LOGD("No row pointer provided");
     return;
   }
 
@@ -1117,6 +1121,44 @@ bool WindowEventsHandler::ask_about_unsaved_changes()
   return false;
 }
 
+bool WindowEventsHandler::ask_about_rects_delete()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+  assert(mwctx->wloader->get_window() != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  show_spinner();
+
+  auto dialog = mwctx->cwFactory->create_ask_user_about_lost_rects(
+      mwctx->wloader->get_window());
+
+  assert(dialog != nullptr);
+
+  int result = dialog->run();
+
+  if (result == Gtk::RESPONSE_YES) {
+    LOGT("user choose delete annotations with an image");
+    on_menu_annotations_db_save_activate();
+    hide_spinner();
+    return true;
+  } else if (result == Gtk::RESPONSE_NO) {
+    LOGI("user discards the annotations with the image");
+    hide_spinner();
+    return false;
+  } else if (result == Gtk::RESPONSE_CANCEL) {
+    LOGT("user cancels image record delete");
+    hide_spinner();
+    return false;
+  } else {
+    LOGE("Unknown dialog response");
+  }
+
+  hide_spinner();
+
+  return false;
+}
+
 void WindowEventsHandler::on_menu_annotations_project_close_activate()
 {
   LOGT("Trying to close the project project");
@@ -1129,6 +1171,7 @@ void WindowEventsHandler::on_menu_annotations_project_close_activate()
   }
 
   dragging = false;
+  lastChangedStatus = false;
 
   auto ef = mwctx->actx->eventer->get_events_factory();
 
@@ -1841,6 +1884,44 @@ void WindowEventsHandler::on_images_search_text_changed()
     row->set_visible(filter_text.empty() ||
                      text.find(filter_text) != Glib::ustring::npos);
   }
+}
+
+void WindowEventsHandler::on_current_image_delete_click()
+{
+  assert(MainWindowContext::validate_context(mwctx));
+
+  if (!MainWindowContext::validate_context(mwctx)) {
+    LOGE("Invalid context pointer provided");
+    return;
+  }
+
+  auto ir = mwctx->current_irecord();
+
+  if (ir == nullptr) {
+    LOGD("No current image selected");
+    return;
+  }
+
+  if (!ir->rects.empty()) {
+    LOGD("Image contains some annotations, asking user");
+    if (!ask_about_rects_delete()) {
+      LOGD("user confirms the iamge with annotation deletion");
+      return;
+    }
+  }
+
+  assert(mwctx->actx->eventer != nullptr);
+
+  auto efactory = mwctx->actx->eventer->get_events_factory();
+
+  assert(efactory != nullptr);
+
+  auto deleteEvent =
+      efactory->create_delete_current_image_request(ir->get_full_path());
+
+  assert(deleteEvent != nullptr);
+
+  mwctx->actx->eventer->submit(deleteEvent);
 }
 
 }  // namespace templateGtkmm3::window

@@ -25,43 +25,32 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_IMAGESPATHSDBPROVIDER_ABSTRACT_CLASS_H
-#define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_IMAGESPATHSDBPROVIDER_ABSTRACT_CLASS_H
+#ifndef IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_DELETECURRENTIMAGEREQUESTHANDLER_CLASS_H
+#define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_DELETECURRENTIMAGEREQUESTHANDLER_CLASS_H
 
 #include <memory>
-#include <set>
-#include <string>
 
-#include "src/annotator-events/events/IProvider.h"
-#include "src/annotator-events/events/ImageRecord.h"
+#include "src/annotator-events/events/DeleteCurrentImageRequest.h"
+#include "src/annotator-events/events/EventIHandler.h"
 
 namespace events::events
 {
 
 /**
- * @brief The images dir changed event.
+ * @brief The delete image request handler interface.
  */
-class ImagesPathsDBProvider : virtual public IProvider
+class DeleteCurrentImageRequestHandler : virtual public EventIHandler
 {
  public:
-  using AnnotationsList = std::set<std::string>;
+  virtual ~DeleteCurrentImageRequestHandler() = default;
+  DeleteCurrentImageRequestHandler() = default;
 
-  virtual ~ImagesPathsDBProvider() = default;
-  ImagesPathsDBProvider() = default;
-
-  virtual ImageRecordsSet& get_images_db() = 0;
-
-  virtual std::string get_db_path() = 0;
-
-  virtual AnnotationsList get_available_annotations() = 0;
-
-  virtual bool changed() = 0;
-
-  virtual bool delete_image_record(const std::string& irFullPath) = 0;
+  virtual void handle(DeleteCurrentImageRequestPtr event) = 0;
 };
 
-using ImagesPathsDBProviderPtr = std::shared_ptr<ImagesPathsDBProvider>;
+using DeleteCurrentImageRequestHandlerPtr =
+    std::shared_ptr<DeleteCurrentImageRequestHandler>;
 
 }  // namespace events::events
 
-#endif  // IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_IMAGESPATHSDBPROVIDER_ABSTRACT_CLASS_H
+#endif  // IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_DELETECURRENTIMAGEREQUESTHANDLER_CLASS_H

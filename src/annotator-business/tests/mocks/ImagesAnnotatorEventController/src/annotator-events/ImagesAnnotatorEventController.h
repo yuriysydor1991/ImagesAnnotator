@@ -100,6 +100,12 @@ class ImagesAnnotatorEventController : public IImagesAnnotatorEventController
   MOCK_METHOD(void, subscribe,
               (events::Export2PyTorchVisionRequestHandlerPtr handler),
               (override));
+
+  MOCK_METHOD(void, submit, (events::DeleteCurrentImageRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::DeleteCurrentImageRequestHandlerPtr handler),
+              (override));
 };
 
 }  // namespace events

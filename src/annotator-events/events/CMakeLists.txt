@@ -13,6 +13,7 @@ add_library(
   ExportPlainTxt2FolderRequest.cpp
   ExportYolo4FolderRequest.cpp
   Export2PyTorchVisionRequest.cpp
+  DeleteCurrentImageRequest.cpp
 )
 
 target_include_directories(

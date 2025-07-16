@@ -32,6 +32,7 @@ add_executable(
   ${CMAKE_SOURCE_DIR}/src/annotator-business/exporters/PyTorchVisionFolderExporter.cpp
   ${CMAKE_SOURCE_DIR}/src/gtkmm3/helpers/GtkmmImageCropperProvider.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/Export2PyTorchVisionRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/DeleteCurrentImageRequest.cpp
 )
 
 target_compile_options(

@@ -130,6 +130,9 @@ class WindowDataContext
 
   inline static constexpr const char* const images_search_entry_id =
       "images_search_entry";
+
+  inline static constexpr const char* const delete_image_record_id =
+      "delete_image_record";
 };
 
 }  // namespace templateGtkmm3::window

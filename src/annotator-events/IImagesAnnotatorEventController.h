@@ -36,6 +36,8 @@
 #include "src/annotator-events/events/CloseCurrentProjectHandler.h"
 #include "src/annotator-events/events/CurrentImageChanged.h"
 #include "src/annotator-events/events/CurrentImageChangedHandler.h"
+#include "src/annotator-events/events/DeleteCurrentImageRequest.h"
+#include "src/annotator-events/events/DeleteCurrentImageRequestHandler.h"
 #include "src/annotator-events/events/EventsFactory.h"
 #include "src/annotator-events/events/Export2PyTorchVisionRequest.h"
 #include "src/annotator-events/events/Export2PyTorchVisionRequestHandler.h"
@@ -113,6 +115,10 @@ class IImagesAnnotatorEventController
   virtual void submit(events::Export2PyTorchVisionRequestPtr event) = 0;
   virtual void subscribe(
       events::Export2PyTorchVisionRequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::DeleteCurrentImageRequestPtr event) = 0;
+  virtual void subscribe(
+      events::DeleteCurrentImageRequestHandlerPtr handler) = 0;
 };
 
 }  // namespace events

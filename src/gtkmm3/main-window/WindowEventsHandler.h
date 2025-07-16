@@ -90,6 +90,7 @@ class WindowEventsHandler
   virtual void on_export_yolo4_folder_activate();
   virtual void on_export_pytorchvision_folder_activate();
   virtual void on_images_search_text_changed();
+  virtual void on_current_image_delete_click();
 
   virtual bool on_mouse_motion_start(GdkEventButton* event);
   virtual bool on_mouse_motion_end(GdkEventButton* event);
@@ -142,6 +143,11 @@ class WindowEventsHandler
   /// @brief Asks user about unsaved changes
   /// @return Returns true if project may be closed.
   virtual bool ask_about_unsaved_changes();
+
+  /// @brief Asks about annotations being deleted with the image
+  /// @return Returns a true value if image should be deleted with
+  /// the annotations
+  virtual bool ask_about_rects_delete();
 
   inline static constexpr const char* const overlay_class =
       "almost_non_transparent";

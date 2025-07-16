@@ -38,6 +38,8 @@
 #include "src/annotator-events/events/CloseCurrentProject.h"
 #include "src/annotator-events/events/CloseCurrentProjectHandler.h"
 #include "src/annotator-events/events/CurrentImageChangedHandler.h"
+#include "src/annotator-events/events/DeleteCurrentImageRequest.h"
+#include "src/annotator-events/events/DeleteCurrentImageRequestHandler.h"
 #include "src/annotator-events/events/Export2PyTorchVisionRequest.h"
 #include "src/annotator-events/events/Export2PyTorchVisionRequestHandler.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequestHandler.h"
@@ -72,7 +74,8 @@ class AnnotatorController
       virtual public events::events::ImagesPathsDBProvider,
       virtual public events::events::ExportPlainTxt2FolderRequestHandler,
       virtual public events::events::ExportYolo4FolderRequestHandler,
-      virtual public events::events::Export2PyTorchVisionRequestHandler
+      virtual public events::events::Export2PyTorchVisionRequestHandler,
+      virtual public events::events::DeleteCurrentImageRequestHandler
 {
  public:
   using ImagesDirChanged = events::events::ImagesDirChanged;
@@ -101,6 +104,10 @@ class AnnotatorController
       events::events::Export2PyTorchVisionRequestPtr;
   using Export2PyTorchVisionRequestHandlerPtr =
       events::events::Export2PyTorchVisionRequestHandlerPtr;
+  using DeleteCurrentImageRequestPtr =
+      events::events::DeleteCurrentImageRequestPtr;
+  using DeleteCurrentImageRequestHandlerPtr =
+      events::events::DeleteCurrentImageRequestHandlerPtr;
 
   virtual ~AnnotatorController() = default;
   AnnotatorController();
@@ -116,11 +123,13 @@ class AnnotatorController
   virtual void handle(ExportPlainTxt2FolderRequestPtr event) override;
   virtual void handle(ExportYolo4FolderRequestPtr event) override;
   virtual void handle(Export2PyTorchVisionRequestPtr event) override;
+  virtual void handle(DeleteCurrentImageRequestPtr event) override;
 
   virtual ImageRecordsSet& get_images_db() override;
   virtual std::string get_db_path() override;
   virtual AnnotationsList get_available_annotations() override;
   virtual bool changed() override;
+  bool delete_image_record(const std::string& irFullPath) override;
 
   virtual void deinit();
 

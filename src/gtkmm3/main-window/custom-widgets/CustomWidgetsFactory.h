@@ -94,6 +94,9 @@ class CustomWidgetsFactory
   virtual std::shared_ptr<Gtk::MessageDialog> create_save_changes_ask_user(
       Gtk::Window* parentWindow);
 
+  virtual std::shared_ptr<Gtk::MessageDialog> create_ask_user_about_lost_rects(
+      Gtk::Window* parentWindow);
+
   virtual std::shared_ptr<Gtk::FileChooserDialog>
   create_yolo4_export_folder_choose_dialog(Gtk::Window* parentWindow);
 

@@ -112,12 +112,30 @@ bool WindowLoader::propagate_params()
     return false;
   }
 
+  if (!attach_spinner()) {
+    LOGE("Failure while creating window spinner");
+    return false;
+  }
+
+  assert(mwctx->centralCanvas != nullptr);
+
+  mwctx->centralCanvas->set_halign(Gtk::ALIGN_CENTER);
+
+  if (!propagate_menu_shortcuts()) {
+    LOGE("Failure during shortcuts propagation");
+    return false;
+  }
+
+  return true;
+}
+
+bool WindowLoader::attach_spinner()
+{
   auto* overlay = get_main_overlay();
   auto* spinner = get_spinner();
 
   assert(overlay != nullptr);
   assert(spinner != nullptr);
-  assert(mwctx->centralCanvas != nullptr);
 
   overlay->add_overlay(*spinner);
 
@@ -125,7 +143,42 @@ bool WindowLoader::propagate_params()
   spinner->set_halign(Gtk::ALIGN_CENTER);
   spinner->set_size_request(spinner_size, spinner_size);
 
-  mwctx->centralCanvas->set_halign(Gtk::ALIGN_CENTER);
+  return true;
+}
+
+bool WindowLoader::propagate_menu_shortcuts()
+{
+  assert(builder);
+
+  if (!builder) {
+    LOGE("No builder present");
+    return false;
+  }
+
+  auto accel_group = Gtk::AccelGroup::create();
+
+  // Add Ctrl+O accelerator to item_open
+  get_annotations_db_open_mi()->add_accelerator("activate", accel_group,
+                                                GDK_KEY_o, Gdk::CONTROL_MASK,
+                                                Gtk::ACCEL_VISIBLE);
+
+  get_annotations_db_save_mi()->add_accelerator("activate", accel_group,
+                                                GDK_KEY_s, Gdk::CONTROL_MASK,
+                                                Gtk::ACCEL_VISIBLE);
+
+  get_annotations_db_saveas_mi()->add_accelerator(
+      "activate", accel_group, GDK_KEY_s, Gdk::CONTROL_MASK | Gdk::SHIFT_MASK,
+      Gtk::ACCEL_VISIBLE);
+
+  get_annotations_project_close_mi()->add_accelerator(
+      "activate", accel_group, GDK_KEY_w, Gdk::CONTROL_MASK,
+      Gtk::ACCEL_VISIBLE);
+
+  get_images_open_mi()->add_accelerator("activate", accel_group, GDK_KEY_o,
+                                        Gdk::CONTROL_MASK | Gdk::SHIFT_MASK,
+                                        Gtk::ACCEL_VISIBLE);
+
+  get_window()->add_accel_group(accel_group);
 
   return true;
 }

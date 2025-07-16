@@ -98,6 +98,8 @@ class WindowLoader : virtual public ComponentTypesAliases
  protected:
   virtual bool propagate_params();
   virtual bool propagate_css_params();
+  virtual bool propagate_menu_shortcuts();
+  virtual bool attach_spinner();
 
  private:
   template <class WidgetType>

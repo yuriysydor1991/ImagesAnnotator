@@ -114,6 +114,8 @@ class AnnotatorController
   MOCK_METHOD(std::string, get_db_path, (), (override));
   MOCK_METHOD(AnnotationsList, get_available_annotations, (), (override));
   MOCK_METHOD(bool, changed, (), (override));
+  MOCK_METHOD(bool, delete_image_record, (const std::string& irFullPath),
+              (override));
 
   MOCK_METHOD(void, deinit, ());
 };

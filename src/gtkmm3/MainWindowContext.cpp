@@ -124,6 +124,11 @@ bool MainWindowContext::validate_context(
     return false;
   }
 
+  if (nmwctx->centralCanvas == nullptr) {
+    LOGE("No central canvas widget available");
+    return false;
+  }
+
   return true;
 }
 

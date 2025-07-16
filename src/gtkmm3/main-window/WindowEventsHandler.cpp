@@ -859,6 +859,14 @@ void WindowEventsHandler::on_images_row_selected(Gtk::ListBoxRow* row)
     return;
   }
 
+  if (mwctx->centralCanvas == nullptr) {
+    LOGE("No central canvas available");
+    return;
+  }
+
+  LOGT("Clearing the canvas");
+  mwctx->centralCanvas->clear();
+
   if (row == nullptr) {
     mwctx->current_image.reset();
     LOGE("No row pointer provided");
@@ -946,21 +954,25 @@ bool WindowEventsHandler::load_image(const std::string& filepath)
   }
   catch (const Glib::Error& ex) {
     errorIfAny = ex.what();
-    LOGE("Failed to load the iamge: " << errorIfAny << " : " << filepath);
+    const std::string emsg = "Fail to load the image:\n\n" + filepath +
+                             (errorIfAny.empty() ? "" : "\n\n" + errorIfAny);
+    LOGE(emsg);
+    show_error_dialog(emsg);
+    return false;
   }
 
-  if (mwctx->current_image_original_pixbuf) {
-    LOGD("Image seems to be loaded");
-    normilize_initial_image_load_scale();
-    return true;
+  if (!mwctx->current_image_original_pixbuf) {
+    const std::string emsg = "Fail to load the image:\n\n" + filepath +
+                             (errorIfAny.empty() ? "" : "\n\n" + errorIfAny);
+    LOGE(emsg);
+    show_error_dialog(emsg);
+    return false;
   }
 
-  const std::string emsg = "Fail to load the image:\n\n" + filepath +
-                           (errorIfAny.empty() ? "" : "\n\n" + errorIfAny);
+  LOGD("Image seems to be loaded " << filepath);
+  normilize_initial_image_load_scale();
 
-  show_error_dialog(emsg);
-
-  return false;
+  return true;
 }
 
 void WindowEventsHandler::show_error_dialog(const std::string& emsg)

@@ -39,6 +39,10 @@ On the bottom of the window there is a status panel that currently indicates onl
 
 After annotating the images of interest, use the export submenu of the `Annotations` menu to export data to widely used annotation formats.
 
+# Implementing custom exporters
+
+Current ImagesAnnotator application stores the annotations database in the `JSON` file format. It makes it easy to implement a custom export script into required format to train neural network with the help of `Python` or `Bash`.
+
 # Requirements
 
 This section contains list of required packages and/or tools that must be present in the system in order to build project.

@@ -22,8 +22,10 @@ class CURLController
   using download_buffer = std::vector<char>;
   using CURLControllerPtr = std::shared_ptr<CURLController>;
 
-  virtual ~CURLController() = default;
-  CURLController() = default;
+  virtual ~CURLController();
+  CURLController();
+  CURLController(const CURLController&) = delete;
+  CURLController(CURLController&&) = delete;
 
   virtual download_buffer& download(const std::string& url);
 
@@ -32,7 +34,11 @@ class CURLController
   static CURLControllerPtr create();
 
  private:
+  static constexpr const download_buffer::size_type DEFAULT_BUFF_RESERVE =
+      10240U;
+
   download_buffer cbuff;
+  CURL* curl{nullptr};
 };
 
 using CURLControllerPtr = CURLController::CURLControllerPtr;

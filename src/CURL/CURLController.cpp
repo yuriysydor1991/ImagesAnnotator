@@ -1,7 +1,5 @@
 #include "src/CURL/CURLController.h"
 
-#include <curl/curl.h>
-
 #include <cassert>
 #include <functional>
 #include <memory>
@@ -22,6 +20,13 @@ size_t wcallback(void* contents, size_t size, size_t nmemb, void* userp)
 
   const auto givenSize = size * nmemb;
 
+  if (givenSize == 0) {
+    LOGD("No data fetch");
+    return givenSize;
+  }
+
+  LOGT("Fetch " << givenSize << " bytes");
+
   CURLController* controller = static_cast<CURLController*>(userp);
 
   assert(controller != nullptr);
@@ -33,7 +38,9 @@ size_t wcallback(void* contents, size_t size, size_t nmemb, void* userp)
 
   char* rawb = static_cast<char*>(contents);
 
-  auto buff = controller->get();
+  auto& buff = controller->get();
+
+  buff.reserve(buff.size() + givenSize);
 
   buff.insert(buff.end(), rawb, rawb + givenSize);
 
@@ -42,14 +49,37 @@ size_t wcallback(void* contents, size_t size, size_t nmemb, void* userp)
 
 }  // namespace
 
+CURLController::~CURLController() { curl_easy_cleanup(curl); }
+
+CURLController::CURLController()
+{
+  static const CURLcode initedCode = curl_global_init(CURL_GLOBAL_ALL);
+
+  if (initedCode != CURLE_OK) {
+    LOGE("Fail to init CURL globally, code: "
+         << static_cast<unsigned int>(initedCode));
+    return;
+  }
+
+  LOGT("curl globally inited");
+
+  cbuff.reserve(DEFAULT_BUFF_RESERVE);
+
+  curl = curl_easy_init();
+
+  assert(curl != nullptr);
+
+  if (curl == nullptr) {
+    LOGE("Fail to allocate curl easy context instance");
+    return;
+  }
+}
+
 CURLController::download_buffer& CURLController::get() { return cbuff; }
 
 CURLController::download_buffer& CURLController::download(
     const std::string& url)
 {
-  static constexpr const download_buffer::size_type DEFAULT_BUFF_RESERVE =
-      1024U;
-
   cbuff.clear();
 
   assert(!url.empty());
@@ -58,12 +88,6 @@ CURLController::download_buffer& CURLController::download(
     LOGE("Invalid URL provided");
     return cbuff;
   }
-
-  cbuff.reserve(DEFAULT_BUFF_RESERVE);
-
-  CURL* curl = curl_easy_init();
-
-  assert(curl != nullptr);
 
   if (curl == nullptr) {
     LOGE("Fail to create download context");
@@ -78,11 +102,11 @@ CURLController::download_buffer& CURLController::download(
 
   CURLcode res = curl_easy_perform(curl);
 
-  curl_easy_cleanup(curl);
-
   if (res != CURLE_OK) {
     LOGE("CURL error: " << curl_easy_strerror(res));
   }
+
+  LOGT("Fetched " << cbuff.size() << " bytes total");
 
   return cbuff;
 }

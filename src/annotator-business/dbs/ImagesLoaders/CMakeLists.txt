@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.13)
 add_library(
   ImagesAnnotatorControllerDBsImagesDBObj OBJECT
   ImagesDirLoader.cpp
+  ImagesWebPageLoader.cpp
 )
 
 target_include_directories(

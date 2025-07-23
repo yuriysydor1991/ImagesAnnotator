@@ -28,9 +28,7 @@
 #ifndef IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_IMAGES_DB_CLASS_H
 #define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_IMAGES_DB_CLASS_H
 
-#include <filesystem>
 #include <string>
-#include <unordered_set>
 
 #include "src/annotator-business/dbs/ImagesLoaders/IImagesLoader.h"
 #include "src/annotator-events/events/ImageRecord.h"
@@ -39,25 +37,17 @@
 namespace iannotator::dbs::images
 {
 
-namespace fs = std::filesystem;
-
 /**
- * @brief The annotator images dir db controller.
+ * @brief The annotator images list web page loader controller.
  */
-class ImagesDirLoader : virtual public helpers::SortHelper,
-                        virtual public IImagesLoader
+class ImagesWebPageLoader : virtual public helpers::SortHelper,
+                            virtual public IImagesLoader
 {
  public:
-  virtual ~ImagesDirLoader() = default;
-  ImagesDirLoader() = default;
+  virtual ~ImagesWebPageLoader() = default;
+  ImagesWebPageLoader() = default;
 
   virtual ImageRecordsSet load(const std::string& newPath) override;
-
- protected:
-  virtual bool is_image(const fs::path& tpath);
-
-  virtual std::shared_ptr<ImageRecord> create_record(const fs::path& npath,
-                                                     const std::string& newAbs);
 };
 
 }  // namespace iannotator::dbs::images

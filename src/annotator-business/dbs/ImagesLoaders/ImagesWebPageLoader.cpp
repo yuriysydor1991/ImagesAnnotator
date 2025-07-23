@@ -25,41 +25,39 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_IMAGES_DB_CLASS_H
-#define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_IMAGES_DB_CLASS_H
+#include "src/annotator-business/dbs/ImagesLoaders/ImagesWebPageLoader.h"
 
-#include <filesystem>
+#include <cassert>
 #include <string>
-#include <unordered_set>
 
-#include "src/annotator-business/dbs/ImagesLoaders/IImagesLoader.h"
-#include "src/annotator-events/events/ImageRecord.h"
-#include "src/helpers/SortHelper.h"
+#include "src/CURL/CURLController.h"
+#include "src/log/log.h"
 
 namespace iannotator::dbs::images
 {
 
-namespace fs = std::filesystem;
-
-/**
- * @brief The annotator images dir db controller.
- */
-class ImagesDirLoader : virtual public helpers::SortHelper,
-                        virtual public IImagesLoader
+ImagesWebPageLoader::ImageRecordsSet ImagesWebPageLoader::load(
+    const std::string& newPath)
 {
- public:
-  virtual ~ImagesDirLoader() = default;
-  ImagesDirLoader() = default;
+  assert(!newPath.empty());
 
-  virtual ImageRecordsSet load(const std::string& newPath) override;
+  if (newPath.empty()) {
+    LOGE("Empty path provided");
+    return {};
+  }
 
- protected:
-  virtual bool is_image(const fs::path& tpath);
+  curli::CURLControllerPtr curl = curli::CURLController::create();
 
-  virtual std::shared_ptr<ImageRecord> create_record(const fs::path& npath,
-                                                     const std::string& newAbs);
-};
+  assert(curl != nullptr);
+
+  const auto& webpage = curl->download(newPath);
+
+  if (webpage.empty()) {
+    LOGW("Downloaded an empty page by URL: " << newPath);
+    return {};
+  }
+
+  return {};
+}
 
 }  // namespace iannotator::dbs::images
-
-#endif  // IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_IMAGES_DB_CLASS_H

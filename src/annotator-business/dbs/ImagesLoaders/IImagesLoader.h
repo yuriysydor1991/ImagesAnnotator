@@ -25,41 +25,35 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_IMAGES_DB_CLASS_H
-#define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_IMAGES_DB_CLASS_H
+#ifndef IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_IIMAGESLOADER_ABSTRACT_CLASS_H
+#define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_IIMAGESLOADER_ABSTRACT_CLASS_H
 
 #include <filesystem>
 #include <string>
 #include <unordered_set>
 
-#include "src/annotator-business/dbs/ImagesLoaders/IImagesLoader.h"
 #include "src/annotator-events/events/ImageRecord.h"
 #include "src/helpers/SortHelper.h"
 
 namespace iannotator::dbs::images
 {
 
-namespace fs = std::filesystem;
-
 /**
- * @brief The annotator images dir db controller.
+ * @brief The annotator images db loader abstract class.
  */
-class ImagesDirLoader : virtual public helpers::SortHelper,
-                        virtual public IImagesLoader
+class IImagesLoader
 {
  public:
-  virtual ~ImagesDirLoader() = default;
-  ImagesDirLoader() = default;
+  using ImageRecord = events::events::ImageRecord;
+  using ImageRecordsSet = events::events::ImageRecordsSet;
+  using ImageRecordPtr = events::events::ImageRecordPtr;
 
-  virtual ImageRecordsSet load(const std::string& newPath) override;
+  virtual ~IImagesLoader() = default;
+  IImagesLoader() = default;
 
- protected:
-  virtual bool is_image(const fs::path& tpath);
-
-  virtual std::shared_ptr<ImageRecord> create_record(const fs::path& npath,
-                                                     const std::string& newAbs);
+  virtual ImageRecordsSet load(const std::string& newPath) = 0;
 };
 
 }  // namespace iannotator::dbs::images
 
-#endif  // IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_IMAGES_DB_CLASS_H
+#endif  // IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_IIMAGESLOADER_ABSTRACT_CLASS_H

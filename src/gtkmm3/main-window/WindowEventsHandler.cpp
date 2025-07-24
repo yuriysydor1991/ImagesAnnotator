@@ -108,6 +108,7 @@ void WindowEventsHandler::subscribe_4_visual_events()
   auto* export2PyTorchVM = mwctx->wloader->get_export_pytorchvision_folder_mi();
   auto* imagesSearchE = mwctx->wloader->get_images_search_entry();
   auto* deleteImageB = mwctx->wloader->get_delete_image_record();
+  auto* webLoadM = mwctx->wloader->get_images_web_page_open_menu_item_mi();
 
   imagesListBox->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_row_selected));
@@ -184,6 +185,9 @@ void WindowEventsHandler::subscribe_4_visual_events()
 
   deleteImageB->signal_clicked().connect(sigc::mem_fun(
       *this, &WindowEventsHandler::on_current_image_delete_click));
+
+  webLoadM->signal_activate().connect(sigc::mem_fun(
+      *this, &WindowEventsHandler::on_menu_web_page_images_load_activate));
 }
 
 void WindowEventsHandler::show_spinner()
@@ -1922,6 +1926,80 @@ void WindowEventsHandler::on_current_image_delete_click()
   assert(deleteEvent != nullptr);
 
   mwctx->actx->eventer->submit(deleteEvent);
+}
+
+void WindowEventsHandler::on_menu_web_page_images_load_activate()
+{
+  assert(MainWindowContext::validate_context(mwctx));
+
+  if (!MainWindowContext::validate_context(mwctx)) {
+    LOGE("Invalid context pointer provided");
+    return;
+  }
+
+  std::string webpageurl;
+
+  if (!ask_user_4_webpage_url(webpageurl)) {
+    LOGD("User closed the URL dialog");
+    return;
+  }
+
+  if (webpageurl.empty()) {
+    LOGE("No Web page URL retrieved");
+    return;
+  }
+
+  assert(mwctx->actx->eventer != nullptr);
+
+  auto efactory = mwctx->actx->eventer->get_events_factory();
+
+  assert(efactory != nullptr);
+
+  auto webURLEvent = efactory->create_images_web_page_load_event(webpageurl);
+
+  assert(webURLEvent != nullptr);
+
+  mwctx->actx->eventer->submit(webURLEvent);
+}
+
+bool WindowEventsHandler::ask_user_4_webpage_url(std::string& urldst)
+{
+  // assert(MainWindowContext::validate_context(mwctx));
+
+  // if (!MainWindowContext::validate_context(mwctx)) {
+  //   LOGE("Invalid context pointer provided");
+  //   return false;
+  // }
+
+  auto* dialog = mwctx->wloader->get_web_page_url_asker();
+
+  assert(dialog != nullptr);
+
+  mwctx->cwFactory->prepare_url_asker(dialog, mwctx->wloader->get_window());
+
+  dialog->show_all();
+
+  const int result = dialog->run();
+
+  dialog->hide();
+
+  if (result != Gtk::RESPONSE_OK) {
+    LOGD("Dialog is closed");
+    hide_spinner();
+    return false;
+  }
+
+  auto urlEntry = mwctx->wloader->get_images_web_page_url_entry();
+
+  assert(urlEntry != nullptr);
+
+  urldst = urlEntry->get_text();
+
+  hide_spinner();
+
+  LOGD("User entered web page: " << urldst);
+
+  return !urldst.empty();
 }
 
 }  // namespace templateGtkmm3::window

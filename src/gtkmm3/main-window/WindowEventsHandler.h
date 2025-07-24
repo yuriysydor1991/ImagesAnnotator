@@ -91,6 +91,7 @@ class WindowEventsHandler
   virtual void on_export_pytorchvision_folder_activate();
   virtual void on_images_search_text_changed();
   virtual void on_current_image_delete_click();
+  virtual void on_menu_web_page_images_load_activate();
 
   virtual bool on_mouse_motion_start(GdkEventButton* event);
   virtual bool on_mouse_motion_end(GdkEventButton* event);
@@ -148,6 +149,8 @@ class WindowEventsHandler
   /// @return Returns a true value if image should be deleted with
   /// the annotations
   virtual bool ask_about_rects_delete();
+
+  virtual bool ask_user_4_webpage_url(std::string& urldst);
 
   inline static constexpr const char* const overlay_class =
       "almost_non_transparent";

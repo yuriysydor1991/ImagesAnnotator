@@ -133,6 +133,15 @@ class WindowDataContext
 
   inline static constexpr const char* const delete_image_record_id =
       "delete_image_record";
+
+  inline static constexpr const char* const web_page_images_url_asker_id =
+      "web_page_images_url_asker";
+
+  inline static constexpr const char* const images_web_page_url_entry_id =
+      "images_web_page_url_entry";
+
+  inline static constexpr const char* const images_web_page_open_menu_item_id =
+      "images_web_page_open_menu_item";
 };
 
 }  // namespace templateGtkmm3::window

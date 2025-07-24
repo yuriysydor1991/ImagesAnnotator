@@ -69,7 +69,10 @@ const std::set<std::string>& WindowDataContext::get_ids()
       annotations_export_yolo4_2_folder2_id,
       annotations_export_pytorchvision_2_folder_id,
       images_search_entry_id,
-      delete_image_record_id};
+      delete_image_record_id,
+      web_page_images_url_asker_id,
+      images_web_page_url_entry_id,
+      images_web_page_open_menu_item_id};
 
   return ids;
 }

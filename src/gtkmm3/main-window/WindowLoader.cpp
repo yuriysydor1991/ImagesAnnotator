@@ -494,4 +494,26 @@ Gtk::Button* WindowLoader::get_delete_image_record()
   return get_widget<Gtk::Button>(mwctx->wctx->delete_image_record_id);
 }
 
+Gtk::Dialog* WindowLoader::get_web_page_url_asker()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::Dialog>(mwctx->wctx->web_page_images_url_asker_id);
+}
+
+Gtk::ImageMenuItem* WindowLoader::get_images_web_page_open_menu_item_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->images_web_page_open_menu_item_id);
+}
+
+Gtk::Entry* WindowLoader::get_images_web_page_url_entry()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::Entry>(mwctx->wctx->images_web_page_url_entry_id);
+}
+
 }  // namespace templateGtkmm3::window

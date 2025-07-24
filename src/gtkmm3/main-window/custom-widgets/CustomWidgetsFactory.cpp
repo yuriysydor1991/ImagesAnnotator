@@ -310,4 +310,30 @@ CustomWidgetsFactory::create_ask_user_about_lost_rects(
   return dialog;
 }
 
+void CustomWidgetsFactory::prepare_url_asker(Gtk::Dialog* dialog,
+                                             Gtk::Window* parentWindow)
+{
+  assert(dialog != nullptr);
+
+  if (dialog == nullptr) {
+    LOGE("Invalid dialog pointer provided");
+    return;
+  }
+
+  if (parentWindow != nullptr) {
+    LOGT("Setting parent for dialog");
+    dialog->set_transient_for(*parentWindow);
+  }
+
+  if (dialog->get_widget_for_response(Gtk::RESPONSE_OK) != nullptr) {
+    LOGT("Dialog already has buttons");
+    return;
+  }
+
+  dialog->add_button("_Cancel", Gtk::RESPONSE_CANCEL);
+  dialog->add_button("_Load", Gtk::RESPONSE_OK);
+
+  dialog->set_default_response(Gtk::RESPONSE_OK);
+}
+
 }  // namespace templateGtkmm3::window::custom_widgets

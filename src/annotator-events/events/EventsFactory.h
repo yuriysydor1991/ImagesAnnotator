@@ -45,6 +45,7 @@
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
 #include "src/annotator-events/events/ImagesDirProviderChanged.h"
 #include "src/annotator-events/events/ImagesPathsDBProvider.h"
+#include "src/annotator-events/events/LoadImagesFromWebPage.h"
 #include "src/annotator-events/events/RequestImagesDirProvider.h"
 #include "src/annotator-events/events/StoreRequest.h"
 
@@ -106,6 +107,9 @@ class EventsFactory : public std::enable_shared_from_this<EventsFactory>
 
   virtual DeleteCurrentImageRequestPtr create_delete_current_image_request(
       const std::string& irFullPath);
+
+  virtual LoadImagesFromWebPagePtr create_images_web_page_load_event(
+      const std::string& newURL);
 };
 
 }  // namespace events::events

@@ -110,6 +110,7 @@ bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
   ctx->eventer->subscribe(ExportYolo4FolderRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(Export2PyTorchVisionRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(DeleteCurrentImageRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(LoadImagesFromWebPageHandlerPtr{mptr});
 
   return true;
 }
@@ -449,6 +450,25 @@ bool AnnotatorController::delete_image_record(const std::string& irFullPath)
   assert(annotations != nullptr);
 
   return annotations->delete_image_record(irFullPath);
+}
+
+void AnnotatorController::handle(LoadImagesFromWebPagePtr event)
+{
+  assert(event != nullptr);
+  assert(!event->web_page_url.empty());
+  assert(annotations != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (event->web_page_url.empty()) {
+    LOGE("No images source Web page URL given");
+    return;
+  }
+
+  LOGI("Handle the web loading for " << event->web_page_url);
 }
 
 }  // namespace iannotator

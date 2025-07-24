@@ -239,4 +239,16 @@ void ImagesAnnotatorEventController::subscribe(
   deletecir_handlers.insert(handler);
 }
 
+void ImagesAnnotatorEventController::submit(
+    events::LoadImagesFromWebPagePtr event)
+{
+  unified_submit(webILoaders_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::LoadImagesFromWebPageHandlerPtr handler)
+{
+  webILoaders_handlers.insert(handler);
+}
+
 }  // namespace events

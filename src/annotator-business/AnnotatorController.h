@@ -47,6 +47,7 @@
 #include "src/annotator-events/events/ExportYolo4FolderRequestHandler.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
+#include "src/annotator-events/events/LoadImagesFromWebPageHandler.h"
 #include "src/annotator-events/events/RequestImagesDirProvider.h"
 #include "src/annotator-events/events/RequestImagesDirProviderHandler.h"
 #include "src/annotator-events/events/StoreRequest.h"
@@ -75,7 +76,8 @@ class AnnotatorController
       virtual public events::events::ExportPlainTxt2FolderRequestHandler,
       virtual public events::events::ExportYolo4FolderRequestHandler,
       virtual public events::events::Export2PyTorchVisionRequestHandler,
-      virtual public events::events::DeleteCurrentImageRequestHandler
+      virtual public events::events::DeleteCurrentImageRequestHandler,
+      virtual public events::events::LoadImagesFromWebPageHandler
 {
  public:
   using ImagesDirChanged = events::events::ImagesDirChanged;
@@ -108,6 +110,7 @@ class AnnotatorController
       events::events::DeleteCurrentImageRequestPtr;
   using DeleteCurrentImageRequestHandlerPtr =
       events::events::DeleteCurrentImageRequestHandlerPtr;
+  using LoadImagesFromWebPagePtr = events::events::LoadImagesFromWebPagePtr;
 
   virtual ~AnnotatorController() = default;
   AnnotatorController();
@@ -124,6 +127,7 @@ class AnnotatorController
   virtual void handle(ExportYolo4FolderRequestPtr event) override;
   virtual void handle(Export2PyTorchVisionRequestPtr event) override;
   virtual void handle(DeleteCurrentImageRequestPtr event) override;
+  virtual void handle(LoadImagesFromWebPagePtr event) override;
 
   virtual ImageRecordsSet& get_images_db() override;
   virtual std::string get_db_path() override;

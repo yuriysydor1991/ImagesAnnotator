@@ -49,6 +49,8 @@
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
 #include "src/annotator-events/events/ImagesDirProviderChanged.h"
 #include "src/annotator-events/events/ImagesDirProviderChangedHandler.h"
+#include "src/annotator-events/events/LoadImagesFromWebPage.h"
+#include "src/annotator-events/events/LoadImagesFromWebPageHandler.h"
 #include "src/annotator-events/events/RequestImagesDirProvider.h"
 #include "src/annotator-events/events/RequestImagesDirProviderHandler.h"
 #include "src/annotator-events/events/StoreRequest.h"
@@ -119,6 +121,9 @@ class IImagesAnnotatorEventController
   virtual void submit(events::DeleteCurrentImageRequestPtr event) = 0;
   virtual void subscribe(
       events::DeleteCurrentImageRequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::LoadImagesFromWebPagePtr event) = 0;
+  virtual void subscribe(events::LoadImagesFromWebPageHandlerPtr handler) = 0;
 };
 
 }  // namespace events

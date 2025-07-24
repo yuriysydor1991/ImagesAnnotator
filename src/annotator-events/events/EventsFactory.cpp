@@ -168,4 +168,10 @@ DeleteCurrentImageRequestPtr EventsFactory::create_delete_current_image_request(
   return std::make_shared<DeleteCurrentImageRequest>(irFullPath);
 }
 
+LoadImagesFromWebPagePtr EventsFactory::create_images_web_page_load_event(
+    const std::string& newURL)
+{
+  return LoadImagesFromWebPage::create(newURL);
+}
+
 }  // namespace events::events

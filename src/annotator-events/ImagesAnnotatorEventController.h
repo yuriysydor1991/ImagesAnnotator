@@ -119,6 +119,10 @@ class ImagesAnnotatorEventController
   virtual void subscribe(
       events::DeleteCurrentImageRequestHandlerPtr handler) override;
 
+  virtual void submit(events::LoadImagesFromWebPagePtr event) override;
+  virtual void subscribe(
+      events::LoadImagesFromWebPageHandlerPtr handler) override;
+
  private:
   using imagesHSet =
       std::set<std::shared_ptr<events::ImagesDirChangedIHandler>>;
@@ -142,6 +146,7 @@ class ImagesAnnotatorEventController
       std::set<events::Export2PyTorchVisionRequestHandlerPtr>;
   using deleteCurrentImageHSet =
       std::set<events::DeleteCurrentImageRequestHandlerPtr>;
+  using webpageILoadersSet = std::set<events::LoadImagesFromWebPageHandlerPtr>;
 
   template <class SubsQueue, class EventT>
   static void unified_submit(SubsQueue& queue, std::shared_ptr<EventT> event);
@@ -159,6 +164,7 @@ class ImagesAnnotatorEventController
   yolo4ExportersSet yolo4Exporters_handlers;
   pytorchVisionExportersSet pytorchvision_handlers;
   deleteCurrentImageHSet deletecir_handlers;
+  webpageILoadersSet webILoaders_handlers;
 
   std::shared_ptr<events::EventsFactory> efactory;
 };

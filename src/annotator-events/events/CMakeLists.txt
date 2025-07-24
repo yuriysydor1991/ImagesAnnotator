@@ -14,6 +14,7 @@ add_library(
   ExportYolo4FolderRequest.cpp
   Export2PyTorchVisionRequest.cpp
   DeleteCurrentImageRequest.cpp
+  LoadImagesFromWebPage.cpp
 )
 
 target_include_directories(

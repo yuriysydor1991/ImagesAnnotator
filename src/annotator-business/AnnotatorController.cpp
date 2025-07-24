@@ -32,6 +32,7 @@
 
 #include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsDirDB.h"
 #include "src/annotator-business/dbs/ImagesLoaders/ImagesDirLoader.h"
+#include "src/annotator-business/dbs/ImagesLoaders/ImagesWebPageLoader.h"
 #include "src/annotator-business/exporters/PlainTxt2FolderExporter.h"
 #include "src/annotator-business/exporters/PyTorchVisionFolderExporter.h"
 #include "src/annotator-business/exporters/Yolo42FolderExporter.h"

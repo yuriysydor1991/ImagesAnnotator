@@ -25,9 +25,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_IMAGES_DB_CLASS_H
-#define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_IMAGES_DB_CLASS_H
+#ifndef IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_IMAGESWEBPAGELOADER_CLASS_H
+#define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_IMAGESWEBPAGELOADER_CLASS_H
 
+#include <regex>
 #include <string>
 
 #include "src/annotator-business/dbs/ImagesLoaders/IImagesLoader.h"
@@ -38,18 +39,36 @@ namespace iannotator::dbs::images
 {
 
 /**
- * @brief The annotator images list web page loader controller.
+ * @brief The annotator images list loader from a web page controller.
  */
 class ImagesWebPageLoader : virtual public helpers::SortHelper,
                             virtual public IImagesLoader
 {
  public:
+  using ImageRecordPtr = IImagesLoader::ImageRecordPtr;
+
   virtual ~ImagesWebPageLoader() = default;
   ImagesWebPageLoader() = default;
 
   virtual ImageRecordsSet load(const std::string& newPath) override;
+
+ private:
+  using download_buffer = std::vector<char>;
+
+  ImageRecordsSet fetch_images_urls(const std::string& origPage,
+                                    const download_buffer& webpage);
+
+  ImageRecordPtr create_ir(const std::string& origPage,
+                           const std::string& suburl);
+
+  inline static constexpr const ImageRecordsSet::size_type DEFAULT_RESERVE =
+      1024U;
+  inline static const std::regex imgre{
+      R"(<\s*img[^>]*\s+src\s*=\s*(['"])(.*?)\1)",
+      std::regex_constants::ECMAScript | std::regex_constants::icase};
+  inline static const download_buffer::size_type URL_INDEX = 2U;
 };
 
 }  // namespace iannotator::dbs::images
 
-#endif  // IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_IMAGES_DB_CLASS_H
+#endif  // IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_IMAGESWEBPAGELOADER_CLASS_H

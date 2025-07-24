@@ -28,6 +28,7 @@
 #include "src/annotator-business/dbs/ImagesLoaders/ImagesWebPageLoader.h"
 
 #include <cassert>
+#include <regex>
 #include <string>
 
 #include "src/CURL/CURLController.h"
@@ -57,7 +58,63 @@ ImagesWebPageLoader::ImageRecordsSet ImagesWebPageLoader::load(
     return {};
   }
 
-  return {};
+  auto iurls = fetch_images_urls(newPath, webpage);
+
+  if (iurls.empty()) {
+    LOGD("No images found");
+    return {};
+  }
+
+  return iurls;
+}
+
+ImagesWebPageLoader::ImageRecordsSet ImagesWebPageLoader::fetch_images_urls(
+    const std::string& origPage, const download_buffer& webpage)
+{
+  if (webpage.empty()) {
+    return {};
+  }
+
+  ImageRecordsSet iurls;
+
+  iurls.reserve(DEFAULT_RESERVE);
+
+  std::match_results<download_buffer::const_iterator> mr;
+
+  auto siter = webpage.cbegin();
+
+  while (siter < webpage.end() &&
+         std::regex_search(siter, webpage.end(), mr, imgre)) {
+    if (mr.size() <= URL_INDEX) {
+      LOGT("No match for URL component of the regex");
+      continue;
+    }
+
+    auto ir = create_ir(origPage, mr[URL_INDEX]);
+
+    assert(ir != nullptr);
+
+    LOGT("Found img URL: " << ir->path);
+
+    iurls.emplace_back(ir);
+
+    siter += mr.position(URL_INDEX);
+    siter += static_cast<download_buffer::difference_type>(ir->path.size());
+  }
+
+  LOGT("Found " << iurls.size() << " img html tag matches");
+
+  return iurls;
+}
+
+ImagesWebPageLoader::ImageRecordPtr ImagesWebPageLoader::create_ir(
+    const std::string& origPage, const std::string& suburl)
+{
+  auto ir = ImageRecord::create(suburl, origPage);
+
+  assert(ir != nullptr);
+
+  return ir;
 }
 
 }  // namespace iannotator::dbs::images

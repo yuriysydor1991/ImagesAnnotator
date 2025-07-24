@@ -80,6 +80,10 @@ class ImageRecord : virtual public IRecord
   ImageRecordPtr duplicate_shared() const;
 
   static ImageRecordsSet duplicate(const ImageRecordsSet& orig);
+
+  static ImageRecordPtr create();
+  static ImageRecordPtr create(const std::string& npath,
+                               const std::string& nabspath);
 };
 
 using ImageRecordPtr = ImageRecord::ImageRecordPtr;

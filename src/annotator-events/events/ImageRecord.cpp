@@ -148,4 +148,12 @@ ImageRecordsSet ImageRecord::duplicate(const ImageRecordsSet& orig)
   return dup;
 }
 
+ImageRecordPtr ImageRecord::create() { return create({}, {}); }
+
+ImageRecordPtr ImageRecord::create(const std::string& npath,
+                                   const std::string& nabspath)
+{
+  return std::make_shared<ImageRecord>(npath, nabspath);
+}
+
 }  // namespace events::events

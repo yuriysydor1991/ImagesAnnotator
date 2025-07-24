@@ -117,4 +117,9 @@ ImagesWebPageLoader::ImageRecordPtr ImagesWebPageLoader::create_ir(
   return ir;
 }
 
+ImagesWebPageLoader::ImagesWebPageLoaderPtr ImagesWebPageLoader::create()
+{
+  return std::make_shared<ImagesWebPageLoader>();
+}
+
 }  // namespace iannotator::dbs::images

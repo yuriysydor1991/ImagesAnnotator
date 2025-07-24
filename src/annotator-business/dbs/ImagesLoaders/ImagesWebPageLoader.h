@@ -28,6 +28,7 @@
 #ifndef IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_IMAGESWEBPAGELOADER_CLASS_H
 #define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_IMAGESWEBPAGELOADER_CLASS_H
 
+#include <memory>
 #include <regex>
 #include <string>
 
@@ -45,12 +46,15 @@ class ImagesWebPageLoader : virtual public helpers::SortHelper,
                             virtual public IImagesLoader
 {
  public:
+  using ImagesWebPageLoaderPtr = std::shared_ptr<ImagesWebPageLoader>;
   using ImageRecordPtr = IImagesLoader::ImageRecordPtr;
 
   virtual ~ImagesWebPageLoader() = default;
   ImagesWebPageLoader() = default;
 
   virtual ImageRecordsSet load(const std::string& newPath) override;
+
+  static ImagesWebPageLoaderPtr create();
 
  private:
   using download_buffer = std::vector<char>;
@@ -68,6 +72,8 @@ class ImagesWebPageLoader : virtual public helpers::SortHelper,
       std::regex_constants::ECMAScript | std::regex_constants::icase};
   inline static const download_buffer::size_type URL_INDEX = 2U;
 };
+
+using ImagesWebPageLoaderPtr = ImagesWebPageLoader::ImagesWebPageLoaderPtr;
 
 }  // namespace iannotator::dbs::images
 

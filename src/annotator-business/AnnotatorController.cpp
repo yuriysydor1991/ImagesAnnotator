@@ -468,7 +468,22 @@ void AnnotatorController::handle(LoadImagesFromWebPagePtr event)
     return;
   }
 
-  LOGI("Handle the web loading for " << event->web_page_url);
+  LOGI("Trying to load the web page images " << event->web_page_url);
+
+  auto webLoader = dbs::images::ImagesWebPageLoader::create();
+
+  assert(webLoader != nullptr);
+
+  auto appendList = webLoader->load(event->web_page_url);
+
+  if (appendList.empty()) {
+    LOGW("No images were found at: " << event->web_page_url);
+    return;
+  }
+
+  annotations->add_images_db(appendList);
+
+  emitImagesProviderChanged();
 }
 
 }  // namespace iannotator

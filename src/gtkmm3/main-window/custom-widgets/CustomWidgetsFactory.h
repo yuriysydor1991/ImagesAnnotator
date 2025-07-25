@@ -104,6 +104,7 @@ class CustomWidgetsFactory
   create_pytorch_export_folder_choose_dialog(Gtk::Window* parentWindow);
 
   virtual void prepare_url_asker(Gtk::Dialog* dialog,
+                                 Gtk::Label* cachePathLabel,
                                  Gtk::Window* parentWindow);
 
  private:

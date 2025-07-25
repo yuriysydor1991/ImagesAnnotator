@@ -38,6 +38,7 @@
 #include "src/gtkmm3/main-window/WindowDataContext.h"
 #include "src/gtkmm3/main-window/custom-widgets/ImagePathLabel.h"
 #include "src/gtkmm3/main-window/custom-widgets/ImageRectsLabel.h"
+#include "src/helpers/ImageLoader.h"
 #include "src/log/log.h"
 
 namespace templateGtkmm3::window::custom_widgets
@@ -311,13 +312,22 @@ CustomWidgetsFactory::create_ask_user_about_lost_rects(
 }
 
 void CustomWidgetsFactory::prepare_url_asker(Gtk::Dialog* dialog,
+                                             Gtk::Label* cachePathLabel,
                                              Gtk::Window* parentWindow)
 {
   assert(dialog != nullptr);
+  assert(cachePathLabel != nullptr);
 
   if (dialog == nullptr) {
     LOGE("Invalid dialog pointer provided");
     return;
+  }
+
+  if (cachePathLabel != nullptr) {
+    LOGT("Setting up the network cache label info");
+    cachePathLabel->set_text(
+        "All the network cache will be stored at " +
+        helpers::ImageLoader::get_cache_top_level().string());
   }
 
   if (parentWindow != nullptr) {

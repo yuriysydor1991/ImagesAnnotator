@@ -263,6 +263,11 @@ bool ImageLoader::create_directories(const std::filesystem::path& irdpath)
   return true;
 }
 
+std::filesystem::path ImageLoader::get_cache_top_level()
+{
+  return get_tmp_path() / app_folder_name;
+}
+
 std::filesystem::path ImageLoader::get_directory_path(ImageRecordPtr ir)
 {
   assert(ir != nullptr);
@@ -273,7 +278,7 @@ std::filesystem::path ImageLoader::get_directory_path(ImageRecordPtr ir)
   assert(curli::CURLController::is_url(url));
   const std::string hostname = curli::CURLController::get_url_hostname(url);
 
-  const std::filesystem::path irdpath = get_tmp_path() / app_folder_name /
+  const std::filesystem::path irdpath = get_cache_top_level() /
                                         preloads_folder_name /
                                         firstCallFSTimestamp / hostname;
   return irdpath;

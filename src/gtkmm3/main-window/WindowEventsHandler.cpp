@@ -2009,7 +2009,9 @@ bool WindowEventsHandler::ask_user_4_webpage_url(std::string& urldst)
 
   assert(dialog != nullptr);
 
-  mwctx->cwFactory->prepare_url_asker(dialog, mwctx->wloader->get_window());
+  mwctx->cwFactory->prepare_url_asker(
+      dialog, mwctx->wloader->get_images_web_page_cache_folder(),
+      mwctx->wloader->get_window());
 
   dialog->show_all();
 

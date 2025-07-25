@@ -80,6 +80,7 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual Gtk::Button* get_delete_image_record();
   virtual Gtk::Dialog* get_web_page_url_asker();
   virtual Gtk::Entry* get_images_web_page_url_entry();
+  virtual Gtk::Label* get_images_web_page_cache_folder();
 
   /// @brief menus
 

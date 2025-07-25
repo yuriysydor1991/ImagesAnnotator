@@ -142,6 +142,9 @@ class WindowDataContext
 
   inline static constexpr const char* const images_web_page_open_menu_item_id =
       "images_web_page_open_menu_item";
+
+  inline static constexpr const char* const images_web_page_cache_folder_id =
+      "images_web_page_cache_folder";
 };
 
 }  // namespace templateGtkmm3::window

@@ -72,7 +72,8 @@ const std::set<std::string>& WindowDataContext::get_ids()
       delete_image_record_id,
       web_page_images_url_asker_id,
       images_web_page_url_entry_id,
-      images_web_page_open_menu_item_id};
+      images_web_page_open_menu_item_id,
+      images_web_page_cache_folder_id};
 
   return ids;
 }

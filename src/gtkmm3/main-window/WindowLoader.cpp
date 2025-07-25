@@ -516,4 +516,11 @@ Gtk::Entry* WindowLoader::get_images_web_page_url_entry()
   return get_widget<Gtk::Entry>(mwctx->wctx->images_web_page_url_entry_id);
 }
 
+Gtk::Label* WindowLoader::get_images_web_page_cache_folder()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::Label>(mwctx->wctx->images_web_page_cache_folder_id);
+}
+
 }  // namespace templateGtkmm3::window

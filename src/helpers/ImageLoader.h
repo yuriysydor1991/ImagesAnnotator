@@ -60,6 +60,8 @@ class ImageLoader : public std::enable_shared_from_this<ImageLoader>,
 
   static ImageLoaderPtr create();
 
+  static std::filesystem::path get_cache_top_level();
+
  private:
   inline static const std::string app_folder_name =
       project_decls::PROJECT_NAME + "-" + project_decls::PROJECT_BUILD_VERSION;
@@ -67,7 +69,7 @@ class ImageLoader : public std::enable_shared_from_this<ImageLoader>,
   inline static constexpr const char* const defaultFSDateFormat =
       "%Y.%m.%d_%H.%M.%S";
 
-  std::filesystem::path get_tmp_path();
+  static std::filesystem::path get_tmp_path();
   std::string get_fs_timestamp();
   std::filesystem::path get_net_ir_filepath(ImageRecordPtr ir,
                                             const std::string& mime);

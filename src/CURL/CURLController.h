@@ -22,6 +22,11 @@ class CURLController
   using download_buffer = std::vector<char>;
   using CURLControllerPtr = std::shared_ptr<CURLController>;
 
+  inline static unsigned long long DEFAULT_TIMEOUT = 30L;
+  inline static unsigned long long DEFAULT_CONNECTTIMEOUT = 10L;
+  inline static unsigned long long DEFAULT_LOWSPEEDSECS = 10L;
+  inline static unsigned long long DEFAULT_LOWSPEEDLIMIT = 1L;
+
   virtual ~CURLController();
   CURLController();
   CURLController(const CURLController&) = delete;
@@ -37,6 +42,8 @@ class CURLController
                                       const std::string& relPath);
 
   static bool is_url(const std::string& maybe);
+
+  static std::string get_url_hostname(const std::string& url);
 
  private:
   static constexpr const download_buffer::size_type DEFAULT_BUFF_RESERVE =

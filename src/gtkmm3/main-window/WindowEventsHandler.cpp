@@ -49,6 +49,10 @@ bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
     return false;
   }
 
+  iloader = ::helpers::ImageLoader::create();
+
+  assert(iloader != nullptr);
+
   mwctx = nmwctx;
 
   subscribe_4_visual_events();
@@ -903,7 +907,7 @@ void WindowEventsHandler::on_images_row_selected(Gtk::ListBoxRow* row)
 
   auto eventsFactory = mwctx->actx->eventer->get_events_factory();
 
-  if (!load_image(ir->get_full_path())) {
+  if (!load_image(ir)) {
     LOGE("Failure while loading the image");
     return;
   }
@@ -949,9 +953,31 @@ void WindowEventsHandler::normilize_initial_image_load_scale()
   update_statuses();
 }
 
-bool WindowEventsHandler::load_image(const std::string& filepath)
+bool WindowEventsHandler::load_image(ImageRecordPtr ir)
 {
   assert(MainWindowContext::validate_context(mwctx));
+  assert(ir != nullptr);
+  assert(iloader != nullptr);
+
+  if (ir == nullptr) {
+    const std::string emsg = "Invalid image record pointer provided";
+    LOGE(emsg);
+    show_error_dialog(emsg);
+    return false;
+  }
+
+  show_spinner();
+
+  if (!iloader->load(ir)) {
+    const std::string emsg =
+        "Failure to load the image from the network " + ir->get_full_path();
+    LOGE(emsg);
+    show_error_dialog(emsg);
+    return false;
+  }
+
+  const std::string filepath =
+      ir->tmppath.empty() ? ir->get_full_path() : ir->tmppath.string();
 
   std::string errorIfAny;
 
@@ -979,6 +1005,8 @@ bool WindowEventsHandler::load_image(const std::string& filepath)
 
   LOGD("Image seems to be loaded " << filepath);
   normilize_initial_image_load_scale();
+
+  hide_spinner();
 
   return true;
 }
@@ -1964,12 +1992,14 @@ void WindowEventsHandler::on_menu_web_page_images_load_activate()
 
 bool WindowEventsHandler::ask_user_4_webpage_url(std::string& urldst)
 {
-  // assert(MainWindowContext::validate_context(mwctx));
+  assert(MainWindowContext::validate_context(mwctx));
 
-  // if (!MainWindowContext::validate_context(mwctx)) {
-  //   LOGE("Invalid context pointer provided");
-  //   return false;
-  // }
+  if (!MainWindowContext::validate_context(mwctx)) {
+    LOGE("Invalid context pointer provided");
+    return false;
+  }
+
+  show_spinner();
 
   auto* dialog = mwctx->wloader->get_web_page_url_asker();
 

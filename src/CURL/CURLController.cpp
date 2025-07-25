@@ -98,6 +98,10 @@ CURLController::download_buffer& CURLController::download(
   curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
   curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, wcallback);
   curl_easy_setopt(curl, CURLOPT_WRITEDATA, this);
+  curl_easy_setopt(curl, CURLOPT_TIMEOUT, DEFAULT_TIMEOUT);
+  curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, DEFAULT_CONNECTTIMEOUT);
+  curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, DEFAULT_LOWSPEEDSECS);
+  curl_easy_setopt(curl, CURLOPT_LOW_SPEED_LIMIT, DEFAULT_LOWSPEEDLIMIT);
 
   LOGT("Trying to download the data for " << url);
 
@@ -185,6 +189,37 @@ bool CURLController::is_url(const std::string& maybe)
 
   return std::search(maybe.cbegin(), maybe.cend(), uComp.cbegin(),
                      uComp.cend()) != maybe.cend();
+}
+
+std::string CURLController::get_url_hostname(const std::string& url)
+{
+  CURLU* resolved_url = curl_url();
+
+  if (curl_url_set(resolved_url, CURLUPART_URL, url.c_str(), 0) != CURLUE_OK) {
+    curl_url_cleanup(resolved_url);
+    LOGE("Failure to set the host path");
+    return {};
+  }
+
+  char* hostname_url{nullptr};
+
+  if (curl_url_get(resolved_url, CURLUPART_HOST, &hostname_url, 0) !=
+          CURLUE_OK &&
+      hostname_url != nullptr) {
+    curl_url_cleanup(resolved_url);
+    LOGE("URL resolution failed");
+    return {};
+  }
+
+  assert(hostname_url != nullptr);
+
+  std::string hostname = hostname_url;
+
+  curl_free(hostname_url);
+
+  curl_url_cleanup(resolved_url);
+
+  return hostname;
 }
 
 }  // namespace curli

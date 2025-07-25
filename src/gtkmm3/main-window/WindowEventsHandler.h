@@ -36,6 +36,8 @@
 #include "src/gtkmm3/MainWindowContext.h"
 #include "src/gtkmm3/gtkmm_includes.h"
 #include "src/gtkmm3/main-window/WindowDataContext.h"
+#include "src/helpers/ImageLoader.h"
+#include "src/helpers/ImageRecordUrlAndPathHelper.h"
 #include "src/helpers/TypeHelper.h"
 
 namespace templateGtkmm3
@@ -53,10 +55,12 @@ class WindowEventsHandler
     : virtual public ComponentTypesAliases,
       virtual public events::events::ImagesDirProviderChangedHandler,
       public std::enable_shared_from_this<WindowEventsHandler>,
-      virtual public helpers::TypeHelper
+      virtual public helpers::TypeHelper,
+      virtual public helpers::ImageRecordUrlAndPathHelper
 {
  public:
   using ImagesDirProviderChanged = events::events::ImagesDirProviderChanged;
+  using ImageRecordPtr = events::events::ImageRecordPtr;
 
   virtual ~WindowEventsHandler() = default;
   WindowEventsHandler() = default;
@@ -133,7 +137,7 @@ class WindowEventsHandler
 
   void show_error_dialog(const std::string& emsg);
 
-  virtual bool load_image(const std::string& filepath);
+  virtual bool load_image(ImageRecordPtr ir);
 
   virtual bool has_to_export();
 
@@ -159,6 +163,7 @@ class WindowEventsHandler
 
  private:
   std::shared_ptr<MainWindowContext> mwctx;
+  ::helpers::ImageLoaderPtr iloader;
 
   bool dragging{false};
   bool isOverResize{false};

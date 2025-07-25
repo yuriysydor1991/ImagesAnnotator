@@ -28,6 +28,7 @@
 #ifndef IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_IMAGERECORD_CLASS_H
 #define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_IMAGERECORD_CLASS_H
 
+#include <filesystem>
 #include <string>
 #include <vector>
 
@@ -57,6 +58,12 @@ class ImageRecord : virtual public IRecord
 
   /// @brief rel path to the image starting from abs_dir_path
   std::string path;
+
+  /**
+   * @brief If the image is loaded from the network - this is it's temporary
+   * cache filepath. Not included into the projects JSON files.
+   */
+  std::filesystem::path tmppath;
 
   ImageRecordRectSet rects;
   ImageRecordRectPtr current_rect;

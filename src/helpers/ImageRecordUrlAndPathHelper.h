@@ -25,68 +25,34 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "src/gtkmm3/main-window/custom-widgets/ImagePathLabel.h"
+#ifndef IMAGES_ANNOTATOR_PROJECT_IMAGERECORDURLANDPATHHELPER_HELPER_CLASS_H
+#define IMAGES_ANNOTATOR_PROJECT_IMAGERECORDURLANDPATHHELPER_HELPER_CLASS_H
 
-#include <cassert>
-#include <memory>
-
-#include "src/CURL/CURLController.h"
 #include "src/annotator-events/events/ImageRecord.h"
-#include "src/gtkmm3/gtkmm_includes.h"
-#include "src/gtkmm3/main-window/WindowDataContext.h"
-#include "src/log/log.h"
+#include "src/helpers/IHelper.h"
 
-namespace templateGtkmm3::window::custom_widgets
+namespace helpers
 {
 
-ImagePathLabel::ImagePathLabel(const std::shared_ptr<ImageRecord> nr)
-    : myrec{nr}
+/**
+ * @brief The helper class to compute the ImageRecord appropriate paths.
+ */
+class ImageRecordUrlAndPathHelper : virtual public IHelper
 {
-  update_text();
+ public:
+  using ImageRecordPtr = events::events::ImageRecordPtr;
 
-  set_ellipsize(Pango::ELLIPSIZE_START);
-  set_single_line_mode(true);
-}
+  virtual ~ImageRecordUrlAndPathHelper() = default;
+  ImageRecordUrlAndPathHelper() = default;
 
-void ImagePathLabel::update_text()
-{
-  assert(myrec != nullptr);
-  assert(!myrec->path.empty());
+  /**
+   * @brief May return fs path or URL to an image at Web.
+   */
+  std::string get_ir_path(const ImageRecordPtr ir) const;
 
-  if (myrec == nullptr) {
-    LOGE("No valid image record provided");
-    return;
-  }
+  bool has_urls(const ImageRecordPtr ir) const;
+};
 
-  if (myrec->path.empty()) {
-    LOGE("Image db record contains no path");
-    return;
-  }
+}  // namespace helpers
 
-  const std::string irpath = get_ir_path(myrec);
-
-  LOGT("My path: " << irpath);
-
-  set_text(irpath);
-}
-
-std::shared_ptr<ImagePathLabel::ImageRecord> ImagePathLabel::get_image_rec()
-{
-  return myrec;
-}
-
-bool ImagePathLabel::mark_as_has_records()
-{
-  get_style_context()->add_class(has_records_css_class);
-
-  return true;
-}
-
-bool ImagePathLabel::remove_has_records_mark()
-{
-  get_style_context()->remove_class(has_records_css_class);
-
-  return true;
-}
-
-}  // namespace templateGtkmm3::window::custom_widgets
+#endif  // IMAGES_ANNOTATOR_PROJECT_IMAGERECORDURLANDPATHHELPER_HELPER_CLASS_H

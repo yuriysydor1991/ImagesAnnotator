@@ -33,6 +33,7 @@
 #include "src/annotator-events/events/ImageRecord.h"
 #include "src/gtkmm3/gtkmm_includes.h"
 #include "src/gtkmm3/main-window/WindowDataContext.h"
+#include "src/helpers/ImageRecordUrlAndPathHelper.h"
 
 namespace templateGtkmm3::window::custom_widgets
 {
@@ -41,7 +42,8 @@ namespace templateGtkmm3::window::custom_widgets
  * @brief Subclass for images db path display in the LibBox.
  */
 class ImagePathLabel : public Gtk::Label,
-                       public std::enable_shared_from_this<ImagePathLabel>
+                       public std::enable_shared_from_this<ImagePathLabel>,
+                       virtual public helpers::ImageRecordUrlAndPathHelper
 {
  public:
   using ImageRecord = events::events::ImageRecord;

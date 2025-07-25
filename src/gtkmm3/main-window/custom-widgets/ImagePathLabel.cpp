@@ -30,6 +30,7 @@
 #include <cassert>
 #include <memory>
 
+#include "src/CURL/CURLController.h"
 #include "src/annotator-events/events/ImageRecord.h"
 #include "src/gtkmm3/gtkmm_includes.h"
 #include "src/gtkmm3/main-window/WindowDataContext.h"
@@ -40,6 +41,14 @@ namespace templateGtkmm3::window::custom_widgets
 
 ImagePathLabel::ImagePathLabel(const std::shared_ptr<ImageRecord> nr)
     : myrec{nr}
+{
+  update_text();
+
+  set_ellipsize(Pango::ELLIPSIZE_START);
+  set_single_line_mode(true);
+}
+
+void ImagePathLabel::update_text()
 {
   assert(myrec != nullptr);
   assert(!myrec->path.empty());
@@ -54,12 +63,28 @@ ImagePathLabel::ImagePathLabel(const std::shared_ptr<ImageRecord> nr)
     return;
   }
 
-  LOGT("My path: " << myrec->path);
+  LOGT("My path: " << myrec->get_full_path());
 
-  set_text(myrec->get_full_path());
+  const auto& abs = myrec->abs_dir_path;
 
-  set_ellipsize(Pango::ELLIPSIZE_START);
-  set_single_line_mode(true);
+  const bool absUrl = curli::CURLController::is_url(abs);
+  const bool pathUrl = curli::CURLController::is_url(myrec->path);
+
+  if (absUrl && !pathUrl) {
+    const std::string computedURL =
+        curli::CURLController::get_absolute_url(abs, myrec->path);
+
+    LOGT("Computed URL: " << computedURL);
+
+    set_text(computedURL);
+  } else if (absUrl && pathUrl) {
+    LOGT("Two URLs provided");
+
+    set_text(abs + " -> " + myrec->path);
+  } else {
+    LOGT("regular fs path provided");
+    set_text(myrec->get_full_path());
+  }
 }
 
 std::shared_ptr<ImagePathLabel::ImageRecord> ImagePathLabel::get_image_rec()

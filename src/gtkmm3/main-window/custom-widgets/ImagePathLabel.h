@@ -58,6 +58,8 @@ class ImagePathLabel : public Gtk::Label,
   virtual bool remove_has_records_mark();
 
  private:
+  void update_text();
+
   std::shared_ptr<ImageRecord> myrec;
 };
 

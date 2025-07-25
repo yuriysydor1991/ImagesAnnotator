@@ -33,9 +33,18 @@ class CURLController
 
   static CURLControllerPtr create();
 
+  static std::string get_absolute_url(const std::string& hostPath,
+                                      const std::string& relPath);
+
+  static bool is_url(const std::string& maybe);
+
  private:
   static constexpr const download_buffer::size_type DEFAULT_BUFF_RESERVE =
       10240U;
+
+  static std::string get_absolute_url(CURLU* base_url, CURLU* resolved_url,
+                                      const std::string& hostPath,
+                                      const std::string& relPath);
 
   download_buffer cbuff;
   CURL* curl{nullptr};

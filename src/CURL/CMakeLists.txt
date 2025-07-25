@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
+message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
+
 add_library(
   TemplateProjectCURLControllerObj OBJECT
   CURLController.cpp

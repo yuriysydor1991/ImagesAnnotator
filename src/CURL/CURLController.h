@@ -45,6 +45,10 @@ class CURLController
 
   static std::string get_url_hostname(const std::string& url);
 
+  virtual std::string get_last_download_mime();
+
+  virtual std::string get_url_path(const std::string& url);
+
  private:
   static constexpr const download_buffer::size_type DEFAULT_BUFF_RESERVE =
       10240U;

@@ -27,6 +27,7 @@
 
 #include "src/helpers/ImageLoader.h"
 
+#include <algorithm>
 #include <cassert>
 #include <chrono>
 #include <exception>
@@ -54,6 +55,11 @@ bool ImageLoader::load(ImageRecordPtr ir)
     return false;
   }
 
+  if (!ir->tmppath.empty() && std::filesystem::is_regular_file(ir->tmppath)) {
+    LOGT("Image seems to be loaded to " << ir->tmppath.string());
+    return true;
+  }
+
   if (!has_urls(ir)) {
     return true;
   }
@@ -71,7 +77,7 @@ bool ImageLoader::load(ImageRecordPtr ir)
 
   const auto& irdata = curl->download(url);
 
-  if (!write_data(ir, irdata)) {
+  if (!write_data(ir, irdata, curl->get_last_download_mime())) {
     LOGE("Failure to whrite the image record data into tmp file");
     return false;
   }
@@ -79,7 +85,8 @@ bool ImageLoader::load(ImageRecordPtr ir)
   return true;
 }
 
-bool ImageLoader::write_data(ImageRecordPtr ir, const download_buffer& irdata)
+bool ImageLoader::write_data(ImageRecordPtr ir, const download_buffer& irdata,
+                             const std::string& mime)
 {
   assert(ir != nullptr);
 
@@ -88,7 +95,7 @@ bool ImageLoader::write_data(ImageRecordPtr ir, const download_buffer& irdata)
     return false;
   }
 
-  ir->tmppath = get_net_ir_filepath(ir);
+  ir->tmppath = get_net_ir_filepath(ir, mime);
 
   if (ir->tmppath.empty()) {
     LOGE("Failure to generate new ir fs path");
@@ -119,7 +126,8 @@ bool ImageLoader::write_data(ImageRecordPtr ir, const download_buffer& irdata)
   return true;
 }
 
-std::filesystem::path ImageLoader::get_net_ir_filepath(ImageRecordPtr ir)
+std::filesystem::path ImageLoader::get_net_ir_filepath(ImageRecordPtr ir,
+                                                       const std::string& mime)
 {
   assert(ir != nullptr);
 
@@ -130,7 +138,8 @@ std::filesystem::path ImageLoader::get_net_ir_filepath(ImageRecordPtr ir)
     return {};
   }
 
-  const std::filesystem::path irfpath = generate_new_filepath(ir, irdpath);
+  const std::filesystem::path irfpath =
+      generate_new_filepath(ir, irdpath, mime);
 
   if (!create_file(irfpath)) {
     LOGE("Failure to create the file " << irfpath.string());
@@ -144,7 +153,7 @@ std::filesystem::path ImageLoader::get_net_ir_filepath(ImageRecordPtr ir)
 
 std::filesystem::path ImageLoader::generate_new_filepath(
     [[maybe_unused]] const ImageRecordPtr ir,
-    const std::filesystem::path& irdpath)
+    const std::filesystem::path& irdpath, const std::string& mime)
 {
   assert(ir != nullptr);
   assert(!irdpath.empty());
@@ -152,11 +161,14 @@ std::filesystem::path ImageLoader::generate_new_filepath(
   const std::string imgTimestamp = get_fs_timestamp();
   std::filesystem::path irfpath;
   size_t fiter{0U};
+  const std::string cext = get_mime_extension(ir, mime);
 
   do {
     const std::string imgName =
         imgTimestamp + "-loaded-image" +
-        (fiter == 0 ? std::string{} : std::string{"-"} + std::to_string(fiter));
+        (fiter == 0 ? std::string{}
+                    : std::string{"-"} + std::to_string(fiter)) +
+        (cext.empty() ? std::string{} : "." + cext);
 
     irfpath = irdpath / imgName;
 
@@ -164,6 +176,68 @@ std::filesystem::path ImageLoader::generate_new_filepath(
   } while (std::filesystem::is_regular_file(irfpath));
 
   return irfpath;
+}
+
+std::string ImageLoader::get_mime_extension(ImageRecordPtr ir,
+                                            const std::string& mime)
+{
+  static constexpr const size_t MAX_MIME_LENGTH = 20U;
+
+  if (mime.empty()) {
+    LOGT("Empty mime provided");
+    return try_fetch_extension(ir);
+  }
+
+  if (mime.size() >= MAX_MIME_LENGTH) {
+    LOGE("Provided mime type length is too large: "
+         << mime.substr(MAX_MIME_LENGTH) << "...");
+    return {};
+  }
+
+  static const std::string imimeStarter = "image/";
+
+  const auto mIter = std::search(mime.cbegin(), mime.cend(),
+                                 imimeStarter.cbegin(), imimeStarter.cend());
+
+  if (mIter == mime.end()) {
+    LOGW("No mime image starter found in mime: " << mime);
+    return {};
+  }
+
+  return std::string{mIter + imimeStarter.size(), mime.end()};
+}
+
+std::string ImageLoader::try_fetch_extension(ImageRecordPtr ir)
+{
+  assert(ir != nullptr);
+  assert(curl != nullptr);
+
+  const std::string url = get_ir_path(ir);
+
+  auto urlpath = curl->get_url_path(url);
+
+  if (urlpath.empty()) {
+    LOGT("Url path is empty");
+    return {};
+  }
+
+  LOGT("Fetched the URL image path: " << urlpath);
+
+  auto lastSlash = std::find(urlpath.rbegin(), urlpath.rend(), '/');
+  auto lastDot = std::find(urlpath.rbegin(), lastSlash, '.');
+
+  if (lastDot == lastSlash || lastDot == urlpath.rbegin()) {
+    LOGT("No extention found");
+    return {};
+  }
+
+  std::string ext{urlpath.rbegin(), lastDot};
+
+  std::reverse(ext.begin(), ext.end());
+
+  LOGT("Found some extension: " << ext);
+
+  return ext;
 }
 
 bool ImageLoader::create_directories(const std::filesystem::path& irdpath)

@@ -31,7 +31,9 @@
 #include <memory>
 #include <sstream>
 
+#include "src/CURL/CURLController.h"
 #include "src/annotator-business/exporters/IExporter.h"
+#include "src/helpers/ImageLoader.h"
 #include "src/log/log.h"
 
 namespace iannotator::exporters
@@ -75,6 +77,11 @@ bool PlainTxt2FolderExporter::export_db(ExportContextPtr ectx)
       continue;
     }
 
+    if (ir->rects.empty()) {
+      LOGT("Image record does not contain any annotations, skipping");
+      continue;
+    }
+
     export_ir(ir, exportDir);
   }
 
@@ -106,7 +113,27 @@ PlainTxt2FolderExporter::irDataTmpDB PlainTxt2FolderExporter::gather_ir_data(
 void PlainTxt2FolderExporter::export_ir(const ImageRecordPtr& ir,
                                         const std::string& exportDir)
 {
-  const auto& imagePath = ir->get_full_path();
+  assert(ir != nullptr);
+
+  std::string imagePath = ir->get_full_path();
+
+  if (has_urls(ir)) {
+    if (ir->tmppath.empty()) {
+      auto irloader = helpers::ImageLoader::create();
+
+      if (!irloader->load(ir)) {
+        LOGE("Fail to load the image: " << imagePath);
+        return;
+      }
+    }
+
+    if (ir->tmppath.empty()) {
+      LOGE("Image does not contain the cache ");
+      return;
+    }
+
+    imagePath = ir->tmppath;
+  }
 
   LOGT("Trying to export image: " << imagePath);
 

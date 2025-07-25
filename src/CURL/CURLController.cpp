@@ -116,6 +116,24 @@ CURLController::download_buffer& CURLController::download(
   return cbuff;
 }
 
+std::string CURLController::get_last_download_mime()
+{
+  assert(curl != nullptr);
+
+  char* content_type{nullptr};
+
+  curl_easy_getinfo(curl, CURLINFO_CONTENT_TYPE, &content_type);
+
+  if (content_type == nullptr) {
+    LOGD("Fail to get last download mime type");
+    return {};
+  }
+
+  const std::string lastMime = content_type;
+
+  return lastMime;
+}
+
 CURLControllerPtr CURLController::create()
 {
   return std::make_shared<CURLController>();
@@ -220,6 +238,36 @@ std::string CURLController::get_url_hostname(const std::string& url)
   curl_url_cleanup(resolved_url);
 
   return hostname;
+}
+
+std::string CURLController::get_url_path(const std::string& url)
+{
+  CURLU* resolved_url = curl_url();
+
+  if (curl_url_set(resolved_url, CURLUPART_URL, url.c_str(), 0) != CURLUE_OK) {
+    curl_url_cleanup(resolved_url);
+    LOGE("Failure to set the host path");
+    return {};
+  }
+
+  char* path_url{nullptr};
+
+  if (curl_url_get(resolved_url, CURLUPART_PATH, &path_url, 0) != CURLUE_OK &&
+      path_url != nullptr) {
+    curl_url_cleanup(resolved_url);
+    LOGE("URL resolution failed");
+    return {};
+  }
+
+  assert(path_url != nullptr);
+
+  std::string path = path_url;
+
+  curl_free(path_url);
+
+  curl_url_cleanup(resolved_url);
+
+  return path;
 }
 
 }  // namespace curli

@@ -69,13 +69,18 @@ class ImageLoader : public std::enable_shared_from_this<ImageLoader>,
 
   std::filesystem::path get_tmp_path();
   std::string get_fs_timestamp();
-  std::filesystem::path get_net_ir_filepath(ImageRecordPtr ir);
-  bool write_data(ImageRecordPtr ir, const download_buffer& irdata);
+  std::filesystem::path get_net_ir_filepath(ImageRecordPtr ir,
+                                            const std::string& mime);
+  bool write_data(ImageRecordPtr ir, const download_buffer& irdata,
+                  const std::string& mime);
   bool create_file(const std::filesystem::path& irfpath);
   std::filesystem::path get_directory_path(ImageRecordPtr ir);
   bool create_directories(const std::filesystem::path& irdpath);
   std::filesystem::path generate_new_filepath(
-      const ImageRecordPtr ir, const std::filesystem::path& irdpath);
+      const ImageRecordPtr ir, const std::filesystem::path& irdpath,
+      const std::string& mime);
+  std::string get_mime_extension(ImageRecordPtr ir, const std::string& mime);
+  std::string try_fetch_extension(ImageRecordPtr ir);
 
   CURLControllerPtr curl;
 };

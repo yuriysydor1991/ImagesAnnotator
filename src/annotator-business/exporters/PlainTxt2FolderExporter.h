@@ -33,6 +33,7 @@
 #include <unordered_map>
 
 #include "src/annotator-business/exporters/IExporter.h"
+#include "src/helpers/ImageRecordUrlAndPathHelper.h"
 
 namespace iannotator::exporters
 {
@@ -40,7 +41,9 @@ namespace iannotator::exporters
 /**
  * @brief The annotations to plain txt format exporter class.
  */
-class PlainTxt2FolderExporter : virtual public IExporter
+class PlainTxt2FolderExporter
+    : virtual public IExporter,
+      virtual public helpers::ImageRecordUrlAndPathHelper
 {
  public:
   virtual ~PlainTxt2FolderExporter();

@@ -233,7 +233,7 @@ void WindowEventsHandler::on_next_file_button_click()
   assert(imagesBox != nullptr);
 
   auto children = imagesBox->get_children();
-  auto current = imagesBox->get_selected_row();
+  auto* current = imagesBox->get_selected_row();
 
   if (current == nullptr && !children.empty()) {
     auto tmprit = std::find_if(children.begin(), children.end(),
@@ -324,7 +324,12 @@ void WindowEventsHandler::select_list_box_child(Gtk::ListBox* listBox,
     return;
   }
 
-  listBox->select_row(*row);
+  try {
+    listBox->select_row(*row);
+  }
+  catch (const std::exception& e) {
+    LOGE("Failure during list box row selection: " << e.what());
+  }
 }
 
 bool WindowEventsHandler::on_rectangle_draw_start(GdkEventButton* event)

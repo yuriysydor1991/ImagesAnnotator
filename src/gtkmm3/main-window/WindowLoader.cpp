@@ -178,6 +178,10 @@ bool WindowLoader::propagate_menu_shortcuts()
                                         Gdk::CONTROL_MASK | Gdk::SHIFT_MASK,
                                         Gtk::ACCEL_VISIBLE);
 
+  get_images_web_page_open_menu_item_mi()->add_accelerator(
+      "activate", accel_group, GDK_KEY_u, Gdk::CONTROL_MASK | Gdk::SHIFT_MASK,
+      Gtk::ACCEL_VISIBLE);
+
   get_window()->add_accel_group(accel_group);
 
   return true;

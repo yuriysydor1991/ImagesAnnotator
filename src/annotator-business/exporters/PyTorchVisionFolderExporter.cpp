@@ -35,6 +35,7 @@
 #include "src/annotator-business/exporters/IExporter.h"
 #include "src/annotator-events/events/ImageRecordRect.h"
 #include "src/annotator-events/events/ImagesPathsDBProvider.h"
+#include "src/helpers/ImageLoader.h"
 #include "src/log/log.h"
 
 namespace iannotator::exporters
@@ -68,11 +69,18 @@ bool PyTorchVisionFolderExporter::export_db(ExportContextPtr ectx)
 
   auto irs = ectx->dbProvider->get_images_db();
 
+  auto irloader = helpers::ImageLoader::create();
+
   for (auto& ir : irs) {
     assert(ir != nullptr);
 
     if (ir == nullptr) {
       LOGE("Invalid image record pointer provided");
+      continue;
+    }
+
+    if (!irloader->load(ir)) {
+      LOGE("Fail to load the image: " << ir->get_full_path());
       continue;
     }
 
@@ -91,7 +99,7 @@ bool PyTorchVisionFolderExporter::export_db(ExportContextPtr ectx)
     }
 
     if (!export_rects(ir, ectx->cropper, ectx->export_path, origfs)) {
-      LOGE("Fail to crop out rects for image: " << ir->get_full_path());
+      LOGE("Fail to crop out rects for image: " << origfs.string());
       continue;
     }
   }

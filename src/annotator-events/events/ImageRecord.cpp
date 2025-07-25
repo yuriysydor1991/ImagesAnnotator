@@ -48,6 +48,11 @@ void ImageRecord::scaleStepOut() { imageScale -= defaultScaleStep; }
 
 std::string ImageRecord::get_full_path() const
 {
+  if (!tmppath.empty()) {
+    LOGT("Looks like image is preloaded to tmp folder: " << tmppath.string());
+    return tmppath.string();
+  }
+
   return abs_dir_path.empty() ? path : abs_dir_path + "/" + path;
 }
 

@@ -36,6 +36,7 @@
 #include "src/annotator-business/exporters/IExporter.h"
 #include "src/annotator-events/events/ImageRecordRect.h"
 #include "src/annotator-events/events/ImagesPathsDBProvider.h"
+#include "src/helpers/ImageLoader.h"
 #include "src/helpers/TypeHelper.h"
 
 namespace iannotator::exporters
@@ -83,6 +84,7 @@ class Yolo42FolderExporter : virtual public IExporter,
                                          ImageRecordPtr& ir);
 
   AnnotationsList aList;
+  helpers::ImageLoaderPtr irloader;
 };
 
 }  // namespace iannotator::exporters

@@ -53,6 +53,8 @@ bool Yolo42FolderExporter::export_db(ExportContextPtr ectx)
 
   LOGI("Exporting to " << ectx->export_path);
 
+  irloader = helpers::ImageLoader::create();
+
   if (!create_subdirs(ectx)) {
     LOGE("Failure while creating necessary directories");
     return false;
@@ -252,9 +254,15 @@ Yolo42FolderExporter::DataImage2TxtRec Yolo42FolderExporter::prepare_image(
     ExportContextPtr ectx, ImageRecordPtr& ir)
 {
   assert(ir != nullptr);
+  assert(irloader != nullptr);
 
   if (ir == nullptr) {
     LOGE("Image record pointer is invalid");
+    return {};
+  }
+
+  if (!irloader->load(ir)) {
+    LOGE("Fail to preload the image: " << ir->get_full_path());
     return {};
   }
 

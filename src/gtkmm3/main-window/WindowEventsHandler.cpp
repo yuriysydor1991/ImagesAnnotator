@@ -981,8 +981,7 @@ bool WindowEventsHandler::load_image(ImageRecordPtr ir)
     return false;
   }
 
-  const std::string filepath =
-      ir->tmppath.empty() ? ir->get_full_path() : ir->tmppath.string();
+  const std::string filepath = ir->get_full_path();
 
   std::string errorIfAny;
 

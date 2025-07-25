@@ -75,6 +75,8 @@ bool ImageLoader::load(ImageRecordPtr ir)
 
   assert(curl != nullptr);
 
+  LOGI("Trying to download the image: " << url);
+
   const auto& irdata = curl->download(url);
 
   if (!write_data(ir, irdata, curl->get_last_download_mime())) {

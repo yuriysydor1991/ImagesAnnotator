@@ -33,6 +33,7 @@
 #include <unordered_map>
 
 #include "src/annotator-business/exporters/IExporter.h"
+#include "src/helpers/ImageLoader.h"
 #include "src/helpers/ImageRecordUrlAndPathHelper.h"
 
 namespace iannotator::exporters
@@ -68,6 +69,7 @@ class PlainTxt2FolderExporter
                      const std::string& imagePath);
 
   tag2file exFiles;
+  helpers::ImageLoaderPtr irloader;
 };
 
 }  // namespace iannotator::exporters

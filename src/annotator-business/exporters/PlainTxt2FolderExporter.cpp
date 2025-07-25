@@ -33,7 +33,6 @@
 
 #include "src/CURL/CURLController.h"
 #include "src/annotator-business/exporters/IExporter.h"
-#include "src/helpers/ImageLoader.h"
 #include "src/log/log.h"
 
 namespace iannotator::exporters
@@ -47,6 +46,8 @@ bool PlainTxt2FolderExporter::export_db(ExportContextPtr ectx)
   assert(ectx->dbProvider != nullptr);
 
   clear();
+
+  irloader = helpers::ImageLoader::create();
 
   if (ectx == nullptr) {
     LOGE("Invalid export context pointer provided");
@@ -115,25 +116,12 @@ void PlainTxt2FolderExporter::export_ir(const ImageRecordPtr& ir,
 {
   assert(ir != nullptr);
 
-  std::string imagePath = ir->get_full_path();
-
-  if (has_urls(ir)) {
-    if (ir->tmppath.empty()) {
-      auto irloader = helpers::ImageLoader::create();
-
-      if (!irloader->load(ir)) {
-        LOGE("Fail to load the image: " << imagePath);
-        return;
-      }
-    }
-
-    if (ir->tmppath.empty()) {
-      LOGE("Image does not contain the cache ");
-      return;
-    }
-
-    imagePath = ir->tmppath;
+  if (!irloader->load(ir)) {
+    LOGE("Fail to load the image: " << ir->get_full_path());
+    return;
   }
+
+  std::string imagePath = ir->get_full_path();
 
   LOGT("Trying to export image: " << imagePath);
 
@@ -175,6 +163,8 @@ void PlainTxt2FolderExporter::clear()
   }
 
   exFiles.clear();
+
+  irloader.reset();
 }
 
 PlainTxt2FolderExporter::FilePtr PlainTxt2FolderExporter::get_file(

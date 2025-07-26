@@ -73,6 +73,7 @@ class AnnotationsDirDB : public virtual AnnotationsDBTypes,
   virtual ImageRecordsSet load_the_irs();
 
   void update_current_last_saved();
+  void update_current_last_saved_no_check();
 
   nlohmann::json json;
   ImageRecordsSet irdb;

@@ -41,7 +41,7 @@
 namespace iannotator::dbs::annotations
 {
 
-AnnotationsDirDB::AnnotationsDirDB() { update_current_last_saved(); }
+AnnotationsDirDB::AnnotationsDirDB() { update_current_last_saved_no_check(); }
 
 bool AnnotationsDirDB::load_db(const std::string& fpath)
 {
@@ -94,13 +94,18 @@ bool AnnotationsDirDB::load_db(const std::string& fpath)
 
 void AnnotationsDirDB::update_current_last_saved()
 {
-  last_saved_db = ImageRecord::duplicate(irdb);
-
-  assert(ImageRecord::equal(last_saved_db, irdb));
+  update_current_last_saved_no_check();
 
   if (changed()) {
     LOGE("Duplicated images record set is not equal to original");
   }
+}
+
+void AnnotationsDirDB::update_current_last_saved_no_check()
+{
+  last_saved_db = ImageRecord::duplicate(irdb);
+
+  assert(ImageRecord::equal(last_saved_db, irdb));
 }
 
 bool AnnotationsDirDB::serialize()

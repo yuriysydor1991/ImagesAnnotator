@@ -58,11 +58,12 @@ class PyTorchVisionFolderExporter : virtual public IExporter
   using IImageCropperFacilityProvider =
       events::events::IImageCropperFacilityProviderPtr;
 
-  bool check_directory(const std::filesystem::path dirPath);
+  static bool check_directory(const std::filesystem::path dirPath);
 
-  bool export_rects(ImageRecordPtr& ir, IImageCropperFacilityProvider cropper,
-                    const std::filesystem::path& exportPath,
-                    const std::filesystem::path& imageOrigPath);
+  static bool export_rects(ImageRecordPtr& ir,
+                           IImageCropperFacilityProvider cropper,
+                           const std::filesystem::path& exportPath,
+                           const std::filesystem::path& imageOrigPath);
 };
 
 }  // namespace iannotator::exporters

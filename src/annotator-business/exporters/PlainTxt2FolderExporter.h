@@ -64,7 +64,7 @@ class PlainTxt2FolderExporter
   FilePtr get_file(const std::string& dirPath, const std::string& tagName);
 
   void export_ir(const ImageRecordPtr& ir, const std::string& exportDir);
-  irDataTmpDB gather_ir_data(const ImageRecordPtr& ir);
+  static irDataTmpDB gather_ir_data(const ImageRecordPtr& ir);
   void write_ir_data(const irDataTmpDB& tag2data, const std::string& exportDir,
                      const std::string& imagePath);
 

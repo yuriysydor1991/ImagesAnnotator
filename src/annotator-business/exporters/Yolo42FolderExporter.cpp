@@ -373,7 +373,7 @@ bool Yolo42FolderExporter::express_image_annotations(
 bool Yolo42FolderExporter::express_rectangle_data(std::fstream& ftxt,
                                                   ImageRecordPtr& ir,
                                                   const IndexType& index,
-                                                  ImageRecordRectPtr& irr)
+                                                  const ImageRecordRectPtr& irr)
 {
   assert(ftxt.is_open());
   assert(irr != nullptr);

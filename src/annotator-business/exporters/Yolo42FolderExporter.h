@@ -70,7 +70,7 @@ class Yolo42FolderExporter : virtual public IExporter,
   inline static const std::string valTxtRel = dataRel + "/val.txt";
   inline static const std::string yolov4CfgRel = cfgRel + "/yolov4-obj.cfg";
 
-  bool create_subdirs(ExportContextPtr ectx);
+  static bool create_subdirs(ExportContextPtr ectx);
   bool express_obj_names(ExportContextPtr ectx);
   bool express_obj_data(ExportContextPtr ectx);
   bool express_yolocfg(ExportContextPtr ectx);
@@ -78,10 +78,11 @@ class Yolo42FolderExporter : virtual public IExporter,
   DataImage2TxtRec prepare_image(ExportContextPtr ectx, ImageRecordPtr& ir);
   bool express_image_annotations(ExportContextPtr ectx, ImageRecordPtr& ir,
                                  const std::string& irtxtpath);
-  bool express_rectangle_data(std::fstream& ftxt, ImageRecordPtr& ir,
-                              const IndexType& index, ImageRecordRectPtr& irr);
-  std::filesystem::path get_new_filepath(ExportContextPtr ectx,
-                                         ImageRecordPtr& ir);
+  static bool express_rectangle_data(std::fstream& ftxt, ImageRecordPtr& ir,
+                                     const IndexType& index,
+                                     const ImageRecordRectPtr& irr);
+  static std::filesystem::path get_new_filepath(ExportContextPtr ectx,
+                                                ImageRecordPtr& ir);
 
   AnnotationsList aList;
   helpers::ImageLoaderPtr irloader;

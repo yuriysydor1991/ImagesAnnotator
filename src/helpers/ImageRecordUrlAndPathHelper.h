@@ -48,9 +48,9 @@ class ImageRecordUrlAndPathHelper : virtual public IHelper
   /**
    * @brief May return fs path or URL to an image at Web.
    */
-  std::string get_ir_path(const ImageRecordPtr ir) const;
+  static std::string get_ir_path(const ImageRecordPtr ir);
 
-  bool has_urls(const ImageRecordPtr ir) const;
+  static bool has_urls(const ImageRecordPtr ir);
 };
 
 }  // namespace helpers

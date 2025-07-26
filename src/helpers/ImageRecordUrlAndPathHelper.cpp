@@ -35,8 +35,7 @@
 namespace helpers
 {
 
-std::string ImageRecordUrlAndPathHelper::get_ir_path(
-    const ImageRecordPtr ir) const
+std::string ImageRecordUrlAndPathHelper::get_ir_path(const ImageRecordPtr ir)
 {
   if (ir == nullptr) {
     LOGE("Invalid image record pointer provided");
@@ -63,7 +62,7 @@ std::string ImageRecordUrlAndPathHelper::get_ir_path(
   return ir->get_full_path();
 }
 
-bool ImageRecordUrlAndPathHelper::has_urls(const ImageRecordPtr ir) const
+bool ImageRecordUrlAndPathHelper::has_urls(const ImageRecordPtr ir)
 {
   assert(ir != nullptr);
 

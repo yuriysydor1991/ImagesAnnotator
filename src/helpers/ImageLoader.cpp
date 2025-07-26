@@ -164,13 +164,13 @@ std::filesystem::path ImageLoader::generate_new_filepath(
   std::filesystem::path irfpath;
   size_t fiter{0U};
   const std::string cext = get_mime_extension(ir, mime);
+  const std::string imageNamePrefix = imgTimestamp + "-loaded-image";
 
   do {
-    const std::string imgName =
-        imgTimestamp + "-loaded-image" +
-        (fiter == 0 ? std::string{}
-                    : std::string{"-"} + std::to_string(fiter)) +
-        (cext.empty() ? std::string{} : "." + cext);
+    std::string imgName = imageNamePrefix;
+    imgName +=
+        (fiter == 0 ? std::string{} : std::string{"-"} + std::to_string(fiter));
+    imgName += (cext.empty() ? std::string{} : "." + cext);
 
     irfpath = irdpath / imgName;
 
@@ -198,15 +198,17 @@ std::string ImageLoader::get_mime_extension(ImageRecordPtr ir,
 
   static const std::string imimeStarter = "image/";
 
-  const auto mIter = std::search(mime.cbegin(), mime.cend(),
-                                 imimeStarter.cbegin(), imimeStarter.cend());
+  auto mIter = std::search(mime.cbegin(), mime.cend(), imimeStarter.cbegin(),
+                           imimeStarter.cend());
 
   if (mIter == mime.end()) {
     LOGW("No mime image starter found in mime: " << mime);
     return {};
   }
 
-  return std::string{mIter + imimeStarter.size(), mime.end()};
+  mIter += static_cast<std::string::difference_type>(imimeStarter.size());
+
+  return std::string{mIter, mime.end()};
 }
 
 std::string ImageLoader::try_fetch_extension(ImageRecordPtr ir)
@@ -229,7 +231,7 @@ std::string ImageLoader::try_fetch_extension(ImageRecordPtr ir)
   auto lastDot = std::find(urlpath.rbegin(), lastSlash, '.');
 
   if (lastDot == lastSlash || lastDot == urlpath.rbegin()) {
-    LOGT("No extention found");
+    LOGT("No extension found");
     return {};
   }
 

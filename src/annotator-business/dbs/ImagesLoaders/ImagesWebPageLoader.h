@@ -59,11 +59,11 @@ class ImagesWebPageLoader : virtual public helpers::SortHelper,
  private:
   using download_buffer = std::vector<char>;
 
-  ImageRecordsSet fetch_images_urls(const std::string& origPage,
-                                    const download_buffer& webpage);
+  static ImageRecordsSet fetch_images_urls(const std::string& origPage,
+                                           const download_buffer& webpage);
 
-  ImageRecordPtr create_ir(const std::string& origPage,
-                           const std::string& suburl);
+  static ImageRecordPtr create_ir(const std::string& origPage,
+                                  const std::string& suburl);
 
   inline static constexpr const ImageRecordsSet::size_type DEFAULT_RESERVE =
       1024U;

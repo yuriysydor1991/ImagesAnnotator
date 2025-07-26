@@ -142,20 +142,16 @@ CURLControllerPtr CURLController::create()
 std::string CURLController::get_absolute_url(const std::string& hostPath,
                                              const std::string& relPath)
 {
-  CURLU* base_url = curl_url();
   CURLU* resolved_url = curl_url();
 
-  std::string finalURL =
-      get_absolute_url(base_url, resolved_url, hostPath, relPath);
+  std::string finalURL = get_absolute_url(resolved_url, hostPath, relPath);
 
-  curl_url_cleanup(base_url);
   curl_url_cleanup(resolved_url);
 
   return finalURL;
 }
 
-std::string CURLController::get_absolute_url(CURLU* base_url,
-                                             CURLU* resolved_url,
+std::string CURLController::get_absolute_url(CURLU* resolved_url,
                                              const std::string& hostPath,
                                              const std::string& relPath)
 {
@@ -163,11 +159,6 @@ std::string CURLController::get_absolute_url(CURLU* base_url,
 
   if (resolved_url == nullptr) {
     LOGE("Fail to create resolved url context instance");
-    return {};
-  }
-
-  if (base_url == nullptr) {
-    LOGE("Fail to create base url context instance");
     return {};
   }
 

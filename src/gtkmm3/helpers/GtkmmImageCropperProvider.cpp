@@ -174,7 +174,7 @@ std::string GtkmmImageCropperProvider::get_ext_only(
   std::string dotext = fspath.extension().string();
 
   if (dotext.empty()) {
-    LOGT("Empty string extention retrieved");
+    LOGT("Empty string extension retrieved");
     return {};
   }
 

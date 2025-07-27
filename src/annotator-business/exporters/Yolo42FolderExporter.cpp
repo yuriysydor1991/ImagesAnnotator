@@ -91,22 +91,35 @@ bool Yolo42FolderExporter::create_subdirs(ExportContextPtr ectx)
 
   fs::path dirPath = ectx->export_path;
 
-  if (!fs::is_directory(dirPath)) {
-    LOGE("Directory does not exists: " << ectx->export_path);
-    return false;
+  try {
+    if (!fs::is_directory(dirPath)) {
+      LOGE("Directory does not exists: " << ectx->export_path);
+      return false;
+    }
+
+    const fs::path dataPath = dirPath / dataRel;
+
+    if (!fs::create_directory(dataPath)) {
+      LOGE("Failure while creating the directory: " << dataPath.string());
+      return false;
+    }
+
+    const fs::path cfgPath = dirPath / cfgRel;
+
+    if (!fs::create_directory(cfgPath)) {
+      LOGE("Failure while creating the directory: " << cfgPath.string());
+      return false;
+    }
+
+    const fs::path backupDir = dirPath / backupRel;
+
+    if (!fs::create_directory(backupDir)) {
+      LOGE("Failure while creating the directory: " << backupDir.string());
+      return false;
+    }
   }
-
-  fs::path dataPath = dirPath / dataRel;
-
-  if (!fs::create_directory(dataPath)) {
-    LOGE("Failure while creating the directory: " << dataPath.string());
-    return false;
-  }
-
-  fs::path cfgPath = dirPath / cfgRel;
-
-  if (!fs::create_directory(cfgPath)) {
-    LOGE("Failure while creating the directory: " << cfgPath.string());
+  catch (const std::exception& e) {
+    LOGE("Exception during directories create " << e.what());
     return false;
   }
 

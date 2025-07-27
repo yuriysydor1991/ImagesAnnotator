@@ -64,6 +64,7 @@ class Yolo42FolderExporter : virtual public IExporter,
 
   inline static const std::string dataRel = "data";
   inline static const std::string cfgRel = "cfg";
+  inline static const std::string backupRel = "backup";
   inline static const std::string objNamesRel = dataRel + "/obj.names";
   inline static const std::string objDataRel = dataRel + "/obj.data";
   inline static const std::string trainTxtRel = dataRel + "/train.txt";

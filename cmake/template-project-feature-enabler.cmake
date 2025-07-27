@@ -43,3 +43,7 @@ endif()
 if (ENABLE_GPROF)
   include(template-project-profiler-gprof)
 endif()
+
+if (ENABLE_CALLGRIND)
+  include(template-project-profiler-valgrind-callgrind)
+endif()

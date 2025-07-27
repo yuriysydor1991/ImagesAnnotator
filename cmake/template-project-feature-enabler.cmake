@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/enablers")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/profilers")
 
 if(ENABLE_UNIT_TESTS OR ENABLE_COMPONENT_TESTS)
   enable_testing()
@@ -37,4 +38,8 @@ endif()
 
 if (ENABLE_LIBCURL)
   include(template-project-libcurl-enabler)
+endif()
+
+if (ENABLE_GPROF)
+  include(template-project-profiler-gprof)
 endif()

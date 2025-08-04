@@ -22,3 +22,4 @@ target_link_libraries(
 )
 
 add_subdirectory(converters)
+add_subdirectory(mergers)

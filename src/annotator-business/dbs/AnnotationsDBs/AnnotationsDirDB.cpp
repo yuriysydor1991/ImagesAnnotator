@@ -36,6 +36,7 @@
 #include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h"
 #include "src/annotator-business/dbs/AnnotationsDBs/converters/ImageRecords2JSONConverter.h"
 #include "src/annotator-business/dbs/AnnotationsDBs/converters/JSON2ImageRecordsConverter.h"
+#include "src/annotator-business/dbs/AnnotationsDBs/mergers/DefaultDBMerger.h"
 #include "src/log/log.h"
 
 namespace iannotator::dbs::annotations
@@ -136,11 +137,11 @@ AnnotationsDirDB::ImageRecordsSet& AnnotationsDirDB::get_images_db()
 
 void AnnotationsDirDB::add_images_db(const ImageRecordsSet& andb)
 {
-  irdb.reserve(irdb.size() + andb.size());
+  auto merger = merger::DefaultDBMerger::create();
 
-  irdb.insert(irdb.begin(), andb.begin(), andb.end());
+  assert(merger != nullptr);
 
-  std::sort(irdb.begin(), irdb.end(), get_image_records_sorter());
+  merger->merge(irdb, andb);
 }
 
 bool AnnotationsDirDB::store_db() { return store_db(current_db_path); }

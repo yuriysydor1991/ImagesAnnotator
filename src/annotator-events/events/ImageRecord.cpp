@@ -53,7 +53,9 @@ std::string ImageRecord::get_full_path() const
     return tmppath.string();
   }
 
-  return abs_dir_path.empty() ? path : abs_dir_path + "/" + path;
+  return abs_dir_path.empty()
+             ? path
+             : (std::filesystem::path{abs_dir_path} / path).string();
 }
 
 bool ImageRecord::erase_current_rect()

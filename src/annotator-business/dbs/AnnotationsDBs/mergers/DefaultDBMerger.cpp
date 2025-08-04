@@ -49,14 +49,13 @@ void DefaultDBMerger::merge(ImageRecordsSet& dst, const ImageRecordsSet& append)
       append.cbegin(), append.cend(), std::back_inserter(dst),
       [&dst](const ImageRecordPtr& ir) {
         const auto irp = helpers::ImageRecordUrlAndPathHelper::get_ir_path(ir);
-        return std::find_if(
-                   dst.cbegin(), dst.cend(),
-                   [&irp](const ImageRecordPtr& dstir) {
-                     const auto dstp =
-                         helpers::ImageRecordUrlAndPathHelper::get_ir_path(
-                             dstir);
-                     return irp == dstp;
-                   }) == dst.end();
+        const auto fiter = std::find_if(
+            dst.cbegin(), dst.cend(), [&irp](const ImageRecordPtr& dstir) {
+              const auto dstp =
+                  helpers::ImageRecordUrlAndPathHelper::get_ir_path(dstir);
+              return irp == dstp;
+            });
+        return fiter == dst.cend();
       });
 
   LOGT("Sorting the destination images records db");

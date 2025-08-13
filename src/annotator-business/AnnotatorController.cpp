@@ -100,7 +100,7 @@ bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
   auto mptr = shared_from_this();
 
   ctx->eventer->subscribe(
-      std::shared_ptr<RequestImagesDirProviderHandler>(mptr));
+      AnnotatorTypeAliases::RequestImagesDirProviderHandlerPtr{mptr});
   ctx->eventer->subscribe(std::shared_ptr<CurrentImageChangedHandler>(mptr));
   ctx->eventer->subscribe(std::shared_ptr<AnnotationsDirChangedIHandler>(mptr));
   ctx->eventer->subscribe(std::shared_ptr<ImagesDirChangedIHandler>(mptr));

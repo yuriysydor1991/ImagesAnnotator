@@ -30,6 +30,7 @@
 
 #include <memory>
 
+#include "src/annotator-business/AnnotatorTypeAliases.h"
 #include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsDirDB.h"
 #include "src/annotator-business/dbs/ImagesLoaders/ImagesDirLoader.h"
 #include "src/annotator-business/exporters/ExportContext.h"
@@ -77,41 +78,10 @@ class AnnotatorController
       virtual public events::events::ExportYolo4FolderRequestHandler,
       virtual public events::events::Export2PyTorchVisionRequestHandler,
       virtual public events::events::DeleteCurrentImageRequestHandler,
-      virtual public events::events::LoadImagesFromWebPageHandler
+      virtual public events::events::LoadImagesFromWebPageHandler,
+      public AnnotatorTypeAliases
 {
  public:
-  using ImagesDirChanged = events::events::ImagesDirChanged;
-  using AnnotationsDirChanged = events::events::AnnotationsDirChanged;
-  using ImagesDirLoader = dbs::images::ImagesDirLoader;
-  using RequestImagesDirProvider = events::events::RequestImagesDirProvider;
-  using ImageRecord = events::events::ImageRecord;
-  using CurrentImageChanged = events::events::CurrentImageChanged;
-  using ImageRecordsSet = events::events::ImageRecordsSet;
-  using StoreRequest = events::events::StoreRequest;
-  using CloseCurrentProject = events::events::CloseCurrentProject;
-  using ExportPlainTxt2FolderRequestHandlerPtr =
-      events::events::ExportPlainTxt2FolderRequestHandlerPtr;
-  using ExportPlainTxt2FolderRequestPtr =
-      events::events::ExportPlainTxt2FolderRequestPtr;
-  using AnnotationsDirDBPtr = dbs::annotations::AnnotationsDirDBPtr;
-  using ExportContextPtr = exporters::ExportContextPtr;
-
-  using RequestImagesDirProviderHandler =
-      events::events::RequestImagesDirProviderHandler;
-  using ExportYolo4FolderRequestPtr =
-      events::events::ExportYolo4FolderRequestPtr;
-  using ExportYolo4FolderRequestHandlerPtr =
-      events::events::ExportYolo4FolderRequestHandlerPtr;
-  using Export2PyTorchVisionRequestPtr =
-      events::events::Export2PyTorchVisionRequestPtr;
-  using Export2PyTorchVisionRequestHandlerPtr =
-      events::events::Export2PyTorchVisionRequestHandlerPtr;
-  using DeleteCurrentImageRequestPtr =
-      events::events::DeleteCurrentImageRequestPtr;
-  using DeleteCurrentImageRequestHandlerPtr =
-      events::events::DeleteCurrentImageRequestHandlerPtr;
-  using LoadImagesFromWebPagePtr = events::events::LoadImagesFromWebPagePtr;
-
   virtual ~AnnotatorController() = default;
   AnnotatorController();
 

@@ -28,6 +28,7 @@
 #ifndef IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_REQUESTIMAGESDIRPROVIDERHANDLER_CLASS_H
 #define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_REQUESTIMAGESDIRPROVIDERHANDLER_CLASS_H
 
+#include <memory>
 #include <string>
 
 #include "src/annotator-events/events/EventIHandler.h"
@@ -47,6 +48,9 @@ class RequestImagesDirProviderHandler : virtual public EventIHandler
 
   virtual void handle(std::shared_ptr<RequestImagesDirProvider> event) = 0;
 };
+
+using RequestImagesDirProviderHandlerPtr =
+    std::shared_ptr<RequestImagesDirProviderHandler>;
 
 }  // namespace events::events
 

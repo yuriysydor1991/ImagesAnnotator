@@ -28,6 +28,8 @@
 #ifndef IMAGES_ANNOTATOR_PROJECT_COMPONENTTYPEALIASES_CLASS_H
 #define IMAGES_ANNOTATOR_PROJECT_COMPONENTTYPEALIASES_CLASS_H
 
+#include "src/annotator-events/events/DisplayErrorEvent.h"
+#include "src/annotator-events/events/DisplayErrorEventHandler.h"
 #include "src/annotator-events/events/ImageRecord.h"
 #include "src/annotator-events/events/ImageRecordRect.h"
 #include "src/gtkmm3/main-window/custom-widgets/AllAnnotationsLabel.h"
@@ -62,6 +64,9 @@ class ComponentTypesAliases
   using AnnotationsVisualList = CWFactory::AnnotationsVisualList;
   using AllAnnotationsLabel = window::custom_widgets::AllAnnotationsLabel;
   using AllAnnotationsLabelPtr = window::custom_widgets::AllAnnotationsLabelPtr;
+  using DisplayErrorEvent = events::events::DisplayErrorEvent;
+  using DisplayErrorEventPtr = events::events::DisplayErrorEventPtr;
+  using DisplayErrorEventHandler = events::events::DisplayErrorEventHandler;
 };
 
 }  // namespace templateGtkmm3

@@ -28,6 +28,7 @@
 #ifndef IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_IMAGESDIRCHANGED_CLASS_H
 #define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_IMAGESDIRCHANGED_CLASS_H
 
+#include <memory>
 #include <string>
 
 #include "src/annotator-events/events/IEvent.h"
@@ -41,11 +42,15 @@ namespace events::events
 class ImagesDirChanged : virtual public IEvent
 {
  public:
+  using ImagesDirChangedPtr = std::shared_ptr<ImagesDirChanged>;
+
   virtual ~ImagesDirChanged() = default;
   explicit ImagesDirChanged(const std::string& newPath);
 
   std::string images_dir;
 };
+
+using ImagesDirChangedPtr = ImagesDirChanged::ImagesDirChangedPtr;
 
 }  // namespace events::events
 

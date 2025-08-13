@@ -25,34 +25,24 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_IMAGESDIRCHANGEDIHANDLER_CLASS_H
-#define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_IMAGESDIRCHANGEDIHANDLER_CLASS_H
+#include "src/annotator-events/events/DisplayErrorEvent.h"
 
 #include <memory>
+#include <string>
 
-#include "src/annotator-events/events/EventIHandler.h"
-#include "src/annotator-events/events/ImagesDirChanged.h"
+#include "src/annotator-events/events/IEvent.h"
 
 namespace events::events
 {
 
-/**
- * @brief The images dir changed event handler interface.
- */
-class ImagesDirChangedIHandler : virtual public EventIHandler
+DisplayErrorEvent::DisplayErrorEvent(const std::string& ndesc)
+    : description{ndesc}
 {
- public:
-  using ImagesDirChangedIHandlerPtr = std::shared_ptr<ImagesDirChangedIHandler>;
+}
 
-  virtual ~ImagesDirChangedIHandler() = default;
-  ImagesDirChangedIHandler() = default;
-
-  virtual void handle(ImagesDirChangedPtr event) = 0;
-};
-
-using ImagesDirChangedIHandlerPtr =
-    ImagesDirChangedIHandler::ImagesDirChangedIHandlerPtr;
+DisplayErrorEventPtr DisplayErrorEvent::create(const std::string& ndesc)
+{
+  return std::make_shared<DisplayErrorEvent>(ndesc);
+}
 
 }  // namespace events::events
-
-#endif  // IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_IMAGESDIRCHANGEDIHANDLER_CLASS_H

@@ -15,6 +15,7 @@ add_library(
   Export2PyTorchVisionRequest.cpp
   DeleteCurrentImageRequest.cpp
   LoadImagesFromWebPage.cpp
+  DisplayErrorEvent.cpp
 )
 
 target_include_directories(

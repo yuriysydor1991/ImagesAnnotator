@@ -251,4 +251,15 @@ void ImagesAnnotatorEventController::subscribe(
   webILoaders_handlers.insert(handler);
 }
 
+void ImagesAnnotatorEventController::submit(events::DisplayErrorEventPtr event)
+{
+  unified_submit(errDisp_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::DisplayErrorEventHandlerPtr handler)
+{
+  errDisp_handlers.insert(handler);
+}
+
 }  // namespace events

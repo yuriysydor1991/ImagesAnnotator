@@ -37,6 +37,8 @@
 #include "src/annotator-events/events/CloseCurrentProjectHandler.h"
 #include "src/annotator-events/events/CurrentImageChanged.h"
 #include "src/annotator-events/events/CurrentImageChangedHandler.h"
+#include "src/annotator-events/events/DisplayErrorEvent.h"
+#include "src/annotator-events/events/DisplayErrorEventHandler.h"
 #include "src/annotator-events/events/EventsFactory.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
@@ -123,6 +125,9 @@ class ImagesAnnotatorEventController
   virtual void subscribe(
       events::LoadImagesFromWebPageHandlerPtr handler) override;
 
+  virtual void submit(events::DisplayErrorEventPtr event) override;
+  virtual void subscribe(events::DisplayErrorEventHandlerPtr handler) override;
+
  private:
   using imagesHSet =
       std::set<std::shared_ptr<events::ImagesDirChangedIHandler>>;
@@ -147,6 +152,7 @@ class ImagesAnnotatorEventController
   using deleteCurrentImageHSet =
       std::set<events::DeleteCurrentImageRequestHandlerPtr>;
   using webpageILoadersSet = std::set<events::LoadImagesFromWebPageHandlerPtr>;
+  using errDispSet = std::set<events::DisplayErrorEventHandlerPtr>;
 
   template <class SubsQueue, class EventT>
   static void unified_submit(SubsQueue& queue, std::shared_ptr<EventT> event);
@@ -165,6 +171,7 @@ class ImagesAnnotatorEventController
   pytorchVisionExportersSet pytorchvision_handlers;
   deleteCurrentImageHSet deletecir_handlers;
   webpageILoadersSet webILoaders_handlers;
+  errDispSet errDisp_handlers;
 
   std::shared_ptr<events::EventsFactory> efactory;
 };

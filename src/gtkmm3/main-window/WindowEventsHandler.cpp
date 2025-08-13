@@ -67,6 +67,7 @@ void WindowEventsHandler::subscribe_4_system_events()
   std::shared_ptr<ImagesDirProviderChangedHandler> myptr = myshared;
 
   mwctx->actx->eventer->subscribe(myptr);
+  mwctx->actx->eventer->subscribe(DisplayErrorEventHandlerPtr{myshared});
 
   /**
    * Sending requests for the initial objects.
@@ -2036,6 +2037,13 @@ bool WindowEventsHandler::ask_user_4_webpage_url(std::string& urldst)
   LOGD("User entered web page: " << urldst);
 
   return !urldst.empty();
+}
+
+void WindowEventsHandler::handle(DisplayErrorEventPtr event)
+{
+  assert(event != nullptr);
+
+  LOGE("Handle error: " << event->description);
 }
 
 }  // namespace templateGtkmm3::window

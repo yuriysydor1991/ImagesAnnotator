@@ -36,6 +36,7 @@
 #include "src/annotator-events/events/CloseCurrentProject.h"
 #include "src/annotator-events/events/CurrentImageChanged.h"
 #include "src/annotator-events/events/DeleteCurrentImageRequest.h"
+#include "src/annotator-events/events/DisplayErrorEvent.h"
 #include "src/annotator-events/events/Export2PyTorchVisionRequest.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequest.h"
 #include "src/annotator-events/events/ExportYolo4FolderRequest.h"
@@ -110,6 +111,9 @@ class EventsFactory : public std::enable_shared_from_this<EventsFactory>
 
   virtual LoadImagesFromWebPagePtr create_images_web_page_load_event(
       const std::string& newURL);
+
+  virtual DisplayErrorEventPtr create_display_error_event(
+      const std::string& desc);
 };
 
 }  // namespace events::events

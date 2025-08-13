@@ -56,7 +56,8 @@ class WindowEventsHandler
       virtual public events::events::ImagesDirProviderChangedHandler,
       public std::enable_shared_from_this<WindowEventsHandler>,
       virtual public helpers::TypeHelper,
-      virtual public helpers::ImageRecordUrlAndPathHelper
+      virtual public helpers::ImageRecordUrlAndPathHelper,
+      virtual public events::events::DisplayErrorEventHandler
 {
  public:
   using ImagesDirProviderChanged = events::events::ImagesDirProviderChanged;
@@ -113,6 +114,7 @@ class WindowEventsHandler
   virtual void subscribe_4_system_events();
 
   virtual void handle(std::shared_ptr<ImagesDirProviderChanged> event) override;
+  virtual void handle(DisplayErrorEventPtr event) override;
 
   void clean_list_box(Gtk::ListBox* listBox);
   void select_list_box_child(Gtk::ListBox* listBox, Gtk::Widget* child);

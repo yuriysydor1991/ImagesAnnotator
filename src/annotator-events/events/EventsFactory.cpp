@@ -174,4 +174,10 @@ LoadImagesFromWebPagePtr EventsFactory::create_images_web_page_load_event(
   return LoadImagesFromWebPage::create(newURL);
 }
 
+DisplayErrorEventPtr EventsFactory::create_display_error_event(
+    const std::string& desc)
+{
+  return DisplayErrorEvent::create(desc);
+}
+
 }  // namespace events::events

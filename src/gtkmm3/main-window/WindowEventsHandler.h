@@ -97,6 +97,7 @@ class WindowEventsHandler
   virtual void on_images_search_text_changed();
   virtual void on_current_image_delete_click();
   virtual void on_menu_web_page_images_load_activate();
+  virtual bool on_key_press(GdkEventKey* event);
 
   virtual bool on_mouse_motion_start(GdkEventButton* event);
   virtual bool on_mouse_motion_end(GdkEventButton* event);

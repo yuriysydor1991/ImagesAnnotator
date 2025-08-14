@@ -193,6 +193,28 @@ void WindowEventsHandler::subscribe_4_visual_events()
 
   webLoadM->signal_activate().connect(sigc::mem_fun(
       *this, &WindowEventsHandler::on_menu_web_page_images_load_activate));
+
+  mwctx->wloader->get_window()->add_events(Gdk::KEY_PRESS_MASK);
+
+  mwctx->wloader->get_window()->signal_key_press_event().connect(
+      sigc::mem_fun(*this, &WindowEventsHandler::on_key_press), false);
+}
+
+bool WindowEventsHandler::on_key_press(GdkEventKey* event)
+{
+  if (event->keyval == GDK_KEY_Left) {
+    LOGD("User pressed left key");
+    mwctx->wloader->get_prev_file_button()->clicked();
+    return true;  // handled
+  }
+
+  if (event->keyval == GDK_KEY_Right) {
+    LOGD("User pressed right key");
+    mwctx->wloader->get_next_file_button()->clicked();
+    return true;  // handled
+  }
+
+  return false;  // let other handlers process it
 }
 
 void WindowEventsHandler::show_spinner()

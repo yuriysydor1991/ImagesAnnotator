@@ -202,14 +202,14 @@ void WindowEventsHandler::subscribe_4_visual_events()
 
 bool WindowEventsHandler::on_key_press(GdkEventKey* event)
 {
-  if (event->keyval == GDK_KEY_Left) {
-    LOGD("User pressed left key");
+  if (event->keyval == GDK_KEY_Up) {
+    LOGD("User pressed up key");
     mwctx->wloader->get_prev_file_button()->clicked();
     return true;  // handled
   }
 
-  if (event->keyval == GDK_KEY_Right) {
-    LOGD("User pressed right key");
+  if (event->keyval == GDK_KEY_Down) {
+    LOGD("User pressed down key");
     mwctx->wloader->get_next_file_button()->clicked();
     return true;  // handled
   }

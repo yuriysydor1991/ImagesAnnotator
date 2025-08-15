@@ -1332,7 +1332,24 @@ void WindowEventsHandler::update_status_bar(const std::string& nstatus)
 
   auto stCtx = mwctx->wloader->get_window_status_bar()->get_context_id("info");
 
-  mwctx->wloader->get_window_status_bar()->push(nstatus, stCtx);
+  if (nstatus.size() <= 1 && mwctx->imagesVDB.empty()) {
+    LOGD("Empty status, no project opened");
+    mwctx->wloader->get_window_status_bar()->push(nstatus, stCtx);
+    return;
+  }
+
+  std::string compStatus =
+      nstatus + " [images: " + std::to_string(mwctx->imagesVDB.size()) + "]";
+
+  compStatus +=
+      " [annotations: " + std::to_string(mwctx->annotationsList.size()) + "]";
+
+  if (mwctx->current_annotation_name != nullptr) {
+    compStatus += " [current annotation name: " +
+                  mwctx->current_annotation_name->get_text() + "]";
+  }
+
+  mwctx->wloader->get_window_status_bar()->push(compStatus, stCtx);
 }
 
 void WindowEventsHandler::clean_list_box(Gtk::ListBox* listBox)
@@ -1629,6 +1646,8 @@ void WindowEventsHandler::on_all_annotations_selected(Gtk::ListBoxRow* row)
 
   LOGT("Current label changed to "
        << mwctx->current_annotation_name->get_text());
+
+  update_statuses();
 }
 
 void WindowEventsHandler::on_annotations_name_copy_click()

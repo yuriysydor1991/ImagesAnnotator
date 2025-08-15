@@ -1092,9 +1092,12 @@ void WindowEventsHandler::on_menu_annotations_db_save_activate()
 {
   LOGT("Trying to store current project");
 
+  show_spinner();
+
   if (mwctx->images_provider->get_db_path().empty()) {
     LOGD("No path given, calling for save as");
     on_menu_annotations_db_saveas_activate();
+    hide_spinner();
     return;
   }
 
@@ -1109,11 +1112,15 @@ void WindowEventsHandler::on_menu_annotations_db_save_activate()
   lastChangedStatus = false;
 
   update_statuses();
+
+  hide_spinner();
 }
 
 void WindowEventsHandler::on_menu_annotations_db_saveas_activate()
 {
   LOGT("Trying to save as current project");
+
+  show_spinner();
 
   auto dialog = mwctx->cwFactory->create_save_json_db_dialog(
       mwctx->wloader->get_window());
@@ -1124,6 +1131,7 @@ void WindowEventsHandler::on_menu_annotations_db_saveas_activate()
 
   if (result != Gtk::RESPONSE_OK) {
     LOGD("Dialog is closed");
+    hide_spinner();
     return;
   }
 
@@ -1140,6 +1148,8 @@ void WindowEventsHandler::on_menu_annotations_db_saveas_activate()
   lastChangedStatus = false;
 
   update_statuses();
+
+  hide_spinner();
 }
 
 bool WindowEventsHandler::ask_about_unsaved_changes()

@@ -283,6 +283,8 @@ void WindowEventsHandler::on_next_file_button_click()
   }
 
   select_list_box_child(imagesBox, *tmpit);
+
+  update_rect_edit_entry();
 }
 
 void WindowEventsHandler::on_prev_file_button_click()
@@ -319,6 +321,8 @@ void WindowEventsHandler::on_prev_file_button_click()
   }
 
   select_list_box_child(imagesBox, *tmprit);
+
+  update_rect_edit_entry();
 }
 
 std::function<bool(const Gtk::Widget*)>
@@ -1556,13 +1560,15 @@ void WindowEventsHandler::on_rect_edit_entry_changed()
 
   assert(mwctx->current_image->get_image_rec() != nullptr);
 
-  LOGT("Reneming current image selected rectangle to " << redit->get_text());
+  const std::string nname = redit->get_text();
 
-  mwctx->current_image->get_image_rec()->current_rect->name = redit->get_text();
+  LOGT("Reneming current image selected rectangle to " << nname);
 
-  mwctx->currentVisualRect->set_text(redit->get_text());
+  mwctx->current_image->get_image_rec()->current_rect->name = nname;
+  mwctx->currentVisualRect->set_text(nname);
 
   update_annotations_list();
+  select_all_annotations_name(nname);
   update_statuses();
 }
 
@@ -2095,6 +2101,41 @@ void WindowEventsHandler::handle(DisplayErrorEventPtr event)
   assert(event != nullptr);
 
   LOGE("Handle error: " << event->description);
+}
+
+void WindowEventsHandler::select_all_annotations_name(const std::string& name)
+{
+  assert(MainWindowContext::validate_context(mwctx));
+
+  auto allA = mwctx->wloader->get_annotations_db_list();
+
+  auto rows = allA->get_children();
+
+  auto siter = std::find_if(
+      rows.begin(), rows.end(), [this, &name](const Gtk::Widget* w) {
+        assert(w != nullptr);
+
+        const auto* listRow = dynamic_cast<const Gtk::ListBoxRow*>(w);
+
+        assert(listRow != nullptr);
+
+        if (listRow == nullptr) {
+          LOGE("Unexpected all annotations list item widget");
+          return false;
+        }
+
+        const auto* label =
+            dynamic_cast<const AllAnnotationsLabel*>(listRow->get_child());
+
+        return label != nullptr && label->get_text() == name;
+      });
+
+  if (siter == rows.end()) {
+    LOGE("Edited annotation not found in all annotations");
+    return;
+  }
+
+  select_list_box_child(allA, *siter);
 }
 
 }  // namespace templateGtkmm3::window

@@ -138,6 +138,8 @@ class WindowEventsHandler
   void show_spinner();
   void hide_spinner();
 
+  void select_all_annotations_name(const std::string& name);
+
   void show_error_dialog(const std::string& emsg);
 
   virtual bool load_image(ImageRecordPtr ir);

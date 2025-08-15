@@ -1562,13 +1562,12 @@ void WindowEventsHandler::on_rect_edit_entry_changed()
 
   const std::string nname = redit->get_text();
 
-  LOGT("Reneming current image selected rectangle to " << nname);
+  LOGT("Renaming current image selected rectangle to " << nname);
 
   mwctx->current_image->get_image_rec()->current_rect->name = nname;
   mwctx->currentVisualRect->set_text(nname);
 
   update_annotations_list();
-  select_all_annotations_name(nname);
   update_statuses();
 }
 
@@ -1605,6 +1604,12 @@ void WindowEventsHandler::update_annotations_list()
 {
   assert(mwctx != nullptr);
 
+  std::string current_selected;
+
+  if (mwctx->current_annotation_name != nullptr) {
+    current_selected = mwctx->current_annotation_name->get_text();
+  }
+
   auto* aListBox = mwctx->wloader->get_annotations_db_list();
 
   assert(aListBox != nullptr);
@@ -1624,6 +1629,10 @@ void WindowEventsHandler::update_annotations_list()
   aListBox->show_all_children();
 
   on_annotations_search_text_changed();
+
+  if (!current_selected.empty()) {
+    select_all_annotations_name(current_selected);
+  }
 }
 
 void WindowEventsHandler::on_all_annotations_selected(Gtk::ListBoxRow* row)

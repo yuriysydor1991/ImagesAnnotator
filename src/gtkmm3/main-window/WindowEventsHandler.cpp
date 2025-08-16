@@ -2162,24 +2162,8 @@ void WindowEventsHandler::select_all_annotations_name(const std::string& name)
 
   auto rows = allA->get_children();
 
-  auto siter = std::find_if(
-      rows.begin(), rows.end(), [this, &name](const Gtk::Widget* w) {
-        assert(w != nullptr);
-
-        const auto* listRow = dynamic_cast<const Gtk::ListBoxRow*>(w);
-
-        assert(listRow != nullptr);
-
-        if (listRow == nullptr) {
-          LOGE("Unexpected all annotations list item widget");
-          return false;
-        }
-
-        const auto* label =
-            dynamic_cast<const AllAnnotationsLabel*>(listRow->get_child());
-
-        return label != nullptr && label->get_text() == name;
-      });
+  auto siter = std::find_if(rows.begin(), rows.end(),
+                            get_list_row_name_searcher_op(name));
 
   if (siter == rows.end()) {
     LOGE("Edited annotation not found in all annotations");
@@ -2187,6 +2171,28 @@ void WindowEventsHandler::select_all_annotations_name(const std::string& name)
   }
 
   select_list_box_child(allA, *siter);
+}
+
+std::function<bool(const Gtk::Widget* w)>
+WindowEventsHandler::get_list_row_name_searcher_op(const std::string& name)
+{
+  return [this, &name](const Gtk::Widget* w) {
+    assert(w != nullptr);
+
+    const auto* listRow = dynamic_cast<const Gtk::ListBoxRow*>(w);
+
+    assert(listRow != nullptr);
+
+    if (listRow == nullptr) {
+      LOGE("Unexpected all annotations list item widget");
+      return false;
+    }
+
+    const auto* label =
+        dynamic_cast<const AllAnnotationsLabel*>(listRow->get_child());
+
+    return label != nullptr && label->get_text() == name;
+  };
 }
 
 size_t WindowEventsHandler::get_annotated_images_count()

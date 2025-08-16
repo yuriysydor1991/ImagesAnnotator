@@ -150,6 +150,7 @@ class WindowEventsHandler
   virtual std::string compute_title(const bool changes);
 
   std::function<bool(const Gtk::Widget*)> get_wvisibility_unary_op();
+  std::function<bool(const ImagePathLabelPtr& ptr)> get_annotated_images_op();
 
   /// @brief Asks user about unsaved changes
   /// @return Returns true if project may be closed.

@@ -2195,23 +2195,29 @@ size_t WindowEventsHandler::get_annotated_images_count()
 
   const auto& irdb = mwctx->imagesVDB;
 
-  const auto cc = std::count_if(irdb.cbegin(), irdb.cend(),
-                                [](const ImagePathLabelPtr& ptr) {
-                                  assert(ptr != nullptr);
-
-                                  if (ptr == nullptr) {
-                                    LOGE("Invalid visual pointer in the queue");
-                                    return false;
-                                  }
-
-                                  const auto ir = ptr->get_image_rec();
-
-                                  assert(ir != nullptr);
-
-                                  return ir != nullptr && !ir->rects.empty();
-                                });
+  const auto cc =
+      std::count_if(irdb.cbegin(), irdb.cend(), get_annotated_images_op());
 
   return static_cast<size_t>(cc);
+}
+
+std::function<bool(const WindowEventsHandler::ImagePathLabelPtr& ptr)>
+WindowEventsHandler::get_annotated_images_op()
+{
+  return [](const ImagePathLabelPtr& ptr) {
+    assert(ptr != nullptr);
+
+    if (ptr == nullptr) {
+      LOGE("Invalid visual pointer in the queue");
+      return false;
+    }
+
+    const auto ir = ptr->get_image_rec();
+
+    assert(ir != nullptr);
+
+    return ir != nullptr && !ir->rects.empty();
+  };
 }
 
 }  // namespace templateGtkmm3::window

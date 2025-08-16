@@ -198,6 +198,36 @@ void WindowEventsHandler::subscribe_4_visual_events()
 
   mwctx->wloader->get_window()->signal_key_press_event().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_key_press), false);
+
+  drawArea->set_has_tooltip(true);
+
+  drawArea->signal_query_tooltip().connect(
+      [this]([[maybe_unused]] const int& x, [[maybe_unused]] const int& y,
+             [[maybe_unused]] bool keyboard_tooltip,
+             const Glib::RefPtr<Gtk::Tooltip>& tooltip) -> bool {
+        assert(mwctx != nullptr);
+
+        auto textUsed = mwctx->current_annotation_name != nullptr
+                            ? mwctx->current_annotation_name->get_text()
+                            : Glib::ustring{};
+
+        if (mwctx->currentVisualRect != nullptr) {
+          assert(mwctx->currentVisualRect->get() != nullptr);
+          textUsed = mwctx->currentVisualRect->get()->name;
+        }
+
+        if (textUsed.empty()) {
+          LOGT("No data available for the tooltip");
+          return false;
+        }
+
+        LOGT("Setting the tooltip text: " << textUsed);
+
+        tooltip->set_text(textUsed);
+
+        return true;  // We handled the tooltip
+      },
+      false);
 }
 
 bool WindowEventsHandler::on_key_press(GdkEventKey* event)
@@ -610,6 +640,8 @@ bool WindowEventsHandler::on_mouse_motion_event(GdkEventMotion* event)
     LOGT("No context available");
     return true;
   }
+
+  mwctx->centralCanvas->trigger_tooltip_query();
 
   if (dragging) {
     return on_rectangle_size_change(event);

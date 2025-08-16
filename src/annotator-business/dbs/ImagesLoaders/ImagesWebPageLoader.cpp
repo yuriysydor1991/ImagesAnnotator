@@ -84,13 +84,20 @@ ImagesWebPageLoader::ImageRecordsSet ImagesWebPageLoader::fetch_images_urls(
   auto siter = webpage.cbegin();
 
   while (siter < webpage.end() &&
-         std::regex_search(siter, webpage.end(), mr, imgre)) {
+         std::regex_search(siter, webpage.cend(), mr, imgre)) {
     if (mr.size() <= URL_INDEX) {
       LOGT("No match for URL component of the regex");
-      continue;
+      break;
     }
 
-    auto ir = create_ir(origPage, mr[URL_INDEX]);
+    const std::string subpath = mr[URL_INDEX];
+
+    if (subpath.empty()) {
+      LOGT("Empty image subpath provided");
+      break;
+    }
+
+    auto ir = create_ir(origPage, subpath);
 
     assert(ir != nullptr);
 
@@ -99,7 +106,7 @@ ImagesWebPageLoader::ImageRecordsSet ImagesWebPageLoader::fetch_images_urls(
     iurls.emplace_back(ir);
 
     siter += mr.position(URL_INDEX);
-    siter += static_cast<download_buffer::difference_type>(ir->path.size());
+    siter += static_cast<download_buffer::difference_type>(subpath.size());
   }
 
   LOGT("Found " << iurls.size() << " img html tag matches");

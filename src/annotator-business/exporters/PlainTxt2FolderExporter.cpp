@@ -88,7 +88,7 @@ bool PlainTxt2FolderExporter::export_db(ExportContextPtr ectx)
 
   clear();
 
-  return false;
+  return true;
 }
 
 PlainTxt2FolderExporter::irDataTmpDB PlainTxt2FolderExporter::gather_ir_data(

@@ -80,7 +80,7 @@ bool ImageLoader::load(ImageRecordPtr ir)
   const auto& irdata = curl->download(url);
 
   if (!write_data(ir, irdata, curl->get_last_download_mime())) {
-    LOGE("Failure to whrite the image record data into tmp file");
+    LOGE("Failure to write the image record data into tmp file");
     return false;
   }
 
@@ -207,8 +207,16 @@ std::string ImageLoader::get_mime_extension(ImageRecordPtr ir,
   }
 
   mIter += static_cast<std::string::difference_type>(imimeStarter.size());
+  auto mEnd = mime.end();
 
-  return std::string{mIter, mime.end()};
+  auto plusSign = std::find(mIter, mEnd, '+');
+
+  if (plusSign != mEnd) {
+    LOGT("Found plus sign in the mime type: " << mime);
+    mEnd = plusSign;
+  }
+
+  return std::string{mIter, mEnd};
 }
 
 std::string ImageLoader::try_fetch_extension(ImageRecordPtr ir)

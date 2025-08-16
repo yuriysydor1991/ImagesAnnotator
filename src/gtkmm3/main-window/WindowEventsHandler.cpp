@@ -2157,7 +2157,14 @@ void WindowEventsHandler::handle(DisplayErrorEventPtr event)
 {
   assert(event != nullptr);
 
-  LOGE("Handle error: " << event->description);
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  LOGD("Handle error: " << event->description);
+
+  show_error_dialog(event->description);
 }
 
 void WindowEventsHandler::select_all_annotations_name(const std::string& name)

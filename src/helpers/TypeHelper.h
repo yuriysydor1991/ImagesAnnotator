@@ -29,6 +29,7 @@
 #define IMAGES_ANNOTATOR_PROJECT_TYPE_HELPER_CLASS_H
 
 #include <cmath>
+#include <sstream>
 
 #include "src/annotator-events/events/ImageRecord.h"
 #include "src/annotator-events/events/ImageRecordRect.h"
@@ -70,6 +71,15 @@ class TypeHelper : virtual public IHelper
   inline static int toI(const Ntype& val)
   {
     return static_cast<int>(val);
+  }
+
+  template <class Ntype>
+  std::string to_string_with_precision(const Ntype& value,
+                                       const unsigned int& precision)
+  {
+    std::ostringstream out;
+    out << std::fixed << std::setprecision(precision) << value;
+    return out.str();
   }
 };
 

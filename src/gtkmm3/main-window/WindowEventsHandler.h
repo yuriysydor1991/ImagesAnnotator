@@ -139,6 +139,7 @@ class WindowEventsHandler
   void hide_spinner();
 
   void select_all_annotations_name(const std::string& name);
+  size_t get_annotated_images_count();
 
   void show_error_dialog(const std::string& emsg);
 

@@ -1342,8 +1342,18 @@ void WindowEventsHandler::update_status_bar(const std::string& nstatus)
     return;
   }
 
+  const size_t imagesCount = mwctx->imagesVDB.size();
+
   std::string compStatus =
-      nstatus + " [images: " + std::to_string(mwctx->imagesVDB.size()) + "]";
+      nstatus + " [images: " + std::to_string(imagesCount) + "]";
+
+  const size_t annotated = get_annotated_images_count();
+
+  const float percs =
+      static_cast<float>(annotated) / static_cast<float>(imagesCount) * 100.f;
+
+  compStatus += " [annotated: " + std::to_string(annotated) + " - " +
+                to_string_with_precision(percs, 2U) + "%]";
 
   compStatus +=
       " [annotations: " + std::to_string(mwctx->annotationsList.size()) + "]";
@@ -2145,6 +2155,39 @@ void WindowEventsHandler::select_all_annotations_name(const std::string& name)
   }
 
   select_list_box_child(allA, *siter);
+}
+
+size_t WindowEventsHandler::get_annotated_images_count()
+{
+  assert(mwctx != nullptr);
+
+  size_t cc{0U};
+
+  for (auto& vir : mwctx->imagesVDB) {
+    assert(vir != nullptr);
+
+    if (vir == nullptr) {
+      LOGE("Invalid visual pointer in the queue");
+      continue;
+    }
+
+    auto ir = vir->get_image_rec();
+
+    assert(ir != nullptr);
+
+    if (ir == nullptr) {
+      LOGE("no image recrod found in the images path label");
+      continue;
+    }
+
+    if (ir->rects.empty()) {
+      continue;
+    }
+
+    cc++;
+  }
+
+  return cc;
 }
 
 }  // namespace templateGtkmm3::window

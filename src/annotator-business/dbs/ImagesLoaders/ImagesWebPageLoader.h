@@ -68,9 +68,9 @@ class ImagesWebPageLoader : virtual public helpers::SortHelper,
   inline static constexpr const ImageRecordsSet::size_type DEFAULT_RESERVE =
       1024U;
   inline static const std::regex imgre{
-      R"(<\s*img[^>]*\s+src\s*=\s*(['"])(.*?)\1)",
+      R"(<\s*img[^>]*\s+(data-)?src\s*=\s*(['"])(.*?)\2)",
       std::regex_constants::ECMAScript | std::regex_constants::icase};
-  inline static const download_buffer::size_type URL_INDEX = 2U;
+  inline static const download_buffer::size_type URL_INDEX = 3U;
 };
 
 using ImagesWebPageLoaderPtr = ImagesWebPageLoader::ImagesWebPageLoaderPtr;

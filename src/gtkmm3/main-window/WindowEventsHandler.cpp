@@ -201,33 +201,39 @@ void WindowEventsHandler::subscribe_4_visual_events()
 
   drawArea->set_has_tooltip(true);
 
-  drawArea->signal_query_tooltip().connect(
-      [this]([[maybe_unused]] const int& x, [[maybe_unused]] const int& y,
-             [[maybe_unused]] bool keyboard_tooltip,
-             const Glib::RefPtr<Gtk::Tooltip>& tooltip) -> bool {
-        assert(mwctx != nullptr);
+  drawArea->signal_query_tooltip().connect(get_tooltip_lambda(), false);
+}
 
-        auto textUsed = mwctx->current_annotation_name != nullptr
-                            ? mwctx->current_annotation_name->get_text()
-                            : Glib::ustring{};
+std::function<bool(const int& x, const int& y, bool keyboard_tooltip,
+                   const Glib::RefPtr<Gtk::Tooltip>& tooltip)>
+WindowEventsHandler::get_tooltip_lambda()
+{
+  return [this]([[maybe_unused]] const int& x, [[maybe_unused]] const int& y,
+                [[maybe_unused]] bool keyboard_tooltip,
+                const Glib::RefPtr<Gtk::Tooltip>& tooltip) -> bool {
+    assert(mwctx != nullptr);
 
-        if (mwctx->currentVisualRect != nullptr) {
-          assert(mwctx->currentVisualRect->get() != nullptr);
-          textUsed = mwctx->currentVisualRect->get()->name;
-        }
+    auto textUsed = mwctx->current_annotation_name != nullptr
+                        ? mwctx->current_annotation_name->get_text()
+                        : Glib::ustring{};
 
-        if (textUsed.empty()) {
-          LOGT("No data available for the tooltip");
-          return false;
-        }
+    if (mwctx->currentVisualRect != nullptr) {
+      assert(mwctx->currentVisualRect->get() != nullptr);
+      textUsed = mwctx->currentVisualRect->get()->name;
+    }
 
-        LOGT("Setting the tooltip text: " << textUsed);
+    if (textUsed.empty()) {
+      LOGT("No data available for the tooltip");
+      return false;
+    }
 
-        tooltip->set_text(textUsed);
+    LOGT("Setting the tooltip text: " << textUsed);
 
-        return true;  // We handled the tooltip
-      },
-      false);
+    tooltip->set_text(textUsed);
+
+    // We handled the tooltip
+    return true;
+  };
 }
 
 bool WindowEventsHandler::on_key_press(GdkEventKey* event)

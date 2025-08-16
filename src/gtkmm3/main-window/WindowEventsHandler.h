@@ -153,6 +153,9 @@ class WindowEventsHandler
   std::function<bool(const ImagePathLabelPtr& ptr)> get_annotated_images_op();
   std::function<bool(const Gtk::Widget* w)> get_list_row_name_searcher_op(
       const std::string& name);
+  std::function<bool(const int& x, const int& y, bool keyboard_tooltip,
+                     const Glib::RefPtr<Gtk::Tooltip>& tooltip)>
+  get_tooltip_lambda();
 
   /// @brief Asks user about unsaved changes
   /// @return Returns true if project may be closed.

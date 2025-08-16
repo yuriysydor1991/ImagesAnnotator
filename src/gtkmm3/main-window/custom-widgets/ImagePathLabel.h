@@ -46,6 +46,7 @@ class ImagePathLabel : public Gtk::Label,
                        virtual public helpers::ImageRecordUrlAndPathHelper
 {
  public:
+  using ImagePathLabelPtr = std::shared_ptr<ImagePathLabel>;
   using ImageRecord = events::events::ImageRecord;
 
   inline static constexpr const char* const has_records_css_class =
@@ -64,6 +65,8 @@ class ImagePathLabel : public Gtk::Label,
 
   std::shared_ptr<ImageRecord> myrec;
 };
+
+using ImagePathLabelPtr = ImagePathLabel::ImagePathLabelPtr;
 
 }  // namespace templateGtkmm3::window::custom_widgets
 

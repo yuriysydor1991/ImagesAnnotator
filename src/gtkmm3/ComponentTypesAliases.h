@@ -54,6 +54,7 @@ class ComponentTypesAliases
   using CWFactory = window::custom_widgets::CustomWidgetsFactory;
   using ImagesVisualDB = CWFactory::ImagesVisualDB;
   using ImagePathLabel = window::custom_widgets::ImagePathLabel;
+  using ImagePathLabelPtr = window::custom_widgets::ImagePathLabelPtr;
   using CentralWorkingCanvas =
       templateGtkmm3::window::custom_widgets::CentralWorkingCanvas;
   using ImageRecord = events::events::ImageRecord;

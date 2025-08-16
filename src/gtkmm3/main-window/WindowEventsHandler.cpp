@@ -2161,33 +2161,25 @@ size_t WindowEventsHandler::get_annotated_images_count()
 {
   assert(mwctx != nullptr);
 
-  size_t cc{0U};
+  const auto& irdb = mwctx->imagesVDB;
 
-  for (auto& vir : mwctx->imagesVDB) {
-    assert(vir != nullptr);
+  const auto cc = std::count_if(irdb.cbegin(), irdb.cend(),
+                                [](const ImagePathLabelPtr& ptr) {
+                                  assert(ptr != nullptr);
 
-    if (vir == nullptr) {
-      LOGE("Invalid visual pointer in the queue");
-      continue;
-    }
+                                  if (ptr == nullptr) {
+                                    LOGE("Invalid visual pointer in the queue");
+                                    return false;
+                                  }
 
-    auto ir = vir->get_image_rec();
+                                  const auto ir = ptr->get_image_rec();
 
-    assert(ir != nullptr);
+                                  assert(ir != nullptr);
 
-    if (ir == nullptr) {
-      LOGE("no image recrod found in the images path label");
-      continue;
-    }
+                                  return ir != nullptr && !ir->rects.empty();
+                                });
 
-    if (ir->rects.empty()) {
-      continue;
-    }
-
-    cc++;
-  }
-
-  return cc;
+  return static_cast<size_t>(cc);
 }
 
 }  // namespace templateGtkmm3::window

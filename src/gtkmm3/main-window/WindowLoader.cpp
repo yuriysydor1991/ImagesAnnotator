@@ -182,6 +182,10 @@ bool WindowLoader::propagate_menu_shortcuts()
       "activate", accel_group, GDK_KEY_u, Gdk::CONTROL_MASK | Gdk::SHIFT_MASK,
       Gtk::ACCEL_VISIBLE);
 
+  auto_insert_current_annotation_to_whole_mi()->add_accelerator(
+      "activate", accel_group, GDK_KEY_f, Gdk::CONTROL_MASK | Gdk::SHIFT_MASK,
+      Gtk::ACCEL_VISIBLE);
+
   get_window()->add_accel_group(accel_group);
 
   return true;
@@ -525,6 +529,14 @@ Gtk::Label* WindowLoader::get_images_web_page_cache_folder()
   assert(mwctx->wctx != nullptr);
 
   return get_widget<Gtk::Label>(mwctx->wctx->images_web_page_cache_folder_id);
+}
+
+Gtk::ImageMenuItem* WindowLoader::auto_insert_current_annotation_to_whole_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->auto_insert_current_annotation_to_whole_id);
 }
 
 }  // namespace templateGtkmm3::window

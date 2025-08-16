@@ -49,6 +49,11 @@
     <property name="can-focus">False</property>
     <property name="stock">gtk-open</property>
   </object>
+  <object class="GtkImage" id="image5">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="stock">gtk-paste</property>
+  </object>
   <object class="GtkWindow" id="main_window">
     <property name="can-focus">False</property>
     <property name="hexpand">False</property>
@@ -131,6 +136,29 @@
                             <property name="can-focus">False</property>
                             <property name="use-underline">True</property>
                             <property name="use-stock">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkMenuItem">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Auto Insert annotation</property>
+                            <child type="submenu">
+                              <object class="GtkMenu">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <child>
+                                  <object class="GtkImageMenuItem" id="auto_insert_current_annotation_to_whole">
+                                    <property name="label">Current annotation to whole image</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="image">image5</property>
+                                    <property name="use-stock">False</property>
+                                    <property name="always-show-image">True</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
                           </object>
                         </child>
                         <child>

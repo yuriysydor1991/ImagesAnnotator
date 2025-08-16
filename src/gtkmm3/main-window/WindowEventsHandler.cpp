@@ -114,6 +114,8 @@ void WindowEventsHandler::subscribe_4_visual_events()
   auto* imagesSearchE = mwctx->wloader->get_images_search_entry();
   auto* deleteImageB = mwctx->wloader->get_delete_image_record();
   auto* webLoadM = mwctx->wloader->get_images_web_page_open_menu_item_mi();
+  auto* insertWholeM =
+      mwctx->wloader->auto_insert_current_annotation_to_whole_mi();
 
   imagesListBox->signal_row_selected().connect(
       sigc::mem_fun(*this, &WindowEventsHandler::on_images_row_selected));
@@ -202,6 +204,10 @@ void WindowEventsHandler::subscribe_4_visual_events()
   drawArea->set_has_tooltip(true);
 
   drawArea->signal_query_tooltip().connect(get_tooltip_lambda(), false);
+
+  insertWholeM->signal_activate().connect(sigc::mem_fun(
+      *this, &WindowEventsHandler::
+                 on_auto_insert_current_annotation_to_whole_activate));
 }
 
 std::function<bool(const int& x, const int& y, bool keyboard_tooltip,
@@ -2237,6 +2243,64 @@ WindowEventsHandler::get_annotated_images_op()
 
     return ir != nullptr && !ir->rects.empty();
   };
+}
+
+void WindowEventsHandler::on_auto_insert_current_annotation_to_whole_activate()
+{
+  assert(mwctx != nullptr);
+
+  if (mwctx->current_image == nullptr) {
+    static const std::string e = "No current image available";
+    LOGT(e);
+    show_error_dialog(e);
+    return;
+  }
+
+  auto& pixbuf = mwctx->current_image_original_pixbuf;
+
+  assert(pixbuf);
+
+  if (!pixbuf) {
+    static const std::string e = "No current image buffer available";
+    LOGT(e);
+    show_error_dialog(e);
+    return;
+  }
+
+  mwctx->current_image->mark_as_has_records();
+
+  auto ir = mwctx->current_irecord();
+
+  assert(ir != nullptr);
+
+  auto efactory = mwctx->actx->eventer->get_events_factory();
+
+  assert(efactory != nullptr);
+
+  if (efactory == nullptr) {
+    LOGE("No factory available");
+    return;
+  }
+
+  ir->current_rect = efactory->create_image_rect_record(ir);
+  ir->rects.emplace_back(ir->current_rect);
+
+  assert(ir->current_rect != nullptr);
+
+  if (mwctx->current_annotation_name != nullptr) {
+    LOGT("Setting text to the currently selected "
+         << mwctx->current_annotation_name->get_text());
+    ir->current_rect->name = mwctx->current_annotation_name->get_text();
+  }
+
+  ir->current_rect->x = 0;
+  ir->current_rect->y = 0;
+
+  ir->current_rect->width = pixbuf->get_width();
+  ir->current_rect->height = pixbuf->get_height();
+
+  update_current_rects_list();
+  update_statuses();
 }
 
 }  // namespace templateGtkmm3::window

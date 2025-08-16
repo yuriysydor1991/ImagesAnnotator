@@ -73,7 +73,8 @@ const std::set<std::string>& WindowDataContext::get_ids()
       web_page_images_url_asker_id,
       images_web_page_url_entry_id,
       images_web_page_open_menu_item_id,
-      images_web_page_cache_folder_id};
+      images_web_page_cache_folder_id,
+      auto_insert_current_annotation_to_whole_id};
 
   return ids;
 }

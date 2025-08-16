@@ -154,7 +154,10 @@ void AnnotatorController::handle(std::shared_ptr<AnnotationsDirChanged> event)
   }
 
   if (!annotations->load_db(event->annotations_dir)) {
-    LOGE("Fail to load the annotations db: " << event->annotations_dir);
+    const std::string e =
+        "Fail to load the annotations db: " + event->annotations_dir;
+    LOGE(e);
+    emitDisplayError(e);
     return;
   }
 
@@ -185,12 +188,38 @@ void AnnotatorController::emitImagesProviderChanged()
     return;
   }
 
+  assert(actx->eventer->get_events_factory() != nullptr);
+
   auto efactory = actx->eventer->get_events_factory();
 
   auto imagesProviderChangedE =
       efactory->create_images_dir_provider_changed(annotations);
 
   actx->eventer->submit(imagesProviderChangedE);
+}
+
+void AnnotatorController::emitDisplayError(const std::string& edesc)
+{
+  assert(actx != nullptr);
+  assert(actx->eventer != nullptr);
+
+  if (actx == nullptr) {
+    LOGE("No valid application context pointer found");
+    return;
+  }
+
+  if (actx->eventer == nullptr) {
+    LOGE("No valid application context' eventer pointer found");
+    return;
+  }
+
+  assert(actx->eventer->get_events_factory() != nullptr);
+
+  auto efactory = actx->eventer->get_events_factory();
+
+  auto errorDisplayEvent = efactory->create_display_error_event(edesc);
+
+  actx->eventer->submit(errorDisplayEvent);
 }
 
 void AnnotatorController::deinit() { actx.reset(); }
@@ -242,7 +271,9 @@ void AnnotatorController::handle(std::shared_ptr<StoreRequest> event)
 
   if (event->dbpath.empty()) {
     if (!annotations->store_db()) {
-      LOGE("Fail to store data");
+      static const std::string e = "Fail to store data";
+      LOGE(e);
+      emitDisplayError(e);
     }
     return;
   }
@@ -250,7 +281,9 @@ void AnnotatorController::handle(std::shared_ptr<StoreRequest> event)
   LOGT("Trying to store to the path: " << event->dbpath);
 
   if (!annotations->store_db(event->dbpath)) {
-    LOGE("Fail to store data to path " << event->dbpath);
+    const std::string e = "Fail to store data to path " + event->dbpath;
+    LOGE(e);
+    emitDisplayError(e);
   }
 }
 
@@ -310,7 +343,10 @@ void AnnotatorController::handle(ExportPlainTxt2FolderRequestPtr event)
 
   if (!handle_export<exporters::PlainTxt2FolderExporter>(
           event->dst_folder_path)) {
-    LOGE("Failure during the export");
+    const std::string e = "Failure during the export to a plain txt folder: " +
+                          event->dst_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
   }
 }
 
@@ -331,7 +367,11 @@ void AnnotatorController::handle(ExportYolo4FolderRequestPtr event)
   }
 
   if (!handle_export<exporters::Yolo42FolderExporter>(event->dst_folder_path)) {
-    LOGE("Failure during the export");
+    static const std::string e =
+        "Failure during the export to Yolo4 folder at " +
+        event->dst_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
   }
 }
 
@@ -339,7 +379,9 @@ template <class ExporterT>
 bool AnnotatorController::handle_export(const std::string& dirPath)
 {
   if (dirPath.empty()) {
-    LOGE("Empty dir path provided");
+    static const std::string e = "Empty dir path provided";
+    LOGE(e);
+    emitDisplayError(e);
     return true;
   }
 
@@ -352,7 +394,7 @@ bool AnnotatorController::handle_export(const std::string& dirPath)
   auto exporter = std::make_shared<ExporterT>();
 
   if (!exporter->export_db(ectx)) {
-    LOGE("Invalid export status");
+    LOGE("Invalid export status to " << dirPath);
     return false;
   }
 
@@ -396,12 +438,16 @@ void AnnotatorController::handle(Export2PyTorchVisionRequestPtr event)
   }
 
   if (event->dst_folder_path.empty()) {
-    LOGE("No dst folder export path given");
+    static const std::string e = "No dst folder export path given";
+    LOGE(e);
+    emitDisplayError(e);
     return;
   }
 
   if (event->cropper == nullptr) {
-    LOGE("No image cropper provided");
+    static const std::string e = "No image cropper provided";
+    LOGE(e);
+    emitDisplayError(e);
     return;
   }
 
@@ -414,7 +460,10 @@ void AnnotatorController::handle(Export2PyTorchVisionRequestPtr event)
   LOGI("Handle the PyTorch export event to " << ectx->export_path);
 
   if (!exporter->export_db(ectx)) {
-    LOGE("Invalid export status");
+    const std::string e =
+        "Invalid PyTorch Vision export status into " + ectx->export_path;
+    LOGE(e);
+    emitDisplayError(e);
     return;
   }
 
@@ -433,12 +482,16 @@ void AnnotatorController::handle(DeleteCurrentImageRequestPtr event)
   }
 
   if (event->image_full_path.empty()) {
-    LOGE("No image full path given");
+    static const std::string e = "No image full path given";
+    LOGE(e);
+    emitDisplayError(e);
     return;
   }
 
   if (!annotations->delete_image_record(event->image_full_path)) {
-    LOGE("Fail to remove the image: " << event->image_full_path);
+    const std::string e = "Fail to remove the image: " + event->image_full_path;
+    LOGE(e);
+    emitDisplayError(e);
     return;
   }
 
@@ -464,7 +517,9 @@ void AnnotatorController::handle(LoadImagesFromWebPagePtr event)
   }
 
   if (event->web_page_url.empty()) {
-    LOGE("No images source Web page URL given");
+    static const std::string e = "No images source Web page URL given";
+    LOGE(e);
+    emitDisplayError(e);
     return;
   }
 
@@ -477,7 +532,9 @@ void AnnotatorController::handle(LoadImagesFromWebPagePtr event)
   auto appendList = webLoader->load(event->web_page_url);
 
   if (appendList.empty()) {
-    LOGW("No images were found at: " << event->web_page_url);
+    const std::string e = "No images were found at: " + event->web_page_url;
+    LOGW(e);
+    emitDisplayError(e);
     return;
   }
 

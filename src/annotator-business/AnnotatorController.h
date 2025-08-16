@@ -113,6 +113,7 @@ class AnnotatorController
 
  private:
   void emitImagesProviderChanged();
+  void emitDisplayError(const std::string& edesc);
 
   ImageRecordsSet load_fs_images_records(const std::string& path);
   void try_to_append_images_dir(const std::string& path);

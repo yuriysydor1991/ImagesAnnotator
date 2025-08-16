@@ -74,8 +74,7 @@ class TypeHelper : virtual public IHelper
   }
 
   template <class Ntype>
-  std::string to_string_with_precision(const Ntype& value,
-                                       const int& precision)
+  std::string to_string_with_precision(const Ntype& value, const int& precision)
   {
     std::ostringstream out;
     out << std::fixed << std::setprecision(precision) << value;

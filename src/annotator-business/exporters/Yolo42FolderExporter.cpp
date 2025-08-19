@@ -93,10 +93,12 @@ bool Yolo42FolderExporter::create_subdirs(ExportContextPtr ectx)
 
   try {
     if (!fs::is_directory(dirPath)) {
-      LOGD("Directory does not exists: " << ectx->export_path << " trying to create one");
-      
+      LOGD("Directory does not exists: " << ectx->export_path
+                                         << " trying to create one");
+
       if (!fs::create_directories(dirPath)) {
-        LOGE("Failure while creating the export directory: " << dirPath.string());
+        LOGE("Failure while creating the export directory: "
+             << dirPath.string());
         return false;
       }
     }

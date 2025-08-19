@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.13)
 
 set(CCTNAME "CTEST_AnnotationsDirDB")
 
+# @todo: mock other components
+
 add_executable(
   ${CCTNAME}
   CTEST_AnnotationsDirDB.cpp
@@ -33,6 +35,13 @@ add_executable(
   ${CMAKE_SOURCE_DIR}/src/gtkmm3/helpers/GtkmmImageCropperProvider.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/Export2PyTorchVisionRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/DeleteCurrentImageRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/helpers/ImageLoader.cpp
+  ${CMAKE_SOURCE_DIR}/src/helpers/ImageRecordUrlAndPathHelper.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/DisplayErrorEvent.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/AnnotationsDBs/mergers/DefaultDBMerger.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/ImagesLoaders/ImagesWebPageLoader.cpp
+  ${CMAKE_SOURCE_DIR}/src/CURL/CURLController.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/LoadImagesFromWebPage.cpp
 )
 
 target_compile_options(
@@ -51,7 +60,7 @@ target_include_directories(
 
 target_link_libraries(
   ${CCTNAME}
-  GTest::gtest_main GTest::gmock
+  GTest::gtest_main GTest::gmock ${CURL_LIBRARIES}
 )
 
 include(GoogleTest)

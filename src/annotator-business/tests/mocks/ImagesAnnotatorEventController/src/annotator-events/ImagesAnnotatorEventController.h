@@ -106,6 +106,15 @@ class ImagesAnnotatorEventController : public IImagesAnnotatorEventController
   MOCK_METHOD(void, subscribe,
               (events::DeleteCurrentImageRequestHandlerPtr handler),
               (override));
+
+  MOCK_METHOD(void, submit, (events::LoadImagesFromWebPagePtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::LoadImagesFromWebPageHandlerPtr handler), (override));
+
+  MOCK_METHOD(void, submit, (events::DisplayErrorEventPtr event), (override));
+  MOCK_METHOD(void, subscribe, (events::DisplayErrorEventHandlerPtr handler),
+              (override));
 };
 
 }  // namespace events

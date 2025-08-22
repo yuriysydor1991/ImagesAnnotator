@@ -1407,6 +1407,18 @@ void WindowEventsHandler::update_status_bar(const std::string& nstatus)
                   mwctx->current_annotation_name->get_text() + "]";
   }
 
+  if (mwctx->current_image_original_pixbuf && mwctx->current_image != nullptr) {
+    const float scalePercs =
+        static_cast<float>(mwctx->current_image->get_image_rec()->imageScale) *
+        100.0f;
+    compStatus +=
+        " [pixels,scale: " +
+        std::to_string(mwctx->current_image_original_pixbuf->get_width()) +
+        "x" +
+        std::to_string(mwctx->current_image_original_pixbuf->get_height()) +
+        " " + to_string_with_precision(scalePercs, 2U) + "%]";
+  }
+
   mwctx->wloader->get_window_status_bar()->push(compStatus, stCtx);
 }
 

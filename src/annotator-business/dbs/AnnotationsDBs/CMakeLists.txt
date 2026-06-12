@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.13)
 
-find_package(nlohmann_json REQUIRED)
+# The nlohmann_json library is made available (system wide or through the
+# Internet via FetchContent) and propagated to the project targets by the
+# template-project-nlohmann-json-enabler module.
 
 add_library(
   ImagesAnnotatorControllerDBsObj OBJECT
@@ -18,7 +20,6 @@ target_include_directories(
 target_link_libraries(
   ${PROJECT_BINARY_NAME}
   ImagesAnnotatorControllerDBsObj
-  nlohmann_json::nlohmann_json
 )
 
 add_subdirectory(converters)

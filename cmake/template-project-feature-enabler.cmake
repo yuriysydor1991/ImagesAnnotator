@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.13)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/enablers")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/profilers")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/tools")
+
+include(template-project-enabler-function)
+include(template-project-nlohmann-json-enabler)
 
 if(ENABLE_UNIT_TESTS OR ENABLE_COMPONENT_TESTS)
   enable_testing()

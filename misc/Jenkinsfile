@@ -101,6 +101,9 @@ pipeline {
         stage('UTEST_TypeHelper') {
           steps { sh 'cd $BUILDDIR && ctest -R "UTEST_TypeHelper\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_TypeHelper.junit.xml' }
         }
+        stage('UTEST_ImageRecordRect') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImageRecordRect\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImageRecordRect.junit.xml' }
+        }
       }
       post { always { junit "$BUILDDIR/$BDJUNITOUT/UTEST_*.xml" } }
     }

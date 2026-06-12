@@ -185,6 +185,9 @@ pipeline {
         stage('UTEST_ImageLoader') {
           steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImageLoader\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImageLoader.junit.xml' }
         }
+        stage('UTEST_ImagesAnnotatorEventController') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImagesAnnotatorEventController\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImagesAnnotatorEventController.junit.xml' }
+        }
       }
       post { always { junit "$BUILDDIR/$BDJUNITOUT/UTEST_*.xml" } }
     }

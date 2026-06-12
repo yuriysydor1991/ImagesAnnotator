@@ -107,6 +107,9 @@ pipeline {
         stage('UTEST_ImageRecord') {
           steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImageRecord\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImageRecord.junit.xml' }
         }
+        stage('UTEST_EventsFactory') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_EventsFactory\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_EventsFactory.junit.xml' }
+        }
       }
       post { always { junit "$BUILDDIR/$BDJUNITOUT/UTEST_*.xml" } }
     }

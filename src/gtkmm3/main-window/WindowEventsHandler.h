@@ -28,40 +28,45 @@
 #ifndef IMAGES_ANNOTATOR_PROJECT_GTKMM_WINDOWEVENTSHANDLER_CLASS_H
 #define IMAGES_ANNOTATOR_PROJECT_GTKMM_WINDOWEVENTSHANDLER_CLASS_H
 
-#include <functional>
 #include <memory>
+#include <vector>
 
 #include "src/annotator-events/events/ImagesDirProviderChangedHandler.h"
 #include "src/gtkmm3/ComponentTypesAliases.h"
-#include "src/gtkmm3/MainWindowContext.h"
-#include "src/gtkmm3/gtkmm_includes.h"
-#include "src/gtkmm3/main-window/WindowDataContext.h"
-#include "src/helpers/ImageLoader.h"
-#include "src/helpers/ImageRecordUrlAndPathHelper.h"
-#include "src/helpers/TypeHelper.h"
 
 namespace templateGtkmm3
 {
 class MainWindowContext;
 }  // namespace templateGtkmm3
 
+namespace templateGtkmm3::window::event_handlers
+{
+class WindowOps;
+class WindowEventHandlersFactory;
+class AbstractWindowEventHandler;
+class WindowSystemEventsHandler;
+}  // namespace templateGtkmm3::window::event_handlers
+
 namespace templateGtkmm3::window
 {
 
 /**
- * @brief Class to hold the window loader routines from the UI xml files.
+ * @brief Coordinates the decomposed main window event handlers.
+ *
+ * The actual event processing lives in the dedicated handlers under the
+ * event-handlers sub folder. This class builds the shared infrastructure
+ * (WindowOps), uses the WindowEventHandlersFactory to create every category
+ * handler, asks each one to subscribe to its GTK signals and forwards the
+ * application controller (system) events to the system events handler.
  */
 class WindowEventsHandler
     : virtual public ComponentTypesAliases,
       virtual public events::events::ImagesDirProviderChangedHandler,
       public std::enable_shared_from_this<WindowEventsHandler>,
-      virtual public helpers::TypeHelper,
-      virtual public helpers::ImageRecordUrlAndPathHelper,
       virtual public events::events::DisplayErrorEventHandler
 {
  public:
   using ImagesDirProviderChanged = events::events::ImagesDirProviderChanged;
-  using ImageRecordPtr = events::events::ImageRecordPtr;
 
   virtual ~WindowEventsHandler() = default;
   WindowEventsHandler() = default;
@@ -69,118 +74,21 @@ class WindowEventsHandler
   virtual bool init(std::shared_ptr<MainWindowContext> nmwctx);
 
  protected:
-  virtual void on_images_row_selected(Gtk::ListBoxRow* row);
-  virtual void on_zoom_in_clicked();
-  virtual void on_zoom_out_clicked();
-  virtual bool on_image_scroll(GdkEventScroll* scroll_event);
-  virtual void on_annotations_db_open_click();
-  virtual void on_images_dir_open_click();
-  virtual void on_menu_images_folder_open_activate();
-  virtual void on_menu_annotations_db_open_activate();
-  virtual void on_menu_annotations_db_save_activate();
-  virtual void on_menu_annotations_db_saveas_activate();
-  virtual void on_menu_annotations_project_close_activate();
-  virtual void on_auto_insert_current_annotation_to_whole_activate();
-  virtual void on_current_image_rect_row_selected(Gtk::ListBoxRow* row);
-  virtual void on_current_rectangle_delete_click();
-  virtual void on_rect_edit_entry_changed();
-  virtual void on_all_annotations_selected(Gtk::ListBoxRow* row);
-  virtual void on_annotations_name_copy_click();
-  virtual void on_next_file_button_click();
-  virtual void on_prev_file_button_click();
-  virtual void on_ci_annotation_copy_click();
-  virtual void on_annotations_search_text_changed();
-  virtual void on_menu_about_activate();
-  virtual void on_export_txt_2_folder_activate();
-  virtual bool on_window_close(GdkEventAny*);
-  virtual void on_export_yolo4_folder_activate();
-  virtual void on_export_pytorchvision_folder_activate();
-  virtual void on_images_search_text_changed();
-  virtual void on_current_image_delete_click();
-  virtual void on_menu_web_page_images_load_activate();
-  virtual bool on_key_press(GdkEventKey* event);
-
-  virtual bool on_mouse_motion_start(GdkEventButton* event);
-  virtual bool on_mouse_motion_end(GdkEventButton* event);
-  virtual bool on_mouse_motion_event(GdkEventMotion* event);
-  virtual bool on_rectangle_draw_start(GdkEventButton* event);
-  virtual bool on_rectangle_draw_end(GdkEventButton* event);
-  virtual bool on_rectangle_size_change(GdkEventMotion* event);
-  virtual bool on_mouse_resize_motion_start(GdkEventButton* event);
-  virtual bool on_mouse_resize_motion_event(GdkEventMotion* event);
-  virtual bool update_current_resize(GdkEventMotion* event);
-
-  virtual void update_image_zoom();
-
   virtual void subscribe_4_visual_events();
   virtual void subscribe_4_system_events();
+
+  virtual void build_event_handlers();
 
   virtual void handle(std::shared_ptr<ImagesDirProviderChanged> event) override;
   virtual void handle(DisplayErrorEventPtr event) override;
 
-  void clean_list_box(Gtk::ListBox* listBox);
-  void select_list_box_child(Gtk::ListBox* listBox, Gtk::Widget* child);
-
-  void update_images_list();
-  void update_current_rects_list();
-  void update_rect_edit_entry();
-  void update_annotations_list();
-  void update_current_annotations_selection();
-  void update_status_bar(const std::string& nstatus);
-  void update_title(const std::string& ntitle);
-  void update_statuses();
-
-  void normalize_current_rect();
-  void normilize_initial_image_load_scale();
-
-  void set_resize_cursor();
-  void reset_cursor();
-
-  void show_spinner();
-  void hide_spinner();
-
-  void select_all_annotations_name(const std::string& name);
-  size_t get_annotated_images_count();
-
-  void show_error_dialog(const std::string& emsg);
-
-  virtual bool load_image(ImageRecordPtr ir);
-
-  virtual bool has_to_export();
-
-  virtual std::string compute_title(const bool changes);
-
-  std::function<bool(const Gtk::Widget*)> get_wvisibility_unary_op();
-  std::function<bool(const ImagePathLabelPtr& ptr)> get_annotated_images_op();
-  std::function<bool(const Gtk::Widget* w)> get_list_row_name_searcher_op(
-      const std::string& name);
-  std::function<bool(const int& x, const int& y, bool keyboard_tooltip,
-                     const Glib::RefPtr<Gtk::Tooltip>& tooltip)>
-  get_tooltip_lambda();
-
-  /// @brief Asks user about unsaved changes
-  /// @return Returns true if project may be closed.
-  virtual bool ask_about_unsaved_changes();
-
-  /// @brief Asks about annotations being deleted with the image
-  /// @return Returns a true value if image should be deleted with
-  /// the annotations
-  virtual bool ask_about_rects_delete();
-
-  virtual bool ask_user_4_webpage_url(std::string& urldst);
-
-  inline static constexpr const char* const overlay_class =
-      "almost_non_transparent";
-  inline static constexpr const double load_image_scale_helper = 1.015;
-  inline static const std::string changesI = "*";
-
  private:
   std::shared_ptr<MainWindowContext> mwctx;
-  ::helpers::ImageLoaderPtr iloader;
-
-  bool dragging{false};
-  bool isOverResize{false};
-  bool lastChangedStatus{false};
+  std::shared_ptr<event_handlers::WindowOps> ops;
+  std::shared_ptr<event_handlers::WindowEventHandlersFactory> ehFactory;
+  std::vector<std::shared_ptr<event_handlers::AbstractWindowEventHandler>>
+      handlers;
+  std::shared_ptr<event_handlers::WindowSystemEventsHandler> systemHandler;
 };
 
 }  // namespace templateGtkmm3::window

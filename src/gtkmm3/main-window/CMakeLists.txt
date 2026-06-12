@@ -21,3 +21,4 @@ target_link_libraries(
 )
 
 add_subdirectory(custom-widgets)
+add_subdirectory(event-handlers)

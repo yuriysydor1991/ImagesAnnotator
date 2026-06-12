@@ -113,6 +113,9 @@ pipeline {
         stage('UTEST_CURLController') {
           steps { sh 'cd $BUILDDIR && ctest -R "UTEST_CURLController\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_CURLController.junit.xml' }
         }
+        stage('UTEST_ImageRecordUrlAndPathHelper') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImageRecordUrlAndPathHelper\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImageRecordUrlAndPathHelper.junit.xml' }
+        }
       }
       post { always { junit "$BUILDDIR/$BDJUNITOUT/UTEST_*.xml" } }
     }

@@ -5,3 +5,4 @@ add_compile_options(-DNDEBUG=1)
 
 add_subdirectory(SortHelper)
 add_subdirectory(TypeHelper)
+add_subdirectory(ImageRecordUrlAndPathHelper)

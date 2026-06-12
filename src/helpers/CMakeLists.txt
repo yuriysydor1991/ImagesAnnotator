@@ -19,3 +19,5 @@ target_link_libraries(
   ${PROJECT_BINARY_NAME}
   ImagesAnnotatorHelpersObj
 )
+
+add_subdirectory(tests)

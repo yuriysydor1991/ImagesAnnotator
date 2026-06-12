@@ -95,6 +95,9 @@ pipeline {
         stage('UTEST_CommandLineParser') {
           steps { sh 'cd $BUILDDIR && ctest -R "UTEST_CommandLineParser\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_CommandLineParser.junit.xml' }
         }
+        stage('UTEST_SortHelper') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_SortHelper\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_SortHelper.junit.xml' }
+        }
       }
       post { always { junit "$BUILDDIR/$BDJUNITOUT/UTEST_*.xml" } }
     }

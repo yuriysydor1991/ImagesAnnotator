@@ -149,6 +149,9 @@ pipeline {
         stage('UTEST_ImagesDirProviderChanged') {
           steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImagesDirProviderChanged\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImagesDirProviderChanged.junit.xml' }
         }
+        stage('UTEST_ImageRecords2JSONConverter') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImageRecords2JSONConverter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImageRecords2JSONConverter.junit.xml' }
+        }
       }
       post { always { junit "$BUILDDIR/$BDJUNITOUT/UTEST_*.xml" } }
     }

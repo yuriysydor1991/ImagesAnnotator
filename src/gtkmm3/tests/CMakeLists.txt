@@ -4,3 +4,4 @@ find_package(PkgConfig)
 pkg_check_modules(GTKMM gtkmm-3.0 REQUIRED)
 
 add_subdirectory(unit)
+add_subdirectory(component)

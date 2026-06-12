@@ -176,6 +176,9 @@ pipeline {
         stage('UTEST_PyTorchVisionFolderExporter') {
           steps { sh 'cd $BUILDDIR && ctest -R "UTEST_PyTorchVisionFolderExporter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_PyTorchVisionFolderExporter.junit.xml' }
         }
+        stage('UTEST_ImagesWebPageLoader') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImagesWebPageLoader\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImagesWebPageLoader.junit.xml' }
+        }
       }
       post { always { junit "$BUILDDIR/$BDJUNITOUT/UTEST_*.xml" } }
     }

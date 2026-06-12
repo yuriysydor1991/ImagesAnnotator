@@ -26,6 +26,11 @@ configure_file(
   ${CMAKE_BINARY_DIR}/project-global-decls.h
 )
 
+# Root of the project wide shared test mocks. Every test (unit or component)
+# reuses the mock classes living under this directory instead of carrying its
+# own private copy, to avoid scattered identical mocks across the test tree.
+set(GENERAL_MOCKS_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/tests/mocks")
+
 add_subdirectory(app)
 add_subdirectory(log)
 add_subdirectory(gtkmm3)

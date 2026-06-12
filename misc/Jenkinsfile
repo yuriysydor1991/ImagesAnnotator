@@ -1,0 +1,213 @@
+pipeline {
+  agent any
+
+  environment {
+    BUILDDIR="build"
+    BDJUNITOUT="junit-out"
+  }
+
+  parameters {
+    booleanParam(name: 'RUN_CPPCHECK', defaultValue: false, description: 'Run the cppcheck static code check?')
+    booleanParam(name: 'RUN_CLANG_TIDY', defaultValue: false, description: 'Run the clang-tidy static code check (a full Debug rebuild)?')
+    booleanParam(name: 'RUN_DEB_PACKAGER', defaultValue: false, description: 'Build and check the deb package?')
+    booleanParam(name: 'RUN_FLATPAK_PACKAGER', defaultValue: false, description: 'Build and check the flatpak package?')
+  }
+
+  stages {
+    stage('Checkout') {
+      when {
+        expression {
+          def files = sh(script: 'ls -A', returnStdout: true).trim()
+          return files == ""
+        }
+      }
+
+      steps {
+        git branch: 'main',
+            url: 'https://github.com/yuriysydor1991/ImagesAnnotator.git'
+      }
+    }
+
+    stage('Code format configure') {
+      steps {
+        sh 'cmake -S . -B $BUILDDIR -DCMAKE_BUILD_TYPE=Debug -DENABLE_CLANGFORMAT=ON'
+      }
+    }
+
+    stage('Code format check (clang-format)') {
+      steps {
+        sh '''
+          cmake --build $BUILDDIR --target clang-format
+          if [ -n "$(git ls-files -m)" ]; then
+            echo "FAIL: the files below are not clang-format compliant:"
+            git ls-files -m
+            git checkout -- .
+            exit 1
+          fi
+          echo "OK: all sources are clang-format compliant"
+        '''
+      }
+    }
+
+    stage('Debug configure') {
+      steps {
+        sh 'rm -fr $BUILDDIR'
+        sh '''
+          cmake -S . -B $BUILDDIR -DCMAKE_BUILD_TYPE=Debug \
+            -DENABLE_UNIT_TESTS=ON -DENABLE_COMPONENT_TESTS=ON \
+            -DENABLE_SANITIZERS=ON -DMAX_LOG_LEVEL=5
+        '''
+      }
+    }
+
+    stage('Debug build') {
+      steps {
+        sh 'cmake --build $BUILDDIR -j$(nproc)'
+      }
+    }
+
+    stage('cppcheck') {
+      when { expression { params.RUN_CPPCHECK } }
+      steps {
+        sh 'rm -fr $BUILDDIR-cppcheck'
+        sh 'cmake -S . -B $BUILDDIR-cppcheck -DCMAKE_BUILD_TYPE=Debug -DENABLE_CPPCHECK=ON'
+        sh 'cmake --build $BUILDDIR-cppcheck --target cppcheck'
+      }
+    }
+
+    stage('Unit Tests') {
+      parallel {
+        stage('UTEST_Application') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_Application\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_Application.junit.xml' }
+        }
+        stage('UTEST_ApplicationContext') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ApplicationContext\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ApplicationContext.junit.xml' }
+        }
+        stage('UTEST_ApplicationFactory') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ApplicationFactory\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ApplicationFactory.junit.xml' }
+        }
+        stage('UTEST_ApplicationHelpPrinter') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ApplicationHelpPrinter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ApplicationHelpPrinter.junit.xml' }
+        }
+        stage('UTEST_ApplicationVersionPrinter') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ApplicationVersionPrinter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ApplicationVersionPrinter.junit.xml' }
+        }
+        stage('UTEST_CommandLineParser') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_CommandLineParser\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_CommandLineParser.junit.xml' }
+        }
+      }
+      post { always { junit "$BUILDDIR/$BDJUNITOUT/UTEST_*.xml" } }
+    }
+
+    stage('Component Tests') {
+      parallel {
+        stage('CTEST_AnnotationsDirDB') {
+          steps { sh 'cd $BUILDDIR && ctest -R "CTEST_AnnotationsDirDB\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_AnnotationsDirDB.junit.xml' }
+        }
+        stage('CTEST_ImagesDirLoader') {
+          steps { sh 'cd $BUILDDIR && ctest -R "CTEST_ImagesDirLoader\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_ImagesDirLoader.junit.xml' }
+        }
+      }
+      post { always { junit "$BUILDDIR/$BDJUNITOUT/CTEST_*.xml" } }
+    }
+
+    stage('Debug configure (clang-tidy)') {
+      when { expression { params.RUN_CLANG_TIDY } }
+      steps {
+        sh 'rm -fr $BUILDDIR-tidy'
+        sh 'cmake -S . -B $BUILDDIR-tidy -DCMAKE_BUILD_TYPE=Debug -DENABLE_CLANG_TIDY=ON -DMAX_LOG_LEVEL=5'
+      }
+    }
+
+    stage('Debug build (clang-tidy)') {
+      when { expression { params.RUN_CLANG_TIDY } }
+      steps {
+        sh 'cmake --build $BUILDDIR-tidy -j$(nproc)'
+      }
+    }
+
+    stage('Release configure') {
+      steps {
+        sh 'rm -fr $BUILDDIR-release'
+        sh 'cmake -S . -B $BUILDDIR-release -DCMAKE_BUILD_TYPE=Release'
+      }
+    }
+
+    stage('Release build') {
+      steps {
+        sh 'cmake --build $BUILDDIR-release -j$(nproc)'
+      }
+    }
+
+    stage('Release install') {
+      steps {
+        sh 'cmake --install $BUILDDIR-release --prefix $BUILDDIR-release/install-try'
+      }
+    }
+
+    stage('deb package') {
+      when { expression { params.RUN_DEB_PACKAGER } }
+      steps {
+        sh '''
+          BD="$BUILDDIR-pkg-deb"
+          rm -fr "$BD"
+          cmake -S . -B "$BD" -DCMAKE_BUILD_TYPE=Release -DENABLE_DEB=ON
+          cmake --build "$BD" -j$(nproc)
+          ( cd "$BD" && cpack -G DEB )
+          if [ -z "$(find "$BD" -maxdepth 2 -name '*.deb' -print -quit)" ]; then
+            echo "FAIL: CMake/CPack did not produce a .deb package"
+            exit 1
+          fi
+          echo "OK: produced $(find "$BD" -maxdepth 2 -name '*.deb')"
+        '''
+      }
+    }
+
+    stage('flatpak package') {
+      when { expression { params.RUN_FLATPAK_PACKAGER } }
+      steps {
+        sh '''
+          BD="$BUILDDIR-pkg-flatpak"
+          rm -fr "$BD"
+          cmake -S . -B "$BD" -DCMAKE_BUILD_TYPE=Release -DENABLE_FLATPAK=ON
+          cmake --build "$BD" -j$(nproc)
+          cmake --build "$BD" --target flatpak
+          if [ -z "$(find "$BD" -maxdepth 2 -name '*.flatpak' -print -quit)" ]; then
+            echo "FAIL: CMake did not produce a .flatpak bundle"
+            exit 1
+          fi
+          echo "OK: produced $(find "$BD" -maxdepth 2 -name '*.flatpak')"
+        '''
+      }
+    }
+
+    stage('No git conflict markers') {
+      steps {
+        sh '''
+          if git grep -nE "^(<<<<<<<|>>>>>>>)" -- .; then
+            echo "FAIL: the files listed above contain git conflict markers (unmerged content)"
+            exit 1
+          fi
+          echo "OK: no git conflict markers found in the tracked files"
+        '''
+      }
+    }
+
+    stage('Every declared test is registered in the pipeline') {
+      steps {
+        sh '''
+          declared="$(grep -rhA3 "gtest_add_tests" --include=CMakeLists.txt src | grep -oE "TARGET[[:space:]]+[A-Za-z0-9_]+" | awk '{print $2}' | sort -u)"
+          status=0
+          for t in $declared; do
+            if ! grep -qF "$t" misc/Jenkinsfile; then
+              echo "FAIL: test $t is declared in the CMake files but not registered in this Jenkinsfile"
+              status=1
+            fi
+          done
+          [ "$status" -eq 0 ] || exit 1
+          echo "OK: every CMake-declared test is registered in the pipeline"
+        '''
+      }
+    }
+  }
+}

@@ -41,3 +41,4 @@ target_link_libraries(
 add_subdirectory(ui)
 add_subdirectory(main-window)
 add_subdirectory(helpers)
+add_subdirectory(tests)

@@ -188,6 +188,9 @@ pipeline {
         stage('UTEST_ImagesAnnotatorEventController') {
           steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImagesAnnotatorEventController\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImagesAnnotatorEventController.junit.xml' }
         }
+        stage('UTEST_WindowDataContext') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_WindowDataContext\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_WindowDataContext.junit.xml' }
+        }
       }
       post { always { junit "$BUILDDIR/$BDJUNITOUT/UTEST_*.xml" } }
     }
@@ -199,6 +202,39 @@ pipeline {
         }
         stage('CTEST_ImagesDirLoader') {
           steps { sh 'cd $BUILDDIR && ctest -R "CTEST_ImagesDirLoader\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_ImagesDirLoader.junit.xml' }
+        }
+        // The custom widget tests need a GDK display. A headless broadway server
+        // is started per stage (distinct display numbers to avoid collisions);
+        // if broadwayd is unavailable the tests self-skip and stay green.
+        stage('CTEST_AllAnnotationsLabel') {
+          steps {
+            sh '''
+              broadwayd :5 >/dev/null 2>&1 & BW=$!
+              sleep 1
+              cd $BUILDDIR && GDK_BACKEND=broadway BROADWAY_DISPLAY=:5 ctest -R "CTEST_AllAnnotationsLabel\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_AllAnnotationsLabel.junit.xml
+              rc=$?; kill $BW 2>/dev/null || true; exit $rc
+            '''
+          }
+        }
+        stage('CTEST_ImageRectsLabel') {
+          steps {
+            sh '''
+              broadwayd :6 >/dev/null 2>&1 & BW=$!
+              sleep 1
+              cd $BUILDDIR && GDK_BACKEND=broadway BROADWAY_DISPLAY=:6 ctest -R "CTEST_ImageRectsLabel\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_ImageRectsLabel.junit.xml
+              rc=$?; kill $BW 2>/dev/null || true; exit $rc
+            '''
+          }
+        }
+        stage('CTEST_ImagePathLabel') {
+          steps {
+            sh '''
+              broadwayd :7 >/dev/null 2>&1 & BW=$!
+              sleep 1
+              cd $BUILDDIR && GDK_BACKEND=broadway BROADWAY_DISPLAY=:7 ctest -R "CTEST_ImagePathLabel\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_ImagePathLabel.junit.xml
+              rc=$?; kill $BW 2>/dev/null || true; exit $rc
+            '''
+          }
         }
       }
       post { always { junit "$BUILDDIR/$BDJUNITOUT/CTEST_*.xml" } }

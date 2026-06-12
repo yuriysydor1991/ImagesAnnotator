@@ -116,6 +116,39 @@ pipeline {
         stage('UTEST_ImageRecordUrlAndPathHelper') {
           steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImageRecordUrlAndPathHelper\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImageRecordUrlAndPathHelper.junit.xml' }
         }
+        stage('UTEST_AnnotationsDirChanged') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_AnnotationsDirChanged\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_AnnotationsDirChanged.junit.xml' }
+        }
+        stage('UTEST_ImagesDirChanged') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImagesDirChanged\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImagesDirChanged.junit.xml' }
+        }
+        stage('UTEST_StoreRequest') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_StoreRequest\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_StoreRequest.junit.xml' }
+        }
+        stage('UTEST_ExportPlainTxt2FolderRequest') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ExportPlainTxt2FolderRequest\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ExportPlainTxt2FolderRequest.junit.xml' }
+        }
+        stage('UTEST_ExportYolo4FolderRequest') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ExportYolo4FolderRequest\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ExportYolo4FolderRequest.junit.xml' }
+        }
+        stage('UTEST_Export2PyTorchVisionRequest') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_Export2PyTorchVisionRequest\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_Export2PyTorchVisionRequest.junit.xml' }
+        }
+        stage('UTEST_DeleteCurrentImageRequest') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_DeleteCurrentImageRequest\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_DeleteCurrentImageRequest.junit.xml' }
+        }
+        stage('UTEST_LoadImagesFromWebPage') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_LoadImagesFromWebPage\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_LoadImagesFromWebPage.junit.xml' }
+        }
+        stage('UTEST_DisplayErrorEvent') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_DisplayErrorEvent\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_DisplayErrorEvent.junit.xml' }
+        }
+        stage('UTEST_CurrentImageChanged') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_CurrentImageChanged\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_CurrentImageChanged.junit.xml' }
+        }
+        stage('UTEST_ImagesDirProviderChanged') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImagesDirProviderChanged\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImagesDirProviderChanged.junit.xml' }
+        }
       }
       post { always { junit "$BUILDDIR/$BDJUNITOUT/UTEST_*.xml" } }
     }

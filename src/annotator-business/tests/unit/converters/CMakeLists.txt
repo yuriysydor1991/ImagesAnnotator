@@ -4,3 +4,4 @@ set(CONVERTERS_SRC
   ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/AnnotationsDBs/converters)
 
 add_subdirectory(ImageRecords2JSONConverter)
+add_subdirectory(ImageRecordRectJSON2RecordConverter)

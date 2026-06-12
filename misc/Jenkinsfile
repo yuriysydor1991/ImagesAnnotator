@@ -155,6 +155,9 @@ pipeline {
         stage('UTEST_ImageRecordRectJSON2RecordConverter') {
           steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImageRecordRectJSON2RecordConverter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImageRecordRectJSON2RecordConverter.junit.xml' }
         }
+        stage('UTEST_ImageRecordJSON2RecordConverter') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImageRecordJSON2RecordConverter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImageRecordJSON2RecordConverter.junit.xml' }
+        }
       }
       post { always { junit "$BUILDDIR/$BDJUNITOUT/UTEST_*.xml" } }
     }

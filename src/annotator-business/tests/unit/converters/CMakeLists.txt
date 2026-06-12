@@ -5,3 +5,4 @@ set(CONVERTERS_SRC
 
 add_subdirectory(ImageRecords2JSONConverter)
 add_subdirectory(ImageRecordRectJSON2RecordConverter)
+add_subdirectory(ImageRecordJSON2RecordConverter)

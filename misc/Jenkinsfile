@@ -98,6 +98,9 @@ pipeline {
         stage('UTEST_SortHelper') {
           steps { sh 'cd $BUILDDIR && ctest -R "UTEST_SortHelper\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_SortHelper.junit.xml' }
         }
+        stage('UTEST_TypeHelper') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_TypeHelper\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_TypeHelper.junit.xml' }
+        }
       }
       post { always { junit "$BUILDDIR/$BDJUNITOUT/UTEST_*.xml" } }
     }

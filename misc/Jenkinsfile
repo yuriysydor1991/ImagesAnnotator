@@ -170,6 +170,9 @@ pipeline {
         stage('UTEST_PlainTxt2FolderExporter') {
           steps { sh 'cd $BUILDDIR && ctest -R "UTEST_PlainTxt2FolderExporter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_PlainTxt2FolderExporter.junit.xml' }
         }
+        stage('UTEST_Yolo42FolderExporter') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_Yolo42FolderExporter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_Yolo42FolderExporter.junit.xml' }
+        }
       }
       post { always { junit "$BUILDDIR/$BDJUNITOUT/UTEST_*.xml" } }
     }

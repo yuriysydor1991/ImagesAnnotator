@@ -5,3 +5,4 @@ set(HELPERS_SRC ${CMAKE_SOURCE_DIR}/src/helpers)
 set(EVENTS_SRC ${CMAKE_SOURCE_DIR}/src/annotator-events/events)
 
 add_subdirectory(PlainTxt2FolderExporter)
+add_subdirectory(Yolo42FolderExporter)

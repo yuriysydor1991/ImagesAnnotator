@@ -179,6 +179,9 @@ pipeline {
         stage('UTEST_ImagesWebPageLoader') {
           steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImagesWebPageLoader\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImagesWebPageLoader.junit.xml' }
         }
+        stage('UTEST_SimpleLogger') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_SimpleLogger\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_SimpleLogger.junit.xml' }
+        }
       }
       post { always { junit "$BUILDDIR/$BDJUNITOUT/UTEST_*.xml" } }
     }

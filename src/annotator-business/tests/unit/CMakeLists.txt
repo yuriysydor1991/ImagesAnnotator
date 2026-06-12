@@ -28,3 +28,4 @@ set(ANNOTATOR_EVENTS_SRC
 
 add_subdirectory(converters)
 add_subdirectory(mergers)
+add_subdirectory(AnnotationsJSONSerializator)

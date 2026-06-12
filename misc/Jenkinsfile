@@ -164,6 +164,9 @@ pipeline {
         stage('UTEST_DefaultDBMerger') {
           steps { sh 'cd $BUILDDIR && ctest -R "UTEST_DefaultDBMerger\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_DefaultDBMerger.junit.xml' }
         }
+        stage('UTEST_AnnotationsJSONSerializator') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_AnnotationsJSONSerializator\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_AnnotationsJSONSerializator.junit.xml' }
+        }
       }
       post { always { junit "$BUILDDIR/$BDJUNITOUT/UTEST_*.xml" } }
     }

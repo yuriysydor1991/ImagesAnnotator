@@ -20,3 +20,5 @@ target_link_libraries(
   TemplateProjectCURLControllerObj
   ${CURL_LIBRARIES}
 )
+
+add_subdirectory(tests)

@@ -8,3 +8,5 @@ endif()
 add_compile_options(-DNDEBUG=1)
 
 add_subdirectory(WindowDataContext)
+add_subdirectory(WindowEventHandlersFactory)
+add_subdirectory(AbstractWindowEventHandler)

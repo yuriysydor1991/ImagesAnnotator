@@ -11,3 +11,4 @@ add_compile_options(-DNDEBUG=1)
 # need an initialized GTK display. They self-skip (GTEST_SKIP) when GTK cannot
 # initialize, so they stay green on headless agents without a display.
 add_subdirectory(custom-widgets)
+add_subdirectory(event-handlers)

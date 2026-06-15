@@ -191,6 +191,12 @@ pipeline {
         stage('UTEST_WindowDataContext') {
           steps { sh 'cd $BUILDDIR && ctest -R "UTEST_WindowDataContext\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_WindowDataContext.junit.xml' }
         }
+        stage('UTEST_WindowEventHandlersFactory') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_WindowEventHandlersFactory\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_WindowEventHandlersFactory.junit.xml' }
+        }
+        stage('UTEST_AbstractWindowEventHandler') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_AbstractWindowEventHandler\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_AbstractWindowEventHandler.junit.xml' }
+        }
       }
       post { always { junit "$BUILDDIR/$BDJUNITOUT/UTEST_*.xml" } }
     }
@@ -232,6 +238,16 @@ pipeline {
               broadwayd :7 >/dev/null 2>&1 & BW=$!
               sleep 1
               cd $BUILDDIR && GDK_BACKEND=broadway BROADWAY_DISPLAY=:7 ctest -R "CTEST_ImagePathLabel\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_ImagePathLabel.junit.xml
+              rc=$?; kill $BW 2>/dev/null || true; exit $rc
+            '''
+          }
+        }
+        stage('CTEST_WindowEventHandlers') {
+          steps {
+            sh '''
+              broadwayd :8 >/dev/null 2>&1 & BW=$!
+              sleep 1
+              cd $BUILDDIR && GDK_BACKEND=broadway BROADWAY_DISPLAY=:8 ctest -R "CTEST_WindowEventHandlers\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_WindowEventHandlers.junit.xml
               rc=$?; kill $BW 2>/dev/null || true; exit $rc
             '''
           }

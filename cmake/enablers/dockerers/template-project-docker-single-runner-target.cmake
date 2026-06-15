@@ -8,10 +8,12 @@ set(
       -t ${DOCKER_SINGLE_RUN_NAME} .
 )
 
+# ImagesAnnotator specific: the app is a GTKmm3 GUI, so the container run
+# forwards the host X11 display, the D-Bus session and the at-spi bus.
 set(
   DOCKER_SINGLE_RUN_CMD
     xhost +local:docker &&
-    DOCKER_HOST=${DOCKER_HOST_STR} 
+    DOCKER_HOST=${DOCKER_HOST_STR}
     ${DOCKER_EXEC} run --rm -t
     --security-opt apparmor=unconfined
     --ipc=host

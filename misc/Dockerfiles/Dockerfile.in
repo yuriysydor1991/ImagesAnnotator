@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ${DOCKERFILE_SINGLE_RUN_BASE_IMAGE_STRING}
 
 RUN apt update
 RUN apt install -y libstdc++6 build-essential git cmake g++ pkg-config libgtkmm-3.0-dev
@@ -6,7 +6,7 @@ RUN apt install -y nlohmann-json3-dev
 
 ARG BUILDDIR=/src/${PROJECT_BINARY_NAME}-build-docker-singlerun
 
-RUN --mount=from=project,target=/src/${PROJECT_BINARY_NAME} \ 
+RUN --mount=from=project,target=/src/${PROJECT_BINARY_NAME} \
  cd /src/${PROJECT_BINARY_NAME} && \
  mkdir -vp $BUILDDIR && \
  cmake -S . -B $BUILDDIR -DCMAKE_BUILD_TYPE=Release &&  \

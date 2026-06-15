@@ -1,5 +1,15 @@
 cmake_minimum_required(VERSION 3.13)
 
+option(
+  ENABLE_VALGRIND
+  "Set to ON if to enable the valgrind memory check execution target."
+  OFF
+)
+
+if(NOT ENABLE_VALGRIND)
+  return()
+endif()
+
 find_program(VALGRIND_EXECUTABLE NAMES valgrind)
 
 if (NOT VALGRIND_EXECUTABLE)

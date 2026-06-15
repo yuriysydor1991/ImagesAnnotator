@@ -24,5 +24,6 @@ template_project_default_3rdparty_enabler(
 # the annotator controller). Propagate its usage requirements (the include
 # directories) to every target built below instead of only the final
 # executable, so the object libraries compile no matter whether the library
-# came from the system or was fetched through the Internet.
+# came from the system or was fetched through the Internet. This is why the
+# enabler is included before add_subdirectory(src) (see the pre feature-enabler).
 link_libraries(nlohmann_json::nlohmann_json)

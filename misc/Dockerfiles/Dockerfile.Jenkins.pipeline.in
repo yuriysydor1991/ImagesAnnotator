@@ -1,0 +1,16 @@
+FROM jenkins/jenkins:lts
+
+USER root 
+
+RUN apt update
+RUN apt install -y libstdc++6 build-essential git cmake g++
+RUN apt install -y clang-format
+RUN apt install -y cppcheck
+RUN apt install -y valgrind
+RUN apt install -y flatpak
+RUN apt install -y clang-tidy
+RUN apt install -y libgtest-dev
+RUN apt install -y libgmock-dev
+
+CMD ["jenkins.sh"]
+

@@ -1,5 +1,42 @@
 cmake_minimum_required(VERSION 3.13)
 
+option(
+  ENABLE_DOC_DOXYGEN 
+  "Set to ON value if Doxygen documentation generation should be available"
+  OFF
+)
+
+set(
+  DOXYGEN_OUTPUT_LANGUAGE "English"
+  CACHE STRING "Sets the Doxygen output language for the generated documentation (see doc/Doxyfile.in)"
+)
+
+set(
+  DOXYGEN_MAIN_PAGE_MD "README.md"
+  CACHE STRING "Sets the Doxygen main README file to place into documentation the home page."
+)
+
+set(
+  DOXYGEN_OUTPUT_DIR ${CMAKE_SOURCE_DIR}/doc
+  CACHE STRING "Sets the doxygen documentation output directory."
+)
+
+option(
+  DOXYGEN_DO_INSTALL
+  "Set to on if CMake should install the generated documentation during install command executed."
+  OFF 
+)
+
+set(
+  DOXYGEN_OUT_HTML_NAME ${PROJECT_BINARY_NAME}-html
+  CACHE STRING "The Doxygen output HTML directory name (for the Doxyfile)"
+)
+
+set(
+  DOXYGEN_OUT_HTML ${DOXYGEN_OUTPUT_DIR}/${DOXYGEN_OUT_HTML_NAME}
+  CACHE STRING "Sets the doxygen documentation output full directory path."
+)
+
 if(NOT ENABLE_DOC_DOXYGEN)
   return()
 endif()

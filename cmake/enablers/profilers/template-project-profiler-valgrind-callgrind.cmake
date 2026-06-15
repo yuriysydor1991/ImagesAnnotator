@@ -1,5 +1,15 @@
 cmake_minimum_required(VERSION 3.13)
 
+option(
+  ENABLE_CALLGRIND
+  "Set to ON to enable the valgrind (callgrind) application profiler analysis"
+  OFF
+)
+
+if (NOT ENABLE_CALLGRIND)
+  return()
+endif()
+
 if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
   message(FATAL_ERROR "Profiling is only for the Debug builds")
 endif()

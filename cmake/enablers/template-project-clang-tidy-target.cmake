@@ -1,6 +1,14 @@
 cmake_minimum_required(VERSION 3.15)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+option(
+  ENABLE_CLANG_TIDY
+  "Set to ON if enable the clang-tidy code check target."
+  OFF
+)
+
+if(NOT ENABLE_CLANG_TIDY)
+  return()
+endif()
 
 find_program(CLTIDY_EXEC clang-tidy REQUIRED)
 

@@ -1,0 +1,24 @@
+name: ${PROJECT_BINARY_NAME_lower}
+base: core24
+version: '${CMAKE_PROJECT_VERSION}'
+summary: ${CMAKE_PROJECT_DESCRIPTION}
+description: |
+  ${CMAKE_PROJECT_DESCRIPTION}
+
+grade: ${TEMPLATE_PROJECT_SNAP_GRADE}
+confinement: ${TEMPLATE_PROJECT_SNAP_CONFINEMENT}
+
+apps:
+  ${PROJECT_BINARY_NAME}:
+    command: ${PROJECT_BINARY_INSTALLATION_DIR}/${PROJECT_BINARY_NAME}
+    plugs:
+      - home
+
+parts:
+  ${PROJECT_BINARY_NAME}:
+    plugin: cmake
+    source: '${CMAKE_SOURCE_DIR}'
+    cmake-generator: '${CMAKE_GENERATOR}'
+    cmake-parameters:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}

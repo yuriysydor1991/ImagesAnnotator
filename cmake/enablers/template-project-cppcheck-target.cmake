@@ -1,5 +1,15 @@
 cmake_minimum_required(VERSION 3.13)
 
+option(
+  ENABLE_CPPCHECK
+  "Set to ON if to enable the cppcheck execution target."
+  OFF
+)
+
+if(NOT ENABLE_CPPCHECK)
+  return()
+endif()
+
 find_program(CPPCHECK_EXEC cppcheck cppcheck.exe)
 
 if (NOT CPPCHECK_EXEC)

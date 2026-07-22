@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+- Fix a crash when zooming a (small) image out too far: the per-image zoom is now clamped to a strictly positive minimum (and a sane maximum), and the zoom rendering skips degenerate sizes, so `gdk_pixbuf_scale_simple()` is never asked for a zero-sized image.
+- Wire up Shift + mouse-wheel image zoom, which was implemented but never connected: the central canvas now zooms on Shift + scroll (via `Gdk::SCROLL_MASK`/`signal_scroll_event` on GTKmm3 and a `Gtk::EventControllerScroll` on GTKmm4), leaving plain scrolling to the surrounding scrolled window.
+- Fix per-image zoom being lost when switching between images: the fit-to-window scale is now computed only once per image and the user-set scale is remembered across image switches and restored from the project JSON (affects both GTKmm3 and GTKmm4).
+- Fix the GTKmm4 startup layout (the annotations panel filled the whole window, and the side panels squished the central image area): the central image working area is now the dominant column and only it grows/shrinks with the window, while the left (images) and right (annotations) management panels keep a comfortable fixed width.
+- Fix the GResource build dependency so editing `GtkmmWindow.ui`, the CSS or the images regenerates the embedded resource instead of baking a stale UI into the binary.
+- Add a GTKmm4 (GTK 4) GUI implementation as a full-featured analogue of the GTKmm3 one (menus via `Gio::Menu`/`Gio::Action`, input via GTK4 event controllers, drawing via `DrawingArea::set_draw_func`).
+- Restructure the GUI under `src/gui` with the `gtkmm3`, `gtkmm4` and toolkit-agnostic `gtkmm-common` subcomponents.
+- Introduce the mutually exclusive `USE_GTKMM3` / `USE_GTKMM4` CMake options (GTKmm4 is the default) to select the compiled GUI toolkit.
+- Decouple the `app` component from a specific toolkit through the toolkit-neutral `gui::GtkmmIniter` facade.
+- Mirror the GTKmm GUI unit and component test suites for GTKmm4 and update the Jenkins pipeline, DEB/Docker packaging and documentation accordingly.
+
 ## [v0.11.0] - 2025-07-08
 
 - 07db55a Repairing binary name in the README.md header

@@ -32,7 +32,7 @@
 #include <memory>
 
 #include "src/annotator-business/AnnotatorController.h"
-#include "src/gtkmm3/GtkmmIniter.h"
+#include "src/gui/GuiIniter.h"
 #include "src/log/log.h"
 
 namespace app
@@ -73,9 +73,9 @@ int Application::run(std::shared_ptr<ApplicationContext> ctx)
   return rt;
 }
 
-std::shared_ptr<templateGtkmm3::GtkmmIniter> Application::create_gtkmm_initer()
+std::shared_ptr<gui::GtkmmIniter> Application::create_gtkmm_initer()
 {
-  return std::make_shared<templateGtkmm3::GtkmmIniter>();
+  return std::make_shared<gui::GtkmmIniter>();
 }
 
 std::shared_ptr<iannotator::AnnotatorController>

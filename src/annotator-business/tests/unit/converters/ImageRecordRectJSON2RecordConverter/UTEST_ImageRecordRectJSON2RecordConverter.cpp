@@ -1,16 +1,16 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <nlohmann/json.hpp>
-
 #include <memory>
+#include <nlohmann/json.hpp>
 #include <string>
 
 #include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h"
 #include "src/annotator-business/dbs/AnnotationsDBs/converters/ImageRecordRectJSON2RecordConverter.h"
 
 using namespace testing;
-using iannotator::dbs::annotations::converters::ImageRecordRectJSON2RecordConverter;
+using iannotator::dbs::annotations::converters::
+    ImageRecordRectJSON2RecordConverter;
 using S = iannotator::dbs::annotations::AnnotationsJSONSerializator;
 
 namespace
@@ -29,7 +29,8 @@ nlohmann::json rect_json(const std::string& name, int x, int y, int w, int h)
 
 }  // namespace
 
-TEST(UTEST_ImageRecordRectJSON2RecordConverter, converts_a_rect_json_to_a_record)
+TEST(UTEST_ImageRecordRectJSON2RecordConverter,
+     converts_a_rect_json_to_a_record)
 {
   ImageRecordRectJSON2RecordConverter conv;
 

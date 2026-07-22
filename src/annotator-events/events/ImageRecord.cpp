@@ -42,9 +42,15 @@ ImageRecord::ImageRecord(const std::string& npath, const std::string& nabspath)
 {
 }
 
-void ImageRecord::scaleStepIn() { imageScale += defaultScaleStep; }
+void ImageRecord::scaleStepIn()
+{
+  imageScale = std::min(imageScale + defaultScaleStep, maxScale);
+}
 
-void ImageRecord::scaleStepOut() { imageScale -= defaultScaleStep; }
+void ImageRecord::scaleStepOut()
+{
+  imageScale = std::max(imageScale - defaultScaleStep, minScale);
+}
 
 std::string ImageRecord::get_full_path() const
 {

@@ -6,7 +6,17 @@ In order to build minimum project install the GCC C++ compiler with CMake and Gi
 sudo apt install -y git g++ cmake
 ```
 
-All necessary development packages for the GTKmm-3.0:
+The project ships two interchangeable GUI implementations selected at configure
+time by the mutually exclusive `USE_GTKMM3` / `USE_GTKMM4` options (see the
+extensions section). `USE_GTKMM4` is the default, so install the GTKmm-4.0
+development packages:
+
+```
+sudo apt install -y pkg-config libgtkmm-4.0-dev
+```
+
+To build the alternative GTKmm-3.0 GUI (`-DUSE_GTKMM3=ON -DUSE_GTKMM4=OFF`)
+install the GTKmm-3.0 development packages instead (or in addition):
 
 ```
 sudo apt install -y pkg-config libgtkmm-3.0-dev

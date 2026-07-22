@@ -1,9 +1,8 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <nlohmann/json.hpp>
-
 #include <memory>
+#include <nlohmann/json.hpp>
 #include <string>
 
 #include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h"

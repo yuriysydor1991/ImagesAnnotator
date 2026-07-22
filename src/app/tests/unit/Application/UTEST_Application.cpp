@@ -3,10 +3,10 @@
 
 #include "src/annotator-business/AnnotatorController.h"
 #include "src/app/Application.h"
-#include "src/gtkmm3/GtkmmIniter.h"
+#include "src/gui/GuiIniter.h"
 
 using namespace app;
-using namespace templateGtkmm3;
+using namespace gui;
 using namespace testing;
 using namespace iannotator;
 

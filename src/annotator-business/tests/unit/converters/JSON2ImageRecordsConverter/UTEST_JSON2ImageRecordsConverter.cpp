@@ -2,7 +2,6 @@
 #include <gtest/gtest.h>
 
 #include <nlohmann/json.hpp>
-
 #include <string>
 
 #include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h"
@@ -93,7 +92,8 @@ TEST(UTEST_JSON2ImageRecordsConverter, convert_folder_fails_on_empty_db_path)
   EXPECT_TRUE(rset.empty());
 }
 
-TEST(UTEST_JSON2ImageRecordsConverter, convert_annotation_builds_a_single_record)
+TEST(UTEST_JSON2ImageRecordsConverter,
+     convert_annotation_builds_a_single_record)
 {
   TestableConverter conv;
 

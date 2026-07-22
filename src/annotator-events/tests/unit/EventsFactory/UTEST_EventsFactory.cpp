@@ -81,7 +81,8 @@ TEST(UTEST_EventsFactory, create_current_image_changed_rejects_null)
   EXPECT_EQ(factory()->create_current_image_changed(nullptr), nullptr);
 }
 
-TEST(UTEST_EventsFactory, create_image_rect_record_uses_default_name_without_owner)
+TEST(UTEST_EventsFactory,
+     create_image_rect_record_uses_default_name_without_owner)
 {
   auto r = factory()->create_image_rect_record(nullptr);
 
@@ -98,8 +99,7 @@ TEST(UTEST_EventsFactory, create_image_rect_record_numbers_name_by_owner_rects)
   auto r = factory()->create_image_rect_record(ir);
 
   ASSERT_NE(r, nullptr);
-  EXPECT_EQ(r->name,
-            EventsFactory::default_numbered_name_record_prefix + "2");
+  EXPECT_EQ(r->name, EventsFactory::default_numbered_name_record_prefix + "2");
 }
 
 TEST(UTEST_EventsFactory, create_image_rect_record_with_explicit_geometry)

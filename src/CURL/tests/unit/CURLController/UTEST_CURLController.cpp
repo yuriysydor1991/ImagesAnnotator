@@ -36,13 +36,14 @@ TEST(UTEST_CURLController, get_absolute_url_resolves_a_relative_path)
 
 TEST(UTEST_CURLController, get_absolute_url_resolves_a_root_relative_path)
 {
-  EXPECT_EQ(CURLController::get_absolute_url("http://example.com/a/b", "/c.png"),
-            "http://example.com/c.png");
+  EXPECT_EQ(
+      CURLController::get_absolute_url("http://example.com/a/b", "/c.png"),
+      "http://example.com/c.png");
 }
 
 TEST(UTEST_CURLController, get_absolute_url_keeps_an_absolute_rel_url)
 {
   EXPECT_EQ(CURLController::get_absolute_url("http://example.com/a/b",
-                                            "http://other.com/z.png"),
+                                             "http://other.com/z.png"),
             "http://other.com/z.png");
 }

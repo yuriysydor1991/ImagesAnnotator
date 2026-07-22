@@ -21,7 +21,12 @@ set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${PROJECT_MAINTAINER} ${PROJECT_MAINTAINER_
 set(CPACK_DEB_COMPONENT_INSTALL ON)
 set(CPACK_PACKAGE_DESCRIPTION ${CMAKE_PROJECT_DESCRIPTION})
 set(CPACK_DEB_PACKAGE_ARCHITECTURE "amd64")  # Or arm64
-# ImagesAnnotator specific: the GTKmm3 runtime is a hard dependency of the app.
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libgtkmm-3.0-1v5")
+# ImagesAnnotator specific: the GTKmm runtime is a hard dependency of the app.
+# The concrete runtime tracks the toolkit selected by USE_GTKMM3 / USE_GTKMM4.
+if(USE_GTKMM4)
+  set(CPACK_DEBIAN_PACKAGE_DEPENDS "libgtkmm-4.0-0")
+else()
+  set(CPACK_DEBIAN_PACKAGE_DEPENDS "libgtkmm-3.0-1v5")
+endif()
 
 include(CPack)

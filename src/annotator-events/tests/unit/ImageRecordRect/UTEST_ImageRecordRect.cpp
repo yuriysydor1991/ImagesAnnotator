@@ -63,8 +63,8 @@ TEST(UTEST_ImageRecordRect, equal_ptr_same_pointer_is_equal)
 
 TEST(UTEST_ImageRecordRect, equal_ptr_same_fields_is_equal)
 {
-  EXPECT_TRUE(ImageRecordRect::equal(rect("x", 1, 2, 3, 4),
-                                     rect("x", 1, 2, 3, 4)));
+  EXPECT_TRUE(
+      ImageRecordRect::equal(rect("x", 1, 2, 3, 4), rect("x", 1, 2, 3, 4)));
 }
 
 TEST(UTEST_ImageRecordRect, equal_ptr_detects_each_differing_field)

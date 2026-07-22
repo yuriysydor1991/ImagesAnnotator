@@ -33,7 +33,7 @@ set(GENERAL_MOCKS_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/tests/mocks")
 
 add_subdirectory(app)
 add_subdirectory(log)
-add_subdirectory(gtkmm3)
+add_subdirectory(gui)
 add_subdirectory(annotator-business)
 add_subdirectory(annotator-events)
 add_subdirectory(helpers)

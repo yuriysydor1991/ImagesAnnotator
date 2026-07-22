@@ -1,0 +1,147 @@
+/**
+ * The "Simplified BSD License"
+ *
+ * Copyright (c) 2026, Yurii Sydor (yuriysydor1991@gmail.com)
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *   - Redistributions of source code must retain the above copyright notice,
+ *     this list of conditions and the following disclaimer.
+ *   - Redistributions in binary form must reproduce the above copyright notice,
+ *     this list of conditions and the following disclaimer in the documentation
+ *     and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+#include "src/gui/gtkmm4/main-window/event-handlers/ZoomEventsHandler.h"
+
+#include <cassert>
+#include <memory>
+
+#include "src/gui/gtkmm4/MainWindowContext.h"
+#include "src/gui/gtkmm4/main-window/event-handlers/WindowOps.h"
+#include "src/log/log.h"
+
+namespace templateGtkmm4::window::event_handlers
+{
+
+ZoomEventsHandler::ZoomEventsHandler(std::shared_ptr<WindowOps> nops)
+    : AbstractWindowEventHandler(nops)
+{
+}
+
+bool ZoomEventsHandler::subscribe()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+  assert(mwctx->centralCanvas != nullptr);
+
+  auto* zoomInB = mwctx->wloader->get_current_image_zoom_in();
+  auto* zoomOutB = mwctx->wloader->get_current_image_zoom_out();
+
+  zoomInB->signal_clicked().connect(
+      sigc::mem_fun(*this, &ZoomEventsHandler::handle_zoom_in));
+  zoomOutB->signal_clicked().connect(
+      sigc::mem_fun(*this, &ZoomEventsHandler::handle_zoom_out));
+
+  // Shift + mouse wheel over the image zooms it in/out. GTK4 delivers scroll
+  // through an event controller; the modifier state is queried from it (the
+  // signal only carries the deltas). Without Shift the scroll is left to the
+  // surrounding scrolled window.
+  auto scroll = Gtk::EventControllerScroll::create();
+  scroll->set_flags(Gtk::EventControllerScroll::Flags::BOTH_AXES);
+
+  Gtk::EventControllerScroll* scrollPtr = scroll.get();
+
+  scroll->signal_scroll().connect(
+      [this, scrollPtr](double dx, double dy) -> bool {
+        const bool shift =
+            (scrollPtr->get_current_event_state() &
+             Gdk::ModifierType::SHIFT_MASK) == Gdk::ModifierType::SHIFT_MASK;
+
+        if (!shift) {
+          return false;
+        }
+
+        return handle_image_scroll(dx, dy);
+      },
+      false);
+
+  mwctx->centralCanvas->add_controller(scroll);
+
+  return true;
+}
+
+void ZoomEventsHandler::handle_zoom_in()
+{
+  assert(MainWindowContext::validate_context(mwctx));
+
+  if (!MainWindowContext::validate_context(mwctx)) {
+    LOGE("Invalid context pointer provided");
+    return;
+  }
+
+  if (mwctx->current_image == nullptr) {
+    LOGT("No image available");
+    return;
+  }
+
+  assert(mwctx->current_irecord() != nullptr);
+
+  mwctx->current_irecord()->scaleStepIn();
+
+  ops->update_image_zoom();
+  ops->update_statuses();
+}
+
+void ZoomEventsHandler::handle_zoom_out()
+{
+  assert(MainWindowContext::validate_context(mwctx));
+
+  if (!MainWindowContext::validate_context(mwctx)) {
+    LOGE("Invalid context pointer provided");
+    return;
+  }
+
+  if (mwctx->current_image == nullptr) {
+    LOGT("No image available");
+    return;
+  }
+
+  assert(mwctx->current_irecord() != nullptr);
+
+  mwctx->current_irecord()->scaleStepOut();
+
+  ops->update_image_zoom();
+  ops->update_statuses();
+}
+
+bool ZoomEventsHandler::handle_image_scroll([[maybe_unused]] double dx,
+                                            double dy)
+{
+  // GTK4 EventControllerScroll reports deltas instead of a discrete direction;
+  // a negative vertical delta means scrolling up (zoom in).
+  if (dy < 0.0) {
+    handle_zoom_in();
+  } else if (dy > 0.0) {
+    handle_zoom_out();
+  } else {
+    return false;
+  }
+
+  return true;
+}
+
+}  // namespace templateGtkmm4::window::event_handlers

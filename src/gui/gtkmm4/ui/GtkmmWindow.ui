@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GTK4 user interface for the ImagesAnnotator application. The GTK3 menu bar
+     (GtkMenuBar/GtkImageMenuItem) was replaced by a Gio::Menu model rendered
+     through a GtkPopoverMenuBar; every former menu item is now a "win.*"
+     Gio::Action created by WindowLoader. -->
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <menu id="menubar">
+    <submenu>
+      <attribute name="label" translatable="yes">Project</attribute>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Open annotations DB</attribute>
+          <attribute name="action">win.annotations-db-open</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Save</attribute>
+          <attribute name="action">win.annotations-db-save</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Save As</attribute>
+          <attribute name="action">win.annotations-db-saveas</attribute>
+        </item>
+      </section>
+      <submenu>
+        <attribute name="label" translatable="yes">Export db</attribute>
+        <section>
+          <item>
+            <attribute name="label" translatable="yes">Export as plain txt</attribute>
+            <attribute name="action">win.export-txt</attribute>
+          </item>
+          <item>
+            <attribute name="label" translatable="yes">Export to YOLO4 folder</attribute>
+            <attribute name="action">win.export-yolo4</attribute>
+          </item>
+          <item>
+            <attribute name="label" translatable="yes">PyTorch Vision folder format</attribute>
+            <attribute name="action">win.export-pytorchvision</attribute>
+          </item>
+        </section>
+      </submenu>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Close</attribute>
+          <attribute name="action">win.annotations-project-close</attribute>
+        </item>
+      </section>
+    </submenu>
+    <submenu>
+      <attribute name="label" translatable="yes">Annotations</attribute>
+      <submenu>
+        <attribute name="label" translatable="yes">Insert</attribute>
+        <section>
+          <item>
+            <attribute name="label" translatable="yes">Current annotation to whole image</attribute>
+            <attribute name="action">win.auto-insert-annotation</attribute>
+          </item>
+        </section>
+      </submenu>
+    </submenu>
+    <submenu>
+      <attribute name="label" translatable="yes">Images</attribute>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Open images</attribute>
+          <attribute name="action">win.images-open</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Load from web page</attribute>
+          <attribute name="action">win.images-web-page-open</attribute>
+        </item>
+      </section>
+    </submenu>
+    <submenu>
+      <attribute name="label" translatable="yes">Help</attribute>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">About</attribute>
+          <attribute name="action">win.about</attribute>
+        </item>
+      </section>
+    </submenu>
+  </menu>
+  <object class="GtkAboutDialog" id="about_dialog">
+    <property name="hide-on-close">true</property>
+    <property name="modal">true</property>
+  </object>
+  <object class="GtkWindow" id="main_window">
+    <child>
+      <object class="GtkOverlay" id="main_window_overlay">
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkPopoverMenuBar">
+                <property name="menu-model">menubar</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="spacing">5</property>
+                <property name="hexpand">true</property>
+                <property name="vexpand">true</property>
+                <child>
+                  <object class="GtkPaned" id="main_columns_paned">
+                    <property name="wide-handle">true</property>
+                    <property name="hexpand">true</property>
+                    <property name="vexpand">true</property>
+                    <property name="shrink-start-child">false</property>
+                    <property name="shrink-end-child">false</property>
+                    <child>
+                      <object class="GtkPaned" id="left_columns_paned">
+                        <property name="wide-handle">true</property>
+                        <property name="shrink-start-child">false</property>
+                        <property name="shrink-end-child">false</property>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="orientation">vertical</property>
+                            <child>
+                              <object class="GtkButton" id="images_folder_open_button">
+                                <property name="label" translatable="yes">Open images folder</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkSearchEntry" id="images_search_entry"/>
+                            </child>
+                            <child>
+                              <object class="GtkScrolledWindow">
+                                <property name="vexpand">true</property>
+                                <child>
+                                  <object class="GtkViewport">
+                                    <child>
+                                      <object class="GtkListBox" id="images_list"/>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="delete_image_record">
+                                <property name="label" translatable="yes">Delete image</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="orientation">vertical</property>
+                            <child>
+                              <object class="GtkBox">
+                                <child>
+                                  <object class="GtkButton" id="current_image_zoom_in">
+                                    <property name="label" translatable="yes">Zoom in</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkButton" id="current_image_zoom_out">
+                                    <property name="label" translatable="yes">Zoom out</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkButton" id="previous_image_button">
+                                    <property name="label" translatable="yes">Previous</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkButton" id="next_image_button">
+                                    <property name="label" translatable="yes">Next</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkScrolledWindow" id="central_canvas_scrolled_window">
+                                <property name="hexpand">true</property>
+                                <property name="vexpand">true</property>
+                                <child>
+                                  <object class="GtkViewport" id="place_4_working_widget"/>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="orientation">vertical</property>
+                        <child>
+                          <object class="GtkButton" id="annotations_db_open_button">
+                            <property name="label" translatable="yes">Open annotations DB</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label" translatable="yes">All annotations list</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkSearchEntry" id="annotation_search_entry"/>
+                        </child>
+                        <child>
+                          <object class="GtkScrolledWindow">
+                            <property name="vexpand">true</property>
+                            <child>
+                              <object class="GtkViewport">
+                                <child>
+                                  <object class="GtkListBox" id="annotations_db_list"/>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label" translatable="yes">Current image annotations:</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="copy_annotation_name_to_current_rect">
+                            <property name="label" translatable="yes">Copy annotation name</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="duplicate_current_annotation">
+                            <property name="label" translatable="yes">Copy annotation</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="current_image_selected_annotation_edit">
+                            <property name="tooltip-text" translatable="yes">Edit name for a current image selected annotation.</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkScrolledWindow">
+                            <property name="vexpand">true</property>
+                            <child>
+                              <object class="GtkViewport">
+                                <child>
+                                  <object class="GtkListBox" id="current_image_annotations"/>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="delete_current_image_selected_annotation">
+                            <property name="label" translatable="yes">Delete annotation</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkStatusbar" id="main_window_status_bar">
+                <property name="margin-start">10</property>
+                <property name="margin-end">10</property>
+                <property name="margin-top">6</property>
+                <property name="margin-bottom">6</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkSpinner" id="spinner"/>
+  <object class="GtkDialog" id="web_page_images_url_asker">
+    <property name="title" translatable="yes">Enter the web page URL</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+    <child internal-child="content_area">
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child>
+          <object class="GtkLabel">
+            <property name="label" translatable="yes">Enter the web page that contains images to be loaded for annotations:</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkEntry" id="images_web_page_url_entry">
+            <property name="input-purpose">url</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="images_web_page_cache_folder">
+            <property name="selectable">true</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="label" translatable="yes">Doesn't support the dynamic web pages. Only simple HTML loading.</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

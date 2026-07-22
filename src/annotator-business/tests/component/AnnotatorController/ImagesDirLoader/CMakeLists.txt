@@ -32,7 +32,7 @@ add_executable(
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportYolo4FolderRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-business/exporters/Yolo42FolderExporter.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-business/exporters/PyTorchVisionFolderExporter.cpp
-  ${CMAKE_SOURCE_DIR}/src/gtkmm3/helpers/GtkmmImageCropperProvider.cpp
+  ${CMAKE_SOURCE_DIR}/src/gui/gtkmm-common/GtkmmImageCropperProvider.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/Export2PyTorchVisionRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/DeleteCurrentImageRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/helpers/ImageLoader.cpp

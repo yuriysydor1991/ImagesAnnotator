@@ -36,7 +36,9 @@ TEST(UTEST_ImageRecord, create_sets_path_and_defaults)
   EXPECT_EQ(ir->abs_dir_path, "/abs");
   EXPECT_TRUE(ir->rects.empty());
   EXPECT_EQ(ir->current_rect, nullptr);
-  EXPECT_DOUBLE_EQ(ir->imageScale, ImageRecord::defaultInitScaling);
+  // A freshly created record has no user-selected scale yet (0 = unset); the
+  // GUI computes the initial fit-to-window scale on first display.
+  EXPECT_DOUBLE_EQ(ir->imageScale, 0.0);
 }
 
 TEST(UTEST_ImageRecord, get_full_path_without_abs_dir_returns_path)
@@ -61,14 +63,40 @@ TEST(UTEST_ImageRecord, get_full_path_prefers_the_tmp_path_when_set)
 TEST(UTEST_ImageRecord, scale_step_in_and_out_change_the_scale_by_one_step)
 {
   auto ir = ImageRecord::create("a.png", "");
+  ir->imageScale = 1.0;
 
   ir->scaleStepIn();
-  EXPECT_DOUBLE_EQ(ir->imageScale,
-                   ImageRecord::defaultInitScaling +
-                       ImageRecord::defaultScaleStep);
+  EXPECT_DOUBLE_EQ(ir->imageScale, 1.0 + ImageRecord::defaultScaleStep);
 
   ir->scaleStepOut();
-  EXPECT_DOUBLE_EQ(ir->imageScale, ImageRecord::defaultInitScaling);
+  EXPECT_DOUBLE_EQ(ir->imageScale, 1.0);
+}
+
+TEST(UTEST_ImageRecord, scale_step_out_is_clamped_to_a_positive_minimum)
+{
+  auto ir = ImageRecord::create("a.png", "");
+  ir->imageScale = ImageRecord::minScale;
+
+  // Repeated zoom-out must stay at the positive minimum: a zero/negative scale
+  // would make the scaled pixbuf degenerate and crash gdk_pixbuf_scale_simple.
+  for (int i = 0; i < 100; ++i) {
+    ir->scaleStepOut();
+  }
+
+  EXPECT_DOUBLE_EQ(ir->imageScale, ImageRecord::minScale);
+  EXPECT_GT(ir->imageScale, 0.0);
+}
+
+TEST(UTEST_ImageRecord, scale_step_in_is_clamped_to_a_maximum)
+{
+  auto ir = ImageRecord::create("a.png", "");
+  ir->imageScale = ImageRecord::maxScale;
+
+  for (int i = 0; i < 100; ++i) {
+    ir->scaleStepIn();
+  }
+
+  EXPECT_DOUBLE_EQ(ir->imageScale, ImageRecord::maxScale);
 }
 
 TEST(UTEST_ImageRecord, erase_current_rect_without_current_rect_fails)

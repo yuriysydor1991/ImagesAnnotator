@@ -1,9 +1,8 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <nlohmann/json.hpp>
-
 #include <memory>
+#include <nlohmann/json.hpp>
 #include <string>
 
 #include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h"
@@ -34,7 +33,8 @@ class TestableConverter : public ImageRecords2JSONConverter
 TEST(UTEST_ImageRecords2JSONConverter, converts_a_rect_set_to_json)
 {
   TestableConverter conv;
-  ImageRecordRectSet rects{std::make_shared<ImageRecordRect>("cat", 1, 2, 3, 4)};
+  ImageRecordRectSet rects{
+      std::make_shared<ImageRecordRect>("cat", 1, 2, 3, 4)};
 
   auto j = conv.convert(rects);
 

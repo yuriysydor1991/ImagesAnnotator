@@ -16,6 +16,46 @@ set(
   CACHE STRING "Project GTKmm based object library name and target"
 )
 
+# ---------------------------------------------------------------------------
+# ImagesAnnotator specific: GUI toolkit selection.
+#
+# The project ships two interchangeable GTKmm GUI implementations under src/gui
+# (gtkmm3 and gtkmm4). Exactly one is compiled into the single application
+# binary. USE_GTKMM4 is the default. The two options are mutually exclusive:
+# enabling one means disabling the other.
+# ---------------------------------------------------------------------------
+option(USE_GTKMM4 "Build the GTKmm4 (GTK 4) based GUI. Mutually exclusive with USE_GTKMM3." ON)
+option(USE_GTKMM3 "Build the GTKmm3 (GTK 3) based GUI. Mutually exclusive with USE_GTKMM4." OFF)
+
+if(USE_GTKMM3 AND USE_GTKMM4)
+  message(FATAL_ERROR
+    "USE_GTKMM3 and USE_GTKMM4 are mutually exclusive - enable exactly one "
+    "(USE_GTKMM4 is the default). Re-run cmake with, e.g., "
+    "-DUSE_GTKMM3=ON -DUSE_GTKMM4=OFF.")
+endif()
+
+if(NOT USE_GTKMM3 AND NOT USE_GTKMM4)
+  message(FATAL_ERROR
+    "Neither USE_GTKMM3 nor USE_GTKMM4 is enabled - enable exactly one GUI "
+    "toolkit (USE_GTKMM4 is the default).")
+endif()
+
+if(USE_GTKMM4)
+  set(GTKMM_PC "gtkmm-4.0")
+  set(GTKMM_GUI_SUBDIR "gtkmm4")
+  set(GTKMM_ACTIVE_DEFINE "USE_GTKMM4")
+else()
+  set(GTKMM_PC "gtkmm-3.0")
+  set(GTKMM_GUI_SUBDIR "gtkmm3")
+  set(GTKMM_ACTIVE_DEFINE "USE_GTKMM3")
+endif()
+
+# Propagate the active toolkit as a preprocessor define so the toolkit-neutral
+# facade src/gui/GuiIniter.h (and the app component that consumes it) select the
+# matching GtkmmIniter implementation. add_compile_definitions() here runs at
+# project scope, so every target defined afterwards inherits the macro.
+add_compile_definitions(${GTKMM_ACTIVE_DEFINE})
+
 set(
   PROJECT_MAINTAINER "Yuriy Sydor"
   CACHE STRING "Project maintainer name (used for the DEB package)"

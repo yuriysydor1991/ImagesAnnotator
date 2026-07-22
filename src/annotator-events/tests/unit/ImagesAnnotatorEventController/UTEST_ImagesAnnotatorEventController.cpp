@@ -50,7 +50,8 @@ std::shared_ptr<ImagesAnnotatorEventController> make_controller()
 
 }  // namespace
 
-TEST(UTEST_ImagesAnnotatorEventController, get_events_factory_returns_the_singleton)
+TEST(UTEST_ImagesAnnotatorEventController,
+     get_events_factory_returns_the_singleton)
 {
   auto eventer = make_controller();
 
@@ -60,7 +61,8 @@ TEST(UTEST_ImagesAnnotatorEventController, get_events_factory_returns_the_single
   EXPECT_EQ(f.get(), events::events::EventsFactory::instance().get());
 }
 
-TEST(UTEST_ImagesAnnotatorEventController, submit_dispatches_to_subscribed_handlers)
+TEST(UTEST_ImagesAnnotatorEventController,
+     submit_dispatches_to_subscribed_handlers)
 {
   auto eventer = make_controller();
   auto handler = std::make_shared<FakeErrorHandler>();

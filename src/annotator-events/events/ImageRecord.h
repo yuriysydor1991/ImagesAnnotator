@@ -47,8 +47,15 @@ class ImageRecord : virtual public IRecord
   using ImageRecordPtr = std::shared_ptr<ImageRecord>;
   using ImageRecordsSet = std::vector<ImageRecordPtr>;
 
-  inline static constexpr const double defaultInitScaling = 1.0;
   inline static constexpr const double defaultScaleStep = 0.05;
+
+  /// @brief Bounds for the user-controlled zoom. scaleStepOut() never drives
+  /// the scale to zero or below (which would produce a degenerate scaled pixbuf
+  /// and crash gdk_pixbuf_scale_simple()), and scaleStepIn() never magnifies
+  /// past a sane maximum. minScale stays strictly positive so it never collides
+  /// with the "0 == no user-selected scale yet" sentinel.
+  inline static constexpr const double minScale = 0.05;
+  inline static constexpr const double maxScale = 20.0;
 
   virtual ~ImageRecord() = default;
   ImageRecord(const std::string& npath = "", const std::string& nabspath = "");
@@ -72,7 +79,11 @@ class ImageRecord : virtual public IRecord
   int iwidth{0};
   int iheight{0};
 
-  double imageScale{defaultInitScaling};
+  /// @brief The per-image preview scale. A value of 0 means "no user-selected
+  /// scale yet": the GUI computes the initial fit-to-window scale on first
+  /// display, and any value set afterwards (that fit or a subsequent user zoom)
+  /// is preserved across image switches and serialized to the project JSON.
+  double imageScale{0.0};
 
   void scaleStepIn();
   void scaleStepOut();

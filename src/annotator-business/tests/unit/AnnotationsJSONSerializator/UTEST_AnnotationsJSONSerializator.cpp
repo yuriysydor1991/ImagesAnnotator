@@ -2,7 +2,6 @@
 #include <gtest/gtest.h>
 
 #include <nlohmann/json.hpp>
-
 #include <string>
 
 #include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h"
@@ -14,8 +13,8 @@ namespace
 {
 
 // Exposes the protected validation helpers for focused unit testing.
-class TestableSerializer : public iannotator::dbs::annotations::
-                               AnnotationsJSONSerializator
+class TestableSerializer
+    : public iannotator::dbs::annotations::AnnotationsJSONSerializator
 {
  public:
   using AnnotationsJSONSerializator::serialize_annotations_record;
@@ -92,7 +91,8 @@ TEST(UTEST_AnnotationsJSONSerializator, record_accepts_a_valid_record)
   EXPECT_TRUE(s.serialize_annotations_record(valid_record("/abs/dir")));
 }
 
-TEST(UTEST_AnnotationsJSONSerializator, serialize_rejects_an_invalid_inner_record)
+TEST(UTEST_AnnotationsJSONSerializator,
+     serialize_rejects_an_invalid_inner_record)
 {
   TestableSerializer s;
 

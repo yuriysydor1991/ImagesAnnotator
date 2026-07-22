@@ -34,7 +34,7 @@
 #include "src/annotator-events/ImagesAnnotatorEventController.h"
 #include "src/app/ApplicationContext.h"
 #include "src/app/IApplication.h"
-#include "src/gtkmm3/GtkmmIniter.h"
+#include "src/gui/GuiIniter.h"
 
 namespace app
 {
@@ -60,13 +60,13 @@ class Application : public IApplication
   virtual int run(std::shared_ptr<ApplicationContext> ctx) override;
 
  protected:
-  virtual std::shared_ptr<templateGtkmm3::GtkmmIniter> create_gtkmm_initer();
+  virtual std::shared_ptr<gui::GtkmmIniter> create_gtkmm_initer();
   virtual std::shared_ptr<iannotator::AnnotatorController>
   create_annotator_b_controller();
   virtual std::shared_ptr<events::ImagesAnnotatorEventController>
   create_event_controller(std::shared_ptr<ApplicationContext> ctx);
 
-  std::shared_ptr<templateGtkmm3::GtkmmIniter> gtkmmIniter;
+  std::shared_ptr<gui::GtkmmIniter> gtkmmIniter;
   std::shared_ptr<iannotator::AnnotatorController> abcontroller;
 };
 

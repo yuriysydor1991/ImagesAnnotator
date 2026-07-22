@@ -1,6 +1,6 @@
 ## Implement code straight away!
 
-To proceed the application implementation right away look for the `GtkmmIniter.cpp` and/or `GtkmmIniter.h` files of the corresponding class which is designed to accept the initial code of the application. The visual user interface may be developed in the [Glade](https://en.wikipedia.org/wiki/Glade_Interface_Designer) application by opening the `src/gtkmm3/ui/GtkmmWindow.ui` file.
+To proceed the application implementation right away look for the `GtkmmIniter.cpp` and/or `GtkmmIniter.h` files of the corresponding class which is designed to accept the initial code of the application. The GUI implementations live under `src/gui`: the default GTKmm4 one in `src/gui/gtkmm4`, the GTKmm3 one in `src/gui/gtkmm3` and the toolkit-agnostic shared code in `src/gui/gtkmm-common`. The GTKmm3 visual user interface (`src/gui/gtkmm3/ui/GtkmmWindow.ui`) may be developed in the [Glade](https://en.wikipedia.org/wiki/Glade_Interface_Designer) application; the GTKmm4 interface (`src/gui/gtkmm4/ui/GtkmmWindow.ui`) uses the GTK4 builder format together with a `Gio::Menu` menu model.
 
 **But do not forget about the SOLID principles and code decomposing!**
 

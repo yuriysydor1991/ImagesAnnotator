@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.13)
 
 # ---------------------------------------------------------------------------
-# ImagesAnnotator specific: the GTKmm3 (GTK 3) GUI implementation, the
-# alternative to the default GTKmm4 one.
+# ImagesAnnotator specific: the GTKmm3 (GTK 3) GUI implementation, which is the
+# project default.
 #
 # USE_GTKMM3 is one half of the mutually exclusive GUI toolkit pair that
 # cmake/template-project-misc-variables-declare.cmake resolves before any

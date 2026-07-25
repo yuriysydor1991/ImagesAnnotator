@@ -31,7 +31,7 @@ set(
 # Whichever of the two options the user leaves unspecified is derived from the
 # one that was given, so the pair can never end up inconsistent by accident:
 #
-#   (nothing given)   ->  USE_GTKMM4=ON,  USE_GTKMM3=OFF   (the default)
+#   (nothing given)   ->  USE_GTKMM3=ON,  USE_GTKMM4=OFF   (the default)
 #   -DUSE_GTKMM3=ON   ->  USE_GTKMM4=OFF  (derived)
 #   -DUSE_GTKMM3=OFF  ->  USE_GTKMM4=ON   (derived)
 #   -DUSE_GTKMM4=ON   ->  USE_GTKMM3=OFF  (derived)
@@ -44,7 +44,7 @@ set(
 # example switching a GTKmm4 tree with -DUSE_GTKMM3=ON) is understood as a
 # deliberate change of that one option rather than as "both are now enabled".
 # ---------------------------------------------------------------------------
-set(GTKMM_DEFAULT_VERSION 4)
+set(GTKMM_DEFAULT_VERSION 3)
 
 # ON/OFF that the previous configure run resolved for each option, empty on a
 # fresh build tree.
@@ -80,14 +80,14 @@ endforeach()
 if(GTKMM_REQUESTED_3 AND GTKMM_REQUESTED_4)
   message(FATAL_ERROR
     "USE_GTKMM3 and USE_GTKMM4 are mutually exclusive - enable exactly one "
-    "(USE_GTKMM4 is the default). Enabling one alone is enough, the other is "
-    "switched off automatically: re-run cmake with just -DUSE_GTKMM3=ON.")
+    "(USE_GTKMM3 is the default). Enabling one alone is enough, the other is "
+    "switched off automatically: re-run cmake with just -DUSE_GTKMM4=ON.")
 endif()
 
 if("${GTKMM_REQUESTED_3}" STREQUAL "OFF" AND "${GTKMM_REQUESTED_4}" STREQUAL "OFF")
   message(FATAL_ERROR
     "Neither USE_GTKMM3 nor USE_GTKMM4 is enabled - enable exactly one GUI "
-    "toolkit (USE_GTKMM4 is the default).")
+    "toolkit (USE_GTKMM3 is the default).")
 endif()
 
 if(GTKMM_REQUESTED_3)

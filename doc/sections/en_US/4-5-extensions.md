@@ -5,8 +5,8 @@
 The graphical user interface lives under `src/gui` and ships two interchangeable
 implementations plus the toolkit-agnostic shared code:
 
-- `src/gui/gtkmm4` — the default GTKmm4 (GTK 4) GUI;
-- `src/gui/gtkmm3` — the GTKmm3 (GTK 3) GUI;
+- `src/gui/gtkmm3` — the default GTKmm3 (GTK 3) GUI;
+- `src/gui/gtkmm4` — the GTKmm4 (GTK 4) GUI;
 - `src/gui/gtkmm-common` — code that is source-compatible with both toolkits
   (for example the `Gdk::Pixbuf` based image cropper) together with the single
   copy of the toolkit-agnostic GResource payload in
@@ -18,14 +18,14 @@ options. Only the option you care about has to be given — whichever one is lef
 unspecified is derived from it, so the pair can never end up inconsistent:
 
 ```
-# nothing specified - GTKmm4, the default
+# nothing specified - GTKmm3, the default
 cmake -S . -B build
 
-# GTKmm3 instead: USE_GTKMM4 is switched off automatically
-cmake -S . -B build -DUSE_GTKMM3=ON
+# GTKmm4 instead: USE_GTKMM3 is switched off automatically
+cmake -S . -B build -DUSE_GTKMM4=ON
 
 # equivalent, and equally valid
-cmake -S . -B build -DUSE_GTKMM4=OFF
+cmake -S . -B build -DUSE_GTKMM3=OFF
 ```
 
 Passing both options is still accepted as long as exactly one of them is `ON`;
@@ -46,13 +46,13 @@ the only place in the project that branches on it.
 
 ### UI implementation
 
-The `src/gui/gtkmm4/ui/GtkmmWindow.ui` file contains the default (GTKmm4)
-application's UI implementation; the GTKmm3 counterpart is
-`src/gui/gtkmm3/ui/GtkmmWindow.ui` and may be edited with the
-[Glade](https://en.wikipedia.org/wiki/Glade_Interface_Designer) application. The
-GTKmm4 interface uses the GTK4 builder format together with a `Gio::Menu` menu
-model rendered by a `Gtk::PopoverMenuBar`, and its menu entries are
-`Gio::SimpleAction`s rather than menu-item widgets.
+The `src/gui/gtkmm3/ui/GtkmmWindow.ui` file contains the default (GTKmm3)
+application's UI implementation and may be edited with the
+[Glade](https://en.wikipedia.org/wiki/Glade_Interface_Designer) application; the
+GTKmm4 counterpart is `src/gui/gtkmm4/ui/GtkmmWindow.ui`. The GTKmm4 interface
+uses the GTK4 builder format together with a `Gio::Menu` menu model rendered by a
+`Gtk::PopoverMenuBar`, and its menu entries are `Gio::SimpleAction`s rather than
+menu-item widgets.
 
 ### Resource embedding
 
@@ -63,7 +63,7 @@ performed through the active toolkit's `ui/template.gresource.xml` GResource fil
 compiled into the C-resource by a `glib-compile-resources` command. Register new
 resources in that file in order to make them available in the binary executable.
 The examples of the resource obtaining and usage in the C++ code side may be
-examined in the default implementation of the `gtkmm4` component.
+examined in the default implementation of the `gtkmm3` component.
 
 The `<file>` entries of both `template.gresource.xml` files are resolved against
 two directories that the toolkit's `ui/CMakeLists.txt` passes to

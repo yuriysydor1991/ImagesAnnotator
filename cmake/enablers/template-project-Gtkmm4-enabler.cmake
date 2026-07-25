@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.13)
 
 # ---------------------------------------------------------------------------
-# ImagesAnnotator specific: the GTKmm4 (GTK 4) GUI implementation, which is the
-# project default.
+# ImagesAnnotator specific: the GTKmm4 (GTK 4) GUI implementation, the
+# alternative to the default GTKmm3 one.
 #
 # USE_GTKMM4 is one half of the mutually exclusive GUI toolkit pair that
 # cmake/template-project-misc-variables-declare.cmake resolves before any

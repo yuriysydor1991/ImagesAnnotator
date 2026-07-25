@@ -1,15 +1,19 @@
 ## Extensions
 
-### Selecting the GUI toolkit (GTKmm3 / GTKmm4)
+### Selecting the GUI toolkit (GTKmm3 / GTKmm4 / wxWidgets)
 
 The graphical user interface lives under `src/gui` and ships two interchangeable
-implementations plus the toolkit-agnostic shared code:
+GTKmm implementations, an optional wxWidgets one, plus the toolkit-agnostic
+shared code:
 
 - `src/gui/gtkmm3` — the default GTKmm3 (GTK 3) GUI;
 - `src/gui/gtkmm4` — the GTKmm4 (GTK 4) GUI;
-- `src/gui/gtkmm-common` — code that is source-compatible with both toolkits
-  (for example the `Gdk::Pixbuf` based image cropper) together with the single
-  copy of the toolkit-agnostic GResource payload in
+- `src/gui/wxwidgets` — an optional wxWidgets GUI, a feature-parity analogue of
+  the GTKmm3 one built by hand-coding the window rather than loading a Glade
+  file, and painting the canvas with `wxDC` instead of cairo (see below);
+- `src/gui/gtkmm-common` — code that is source-compatible with both GTKmm
+  toolkits (for example the `Gdk::Pixbuf` based image cropper) together with the
+  single copy of the toolkit-agnostic GResource payload in
   `src/gui/gtkmm-common/ui/resources`.
 
 Exactly one toolkit is compiled into the single application binary. It is chosen
@@ -43,6 +47,37 @@ define picked up by the toolkit-neutral `src/gui/GuiIniter.h` facade and the
 GTKmm runtime package name used by the DEB packager. The option pair itself is
 resolved once in `cmake/template-project-misc-variables-declare.cmake`, which is
 the only place in the project that branches on it.
+
+The optional wxWidgets GUI is selected by a separate `USE_WXWIDGETS` option
+(default `OFF`). When it is `ON` it overrides the GTKmm pair — it forces both
+`USE_GTKMM3` and `USE_GTKMM4` off (leaving their cache entries untouched, so
+dropping `-DUSE_WXWIDGETS` restores the previous GTKmm choice) and builds the
+`src/gui/wxwidgets` component instead:
+
+```
+# the wxWidgets GUI instead of GTKmm
+cmake -S . -B build -DUSE_WXWIDGETS=ON
+```
+
+Its enabler, `cmake/enablers/template-project-wxWidgets-enabler.cmake`, probes
+wxWidgets with `find_package(wxWidgets)` (there is no pkg-config `.pc` file for
+it) and republishes the very same neutral `GTKMM_*` include / library / DEB
+dependency variables and `GTKMM_GUI_SUBDIR` the GTKmm enablers do, so nothing
+downstream branches on the toolkit beyond the single `add_subdirectory` switch in
+`src/gui/CMakeLists.txt`. The wxWidgets component mirrors the `gtkmm3`
+decomposition one-to-one in the `templateWx` namespace and reuses the
+toolkit-agnostic business, event and helper layers unchanged; it maps the GTKmm
+calls to wx idioms (a hand-coded `wxFrame` with typed getters in place of the
+Glade `.ui` + `Gtk::Builder`; a `wxScrolledWindow` painted with `wxDC` in place
+of the cairo `Gtk::DrawingArea`; `wxImage`/`wxBitmap` for `Gdk::Pixbuf`; a
+`wxListCtrl`/`wxListBox` rebuilt from the search-filtered subset for the
+`Gtk::ListBox`es; `Bind()` for the GTK signals; `wxFileDialog`/`wxMessageDialog`/
+`wxAboutBox` for the dialogs; a busy cursor for the spinner; and a `wxImage`
+based `WxImageCropperProvider` for the PyTorch-Vision export cropper). It embeds
+the shared logo as a generated C byte array rather than through a GResource, and
+its `APPLICATION_ID` is `ua.org.kytok.template.wxwidgets.<binary>`. Note that the
+wx build loads the image formats `wxImage` supports (PNG / JPEG / BMP / GIF /
+TIFF / …); formats only gdk-pixbuf decodes are unavailable under it.
 
 ### UI implementation
 

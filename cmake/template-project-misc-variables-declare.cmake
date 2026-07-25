@@ -44,6 +44,23 @@ set(
 # example switching a GTKmm4 tree with -DUSE_GTKMM3=ON) is understood as a
 # deliberate change of that one option rather than as "both are now enabled".
 # ---------------------------------------------------------------------------
+option(USE_WXWIDGETS
+  "Build the wxWidgets based GUI instead of GTKmm. Overrides USE_GTKMM3 / USE_GTKMM4." OFF)
+
+# ImagesAnnotator specific: wxWidgets is an optional third GUI toolkit. When
+# USE_WXWIDGETS is ON it overrides the GTKmm pair: both USE_GTKMM3 and USE_GTKMM4
+# are shadowed OFF (their enablers early-return and the mutually exclusive
+# resolver below is skipped) and the desktop application id is derived from
+# "wxwidgets" instead of "gtkmm<N>". The GTKmm cache entries are left untouched,
+# so dropping -DUSE_WXWIDGETS later restores the previous GTKmm choice. It
+# defaults to OFF, so the out-of-the-box behaviour is unchanged.
+if(USE_WXWIDGETS)
+  set(USE_GTKMM3 OFF)
+  set(USE_GTKMM4 OFF)
+  set(GUI_TOOLKIT_NAME "wxwidgets")
+  message(STATUS "GUI toolkit: wxWidgets (USE_WXWIDGETS=ON)")
+else()
+
 set(GTKMM_DEFAULT_VERSION 3)
 
 # ON/OFF that the previous configure run resolved for each option, empty on a
@@ -122,6 +139,10 @@ set(GTKMM_SELECTED_VERSION ${GTKMM_SELECTED} CACHE INTERNAL
 message(STATUS "GUI toolkit: GTKmm${GTKMM_SELECTED} "
   "(USE_GTKMM3=${USE_GTKMM3}, USE_GTKMM4=${USE_GTKMM4})")
 
+set(GUI_TOOLKIT_NAME "gtkmm${GTKMM_SELECTED}")
+
+endif()
+
 # ---------------------------------------------------------------------------
 # ImagesAnnotator specific: the desktop application id (reverse-DNS).
 #
@@ -142,7 +163,7 @@ message(STATUS "GUI toolkit: GTKmm${GTKMM_SELECTED} "
 # PROJECT_FLATPAK_URL a non-empty value in ordinary (non-flatpak) builds. It
 # used to be set only inside the flatpak enabler (guarded by ENABLE_FLATPAK and
 # included after src), so the application ran with an empty application id.
-set(APPLICATION_ID "ua.org.kytok.template.gtkmm${GTKMM_SELECTED}.${PROJECT_BINARY_NAME}")
+set(APPLICATION_ID "ua.org.kytok.template.${GUI_TOOLKIT_NAME}.${PROJECT_BINARY_NAME}")
 
 # The flatpak application id is the same reverse-DNS name; keep them in sync from
 # this single source instead of re-hardcoding it in the flatpak enabler.

@@ -33,6 +33,13 @@ set(GTKMM_GUI_SUBDIR "gtkmm4")
 # Debian runtime package of this toolkit, consumed by the DEB packager enabler.
 set(GTKMM_DEB_RUNTIME_DEPENDS "libgtkmm-4.0-0")
 
+# The concrete IImageCropperFacilityProvider the PyTorch Vision export uses. It
+# is a GUI-toolkit detail injected into the toolkit-agnostic exporter, so the
+# AnnotatorController component tests compile the active toolkit's cropper
+# through this neutral variable instead of hard-coding one.
+set(GUI_IMAGE_CROPPER_SRC
+  "${CMAKE_SOURCE_DIR}/src/gui/gtkmm-common/GtkmmImageCropperProvider.cpp")
+
 # Propagate the active toolkit as a preprocessor define so the toolkit-neutral
 # facade src/gui/GuiIniter.h (and the app component that consumes it) select the
 # matching GtkmmIniter implementation. add_compile_definitions() runs here at

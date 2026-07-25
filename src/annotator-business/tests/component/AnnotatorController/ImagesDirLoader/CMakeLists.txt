@@ -32,7 +32,7 @@ add_executable(
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportYolo4FolderRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-business/exporters/Yolo42FolderExporter.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-business/exporters/PyTorchVisionFolderExporter.cpp
-  ${CMAKE_SOURCE_DIR}/src/gui/gtkmm-common/GtkmmImageCropperProvider.cpp
+  ${GUI_IMAGE_CROPPER_SRC}
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/Export2PyTorchVisionRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/DeleteCurrentImageRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/helpers/ImageLoader.cpp
@@ -55,7 +55,7 @@ target_include_directories(
 
 target_link_libraries(
   ${CCTNAME}
-  GTest::gtest_main GTest::gmock ${CURL_LIBRARIES}
+  GTest::gtest_main GTest::gmock ${CURL_LIBRARIES} ${GTKMM_LIBRARIES}
 )
 
 include(GoogleTest)

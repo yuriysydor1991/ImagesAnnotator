@@ -41,7 +41,9 @@
  * never on a specific toolkit namespace.
  */
 
-#if defined(USE_GTKMM4)
+#if defined(USE_WXWIDGETS)
+#include "src/gui/wxwidgets/WxWidgetsIniter.h"
+#elif defined(USE_GTKMM4)
 #include "src/gui/gtkmm4/GtkmmIniter.h"
 #else
 #include "src/gui/gtkmm3/GtkmmIniter.h"
@@ -50,7 +52,9 @@
 namespace gui
 {
 
-#if defined(USE_GTKMM4)
+#if defined(USE_WXWIDGETS)
+using GtkmmIniter = templateWx::WxWidgetsIniter;
+#elif defined(USE_GTKMM4)
 using GtkmmIniter = templateGtkmm4::GtkmmIniter;
 #else
 using GtkmmIniter = templateGtkmm3::GtkmmIniter;

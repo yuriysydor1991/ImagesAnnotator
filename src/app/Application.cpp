@@ -30,6 +30,7 @@
 #include <cassert>
 #include <iostream>
 #include <memory>
+#include <clocale>
 
 #include "src/annotator-business/AnnotatorController.h"
 #include "src/gui/GuiIniter.h"
@@ -46,6 +47,12 @@ int Application::run(std::shared_ptr<ApplicationContext> ctx)
     LOGE("No valid context pointer provided");
     return INVALID;
   }
+
+  // Initialize the locale from the environment before any GUI / gettext use, so
+  // GTK's own translations - which the dialogs reuse for the standard button
+  // labels via g_dgettext() - resolve to the user's language instead of staying
+  // in the C locale (English).
+  std::setlocale(LC_ALL, "");
 
   ctx->eventer = create_event_controller(ctx);
 

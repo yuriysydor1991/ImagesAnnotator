@@ -107,6 +107,7 @@ class WindowLoader : virtual public ComponentTypesAliases
  protected:
   virtual bool propagate_params();
   virtual bool propagate_css_params();
+  virtual void set_window_icon();
   virtual bool create_actions();
   virtual bool attach_spinner();
 

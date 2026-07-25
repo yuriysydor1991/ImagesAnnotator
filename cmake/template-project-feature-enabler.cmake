@@ -23,6 +23,13 @@ include(template-project-git-enabler)
 include(template-project-Gtkmm3-enabler)
 include(template-project-Gtkmm4-enabler)
 
+# ImagesAnnotator specific: install the .desktop launcher and themed icon so the
+# app gets a distinctive taskbar / GNOME Shell dash icon (the only route that
+# works on Wayland). Runs here, before add_subdirectory(src), because it only
+# registers configure-time install() rules and depends on APPLICATION_ID, which
+# template-project-misc-variables-declare.cmake has already resolved.
+include(template-project-desktop-entry-enabler)
+
 # ImagesAnnotator specific: these libraries are made available before the src
 # subdirectory is added because the project sources consume them while their
 # targets are configured. nlohmann_json is propagated through link_libraries()

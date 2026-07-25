@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=@PROJECT_NAME@
+GenericName=Images Annotator
+Comment=@CMAKE_PROJECT_DESCRIPTION@
+Exec=@PROJECT_BINARY_NAME@
+Icon=@APPLICATION_ID@
+Terminal=false
+Categories=Graphics;
+StartupNotify=true
+StartupWMClass=@APPLICATION_ID@

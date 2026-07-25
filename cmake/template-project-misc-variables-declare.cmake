@@ -122,6 +122,34 @@ set(GTKMM_SELECTED_VERSION ${GTKMM_SELECTED} CACHE INTERNAL
 message(STATUS "GUI toolkit: GTKmm${GTKMM_SELECTED} "
   "(USE_GTKMM3=${USE_GTKMM3}, USE_GTKMM4=${USE_GTKMM4})")
 
+# ---------------------------------------------------------------------------
+# ImagesAnnotator specific: the desktop application id (reverse-DNS).
+#
+# This single, always-defined name is what ties the whole desktop integration
+# together: it is the GApplication id handed to Gtk::Application::create(), the
+# Wayland app_id (pinned at runtime via Glib::set_prgname()), the basename of
+# the installed <id>.desktop launcher and the name of the installed themed icon.
+# On Wayland (and the GNOME Shell dash) the panel icon is resolved by matching
+# the running window's app_id to that .desktop file - the icon embedded in the
+# binary is ignored - so all four must agree on this exact string.
+#
+# It is derived from the resolved toolkit so it lines up with the per-toolkit
+# GResource prefix (/ua/org/kytok/template/gtkmm<N>/...) and, for the GTKmm3
+# flatpak, with the flatpak application id.
+#
+# IMPORTANT: defining it here - unconditionally, before add_subdirectory(src)
+# configures project-global-decls.h.in - is also what finally gives the C++
+# PROJECT_FLATPAK_URL a non-empty value in ordinary (non-flatpak) builds. It
+# used to be set only inside the flatpak enabler (guarded by ENABLE_FLATPAK and
+# included after src), so the application ran with an empty application id.
+set(APPLICATION_ID "ua.org.kytok.template.gtkmm${GTKMM_SELECTED}.${PROJECT_BINARY_NAME}")
+
+# The flatpak application id is the same reverse-DNS name; keep them in sync from
+# this single source instead of re-hardcoding it in the flatpak enabler.
+set(FLATPAK_PROJECT_URL "${APPLICATION_ID}")
+
+message(STATUS "Application id: ${APPLICATION_ID}")
+
 set(
   PROJECT_MAINTAINER "Yuriy Sydor"
   CACHE STRING "Project maintainer name (used for the DEB package)"

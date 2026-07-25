@@ -29,6 +29,8 @@
 
 #include <cassert>
 
+#include <glibmm/miscutils.h>
+
 #include "project-global-decls.h"
 #include "src/log/log.h"
 
@@ -63,6 +65,14 @@ bool GtkmmIniter::run(std::shared_ptr<app::ApplicationContext> ctx)
   }
 
   mwctx->actx = ctx;
+
+  // Pin the program name to the application id BEFORE the application (and thus
+  // the display connection) is created. On Wayland GTK derives the surface
+  // app_id from g_get_prgname(), which otherwise defaults to the binary name;
+  // the compositor / GNOME Shell match that app_id against the installed
+  // <app-id>.desktop to pick the taskbar/dash icon, so it has to equal the
+  // application id (APPLICATION_ID) the .desktop is named after.
+  Glib::set_prgname(mwctx->actx->app_dbus_url);
 
   auto app = Gtk::Application::create(mwctx->actx->argc, mwctx->actx->argv,
                                       mwctx->actx->app_dbus_url);

@@ -106,6 +106,7 @@ bool WindowLoader::propagate_params()
 
   get_window()->maximize();
   update_window_title();
+  set_window_icon();
 
   if (!propagate_css_params()) {
     LOGE("Fail to propagate the css into the app window");
@@ -200,6 +201,24 @@ void WindowLoader::update_window_title(const std::string& openedFile)
       openedFile.empty() ? basicTitle : basicTitle + " [" + openedFile + "]";
 
   get_window()->set_title(usedTitle);
+}
+
+void WindowLoader::set_window_icon()
+{
+  // Attach the logo baked into the binary as the application-wide default window
+  // icon. Gtk::Window::set_default_icon() feeds _NET_WM_ICON, which the X11
+  // window list / taskbar / alt-tab switcher use to label the window, so the app
+  // becomes distinctive on the panel without any icon file installed next to it.
+  // The pixbuf is read straight from the embedded GResource (the same asset the
+  // About dialog uses). A failure is logged and swallowed on purpose: a missing
+  // icon must never keep the GUI from starting.
+  try {
+    auto icon = Gdk::Pixbuf::create_from_resource(mwctx->wctx->logo_res_path);
+    Gtk::Window::set_default_icon(icon);
+  }
+  catch (const Glib::Error& ex) {
+    LOGE("Failed to set the default window icon: " << ex.what());
+  }
 }
 
 bool WindowLoader::propagate_css_params()

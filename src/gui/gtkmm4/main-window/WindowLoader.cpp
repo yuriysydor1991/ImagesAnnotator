@@ -110,6 +110,7 @@ bool WindowLoader::propagate_params()
 
   get_window()->maximize();
   update_window_title();
+  set_window_icon();
 
   if (!propagate_css_params()) {
     LOGE("Fail to propagate the css into the app window");
@@ -253,6 +254,20 @@ void WindowLoader::update_window_title(const std::string& openedFile)
       openedFile.empty() ? basicTitle : basicTitle + " [" + openedFile + "]";
 
   get_window()->set_title(usedTitle);
+}
+
+void WindowLoader::set_window_icon()
+{
+  // GTK4 dropped the pixbuf window-icon API (there is no Gtk::Window::set_icon);
+  // the only accessible route is the themed-name one. set_default_icon_name()
+  // points every window at the icon named after the application id
+  // (project_decls::PROJECT_FLATPAK_URL - the same id handed to
+  // Gtk::Application::create), which GTK and, on Wayland, the compositor / GNOME
+  // Shell resolve against the icon theme. This is the in-binary half of the
+  // wiring: the icon shows on the panel once a matching <app-id>.png +
+  // <app-id>.desktop are installed into the icon theme, and it already lets a
+  // running window associate with that launcher.
+  Gtk::Window::set_default_icon_name(project_decls::PROJECT_FLATPAK_URL);
 }
 
 bool WindowLoader::propagate_css_params()

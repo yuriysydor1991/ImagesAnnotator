@@ -13,7 +13,11 @@ endif()
 find_program(FLATPAKB_EXEC flatpak-builder REQUIRED)
 find_program(FLATPAK_EXEC flatpak REQUIRED)
 
-set(FLATPAK_PROJECT_URL ua.org.kytok.template.gtkmm3.${PROJECT_BINARY_NAME})
+# FLATPAK_PROJECT_URL (== APPLICATION_ID) is defined unconditionally by
+# template-project-misc-variables-declare.cmake, which runs long before this
+# enabler, so it is reused here as the flatpak application id instead of being
+# re-hardcoded. The flatpak build forces -DUSE_GTKMM3=ON, so it resolves to the
+# ua.org.kytok.template.gtkmm3.* name the manifest and bundle expect.
 set(FLATPAK_REPO ${PROJECT_BINARY_NAME}-repo)
 set(FLATPAK_DST_NAME ${PROJECT_BINARY_NAME}-${CMAKE_PROJECT_VERSION}.flatpak)
 set(flatpakConfDst ${CMAKE_BINARY_DIR}/flatpak.conf.json)

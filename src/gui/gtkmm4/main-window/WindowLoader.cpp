@@ -136,7 +136,37 @@ bool WindowLoader::propagate_params()
     return false;
   }
 
+  decorate_button_icons();
+
   return true;
+}
+
+void WindowLoader::decorate_button_icons()
+{
+  using custom_widgets::CustomWidgetsFactory;
+
+  // Give the main-window action buttons the same stock-style icon + label look
+  // as the dialog buttons, using themed (Adwaita) freedesktop icon names.
+  CustomWidgetsFactory::add_button_icon(*get_images_folder_open_button(),
+                                        "folder-open-symbolic");
+  CustomWidgetsFactory::add_button_icon(*get_annotations_db_open_button(),
+                                        "document-open-symbolic");
+  CustomWidgetsFactory::add_button_icon(*get_current_image_zoom_in(),
+                                        "zoom-in-symbolic");
+  CustomWidgetsFactory::add_button_icon(*get_current_image_zoom_out(),
+                                        "zoom-out-symbolic");
+  CustomWidgetsFactory::add_button_icon(*get_prev_file_button(),
+                                        "go-previous-symbolic");
+  CustomWidgetsFactory::add_button_icon(*get_next_file_button(),
+                                        "go-next-symbolic");
+  CustomWidgetsFactory::add_button_icon(*get_delete_image_record(),
+                                        "user-trash-symbolic");
+  CustomWidgetsFactory::add_button_icon(
+      *get_delete_current_image_selected_annotation(), "edit-delete-symbolic");
+  CustomWidgetsFactory::add_button_icon(*get_copy_annotation_name_button(),
+                                        "edit-copy-symbolic");
+  CustomWidgetsFactory::add_button_icon(*get_copy_current_annotation_button(),
+                                        "edit-copy-symbolic");
 }
 
 bool WindowLoader::init_paned_layout()

@@ -30,6 +30,7 @@
 #include <cassert>
 #include <glib.h>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "project-global-decls.h"
@@ -53,13 +54,50 @@ namespace
 // GTK msgids, so g_dgettext() against GTK's gettext domain returns them
 // translated to the user's locale, mnemonic preserved. Labels that are not part
 // of GTK's catalog (e.g. "_Load", "_Leave") gracefully fall back to the msgid.
-// Requires the locale to be initialized once, which main() does via setlocale().
+// Requires the locale to be initialized once, which Application::run() does via
+// setlocale().
 Glib::ustring gtk_std_label(const char* msgid)
 {
   return g_dgettext("gtk30", msgid);
 }
 
+// The themed icon paired with each standard button label, restoring the classic
+// stock-button icons. Empty string => no icon.
+const char* std_button_icon(const std::string& msgid)
+{
+  if (msgid == "_Cancel") return "window-close-symbolic";
+  if (msgid == "_Select") return "object-select-symbolic";
+  if (msgid == "_Open" || msgid == "_Load") return "document-open-symbolic";
+  if (msgid == "_Save") return "document-save-symbolic";
+  if (msgid == "_Discard") return "edit-delete-symbolic";
+  if (msgid == "_Delete") return "user-trash-symbolic";
+  if (msgid == "_Leave") return "go-previous-symbolic";
+  return "";
+}
+
+// Add a localized, icon-decorated standard action button to a dialog.
+Gtk::Button* add_std_button(Gtk::Dialog& dialog, const char* msgid,
+                            Gtk::ResponseType response)
+{
+  auto* button = dialog.add_button(gtk_std_label(msgid), response);
+  CustomWidgetsFactory::add_button_icon(*button, std_button_icon(msgid));
+  return button;
+}
+
 }  // namespace
+
+void CustomWidgetsFactory::add_button_icon(Gtk::Button& button,
+                                           const Glib::ustring& icon_name)
+{
+  if (icon_name.empty()) {
+    return;
+  }
+
+  // GTK3 Gtk::Button shows an image and its label together natively; GNOME may
+  // hide button images by default, so force it on with always-show-image.
+  button.set_image_from_icon_name(icon_name, Gtk::ICON_SIZE_BUTTON);
+  button.set_always_show_image(true);
+}
 
 std::shared_ptr<ImagePathLabel> CustomWidgetsFactory::create_image_db_label(
     std::shared_ptr<ImageRecord> ir)
@@ -125,8 +163,8 @@ CustomWidgetsFactory::create_json_db_dialog(Gtk::Window* parentWindow)
   filter_all->add_pattern("*");
   dialog->add_filter(filter_all);
 
-  dialog->add_button(gtk_std_label("_Cancel"), Gtk::RESPONSE_CANCEL);
-  dialog->add_button(gtk_std_label("_Select"), Gtk::RESPONSE_OK);
+  add_std_button(*dialog, "_Cancel", Gtk::RESPONSE_CANCEL);
+  add_std_button(*dialog, "_Select", Gtk::RESPONSE_OK);
 
   return dialog;
 }
@@ -150,8 +188,8 @@ CustomWidgetsFactory::create_save_json_db_dialog(Gtk::Window* parentWindow)
   filter_all->add_pattern("*");
   dialog->add_filter(filter_all);
 
-  dialog->add_button(gtk_std_label("_Cancel"), Gtk::RESPONSE_CANCEL);
-  dialog->add_button(gtk_std_label("_Select"), Gtk::RESPONSE_OK);
+  add_std_button(*dialog, "_Cancel", Gtk::RESPONSE_CANCEL);
+  add_std_button(*dialog, "_Select", Gtk::RESPONSE_OK);
 
   return dialog;
 }
@@ -163,8 +201,8 @@ CustomWidgetsFactory::create_folder_choose_dialog(Gtk::Window* parentWindow)
       *parentWindow, "Select directory containing source images",
       Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER);
 
-  dialog->add_button(gtk_std_label("_Cancel"), Gtk::RESPONSE_CANCEL);
-  dialog->add_button(gtk_std_label("_Select"), Gtk::RESPONSE_OK);
+  add_std_button(*dialog, "_Cancel", Gtk::RESPONSE_CANCEL);
+  add_std_button(*dialog, "_Select", Gtk::RESPONSE_OK);
 
   return dialog;
 }
@@ -200,8 +238,8 @@ CustomWidgetsFactory::create_folder_choose_dialog_with_title(
   auto dialog = std::make_shared<Gtk::FileChooserDialog>(
       *parentWindow, title, Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER);
 
-  dialog->add_button(gtk_std_label("_Cancel"), Gtk::RESPONSE_CANCEL);
-  dialog->add_button(gtk_std_label("_Select"), Gtk::RESPONSE_OK);
+  add_std_button(*dialog, "_Cancel", Gtk::RESPONSE_CANCEL);
+  add_std_button(*dialog, "_Select", Gtk::RESPONSE_OK);
 
   return dialog;
 }
@@ -302,9 +340,9 @@ CustomWidgetsFactory::create_save_changes_ask_user(Gtk::Window* parentWindow)
       *parentWindow, "Do you want to save changes?", false,
       Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_NONE, true);
 
-  dialog->add_button(gtk_std_label("_Cancel"), Gtk::RESPONSE_CANCEL);
-  dialog->add_button(gtk_std_label("_Discard"), Gtk::RESPONSE_NO);
-  dialog->add_button(gtk_std_label("_Save"), Gtk::RESPONSE_YES);
+  add_std_button(*dialog, "_Cancel", Gtk::RESPONSE_CANCEL);
+  add_std_button(*dialog, "_Discard", Gtk::RESPONSE_NO);
+  add_std_button(*dialog, "_Save", Gtk::RESPONSE_YES);
 
   dialog->set_default_response(Gtk::RESPONSE_NO);
 
@@ -319,9 +357,9 @@ CustomWidgetsFactory::create_ask_user_about_lost_rects(
       *parentWindow, "Images contains annotations. Delete them too?", false,
       Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_NONE, true);
 
-  dialog->add_button(gtk_std_label("_Cancel"), Gtk::RESPONSE_CANCEL);
-  dialog->add_button(gtk_std_label("_Leave"), Gtk::RESPONSE_NO);
-  dialog->add_button(gtk_std_label("_Delete"), Gtk::RESPONSE_YES);
+  add_std_button(*dialog, "_Cancel", Gtk::RESPONSE_CANCEL);
+  add_std_button(*dialog, "_Leave", Gtk::RESPONSE_NO);
+  add_std_button(*dialog, "_Delete", Gtk::RESPONSE_YES);
 
   dialog->set_default_response(Gtk::RESPONSE_NO);
 
@@ -357,8 +395,8 @@ void CustomWidgetsFactory::prepare_url_asker(Gtk::Dialog* dialog,
     return;
   }
 
-  dialog->add_button(gtk_std_label("_Cancel"), Gtk::RESPONSE_CANCEL);
-  dialog->add_button(gtk_std_label("_Load"), Gtk::RESPONSE_OK);
+  add_std_button(*dialog, "_Cancel", Gtk::RESPONSE_CANCEL);
+  add_std_button(*dialog, "_Load", Gtk::RESPONSE_OK);
 
   dialog->set_default_response(Gtk::RESPONSE_OK);
 }

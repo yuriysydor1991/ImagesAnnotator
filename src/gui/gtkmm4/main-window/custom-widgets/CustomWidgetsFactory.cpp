@@ -30,6 +30,7 @@
 #include <cassert>
 #include <glib.h>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "project-global-decls.h"
@@ -53,13 +54,66 @@ namespace
 // GTK msgids, so g_dgettext() against GTK's gettext domain returns them
 // translated to the user's locale, mnemonic preserved. Labels that are not part
 // of GTK's catalog (e.g. "_Load", "_Leave") gracefully fall back to the msgid.
-// Requires the locale to be initialized once, which main() does via setlocale().
+// Requires the locale to be initialized once, which Application::run() does via
+// setlocale().
 Glib::ustring gtk_std_label(const char* msgid)
 {
   return g_dgettext("gtk40", msgid);
 }
 
+// The themed icon paired with each standard button label, restoring the
+// pre-GTK4 stock-button icons. Empty string => no icon.
+const char* std_button_icon(const std::string& msgid)
+{
+  if (msgid == "_Cancel") return "window-close-symbolic";
+  if (msgid == "_Select") return "object-select-symbolic";
+  if (msgid == "_Open" || msgid == "_Load") return "document-open-symbolic";
+  if (msgid == "_Save") return "document-save-symbolic";
+  if (msgid == "_Discard") return "edit-delete-symbolic";
+  if (msgid == "_Delete") return "user-trash-symbolic";
+  if (msgid == "_Leave") return "go-previous-symbolic";
+  return "";
+}
+
+// Add a localized, icon-decorated standard action button to a dialog.
+Gtk::Button* add_std_button(Gtk::Dialog& dialog, const char* msgid,
+                            Gtk::ResponseType response)
+{
+  auto* button = dialog.add_button(gtk_std_label(msgid), response);
+  CustomWidgetsFactory::add_button_icon(*button, std_button_icon(msgid));
+  return button;
+}
+
 }  // namespace
+
+void CustomWidgetsFactory::add_button_icon(Gtk::Button& button,
+                                           const Glib::ustring& icon_name)
+{
+  if (icon_name.empty()) {
+    return;
+  }
+
+  // GTK4 Gtk::Button shows only one of {label, icon-name, child}. To keep the
+  // (already localized) text and add an icon beside it, rebuild the child as an
+  // icon + label box - the same structure Adw::ButtonContent produces.
+  const Glib::ustring text = button.get_label();
+
+  auto* box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL, 6);
+  box->set_halign(Gtk::Align::CENTER);
+
+  auto* image = Gtk::make_managed<Gtk::Image>();
+  image->set_from_icon_name(icon_name);
+  box->append(*image);
+
+  if (!text.empty()) {
+    auto* label = Gtk::make_managed<Gtk::Label>(text);
+    label->set_use_underline(true);
+    label->set_mnemonic_widget(button);
+    box->append(*label);
+  }
+
+  button.set_child(*box);
+}
 
 std::shared_ptr<ImagePathLabel> CustomWidgetsFactory::create_image_db_label(
     std::shared_ptr<ImageRecord> ir)
@@ -124,8 +178,8 @@ CustomWidgetsFactory::create_json_db_dialog(Gtk::Window* parentWindow)
   filter_all->add_pattern("*");
   dialog->add_filter(filter_all);
 
-  dialog->add_button(gtk_std_label("_Cancel"), Gtk::ResponseType::CANCEL);
-  dialog->add_button(gtk_std_label("_Select"), Gtk::ResponseType::OK);
+  add_std_button(*dialog, "_Cancel", Gtk::ResponseType::CANCEL);
+  add_std_button(*dialog, "_Select", Gtk::ResponseType::OK);
 
   return dialog;
 }
@@ -149,8 +203,8 @@ CustomWidgetsFactory::create_save_json_db_dialog(Gtk::Window* parentWindow)
   filter_all->add_pattern("*");
   dialog->add_filter(filter_all);
 
-  dialog->add_button(gtk_std_label("_Cancel"), Gtk::ResponseType::CANCEL);
-  dialog->add_button(gtk_std_label("_Select"), Gtk::ResponseType::OK);
+  add_std_button(*dialog, "_Cancel", Gtk::ResponseType::CANCEL);
+  add_std_button(*dialog, "_Select", Gtk::ResponseType::OK);
 
   return dialog;
 }
@@ -162,8 +216,8 @@ CustomWidgetsFactory::create_folder_choose_dialog(Gtk::Window* parentWindow)
       *parentWindow, "Select directory containing source images",
       Gtk::FileChooser::Action::SELECT_FOLDER);
 
-  dialog->add_button(gtk_std_label("_Cancel"), Gtk::ResponseType::CANCEL);
-  dialog->add_button(gtk_std_label("_Select"), Gtk::ResponseType::OK);
+  add_std_button(*dialog, "_Cancel", Gtk::ResponseType::CANCEL);
+  add_std_button(*dialog, "_Select", Gtk::ResponseType::OK);
 
   return dialog;
 }
@@ -199,8 +253,8 @@ CustomWidgetsFactory::create_folder_choose_dialog_with_title(
   auto dialog = std::make_shared<Gtk::FileChooserDialog>(
       *parentWindow, title, Gtk::FileChooser::Action::SELECT_FOLDER);
 
-  dialog->add_button(gtk_std_label("_Cancel"), Gtk::ResponseType::CANCEL);
-  dialog->add_button(gtk_std_label("_Select"), Gtk::ResponseType::OK);
+  add_std_button(*dialog, "_Cancel", Gtk::ResponseType::CANCEL);
+  add_std_button(*dialog, "_Select", Gtk::ResponseType::OK);
 
   return dialog;
 }
@@ -303,9 +357,9 @@ CustomWidgetsFactory::create_save_changes_ask_user(Gtk::Window* parentWindow)
       *parentWindow, "Do you want to save changes?", false,
       Gtk::MessageType::QUESTION, Gtk::ButtonsType::NONE, true);
 
-  dialog->add_button(gtk_std_label("_Cancel"), Gtk::ResponseType::CANCEL);
-  dialog->add_button(gtk_std_label("_Discard"), Gtk::ResponseType::NO);
-  dialog->add_button(gtk_std_label("_Save"), Gtk::ResponseType::YES);
+  add_std_button(*dialog, "_Cancel", Gtk::ResponseType::CANCEL);
+  add_std_button(*dialog, "_Discard", Gtk::ResponseType::NO);
+  add_std_button(*dialog, "_Save", Gtk::ResponseType::YES);
 
   dialog->set_default_response(Gtk::ResponseType::NO);
 
@@ -320,9 +374,9 @@ CustomWidgetsFactory::create_ask_user_about_lost_rects(
       *parentWindow, "Images contains annotations. Delete them too?", false,
       Gtk::MessageType::QUESTION, Gtk::ButtonsType::NONE, true);
 
-  dialog->add_button(gtk_std_label("_Cancel"), Gtk::ResponseType::CANCEL);
-  dialog->add_button(gtk_std_label("_Leave"), Gtk::ResponseType::NO);
-  dialog->add_button(gtk_std_label("_Delete"), Gtk::ResponseType::YES);
+  add_std_button(*dialog, "_Cancel", Gtk::ResponseType::CANCEL);
+  add_std_button(*dialog, "_Leave", Gtk::ResponseType::NO);
+  add_std_button(*dialog, "_Delete", Gtk::ResponseType::YES);
 
   dialog->set_default_response(Gtk::ResponseType::NO);
 
@@ -358,8 +412,8 @@ void CustomWidgetsFactory::prepare_url_asker(Gtk::Dialog* dialog,
     return;
   }
 
-  dialog->add_button(gtk_std_label("_Cancel"), Gtk::ResponseType::CANCEL);
-  dialog->add_button(gtk_std_label("_Load"), Gtk::ResponseType::OK);
+  add_std_button(*dialog, "_Cancel", Gtk::ResponseType::CANCEL);
+  add_std_button(*dialog, "_Load", Gtk::ResponseType::OK);
 
   dialog->set_default_response(Gtk::ResponseType::OK);
 }

@@ -59,6 +59,15 @@ class CustomWidgetsFactory
       std::vector<std::shared_ptr<AllAnnotationsLabel>>;
 
   virtual ~CustomWidgetsFactory() = default;
+
+  /**
+   * @brief Add a themed icon next to a button's existing (translated) text
+   * label, reproducing the pre-GTK4 stock-button look. No-op when @a icon_name
+   * is empty. Static so both the dialog factory and the main window loader can
+   * share it.
+   */
+  static void add_button_icon(Gtk::Button& button,
+                              const Glib::ustring& icon_name);
   CustomWidgetsFactory() = default;
 
   virtual std::shared_ptr<ImagePathLabel> create_image_db_label(

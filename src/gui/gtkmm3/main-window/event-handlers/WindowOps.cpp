@@ -32,6 +32,7 @@
 #include <memory>
 #include <string>
 
+#include "src/annotator-events/events/ImageRecord.h"
 #include "src/gui/gtkmm3/MainWindowContext.h"
 #include "src/gui/gtkmm3/main-window/custom-widgets/AllAnnotationsLabel.h"
 #include "src/gui/gtkmm3/main-window/custom-widgets/ImagePathLabel.h"
@@ -142,6 +143,10 @@ void WindowOps::update_image_zoom()
   }
 
   mwctx->centralCanvas->set_pixbuf(scaled);
+
+  // The scale just changed, so the zoom in / out buttons may have reached a
+  // bound.
+  update_action_buttons_sensitivity();
 }
 
 void WindowOps::update_statuses()
@@ -259,6 +264,85 @@ void WindowOps::update_images_list()
   }
 
   imagesListView.show_all_children();
+
+  update_action_buttons_sensitivity();
+}
+
+void WindowOps::update_action_buttons_sensitivity()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+
+  auto& wl = *mwctx->wloader;
+
+  // Nothing to navigate, zoom or annotate while the images list is empty.
+  const bool haveImages = !mwctx->imagesVDB.empty();
+
+  // --- Previous / Next: mirror the navigation handler, which moves to the
+  // adjacent VISIBLE row (visibility follows the images search filter). So a
+  // direction is sensitive exactly when moving it would not be a no-op: there is
+  // a visible row before / after the current selection. With no row selected yet
+  // either direction jumps to the first / last visible row, so both stay
+  // sensitive while any row is visible.
+  bool canPrev = false;
+  bool canNext = false;
+  if (haveImages) {
+    auto* imagesBox = wl.get_images_list();
+    const auto children = imagesBox->get_children();
+    Gtk::Widget* current = imagesBox->get_selected_row();
+
+    const auto is_visible = [](const Gtk::Widget* w) {
+      return w != nullptr && w->is_visible();
+    };
+
+    auto it = std::find(children.begin(), children.end(), current);
+
+    if (current == nullptr || it == children.end()) {
+      const bool anyVisible =
+          std::any_of(children.begin(), children.end(), is_visible);
+      canPrev = anyVisible;
+      canNext = anyVisible;
+    } else {
+      canPrev = std::any_of(children.begin(), it, is_visible);
+      canNext = std::any_of(std::next(it), children.end(), is_visible);
+    }
+  }
+
+  wl.get_prev_file_button()->set_sensitive(canPrev);
+  wl.get_next_file_button()->set_sensitive(canNext);
+
+  // --- Zoom in / out: scaleStepIn()/scaleStepOut() clamp the scale to
+  // ImageRecord::{max,min}Scale, so a direction is a no-op (and its button
+  // insensitive) once the current image already sits at that bound.
+  bool canZoomIn = false;
+  bool canZoomOut = false;
+  if (haveImages && mwctx->current_irecord() != nullptr) {
+    const double scale = mwctx->current_irecord()->imageScale;
+    canZoomIn = scale < events::events::ImageRecord::maxScale;
+    canZoomOut = scale > events::events::ImageRecord::minScale;
+  }
+
+  wl.get_current_image_zoom_in()->set_sensitive(canZoomIn);
+  wl.get_current_image_zoom_out()->set_sensitive(canZoomOut);
+
+  // --- Delete image acts on the current image, so it only needs images loaded.
+  wl.get_delete_image_record()->set_sensitive(haveImages);
+
+  // --- Copy annotation name / Copy annotation both act on the current image's
+  // currently selected annotation, so both need one selected. "Copy annotation
+  // name" additionally writes the name picked in the all-annotations list onto
+  // it, so it also needs an all-annotations selection; "Copy annotation"
+  // (duplicate) needs only the selected annotation. Each is thus sensitive
+  // exactly when its click would do something.
+  const bool haveCurrentAnnotation =
+      haveImages && mwctx->currentVisualRect != nullptr;
+
+  wl.get_copy_annotation_name_button()->set_sensitive(
+      haveCurrentAnnotation && mwctx->current_annotation_name != nullptr);
+  wl.get_copy_current_annotation_button()->set_sensitive(haveCurrentAnnotation);
+
+  // --- Delete annotation stays gated only on images being present.
+  wl.get_delete_current_image_selected_annotation()->set_sensitive(haveImages);
 }
 
 void WindowOps::update_current_rects_list()
@@ -296,6 +380,10 @@ void WindowOps::update_current_rects_list()
   mwctx->find_current_image_current_visual_rect();
 
   update_current_annotations_selection();
+
+  // The current image and its selected annotation may have changed, which the
+  // navigation and the copy-annotation buttons depend on.
+  update_action_buttons_sensitivity();
 }
 
 void WindowOps::update_current_annotations_selection()

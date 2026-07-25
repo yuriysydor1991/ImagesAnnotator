@@ -75,6 +75,27 @@ class WindowOps : virtual public ComponentTypesAliases,
   static std::vector<Gtk::Widget*> get_children(Gtk::Widget& parent);
 
   void update_images_list();
+
+  /// @brief Recomputes the sensitivity of the image navigation /
+  /// view-manipulation and the annotation-management buttons from the current
+  /// state, so each button is insensitive exactly when clicking it would be a
+  /// no-op:
+  ///   - Previous / Next: no visible image row before / after the selection
+  ///     (visibility follows the images search filter);
+  ///   - Zoom in / out: the current image is already at ImageRecord::max/minScale;
+  ///   - Delete image: no images loaded;
+  ///   - Copy annotation: no annotation selected on the current image;
+  ///   - Copy annotation name: no annotation selected on the current image, or
+  ///     no all-annotations-list selection to copy the name from;
+  ///   - Delete annotation: no images loaded.
+  /// Called from every place that changes the relevant state - update_images_list(),
+  /// update_current_rects_list(), update_image_zoom(), the images-search and the
+  /// current-annotation-selection handlers - and once at startup (via the initial
+  /// update_images_list()) so the buttons start correctly disabled. The image /
+  /// annotations DB "open" buttons are intentionally left untouched: they are the
+  /// entry points that populate those lists.
+  void update_action_buttons_sensitivity();
+
   void update_current_rects_list();
   void update_rect_edit_entry();
   void update_annotations_list();

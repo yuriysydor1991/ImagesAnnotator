@@ -181,6 +181,11 @@ void ProjectFileEventsHandler::handle_menu_project_close()
   mwctx->current_annotation_name.reset();
 
   ops->update_statuses();
+
+  // The project is now closed and its state cleared above, so refresh the action
+  // buttons to the empty-project state explicitly (the manual clears otherwise
+  // only take effect on the next recompute).
+  ops->update_action_buttons_sensitivity();
 }
 
 }  // namespace templateGtkmm3::window::event_handlers

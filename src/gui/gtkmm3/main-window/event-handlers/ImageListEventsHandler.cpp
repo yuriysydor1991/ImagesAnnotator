@@ -257,6 +257,10 @@ void ImageListEventsHandler::handle_images_search_text_changed()
     row->set_visible(filter_text.empty() ||
                      text.find(filter_text) != Glib::ustring::npos);
   }
+
+  // Row visibility drives whether Previous / Next can still move, so refresh
+  // their sensitivity after the filter changed which rows are shown.
+  ops->update_action_buttons_sensitivity();
 }
 
 void ImageListEventsHandler::handle_current_image_delete()

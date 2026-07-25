@@ -102,6 +102,9 @@ void AnnotationsEventsHandler::handle_ci_rect_row_selected(Gtk::ListBoxRow* row)
   if (row == nullptr) {
     mwctx->currentVisualRect.reset();
     LOGT("No row pointer provided");
+    // The current annotation was deselected: the copy-annotation buttons act on
+    // it, so refresh their sensitivity.
+    ops->update_action_buttons_sensitivity();
     return;
   }
 
@@ -130,6 +133,10 @@ void AnnotationsEventsHandler::handle_ci_rect_row_selected(Gtk::ListBoxRow* row)
   LOGT("Current image rect changed: " << rectLabel->get_text());
 
   mwctx->centralCanvas->queue_draw();
+
+  // An annotation is now selected on the current image: the copy-annotation
+  // buttons become usable.
+  ops->update_action_buttons_sensitivity();
 }
 
 void AnnotationsEventsHandler::handle_rect_edit_entry_changed()
@@ -224,6 +231,10 @@ void AnnotationsEventsHandler::handle_all_annotations_selected(
        << mwctx->current_annotation_name->get_text());
 
   ops->update_statuses();
+
+  // "Copy annotation name" needs an all-annotations selection, which just
+  // changed.
+  ops->update_action_buttons_sensitivity();
 }
 
 void AnnotationsEventsHandler::handle_annotations_name_copy()
@@ -273,11 +284,6 @@ void AnnotationsEventsHandler::handle_ci_annotation_copy()
 
   if (!MainWindowContext::validate_context(mwctx)) {
     LOGE("Invalid context pointer provided");
-    return;
-  }
-
-  if (mwctx->current_annotation_name == nullptr) {
-    LOGT("No current all annotations list row selected");
     return;
   }
 

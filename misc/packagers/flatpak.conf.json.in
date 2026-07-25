@@ -78,7 +78,7 @@
     {
       "name": "${PROJECT_NAME}",
       "buildsystem": "cmake",
-      "config-opts": ["-DCMAKE_BUILD_TYPE=Release"],
+      "config-opts": ["-DCMAKE_BUILD_TYPE=Release", "-DUSE_GTKMM3=ON"],
       "sources": [
         {
           "type": "dir",

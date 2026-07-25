@@ -12,7 +12,7 @@ sudo apt install -y git g++ cmake
 sudo apt install -y pkg-config libgtkmm-4.0-dev
 ```
 
-Щоб зібрати альтернативний інтерфейс GTKmm-3.0 (`-DUSE_GTKMM3=ON -DUSE_GTKMM4=OFF`) встановіть пакунки розробника GTKmm-3.0 (замість або додатково):
+Щоб зібрати альтернативний інтерфейс GTKmm-3.0 (`-DUSE_GTKMM3=ON`, що автоматично вимикає `USE_GTKMM4`) встановіть пакунки розробника GTKmm-3.0 (замість або додатково):
 
 ```
 sudo apt install -y pkg-config libgtkmm-3.0-dev

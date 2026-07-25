@@ -1,8 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
-find_package(PkgConfig)
-
-pkg_check_modules(GTKMM gtkmm-3.0 REQUIRED)
+# The GTKMM_* variables come from cmake/enablers/template-project-Gtkmm3-enabler.cmake,
+# which probed pkg-config once at project scope before add_subdirectory(src).
 
 add_library(
   ${GTKMM_OBJECT_NAME} OBJECT

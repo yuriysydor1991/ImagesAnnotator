@@ -27,3 +27,5 @@ cpack
 The package file should be generated inside the project build root directory. For example, if project name was't change and it's version is 0.8.0 so the package name may look like `ImagesAnnotator-0.8.0-Linux.deb`.
 
 In order to examine details of the `deb` package configuration visit the `cmake/enablers/packagers/template-project-deb-enabler.cmake` file.
+
+The generated package declares the GTKmm runtime it was built against as a dependency (`libgtkmm-4.0-0` or `libgtkmm-3.0-1v5`). That name is not decided by the DEB enabler itself: it is published as `GTKMM_DEB_RUNTIME_DEPENDS` by whichever GUI toolkit enabler ran, so the packaged dependency automatically follows the `USE_GTKMM3` / `USE_GTKMM4` selection described in the extensions section.

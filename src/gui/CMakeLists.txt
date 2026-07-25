@@ -7,12 +7,18 @@ cmake_minimum_required(VERSION 3.13)
 # ever compiled into the single application binary, so the toolkit-agnostic
 # gtkmm-common sources are built once against whichever GTKmm is active.
 
-find_package(PkgConfig)
+# The GTKMM_* variables (and GTKMM_GUI_SUBDIR below) come from whichever GUI
+# toolkit enabler ran - cmake/enablers/template-project-Gtkmm{3,4}-enabler.cmake
+# - which probed pkg-config once at project scope before add_subdirectory(src).
+# They are inherited here and by every subdirectory underneath.
 
-# GTKMM_PC is derived from the USE_GTKMM3 / USE_GTKMM4 switch and resolves to
-# either "gtkmm-3.0" or "gtkmm-4.0". The resulting GTKMM_* variables are
-# inherited by the gtkmm-common and toolkit-specific subdirectories.
-pkg_check_modules(GTKMM ${GTKMM_PC} REQUIRED)
+# Single instance of the toolkit-agnostic GResource payload (CSS, images). Both
+# gtkmm3 and gtkmm4 embed exactly the same files under their own resource
+# prefix, so the tree lives here once and each toolkit's ui/CMakeLists.txt hands
+# this directory to glib-compile-resources as an extra --sourcedir. That keeps
+# the <file> entries in every template.gresource.xml - and therefore the runtime
+# resource paths - unchanged while removing the duplicated copies.
+set(GTKMM_COMMON_UI_DIR "${CMAKE_CURRENT_SOURCE_DIR}/gtkmm-common/ui")
 
 add_subdirectory(gtkmm-common)
 add_subdirectory(${GTKMM_GUI_SUBDIR})

@@ -13,6 +13,16 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/enablers/images")
 include(template-project-enabler-function)
 include(template-project-git-enabler)
 
+# ImagesAnnotator specific: the GUI toolkit enablers. Exactly one of them gets
+# past its own guard - the mutually exclusive USE_GTKMM3 / USE_GTKMM4 pair is
+# resolved by template-project-misc-variables-declare.cmake, which bootstrap
+# includes before this file. They run here, ahead of add_subdirectory(src) and
+# ahead of the packagers below, because they publish the GTKMM_* probe results
+# consumed all over the src subtree, GTKMM_GUI_SUBDIR and the
+# GTKMM_DEB_RUNTIME_DEPENDS the DEB packager needs.
+include(template-project-Gtkmm3-enabler)
+include(template-project-Gtkmm4-enabler)
+
 # ImagesAnnotator specific: these libraries are made available before the src
 # subdirectory is added because the project sources consume them while their
 # targets are configured. nlohmann_json is propagated through link_libraries()

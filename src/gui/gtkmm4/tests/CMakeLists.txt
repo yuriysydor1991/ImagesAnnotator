@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
-find_package(PkgConfig)
-pkg_check_modules(GTKMM gtkmm-4.0 REQUIRED)
+# The GTKMM_* variables come from cmake/enablers/template-project-Gtkmm4-enabler.cmake,
+# which probed pkg-config once at project scope before add_subdirectory(src).
 
 # The window event handler tests sit on top of the whole window subsystem, so
 # they link against the project object libraries instead of re-listing that

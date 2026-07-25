@@ -20,41 +20,107 @@ set(
 # ImagesAnnotator specific: GUI toolkit selection.
 #
 # The project ships two interchangeable GTKmm GUI implementations under src/gui
-# (gtkmm3 and gtkmm4). Exactly one is compiled into the single application
-# binary. USE_GTKMM4 is the default. The two options are mutually exclusive:
-# enabling one means disabling the other.
+# (gtkmm3 and gtkmm4) and compiles exactly one of them into the single
+# application binary. This block is the only place in the whole project that
+# branches on the choice: everything that follows from it (the pkg-config probe,
+# the src/gui subdirectory, the USE_GTKMM<N> compile definition and the DEB
+# runtime dependency) is declared unconditionally by the matching enabler,
+# cmake/enablers/template-project-Gtkmm3-enabler.cmake or
+# cmake/enablers/template-project-Gtkmm4-enabler.cmake.
+#
+# Whichever of the two options the user leaves unspecified is derived from the
+# one that was given, so the pair can never end up inconsistent by accident:
+#
+#   (nothing given)   ->  USE_GTKMM4=ON,  USE_GTKMM3=OFF   (the default)
+#   -DUSE_GTKMM3=ON   ->  USE_GTKMM4=OFF  (derived)
+#   -DUSE_GTKMM3=OFF  ->  USE_GTKMM4=ON   (derived)
+#   -DUSE_GTKMM4=ON   ->  USE_GTKMM3=OFF  (derived)
+#   -DUSE_GTKMM4=OFF  ->  USE_GTKMM3=ON   (derived)
+#   both given        ->  honoured when exactly one is ON, fatal error otherwise
+#
+# GTKMM_SELECTED_VERSION records the resolved choice in the cache, which is what
+# makes re-configuring an existing build tree behave: a bare "cmake ." keeps the
+# toolkit the tree was configured with, while passing a single option again (for
+# example switching a GTKmm4 tree with -DUSE_GTKMM3=ON) is understood as a
+# deliberate change of that one option rather than as "both are now enabled".
 # ---------------------------------------------------------------------------
-option(USE_GTKMM4 "Build the GTKmm4 (GTK 4) based GUI. Mutually exclusive with USE_GTKMM3." ON)
-option(USE_GTKMM3 "Build the GTKmm3 (GTK 3) based GUI. Mutually exclusive with USE_GTKMM4." OFF)
+set(GTKMM_DEFAULT_VERSION 4)
 
-if(USE_GTKMM3 AND USE_GTKMM4)
-  message(FATAL_ERROR
-    "USE_GTKMM3 and USE_GTKMM4 are mutually exclusive - enable exactly one "
-    "(USE_GTKMM4 is the default). Re-run cmake with, e.g., "
-    "-DUSE_GTKMM3=ON -DUSE_GTKMM4=OFF.")
+# ON/OFF that the previous configure run resolved for each option, empty on a
+# fresh build tree.
+set(GTKMM_PREVIOUS_3 "")
+set(GTKMM_PREVIOUS_4 "")
+if(GTKMM_SELECTED_VERSION)
+  set(GTKMM_PREVIOUS_3 OFF)
+  set(GTKMM_PREVIOUS_4 OFF)
+  set(GTKMM_PREVIOUS_${GTKMM_SELECTED_VERSION} ON)
 endif()
 
-if(NOT USE_GTKMM3 AND NOT USE_GTKMM4)
+# An option counts as requested when it is present in the cache with a value
+# that differs from the one the previous run resolved for it - that is, when the
+# user actually asked for something new on this command line. On a fresh tree
+# there is nothing to compare against, so any given value counts.
+foreach(GTKMM_OPTION_VERSION 3 4)
+  set(GTKMM_REQUESTED_${GTKMM_OPTION_VERSION} "")
+
+  if(DEFINED USE_GTKMM${GTKMM_OPTION_VERSION})
+    # Normalise whatever the user wrote (ON / TRUE / 1 / YES / ...) to a strict
+    # ON or OFF so the comparison below is reliable.
+    set(GTKMM_GIVEN_VALUE OFF)
+    if(USE_GTKMM${GTKMM_OPTION_VERSION})
+      set(GTKMM_GIVEN_VALUE ON)
+    endif()
+
+    if(NOT "${GTKMM_GIVEN_VALUE}" STREQUAL "${GTKMM_PREVIOUS_${GTKMM_OPTION_VERSION}}")
+      set(GTKMM_REQUESTED_${GTKMM_OPTION_VERSION} ${GTKMM_GIVEN_VALUE})
+    endif()
+  endif()
+endforeach()
+
+if(GTKMM_REQUESTED_3 AND GTKMM_REQUESTED_4)
+  message(FATAL_ERROR
+    "USE_GTKMM3 and USE_GTKMM4 are mutually exclusive - enable exactly one "
+    "(USE_GTKMM4 is the default). Enabling one alone is enough, the other is "
+    "switched off automatically: re-run cmake with just -DUSE_GTKMM3=ON.")
+endif()
+
+if("${GTKMM_REQUESTED_3}" STREQUAL "OFF" AND "${GTKMM_REQUESTED_4}" STREQUAL "OFF")
   message(FATAL_ERROR
     "Neither USE_GTKMM3 nor USE_GTKMM4 is enabled - enable exactly one GUI "
     "toolkit (USE_GTKMM4 is the default).")
 endif()
 
-if(USE_GTKMM4)
-  set(GTKMM_PC "gtkmm-4.0")
-  set(GTKMM_GUI_SUBDIR "gtkmm4")
-  set(GTKMM_ACTIVE_DEFINE "USE_GTKMM4")
+if(GTKMM_REQUESTED_3)
+  set(GTKMM_SELECTED 3)
+elseif(GTKMM_REQUESTED_4)
+  set(GTKMM_SELECTED 4)
+elseif("${GTKMM_REQUESTED_3}" STREQUAL "OFF")
+  set(GTKMM_SELECTED 4)
+elseif("${GTKMM_REQUESTED_4}" STREQUAL "OFF")
+  set(GTKMM_SELECTED 3)
+elseif(GTKMM_SELECTED_VERSION)
+  set(GTKMM_SELECTED ${GTKMM_SELECTED_VERSION})
 else()
-  set(GTKMM_PC "gtkmm-3.0")
-  set(GTKMM_GUI_SUBDIR "gtkmm3")
-  set(GTKMM_ACTIVE_DEFINE "USE_GTKMM3")
+  set(GTKMM_SELECTED ${GTKMM_DEFAULT_VERSION})
 endif()
 
-# Propagate the active toolkit as a preprocessor define so the toolkit-neutral
-# facade src/gui/GuiIniter.h (and the app component that consumes it) select the
-# matching GtkmmIniter implementation. add_compile_definitions() here runs at
-# project scope, so every target defined afterwards inherits the macro.
-add_compile_definitions(${GTKMM_ACTIVE_DEFINE})
+# Publish the resolution. Both options are always written back, so the cache (and
+# ccmake / cmake-gui) always shows a consistent pair no matter which single
+# option the user passed, and the choice is remembered for the next run.
+set(GTKMM_RESOLVED_3 OFF)
+set(GTKMM_RESOLVED_4 OFF)
+set(GTKMM_RESOLVED_${GTKMM_SELECTED} ON)
+
+set(USE_GTKMM3 ${GTKMM_RESOLVED_3} CACHE BOOL
+  "Build the GTKmm3 (GTK 3) based GUI. Enabling it switches USE_GTKMM4 off." FORCE)
+set(USE_GTKMM4 ${GTKMM_RESOLVED_4} CACHE BOOL
+  "Build the GTKmm4 (GTK 4) based GUI. Enabling it switches USE_GTKMM3 off." FORCE)
+
+set(GTKMM_SELECTED_VERSION ${GTKMM_SELECTED} CACHE INTERNAL
+  "GTKmm major version resolved from the USE_GTKMM3 / USE_GTKMM4 pair")
+
+message(STATUS "GUI toolkit: GTKmm${GTKMM_SELECTED} "
+  "(USE_GTKMM3=${USE_GTKMM3}, USE_GTKMM4=${USE_GTKMM4})")
 
 set(
   PROJECT_MAINTAINER "Yuriy Sydor"

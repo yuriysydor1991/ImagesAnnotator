@@ -15,8 +15,9 @@ development packages:
 sudo apt install -y pkg-config libgtkmm-4.0-dev
 ```
 
-To build the alternative GTKmm-3.0 GUI (`-DUSE_GTKMM3=ON -DUSE_GTKMM4=OFF`)
-install the GTKmm-3.0 development packages instead (or in addition):
+To build the alternative GTKmm-3.0 GUI (`-DUSE_GTKMM3=ON`, which switches
+`USE_GTKMM4` off automatically) install the GTKmm-3.0 development packages
+instead (or in addition):
 
 ```
 sudo apt install -y pkg-config libgtkmm-3.0-dev

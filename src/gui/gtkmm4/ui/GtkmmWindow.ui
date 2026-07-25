@@ -12,14 +12,17 @@
         <item>
           <attribute name="label" translatable="yes">Open annotations DB</attribute>
           <attribute name="action">win.annotations-db-open</attribute>
+          <attribute name="icon">document-open-symbolic</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Save</attribute>
           <attribute name="action">win.annotations-db-save</attribute>
+          <attribute name="icon">document-save-symbolic</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Save As</attribute>
           <attribute name="action">win.annotations-db-saveas</attribute>
+          <attribute name="icon">document-save-as-symbolic</attribute>
         </item>
       </section>
       <submenu>
@@ -28,14 +31,17 @@
           <item>
             <attribute name="label" translatable="yes">Export as plain txt</attribute>
             <attribute name="action">win.export-txt</attribute>
+            <attribute name="icon">text-x-generic-symbolic</attribute>
           </item>
           <item>
             <attribute name="label" translatable="yes">Export to YOLO4 folder</attribute>
             <attribute name="action">win.export-yolo4</attribute>
+            <attribute name="icon">folder-symbolic</attribute>
           </item>
           <item>
             <attribute name="label" translatable="yes">PyTorch Vision folder format</attribute>
             <attribute name="action">win.export-pytorchvision</attribute>
+            <attribute name="icon">folder-symbolic</attribute>
           </item>
         </section>
       </submenu>
@@ -43,6 +49,7 @@
         <item>
           <attribute name="label" translatable="yes">Close</attribute>
           <attribute name="action">win.annotations-project-close</attribute>
+          <attribute name="icon">window-close-symbolic</attribute>
         </item>
       </section>
     </submenu>
@@ -54,6 +61,7 @@
           <item>
             <attribute name="label" translatable="yes">Current annotation to whole image</attribute>
             <attribute name="action">win.auto-insert-annotation</attribute>
+            <attribute name="icon">edit-select-all-symbolic</attribute>
           </item>
         </section>
       </submenu>
@@ -64,10 +72,12 @@
         <item>
           <attribute name="label" translatable="yes">Open images</attribute>
           <attribute name="action">win.images-open</attribute>
+          <attribute name="icon">folder-open-symbolic</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Load from web page</attribute>
           <attribute name="action">win.images-web-page-open</attribute>
+          <attribute name="icon">web-browser-symbolic</attribute>
         </item>
       </section>
     </submenu>
@@ -77,6 +87,7 @@
         <item>
           <attribute name="label" translatable="yes">About</attribute>
           <attribute name="action">win.about</attribute>
+          <attribute name="icon">help-about-symbolic</attribute>
         </item>
       </section>
     </submenu>

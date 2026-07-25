@@ -310,4 +310,70 @@
       </object>
     </child>
   </object>
+  <!-- Dialogs that CustomWidgetsFactory used to build entirely in C++. Only the
+       shells (dialog type, title, message text, action) live here; each is a
+       single reused instance (hide-on-close) that WindowLoader exposes through a
+       getter. The two things GtkBuilder cannot express without a behavioural
+       regression stay in C++, applied once at load by CustomWidgetsFactory: the
+       file-chooser filters (a GtkFileFilter cannot be added to a chooser from a
+       .ui file) and the localized, icon-decorated action buttons (which reuse
+       GTK's own translated "_Cancel"/"_Save"/... labels). The error dialog needs
+       neither, so its GTK-localized OK button is declared here via buttons=ok. -->
+  <object class="GtkFileChooserDialog" id="json_db_open_dialog">
+    <property name="title" translatable="yes">Select annotations JSON db file</property>
+    <property name="action">open</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="json_db_save_dialog">
+    <property name="title" translatable="yes">Save annotations JSON db file</property>
+    <property name="action">save</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="images_folder_choose_dialog">
+    <property name="title" translatable="yes">Select directory containing source images</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="txt_export_folder_dialog">
+    <property name="title" translatable="yes">Select plain txt files export directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="yolo4_export_folder_dialog">
+    <property name="title" translatable="yes">Select YOLO4 export directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="pytorch_export_folder_dialog">
+    <property name="title" translatable="yes">Select PyTorch Vision export directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkMessageDialog" id="error_dialog">
+    <property name="message-type">error</property>
+    <property name="buttons">ok</property>
+    <property name="text" translatable="yes">Error!</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkMessageDialog" id="save_changes_ask_dialog">
+    <property name="message-type">question</property>
+    <property name="buttons">none</property>
+    <property name="text" translatable="yes">Do you want to save changes?</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkMessageDialog" id="lost_rects_ask_dialog">
+    <property name="message-type">question</property>
+    <property name="buttons">none</property>
+    <property name="text" translatable="yes">Images contains annotations. Delete them too?</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
 </interface>

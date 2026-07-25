@@ -68,6 +68,16 @@ class CustomWidgetsFactory
    */
   static void add_button_icon(Gtk::Button& button,
                               const Glib::ustring& icon_name);
+
+  /**
+   * @brief Restore a reused (hide-on-close) file-chooser dialog to the clean
+   * state a freshly constructed one would have: re-activate the default (first)
+   * filter and, for SAVE choosers, clear the typed file name. Called before each
+   * showing so the shared .ui instance does not carry a stale filter, selection
+   * or - for Save-As - a stale overwrite target between invocations. Static so
+   * WindowOps::run_dialog can apply it to every chooser it shows.
+   */
+  static void reset_file_chooser(Gtk::FileChooserDialog& dialog);
   CustomWidgetsFactory() = default;
 
   virtual std::shared_ptr<ImagePathLabel> create_image_db_label(
@@ -78,13 +88,6 @@ class CustomWidgetsFactory
 
   virtual ImagesVisualDB create_images_visual_db(ImageRecordsSet& queue);
 
-  virtual std::shared_ptr<Gtk::FileChooserDialog> create_json_db_dialog(
-      Gtk::Window* parentWindow);
-  virtual std::shared_ptr<Gtk::FileChooserDialog> create_folder_choose_dialog(
-      Gtk::Window* parentWindow);
-  virtual std::shared_ptr<Gtk::FileChooserDialog> create_save_json_db_dialog(
-      Gtk::Window* parentWindow);
-
   virtual ImageRectsLabelPtr create_rect_label(ImageRecordRectPtr rect);
   virtual ImageRectsLabelSet create_rects_labels(ImageRecordRectSet& rectRecs);
 
@@ -94,32 +97,38 @@ class CustomWidgetsFactory
   virtual void prepare_about(Gtk::AboutDialog* about,
                              Gtk::Window* parentWindow);
 
-  virtual std::shared_ptr<Gtk::FileChooserDialog>
-  create_txt_export_folder_choose_dialog(Gtk::Window* parentWindow);
+  /**
+   * @brief Decorate a builder-defined JSON file-chooser dialog (the open or the
+   * save one) with the "JSON files" / "All files" filters and the localized,
+   * icon-decorated Cancel / Select action buttons. GtkBuilder cannot express
+   * either from the .ui file, so WindowLoader applies this once at load.
+   * Idempotent - re-invoking it on an already prepared dialog is a no-op.
+   */
+  virtual void prepare_json_db_dialog(Gtk::FileChooserDialog* dialog);
 
-  virtual std::shared_ptr<Gtk::MessageDialog> create_error_dialog(
-      const std::string& errDesc, Gtk::Window* parentWindow);
+  /**
+   * @brief Decorate a builder-defined folder-choosing dialog with the localized,
+   * icon-decorated Cancel / Select action buttons. Idempotent.
+   */
+  virtual void prepare_folder_choose_dialog(Gtk::FileChooserDialog* dialog);
 
-  virtual std::shared_ptr<Gtk::MessageDialog> create_save_changes_ask_user(
-      Gtk::Window* parentWindow);
+  /**
+   * @brief Add the localized, icon-decorated Cancel / Discard / Save buttons
+   * (and the default response) to the builder-defined "save changes?" question
+   * dialog. Idempotent.
+   */
+  virtual void prepare_save_changes_ask_user(Gtk::MessageDialog* dialog);
 
-  virtual std::shared_ptr<Gtk::MessageDialog> create_ask_user_about_lost_rects(
-      Gtk::Window* parentWindow);
-
-  virtual std::shared_ptr<Gtk::FileChooserDialog>
-  create_yolo4_export_folder_choose_dialog(Gtk::Window* parentWindow);
-
-  virtual std::shared_ptr<Gtk::FileChooserDialog>
-  create_pytorch_export_folder_choose_dialog(Gtk::Window* parentWindow);
+  /**
+   * @brief Add the localized, icon-decorated Cancel / Leave / Delete buttons
+   * (and the default response) to the builder-defined "delete annotations too?"
+   * question dialog. Idempotent.
+   */
+  virtual void prepare_ask_user_about_lost_rects(Gtk::MessageDialog* dialog);
 
   virtual void prepare_url_asker(Gtk::Dialog* dialog,
                                  Gtk::Label* cachePathLabel,
                                  Gtk::Window* parentWindow);
-
- private:
-  std::shared_ptr<Gtk::FileChooserDialog>
-  create_folder_choose_dialog_with_title(Gtk::Window* parentWindow,
-                                         const std::string& title);
 };
 
 }  // namespace templateGtkmm4::window::custom_widgets

@@ -93,8 +93,7 @@ void ProjectFileEventsHandler::handle_annotations_db_open()
     }
   }
 
-  auto dialog =
-      mwctx->cwFactory->create_json_db_dialog(mwctx->wloader->get_window());
+  auto* dialog = mwctx->wloader->get_json_db_open_dialog();
 
   const int result = WindowOps::run_dialog(*dialog);
 
@@ -119,8 +118,7 @@ void ProjectFileEventsHandler::handle_images_dir_open()
 
   ops->show_spinner();
 
-  auto dialog = mwctx->cwFactory->create_folder_choose_dialog(
-      mwctx->wloader->get_window());
+  auto* dialog = mwctx->wloader->get_images_folder_choose_dialog();
 
   const int result = WindowOps::run_dialog(*dialog);
 

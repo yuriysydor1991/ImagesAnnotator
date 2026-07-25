@@ -81,8 +81,7 @@ void ExportEventsHandler::handle_export_txt()
 
   ops->show_spinner();
 
-  auto dialog = mwctx->cwFactory->create_txt_export_folder_choose_dialog(
-      mwctx->wloader->get_window());
+  auto* dialog = mwctx->wloader->get_txt_export_folder_dialog();
 
   const int result = WindowOps::run_dialog(*dialog);
 
@@ -131,8 +130,7 @@ void ExportEventsHandler::handle_export_yolo4()
 
   ops->show_spinner();
 
-  auto dialog = mwctx->cwFactory->create_yolo4_export_folder_choose_dialog(
-      mwctx->wloader->get_window());
+  auto* dialog = mwctx->wloader->get_yolo4_export_folder_dialog();
 
   const int result = WindowOps::run_dialog(*dialog);
 
@@ -172,8 +170,7 @@ void ExportEventsHandler::handle_export_pytorch()
 
   ops->show_spinner();
 
-  auto dialog = mwctx->cwFactory->create_pytorch_export_folder_choose_dialog(
-      mwctx->wloader->get_window());
+  auto* dialog = mwctx->wloader->get_pytorch_export_folder_dialog();
 
   const int result = WindowOps::run_dialog(*dialog);
 

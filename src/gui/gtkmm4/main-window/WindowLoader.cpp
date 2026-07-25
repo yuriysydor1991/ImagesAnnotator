@@ -138,6 +138,11 @@ bool WindowLoader::propagate_params()
 
   decorate_button_icons();
 
+  if (!prepare_dialogs()) {
+    LOGE("Failure during the dialogs preparation");
+    return false;
+  }
+
   return true;
 }
 
@@ -167,6 +172,57 @@ void WindowLoader::decorate_button_icons()
                                         "edit-copy-symbolic");
   CustomWidgetsFactory::add_button_icon(*get_copy_current_annotation_button(),
                                         "edit-copy-symbolic");
+}
+
+bool WindowLoader::prepare_dialogs()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+  assert(get_window() != nullptr);
+
+  auto& factory = *mwctx->cwFactory;
+  auto& parent = *get_window();
+
+  auto* jsonOpen = get_json_db_open_dialog();
+  auto* jsonSave = get_json_db_save_dialog();
+  auto* imagesFolder = get_images_folder_choose_dialog();
+  auto* txtFolder = get_txt_export_folder_dialog();
+  auto* yolo4Folder = get_yolo4_export_folder_dialog();
+  auto* pytorchFolder = get_pytorch_export_folder_dialog();
+  auto* error = get_error_dialog();
+  auto* saveChanges = get_save_changes_ask_dialog();
+  auto* lostRects = get_lost_rects_ask_dialog();
+
+  // The C++ dialogs took the main window as their transient parent at
+  // construction; the builder-defined shells are reparented onto it here.
+  for (Gtk::Window* dialog :
+       {static_cast<Gtk::Window*>(jsonOpen), static_cast<Gtk::Window*>(jsonSave),
+        static_cast<Gtk::Window*>(imagesFolder),
+        static_cast<Gtk::Window*>(txtFolder),
+        static_cast<Gtk::Window*>(yolo4Folder),
+        static_cast<Gtk::Window*>(pytorchFolder),
+        static_cast<Gtk::Window*>(error),
+        static_cast<Gtk::Window*>(saveChanges),
+        static_cast<Gtk::Window*>(lostRects)}) {
+    assert(dialog != nullptr);
+    dialog->set_transient_for(parent);
+  }
+
+  // Apply the one-time decoration GtkBuilder cannot express: the JSON dialogs
+  // get the file filters plus the localized Cancel / Select buttons, the folder
+  // choosers just the buttons, and the two question dialogs their button sets.
+  // The error dialog needs neither - its GTK-localized OK button is declared in
+  // the .ui via buttons=ok.
+  factory.prepare_json_db_dialog(jsonOpen);
+  factory.prepare_json_db_dialog(jsonSave);
+  factory.prepare_folder_choose_dialog(imagesFolder);
+  factory.prepare_folder_choose_dialog(txtFolder);
+  factory.prepare_folder_choose_dialog(yolo4Folder);
+  factory.prepare_folder_choose_dialog(pytorchFolder);
+  factory.prepare_save_changes_ask_user(saveChanges);
+  factory.prepare_ask_user_about_lost_rects(lostRects);
+
+  return true;
 }
 
 bool WindowLoader::init_paned_layout()
@@ -606,6 +662,75 @@ Gtk::Label* WindowLoader::get_images_web_page_cache_folder()
   assert(mwctx->wctx != nullptr);
 
   return get_widget<Gtk::Label>(mwctx->wctx->images_web_page_cache_folder_id);
+}
+
+Gtk::FileChooserDialog* WindowLoader::get_json_db_open_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->json_db_open_dialog_id);
+}
+
+Gtk::FileChooserDialog* WindowLoader::get_json_db_save_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->json_db_save_dialog_id);
+}
+
+Gtk::FileChooserDialog* WindowLoader::get_images_folder_choose_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->images_folder_choose_dialog_id);
+}
+
+Gtk::FileChooserDialog* WindowLoader::get_txt_export_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->txt_export_folder_dialog_id);
+}
+
+Gtk::FileChooserDialog* WindowLoader::get_yolo4_export_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->yolo4_export_folder_dialog_id);
+}
+
+Gtk::FileChooserDialog* WindowLoader::get_pytorch_export_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->pytorch_export_folder_dialog_id);
+}
+
+Gtk::MessageDialog* WindowLoader::get_error_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::MessageDialog>(mwctx->wctx->error_dialog_id);
+}
+
+Gtk::MessageDialog* WindowLoader::get_save_changes_ask_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::MessageDialog>(mwctx->wctx->save_changes_ask_dialog_id);
+}
+
+Gtk::MessageDialog* WindowLoader::get_lost_rects_ask_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::MessageDialog>(mwctx->wctx->lost_rects_ask_dialog_id);
 }
 
 }  // namespace templateGtkmm4::window

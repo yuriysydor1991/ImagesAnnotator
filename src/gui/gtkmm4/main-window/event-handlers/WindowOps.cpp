@@ -38,6 +38,7 @@
 #include "src/annotator-events/events/ImageRecord.h"
 #include "src/gui/gtkmm4/MainWindowContext.h"
 #include "src/gui/gtkmm4/main-window/custom-widgets/AllAnnotationsLabel.h"
+#include "src/gui/gtkmm4/main-window/custom-widgets/CustomWidgetsFactory.h"
 #include "src/gui/gtkmm4/main-window/custom-widgets/ImagePathLabel.h"
 #include "src/gui/gtkmm4/main-window/custom-widgets/ImageRectsLabel.h"
 #include "src/log/log.h"
@@ -51,6 +52,14 @@ WindowOps::WindowOps(std::shared_ptr<MainWindowContext> nmwctx) : mwctx{nmwctx}
 
 int WindowOps::run_dialog(Gtk::Dialog& dialog)
 {
+  // The dialogs live in GtkmmWindow.ui as single reused (hide-on-close)
+  // instances, so a file chooser would otherwise carry its previous filter,
+  // selection and typed name into the next open. Restore the clean per-open
+  // state the fresh-per-call dialogs used to have before showing it.
+  if (auto* chooser = dynamic_cast<Gtk::FileChooserDialog*>(&dialog)) {
+    custom_widgets::CustomWidgetsFactory::reset_file_chooser(*chooser);
+  }
+
   // GTK4 removed Gtk::Dialog::run(). A nested Glib::MainLoop reproduces the
   // blocking, response-returning behaviour the callers depend upon.
   int response = Gtk::ResponseType::NONE;
@@ -564,10 +573,11 @@ void WindowOps::show_error_dialog(const std::string& emsg)
 
   LOGE(emsg);
 
-  auto errD =
-      mwctx->cwFactory->create_error_dialog(emsg, mwctx->wloader->get_window());
+  auto* errD = mwctx->wloader->get_error_dialog();
 
   assert(errD != nullptr);
+
+  errD->set_secondary_text(emsg);
 
   run_dialog(*errD);
 
@@ -608,8 +618,7 @@ void WindowOps::save_project_as()
 
   show_spinner();
 
-  auto dialog = mwctx->cwFactory->create_save_json_db_dialog(
-      mwctx->wloader->get_window());
+  auto* dialog = mwctx->wloader->get_json_db_save_dialog();
 
   assert(dialog != nullptr);
 
@@ -649,8 +658,7 @@ bool WindowOps::ask_about_unsaved_changes()
 
   show_spinner();
 
-  auto dialog = mwctx->cwFactory->create_save_changes_ask_user(
-      mwctx->wloader->get_window());
+  auto* dialog = mwctx->wloader->get_save_changes_ask_dialog();
 
   assert(dialog != nullptr);
 
@@ -687,8 +695,7 @@ bool WindowOps::ask_about_rects_delete()
 
   show_spinner();
 
-  auto dialog = mwctx->cwFactory->create_ask_user_about_lost_rects(
-      mwctx->wloader->get_window());
+  auto* dialog = mwctx->wloader->get_lost_rects_ask_dialog();
 
   assert(dialog != nullptr);
 

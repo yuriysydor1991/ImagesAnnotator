@@ -67,7 +67,16 @@ const std::set<std::string>& WindowDataContext::get_ids()
       delete_image_record_id,
       web_page_images_url_asker_id,
       images_web_page_url_entry_id,
-      images_web_page_cache_folder_id};
+      images_web_page_cache_folder_id,
+      json_db_open_dialog_id,
+      json_db_save_dialog_id,
+      images_folder_choose_dialog_id,
+      txt_export_folder_dialog_id,
+      yolo4_export_folder_dialog_id,
+      pytorch_export_folder_dialog_id,
+      error_dialog_id,
+      save_changes_ask_dialog_id,
+      lost_rects_ask_dialog_id};
 
   return ids;
 }

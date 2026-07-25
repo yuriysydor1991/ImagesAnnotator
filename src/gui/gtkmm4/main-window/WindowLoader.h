@@ -82,6 +82,20 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual Gtk::Entry* get_images_web_page_url_entry();
   virtual Gtk::Label* get_images_web_page_cache_folder();
 
+  /// @brief Dialogs whose shells are defined in GtkmmWindow.ui. Each is a single
+  /// reused instance; the event handlers just obtain the ready dialog and run
+  /// it. The one-time filter / action-button decoration is applied at load by
+  /// prepare_dialogs().
+  virtual Gtk::FileChooserDialog* get_json_db_open_dialog();
+  virtual Gtk::FileChooserDialog* get_json_db_save_dialog();
+  virtual Gtk::FileChooserDialog* get_images_folder_choose_dialog();
+  virtual Gtk::FileChooserDialog* get_txt_export_folder_dialog();
+  virtual Gtk::FileChooserDialog* get_yolo4_export_folder_dialog();
+  virtual Gtk::FileChooserDialog* get_pytorch_export_folder_dialog();
+  virtual Gtk::MessageDialog* get_error_dialog();
+  virtual Gtk::MessageDialog* get_save_changes_ask_dialog();
+  virtual Gtk::MessageDialog* get_lost_rects_ask_dialog();
+
   /// @brief menu entries. In GTK4 the former GtkImageMenuItem widgets are
   /// Gio::SimpleActions referenced by the menu model. The event handlers
   /// connect to each action's signal_activate() instead of a menu-item's
@@ -111,6 +125,11 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual void decorate_button_icons();
   virtual bool create_actions();
   virtual bool attach_spinner();
+
+  /// @brief Reparents every builder-defined dialog onto the main window and
+  /// applies the one-time decoration GtkBuilder cannot express from the .ui: the
+  /// JSON file filters and the localized, icon-decorated action buttons.
+  virtual bool prepare_dialogs();
 
   /// @brief Sizes the two column dividers so the central image working area is
   /// the dominant widget while the left (images) and right (annotations)

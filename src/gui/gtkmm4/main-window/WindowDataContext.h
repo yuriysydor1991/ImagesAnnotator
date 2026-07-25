@@ -146,6 +146,28 @@ class WindowDataContext
   inline static constexpr const char* const images_web_page_cache_folder_id =
       "images_web_page_cache_folder";
 
+  // Dialog shells defined in GtkmmWindow.ui (formerly built in C++ by
+  // CustomWidgetsFactory). WindowLoader obtains each by id and hands the
+  // file-chooser filters / localized action buttons to CustomWidgetsFactory to
+  // apply once at load.
+  inline static constexpr const char* const json_db_open_dialog_id =
+      "json_db_open_dialog";
+  inline static constexpr const char* const json_db_save_dialog_id =
+      "json_db_save_dialog";
+  inline static constexpr const char* const images_folder_choose_dialog_id =
+      "images_folder_choose_dialog";
+  inline static constexpr const char* const txt_export_folder_dialog_id =
+      "txt_export_folder_dialog";
+  inline static constexpr const char* const yolo4_export_folder_dialog_id =
+      "yolo4_export_folder_dialog";
+  inline static constexpr const char* const pytorch_export_folder_dialog_id =
+      "pytorch_export_folder_dialog";
+  inline static constexpr const char* const error_dialog_id = "error_dialog";
+  inline static constexpr const char* const save_changes_ask_dialog_id =
+      "save_changes_ask_dialog";
+  inline static constexpr const char* const lost_rects_ask_dialog_id =
+      "lost_rects_ask_dialog";
+
   inline static constexpr const char* const
       auto_insert_current_annotation_to_whole_id =
           "auto_insert_current_annotation_to_whole";

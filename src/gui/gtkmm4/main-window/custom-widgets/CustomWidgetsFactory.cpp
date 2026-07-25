@@ -84,6 +84,35 @@ Gtk::Button* add_std_button(Gtk::Dialog& dialog, const char* msgid,
   return button;
 }
 
+// The dialog shells live in GtkmmWindow.ui and are reused, so the one-time
+// decoration below must be skipped when a dialog already carries its buttons.
+bool already_prepared(Gtk::Dialog& dialog, Gtk::ResponseType response)
+{
+  return dialog.get_widget_for_response(response) != nullptr;
+}
+
+// The two Select-dialog buttons shared by every file / folder chooser.
+void add_cancel_select_buttons(Gtk::FileChooserDialog& dialog)
+{
+  add_std_button(dialog, "_Cancel", Gtk::ResponseType::CANCEL);
+  add_std_button(dialog, "_Select", Gtk::ResponseType::OK);
+}
+
+// The "JSON files" + "All files" fallback filters. A GtkFileFilter cannot be
+// attached to a chooser from a .ui file, so the filter list is built here.
+void add_json_filters(Gtk::FileChooserDialog& dialog)
+{
+  auto filter_json = Gtk::FileFilter::create();
+  filter_json->set_name("JSON files");
+  filter_json->add_pattern("*.json");
+  dialog.add_filter(filter_json);
+
+  auto filter_all = Gtk::FileFilter::create();
+  filter_all->set_name("All files");
+  filter_all->add_pattern("*");
+  dialog.add_filter(filter_all);
+}
+
 }  // namespace
 
 void CustomWidgetsFactory::add_button_icon(Gtk::Button& button,
@@ -113,6 +142,29 @@ void CustomWidgetsFactory::add_button_icon(Gtk::Button& button,
   }
 
   button.set_child(*box);
+}
+
+void CustomWidgetsFactory::reset_file_chooser(Gtk::FileChooserDialog& dialog)
+{
+  // Re-activate the first filter. The JSON choosers add "JSON files" first, so
+  // this restores the default the fresh-per-call dialogs always opened with; a
+  // folder chooser has no filters, making this a no-op there.
+  auto filters = dialog.get_filters();
+  if (filters && filters->get_n_items() > 0) {
+    // Gio::ListModel::get_object() hands back a RefPtr-to-const; the filter is
+    // ours and set_filter() does not mutate it, so drop const to re-activate it.
+    if (auto first = std::dynamic_pointer_cast<Gtk::FileFilter>(
+            std::const_pointer_cast<Glib::ObjectBase>(filters->get_object(0)))) {
+      dialog.set_filter(first);
+    }
+  }
+
+  // A reused SAVE chooser keeps the previously typed file name; clearing it
+  // restores the empty-name checkpoint a fresh dialog had, so one habitual click
+  // on Select cannot silently overwrite the earlier save target.
+  if (dialog.get_action() == Gtk::FileChooser::Action::SAVE) {
+    dialog.set_current_name("");
+  }
 }
 
 std::shared_ptr<ImagePathLabel> CustomWidgetsFactory::create_image_db_label(
@@ -159,104 +211,41 @@ CustomWidgetsFactory::create_working_canvas(
   return canvas;
 }
 
-std::shared_ptr<Gtk::FileChooserDialog>
-CustomWidgetsFactory::create_json_db_dialog(Gtk::Window* parentWindow)
+void CustomWidgetsFactory::prepare_json_db_dialog(
+    Gtk::FileChooserDialog* dialog)
 {
-  auto dialog = std::make_shared<Gtk::FileChooserDialog>(
-      *parentWindow, "Select annotations JSON db file",
-      Gtk::FileChooser::Action::OPEN);
+  assert(dialog != nullptr);
 
-  // Add a JSON filter
-  auto filter_json = Gtk::FileFilter::create();
-  filter_json->set_name("JSON files");
-  filter_json->add_pattern("*.json");
-  dialog->add_filter(filter_json);
+  if (dialog == nullptr) {
+    LOGE("No JSON file-chooser dialog provided");
+    return;
+  }
 
-  // Allow all files as a fallback
-  auto filter_all = Gtk::FileFilter::create();
-  filter_all->set_name("All files");
-  filter_all->add_pattern("*");
-  dialog->add_filter(filter_all);
+  if (already_prepared(*dialog, Gtk::ResponseType::OK)) {
+    LOGT("JSON file-chooser dialog already prepared");
+    return;
+  }
 
-  add_std_button(*dialog, "_Cancel", Gtk::ResponseType::CANCEL);
-  add_std_button(*dialog, "_Select", Gtk::ResponseType::OK);
-
-  return dialog;
+  add_json_filters(*dialog);
+  add_cancel_select_buttons(*dialog);
 }
 
-std::shared_ptr<Gtk::FileChooserDialog>
-CustomWidgetsFactory::create_save_json_db_dialog(Gtk::Window* parentWindow)
+void CustomWidgetsFactory::prepare_folder_choose_dialog(
+    Gtk::FileChooserDialog* dialog)
 {
-  auto dialog = std::make_shared<Gtk::FileChooserDialog>(
-      *parentWindow, "Save annotations JSON db file",
-      Gtk::FileChooser::Action::SAVE);
+  assert(dialog != nullptr);
 
-  // Add a JSON filter
-  auto filter_json = Gtk::FileFilter::create();
-  filter_json->set_name("JSON files");
-  filter_json->add_pattern("*.json");
-  dialog->add_filter(filter_json);
+  if (dialog == nullptr) {
+    LOGE("No folder-choose dialog provided");
+    return;
+  }
 
-  // Allow all files as a fallback
-  auto filter_all = Gtk::FileFilter::create();
-  filter_all->set_name("All files");
-  filter_all->add_pattern("*");
-  dialog->add_filter(filter_all);
+  if (already_prepared(*dialog, Gtk::ResponseType::OK)) {
+    LOGT("Folder-choose dialog already prepared");
+    return;
+  }
 
-  add_std_button(*dialog, "_Cancel", Gtk::ResponseType::CANCEL);
-  add_std_button(*dialog, "_Select", Gtk::ResponseType::OK);
-
-  return dialog;
-}
-
-std::shared_ptr<Gtk::FileChooserDialog>
-CustomWidgetsFactory::create_folder_choose_dialog(Gtk::Window* parentWindow)
-{
-  auto dialog = std::make_shared<Gtk::FileChooserDialog>(
-      *parentWindow, "Select directory containing source images",
-      Gtk::FileChooser::Action::SELECT_FOLDER);
-
-  add_std_button(*dialog, "_Cancel", Gtk::ResponseType::CANCEL);
-  add_std_button(*dialog, "_Select", Gtk::ResponseType::OK);
-
-  return dialog;
-}
-
-std::shared_ptr<Gtk::FileChooserDialog>
-CustomWidgetsFactory::create_txt_export_folder_choose_dialog(
-    Gtk::Window* parentWindow)
-{
-  return create_folder_choose_dialog_with_title(
-      parentWindow, "Select plain txt files export directory");
-}
-
-std::shared_ptr<Gtk::FileChooserDialog>
-CustomWidgetsFactory::create_yolo4_export_folder_choose_dialog(
-    Gtk::Window* parentWindow)
-{
-  return create_folder_choose_dialog_with_title(
-      parentWindow, "Select YOLO4 export directory");
-}
-
-std::shared_ptr<Gtk::FileChooserDialog>
-CustomWidgetsFactory::create_pytorch_export_folder_choose_dialog(
-    Gtk::Window* parentWindow)
-{
-  return create_folder_choose_dialog_with_title(
-      parentWindow, "Select PyTorch Vision export directory");
-}
-
-std::shared_ptr<Gtk::FileChooserDialog>
-CustomWidgetsFactory::create_folder_choose_dialog_with_title(
-    Gtk::Window* parentWindow, const std::string& title)
-{
-  auto dialog = std::make_shared<Gtk::FileChooserDialog>(
-      *parentWindow, title, Gtk::FileChooser::Action::SELECT_FOLDER);
-
-  add_std_button(*dialog, "_Cancel", Gtk::ResponseType::CANCEL);
-  add_std_button(*dialog, "_Select", Gtk::ResponseType::OK);
-
-  return dialog;
+  add_cancel_select_buttons(*dialog);
 }
 
 ImageRectsLabelPtr CustomWidgetsFactory::create_rect_label(
@@ -336,51 +325,48 @@ void CustomWidgetsFactory::prepare_about(Gtk::AboutDialog* about,
   }
 }
 
-std::shared_ptr<Gtk::MessageDialog> CustomWidgetsFactory::create_error_dialog(
-    const std::string& errDesc, Gtk::Window* parentWindow)
+void CustomWidgetsFactory::prepare_save_changes_ask_user(
+    Gtk::MessageDialog* dialog)
 {
-  auto dialog = std::make_shared<Gtk::MessageDialog>(
-      *parentWindow, "Error!", false, Gtk::MessageType::ERROR,
-      Gtk::ButtonsType::OK,
-      true  // modal
-  );
+  assert(dialog != nullptr);
 
-  dialog->set_secondary_text(errDesc);
+  if (dialog == nullptr) {
+    LOGE("No save-changes question dialog provided");
+    return;
+  }
 
-  return dialog;
-}
-
-std::shared_ptr<Gtk::MessageDialog>
-CustomWidgetsFactory::create_save_changes_ask_user(Gtk::Window* parentWindow)
-{
-  auto dialog = std::make_shared<Gtk::MessageDialog>(
-      *parentWindow, "Do you want to save changes?", false,
-      Gtk::MessageType::QUESTION, Gtk::ButtonsType::NONE, true);
+  if (already_prepared(*dialog, Gtk::ResponseType::YES)) {
+    LOGT("Save-changes dialog already prepared");
+    return;
+  }
 
   add_std_button(*dialog, "_Cancel", Gtk::ResponseType::CANCEL);
   add_std_button(*dialog, "_Discard", Gtk::ResponseType::NO);
   add_std_button(*dialog, "_Save", Gtk::ResponseType::YES);
 
   dialog->set_default_response(Gtk::ResponseType::NO);
-
-  return dialog;
 }
 
-std::shared_ptr<Gtk::MessageDialog>
-CustomWidgetsFactory::create_ask_user_about_lost_rects(
-    Gtk::Window* parentWindow)
+void CustomWidgetsFactory::prepare_ask_user_about_lost_rects(
+    Gtk::MessageDialog* dialog)
 {
-  auto dialog = std::make_shared<Gtk::MessageDialog>(
-      *parentWindow, "Images contains annotations. Delete them too?", false,
-      Gtk::MessageType::QUESTION, Gtk::ButtonsType::NONE, true);
+  assert(dialog != nullptr);
+
+  if (dialog == nullptr) {
+    LOGE("No lost-rects question dialog provided");
+    return;
+  }
+
+  if (already_prepared(*dialog, Gtk::ResponseType::YES)) {
+    LOGT("Lost-rects dialog already prepared");
+    return;
+  }
 
   add_std_button(*dialog, "_Cancel", Gtk::ResponseType::CANCEL);
   add_std_button(*dialog, "_Leave", Gtk::ResponseType::NO);
   add_std_button(*dialog, "_Delete", Gtk::ResponseType::YES);
 
   dialog->set_default_response(Gtk::ResponseType::NO);
-
-  return dialog;
 }
 
 void CustomWidgetsFactory::prepare_url_asker(Gtk::Dialog* dialog,

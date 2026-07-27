@@ -1,0 +1,108 @@
+# The test stage jobs of the ImagesAnnotator GitLab CI/CD pipeline.
+#
+# Included by the /.gitlab-ci.yml at the repository root, which declares the
+# stage list, the workflow rules, the shared variables and the default job
+# settings these jobs rely on, and describes the pipeline as a whole.
+
+# ---------------------------------------------------------------------------
+# Jenkins: "Debug configure" + "Debug build" + "Unit Tests" + "Component
+# Tests", repeated for each selectable GUI toolkit.
+# ---------------------------------------------------------------------------
+debug-build-and-test:
+  stage: test
+  parallel:
+    matrix:
+      # Only the toolkit name is a matrix variable: GitLab builds the job name
+      # out of the matrix values, and the packages / flags are derived from it
+      # below anyway.
+      - TOOLKIT: [gtkmm3, gtkmm4, wxwidgets]
+  cache:
+    key: "ccache-debug-$TOOLKIT"
+    paths:
+      - .ccache
+  before_script:
+    # GitLab runs before_script and script as one shell script, so the values
+    # resolved here are visible below.
+    - |
+      case "$TOOLKIT" in
+        gtkmm3)    TOOLKIT_PACKAGES="libgtkmm-3.0-dev"; TOOLKIT_CMAKE_FLAGS="-DUSE_GTKMM3=ON" ;;
+        gtkmm4)    TOOLKIT_PACKAGES="libgtkmm-4.0-dev"; TOOLKIT_CMAKE_FLAGS="-DUSE_GTKMM4=ON" ;;
+        wxwidgets) TOOLKIT_PACKAGES="libwxgtk3.2-dev";  TOOLKIT_CMAKE_FLAGS="-DUSE_WXWIDGETS=ON" ;;
+        *) echo "FAIL: unknown GUI toolkit '$TOOLKIT'"; exit 1 ;;
+      esac
+    - apt-get update -qq
+    # xvfb / xauth: the component tests build real toolkit windows and need a
+    # display. They self-skip when the toolkit cannot be initialized, so without
+    # a display they would silently stay green instead of being run.
+    - apt-get install -y -qq $BASE_PACKAGES $TOOLKIT_PACKAGES xvfb xauth
+  script:
+    - |
+      cmake -S . -B "$BUILDDIR" -DCMAKE_BUILD_TYPE=Debug $TOOLKIT_CMAKE_FLAGS \
+        -DENABLE_UNIT_TESTS=ON -DENABLE_COMPONENT_TESTS=ON \
+        -DENABLE_SANITIZERS=ON -DMAX_LOG_LEVEL=5 \
+        -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+    - cmake --build "$BUILDDIR" -j$(nproc)
+    # The configured test targets, consumed by the tests-coverage job of
+    # verify.yml. Collected before the tests are run, so that a failing test
+    # cannot hide this build from it.
+    - mkdir -p ctest-targets
+    - ctest --test-dir "$BUILDDIR" -N | sed -nE 's/^[[:space:]]*Test[[:space:]]+#[0-9]+:[[:space:]]+([A-Za-z0-9_]+)\..*/\1/p' | sort -u > "ctest-targets/$TOOLKIT.txt"
+    # The two ctest runs below select the tests by their UTEST_ / CTEST_ name
+    # prefix, so a test target named in any other way would be built and then
+    # never executed. Refuse to let that pass unnoticed.
+    - |
+      total="$(ctest --test-dir "$BUILDDIR" -N | sed -nE 's/^Total Tests: ([0-9]+)$/\1/p')"
+      selected="$(ctest --test-dir "$BUILDDIR" -N -R '^(UTEST|CTEST)_' | sed -nE 's/^Total Tests: ([0-9]+)$/\1/p')"
+      if [ "$total" != "$selected" ]; then
+        echo "FAIL: only $selected of the $total configured tests match the UTEST_ / CTEST_ prefixes this pipeline runs:"
+        ctest --test-dir "$BUILDDIR" -N -R '^(UTEST|CTEST)_' | sed -nE 's/.*Test +#[0-9]+: (.*)/\1/p' | sort > selected-tests.txt
+        ctest --test-dir "$BUILDDIR" -N | sed -nE 's/.*Test +#[0-9]+: (.*)/\1/p' | sort > all-tests.txt
+        comm -13 selected-tests.txt all-tests.txt
+        exit 1
+      fi
+      echo "OK: all $total configured tests are executed below"
+    # --output-junit is resolved relative to --test-dir, so the reports end up
+    # in $BUILDDIR/$BDJUNITOUT.
+    - ctest --test-dir "$BUILDDIR" -R '^UTEST_' -j$(nproc) --no-tests=error --output-on-failure --output-junit "$BDJUNITOUT/UTEST.junit.xml"
+    # Run serially and under a single X server: these drive real GTK / wx
+    # windows, which the Jenkins pipeline instead hands a per-stage broadway
+    # display.
+    #
+    # ASAN_OPTIONS=detect_leaks=0: once the widgets really are constructed
+    # (which only happens when a display is there - they self-skip otherwise),
+    # LeakSanitizer reports the allocations fontconfig, pango and glib never
+    # free, and the tests would fail on those instead of on anything of this
+    # project. Only the leak check is dropped, the rest of the AddressSanitizer
+    # checks stay on, and the unit tests above keep the leak check as well.
+    # Replace this with an LSAN_OPTIONS suppression file if the leaks of the
+    # project GUI code have to be caught here too.
+    - ASAN_OPTIONS=detect_leaks=0 xvfb-run -a ctest --test-dir "$BUILDDIR" -R '^CTEST_' --no-tests=error --output-on-failure --output-junit "$BDJUNITOUT/CTEST.junit.xml"
+  artifacts:
+    when: always
+    expire_in: 1 week
+    # Spelled out instead of built from $BUILDDIR / $BDJUNITOUT: these are read
+    # by GitLab itself rather than by a shell.
+    paths:
+      - ctest-targets/
+    reports:
+      junit: build/junit-out/*.xml
+
+# ---------------------------------------------------------------------------
+# Jenkins: "Release configure" + "Release build" + "Release install".
+#
+# The default toolkit only - the three of them are already compiled by the Debug
+# matrix above, this adds the optimized build and the install rules (which
+# include the .desktop launcher and the themed icon).
+# ---------------------------------------------------------------------------
+release:
+  stage: test
+  cache:
+    key: "ccache-release"
+    paths:
+      - .ccache
+  script:
+    - |
+      cmake -S . -B "$BUILDDIR-release" -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+    - cmake --build "$BUILDDIR-release" -j$(nproc)
+    - cmake --install "$BUILDDIR-release" --prefix "$BUILDDIR-release/install-try"

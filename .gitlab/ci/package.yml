@@ -1,0 +1,72 @@
+# The package stage jobs of the ImagesAnnotator GitLab CI/CD pipeline.
+#
+# Included by the /.gitlab-ci.yml at the repository root, which declares the
+# stage list, the workflow rules, the shared variables and the default job
+# settings these jobs rely on, and describes the pipeline as a whole.
+
+# ---------------------------------------------------------------------------
+# Jenkins: "deb package" (RUN_DEB_PACKAGER).
+# ---------------------------------------------------------------------------
+deb-package:
+  stage: package
+  needs: []
+  rules:
+    - if: $RUN_DEB_PACKAGER == "true"
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - when: manual
+      allow_failure: true
+  script:
+    - BD="$BUILDDIR-pkg-deb"
+    - rm -fr "$BD"
+    - cmake -S . -B "$BD" -DCMAKE_BUILD_TYPE=Release -DENABLE_DEB=ON
+    - cmake --build "$BD" -j$(nproc)
+    - (cd "$BD" && cpack -G DEB)
+    - |
+      if [ -z "$(find "$BD" -maxdepth 2 -name '*.deb' -print -quit)" ]; then
+        echo "FAIL: CMake/CPack did not produce a .deb package"
+        exit 1
+      fi
+      echo "OK: produced $(find "$BD" -maxdepth 2 -name '*.deb')"
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - build-pkg-deb/*.deb
+
+# ---------------------------------------------------------------------------
+# Jenkins: "flatpak package" (RUN_FLATPAK_PACKAGER).
+#
+# flatpak-builder compiles graphviz, mm-common and GTKmm 3.24.8 from source
+# inside the sandbox (see misc/packagers/flatpak.conf.json.in), so this job is by
+# far the longest one of the pipeline. It also needs a runner whose container
+# may create user namespaces - which is what flatpak's bubblewrap sandbox is
+# built on - so it can fail on a locked down shared runner.
+# ---------------------------------------------------------------------------
+flatpak-package:
+  stage: package
+  needs: []
+  timeout: 4h
+  variables:
+    EXTRA_PACKAGES: "libgtkmm-3.0-dev flatpak flatpak-builder"
+  rules:
+    - if: $RUN_FLATPAK_PACKAGER == "true"
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - when: manual
+      allow_failure: true
+  script:
+    - flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    - flatpak install --user -y flathub org.gnome.Platform//48 org.gnome.Sdk//48
+    - BD="$BUILDDIR-pkg-flatpak"
+    - rm -fr "$BD"
+    - cmake -S . -B "$BD" -DCMAKE_BUILD_TYPE=Release -DENABLE_FLATPAK=ON
+    - cmake --build "$BD" -j$(nproc)
+    - cmake --build "$BD" --target flatpak
+    - |
+      if [ -z "$(find "$BD" -maxdepth 2 -name '*.flatpak' -print -quit)" ]; then
+        echo "FAIL: CMake did not produce a .flatpak bundle"
+        exit 1
+      fi
+      echo "OK: produced $(find "$BD" -maxdepth 2 -name '*.flatpak')"
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - build-pkg-flatpak/*.flatpak

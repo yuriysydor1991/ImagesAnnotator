@@ -1,0 +1,96 @@
+# ImagesAnnotator continuous integration for GitLab CI/CD.
+#
+# This is the GitLab counterpart of misc/Jenkinsfile and performs the very same
+# checks in the same order: the clang-format compliance check, a sanitized Debug
+# build with the unit and component test suites, a Release build with a trial
+# install, the repository hygiene checks and the four opt-in stages (cppcheck,
+# clang-tidy, deb and flatpak packaging).
+#
+# The jobs themselves live in one file per stage under .gitlab/ci/ and are
+# pulled in by the include: below, so that this file holds only what has to be
+# declared once for the whole pipeline. It stays at the repository root on
+# purpose: GitLab looks for .gitlab-ci.yml there and nowhere else, and moving
+# the whole declaration into the subdirectory instead would require the per
+# project "CI/CD configuration file" setting ("Settings" -> "CI/CD" -> "General
+# pipelines"), which is stored in GitLab rather than in the repository - so a
+# fork, a mirror or an import of this repository would silently run no pipeline
+# at all until somebody set it there again.
+#
+# Two things are deliberately done differently, because the Jenkins idiom does
+# not carry over:
+#
+#   - Jenkins declares one parallel stage per ctest target so that its pipeline
+#     view shows a box per test. A GitLab parallel job is a whole runner (a new
+#     clone and a new build), so instead the tests are run by two ctest
+#     invocations - the unit ones and the display bound component ones - whose
+#     JUnit output GitLab renders per test anyway. What Jenkins guards with its
+#     "Every declared test is registered in the pipeline" stage is guarded by
+#     the tests-coverage job of .gitlab/ci/verify.yml.
+#
+#   - the Debug build runs for every GUI toolkit the project can be configured
+#     with (GTKmm3, which is the default, GTKmm4 and wxWidgets), because each of
+#     them compiles a different src/gui subtree with its own test targets, so
+#     only the three of them together cover every declared test.
+#
+# The four opt-in stages map to the Jenkins booleanParam parameters: they are
+# manual (a play button) in the ordinary runs, start automatically when the
+# pipeline is run with the matching RUN_* variable set to "true" - "Run
+# pipeline" -> "Variables", the equivalent of the Jenkins parameters form - and
+# also in a scheduled pipeline.
+
+# One file per stage, merged into this one before the pipeline is validated.
+# The paths are resolved from the repository root, not from the directory of
+# the including file.
+include:
+  - local: '/.gitlab/ci/check.yml'
+  - local: '/.gitlab/ci/test.yml'
+  - local: '/.gitlab/ci/verify.yml'
+  - local: '/.gitlab/ci/package.yml'
+
+stages:
+  - check
+  - test
+  - verify
+  - package
+
+# The canonical rule set that keeps a branch push from producing a second,
+# duplicate pipeline next to the merge request one.
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH
+    - if: $CI_COMMIT_TAG
+
+variables:
+  BUILDDIR: build
+  BDJUNITOUT: junit-out
+  DEBIAN_FRONTEND: noninteractive
+  # What every job needs to configure the project: the toolchain plus the system
+  # copies of the third party libraries the enablers look for. All three of them
+  # fall back to fetching the sources over the Internet when they are missing
+  # (see cmake/tools/template-project-enabler-function.cmake), which would make
+  # every job pay for a libcurl build, so they are installed up front.
+  BASE_PACKAGES: "build-essential cmake git pkg-config ccache libgtest-dev libgmock-dev nlohmann-json3-dev libcurl4-openssl-dev"
+  # The GUI toolkit of the default configuration (USE_GTKMM3 is the default, see
+  # cmake/template-project-misc-variables-declare.cmake). Every job that only
+  # has to configure the project once uses it; the toolkit matrix of
+  # .gitlab/ci/test.yml replaces it with its own.
+  EXTRA_PACKAGES: "libgtkmm-3.0-dev"
+  # The clang-format check is pinned to one explicit version instead of taking
+  # whatever the `clang-format` metapackage points at: the tool reformats
+  # differently from release to release, so an unpinned check would start
+  # failing on untouched sources the day the image bumps it. 18 is the
+  # ubuntu:24.04 default; change this single value to move the whole project to
+  # another version (any clang-format-<N> package of the image will do).
+  CLANG_FORMAT_VERSION: "18"
+  # ccache has to live inside the project directory to be cacheable at all.
+  CCACHE_DIR: "$CI_PROJECT_DIR/.ccache"
+
+default:
+  image: ubuntu:24.04
+  interruptible: true
+  before_script:
+    - apt-get update -qq
+    - apt-get install -y -qq $BASE_PACKAGES $EXTRA_PACKAGES

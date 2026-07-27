@@ -1,0 +1,46 @@
+# The check stage jobs of the ImagesAnnotator GitLab CI/CD pipeline.
+#
+# Included by the /.gitlab-ci.yml at the repository root, which declares the
+# stage list, the workflow rules, the shared variables and the default job
+# settings these jobs rely on, and describes the pipeline as a whole.
+
+# ---------------------------------------------------------------------------
+# Jenkins: "Code format configure" + "Code format check (clang-format)".
+# ---------------------------------------------------------------------------
+clang-format:
+  stage: check
+  variables:
+    EXTRA_PACKAGES: "libgtkmm-3.0-dev clang-format-$CLANG_FORMAT_VERSION"
+  script:
+    # CLANG_FORMAT_EXEC is the find_program() cache entry of
+    # cmake/enablers/template-project-clang-format-target.cmake, so giving it
+    # here is what pins the version the target runs with.
+    - |
+      cmake -S . -B "$BUILDDIR" -DCMAKE_BUILD_TYPE=Debug -DENABLE_CLANGFORMAT=ON \
+        -DCLANG_FORMAT_EXEC="/usr/bin/clang-format-$CLANG_FORMAT_VERSION"
+    - cmake --build "$BUILDDIR" --target clang-format
+    - |
+      if [ -n "$(git ls-files -m)" ]; then
+        echo "FAIL: the files below are not clang-format compliant:"
+        git ls-files -m
+        git diff
+        git checkout -- .
+        exit 1
+      fi
+      echo "OK: all sources are clang-format compliant"
+
+# ---------------------------------------------------------------------------
+# Jenkins: "No git conflict markers".
+# ---------------------------------------------------------------------------
+repository-hygiene:
+  stage: check
+  before_script:
+    - apt-get update -qq
+    - apt-get install -y -qq git
+  script:
+    - |
+      if git grep -nE "^(<<<<<<<|>>>>>>>)" -- .; then
+        echo "FAIL: the files listed above contain git conflict markers (unmerged content)"
+        exit 1
+      fi
+      echo "OK: no git conflict markers found in the tracked files"

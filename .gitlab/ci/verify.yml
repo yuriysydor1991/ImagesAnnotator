@@ -1,0 +1,78 @@
+# The verify stage jobs of the ImagesAnnotator GitLab CI/CD pipeline.
+#
+# Included by the /.gitlab-ci.yml at the repository root, which declares the
+# stage list, the workflow rules, the shared variables and the default job
+# settings these jobs rely on, and describes the pipeline as a whole.
+
+# ---------------------------------------------------------------------------
+# Jenkins: "Every declared test is registered in the pipeline".
+#
+# Jenkins can grep its own file for the test names because it lists them one by
+# one. Here the same guarantee is established the other way around: every test
+# target declared anywhere under src/ has to have been configured - and
+# therefore executed - by at least one of the toolkit builds of the
+# debug-build-and-test job (see test.yml). That also catches a test directory
+# that is never add_subdirectory()'d, and it needs no update when a test is
+# added, only when a new GUI toolkit joins the matrix.
+# ---------------------------------------------------------------------------
+tests-coverage:
+  stage: verify
+  needs:
+    - job: debug-build-and-test
+      artifacts: true
+  before_script:
+    - apt-get update -qq
+    - apt-get install -y -qq git
+  script:
+    - |
+      declared="$(grep -rhA3 "gtest_add_tests" --include=CMakeLists.txt src \
+        | grep -oE "TARGET[[:space:]]+[A-Za-z0-9_]+" | awk '{print $2}' | sort -u)"
+      executed="$(cat ctest-targets/*.txt | sort -u)"
+      status=0
+      for t in $declared; do
+        if ! echo "$executed" | grep -qx "$t"; then
+          echo "FAIL: test $t is declared in the CMake files but no toolkit build of this pipeline configures it"
+          status=1
+        fi
+      done
+      [ "$status" -eq 0 ] || exit 1
+      echo "OK: every CMake-declared test is executed by this pipeline"
+
+# ---------------------------------------------------------------------------
+# Jenkins: "cppcheck" (RUN_CPPCHECK).
+# ---------------------------------------------------------------------------
+cppcheck:
+  stage: verify
+  needs: []
+  variables:
+    EXTRA_PACKAGES: "libgtkmm-3.0-dev cppcheck"
+  rules:
+    - if: $RUN_CPPCHECK == "true"
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - when: manual
+      allow_failure: true
+  script:
+    - cmake -S . -B "$BUILDDIR-cppcheck" -DCMAKE_BUILD_TYPE=Debug -DENABLE_CPPCHECK=ON
+    - cmake --build "$BUILDDIR-cppcheck" --target cppcheck
+
+# ---------------------------------------------------------------------------
+# Jenkins: "Debug configure (clang-tidy)" + "Debug build (clang-tidy)"
+# (RUN_CLANG_TIDY). clang-tidy is wired as CMAKE_CXX_CLANG_TIDY, so the check is
+# the build itself and cannot reuse the ccache of the ordinary Debug jobs.
+# ---------------------------------------------------------------------------
+clang-tidy:
+  stage: verify
+  needs: []
+  timeout: 3h
+  variables:
+    EXTRA_PACKAGES: "libgtkmm-3.0-dev clang-tidy"
+  rules:
+    - if: $RUN_CLANG_TIDY == "true"
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - when: manual
+      allow_failure: true
+  script:
+    - |
+      cmake -S . -B "$BUILDDIR-tidy" -DCMAKE_BUILD_TYPE=Debug \
+        -DENABLE_CLANG_TIDY=ON -DMAX_LOG_LEVEL=5
+    - cmake --build "$BUILDDIR-tidy" -j$(nproc)

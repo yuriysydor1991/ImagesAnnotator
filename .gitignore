@@ -11,6 +11,8 @@ doc/html/*
 doc/latex/*
 doc/*-html/*
 out/*
+.ccache/*
+ctest-targets/*
 CMakeSettings.json
 *.log
 *~

@@ -1,0 +1,459 @@
+# ImagesAnnotator continuous integration for GitHub Actions.
+#
+# This is the GitHub counterpart of misc/Jenkinsfile and performs the very same
+# checks in the same order: the clang-format compliance check, a sanitized Debug
+# build with the unit and component test suites, a Release build with a trial
+# install, the repository hygiene checks and the four opt-in stages (cppcheck,
+# clang-tidy, deb and flatpak packaging).
+#
+# Two things are deliberately done differently, because the Jenkins idiom does
+# not carry over:
+#
+#   - Jenkins declares one parallel stage per ctest target so that its pipeline
+#     view shows a box per test. A GitHub matrix entry is a whole runner (a new
+#     checkout and a new build), so instead the tests are run by two ctest
+#     invocations - the unit ones and the display bound component ones - which
+#     is what gives the same "every test is executed and reported" result here.
+#     What Jenkins guards with its "Every declared test is registered in the
+#     pipeline" stage is guarded by the tests-coverage job below.
+#
+#   - the Debug build runs for every GUI toolkit the project can be configured
+#     with (GTKmm3, which is the default, GTKmm4 and wxWidgets), because each of
+#     them compiles a different src/gui subtree with its own test targets, so
+#     only the three of them together cover every declared test.
+#
+# The four opt-in stages map to the Jenkins booleanParam parameters: they are
+# off for the ordinary push / pull request runs, can be switched on one by one
+# through the "Run workflow" form and all run in the weekly scheduled build.
+
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  schedule:
+    # Monday 03:00 UTC. A full run, with every opt-in job enabled.
+    - cron: '0 3 * * 1'
+  workflow_dispatch:
+    inputs:
+      run_cppcheck:
+        description: Run the cppcheck static code check?
+        type: boolean
+        default: false
+      run_clang_tidy:
+        description: Run the clang-tidy static code check (a full Debug rebuild)?
+        type: boolean
+        default: false
+      run_deb_packager:
+        description: Build and check the deb package?
+        type: boolean
+        default: false
+      run_flatpak_packager:
+        description: Build and check the flatpak package?
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+# A new push to the same branch makes the previous run obsolete.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  BUILDDIR: build
+  BDJUNITOUT: junit-out
+  DEBIAN_FRONTEND: noninteractive
+  # What every job needs to configure the project: the toolchain plus the system
+  # copies of the third party libraries the enablers look for. All three of them
+  # fall back to fetching the sources over the Internet when they are missing
+  # (see cmake/tools/template-project-enabler-function.cmake), which would make
+  # every job pay for a libcurl build, so they are installed up front.
+  BASE_PACKAGES: >-
+    build-essential cmake git pkg-config ccache
+    libgtest-dev libgmock-dev nlohmann-json3-dev libcurl4-openssl-dev
+  # The GUI toolkit of the default configuration (USE_GTKMM3 is the default, see
+  # cmake/template-project-misc-variables-declare.cmake). Every job that only
+  # has to configure the project once uses it.
+  DEFAULT_TOOLKIT_PACKAGES: libgtkmm-3.0-dev
+  # The clang-format check is pinned to one explicit version instead of taking
+  # whatever the `clang-format` metapackage points at: the tool reformats
+  # differently from release to release, so an unpinned check would start
+  # failing on untouched sources the day the runner image bumps it. 18 is the
+  # ubuntu-24.04 default; change this single value to move the whole project to
+  # another version (any clang-format-<N> package of the image will do).
+  CLANG_FORMAT_VERSION: "18"
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Jenkins: "Code format configure" + "Code format check (clang-format)".
+  # ---------------------------------------------------------------------------
+  clang-format:
+    name: Code format check (clang-format)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install the dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y $BASE_PACKAGES $DEFAULT_TOOLKIT_PACKAGES \
+            "clang-format-$CLANG_FORMAT_VERSION"
+
+      - name: Configure
+        # CLANG_FORMAT_EXEC is the find_program() cache entry of
+        # cmake/enablers/template-project-clang-format-target.cmake, so giving it
+        # here is what pins the version the target runs with.
+        run: |
+          cmake -S . -B "$BUILDDIR" -DCMAKE_BUILD_TYPE=Debug -DENABLE_CLANGFORMAT=ON \
+            -DCLANG_FORMAT_EXEC="/usr/bin/clang-format-$CLANG_FORMAT_VERSION"
+
+      - name: Check that the sources are clang-format compliant
+        run: |
+          cmake --build "$BUILDDIR" --target clang-format
+          if [ -n "$(git ls-files -m)" ]; then
+            echo "FAIL: the files below are not clang-format compliant:"
+            git ls-files -m
+            git diff
+            git checkout -- .
+            exit 1
+          fi
+          echo "OK: all sources are clang-format compliant"
+
+  # ---------------------------------------------------------------------------
+  # Jenkins: "No git conflict markers".
+  # ---------------------------------------------------------------------------
+  repository-hygiene:
+    name: Repository hygiene
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: No git conflict markers
+        run: |
+          if git grep -nE "^(<<<<<<<|>>>>>>>)" -- .; then
+            echo "FAIL: the files listed above contain git conflict markers (unmerged content)"
+            exit 1
+          fi
+          echo "OK: no git conflict markers found in the tracked files"
+
+  # ---------------------------------------------------------------------------
+  # Jenkins: "Debug configure" + "Debug build" + "Unit Tests" + "Component
+  # Tests", repeated for each selectable GUI toolkit.
+  # ---------------------------------------------------------------------------
+  debug-build-and-test:
+    name: Debug build and tests (${{ matrix.toolkit }})
+    runs-on: ubuntu-24.04
+    strategy:
+      # One broken toolkit should not hide the state of the other two.
+      fail-fast: false
+      matrix:
+        include:
+          - toolkit: gtkmm3
+            cmake_flags: -DUSE_GTKMM3=ON
+            packages: libgtkmm-3.0-dev
+          - toolkit: gtkmm4
+            cmake_flags: -DUSE_GTKMM4=ON
+            packages: libgtkmm-4.0-dev
+          - toolkit: wxwidgets
+            cmake_flags: -DUSE_WXWIDGETS=ON
+            packages: libwxgtk3.2-dev
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install the dependencies
+        run: |
+          sudo apt-get update
+          # xvfb / xauth: the component tests build real toolkit windows and
+          # need a display. They self-skip when the toolkit cannot be
+          # initialized, so without one they would silently stay green instead
+          # of being run.
+          sudo apt-get install -y $BASE_PACKAGES ${{ matrix.packages }} xvfb xauth
+
+      - name: Restore the ccache directory
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ccache
+          key: ccache-debug-${{ matrix.toolkit }}-${{ github.sha }}
+          restore-keys: ccache-debug-${{ matrix.toolkit }}-
+
+      - name: Configure
+        run: |
+          cmake -S . -B "$BUILDDIR" -DCMAKE_BUILD_TYPE=Debug ${{ matrix.cmake_flags }} \
+            -DENABLE_UNIT_TESTS=ON -DENABLE_COMPONENT_TESTS=ON \
+            -DENABLE_SANITIZERS=ON -DMAX_LOG_LEVEL=5 \
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+
+      - name: Build
+        run: cmake --build "$BUILDDIR" -j$(nproc)
+
+      - name: Collect the configured test targets
+        # Consumed by the tests-coverage job below. Collected before the tests
+        # are run, so that a failing test cannot hide this build from it.
+        run: |
+          mkdir -p ctest-targets
+          ctest --test-dir "$BUILDDIR" -N \
+            | sed -nE 's/^[[:space:]]*Test[[:space:]]+#[0-9]+:[[:space:]]+([A-Za-z0-9_]+)\..*/\1/p' \
+            | sort -u > "ctest-targets/${{ matrix.toolkit }}.txt"
+
+      - name: Every configured test is executed by this pipeline
+        # The two ctest runs below select the tests by their UTEST_ / CTEST_
+        # name prefix, so a test target named in any other way would be built
+        # and then never executed. Refuse to let that pass unnoticed.
+        run: |
+          total="$(ctest --test-dir "$BUILDDIR" -N | sed -nE 's/^Total Tests: ([0-9]+)$/\1/p')"
+          selected="$(ctest --test-dir "$BUILDDIR" -N -R '^(UTEST|CTEST)_' | sed -nE 's/^Total Tests: ([0-9]+)$/\1/p')"
+          if [ "$total" != "$selected" ]; then
+            echo "FAIL: only $selected of the $total configured tests match the UTEST_ / CTEST_ prefixes this pipeline runs:"
+            comm -13 <(ctest --test-dir "$BUILDDIR" -N -R '^(UTEST|CTEST)_' | sed -nE 's/.*Test +#[0-9]+: (.*)/\1/p' | sort) \
+                     <(ctest --test-dir "$BUILDDIR" -N | sed -nE 's/.*Test +#[0-9]+: (.*)/\1/p' | sort)
+            exit 1
+          fi
+          echo "OK: all $total configured tests are executed below"
+
+      - name: Unit tests
+        # --output-junit is resolved relative to --test-dir, so the reports end
+        # up in $BUILDDIR/$BDJUNITOUT.
+        run: |
+          ctest --test-dir "$BUILDDIR" -R '^UTEST_' -j$(nproc) --no-tests=error --output-on-failure \
+            --output-junit "$BDJUNITOUT/UTEST.junit.xml"
+
+      - name: Component tests
+        # Run serially and under a single X server: these drive real GTK / wx
+        # windows, which the Jenkins pipeline instead hands a per-stage broadway
+        # display.
+        #
+        # ASAN_OPTIONS=detect_leaks=0: once the widgets really are constructed
+        # (which only happens when a display is there - they self-skip
+        # otherwise), LeakSanitizer reports the allocations fontconfig, pango
+        # and glib never free, and the tests would fail on those instead of on
+        # anything of this project. Only the leak check is dropped, the rest of
+        # the AddressSanitizer checks stay on, and the unit tests above keep the
+        # leak check as well. Replace this with an LSAN_OPTIONS suppression file
+        # if the leaks of the project GUI code have to be caught here too.
+        run: |
+          ASAN_OPTIONS=detect_leaks=0 \
+            xvfb-run -a ctest --test-dir "$BUILDDIR" -R '^CTEST_' --no-tests=error --output-on-failure \
+              --output-junit "$BDJUNITOUT/CTEST.junit.xml"
+
+      - name: Upload the test targets
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ctest-targets-${{ matrix.toolkit }}
+          path: ctest-targets/
+          # Missing only when the build itself failed, which is reported on its
+          # own already.
+          if-no-files-found: warn
+
+      - name: Upload the JUnit test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-${{ matrix.toolkit }}
+          path: ${{ env.BUILDDIR }}/${{ env.BDJUNITOUT }}/*.xml
+          if-no-files-found: warn
+
+  # ---------------------------------------------------------------------------
+  # Jenkins: "Every declared test is registered in the pipeline".
+  #
+  # Jenkins can grep its own file for the test names because it lists them one
+  # by one. Here the same guarantee is established the other way around: every
+  # test target declared anywhere under src/ has to have been configured - and
+  # therefore executed - by at least one of the toolkit builds above. That also
+  # catches a test directory that is never add_subdirectory()'d, and it needs no
+  # update when a test is added, only when a new GUI toolkit joins the matrix.
+  # ---------------------------------------------------------------------------
+  tests-coverage:
+    name: Every declared test is executed by this pipeline
+    runs-on: ubuntu-24.04
+    needs: debug-build-and-test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download the executed test targets of every toolkit
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ctest-targets-*
+          merge-multiple: true
+          path: ctest-targets
+
+      - name: Compare the declared test targets against the executed ones
+        run: |
+          declared="$(grep -rhA3 "gtest_add_tests" --include=CMakeLists.txt src \
+            | grep -oE "TARGET[[:space:]]+[A-Za-z0-9_]+" | awk '{print $2}' | sort -u)"
+          executed="$(cat ctest-targets/*.txt | sort -u)"
+          status=0
+          for t in $declared; do
+            if ! echo "$executed" | grep -qx "$t"; then
+              echo "FAIL: test $t is declared in the CMake files but no toolkit build of this pipeline configures it"
+              status=1
+            fi
+          done
+          [ "$status" -eq 0 ] || exit 1
+          echo "OK: every CMake-declared test is executed by this pipeline"
+
+  # ---------------------------------------------------------------------------
+  # Jenkins: "Release configure" + "Release build" + "Release install".
+  #
+  # The default toolkit only - the three of them are already compiled by the
+  # Debug matrix above, this adds the optimized build and the install rules
+  # (which include the .desktop launcher and the themed icon).
+  # ---------------------------------------------------------------------------
+  release:
+    name: Release build and install
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install the dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y $BASE_PACKAGES $DEFAULT_TOOLKIT_PACKAGES
+
+      - name: Restore the ccache directory
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ccache
+          key: ccache-release-${{ github.sha }}
+          restore-keys: ccache-release-
+
+      - name: Configure
+        run: |
+          cmake -S . -B "$BUILDDIR-release" -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+
+      - name: Build
+        run: cmake --build "$BUILDDIR-release" -j$(nproc)
+
+      - name: Install
+        run: cmake --install "$BUILDDIR-release" --prefix "$BUILDDIR-release/install-try"
+
+  # ---------------------------------------------------------------------------
+  # Jenkins: "cppcheck" (RUN_CPPCHECK).
+  # ---------------------------------------------------------------------------
+  cppcheck:
+    name: cppcheck
+    runs-on: ubuntu-24.04
+    if: ${{ github.event_name == 'schedule' || inputs.run_cppcheck }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install the dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y $BASE_PACKAGES $DEFAULT_TOOLKIT_PACKAGES cppcheck
+
+      - name: Configure
+        run: cmake -S . -B "$BUILDDIR-cppcheck" -DCMAKE_BUILD_TYPE=Debug -DENABLE_CPPCHECK=ON
+
+      - name: Run cppcheck
+        run: cmake --build "$BUILDDIR-cppcheck" --target cppcheck
+
+  # ---------------------------------------------------------------------------
+  # Jenkins: "Debug configure (clang-tidy)" + "Debug build (clang-tidy)"
+  # (RUN_CLANG_TIDY). clang-tidy is wired as CMAKE_CXX_CLANG_TIDY, so the check
+  # is the build itself and cannot reuse the ccache of the ordinary Debug jobs.
+  # ---------------------------------------------------------------------------
+  clang-tidy:
+    name: clang-tidy
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    if: ${{ github.event_name == 'schedule' || inputs.run_clang_tidy }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install the dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y $BASE_PACKAGES $DEFAULT_TOOLKIT_PACKAGES clang-tidy
+
+      - name: Configure
+        run: |
+          cmake -S . -B "$BUILDDIR-tidy" -DCMAKE_BUILD_TYPE=Debug \
+            -DENABLE_CLANG_TIDY=ON -DMAX_LOG_LEVEL=5
+
+      - name: Build (runs clang-tidy on every translation unit)
+        run: cmake --build "$BUILDDIR-tidy" -j$(nproc)
+
+  # ---------------------------------------------------------------------------
+  # Jenkins: "deb package" (RUN_DEB_PACKAGER).
+  # ---------------------------------------------------------------------------
+  deb-package:
+    name: deb package
+    runs-on: ubuntu-24.04
+    if: ${{ github.event_name == 'schedule' || inputs.run_deb_packager }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install the dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y $BASE_PACKAGES $DEFAULT_TOOLKIT_PACKAGES
+
+      - name: Build the deb package
+        run: |
+          BD="$BUILDDIR-pkg-deb"
+          rm -fr "$BD"
+          cmake -S . -B "$BD" -DCMAKE_BUILD_TYPE=Release -DENABLE_DEB=ON
+          cmake --build "$BD" -j$(nproc)
+          ( cd "$BD" && cpack -G DEB )
+          if [ -z "$(find "$BD" -maxdepth 2 -name '*.deb' -print -quit)" ]; then
+            echo "FAIL: CMake/CPack did not produce a .deb package"
+            exit 1
+          fi
+          echo "OK: produced $(find "$BD" -maxdepth 2 -name '*.deb')"
+
+      - name: Upload the deb package
+        uses: actions/upload-artifact@v4
+        with:
+          name: deb-package
+          path: ${{ env.BUILDDIR }}-pkg-deb/*.deb
+          if-no-files-found: error
+
+  # ---------------------------------------------------------------------------
+  # Jenkins: "flatpak package" (RUN_FLATPAK_PACKAGER).
+  #
+  # flatpak-builder compiles graphviz, mm-common and GTKmm 3.24.8 from source
+  # inside the sandbox (see misc/packagers/flatpak.conf.json.in), so this job is
+  # by far the longest one of the pipeline.
+  # ---------------------------------------------------------------------------
+  flatpak-package:
+    name: flatpak package
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    if: ${{ github.event_name == 'schedule' || inputs.run_flatpak_packager }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install the dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y $BASE_PACKAGES $DEFAULT_TOOLKIT_PACKAGES flatpak flatpak-builder
+
+      - name: Install the flatpak runtime and SDK the manifest asks for
+        run: |
+          flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+          flatpak install --user -y flathub org.gnome.Platform//48 org.gnome.Sdk//48
+
+      - name: Build the flatpak bundle
+        run: |
+          BD="$BUILDDIR-pkg-flatpak"
+          rm -fr "$BD"
+          cmake -S . -B "$BD" -DCMAKE_BUILD_TYPE=Release -DENABLE_FLATPAK=ON
+          cmake --build "$BD" -j$(nproc)
+          cmake --build "$BD" --target flatpak
+          if [ -z "$(find "$BD" -maxdepth 2 -name '*.flatpak' -print -quit)" ]; then
+            echo "FAIL: CMake did not produce a .flatpak bundle"
+            exit 1
+          fi
+          echo "OK: produced $(find "$BD" -maxdepth 2 -name '*.flatpak')"
+
+      - name: Upload the flatpak bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: flatpak-bundle
+          path: ${{ env.BUILDDIR }}-pkg-flatpak/*.flatpak
+          if-no-files-found: error

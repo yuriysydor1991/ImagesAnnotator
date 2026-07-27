@@ -31,6 +31,15 @@ the GTKmm pair) install the wxWidgets development packages, which provide the
 sudo apt install -y libwxgtk3.2-dev
 ```
 
+To build the optional Qt6 GUI instead (`-DUSE_QT6=ON`, which likewise overrides
+the GTKmm pair) install the Qt6 base development packages, which provide the
+CMake package config `find_package(Qt6 COMPONENTS Core Gui Widgets)` the enabler
+probes together with the `moc` and `rcc` tools it runs:
+
+```
+sudo apt install -y qt6-base-dev
+```
+
 To be able to develop UI in the specialized [Glade](https://en.wikipedia.org/wiki/Glade_Interface_Designer) IDE install it with the command:
 
 ```

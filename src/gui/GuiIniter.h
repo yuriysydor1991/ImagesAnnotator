@@ -32,16 +32,19 @@
  * @file
  * @brief Toolkit-neutral facade over the concrete GtkmmIniter implementation.
  *
- * The project ships two interchangeable GUI implementations under src/gui
- * (gtkmm3 and gtkmm4). Exactly one is compiled into the application binary,
- * selected at build time by the mutually exclusive USE_GTKMM3 / USE_GTKMM4
- * CMake options, which define the matching preprocessor macro (see
+ * The project ships four interchangeable GUI implementations under src/gui
+ * (gtkmm3, gtkmm4, wxwidgets and qt6). Exactly one is compiled into the
+ * application binary, selected at build time by the mutually exclusive
+ * USE_GTKMM3 / USE_GTKMM4 pair and the USE_WXWIDGETS / USE_QT6 overrides, which
+ * define the matching preprocessor macro (see
  * cmake/template-project-misc-variables-declare.cmake). The rest of the
  * application depends only on the toolkit-neutral alias @c gui::GtkmmIniter and
  * never on a specific toolkit namespace.
  */
 
-#if defined(USE_WXWIDGETS)
+#if defined(USE_QT6)
+#include "src/gui/qt6/Qt6Initer.h"
+#elif defined(USE_WXWIDGETS)
 #include "src/gui/wxwidgets/WxWidgetsIniter.h"
 #elif defined(USE_GTKMM4)
 #include "src/gui/gtkmm4/GtkmmIniter.h"
@@ -52,7 +55,9 @@
 namespace gui
 {
 
-#if defined(USE_WXWIDGETS)
+#if defined(USE_QT6)
+using GtkmmIniter = templateQt6::Qt6Initer;
+#elif defined(USE_WXWIDGETS)
 using GtkmmIniter = templateWx::WxWidgetsIniter;
 #elif defined(USE_GTKMM4)
 using GtkmmIniter = templateGtkmm4::GtkmmIniter;

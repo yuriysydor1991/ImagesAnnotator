@@ -15,7 +15,7 @@ debug-build-and-test:
       # Only the toolkit name is a matrix variable: GitLab builds the job name
       # out of the matrix values, and the packages / flags are derived from it
       # below anyway.
-      - TOOLKIT: [gtkmm3, gtkmm4, wxwidgets]
+      - TOOLKIT: [gtkmm3, gtkmm4, wxwidgets, qt6]
   cache:
     key: "ccache-debug-$TOOLKIT"
     paths:
@@ -28,12 +28,16 @@ debug-build-and-test:
         gtkmm3)    TOOLKIT_PACKAGES="libgtkmm-3.0-dev"; TOOLKIT_CMAKE_FLAGS="-DUSE_GTKMM3=ON" ;;
         gtkmm4)    TOOLKIT_PACKAGES="libgtkmm-4.0-dev"; TOOLKIT_CMAKE_FLAGS="-DUSE_GTKMM4=ON" ;;
         wxwidgets) TOOLKIT_PACKAGES="libwxgtk3.2-dev";  TOOLKIT_CMAKE_FLAGS="-DUSE_WXWIDGETS=ON" ;;
+        qt6)       TOOLKIT_PACKAGES="qt6-base-dev";     TOOLKIT_CMAKE_FLAGS="-DUSE_QT6=ON" ;;
         *) echo "FAIL: unknown GUI toolkit '$TOOLKIT'"; exit 1 ;;
       esac
     - apt-get update -qq
     # xvfb / xauth: the component tests build real toolkit windows and need a
-    # display. They self-skip when the toolkit cannot be initialized, so without
-    # a display they would silently stay green instead of being run.
+    # display. The GTKmm and wxWidgets ones self-skip when their toolkit cannot
+    # be initialized, so without a display they would silently stay green
+    # instead of being run. (The Qt6 ones fall back to Qt's offscreen platform
+    # plugin instead of skipping, but they too are run against the real platform
+    # plugin here.)
     - apt-get install -y -qq $BASE_PACKAGES $TOOLKIT_PACKAGES xvfb xauth
   script:
     - |
@@ -64,16 +68,17 @@ debug-build-and-test:
     # --output-junit is resolved relative to --test-dir, so the reports end up
     # in $BUILDDIR/$BDJUNITOUT.
     - ctest --test-dir "$BUILDDIR" -R '^UTEST_' -j$(nproc) --no-tests=error --output-on-failure --output-junit "$BDJUNITOUT/UTEST.junit.xml"
-    # Run serially and under a single X server: these drive real GTK / wx
+    # Run serially and under a single X server: these drive real GTK / wx / Qt
     # windows, which the Jenkins pipeline instead hands a per-stage broadway
     # display.
     #
     # ASAN_OPTIONS=detect_leaks=0: once the widgets really are constructed
-    # (which only happens when a display is there - they self-skip otherwise),
-    # LeakSanitizer reports the allocations fontconfig, pango and glib never
-    # free, and the tests would fail on those instead of on anything of this
-    # project. Only the leak check is dropped, the rest of the AddressSanitizer
-    # checks stay on, and the unit tests above keep the leak check as well.
+    # (which for the GTKmm and wx suites only happens when a display is there -
+    # they self-skip otherwise), LeakSanitizer reports the allocations
+    # fontconfig, pango, Qt and glib never free, and the tests would fail on
+    # those instead of on anything of this project. Only the leak check is
+    # dropped, the rest of the AddressSanitizer checks stay on, and the unit
+    # tests above keep the leak check as well.
     # Replace this with an LSAN_OPTIONS suppression file if the leaks of the
     # project GUI code have to be caught here too.
     - ASAN_OPTIONS=detect_leaks=0 xvfb-run -a ctest --test-dir "$BUILDDIR" -R '^CTEST_' --no-tests=error --output-on-failure --output-junit "$BDJUNITOUT/CTEST.junit.xml"
@@ -90,7 +95,7 @@ debug-build-and-test:
 # ---------------------------------------------------------------------------
 # Jenkins: "Release configure" + "Release build" + "Release install".
 #
-# The default toolkit only - the three of them are already compiled by the Debug
+# The default toolkit only - all four of them are already compiled by the Debug
 # matrix above, this adds the optimized build and the install rules (which
 # include the .desktop launcher and the themed icon).
 # ---------------------------------------------------------------------------

@@ -19,11 +19,11 @@ cmake_minimum_required(VERSION 3.13)
 # the <file> entries in every template.gresource.xml - and therefore the runtime
 # resource paths - unchanged while removing the duplicated copies.
 # The toolkit-agnostic gtkmm-common sources are GTKmm/gdk-pixbuf based, so they
-# are built only for the two GTKmm toolkits. The wxWidgets implementation is
-# self-contained under its own subdirectory (it ships a wxImage based cropper
-# instead of the gdk-pixbuf one), so for it only the selected GUI subdirectory is
-# added.
-if(USE_WXWIDGETS)
+# are built only for the two GTKmm toolkits. The wxWidgets and Qt6
+# implementations are self-contained under their own subdirectories (each ships
+# its own wxImage / QImage based cropper instead of the gdk-pixbuf one), so for
+# them only the selected GUI subdirectory is added.
+if(USE_WXWIDGETS OR USE_QT6)
   add_subdirectory(${GTKMM_GUI_SUBDIR})
 else()
   set(GTKMM_COMMON_UI_DIR "${CMAKE_CURRENT_SOURCE_DIR}/gtkmm-common/ui")

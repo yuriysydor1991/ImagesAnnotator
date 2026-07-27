@@ -47,18 +47,36 @@ set(
 option(USE_WXWIDGETS
   "Build the wxWidgets based GUI instead of GTKmm. Overrides USE_GTKMM3 / USE_GTKMM4." OFF)
 
-# ImagesAnnotator specific: wxWidgets is an optional third GUI toolkit. When
-# USE_WXWIDGETS is ON it overrides the GTKmm pair: both USE_GTKMM3 and USE_GTKMM4
-# are shadowed OFF (their enablers early-return and the mutually exclusive
-# resolver below is skipped) and the desktop application id is derived from
-# "wxwidgets" instead of "gtkmm<N>". The GTKmm cache entries are left untouched,
-# so dropping -DUSE_WXWIDGETS later restores the previous GTKmm choice. It
-# defaults to OFF, so the out-of-the-box behaviour is unchanged.
+option(USE_QT6
+  "Build the Qt6 based GUI instead of GTKmm. Overrides USE_GTKMM3 / USE_GTKMM4." OFF)
+
+# ImagesAnnotator specific: wxWidgets and Qt6 are the optional non-GTKmm GUI
+# toolkits. Each of them, when switched ON, overrides the GTKmm pair: both
+# USE_GTKMM3 and USE_GTKMM4 are shadowed OFF (their enablers early-return and the
+# mutually exclusive resolver below is skipped) and the desktop application id is
+# derived from "wxwidgets" / "qt6" instead of "gtkmm<N>". The GTKmm cache entries
+# are left untouched, so dropping the override later restores the previous GTKmm
+# choice. Both default to OFF, so the out-of-the-box behaviour is unchanged.
+#
+# They are alternatives to each other just as the GTKmm pair members are, so
+# asking for both at once is an error rather than a silent win for one of them.
+if(USE_WXWIDGETS AND USE_QT6)
+  message(FATAL_ERROR
+    "USE_WXWIDGETS and USE_QT6 are mutually exclusive - exactly one GUI toolkit "
+    "is compiled into the binary. Enable just one of them (or neither, to build "
+    "the default GTKmm3 GUI).")
+endif()
+
 if(USE_WXWIDGETS)
   set(USE_GTKMM3 OFF)
   set(USE_GTKMM4 OFF)
   set(GUI_TOOLKIT_NAME "wxwidgets")
   message(STATUS "GUI toolkit: wxWidgets (USE_WXWIDGETS=ON)")
+elseif(USE_QT6)
+  set(USE_GTKMM3 OFF)
+  set(USE_GTKMM4 OFF)
+  set(GUI_TOOLKIT_NAME "qt6")
+  message(STATUS "GUI toolkit: Qt6 (USE_QT6=ON)")
 else()
 
 set(GTKMM_DEFAULT_VERSION 3)

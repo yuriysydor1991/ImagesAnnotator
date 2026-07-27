@@ -25,6 +25,24 @@ cmake -S . -B build -DUSE_GTKMM4=OFF
 
 Усе, що випливає з цього вибору, оголошується відповідним активатором — `cmake/enablers/template-project-Gtkmm3-enabler.cmake` або `cmake/enablers/template-project-Gtkmm4-enabler.cmake`: перевірка `pkg-config`, що публікує змінні `GTKMM_*` для всього піддерева `src`, підкаталог `src/gui` для компіляції, препроцесорне визначення `USE_GTKMM3` / `USE_GTKMM4`, яке підхоплює незалежний від інструментарію фасад `src/gui/GuiIniter.h`, та назва пакунка середовища виконання GTKmm для пакувальника DEB. Сама ж пара опцій розв'язується один раз у `cmake/template-project-misc-variables-declare.cmake` — єдиному місці проекту, де є розгалуження за нею.
 
+### Необов'язкові інструментарії поза GTKmm (wxWidgets / Qt6)
+
+Окрім пари GTKmm проект містить ще дві повнофункціональні реалізації інтерфейсу, кожна зі своєю власною опцією (обидві за умовчанням `OFF`):
+
+- `src/gui/wxwidgets` — інтерфейс на основі wxWidgets, вмикається `-DUSE_WXWIDGETS=ON`;
+- `src/gui/qt6` — інтерфейс на основі Qt6 (Qt Widgets), вмикається `-DUSE_QT6=ON`.
+
+```
+# інтерфейс Qt6 замість GTKmm
+cmake -S . -B build -DUSE_QT6=ON
+```
+
+Увімкнена опція перекриває пару GTKmm: обидві `USE_GTKMM3` і `USE_GTKMM4` затінюються значенням `OFF` (їхні записи в кеші лишаються недоторканими, тому після прибирання опції відновлюється попередній вибір GTKmm). Ці дві опції є взаємовиключними між собою, тож одночасне задання обох спричиняє фатальну помилку.
+
+Активатори `cmake/enablers/template-project-wxWidgets-enabler.cmake` та `cmake/enablers/template-project-Qt6-enabler.cmake` перевіряють свою бібліотеку за допомогою `find_package()` (жодна з них не має файлів `pkg-config`) і публікують ті самі нейтральні змінні `GTKMM_*` та `GTKMM_GUI_SUBDIR`, що й активатори GTKmm, тому нижче за течією ніщо не розгалужується за інструментарієм, окрім єдиного перемикача `add_subdirectory` у `src/gui/CMakeLists.txt`. Активатор Qt6 додатково вмикає `CMAKE_AUTOMOC` і `CMAKE_AUTORCC` на рівні проекту (але навмисно не `CMAKE_AUTOUIC`: вікно Qt будується кодом, а єдині файли `*.ui` у сховищі — це XML побудовника GTK компонентів GTKmm, яких `uic` не повинен торкатись).
+
+Компонент Qt6 повторює декомпозицію `gtkmm3` один до одного у просторі імен `templateQt6` і без змін використовує незалежні від інструментарію шари бізнес-логіки, подій та помічників. Виклики GTKmm відображено на ідіоми Qt: `QMainWindow`, побудований кодом, замість Glade `.ui` + `Gtk::Builder` — але віджети зберігають ідентифікатори побудовника GTKmm як свої `QObject::objectName()`, тому `WindowLoader::all_widget_are_valid()` так само розв'язує кожен ідентифікатор з `WindowDataContext`, лише через `QObject::findChild()` замість побудовника; `QWidget`, що малюється через `QPainter` усередині `QScrollArea`, замість `Gtk::DrawingArea` на cairo; `QImage`/`QPixmap` замість `Gdk::Pixbuf`; `QListWidget`, що перебудовується з відфільтрованої пошуком підмножини, замість `Gtk::ListBox`; `QObject::connect()` замість сигналів GTK; прискорювачі `QKeySequence` на `QAction` замість `Gtk::AccelGroup`; `QFileDialog`/`QMessageBox`/`QInputDialog` замість діалогів; курсор `Qt::WaitCursor` замість індикатора очікування; та обрізач `QtImageCropperProvider` на основі `QImage` для експорту PyTorch Vision. Ресурси вбудовуються через `src/gui/qt6/ui/template.qrc` — аналог GResource, який посилається на той самий спільний файл логотипу, — а CSS GTKmm стає таблицею стилів Qt `src/gui/qt6/ui/resources/css/main-window.qss`. Ідентифікатор програми — `ua.org.kytok.template.qt6.<binary>`.
+
 ### Реалізування UI
 
 Файл `src/gui/gtkmm4/ui/GtkmmWindow.ui` містить типову (GTKmm4) реалізацію інтерфейсу програми; відповідник GTKmm3 — `src/gui/gtkmm3/ui/GtkmmWindow.ui` — може редагуватись за допомогою програми [Glade](https://en.wikipedia.org/wiki/Glade_Interface_Designer). Інтерфейс GTKmm4 використовує формат побудовника GTK4 разом з моделлю меню `Gio::Menu`, що відображається через `Gtk::PopoverMenuBar`, а його пункти меню є діями `Gio::SimpleAction`, а не віджетами пунктів меню.

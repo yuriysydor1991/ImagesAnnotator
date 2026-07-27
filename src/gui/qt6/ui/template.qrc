@@ -1,0 +1,26 @@
+<!--
+  The Qt resource file of the Qt6 GUI - the analogue of the
+  template.gresource.xml both GTKmm components use.
+
+  It is compiled into the binary by rcc, which CMAKE_AUTORCC (switched on by
+  cmake/enablers/template-project-Qt6-enabler.cmake) runs over this file because
+  src/gui/qt6/CMakeLists.txt lists it among the sources of the Qt6 object
+  library. Register a new resource here to make it available at runtime with no
+  install dependency, then reach it through a ":"-prefixed path (see
+  src/gui/qt6/main-window/WindowDataContext.h, which keeps the paths).
+
+  The prefix mirrors the GResource one and carries the toolkit name as its last
+  element, so the Qt paths sit next to the GTKmm ones in the same reverse-DNS
+  layout.
+
+  The logo is the single shared copy under src/gui/gtkmm-common/ui/resources -
+  the same asset the GTKmm builds embed and the desktop-entry enabler installs
+  as the themed icon. The alias keeps its runtime path identical to the GTKmm
+  one despite the file living outside this directory.
+-->
+<RCC>
+  <qresource prefix="/ua/org/kytok/template/qt6">
+    <file alias="resources/images/kytok.org.ua-logo.png">../../gtkmm-common/ui/resources/images/kytok.org.ua-logo.png</file>
+    <file>resources/css/main-window.qss</file>
+  </qresource>
+</RCC>

@@ -1,0 +1,27 @@
+/*
+ * The Qt Style Sheet of the main window - the analogue of the GTKmm
+ * src/gui/gtkmm-common/ui/resources/css/main-window.css.
+ *
+ * It is embedded through src/gui/qt6/ui/template.qrc and applied to the whole
+ * window tree by WindowLoader::propagate_css_params().
+ *
+ * The green "this image already has annotations" row background the GTKmm CSS
+ * declares as the .image_row_has_records class is NOT here: Qt Style Sheets
+ * cannot address an individual QListWidget row, so that colour is applied per
+ * item with QListWidgetItem::setBackground() in WindowOps (the same route the
+ * wxWidgets port takes). Keep the two in sync when changing it.
+ */
+
+QListWidget::item {
+  padding: 2px;
+}
+
+/* The working canvas sits inside the scroll area; a neutral, slightly darker
+ * backdrop keeps the image edges visible whatever the desktop theme is. */
+#central_canvas_scrolled_window {
+  background-color: palette(dark);
+}
+
+#main_window_status_bar {
+  font-size: 11px;
+}

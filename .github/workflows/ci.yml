@@ -18,9 +18,9 @@
 #     pipeline" stage is guarded by the tests-coverage job below.
 #
 #   - the Debug build runs for every GUI toolkit the project can be configured
-#     with (GTKmm3, which is the default, GTKmm4 and wxWidgets), because each of
-#     them compiles a different src/gui subtree with its own test targets, so
-#     only the three of them together cover every declared test.
+#     with (GTKmm3, which is the default, GTKmm4, wxWidgets and Qt6), because
+#     each of them compiles a different src/gui subtree with its own test
+#     targets, so only the four of them together cover every declared test.
 #
 # The four opt-in stages map to the Jenkins booleanParam parameters: they are
 # off for the ordinary push / pull request runs, can be switched on one by one
@@ -147,7 +147,7 @@ jobs:
     name: Debug build and tests (${{ matrix.toolkit }})
     runs-on: ubuntu-24.04
     strategy:
-      # One broken toolkit should not hide the state of the other two.
+      # One broken toolkit should not hide the state of the other three.
       fail-fast: false
       matrix:
         include:
@@ -160,6 +160,9 @@ jobs:
           - toolkit: wxwidgets
             cmake_flags: -DUSE_WXWIDGETS=ON
             packages: libwxgtk3.2-dev
+          - toolkit: qt6
+            cmake_flags: -DUSE_QT6=ON
+            packages: qt6-base-dev
     steps:
       - uses: actions/checkout@v4
 
@@ -167,9 +170,11 @@ jobs:
         run: |
           sudo apt-get update
           # xvfb / xauth: the component tests build real toolkit windows and
-          # need a display. They self-skip when the toolkit cannot be
-          # initialized, so without one they would silently stay green instead
-          # of being run.
+          # need a display. The GTKmm and wxWidgets ones self-skip when their
+          # toolkit cannot be initialized, so without a display they would
+          # silently stay green instead of being run. (The Qt6 ones fall back to
+          # Qt's offscreen platform plugin instead of skipping, but they too are
+          # run against the real platform plugin here.)
           sudo apt-get install -y $BASE_PACKAGES ${{ matrix.packages }} xvfb xauth
 
       - name: Restore the ccache directory
@@ -221,18 +226,19 @@ jobs:
             --output-junit "$BDJUNITOUT/UTEST.junit.xml"
 
       - name: Component tests
-        # Run serially and under a single X server: these drive real GTK / wx
-        # windows, which the Jenkins pipeline instead hands a per-stage broadway
-        # display.
+        # Run serially and under a single X server: these drive real GTK / wx /
+        # Qt windows, which the Jenkins pipeline instead hands a per-stage
+        # broadway display.
         #
         # ASAN_OPTIONS=detect_leaks=0: once the widgets really are constructed
-        # (which only happens when a display is there - they self-skip
-        # otherwise), LeakSanitizer reports the allocations fontconfig, pango
-        # and glib never free, and the tests would fail on those instead of on
-        # anything of this project. Only the leak check is dropped, the rest of
-        # the AddressSanitizer checks stay on, and the unit tests above keep the
-        # leak check as well. Replace this with an LSAN_OPTIONS suppression file
-        # if the leaks of the project GUI code have to be caught here too.
+        # (which for the GTKmm and wx suites only happens when a display is
+        # there - they self-skip otherwise), LeakSanitizer reports the
+        # allocations fontconfig, pango, Qt and glib never free, and the
+        # tests would fail on those instead of on anything of this project.
+        # Only the leak check is dropped, the rest of the AddressSanitizer
+        # checks stay on, and the unit tests above keep the leak check as well.
+        # Replace this with an LSAN_OPTIONS suppression file if the leaks of the
+        # project GUI code have to be caught here too.
         run: |
           ASAN_OPTIONS=detect_leaks=0 \
             xvfb-run -a ctest --test-dir "$BUILDDIR" -R '^CTEST_' --no-tests=error --output-on-failure \
@@ -298,7 +304,7 @@ jobs:
   # ---------------------------------------------------------------------------
   # Jenkins: "Release configure" + "Release build" + "Release install".
   #
-  # The default toolkit only - the three of them are already compiled by the
+  # The default toolkit only - all four of them are already compiled by the
   # Debug matrix above, this adds the optimized build and the install rules
   # (which include the .desktop launcher and the themed icon).
   # ---------------------------------------------------------------------------

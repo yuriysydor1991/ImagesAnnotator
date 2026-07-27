@@ -28,4 +28,4 @@ The package file should be generated inside the project build root directory. Fo
 
 In order to examine details of the `deb` package configuration visit the `cmake/enablers/packagers/template-project-deb-enabler.cmake` file.
 
-The generated package declares the GTKmm runtime it was built against as a dependency (`libgtkmm-4.0-0` or `libgtkmm-3.0-1v5`). That name is not decided by the DEB enabler itself: it is published as `GTKMM_DEB_RUNTIME_DEPENDS` by whichever GUI toolkit enabler ran, so the packaged dependency automatically follows the `USE_GTKMM3` / `USE_GTKMM4` selection described in the extensions section.
+The generated package declares the GUI runtime it was built against as a dependency (`libgtkmm-3.0-1v5`, `libgtkmm-4.0-0`, `libwxgtk3.2-1t64` or `libqt6widgets6`). That name is not decided by the DEB enabler itself: it is published as `GTKMM_DEB_RUNTIME_DEPENDS` by whichever GUI toolkit enabler ran, so the packaged dependency automatically follows the `USE_GTKMM3` / `USE_GTKMM4` / `USE_WXWIDGETS` / `USE_QT6` selection described in the extensions section.

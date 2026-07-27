@@ -18,6 +18,18 @@ sudo apt install -y pkg-config libgtkmm-4.0-dev
 sudo apt install -y pkg-config libgtkmm-3.0-dev
 ```
 
+Щоб натомість зібрати необов'язковий інтерфейс wxWidgets (`-DUSE_WXWIDGETS=ON`, що перекриває пару GTKmm) встановіть пакунки розробника wxWidgets, які надають `wx-config` / модуль CMake `find_package(wxWidgets)`, котрий перевіряє активатор:
+
+```
+sudo apt install -y libwxgtk3.2-dev
+```
+
+Щоб натомість зібрати необов'язковий інтерфейс Qt6 (`-DUSE_QT6=ON`, що так само перекриває пару GTKmm) встановіть базові пакунки розробника Qt6, які надають конфігурацію пакунка CMake `find_package(Qt6 COMPONENTS Core Gui Widgets)`, котру перевіряє активатор, разом з інструментами `moc` та `rcc`, які він запускає:
+
+```
+sudo apt install -y qt6-base-dev
+```
+
 Для того щоб мати змогу змінювати візуальний інтерфейс необіхдно встановити спеціалізований інструмент розробки [Glade](https://en.wikipedia.org/wiki/Glade_Interface_Designer) за допомогою команди:
 
 ```

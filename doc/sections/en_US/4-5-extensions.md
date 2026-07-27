@@ -1,9 +1,9 @@
 ## Extensions
 
-### Selecting the GUI toolkit (GTKmm3 / GTKmm4 / wxWidgets)
+### Selecting the GUI toolkit (GTKmm3 / GTKmm4 / wxWidgets / Qt6)
 
 The graphical user interface lives under `src/gui` and ships two interchangeable
-GTKmm implementations, an optional wxWidgets one, plus the toolkit-agnostic
+GTKmm implementations, two optional non-GTKmm ones, plus the toolkit-agnostic
 shared code:
 
 - `src/gui/gtkmm3` — the default GTKmm3 (GTK 3) GUI;
@@ -11,6 +11,10 @@ shared code:
 - `src/gui/wxwidgets` — an optional wxWidgets GUI, a feature-parity analogue of
   the GTKmm3 one built by hand-coding the window rather than loading a Glade
   file, and painting the canvas with `wxDC` instead of cairo (see below);
+- `src/gui/qt6` — an optional Qt6 (Qt Widgets) GUI, likewise a feature-parity
+  analogue of the GTKmm3 one: the window is built in code, the canvas is painted
+  with `QPainter` and the resources are embedded through a Qt `.qrc` instead of a
+  GResource (see below);
 - `src/gui/gtkmm-common` — code that is source-compatible with both GTKmm
   toolkits (for example the `Gdk::Pixbuf` based image cropper) together with the
   single copy of the toolkit-agnostic GResource payload in
@@ -78,6 +82,51 @@ the shared logo as a generated C byte array rather than through a GResource, and
 its `APPLICATION_ID` is `ua.org.kytok.template.wxwidgets.<binary>`. Note that the
 wx build loads the image formats `wxImage` supports (PNG / JPEG / BMP / GIF /
 TIFF / …); formats only gdk-pixbuf decodes are unavailable under it.
+
+The optional Qt6 GUI is selected the same way, by its own `USE_QT6` option
+(default `OFF`), which overrides the GTKmm pair exactly as `USE_WXWIDGETS` does
+— and is mutually exclusive with it, so enabling both at once is a fatal error:
+
+```
+# the Qt6 GUI instead of GTKmm
+cmake -S . -B build -DUSE_QT6=ON
+```
+
+Its enabler, `cmake/enablers/template-project-Qt6-enabler.cmake`, probes Qt with
+`find_package(Qt6 COMPONENTS Core Gui Widgets)` (Qt ships no pkg-config `.pc`
+files either) and republishes the very same neutral `GTKMM_*` include / library /
+DEB dependency variables and `GTKMM_GUI_SUBDIR` the other enablers do. It
+additionally switches on `CMAKE_AUTOMOC` and `CMAKE_AUTORCC` at project scope,
+so Qt's meta-object compiler runs over the `Q_OBJECT` classes and `rcc` compiles
+the resource file. `CMAKE_AUTOUIC` is deliberately left off: the Qt window is
+built in code, and the only `*.ui` files in the repository are the GTK builder
+XML of the GTKmm components, which `uic` must never touch.
+
+The Qt6 component mirrors the `gtkmm3` decomposition one-to-one in the
+`templateQt6` namespace and reuses the toolkit-agnostic business, event and
+helper layers unchanged. It maps the GTKmm calls to Qt idioms: a hand-coded
+`QMainWindow` in place of the Glade `.ui` + `Gtk::Builder` — but the widgets keep
+the GTKmm builder ids as their `QObject::objectName()`s, so
+`WindowLoader::all_widget_are_valid()` still resolves every id of
+`WindowDataContext`, through `QObject::findChild()` instead of through the
+builder; a `QWidget` painted with `QPainter` inside a `QScrollArea` in place of
+the cairo `Gtk::DrawingArea`; `QImage`/`QPixmap` for `Gdk::Pixbuf`; `QListWidget`s
+rebuilt from the search-filtered subset for the `Gtk::ListBox`es;
+`QObject::connect()` for the GTK signals, with the canvas re-emitting its mouse
+and wheel events as Qt signals; `QKeySequence` accelerators on the `QAction`s for
+the `Gtk::AccelGroup`; `QFileDialog`/`QMessageBox`/`QInputDialog` for the dialogs;
+a `Qt::WaitCursor` override for the spinner; a `QShortcut` for the Up/Down image
+navigation keys; a `QCloseEvent` filter for the window-close veto; and a `QImage`
+based `QtImageCropperProvider` for the PyTorch-Vision export cropper. The
+resources are embedded through `src/gui/qt6/ui/template.qrc` — the Qt analogue of
+the GResource, aliasing the very same shared logo file the GTKmm builds embed —
+and the GTKmm CSS becomes the Qt Style Sheet
+`src/gui/qt6/ui/resources/css/main-window.qss`. Its `APPLICATION_ID` is
+`ua.org.kytok.template.qt6.<binary>`, pinned at runtime with
+`QGuiApplication::setDesktopFileName()` (the Qt counterpart of
+`Glib::set_prgname()`). Note that the Qt build loads the image formats Qt's image
+plugins support (PNG / JPEG / BMP / GIF / TIFF / WEBP / …); formats only
+gdk-pixbuf decodes are unavailable under it.
 
 ### UI implementation
 

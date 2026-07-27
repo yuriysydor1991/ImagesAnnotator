@@ -1,0 +1,49 @@
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+
+#include <string>
+
+#include "src/gui/qt6/main-window/WindowDataContext.h"
+
+using namespace testing;
+using templateQt6::window::WindowDataContext;
+
+TEST(UTEST_Qt6WindowDataContext, get_ids_is_not_empty)
+{
+  EXPECT_FALSE(WindowDataContext::get_ids().empty());
+}
+
+TEST(UTEST_Qt6WindowDataContext, get_ids_contains_the_main_window)
+{
+  const auto& ids = WindowDataContext::get_ids();
+
+  EXPECT_NE(ids.find(WindowDataContext::window_id), ids.cend());
+}
+
+TEST(UTEST_Qt6WindowDataContext, every_id_is_a_usable_object_name)
+{
+  // The ids double as QObject::objectName() values, which the window loader
+  // resolves through findChild(); an empty one would silently match nothing.
+  for (const auto& id : WindowDataContext::get_ids()) {
+    EXPECT_FALSE(id.empty());
+  }
+}
+
+TEST(UTEST_Qt6WindowDataContext, get_ids_returns_a_stable_reference)
+{
+  EXPECT_EQ(&WindowDataContext::get_ids(), &WindowDataContext::get_ids());
+}
+
+TEST(UTEST_Qt6WindowDataContext, embedded_resource_paths_use_the_qt_scheme)
+{
+  // ":" prefixed paths are what QFile / QPixmap resolve against the compiled-in
+  // Qt resource tree of src/gui/qt6/ui/template.qrc.
+  const std::string logo{WindowDataContext::logo_res_path};
+  const std::string qss{WindowDataContext::main_window_qss};
+
+  EXPECT_EQ(logo.find(':'), 0U);
+  EXPECT_EQ(qss.find(':'), 0U);
+
+  EXPECT_NE(logo.find("/qt6/"), std::string::npos);
+  EXPECT_NE(qss.find("/qt6/"), std::string::npos);
+}

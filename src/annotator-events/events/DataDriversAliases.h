@@ -34,19 +34,19 @@
 // merger - is reached through the iadd alias declared below, so bumping the
 // library to a namespace of the next version stays a one line change here.
 //
-// The headers are deliberately included WITHOUT the versioned
-// <ImagesAnnotatorDataDrivers-0.11/...> directory prefix. It exports that
-// prefixed form only through its install interface, so the prefixed spelling
-// compiles against a system wide installation but not against a copy the
-// enabler pulled in with FetchContent, where only the public headers directory
-// itself is on the include path. The unprefixed form works in both cases and
-// carries no version in the source text.
+// The header is included through the versioned
+// <ImagesAnnotatorDataDrivers-0.11/...> directory the library installs, and not
+// through the plain <LibraryFacade.h> the unprefixed include root would also
+// resolve. The sibling ImagesAnnotator-DataExporters library installs a public
+// header of that very same name (see DataExportersAliases.h), so with both
+// include roots on the compiler command line the short spelling would pick
+// whichever of the two comes first.
 //
 // LibraryFacade.h transitively pulls in every other public header of the
 // library (the annotations database, the merger, the records factory, the
 // library context and both record value objects), so a single include is
 // enough.
-#include <LibraryFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>
 
 /// @brief The ImagesAnnotator-DataDrivers library namespace, whose name carries
 /// the library major and minor version numbers.

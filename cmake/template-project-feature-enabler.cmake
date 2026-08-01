@@ -52,12 +52,19 @@ include(template-project-libcurl-enabler)
 # ImagesAnnotator specific: the annotations project files (their parsing, their
 # serialization, the image record value objects and the duplicate aware merging)
 # no longer live in this repository - they were extracted into the standalone
-# ImagesAnnotator-DataDrivers library, which this enabler either finds in the
-# system or pulls in through the Internet. It runs here, next to the two
-# libraries above and ahead of add_subdirectory(src), because the extracted
-# types are compiled into practically every object library of the src subtree,
-# so its usage requirements have to be propagated before any of them is defined.
+# ImagesAnnotator-DataDrivers library, which this enabler finds in the system.
+# It runs here, next to the two libraries above and ahead of
+# add_subdirectory(src), because the extracted types are compiled into
+# practically every object library of the src subtree, so its usage requirements
+# have to be propagated before any of them is defined.
 include(template-project-ImagesAnnotator-DataDrivers-enabler)
+
+# ImagesAnnotator specific: the dataset exporters (the plain txt, the YOLO v4
+# and the PyTorch Vision writers) were extracted the very same way, into the
+# standalone ImagesAnnotator-DataExporters library. It comes after the data
+# drivers enabler because the exporters library is built against them and its
+# installed package configuration resolves them as its own dependency.
+include(template-project-ImagesAnnotator-DataExporters-enabler)
 
 include(template-project-GTest-enabler)
 include(template-project-clang-format-target)

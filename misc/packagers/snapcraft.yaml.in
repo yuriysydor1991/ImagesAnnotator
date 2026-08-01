@@ -15,7 +15,31 @@ apps:
       - home
 
 parts:
+  # The two libraries the application is built against are not distribution
+  # packages, so they are built from their sources into the very same snap.
+  # The data exporters library is built against the data drivers one, hence
+  # the after: ordering.
+  images-annotator-data-drivers:
+    plugin: cmake
+    source: '${TEMPLATE_APP_IADD_GIT}'
+    source-type: git
+    source-branch: '${TEMPLATE_APP_IADD_GIT_TAG}'
+    cmake-parameters:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+
+  images-annotator-data-exporters:
+    after: [images-annotator-data-drivers]
+    plugin: cmake
+    source: '${TEMPLATE_APP_IADE_GIT}'
+    source-type: git
+    source-branch: '${TEMPLATE_APP_IADE_GIT_TAG}'
+    cmake-parameters:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+
   ${PROJECT_BINARY_NAME}:
+    after: [images-annotator-data-exporters]
     plugin: cmake
     source: '${CMAKE_SOURCE_DIR}'
     cmake-generator: '${CMAKE_GENERATOR}'

@@ -76,6 +76,36 @@
       }
     },
     {
+      "name": "ImagesAnnotator-DataDrivers",
+      "buildsystem": "cmake",
+      "builddir": true,
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=Release"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "${TEMPLATE_APP_IADD_GIT}",
+          "branch": "${TEMPLATE_APP_IADD_GIT_TAG}"
+        }
+      ]
+    },
+    {
+      "name": "ImagesAnnotator-DataExporters",
+      "buildsystem": "cmake",
+      "builddir": true,
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=Release"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "${TEMPLATE_APP_IADE_GIT}",
+          "branch": "${TEMPLATE_APP_IADE_GIT_TAG}"
+        }
+      ]
+    },
+    {
       "name": "${PROJECT_NAME}",
       "buildsystem": "cmake",
       "config-opts": ["-DCMAKE_BUILD_TYPE=Release", "-DUSE_GTKMM3=ON"],

@@ -57,6 +57,10 @@ class GtkmmImageCropperProvider
  public:
   using ImageRecordPtr = events::events::ImageRecordPtr;
   using ImageRecordRectPtr = events::events::ImageRecordRectPtr;
+  /// @brief The base class names it IImageCropperFacilityPtr - it is the
+  /// ImagesAnnotator-DataExporters interface now. Kept under the project name.
+  using IImageCropperFacilityProviderPtr =
+      events::events::IImageCropperFacilityProviderPtr;
 
   virtual ~GtkmmImageCropperProvider() = default;
   GtkmmImageCropperProvider() = default;

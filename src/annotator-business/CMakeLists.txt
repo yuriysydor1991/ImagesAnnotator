@@ -17,6 +17,8 @@ target_link_libraries(
   ImagesAnnotatorControllerObj
 )
 
+# The exporters subdirectory is gone: the plain txt, the YOLO v4 and the
+# PyTorch Vision writers now come from the ImagesAnnotator-DataExporters
+# library, which the enabler links into every target of the project.
 add_subdirectory(dbs)
 add_subdirectory(tests)
-add_subdirectory(exporters)

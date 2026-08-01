@@ -102,6 +102,13 @@ jobs:
           sudo apt-get install -y $BASE_PACKAGES $DEFAULT_TOOLKIT_PACKAGES \
             "clang-format-$CLANG_FORMAT_VERSION"
 
+      - name: Build and install the ImagesAnnotator libraries
+        # The annotations project database and the dataset exporters are two
+        # standalone libraries the project is built against. They are no Ubuntu
+        # packages and the enablers only look them up with find_package(), so
+        # every job that configures the project installs them first.
+        run: misc/ci/install-annotator-libraries.sh
+
       - name: Configure
         # CLANG_FORMAT_EXEC is the find_program() cache entry of
         # cmake/enablers/template-project-clang-format-target.cmake, so giving it
@@ -176,6 +183,13 @@ jobs:
           # Qt's offscreen platform plugin instead of skipping, but they too are
           # run against the real platform plugin here.)
           sudo apt-get install -y $BASE_PACKAGES ${{ matrix.packages }} xvfb xauth
+
+      - name: Build and install the ImagesAnnotator libraries
+        # The annotations project database and the dataset exporters are two
+        # standalone libraries the project is built against. They are no Ubuntu
+        # packages and the enablers only look them up with find_package(), so
+        # every job that configures the project installs them first.
+        run: misc/ci/install-annotator-libraries.sh
 
       - name: Restore the ccache directory
         uses: actions/cache@v4
@@ -319,6 +333,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y $BASE_PACKAGES $DEFAULT_TOOLKIT_PACKAGES
 
+      - name: Build and install the ImagesAnnotator libraries
+        # The annotations project database and the dataset exporters are two
+        # standalone libraries the project is built against. They are no Ubuntu
+        # packages and the enablers only look them up with find_package(), so
+        # every job that configures the project installs them first.
+        run: misc/ci/install-annotator-libraries.sh
+
       - name: Restore the ccache directory
         uses: actions/cache@v4
         with:
@@ -352,6 +373,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y $BASE_PACKAGES $DEFAULT_TOOLKIT_PACKAGES cppcheck
 
+      - name: Build and install the ImagesAnnotator libraries
+        # The annotations project database and the dataset exporters are two
+        # standalone libraries the project is built against. They are no Ubuntu
+        # packages and the enablers only look them up with find_package(), so
+        # every job that configures the project installs them first.
+        run: misc/ci/install-annotator-libraries.sh
+
       - name: Configure
         run: cmake -S . -B "$BUILDDIR-cppcheck" -DCMAKE_BUILD_TYPE=Debug -DENABLE_CPPCHECK=ON
 
@@ -376,6 +404,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y $BASE_PACKAGES $DEFAULT_TOOLKIT_PACKAGES clang-tidy
 
+      - name: Build and install the ImagesAnnotator libraries
+        # The annotations project database and the dataset exporters are two
+        # standalone libraries the project is built against. They are no Ubuntu
+        # packages and the enablers only look them up with find_package(), so
+        # every job that configures the project installs them first.
+        run: misc/ci/install-annotator-libraries.sh
+
       - name: Configure
         run: |
           cmake -S . -B "$BUILDDIR-tidy" -DCMAKE_BUILD_TYPE=Debug \
@@ -398,6 +433,13 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y $BASE_PACKAGES $DEFAULT_TOOLKIT_PACKAGES
+
+      - name: Build and install the ImagesAnnotator libraries
+        # The annotations project database and the dataset exporters are two
+        # standalone libraries the project is built against. They are no Ubuntu
+        # packages and the enablers only look them up with find_package(), so
+        # every job that configures the project installs them first.
+        run: misc/ci/install-annotator-libraries.sh
 
       - name: Build the deb package
         run: |
@@ -438,6 +480,13 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y $BASE_PACKAGES $DEFAULT_TOOLKIT_PACKAGES flatpak flatpak-builder
+
+      - name: Build and install the ImagesAnnotator libraries
+        # The annotations project database and the dataset exporters are two
+        # standalone libraries the project is built against. They are no Ubuntu
+        # packages and the enablers only look them up with find_package(), so
+        # every job that configures the project installs them first.
+        run: misc/ci/install-annotator-libraries.sh
 
       - name: Install the flatpak runtime and SDK the manifest asks for
         run: |

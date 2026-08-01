@@ -20,10 +20,7 @@ add_executable(
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/StoreRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/helpers/SortHelper.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportPlainTxt2FolderRequest.cpp
-  ${CMAKE_SOURCE_DIR}/src/annotator-business/exporters/PlainTxt2FolderExporter.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportYolo4FolderRequest.cpp
-  ${CMAKE_SOURCE_DIR}/src/annotator-business/exporters/Yolo42FolderExporter.cpp
-  ${CMAKE_SOURCE_DIR}/src/annotator-business/exporters/PyTorchVisionFolderExporter.cpp
   ${GUI_IMAGE_CROPPER_SRC}
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/Export2PyTorchVisionRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/DeleteCurrentImageRequest.cpp

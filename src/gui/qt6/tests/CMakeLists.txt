@@ -12,7 +12,6 @@ set(EVENT_HANDLERS_OBJ_LIBS
   ImageAnnotatorQt6WindowCustomWidgetsObj
   ImagesAnnotatorControllerObj
   ImagesAnnotatorControllerDBsImagesDBObj
-  ImagesAnnotatorControllerExportersObj
   ImagesAnnotatorEventControllerObj
   ImagesAnnotatorEventsObj
   ImagesAnnotatorHelpersObj

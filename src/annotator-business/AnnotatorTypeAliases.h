@@ -29,13 +29,13 @@
 #define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_TYPE_ALIASES_CLASS_H
 
 #include "src/annotator-business/dbs/ImagesLoaders/ImagesDirLoader.h"
-#include "src/annotator-business/exporters/ExportContext.h"
 #include "src/annotator-events/events/AnnotationsDirChanged.h"
 #include "src/annotator-events/events/AnnotationsDirChangedIHandler.h"
 #include "src/annotator-events/events/CloseCurrentProject.h"
 #include "src/annotator-events/events/CloseCurrentProjectHandler.h"
 #include "src/annotator-events/events/CurrentImageChangedHandler.h"
 #include "src/annotator-events/events/DataDriversAliases.h"
+#include "src/annotator-events/events/DataExportersAliases.h"
 #include "src/annotator-events/events/DeleteCurrentImageRequest.h"
 #include "src/annotator-events/events/DeleteCurrentImageRequestHandler.h"
 #include "src/annotator-events/events/Export2PyTorchVisionRequest.h"
@@ -79,7 +79,10 @@ class AnnotatorTypeAliases
   /// project class: the loading, the storing, the merging and the change
   /// tracking of the project JSON files all live in the library now.
   using AnnotationsDBPtr = iadd::IAnnotationsDBPtr;
-  using ExportContextPtr = exporters::ExportContextPtr;
+  /// @brief The export configuration the controller fills in and hands to an
+  /// exporter of the ImagesAnnotator-DataExporters library.
+  using ExportContextPtr = iade::ExportContextPtr;
+  using ExportFormat = iade::ExportFormat;
   using RequestImagesDirProviderHandler =
       events::events::RequestImagesDirProviderHandler;
   using RequestImagesDirProviderHandlerPtr =

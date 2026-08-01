@@ -12,7 +12,6 @@ set(EVENT_HANDLERS_OBJ_LIBS
   ImageAnnotatorWxWindowCustomWidgetsObj
   ImagesAnnotatorControllerObj
   ImagesAnnotatorControllerDBsImagesDBObj
-  ImagesAnnotatorControllerExportersObj
   ImagesAnnotatorEventControllerObj
   ImagesAnnotatorEventsObj
   ImagesAnnotatorHelpersObj

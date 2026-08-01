@@ -43,6 +43,8 @@ After annotating the images of interest, use the export submenu of the `Annotati
 
 Current ImagesAnnotator application stores the annotations database in the `JSON` file format. It makes it easy to implement a custom export script into required format to train neural network with the help of `Python` or `Bash`.
 
+The exporters the application itself ships - the plain text one, the YOLO v4 one and the PyTorch Vision one - live in the standalone [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git) library, so a new format may also be added there instead, and every tool built on that library gains it at once. See [Enabling the ImagesAnnotator-DataExporters library](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md).
+
 # Documentation contents
 
 **Document is under the refinement**
@@ -108,6 +110,7 @@ Current ImagesAnnotator application stores the annotations database in the `JSON
     1. [Continuous integration with GitHub Actions](/doc/sections/en_US/5-34-continuous-integration-with-GitHub-Actions.md)
     1. [Continuous integration with GitLab CI/CD](/doc/sections/en_US/5-35-continuous-integration-with-GitLab-CI.md)
     1. [Enabling the ImagesAnnotator-DataDrivers library](/doc/sections/en_US/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md)
+    1. [Enabling the ImagesAnnotator-DataExporters library](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md)
 1. [Run the executable](/doc/sections/en_US/6-run-the-executable.md)
     1. [IDE run](/doc/sections/en_US/6-1-IDE-run.md)
     1. Command line run

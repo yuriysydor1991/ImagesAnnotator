@@ -39,6 +39,9 @@ debug-build-and-test:
     # plugin instead of skipping, but they too are run against the real platform
     # plugin here.)
     - apt-get install -y -qq $BASE_PACKAGES $TOOLKIT_PACKAGES xvfb xauth
+    # This job replaces the default before_script, so it installs the two
+    # ImagesAnnotator libraries the project is configured against itself.
+    - misc/ci/install-annotator-libraries.sh
   script:
     - |
       cmake -S . -B "$BUILDDIR" -DCMAKE_BUILD_TYPE=Debug $TOOLKIT_CMAKE_FLAGS \

@@ -28,6 +28,19 @@ pipeline {
       }
     }
 
+    stage('ImagesAnnotator libraries') {
+      steps {
+        sh '''
+          # The annotations project database and the dataset exporters are two
+          # standalone libraries this project is built against. They are no
+          # distribution packages and the enablers only look them up with
+          # find_package(), so they are built and installed before the first
+          # configure below.
+          misc/ci/install-annotator-libraries.sh
+        '''
+      }
+    }
+
     stage('Code format configure') {
       steps {
         sh 'cmake -S . -B $BUILDDIR -DCMAKE_BUILD_TYPE=Debug -DENABLE_CLANGFORMAT=ON'
@@ -149,33 +162,6 @@ pipeline {
         stage('UTEST_ImagesDirProviderChanged') {
           steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImagesDirProviderChanged\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImagesDirProviderChanged.junit.xml' }
         }
-        stage('UTEST_ImageRecords2JSONConverter') {
-          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImageRecords2JSONConverter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImageRecords2JSONConverter.junit.xml' }
-        }
-        stage('UTEST_ImageRecordRectJSON2RecordConverter') {
-          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImageRecordRectJSON2RecordConverter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImageRecordRectJSON2RecordConverter.junit.xml' }
-        }
-        stage('UTEST_ImageRecordJSON2RecordConverter') {
-          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImageRecordJSON2RecordConverter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImageRecordJSON2RecordConverter.junit.xml' }
-        }
-        stage('UTEST_JSON2ImageRecordsConverter') {
-          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_JSON2ImageRecordsConverter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_JSON2ImageRecordsConverter.junit.xml' }
-        }
-        stage('UTEST_DefaultDBMerger') {
-          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_DefaultDBMerger\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_DefaultDBMerger.junit.xml' }
-        }
-        stage('UTEST_AnnotationsJSONSerializator') {
-          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_AnnotationsJSONSerializator\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_AnnotationsJSONSerializator.junit.xml' }
-        }
-        stage('UTEST_PlainTxt2FolderExporter') {
-          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_PlainTxt2FolderExporter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_PlainTxt2FolderExporter.junit.xml' }
-        }
-        stage('UTEST_Yolo42FolderExporter') {
-          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_Yolo42FolderExporter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_Yolo42FolderExporter.junit.xml' }
-        }
-        stage('UTEST_PyTorchVisionFolderExporter') {
-          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_PyTorchVisionFolderExporter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_PyTorchVisionFolderExporter.junit.xml' }
-        }
         stage('UTEST_ImagesWebPageLoader') {
           steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImagesWebPageLoader\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImagesWebPageLoader.junit.xml' }
         }
@@ -208,6 +194,9 @@ pipeline {
         }
         stage('CTEST_ImagesDirLoader') {
           steps { sh 'cd $BUILDDIR && ctest -R "CTEST_ImagesDirLoader\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_ImagesDirLoader.junit.xml' }
+        }
+        stage('CTEST_Exporters') {
+          steps { sh 'cd $BUILDDIR && ctest -R "CTEST_Exporters\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_Exporters.junit.xml' }
         }
         // The custom widget tests need a GDK display. A headless GTK4 broadway
         // server (gtk4-broadwayd) is started per stage (distinct display numbers

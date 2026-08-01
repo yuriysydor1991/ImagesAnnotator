@@ -33,10 +33,8 @@
 #include "project-global-decls.h"
 #include "src/annotator-business/dbs/ImagesLoaders/ImagesDirLoader.h"
 #include "src/annotator-business/dbs/ImagesLoaders/ImagesWebPageLoader.h"
-#include "src/annotator-business/exporters/PlainTxt2FolderExporter.h"
-#include "src/annotator-business/exporters/PyTorchVisionFolderExporter.h"
-#include "src/annotator-business/exporters/Yolo42FolderExporter.h"
 #include "src/annotator-events/events/DataDriversAliases.h"
+#include "src/annotator-events/events/DataExportersAliases.h"
 #include "src/app/ApplicationContext.h"
 #include "src/app/IApplication.h"
 #include "src/log/log.h"
@@ -336,7 +334,7 @@ AnnotatorController::ExportContextPtr AnnotatorController::build_export_context(
 {
   assert(annotations != nullptr);
 
-  auto ectx = std::make_shared<exporters::ExportContext>();
+  auto ectx = iade::LibraryFacade::create_export_context();
 
   ectx->export_path = dirPath;
   ectx->dbProvider = annotations;
@@ -353,8 +351,7 @@ void AnnotatorController::handle(ExportPlainTxt2FolderRequestPtr event)
     return;
   }
 
-  if (!handle_export<exporters::PlainTxt2FolderExporter>(
-          event->dst_folder_path)) {
+  if (!handle_export(ExportFormat::PlainTxt2Folder, event->dst_folder_path)) {
     const std::string e = "Failure during the export to a plain txt folder: " +
                           event->dst_folder_path;
     LOGE(e);
@@ -378,7 +375,7 @@ void AnnotatorController::handle(ExportYolo4FolderRequestPtr event)
     return;
   }
 
-  if (!handle_export<exporters::Yolo42FolderExporter>(event->dst_folder_path)) {
+  if (!handle_export(ExportFormat::Yolo42Folder, event->dst_folder_path)) {
     static const std::string e =
         "Failure during the export to Yolo4 folder at " +
         event->dst_folder_path;
@@ -387,8 +384,8 @@ void AnnotatorController::handle(ExportYolo4FolderRequestPtr event)
   }
 }
 
-template <class ExporterT>
-bool AnnotatorController::handle_export(const std::string& dirPath)
+bool AnnotatorController::handle_export(const ExportFormat& format,
+                                        const std::string& dirPath)
 {
   if (dirPath.empty()) {
     static const std::string e = "Empty dir path provided";
@@ -403,7 +400,14 @@ bool AnnotatorController::handle_export(const std::string& dirPath)
 
   assert(ectx != nullptr);
 
-  auto exporter = std::make_shared<ExporterT>();
+  auto exporter = iade::LibraryFacade::create_exporter(format);
+
+  assert(exporter != nullptr);
+
+  if (exporter == nullptr) {
+    LOGE("Fail to create the exporter for the requested format");
+    return false;
+  }
 
   if (!exporter->export_db(ectx)) {
     LOGE("Invalid export status to " << dirPath);
@@ -429,7 +433,7 @@ AnnotatorController::ExportContextPtr AnnotatorController::build_export_context(
 
   assert(annotations != nullptr);
 
-  auto ectx = std::make_shared<exporters::ExportContext>();
+  auto ectx = iade::LibraryFacade::create_export_context();
 
   ectx->export_path = event->dst_folder_path;
   ectx->dbProvider = annotations;
@@ -467,11 +471,14 @@ void AnnotatorController::handle(Export2PyTorchVisionRequestPtr event)
 
   assert(ectx != nullptr);
 
-  auto exporter = std::make_shared<exporters::PyTorchVisionFolderExporter>();
+  auto exporter =
+      iade::LibraryFacade::create_exporter(ExportFormat::PyTorchVisionFolder);
+
+  assert(exporter != nullptr);
 
   LOGI("Handle the PyTorch export event to " << ectx->export_path);
 
-  if (!exporter->export_db(ectx)) {
+  if (exporter == nullptr || !exporter->export_db(ectx)) {
     const std::string e =
         "Invalid PyTorch Vision export status into " + ectx->export_path;
     LOGE(e);

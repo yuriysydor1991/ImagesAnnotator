@@ -94,3 +94,10 @@ default:
   before_script:
     - apt-get update -qq
     - apt-get install -y -qq $BASE_PACKAGES $EXTRA_PACKAGES
+    # The annotations project database and the dataset exporters are two
+    # standalone libraries the project is built against. They are no Ubuntu
+    # packages and the enablers only look them up with find_package(), so every
+    # job that configures the project installs them first. The jobs that declare
+    # a before_script of their own (the toolkit matrix of .gitlab/ci/test.yml)
+    # call the very same script.
+    - misc/ci/install-annotator-libraries.sh

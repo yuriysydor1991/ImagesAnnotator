@@ -28,32 +28,20 @@
 #ifndef IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_IIMAGECROPPERFACILITYPROVIDER_ABSTRACT_CLASS_H
 #define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_IIMAGECROPPERFACILITYPROVIDER_ABSTRACT_CLASS_H
 
-#include "src/annotator-events/events/IProvider.h"
+#include "src/annotator-events/events/DataExportersAliases.h"
 #include "src/annotator-events/events/ImageRecord.h"
 
 namespace events::events
 {
 
-/**
- * @brief The general abstract class for the image croppers.
- */
-class IImageCropperFacilityProvider
-{
- public:
-  using IImageCropperFacilityProviderPtr =
-      std::shared_ptr<IImageCropperFacilityProvider>;
+/// @brief The image cropping service interface, provided by the
+/// ImagesAnnotator-DataExporters library. The library decodes no image format
+/// of its own, so the PyTorch Vision export cuts the annotated rectangles out
+/// through this interface, which the GUI toolkits implement over the imaging
+/// stack they already link. See IRecord.h on why this is an alias.
+using IImageCropperFacilityProvider = iade::IImageCropperFacility;
 
-  virtual ~IImageCropperFacilityProvider() = default;
-  IImageCropperFacilityProvider() = default;
-
-  virtual bool crop_out_2_fs(ImageRecordPtr ir, ImageRecordRectPtr irr,
-                             std::string& tofpath) = 0;
-
-  virtual IImageCropperFacilityProviderPtr clone() = 0;
-};
-
-using IImageCropperFacilityProviderPtr =
-    IImageCropperFacilityProvider::IImageCropperFacilityProviderPtr;
+using IImageCropperFacilityProviderPtr = iade::IImageCropperFacilityPtr;
 
 }  // namespace events::events
 

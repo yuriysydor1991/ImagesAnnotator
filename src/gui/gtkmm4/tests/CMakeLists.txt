@@ -14,7 +14,6 @@ set(EVENT_HANDLERS_OBJ_LIBS
   ImagesAnnotatorGtkmmCommonObj
   ImagesAnnotatorControllerObj
   ImagesAnnotatorControllerDBsImagesDBObj
-  ImagesAnnotatorControllerExportersObj
   ImagesAnnotatorEventControllerObj
   ImagesAnnotatorEventsObj
   ImagesAnnotatorHelpersObj

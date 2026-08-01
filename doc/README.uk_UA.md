@@ -40,6 +40,8 @@
 
 Поточна програма для анотацій зображень зберігає свою базу даних анотацій у вигляді текстового файлу формату `JSON`. Це набагато полегшує створення користувацьких скриптів експорту у потрібний формат для тренування нейро мереж за допомогою таких мов як `Python` чи `Bash`.
 
+Експортери, які постачає сам застосунок - звичайний текстовий, YOLO v4 та PyTorch Vision, - знаходяться в окремій бібліотеці [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git), тому новий формат можна додати і туди, і тоді його отримає кожен інструмент, побудований на цій бібліотеці. Див. [Вмикання інтеграції бібліотеки ImagesAnnotator-DataExporters](/doc/sections/uk_UA/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md).
+
 # Зміст документації
 
 **Даний документ у процесі покращення**
@@ -105,6 +107,7 @@
     1. [Безперервна інтеграція за допомогою GitHub Actions](/doc/sections/uk_UA/5-34-continuous-integration-with-GitHub-Actions.md)
     1. [Безперервна інтеграція за допомогою GitLab CI/CD](/doc/sections/uk_UA/5-35-continuous-integration-with-GitLab-CI.md)
     1. [Вмикання інтеграції бібліотеки ImagesAnnotator-DataDrivers](/doc/sections/uk_UA/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md)
+    1. [Вмикання інтеграції бібліотеки ImagesAnnotator-DataExporters](/doc/sections/uk_UA/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md)
 1. [Запуск головного виконуваного файлу](/doc/sections/uk_UA/6-run-the-executable.md)
     1. [Запуск через IDE](/doc/sections/uk_UA/6-1-IDE-run.md)
     1. Запуск з терміналу

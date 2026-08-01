@@ -28,6 +28,7 @@ set(ANNOTATOR_EVENTS_SRC
 
 # The converters, the mergers and the AnnotationsJSONSerializator test
 # directories are gone along with the classes they covered: those now live in
-# the ImagesAnnotator-DataDrivers library and are tested there.
-add_subdirectory(exporters)
+# the ImagesAnnotator-DataDrivers library and are tested there. The exporters
+# test directory went the same way into the ImagesAnnotator-DataExporters
+# library.
 add_subdirectory(ImagesWebPageLoader)

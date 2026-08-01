@@ -28,7 +28,6 @@
 #ifndef IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_TYPE_ALIASES_CLASS_H
 #define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_TYPE_ALIASES_CLASS_H
 
-#include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsDirDB.h"
 #include "src/annotator-business/dbs/ImagesLoaders/ImagesDirLoader.h"
 #include "src/annotator-business/exporters/ExportContext.h"
 #include "src/annotator-events/events/AnnotationsDirChanged.h"
@@ -36,6 +35,7 @@
 #include "src/annotator-events/events/CloseCurrentProject.h"
 #include "src/annotator-events/events/CloseCurrentProjectHandler.h"
 #include "src/annotator-events/events/CurrentImageChangedHandler.h"
+#include "src/annotator-events/events/DataDriversAliases.h"
 #include "src/annotator-events/events/DeleteCurrentImageRequest.h"
 #include "src/annotator-events/events/DeleteCurrentImageRequestHandler.h"
 #include "src/annotator-events/events/Export2PyTorchVisionRequest.h"
@@ -74,7 +74,11 @@ class AnnotatorTypeAliases
       events::events::ExportPlainTxt2FolderRequestHandlerPtr;
   using ExportPlainTxt2FolderRequestPtr =
       events::events::ExportPlainTxt2FolderRequestPtr;
-  using AnnotationsDirDBPtr = dbs::annotations::AnnotationsDirDBPtr;
+  /// @brief The annotations project database the controller holds. It is the
+  /// ImagesAnnotator-DataDrivers library abstract interface rather than a
+  /// project class: the loading, the storing, the merging and the change
+  /// tracking of the project JSON files all live in the library now.
+  using AnnotationsDBPtr = iadd::IAnnotationsDBPtr;
   using ExportContextPtr = exporters::ExportContextPtr;
   using RequestImagesDirProviderHandler =
       events::events::RequestImagesDirProviderHandler;

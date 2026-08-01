@@ -13,10 +13,7 @@ set(EVENT_HANDLERS_OBJ_LIBS
   ImageAnnotatorGtkmmWindowCustomWidgetsObj
   ImagesAnnotatorGtkmmCommonObj
   ImagesAnnotatorControllerObj
-  ImagesAnnotatorControllerDBsObj
-  ImagesAnnotatorControllerDBsAnnotationsConvertersObj
   ImagesAnnotatorControllerDBsImagesDBObj
-  ImagesAnnotatorControllerDBsMergerObj
   ImagesAnnotatorControllerExportersObj
   ImagesAnnotatorEventControllerObj
   ImagesAnnotatorEventsObj

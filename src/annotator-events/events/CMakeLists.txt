@@ -1,14 +1,17 @@
 cmake_minimum_required(VERSION 3.13)
 
+# ImageRecord.cpp and ImageRecordRect.cpp are gone: both record value objects
+# now come from the ImagesAnnotator-DataDrivers library and the headers left
+# behind here are the aliases that keep the events::events names. The library
+# itself is linked into every target of the project by its enabler
+# (cmake/enablers/template-project-ImagesAnnotator-DataDrivers-enabler.cmake).
 add_library(
   ImagesAnnotatorEventsObj OBJECT
   AnnotationsDirChanged.cpp
   EventsFactory.cpp
   ImagesDirChanged.cpp
-  ImageRecord.cpp
   ImagesDirProviderChanged.cpp
   CurrentImageChanged.cpp
-  ImageRecordRect.cpp
   StoreRequest.cpp
   ExportPlainTxt2FolderRequest.cpp
   ExportYolo4FolderRequest.cpp

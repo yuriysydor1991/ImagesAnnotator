@@ -11,8 +11,6 @@ add_executable(
   ${EVENTS_SRC}/ImagesDirChanged.cpp
   ${EVENTS_SRC}/ImagesDirProviderChanged.cpp
   ${EVENTS_SRC}/CurrentImageChanged.cpp
-  ${EVENTS_SRC}/ImageRecord.cpp
-  ${EVENTS_SRC}/ImageRecordRect.cpp
   ${EVENTS_SRC}/StoreRequest.cpp
   ${EVENTS_SRC}/ExportPlainTxt2FolderRequest.cpp
   ${EVENTS_SRC}/ExportYolo4FolderRequest.cpp

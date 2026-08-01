@@ -49,6 +49,16 @@ include(template-project-desktop-entry-enabler)
 include(template-project-nlohmann-json-enabler)
 include(template-project-libcurl-enabler)
 
+# ImagesAnnotator specific: the annotations project files (their parsing, their
+# serialization, the image record value objects and the duplicate aware merging)
+# no longer live in this repository - they were extracted into the standalone
+# ImagesAnnotator-DataDrivers library, which this enabler either finds in the
+# system or pulls in through the Internet. It runs here, next to the two
+# libraries above and ahead of add_subdirectory(src), because the extracted
+# types are compiled into practically every object library of the src subtree,
+# so its usage requirements have to be propagated before any of them is defined.
+include(template-project-ImagesAnnotator-DataDrivers-enabler)
+
 include(template-project-GTest-enabler)
 include(template-project-clang-format-target)
 include(template-project-valgrind-target)

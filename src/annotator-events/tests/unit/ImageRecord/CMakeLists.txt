@@ -3,8 +3,6 @@ cmake_minimum_required(VERSION 3.13)
 add_executable(
   UTEST_ImageRecord
   UTEST_ImageRecord.cpp
-  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImageRecord.cpp
-  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImageRecordRect.cpp
 )
 
 target_include_directories(

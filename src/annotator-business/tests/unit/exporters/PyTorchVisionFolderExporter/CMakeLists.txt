@@ -7,8 +7,6 @@ add_executable(
   ${HELPERS_SRC}/ImageLoader.cpp
   ${HELPERS_SRC}/ImageRecordUrlAndPathHelper.cpp
   ${CMAKE_SOURCE_DIR}/src/CURL/CURLController.cpp
-  ${EVENTS_SRC}/ImageRecord.cpp
-  ${EVENTS_SRC}/ImageRecordRect.cpp
 )
 
 target_include_directories(

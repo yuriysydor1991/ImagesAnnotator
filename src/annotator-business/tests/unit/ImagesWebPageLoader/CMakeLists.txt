@@ -5,8 +5,6 @@ add_executable(
   UTEST_ImagesWebPageLoader.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/ImagesLoaders/ImagesWebPageLoader.cpp
   ${CMAKE_SOURCE_DIR}/src/CURL/CURLController.cpp
-  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImageRecord.cpp
-  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImageRecordRect.cpp
 )
 
 target_include_directories(

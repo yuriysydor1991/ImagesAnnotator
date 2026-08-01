@@ -4,7 +4,6 @@ add_executable(
   CTEST_ImageRectsLabel
   CTEST_ImageRectsLabel.cpp
   ${CMAKE_SOURCE_DIR}/src/gui/gtkmm4/main-window/custom-widgets/ImageRectsLabel.cpp
-  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImageRecordRect.cpp
 )
 
 target_include_directories(

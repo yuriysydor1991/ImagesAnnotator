@@ -32,80 +32,21 @@
 #include <string>
 #include <vector>
 
+#include "src/annotator-events/events/DataDriversAliases.h"
 #include "src/annotator-events/events/IRecord.h"
 #include "src/annotator-events/events/ImageRecordRect.h"
 
 namespace events::events
 {
 
-/**
- * @brief The particular image record class.
- */
-class ImageRecord : virtual public IRecord
-{
- public:
-  using ImageRecordPtr = std::shared_ptr<ImageRecord>;
-  using ImageRecordsSet = std::vector<ImageRecordPtr>;
+/// @brief The annotated image record - its source directory (or web page URL),
+/// its relative path, its intrinsic size, its preview scale and its
+/// rectangles - provided by the ImagesAnnotator-DataDrivers library. See
+/// IRecord.h on why this is an alias.
+using ImageRecord = iadd::ImageRecord;
 
-  inline static constexpr const double defaultScaleStep = 0.05;
-
-  /// @brief Bounds for the user-controlled zoom. scaleStepOut() never drives
-  /// the scale to zero or below (which would produce a degenerate scaled pixbuf
-  /// and crash gdk_pixbuf_scale_simple()), and scaleStepIn() never magnifies
-  /// past a sane maximum. minScale stays strictly positive so it never collides
-  /// with the "0 == no user-selected scale yet" sentinel.
-  inline static constexpr const double minScale = 0.05;
-  inline static constexpr const double maxScale = 20.0;
-
-  virtual ~ImageRecord() = default;
-  ImageRecord(const std::string& npath = "", const std::string& nabspath = "");
-
-  /// @brief The root directory from which this record was taken
-  std::string abs_dir_path;
-
-  /// @brief rel path to the image starting from abs_dir_path
-  std::string path;
-
-  /**
-   * @brief If the image is loaded from the network - this is it's temporary
-   * cache filepath. Not included into the projects JSON files.
-   */
-  std::filesystem::path tmppath;
-
-  ImageRecordRectSet rects;
-  ImageRecordRectPtr current_rect;
-
-  /// @brief Image width and height respectively
-  int iwidth{0};
-  int iheight{0};
-
-  /// @brief The per-image preview scale. A value of 0 means "no user-selected
-  /// scale yet": the GUI computes the initial fit-to-window scale on first
-  /// display, and any value set afterwards (that fit or a subsequent user zoom)
-  /// is preserved across image switches and serialized to the project JSON.
-  double imageScale{0.0};
-
-  void scaleStepIn();
-  void scaleStepOut();
-
-  std::string get_full_path() const;
-
-  bool erase_current_rect();
-
-  static bool equal(const ImageRecordsSet& l, const ImageRecordsSet& r);
-  static bool equal(const ImageRecordPtr& l, const ImageRecordPtr& r);
-
-  ImageRecordPtr duplicate_shared() const;
-
-  static ImageRecordsSet duplicate(const ImageRecordsSet& orig);
-
-  static ImageRecordPtr create();
-  static ImageRecordPtr create(const std::string& npath,
-                               const std::string& nabspath);
-};
-
-using ImageRecordPtr = ImageRecord::ImageRecordPtr;
-using ImageRecordsSet = ImageRecord::ImageRecordsSet;
+using ImageRecordPtr = iadd::ImageRecordPtr;
+using ImageRecordsSet = iadd::ImageRecordsSet;
 
 }  // namespace events::events
 

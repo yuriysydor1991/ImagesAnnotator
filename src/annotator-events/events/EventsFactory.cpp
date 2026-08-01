@@ -33,6 +33,7 @@
 
 #include "src/annotator-events/events/AnnotationsDirChanged.h"
 #include "src/annotator-events/events/AnnotationsDirChangedIHandler.h"
+#include "src/annotator-events/events/DataDriversAliases.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
 #include "src/log/log.h"
@@ -45,6 +46,25 @@ std::shared_ptr<EventsFactory> EventsFactory::instance()
   static std::shared_ptr<EventsFactory> ins = std::make_shared<EventsFactory>();
 
   return ins;
+}
+
+/**
+ * @brief The ImagesAnnotator-DataDrivers library records factory the record
+ * creating methods below delegate to.
+ *
+ * Building the records through the library instead of through a plain
+ * std::make_shared is what keeps the naming of the auto generated rectangles
+ * and the naming the annotations database applies while it deserializes a
+ * project file the very same rule: both go through one IRecordsFactory
+ * implementation. Replacing it (see LibraryContext::records_factory) makes the
+ * whole project build the enriched record subclasses of a descendant.
+ */
+static iadd::IRecordsFactoryPtr records_factory()
+{
+  static iadd::IRecordsFactoryPtr factory =
+      iadd::LibraryFacade::create_records_factory();
+
+  return factory;
 }
 
 std::shared_ptr<AnnotationsDirChanged>
@@ -107,29 +127,21 @@ EventsFactory::create_current_image_changed(std::shared_ptr<ImageRecord> ir)
 std::shared_ptr<ImageRecordRect> EventsFactory::create_image_rect_record(
     const ImageRecordPtr& ir)
 {
-  auto rt = std::make_shared<ImageRecordRect>();
-
-  if (ir == nullptr) {
-    rt->name = default_name_record;
-  } else {
-    rt->name =
-        default_numbered_name_record_prefix + std::to_string(ir->rects.size());
-  }
-
-  return rt;
+  return records_factory()->create_image_rect_record(ir);
 }
 
 std::shared_ptr<ImageRecordRect> EventsFactory::create_image_rect_record(
     const std::string& npath, const int& nx, const int& ny, const int& nwidth,
     const int& nheight)
 {
-  return std::make_shared<ImageRecordRect>(npath, nx, ny, nwidth, nheight);
+  return records_factory()->create_image_rect_record(npath, nx, ny, nwidth,
+                                                     nheight);
 }
 
 std::shared_ptr<ImageRecord> EventsFactory::create_image_record(
     const std::string& nirpath, const std::string& nabsPath)
 {
-  return std::make_shared<ImageRecord>(nirpath, nabsPath);
+  return records_factory()->create_image_record(nirpath, nabsPath);
 }
 
 std::shared_ptr<StoreRequest> EventsFactory::create_store_request(

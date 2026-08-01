@@ -35,6 +35,7 @@
 #include "src/annotator-events/events/AnnotationsDirChangedIHandler.h"
 #include "src/annotator-events/events/CloseCurrentProject.h"
 #include "src/annotator-events/events/CurrentImageChanged.h"
+#include "src/annotator-events/events/DataDriversAliases.h"
 #include "src/annotator-events/events/DeleteCurrentImageRequest.h"
 #include "src/annotator-events/events/DisplayErrorEvent.h"
 #include "src/annotator-events/events/Export2PyTorchVisionRequest.h"
@@ -59,9 +60,13 @@ namespace events::events
 class EventsFactory : public std::enable_shared_from_this<EventsFactory>
 {
  public:
-  inline static const std::string default_name_record = "rectangle_default";
-  inline static const std::string default_numbered_name_record_prefix =
-      "rectangle_default_";
+  /// @brief The rectangle naming defaults are the ImagesAnnotator-DataDrivers
+  /// library ones, so a rectangle the GUI creates and a rectangle the
+  /// annotations database deserializes are named by one and the same rule.
+  inline static const std::string& default_name_record =
+      iadd::IRecordsFactory::default_name_record;
+  inline static const std::string& default_numbered_name_record_prefix =
+      iadd::IRecordsFactory::default_numbered_name_record_prefix;
 
   virtual ~EventsFactory() = default;
   EventsFactory() = default;

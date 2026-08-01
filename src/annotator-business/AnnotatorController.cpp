@@ -30,12 +30,13 @@
 #include <cassert>
 #include <memory>
 
-#include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsDirDB.h"
+#include "project-global-decls.h"
 #include "src/annotator-business/dbs/ImagesLoaders/ImagesDirLoader.h"
 #include "src/annotator-business/dbs/ImagesLoaders/ImagesWebPageLoader.h"
 #include "src/annotator-business/exporters/PlainTxt2FolderExporter.h"
 #include "src/annotator-business/exporters/PyTorchVisionFolderExporter.h"
 #include "src/annotator-business/exporters/Yolo42FolderExporter.h"
+#include "src/annotator-events/events/DataDriversAliases.h"
 #include "src/app/ApplicationContext.h"
 #include "src/app/IApplication.h"
 #include "src/log/log.h"
@@ -48,10 +49,21 @@ AnnotatorController::AnnotatorController()
 {
 }
 
-AnnotatorController::AnnotationsDirDBPtr
+AnnotatorController::AnnotationsDBPtr
 AnnotatorController::create_project_data_instance()
 {
-  return std::make_shared<dbs::annotations::AnnotationsDirDB>();
+  auto ctx = iadd::LibraryFacade::create_library_context();
+
+  // The JSON root element of the project files is named after the application,
+  // not after the library, and the version stored under it is the application
+  // one. The library compile time defaults are those of the library build, so
+  // they are overridden here with this project identity to keep the produced
+  // files byte compatible with the ones the previous, in-project, database
+  // wrote.
+  ctx->app_name = project_decls::PROJECT_NAME;
+  ctx->app_version = project_decls::PROJECT_BUILD_VERSION;
+
+  return iadd::LibraryFacade::create_annotations_db(ctx);
 }
 
 bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)

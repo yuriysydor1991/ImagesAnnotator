@@ -28,18 +28,18 @@
 #ifndef IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_IRECORD_ABSTRACT_CLASS_H
 #define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_IRECORD_ABSTRACT_CLASS_H
 
+#include "src/annotator-events/events/DataDriversAliases.h"
+
 namespace events::events
 {
 
-/**
- * @brief The general abstract class for all data records.
- */
-class IRecord
-{
- public:
-  virtual ~IRecord() = default;
-  IRecord() = default;
-};
+/// @brief The data records root abstraction, provided by the
+/// ImagesAnnotator-DataDrivers library. The alias keeps the events::events name
+/// the project was written against while the single definition of the type
+/// lives in the library, which is what makes the records the project passes
+/// around and the records the annotations database reads and writes one and the
+/// same type.
+using IRecord = iadd::IRecord;
 
 }  // namespace events::events
 

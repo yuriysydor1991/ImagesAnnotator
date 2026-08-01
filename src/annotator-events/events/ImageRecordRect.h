@@ -32,41 +32,18 @@
 #include <string>
 #include <vector>
 
+#include "src/annotator-events/events/DataDriversAliases.h"
 #include "src/annotator-events/events/IRecord.h"
 
 namespace events::events
 {
 
-/**
- * @brief The particular image rectangular record class.
- */
-class ImageRecordRect : virtual public IRecord,
-                        std::enable_shared_from_this<ImageRecordRect>
-{
- public:
-  using ImageRecordRectPtr = std::shared_ptr<ImageRecordRect>;
-  using ImageRecordRectSet = std::vector<ImageRecordRectPtr>;
+/// @brief The named annotation rectangle drawn over an image, provided by the
+/// ImagesAnnotator-DataDrivers library. See IRecord.h on why this is an alias.
+using ImageRecordRect = iadd::ImageRecordRect;
 
-  virtual ~ImageRecordRect() = default;
-  ImageRecordRect();
-  ImageRecordRect(const std::string& nname, const int& nx, const int& ny,
-                  const int& nwidth, const int& nheight);
-
-  std::string name;
-
-  int x{0};
-  int y{0};
-  int width{0};
-  int height{0};
-
-  ImageRecordRectPtr duplicate_shared() const;
-
-  static bool equal(const ImageRecordRectSet& l, const ImageRecordRectSet& r);
-  static bool equal(const ImageRecordRectPtr& l, const ImageRecordRectPtr& r);
-};
-
-using ImageRecordRectPtr = ImageRecordRect::ImageRecordRectPtr;
-using ImageRecordRectSet = ImageRecordRect::ImageRecordRectSet;
+using ImageRecordRectPtr = iadd::ImageRecordRectPtr;
+using ImageRecordRectSet = iadd::ImageRecordRectSet;
 
 }  // namespace events::events
 

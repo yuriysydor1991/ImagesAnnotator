@@ -28,18 +28,14 @@
 #ifndef IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_IPROVIDER_ABSTRACT_CLASS_H
 #define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_IPROVIDER_ABSTRACT_CLASS_H
 
+#include "src/annotator-events/events/DataDriversAliases.h"
+
 namespace events::events
 {
 
-/**
- * @brief The general abstract class for all data providers.
- */
-class IProvider
-{
- public:
-  virtual ~IProvider() = default;
-  IProvider() = default;
-};
+/// @brief The providers root abstraction, provided by the
+/// ImagesAnnotator-DataDrivers library. See IRecord.h on why this is an alias.
+using IProvider = iadd::IProvider;
 
 }  // namespace events::events
 

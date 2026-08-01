@@ -4,8 +4,6 @@ add_executable(
   UTEST_SortHelper
   UTEST_SortHelper.cpp
   ${CMAKE_SOURCE_DIR}/src/helpers/SortHelper.cpp
-  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImageRecord.cpp
-  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImageRecordRect.cpp
 )
 
 target_include_directories(

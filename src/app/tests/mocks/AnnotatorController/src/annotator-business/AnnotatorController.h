@@ -33,7 +33,6 @@
 #include <functional>
 #include <memory>
 
-#include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsDirDB.h"
 #include "src/annotator-business/dbs/ImagesLoaders/ImagesDirLoader.h"
 #include "src/annotator-business/exporters/ExportContext.h"
 #include "src/annotator-events/events/AnnotationsDirChanged.h"
@@ -41,6 +40,7 @@
 #include "src/annotator-events/events/CloseCurrentProject.h"
 #include "src/annotator-events/events/CloseCurrentProjectHandler.h"
 #include "src/annotator-events/events/CurrentImageChangedHandler.h"
+#include "src/annotator-events/events/DataDriversAliases.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequestHandler.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
@@ -78,7 +78,7 @@ class AnnotatorController
       events::events::ExportPlainTxt2FolderRequestHandlerPtr;
   using ExportPlainTxt2FolderRequestPtr =
       events::events::ExportPlainTxt2FolderRequestPtr;
-  using AnnotationsDirDBPtr = dbs::annotations::AnnotationsDirDBPtr;
+  using AnnotationsDBPtr = iadd::IAnnotationsDBPtr;
   using ExportContextPtr = exporters::ExportContextPtr;
 
   using RequestImagesDirProviderHandler =

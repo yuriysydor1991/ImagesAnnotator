@@ -31,7 +31,6 @@
 #include <memory>
 
 #include "src/annotator-business/AnnotatorTypeAliases.h"
-#include "src/annotator-business/dbs/AnnotationsDBs/AnnotationsDirDB.h"
 #include "src/annotator-business/dbs/ImagesLoaders/ImagesDirLoader.h"
 #include "src/annotator-business/exporters/ExportContext.h"
 #include "src/annotator-events/events/AnnotationsDirChanged.h"
@@ -117,12 +116,12 @@ class AnnotatorController
 
   ImageRecordsSet load_fs_images_records(const std::string& path);
   void try_to_append_images_dir(const std::string& path);
-  AnnotationsDirDBPtr create_project_data_instance();
+  AnnotationsDBPtr create_project_data_instance();
 
   template <class ExporterT>
   bool handle_export(const std::string& dirPath);
 
-  AnnotationsDirDBPtr annotations;
+  AnnotationsDBPtr annotations;
 
   std::shared_ptr<app::ApplicationContext> actx;
 };

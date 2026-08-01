@@ -1,0 +1,46 @@
+## Enabling the ImagesAnnotator-DataDrivers library
+
+The annotations project files - the JSON documents holding the annotated images, their sizes and the named rectangles drawn over them - are read and written by the standalone [ImagesAnnotator-DataDrivers](https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers.git) library. The parser, the serializer, the image record value objects and the duplicate aware merging rules used to live inside this repository and were extracted into that library so the application and any other tool may share one and the same project file format.
+
+The library is therefore **mandatory**: the `ENABLE_IMAGES_ANNOTATOR_DATA_DRIVERS` CMake variable defaults to `ON` and the project does not build with it switched off.
+
+```
+# Inside the source root directory
+
+cmake -S . -B build -DENABLE_IMAGES_ANNOTATOR_DATA_DRIVERS=ON
+```
+
+The enabler first probes the system for an installed copy and, when it is not found, pulls the sources through the available connection with the CMake `FetchContent`, exactly as the other third party library enablers of the project do.
+
+### Pointing the project at an installed copy
+
+A library installed outside of the default search prefixes is found through the usual CMake variable:
+
+```
+cmake -S . -B build -DCMAKE_PREFIX_PATH=/opt/images-annotator-data-drivers
+```
+
+### Overriding the source repository and the tag
+
+```
+cmake -S . -B build \
+  -DTEMPLATE_APP_IADD_GIT=https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers.git \
+  -DTEMPLATE_APP_IADD_GIT_TAG=main
+```
+
+### Overriding the package name
+
+The library carries its major version inside the installed package, target and binary names, and its own `LIB_INCLUDE_MINOR_IN_NAME` / `LIB_INCLUDE_MICRO_IN_NAME` / `LIB_NAME_SUFFIX` options may extend that name further. The name this project asks `find_package()` for is a cache variable, so a differently named build of the very same library stays a single command line option:
+
+```
+cmake -S . -B build -DTEMPLATE_APP_IADD_PACKAGE=ImagesAnnotatorDataDrivers-0.11
+```
+
+### What the project takes from the library
+
+- `ImageRecord` and `ImageRecordRect` - the record value objects the whole project, the GUI included, passes around. The `src/annotator-events/events/` headers of those names are aliases onto the library types now.
+- `IAnnotationsDB` - the annotations project database the `AnnotatorController` holds, created through `LibraryFacade::create_annotations_db()`.
+- `IImagesPathsDBProvider` - the read only records access interface the GUI consumes, which the `AnnotatorController` implements.
+- `IRecordsFactory` - the records factory the project `EventsFactory` delegates its record creating methods to.
+
+The single place naming the library is `src/annotator-events/events/DataDriversAliases.h`, which declares the `iadd` alias of the versioned `ImagesAnnotatorDataDrivers011` namespace.

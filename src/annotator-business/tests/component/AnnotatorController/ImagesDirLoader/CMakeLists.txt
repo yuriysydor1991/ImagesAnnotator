@@ -8,25 +8,17 @@ add_executable(
   ${CCTNAME}
   CTEST_ImagesDirLoader.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-business/AnnotatorController.cpp
-  ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/AnnotationsDBs/AnnotationsDirDB.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/ImagesLoaders/ImagesDirLoader.cpp
   ${CMAKE_SOURCE_DIR}/src/log/simple-logger/SimpleLogger.cpp
-  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImageRecord.cpp
   ${CMAKE_SOURCE_DIR}/src/app/ApplicationContext.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImagesDirChanged.cpp
   ${ANNOTATIONCONTROLLER_CTEST_ROOT}/CTEST_AnnotatorController.cpp
-  ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/AnnotationsDBs/converters/JSON2ImageRecordsConverter.cpp
-  ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/AnnotationsDBs/AnnotationsJSONSerializator.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/EventsFactory.cpp
-  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImageRecordRect.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/AnnotationsDirChanged.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImagesDirProviderChanged.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/CurrentImageChanged.cpp
-  ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/AnnotationsDBs/converters/ImageRecords2JSONConverter.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/StoreRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/helpers/SortHelper.cpp
-  ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/AnnotationsDBs/converters/ImageRecordRectJSON2RecordConverter.cpp
-  ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/AnnotationsDBs/converters/ImageRecordJSON2RecordConverter.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportPlainTxt2FolderRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-business/exporters/PlainTxt2FolderExporter.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportYolo4FolderRequest.cpp
@@ -38,7 +30,6 @@ add_executable(
   ${CMAKE_SOURCE_DIR}/src/helpers/ImageLoader.cpp
   ${CMAKE_SOURCE_DIR}/src/helpers/ImageRecordUrlAndPathHelper.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/DisplayErrorEvent.cpp
-  ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/AnnotationsDBs/mergers/DefaultDBMerger.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/ImagesLoaders/ImagesWebPageLoader.cpp
   ${CMAKE_SOURCE_DIR}/src/CURL/CURLController.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/LoadImagesFromWebPage.cpp

@@ -6,7 +6,17 @@ option(
   ON
 )
 
+# The option is honoured the same way every other third party enabler of the
+# project honours its own, but unlike the optional ones this library is what
+# reads and writes the annotations project files, so switching it off leaves
+# the sources without the record value objects and without the annotations
+# database they are written against. Say so here instead of letting the
+# configure succeed and the compilation fail on a missing <LibraryFacade.h>.
 if (NOT ENABLE_IMAGES_ANNOTATOR_DATA_DRIVERS)
+  message(WARNING
+    "ENABLE_IMAGES_ANNOTATOR_DATA_DRIVERS is OFF - the project will not "
+    "compile: the image record value objects and the annotations project "
+    "database it is built against come from that library.")
   return()
 endif()
 

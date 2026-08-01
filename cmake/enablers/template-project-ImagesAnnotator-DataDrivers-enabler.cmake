@@ -23,19 +23,22 @@ endif()
 set(TEMPLATE_APP_IADD_GIT "https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers.git" CACHE STRING "The ImagesAnnotator-DataDrivers library git source repository")
 set(TEMPLATE_APP_IADD_GIT_TAG "main" CACHE STRING "The ImagesAnnotator-DataDrivers project git repository tag of interest")
 
-# The library carries its major version inside the installed package, target and
-# binary names (see the LIB_INCLUDE_MINOR_IN_NAME / LIB_INCLUDE_MICRO_IN_NAME /
-# LIB_NAME_SUFFIX options on the library side), so the name the find_package()
-# probe below asks for is a cache variable rather than a literal: pointing the
-# project at a differently named build of the very same library - a
-# "ImagesAnnotatorDataDrivers-0.11" or a "ImagesAnnotatorDataDrivers-0-dev" one -
+# The library carries its major and minor version inside the installed package,
+# target and binary names, matching its version carrying public namespace, so
+# that two minor versions install completely side by side. The default below is
+# what the library produces out of the box; its own LIB_INCLUDE_MINOR_IN_NAME
+# (ON by default), LIB_INCLUDE_MICRO_IN_NAME and LIB_NAME_SUFFIX options may
+# shorten or extend that name. The name the find_package() probe asks for is
+# therefore a cache variable rather than a literal: pointing the project at a
+# differently named build of the very same library - a major-only
+# "ImagesAnnotatorDataDrivers-0" or a "ImagesAnnotatorDataDrivers-0.11-dev" one -
 # stays a single -D on the command line.
 #
 # Only the package name is versioned. Neither the C++ include directives nor the
 # namespace alias the sources use spell the version out: the headers are pulled
 # in unprefixed (see src/annotator-events/events/DataDriversAliases.h), which is
 # also the only form the library exports while it is built as a sub-project.
-set(TEMPLATE_APP_IADD_PACKAGE "ImagesAnnotatorDataDrivers-0" CACHE STRING "The ImagesAnnotator-DataDrivers CMake package (and target) name to look for")
+set(TEMPLATE_APP_IADD_PACKAGE "ImagesAnnotatorDataDrivers-0.11" CACHE STRING "The ImagesAnnotator-DataDrivers CMake package (and target) name to look for")
 
 template_project_default_3rdparty_enabler(
   NAME ${TEMPLATE_APP_IADD_PACKAGE}

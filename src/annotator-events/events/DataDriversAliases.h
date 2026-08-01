@@ -35,7 +35,7 @@
 // library to a namespace of the next version stays a one line change here.
 //
 // The headers are deliberately included WITHOUT the versioned
-// <ImagesAnnotatorDataDrivers-0/...> directory prefix. The library exports that
+// <ImagesAnnotatorDataDrivers-0.11/...> directory prefix. It exports that
 // prefixed form only through its install interface, so the prefixed spelling
 // compiles against a system wide installation but not against a copy the
 // enabler pulled in with FetchContent, where only the public headers directory

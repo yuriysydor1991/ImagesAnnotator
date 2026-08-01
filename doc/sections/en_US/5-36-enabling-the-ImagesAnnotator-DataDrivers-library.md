@@ -30,10 +30,12 @@ cmake -S . -B build \
 
 ### Overriding the package name
 
-The library carries its major version inside the installed package, target and binary names, and its own `LIB_INCLUDE_MINOR_IN_NAME` / `LIB_INCLUDE_MICRO_IN_NAME` / `LIB_NAME_SUFFIX` options may extend that name further. The name this project asks `find_package()` for is a cache variable, so a differently named build of the very same library stays a single command line option:
+The library carries its major and minor version inside the installed package, target and binary names - `ImagesAnnotatorDataDrivers-0.11`, matching its version carrying `ImagesAnnotatorDataDrivers011` public namespace - so two minor versions install completely side by side. Its own `LIB_INCLUDE_MINOR_IN_NAME` (`ON` by default), `LIB_INCLUDE_MICRO_IN_NAME` and `LIB_NAME_SUFFIX` options may shorten or extend that name further. The name this project asks `find_package()` for is a cache variable, so a differently named build of the very same library stays a single command line option:
 
 ```
-cmake -S . -B build -DTEMPLATE_APP_IADD_PACKAGE=ImagesAnnotatorDataDrivers-0.11
+# a library built with -DLIB_INCLUDE_MINOR_IN_NAME=OFF, that is a major-only name
+
+cmake -S . -B build -DTEMPLATE_APP_IADD_PACKAGE=ImagesAnnotatorDataDrivers-0
 ```
 
 ### What the project takes from the library

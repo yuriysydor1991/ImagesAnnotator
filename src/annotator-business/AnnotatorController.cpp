@@ -50,6 +50,13 @@ AnnotatorController::AnnotatorController()
 AnnotatorController::AnnotationsDBPtr
 AnnotatorController::create_project_data_instance()
 {
+  // This is the first call into either of the libraries, so the application
+  // logger is handed over right here: each library would otherwise keep a
+  // silent own logger instance and the library messages would never reach the
+  // application log file.
+  iadd::LibraryFacade::accept_real_logger(LOG_REAL_LOGGER());
+  iade::LibraryFacade::accept_real_logger(LOG_REAL_LOGGER());
+
   auto ctx = iadd::LibraryFacade::create_library_context();
 
   // The JSON root element of the project files is named after the application,

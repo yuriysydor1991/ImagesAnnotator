@@ -10,7 +10,8 @@ add_executable(
   CTEST_Exporters.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-business/AnnotatorController.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/ImagesLoaders/ImagesDirLoader.cpp
-  ${CMAKE_SOURCE_DIR}/src/log/simple-logger/SimpleLogger.cpp
+  ${CMAKE_SOURCE_DIR}/src/log/default-logger/DefaultLogger.cpp
+  ${CMAKE_SOURCE_DIR}/src/log/default-logger/real-default-logger/RealDefaultLogger.cpp
   ${CMAKE_SOURCE_DIR}/src/app/ApplicationContext.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImagesDirChanged.cpp
   ${ANNOTATIONCONTROLLER_CTEST_ROOT}/CTEST_AnnotatorController.cpp

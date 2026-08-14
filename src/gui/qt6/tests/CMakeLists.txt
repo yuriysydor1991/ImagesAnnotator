@@ -16,7 +16,8 @@ set(EVENT_HANDLERS_OBJ_LIBS
   ImagesAnnotatorEventsObj
   ImagesAnnotatorHelpersObj
   TemplateProjectCURLControllerObj
-  TemplateProjectSimpleLoggerObj
+  TemplateProjectDefaultLoggerObj
+  TemplateProjectRealDefaultLoggerObj
 )
 
 add_subdirectory(unit)

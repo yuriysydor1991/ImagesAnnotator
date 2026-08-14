@@ -34,7 +34,7 @@
 
 #include "src/gui/qt6/qt_includes.h"
 
-namespace templateQt6
+namespace imagesAnnotatorQt6
 {
 
 /// @brief std::string (UTF-8) -> QString.
@@ -61,6 +61,6 @@ inline std::string to_lower(std::string s)
   return s;
 }
 
-}  // namespace templateQt6
+}  // namespace imagesAnnotatorQt6
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_QT_STR_UTILS_H

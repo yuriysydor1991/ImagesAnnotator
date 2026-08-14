@@ -32,7 +32,7 @@
 
 #include "src/gui/qt6/main-window/event-handlers/AbstractWindowEventHandler.h"
 
-namespace templateQt6::window::event_handlers
+namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 /**
@@ -50,6 +50,6 @@ class AboutEventsHandler : public AbstractWindowEventHandler
   void handle_about();
 };
 
-}  // namespace templateQt6::window::event_handlers
+}  // namespace imagesAnnotatorQt6::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_EVENTHANDLERS_ABOUTEVENTSHANDLER_CLASS_H

@@ -34,7 +34,7 @@
 #include "project-global-decls.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm4
+namespace imagesAnnotatorGtkmm4
 {
 
 GtkmmIniter::GtkmmIniter() : GtkmmIniter(MainWindowContext::build_context())
@@ -171,4 +171,4 @@ bool GtkmmIniter::prepare_widgets()
 
 void GtkmmIniter::deinit() { mwctx->clear(); }
 
-}  // namespace templateGtkmm4
+}  // namespace imagesAnnotatorGtkmm4

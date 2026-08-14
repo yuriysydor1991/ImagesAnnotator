@@ -33,7 +33,7 @@
 #include "src/gui/qt6/main-window/event-handlers/AbstractWindowEventHandler.h"
 #include "src/gui/qt6/qt_includes.h"
 
-namespace templateQt6::window::event_handlers
+namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 /**
@@ -52,6 +52,6 @@ class KeyboardEventsHandler : public AbstractWindowEventHandler
   void handle_next_key();
 };
 
-}  // namespace templateQt6::window::event_handlers
+}  // namespace imagesAnnotatorQt6::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_EVENTHANDLERS_KEYBOARDEVENTSHANDLER_CLASS_H

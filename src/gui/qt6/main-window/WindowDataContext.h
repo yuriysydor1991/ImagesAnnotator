@@ -31,7 +31,7 @@
 #include <set>
 #include <string>
 
-namespace templateQt6::window
+namespace imagesAnnotatorQt6::window
 {
 
 #ifndef QT6_RESOURCES_PREFIX
@@ -44,7 +44,7 @@ namespace templateQt6::window
 
 /**
  * @brief Holds the stable object names of every main window element plus the
- * embedded resource paths - the Qt analogue of templateGtkmm3's
+ * embedded resource paths - the Qt analogue of imagesAnnotatorGtkmm3's
  * WindowDataContext.
  *
  * The GTKmm window is inflated from a Glade .ui file and every widget is looked
@@ -154,6 +154,6 @@ class WindowDataContext
           "auto_insert_current_annotation_to_whole";
 };
 
-}  // namespace templateQt6::window
+}  // namespace imagesAnnotatorQt6::window
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_WINDOWDATACONTEXT_CLASS_H

@@ -32,12 +32,12 @@
 #include <string>
 #include <vector>
 
-namespace templateWx::window::custom_widgets
+namespace imagesAnnotatorWx::window::custom_widgets
 {
 
 /**
  * @brief Row data holder for one entry in the all-annotations list (the
- * wxWidgets analogue of templateGtkmm3's AllAnnotationsLabel).
+ * wxWidgets analogue of imagesAnnotatorGtkmm3's AllAnnotationsLabel).
  */
 class AllAnnotationsLabel
 {
@@ -54,6 +54,6 @@ class AllAnnotationsLabel
 using AllAnnotationsLabelPtr = std::shared_ptr<AllAnnotationsLabel>;
 using AllAnnotationsLabelSet = std::vector<AllAnnotationsLabelPtr>;
 
-}  // namespace templateWx::window::custom_widgets
+}  // namespace imagesAnnotatorWx::window::custom_widgets
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_WX_CUSTOM_WIDGETS_ALLANNOTATIONSLABEL_CLASS_H

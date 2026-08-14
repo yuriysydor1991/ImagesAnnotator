@@ -36,7 +36,7 @@
 #include "src/gui/qt6/qt_str_utils.h"
 #include "src/log/log.h"
 
-namespace templateQt6::window::event_handlers
+namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 MouseDrawEventsHandler::MouseDrawEventsHandler(std::shared_ptr<WindowOps> nops)
@@ -401,4 +401,4 @@ void MouseDrawEventsHandler::update_tooltip()
   mwctx->centralCanvas->setToolTip(u8(textUsed));
 }
 
-}  // namespace templateQt6::window::event_handlers
+}  // namespace imagesAnnotatorQt6::window::event_handlers

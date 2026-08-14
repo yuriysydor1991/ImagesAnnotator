@@ -35,15 +35,15 @@
 #include "src/gui/wxwidgets/wx_includes.h"
 #include "src/helpers/TypeHelper.h"
 
-namespace templateWx::window::custom_widgets
+namespace imagesAnnotatorWx::window::custom_widgets
 {
 
 /**
  * @brief Scrolled canvas that draws the current image plus its annotation
- * rectangles - the wxWidgets analogue of templateGtkmm3's CentralWorkingCanvas
- * (a Gtk::DrawingArea). The rendering pipeline, coordinate scaling by
- * ImageRecord::imageScale and the resize-handle hit-testing are ported one to
- * one; only the drawing calls change from cairo to wxDC.
+ * rectangles - the wxWidgets analogue of imagesAnnotatorGtkmm3's
+ * CentralWorkingCanvas (a Gtk::DrawingArea). The rendering pipeline, coordinate
+ * scaling by ImageRecord::imageScale and the resize-handle hit-testing are
+ * ported one to one; only the drawing calls change from cairo to wxDC.
  *
  * The widget is owned by its parent wxWindow (created with new, destroyed by
  * wxWidgets), so it is referenced through a raw pointer rather than a
@@ -117,6 +117,6 @@ class CentralWorkingCanvas : public wxScrolledWindow,
   bool resizersDrawed{false};
 };
 
-}  // namespace templateWx::window::custom_widgets
+}  // namespace imagesAnnotatorWx::window::custom_widgets
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_WX_CUSTOM_WIDGETS_CENTRALWORKINGCANVAS_CLASS_H

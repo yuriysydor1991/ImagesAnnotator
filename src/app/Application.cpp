@@ -28,12 +28,12 @@
 #include "src/app/Application.h"
 
 #include <cassert>
+#include <clocale>
 #include <iostream>
 #include <memory>
-#include <clocale>
 
 #include "src/annotator-business/AnnotatorController.h"
-#include "src/gui/GuiIniter.h"
+#include "src/gui/GUIIniter.h"
 #include "src/log/log.h"
 
 namespace app
@@ -65,24 +65,24 @@ int Application::run(std::shared_ptr<ApplicationContext> ctx)
     return INVALID;
   }
 
-  gtkmmIniter = create_gtkmm_initer();
+  guiIniter = create_gui_initer();
 
-  auto rt = gtkmmIniter->run(ctx) ? 0 : INVALID;
+  auto rt = guiIniter->run(ctx) ? 0 : INVALID;
 
   if (rt == INVALID) {
-    LOGE("The gtkmm controller returned invalid status");
+    LOGE("The GUI initer returned invalid status");
   }
 
-  gtkmmIniter->deinit();
+  guiIniter->deinit();
   abcontroller->deinit();
   ctx->eventer->deinit();
 
   return rt;
 }
 
-std::shared_ptr<gui::GtkmmIniter> Application::create_gtkmm_initer()
+std::shared_ptr<gui::GUIIniter> Application::create_gui_initer()
 {
-  return std::make_shared<gui::GtkmmIniter>();
+  return std::make_shared<gui::GUIIniter>();
 }
 
 std::shared_ptr<iannotator::AnnotatorController>

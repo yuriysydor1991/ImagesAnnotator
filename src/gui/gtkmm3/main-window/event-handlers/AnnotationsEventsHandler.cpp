@@ -37,7 +37,7 @@
 #include "src/gui/gtkmm3/main-window/event-handlers/WindowOps.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm3::window::event_handlers
+namespace imagesAnnotatorGtkmm3::window::event_handlers
 {
 
 AnnotationsEventsHandler::AnnotationsEventsHandler(
@@ -377,4 +377,4 @@ void AnnotationsEventsHandler::handle_auto_insert_to_whole()
   ops->update_statuses();
 }
 
-}  // namespace templateGtkmm3::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm3::window::event_handlers

@@ -33,7 +33,7 @@
 #include "src/gui/gtkmm3/gtkmm_includes.h"
 #include "src/gui/gtkmm3/main-window/WindowDataContext.h"
 
-namespace templateGtkmm3::window::custom_widgets
+namespace imagesAnnotatorGtkmm3::window::custom_widgets
 {
 
 /**
@@ -51,6 +51,6 @@ class AllAnnotationsLabel
 using AllAnnotationsLabelPtr = std::shared_ptr<AllAnnotationsLabel>;
 using AllAnnotationsLabelSet = std::vector<AllAnnotationsLabel>;
 
-}  // namespace templateGtkmm3::window::custom_widgets
+}  // namespace imagesAnnotatorGtkmm3::window::custom_widgets
 
 #endif  // YOUR_CPP_APP_TEMPLATE_PROJECT_GTKMM3_CUSTOM_WIDGETS_ALLANNOTATIONSLABEL_CLASS_H

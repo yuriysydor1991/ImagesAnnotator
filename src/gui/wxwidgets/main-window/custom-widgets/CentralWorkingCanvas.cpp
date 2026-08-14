@@ -31,7 +31,7 @@
 
 #include "src/log/log.h"
 
-namespace templateWx::window::custom_widgets
+namespace imagesAnnotatorWx::window::custom_widgets
 {
 
 namespace
@@ -330,4 +330,4 @@ CentralWorkingCanvas::get_mouse_over_rect()
   return rectMouseOver;
 }
 
-}  // namespace templateWx::window::custom_widgets
+}  // namespace imagesAnnotatorWx::window::custom_widgets

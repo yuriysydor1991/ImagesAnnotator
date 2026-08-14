@@ -36,7 +36,7 @@
 #include "src/gui/gtkmm4/main-window/event-handlers/WindowOps.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm4::window::event_handlers
+namespace imagesAnnotatorGtkmm4::window::event_handlers
 {
 
 ImageListEventsHandler::ImageListEventsHandler(std::shared_ptr<WindowOps> nops)
@@ -301,4 +301,4 @@ void ImageListEventsHandler::handle_current_image_delete()
   mwctx->actx->eventer->submit(deleteEvent);
 }
 
-}  // namespace templateGtkmm4::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm4::window::event_handlers

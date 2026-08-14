@@ -34,7 +34,7 @@
 #include "src/gui/gtkmm4/gtkmm_includes.h"
 #include "src/gui/gtkmm4/main-window/WindowDataContext.h"
 
-namespace templateGtkmm4::window::custom_widgets
+namespace imagesAnnotatorGtkmm4::window::custom_widgets
 {
 
 /**
@@ -60,6 +60,6 @@ class ImageRectsLabel : public Gtk::Label,
 using ImageRectsLabelPtr = std::shared_ptr<ImageRectsLabel>;
 using ImageRectsLabelSet = std::vector<ImageRectsLabelPtr>;
 
-}  // namespace templateGtkmm4::window::custom_widgets
+}  // namespace imagesAnnotatorGtkmm4::window::custom_widgets
 
 #endif  // YOUR_CPP_APP_TEMPLATE_PROJECT_GTKMM4_CUSTOM_WIDGETS_IMAGERECTSLABEL_CLASS_H

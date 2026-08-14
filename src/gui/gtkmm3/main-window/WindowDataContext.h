@@ -34,7 +34,7 @@
 
 #include "src/gui/gtkmm3/gtkmm_includes.h"
 
-namespace templateGtkmm3::window
+namespace imagesAnnotatorGtkmm3::window
 {
 
 #ifndef RESOURCES_PREFIX
@@ -151,6 +151,6 @@ class WindowDataContext
           "auto_insert_current_annotation_to_whole";
 };
 
-}  // namespace templateGtkmm3::window
+}  // namespace imagesAnnotatorGtkmm3::window
 
 #endif  // IMAGES_ANNOTATOR_TEMPLATE_PROJECT_WINDOWDATACONTEXT_CLASS_H

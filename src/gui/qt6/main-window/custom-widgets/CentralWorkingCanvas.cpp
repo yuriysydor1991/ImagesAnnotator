@@ -31,7 +31,7 @@
 
 #include "src/log/log.h"
 
-namespace templateQt6::window::custom_widgets
+namespace imagesAnnotatorQt6::window::custom_widgets
 {
 
 namespace
@@ -401,4 +401,4 @@ CentralWorkingCanvas::get_mouse_over_rect()
   return rectMouseOver;
 }
 
-}  // namespace templateQt6::window::custom_widgets
+}  // namespace imagesAnnotatorQt6::window::custom_widgets

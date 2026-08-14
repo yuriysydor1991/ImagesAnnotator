@@ -36,7 +36,7 @@
 #include "src/gui/gtkmm3/main-window/WindowDataContext.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm3::window::custom_widgets
+namespace imagesAnnotatorGtkmm3::window::custom_widgets
 {
 
 ImagePathLabel::ImagePathLabel(const std::shared_ptr<ImageRecord> nr)
@@ -89,4 +89,4 @@ bool ImagePathLabel::remove_has_records_mark()
   return true;
 }
 
-}  // namespace templateGtkmm3::window::custom_widgets
+}  // namespace imagesAnnotatorGtkmm3::window::custom_widgets

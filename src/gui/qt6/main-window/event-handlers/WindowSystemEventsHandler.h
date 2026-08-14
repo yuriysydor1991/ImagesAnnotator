@@ -34,7 +34,7 @@
 #include "src/annotator-events/events/ImagesDirProviderChanged.h"
 #include "src/gui/qt6/main-window/event-handlers/AbstractWindowEventHandler.h"
 
-namespace templateQt6::window::event_handlers
+namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 /**
@@ -63,6 +63,6 @@ class WindowSystemEventsHandler : public AbstractWindowEventHandler
   bool veto_window_close();
 };
 
-}  // namespace templateQt6::window::event_handlers
+}  // namespace imagesAnnotatorQt6::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_EVENTHANDLERS_WINDOWSYSTEMEVENTSHANDLER_CLASS_H

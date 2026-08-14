@@ -35,7 +35,7 @@
 #include "src/gui/qt6/qt_includes.h"
 #include "src/helpers/TypeHelper.h"
 
-namespace templateQt6::window::event_handlers
+namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 /**
@@ -81,6 +81,6 @@ class MouseDrawEventsHandler : public AbstractWindowEventHandler,
   std::string lastTooltip;
 };
 
-}  // namespace templateQt6::window::event_handlers
+}  // namespace imagesAnnotatorQt6::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_EVENTHANDLERS_MOUSEDRAWEVENTSHANDLER_CLASS_H

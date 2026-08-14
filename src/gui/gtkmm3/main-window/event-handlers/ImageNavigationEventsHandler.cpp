@@ -35,7 +35,7 @@
 #include "src/gui/gtkmm3/main-window/event-handlers/WindowOps.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm3::window::event_handlers
+namespace imagesAnnotatorGtkmm3::window::event_handlers
 {
 
 ImageNavigationEventsHandler::ImageNavigationEventsHandler(
@@ -145,4 +145,4 @@ ImageNavigationEventsHandler::get_wvisibility_unary_op()
   };
 }
 
-}  // namespace templateGtkmm3::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm3::window::event_handlers

@@ -39,7 +39,7 @@
 #include "src/gui/gtkmm4/main-window/custom-widgets/ImagePathLabel.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm4::window
+namespace imagesAnnotatorGtkmm4::window
 {
 
 bool WindowLoader::load_window(std::shared_ptr<MainWindowContext> nmwctx)
@@ -733,4 +733,4 @@ Gtk::MessageDialog* WindowLoader::get_lost_rects_ask_dialog()
   return get_widget<Gtk::MessageDialog>(mwctx->wctx->lost_rects_ask_dialog_id);
 }
 
-}  // namespace templateGtkmm4::window
+}  // namespace imagesAnnotatorGtkmm4::window

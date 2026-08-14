@@ -33,7 +33,7 @@
 
 #include "src/gui/wxwidgets/main-window/event-handlers/AbstractWindowEventHandler.h"
 
-namespace templateWx::window::event_handlers
+namespace imagesAnnotatorWx::window::event_handlers
 {
 
 /**
@@ -53,6 +53,6 @@ class WebPageEventsHandler : public AbstractWindowEventHandler
   bool ask_user_4_webpage_url(std::string& urldst);
 };
 
-}  // namespace templateWx::window::event_handlers
+}  // namespace imagesAnnotatorWx::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_WX_EVENTHANDLERS_WEBPAGEEVENTSHANDLER_CLASS_H

@@ -35,7 +35,7 @@
 #include "src/annotator-events/events/IImageCropperFacilityProvider.h"
 #include "src/log/log.h"
 
-namespace templateGtkmmCommon
+namespace imagesAnnotatorGtkmmCommon
 {
 
 bool GtkmmImageCropperProvider::crop_out_2_fs(ImageRecordPtr ir,
@@ -190,4 +190,4 @@ GtkmmImageCropperProvider::clone()
   return std::make_shared<GtkmmImageCropperProvider>(*this);
 }
 
-}  // namespace templateGtkmmCommon
+}  // namespace imagesAnnotatorGtkmmCommon

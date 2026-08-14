@@ -35,7 +35,7 @@
 #include "src/gui/wxwidgets/wx_includes.h"
 #include "src/log/log.h"
 
-namespace templateWx
+namespace imagesAnnotatorWx
 {
 
 namespace
@@ -155,4 +155,4 @@ void WxWidgetsIniter::deinit()
   }
 }
 
-}  // namespace templateWx
+}  // namespace imagesAnnotatorWx

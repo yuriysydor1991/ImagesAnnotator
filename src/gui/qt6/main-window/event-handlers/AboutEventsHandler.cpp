@@ -34,7 +34,7 @@
 #include "src/gui/qt6/qt_includes.h"
 #include "src/log/log.h"
 
-namespace templateQt6::window::event_handlers
+namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 AboutEventsHandler::AboutEventsHandler(std::shared_ptr<WindowOps> nops)
@@ -63,4 +63,4 @@ void AboutEventsHandler::handle_about()
   mwctx->cwFactory->show_about(mwctx->wloader->get_window());
 }
 
-}  // namespace templateQt6::window::event_handlers
+}  // namespace imagesAnnotatorQt6::window::event_handlers

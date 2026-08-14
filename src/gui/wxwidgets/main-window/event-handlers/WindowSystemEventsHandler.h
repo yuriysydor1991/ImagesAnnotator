@@ -35,7 +35,7 @@
 #include "src/gui/wxwidgets/main-window/event-handlers/AbstractWindowEventHandler.h"
 #include "src/gui/wxwidgets/wx_includes.h"
 
-namespace templateWx::window::event_handlers
+namespace imagesAnnotatorWx::window::event_handlers
 {
 
 /**
@@ -62,6 +62,6 @@ class WindowSystemEventsHandler : public AbstractWindowEventHandler
   void handle_window_close(wxCloseEvent& event);
 };
 
-}  // namespace templateWx::window::event_handlers
+}  // namespace imagesAnnotatorWx::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_WX_EVENTHANDLERS_WINDOWSYSTEMEVENTSHANDLER_CLASS_H

@@ -35,17 +35,18 @@
 #include "src/gui/qt6/main-window/WindowDataContext.h"
 #include "src/gui/qt6/qt_includes.h"
 
-namespace templateQt6
+namespace imagesAnnotatorQt6
 {
 class MainWindowContext;
 }
 
-namespace templateQt6::window
+namespace imagesAnnotatorQt6::window
 {
 
 /**
  * @brief Builds the main window widget tree in code - the Qt analogue of
- * templateGtkmm3's WindowLoader, which instead inflated a Glade .ui file.
+ * imagesAnnotatorGtkmm3's WindowLoader, which instead inflated a Glade .ui
+ * file.
  *
  * Every control is created here, given the WindowDataContext object name its
  * GTKmm counterpart carries as a builder id, and exposed through a typed getter
@@ -139,6 +140,6 @@ class WindowLoader : virtual public ComponentTypesAliases
   std::unique_ptr<QMainWindow> window;
 };
 
-}  // namespace templateQt6::window
+}  // namespace imagesAnnotatorQt6::window
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_WINDOWLOADER_CLASS_H

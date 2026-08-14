@@ -33,7 +33,7 @@
 #include "src/gui/qt6/main-window/event-handlers/WindowOps.h"
 #include "src/log/log.h"
 
-namespace templateQt6::window::event_handlers
+namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 namespace
@@ -98,4 +98,4 @@ void KeyboardEventsHandler::handle_next_key()
   click_button(mwctx->wloader->get_next_file_button());
 }
 
-}  // namespace templateQt6::window::event_handlers
+}  // namespace imagesAnnotatorQt6::window::event_handlers

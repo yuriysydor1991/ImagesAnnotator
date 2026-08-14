@@ -41,18 +41,18 @@
 #include "src/gui/gtkmm3/main-window/custom-widgets/ImagePathLabel.h"
 #include "src/gui/gtkmm3/main-window/custom-widgets/ImageRectsLabel.h"
 
-namespace templateGtkmm3::window
+namespace imagesAnnotatorGtkmm3::window
 {
 class WindowEventsHandler;
 class WindowLoader;
-}  // namespace templateGtkmm3::window
+}  // namespace imagesAnnotatorGtkmm3::window
 
-namespace templateGtkmm3::window::custom_widgets
+namespace imagesAnnotatorGtkmm3::window::custom_widgets
 {
 class CentralWorkingCanvas;
-}  // namespace templateGtkmm3::window::custom_widgets
+}  // namespace imagesAnnotatorGtkmm3::window::custom_widgets
 
-namespace templateGtkmm3
+namespace imagesAnnotatorGtkmm3
 {
 
 class MainWindowContext : virtual public ComponentTypesAliases,
@@ -91,6 +91,6 @@ class MainWindowContext : virtual public ComponentTypesAliases,
   virtual ImageRectsLabelPtr find_current_image_current_visual_rect();
 };
 
-}  // namespace templateGtkmm3
+}  // namespace imagesAnnotatorGtkmm3
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_MAINWINDOWCONTEXT_CLASS_H

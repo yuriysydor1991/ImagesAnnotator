@@ -32,12 +32,12 @@
 
 #include "src/gui/wxwidgets/wx_includes.h"
 
-namespace templateWx::window
+namespace imagesAnnotatorWx::window
 {
 
 /**
  * @brief Holds the stable command identifiers for the menu items of the main
- * window - the wxWidgets analogue of templateGtkmm3's WindowDataContext.
+ * window - the wxWidgets analogue of imagesAnnotatorGtkmm3's WindowDataContext.
  *
  * In GTKmm the window was built from a Glade .ui file and every widget was
  * looked up by a string id, so that context held the id strings and resource
@@ -70,6 +70,6 @@ class WindowDataContext
   static const std::set<int>& get_ids();
 };
 
-}  // namespace templateWx::window
+}  // namespace imagesAnnotatorWx::window
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_WX_WINDOWDATACONTEXT_CLASS_H

@@ -37,12 +37,12 @@
 #include "src/gui/gtkmm4/main-window/custom-widgets/CustomWidgetsFactory.h"
 #include "src/gui/gtkmm4/main-window/custom-widgets/ImageRectsLabel.h"
 
-namespace templateGtkmm4::window::custom_widgets
+namespace imagesAnnotatorGtkmm4::window::custom_widgets
 {
 class CustomWidgetsFactory;
 }
 
-namespace templateGtkmm4
+namespace imagesAnnotatorGtkmm4
 {
 
 class ComponentTypesAliases
@@ -56,7 +56,7 @@ class ComponentTypesAliases
   using ImagePathLabel = window::custom_widgets::ImagePathLabel;
   using ImagePathLabelPtr = window::custom_widgets::ImagePathLabelPtr;
   using CentralWorkingCanvas =
-      templateGtkmm4::window::custom_widgets::CentralWorkingCanvas;
+      imagesAnnotatorGtkmm4::window::custom_widgets::CentralWorkingCanvas;
   using ImageRecord = events::events::ImageRecord;
   using ImageRecordRectSet = events::events::ImageRecordRectSet;
   using ImageRectsLabel = window::custom_widgets::ImageRectsLabel;
@@ -70,6 +70,6 @@ class ComponentTypesAliases
   using DisplayErrorEventHandler = events::events::DisplayErrorEventHandler;
 };
 
-}  // namespace templateGtkmm4
+}  // namespace imagesAnnotatorGtkmm4
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_COMPONENTTYPEALIASES_CLASS_H

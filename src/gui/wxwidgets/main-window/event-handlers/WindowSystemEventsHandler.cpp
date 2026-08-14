@@ -33,7 +33,7 @@
 #include "src/gui/wxwidgets/main-window/event-handlers/WindowOps.h"
 #include "src/log/log.h"
 
-namespace templateWx::window::event_handlers
+namespace imagesAnnotatorWx::window::event_handlers
 {
 
 WindowSystemEventsHandler::WindowSystemEventsHandler(
@@ -116,4 +116,4 @@ void WindowSystemEventsHandler::handle_display_error(DisplayErrorEventPtr event)
   ops->show_error_dialog(event->description);
 }
 
-}  // namespace templateWx::window::event_handlers
+}  // namespace imagesAnnotatorWx::window::event_handlers

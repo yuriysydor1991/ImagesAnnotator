@@ -111,6 +111,7 @@ The exporters the application itself ships - the plain text one, the YOLO v4 one
     1. [Continuous integration with GitLab CI/CD](/doc/sections/en_US/5-35-continuous-integration-with-GitLab-CI.md)
     1. [Enabling the ImagesAnnotator-DataDrivers library](/doc/sections/en_US/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md)
     1. [Enabling the ImagesAnnotator-DataExporters library](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md)
+    1. [Quick build scripts](/doc/sections/en_US/5-38-quick-build-scripts.md)
 1. [Run the executable](/doc/sections/en_US/6-run-the-executable.md)
     1. [IDE run](/doc/sections/en_US/6-1-IDE-run.md)
     1. Command line run

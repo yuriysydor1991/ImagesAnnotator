@@ -19,8 +19,8 @@
 #include "src/gui/wxwidgets/main-window/event-handlers/ZoomEventsHandler.h"
 
 using namespace testing;
-using templateWx::MainWindowContext;
-namespace eh = templateWx::window::event_handlers;
+using imagesAnnotatorWx::MainWindowContext;
+namespace eh = imagesAnnotatorWx::window::event_handlers;
 
 namespace
 {

@@ -41,12 +41,13 @@
 #include "src/gui/wxwidgets/main-window/custom-widgets/ImageRectsLabel.h"
 #include "src/gui/wxwidgets/wx_includes.h"
 
-namespace templateWx::window::custom_widgets
+namespace imagesAnnotatorWx::window::custom_widgets
 {
 
 /**
  * @brief Builds the wx row-data holders, the working canvas and the common
- * dialogs - the wxWidgets analogue of templateGtkmm3's CustomWidgetsFactory.
+ * dialogs - the wxWidgets analogue of imagesAnnotatorGtkmm3's
+ * CustomWidgetsFactory.
  *
  * The GTKmm factory returned configured Gtk::Dialog objects the callers then
  * run(); wxWidgets dialogs are short-lived and owned by their parent, so the
@@ -125,6 +126,6 @@ class CustomWidgetsFactory
   bool ask_folder(wxWindow* parent, const std::string& title, std::string& out);
 };
 
-}  // namespace templateWx::window::custom_widgets
+}  // namespace imagesAnnotatorWx::window::custom_widgets
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_WX_CUSTOM_WIDGETS_CUSTOMWIDGETSFACTORY_CLASS_H

@@ -34,7 +34,7 @@
 #include "src/gui/gtkmm4/gtkmm_includes.h"
 #include "src/gui/gtkmm4/main-window/event-handlers/AbstractWindowEventHandler.h"
 
-namespace templateGtkmm4::window::event_handlers
+namespace imagesAnnotatorGtkmm4::window::event_handlers
 {
 
 /**
@@ -54,6 +54,6 @@ class ImageNavigationEventsHandler : public AbstractWindowEventHandler
   std::function<bool(const Gtk::Widget*)> get_wvisibility_unary_op();
 };
 
-}  // namespace templateGtkmm4::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm4::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_GTKMM_EVENTHANDLERS_IMAGENAVIGATIONEVENTSHANDLER_CLASS_H

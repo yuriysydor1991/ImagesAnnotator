@@ -27,7 +27,7 @@
 
 #include "src/gui/wxwidgets/main-window/WindowDataContext.h"
 
-namespace templateWx::window
+namespace imagesAnnotatorWx::window
 {
 
 const std::set<int>& WindowDataContext::get_ids()
@@ -47,4 +47,4 @@ const std::set<int>& WindowDataContext::get_ids()
   return ids;
 }
 
-}  // namespace templateWx::window
+}  // namespace imagesAnnotatorWx::window

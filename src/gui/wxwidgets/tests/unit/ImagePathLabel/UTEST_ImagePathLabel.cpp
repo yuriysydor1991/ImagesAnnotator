@@ -8,7 +8,7 @@
 
 using namespace testing;
 using events::events::ImageRecord;
-using templateWx::window::custom_widgets::ImagePathLabel;
+using imagesAnnotatorWx::window::custom_widgets::ImagePathLabel;
 
 // The wx ImagePathLabel is a plain row-data holder (not a wx widget), so unlike
 // its GTKmm counterpart it needs no display to construct and can be unit

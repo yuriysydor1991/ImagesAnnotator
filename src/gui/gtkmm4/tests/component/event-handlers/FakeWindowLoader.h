@@ -19,7 +19,7 @@
  *
  * Must only be instantiated once GTK has been initialized (see GtkInitFixture).
  */
-class FakeWindowLoader : public templateGtkmm4::window::WindowLoader
+class FakeWindowLoader : public imagesAnnotatorGtkmm4::window::WindowLoader
 {
  public:
   FakeWindowLoader()

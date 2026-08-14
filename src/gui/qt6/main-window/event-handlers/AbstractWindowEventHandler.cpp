@@ -29,7 +29,7 @@
 
 #include "src/gui/qt6/main-window/event-handlers/WindowOps.h"
 
-namespace templateQt6::window::event_handlers
+namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 AbstractWindowEventHandler::AbstractWindowEventHandler(WindowOpsPtr nops)
@@ -37,4 +37,4 @@ AbstractWindowEventHandler::AbstractWindowEventHandler(WindowOpsPtr nops)
 {
 }
 
-}  // namespace templateQt6::window::event_handlers
+}  // namespace imagesAnnotatorQt6::window::event_handlers

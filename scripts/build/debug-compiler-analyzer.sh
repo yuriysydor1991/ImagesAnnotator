@@ -1,0 +1,12 @@
+#!/bin/bash -e
+
+PROJECT_ROOT=$(realpath "$(dirname "$0")/../..")
+BUILD_SCRIPTS_ROOT=$(realpath "$(dirname "$0")")
+
+. "${BUILD_SCRIPTS_ROOT}/common.sh"
+
+${BUILD_SCRIPTS_ROOT}/debug-configure.sh -DENABLE_COMPILER_CODE_ANALYZER=ON "$@"
+
+${BUILD_SCRIPTS_ROOT}/debug-build.sh "$@"
+
+${BUILD_SCRIPTS_ROOT}/debug-install.sh "$@"

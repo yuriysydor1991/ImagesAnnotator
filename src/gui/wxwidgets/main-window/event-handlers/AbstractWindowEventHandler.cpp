@@ -29,7 +29,7 @@
 
 #include "src/gui/wxwidgets/main-window/event-handlers/WindowOps.h"
 
-namespace templateWx::window::event_handlers
+namespace imagesAnnotatorWx::window::event_handlers
 {
 
 AbstractWindowEventHandler::AbstractWindowEventHandler(WindowOpsPtr nops)
@@ -37,4 +37,4 @@ AbstractWindowEventHandler::AbstractWindowEventHandler(WindowOpsPtr nops)
 {
 }
 
-}  // namespace templateWx::window::event_handlers
+}  // namespace imagesAnnotatorWx::window::event_handlers

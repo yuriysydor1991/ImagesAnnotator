@@ -35,7 +35,7 @@
 #include "src/gui/wxwidgets/main-window/custom-widgets/CustomWidgetsFactory.h"
 #include "src/log/log.h"
 
-namespace templateWx
+namespace imagesAnnotatorWx
 {
 
 std::shared_ptr<MainWindowContext> MainWindowContext::build_context()
@@ -156,4 +156,4 @@ MainWindowContext::find_current_image_current_visual_rect()
   return {};
 }
 
-}  // namespace templateWx
+}  // namespace imagesAnnotatorWx

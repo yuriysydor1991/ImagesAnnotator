@@ -35,7 +35,7 @@
 #include "src/gui/gtkmm4/main-window/WindowDataContext.h"
 #include "src/helpers/ImageRecordUrlAndPathHelper.h"
 
-namespace templateGtkmm4::window::custom_widgets
+namespace imagesAnnotatorGtkmm4::window::custom_widgets
 {
 
 /**
@@ -68,6 +68,6 @@ class ImagePathLabel : public Gtk::Label,
 
 using ImagePathLabelPtr = ImagePathLabel::ImagePathLabelPtr;
 
-}  // namespace templateGtkmm4::window::custom_widgets
+}  // namespace imagesAnnotatorGtkmm4::window::custom_widgets
 
 #endif  // YOUR_CPP_APP_TEMPLATE_PROJECT_GTKMM4_CUSTOM_WIDGETS_IMAGEPATHLABEL_CLASS_H

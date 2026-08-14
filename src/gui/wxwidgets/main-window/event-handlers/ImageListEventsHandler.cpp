@@ -35,7 +35,7 @@
 #include "src/gui/wxwidgets/wx_str_utils.h"
 #include "src/log/log.h"
 
-namespace templateWx::window::event_handlers
+namespace imagesAnnotatorWx::window::event_handlers
 {
 
 ImageListEventsHandler::ImageListEventsHandler(std::shared_ptr<WindowOps> nops)
@@ -247,4 +247,4 @@ void ImageListEventsHandler::handle_current_image_delete()
   mwctx->actx->eventer->submit(deleteEvent);
 }
 
-}  // namespace templateWx::window::event_handlers
+}  // namespace imagesAnnotatorWx::window::event_handlers

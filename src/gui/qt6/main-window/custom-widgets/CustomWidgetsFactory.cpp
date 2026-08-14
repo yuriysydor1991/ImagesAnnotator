@@ -35,11 +35,11 @@
 #include "src/helpers/ImageLoader.h"
 #include "src/log/log.h"
 
-namespace templateQt6::window::custom_widgets
+namespace imagesAnnotatorQt6::window::custom_widgets
 {
 
-using templateQt6::from_qt;
-using templateQt6::u8;
+using imagesAnnotatorQt6::from_qt;
+using imagesAnnotatorQt6::u8;
 
 namespace
 {
@@ -327,4 +327,4 @@ void CustomWidgetsFactory::show_about(QWidget* parent)
   box.exec();
 }
 
-}  // namespace templateQt6::window::custom_widgets
+}  // namespace imagesAnnotatorQt6::window::custom_widgets

@@ -47,7 +47,7 @@ Everything that follows from the choice is declared by the matching enabler,
 `cmake/enablers/template-project-Gtkmm4-enabler.cmake`: the `pkg-config` probe
 that publishes the `GTKMM_*` variables for the whole `src` subtree, the
 `src/gui` subdirectory to compile, the `USE_GTKMM3` / `USE_GTKMM4` preprocessor
-define picked up by the toolkit-neutral `src/gui/GuiIniter.h` facade and the
+define picked up by the toolkit-neutral `src/gui/GUIIniter.h` facade and the
 GTKmm runtime package name used by the DEB packager. The option pair itself is
 resolved once in `cmake/template-project-misc-variables-declare.cmake`, which is
 the only place in the project that branches on it.
@@ -69,7 +69,7 @@ it) and republishes the very same neutral `GTKMM_*` include / library / DEB
 dependency variables and `GTKMM_GUI_SUBDIR` the GTKmm enablers do, so nothing
 downstream branches on the toolkit beyond the single `add_subdirectory` switch in
 `src/gui/CMakeLists.txt`. The wxWidgets component mirrors the `gtkmm3`
-decomposition one-to-one in the `templateWx` namespace and reuses the
+decomposition one-to-one in the `imagesAnnotatorWx` namespace and reuses the
 toolkit-agnostic business, event and helper layers unchanged; it maps the GTKmm
 calls to wx idioms (a hand-coded `wxFrame` with typed getters in place of the
 Glade `.ui` + `Gtk::Builder`; a `wxScrolledWindow` painted with `wxDC` in place
@@ -103,8 +103,8 @@ built in code, and the only `*.ui` files in the repository are the GTK builder
 XML of the GTKmm components, which `uic` must never touch.
 
 The Qt6 component mirrors the `gtkmm3` decomposition one-to-one in the
-`templateQt6` namespace and reuses the toolkit-agnostic business, event and
-helper layers unchanged. It maps the GTKmm calls to Qt idioms: a hand-coded
+`imagesAnnotatorQt6` namespace and reuses the toolkit-agnostic business, event
+and helper layers unchanged. It maps the GTKmm calls to Qt idioms: a hand-coded
 `QMainWindow` in place of the Glade `.ui` + `Gtk::Builder` — but the widgets keep
 the GTKmm builder ids as their `QObject::objectName()`s, so
 `WindowLoader::all_widget_are_valid()` still resolves every id of

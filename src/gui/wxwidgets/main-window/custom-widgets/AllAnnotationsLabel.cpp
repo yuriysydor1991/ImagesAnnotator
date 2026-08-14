@@ -27,7 +27,7 @@
 
 #include "src/gui/wxwidgets/main-window/custom-widgets/AllAnnotationsLabel.h"
 
-namespace templateWx::window::custom_widgets
+namespace imagesAnnotatorWx::window::custom_widgets
 {
 
 AllAnnotationsLabel::AllAnnotationsLabel(const std::string& ntext) : text{ntext}
@@ -36,4 +36,4 @@ AllAnnotationsLabel::AllAnnotationsLabel(const std::string& ntext) : text{ntext}
 
 const std::string& AllAnnotationsLabel::get_text() const { return text; }
 
-}  // namespace templateWx::window::custom_widgets
+}  // namespace imagesAnnotatorWx::window::custom_widgets

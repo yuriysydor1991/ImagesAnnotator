@@ -34,7 +34,7 @@
 #include "src/gui/wxwidgets/main-window/event-handlers/WindowOps.h"
 #include "src/log/log.h"
 
-namespace templateWx::window::event_handlers
+namespace imagesAnnotatorWx::window::event_handlers
 {
 
 WebPageEventsHandler::WebPageEventsHandler(std::shared_ptr<WindowOps> nops)
@@ -108,4 +108,4 @@ bool WebPageEventsHandler::ask_user_4_webpage_url(std::string& urldst)
   return !urldst.empty();
 }
 
-}  // namespace templateWx::window::event_handlers
+}  // namespace imagesAnnotatorWx::window::event_handlers

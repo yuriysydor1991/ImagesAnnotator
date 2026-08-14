@@ -33,7 +33,7 @@
 #include "src/gui/wxwidgets/wx_includes.h"
 #include "src/log/log.h"
 
-namespace templateWx::window::custom_widgets
+namespace imagesAnnotatorWx::window::custom_widgets
 {
 
 bool WxImageCropperProvider::crop_out_2_fs(ImageRecordPtr ir,
@@ -179,4 +179,4 @@ WxImageCropperProvider::clone()
   return std::make_shared<WxImageCropperProvider>(*this);
 }
 
-}  // namespace templateWx::window::custom_widgets
+}  // namespace imagesAnnotatorWx::window::custom_widgets

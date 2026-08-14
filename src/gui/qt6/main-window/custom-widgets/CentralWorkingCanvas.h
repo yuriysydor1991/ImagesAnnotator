@@ -35,12 +35,12 @@
 #include "src/gui/qt6/qt_includes.h"
 #include "src/helpers/TypeHelper.h"
 
-namespace templateQt6::window::custom_widgets
+namespace imagesAnnotatorQt6::window::custom_widgets
 {
 
 /**
  * @brief Widget that draws the current image plus its annotation rectangles -
- * the Qt analogue of templateGtkmm3's CentralWorkingCanvas (a
+ * the Qt analogue of imagesAnnotatorGtkmm3's CentralWorkingCanvas (a
  * Gtk::DrawingArea). The rendering pipeline, the coordinate scaling by
  * ImageRecord::imageScale and the resize-handle hit-testing are ported one to
  * one; only the drawing calls change from cairo to QPainter.
@@ -145,6 +145,6 @@ class CentralWorkingCanvas : public QWidget, virtual public helpers::TypeHelper
   bool resizersDrawed{false};
 };
 
-}  // namespace templateQt6::window::custom_widgets
+}  // namespace imagesAnnotatorQt6::window::custom_widgets
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_CUSTOM_WIDGETS_CENTRALWORKINGCANVAS_CLASS_H

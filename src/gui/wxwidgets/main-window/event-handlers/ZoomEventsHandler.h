@@ -33,7 +33,7 @@
 #include "src/gui/wxwidgets/main-window/event-handlers/AbstractWindowEventHandler.h"
 #include "src/gui/wxwidgets/wx_includes.h"
 
-namespace templateWx::window::event_handlers
+namespace imagesAnnotatorWx::window::event_handlers
 {
 
 /**
@@ -53,6 +53,6 @@ class ZoomEventsHandler : public AbstractWindowEventHandler
   void handle_image_scroll(wxMouseEvent& event);
 };
 
-}  // namespace templateWx::window::event_handlers
+}  // namespace imagesAnnotatorWx::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_WX_EVENTHANDLERS_ZOOMEVENTSHANDLER_CLASS_H

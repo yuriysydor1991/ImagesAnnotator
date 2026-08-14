@@ -35,7 +35,7 @@
 #include "src/gui/gtkmm3/main-window/event-handlers/AbstractWindowEventHandler.h"
 #include "src/helpers/TypeHelper.h"
 
-namespace templateGtkmm3::window::event_handlers
+namespace imagesAnnotatorGtkmm3::window::event_handlers
 {
 
 /**
@@ -73,6 +73,6 @@ class MouseDrawEventsHandler : public AbstractWindowEventHandler,
   get_tooltip_lambda();
 };
 
-}  // namespace templateGtkmm3::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm3::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_GTKMM_EVENTHANDLERS_MOUSEDRAWEVENTSHANDLER_CLASS_H

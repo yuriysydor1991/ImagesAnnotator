@@ -35,7 +35,7 @@
 #include "src/gui/gtkmm4/main-window/event-handlers/WindowOps.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm4::window::event_handlers
+namespace imagesAnnotatorGtkmm4::window::event_handlers
 {
 
 MouseDrawEventsHandler::MouseDrawEventsHandler(std::shared_ptr<WindowOps> nops)
@@ -484,4 +484,4 @@ void MouseDrawEventsHandler::normalize_current_rect()
   }
 }
 
-}  // namespace templateGtkmm4::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm4::window::event_handlers

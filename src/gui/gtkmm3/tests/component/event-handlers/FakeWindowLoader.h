@@ -18,7 +18,7 @@
  *
  * Must only be instantiated once GTK has been initialized (see GtkInitFixture).
  */
-class FakeWindowLoader : public templateGtkmm3::window::WindowLoader
+class FakeWindowLoader : public imagesAnnotatorGtkmm3::window::WindowLoader
 {
  public:
   Gtk::Window* get_window() override { return &window_; }

@@ -35,7 +35,7 @@
 #include "src/gui/qt6/qt_str_utils.h"
 #include "src/log/log.h"
 
-namespace templateQt6::window::event_handlers
+namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 ImageListEventsHandler::ImageListEventsHandler(std::shared_ptr<WindowOps> nops)
@@ -247,4 +247,4 @@ void ImageListEventsHandler::handle_current_image_delete()
   mwctx->actx->eventer->submit(deleteEvent);
 }
 
-}  // namespace templateQt6::window::event_handlers
+}  // namespace imagesAnnotatorQt6::window::event_handlers

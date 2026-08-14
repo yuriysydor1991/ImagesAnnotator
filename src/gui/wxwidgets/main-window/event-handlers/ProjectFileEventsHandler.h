@@ -32,7 +32,7 @@
 
 #include "src/gui/wxwidgets/main-window/event-handlers/AbstractWindowEventHandler.h"
 
-namespace templateWx::window::event_handlers
+namespace imagesAnnotatorWx::window::event_handlers
 {
 
 /**
@@ -57,6 +57,6 @@ class ProjectFileEventsHandler : public AbstractWindowEventHandler
   void handle_menu_project_close();
 };
 
-}  // namespace templateWx::window::event_handlers
+}  // namespace imagesAnnotatorWx::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_WX_EVENTHANDLERS_PROJECTFILEEVENTSHANDLER_CLASS_H

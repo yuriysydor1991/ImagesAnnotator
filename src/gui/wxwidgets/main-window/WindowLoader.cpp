@@ -34,7 +34,7 @@
 #include "src/gui/wxwidgets/main-window/custom-widgets/CustomWidgetsFactory.h"
 #include "src/log/log.h"
 
-namespace templateWx::window
+namespace imagesAnnotatorWx::window
 {
 
 namespace
@@ -310,4 +310,4 @@ wxListBox* WindowLoader::get_current_image_annotations()
   return currentImageAnnotations;
 }
 
-}  // namespace templateWx::window
+}  // namespace imagesAnnotatorWx::window

@@ -36,7 +36,7 @@
 #include "src/gui/gtkmm3/main-window/event-handlers/WindowOps.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm3::window::event_handlers
+namespace imagesAnnotatorGtkmm3::window::event_handlers
 {
 
 ExportEventsHandler::ExportEventsHandler(std::shared_ptr<WindowOps> nops)
@@ -194,7 +194,7 @@ void ExportEventsHandler::handle_export_pytorch()
   assert(exportEvent != nullptr);
 
   exportEvent->cropper =
-      std::make_shared<templateGtkmmCommon::GtkmmImageCropperProvider>();
+      std::make_shared<imagesAnnotatorGtkmmCommon::GtkmmImageCropperProvider>();
 
   mwctx->actx->eventer->submit(exportEvent);
 
@@ -203,4 +203,4 @@ void ExportEventsHandler::handle_export_pytorch()
   ops->hide_spinner();
 }
 
-}  // namespace templateGtkmm3::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm3::window::event_handlers

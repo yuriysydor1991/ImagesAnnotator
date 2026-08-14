@@ -44,7 +44,7 @@
 // Toolkit-agnostic: uses only Gdk::Pixbuf (available in both gdkmm-3.0 and
 // gdkmm-4.0) and std::filesystem, so it lives in gtkmm-common and is compiled
 // once against whichever GTKmm toolkit is active.
-namespace templateGtkmmCommon
+namespace imagesAnnotatorGtkmmCommon
 {
 
 /**
@@ -79,6 +79,6 @@ class GtkmmImageCropperProvider
   std::string get_ext_only(const std::filesystem::path& fspath);
 };
 
-}  // namespace templateGtkmmCommon
+}  // namespace imagesAnnotatorGtkmmCommon
 
 #endif  // IMAGES_ANNOTATOR_TEMPLATE_PROJECT_GTKMMIMAGECROPPERPROVIDER_CLASS_H

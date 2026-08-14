@@ -36,7 +36,7 @@
 #include "src/gui/wxwidgets/main-window/event-handlers/WindowOps.h"
 #include "src/log/log.h"
 
-namespace templateWx::window::event_handlers
+namespace imagesAnnotatorWx::window::event_handlers
 {
 
 ExportEventsHandler::ExportEventsHandler(std::shared_ptr<WindowOps> nops)
@@ -187,4 +187,4 @@ void ExportEventsHandler::handle_export_pytorch()
   ops->hide_spinner();
 }
 
-}  // namespace templateWx::window::event_handlers
+}  // namespace imagesAnnotatorWx::window::event_handlers

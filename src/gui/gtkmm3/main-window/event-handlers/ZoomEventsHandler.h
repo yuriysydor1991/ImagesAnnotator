@@ -33,7 +33,7 @@
 #include "src/gui/gtkmm3/gtkmm_includes.h"
 #include "src/gui/gtkmm3/main-window/event-handlers/AbstractWindowEventHandler.h"
 
-namespace templateGtkmm3::window::event_handlers
+namespace imagesAnnotatorGtkmm3::window::event_handlers
 {
 
 /**
@@ -52,6 +52,6 @@ class ZoomEventsHandler : public AbstractWindowEventHandler
   bool handle_image_scroll(GdkEventScroll* scroll_event);
 };
 
-}  // namespace templateGtkmm3::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm3::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_GTKMM_EVENTHANDLERS_ZOOMEVENTSHANDLER_CLASS_H

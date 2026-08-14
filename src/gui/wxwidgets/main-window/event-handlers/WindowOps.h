@@ -36,18 +36,19 @@
 #include "src/gui/wxwidgets/wx_includes.h"
 #include "src/helpers/TypeHelper.h"
 
-namespace templateWx
+namespace imagesAnnotatorWx
 {
 class MainWindowContext;
-}  // namespace templateWx
+}  // namespace imagesAnnotatorWx
 
-namespace templateWx::window::event_handlers
+namespace imagesAnnotatorWx::window::event_handlers
 {
 
 /**
  * @brief Shared infrastructure object for the decomposed window event handlers
- * - the wxWidgets analogue of templateGtkmm3's WindowOps. A single instance is
- * created by the WindowEventsHandler and injected into every concrete handler.
+ * - the wxWidgets analogue of imagesAnnotatorGtkmm3's WindowOps. A single
+ * instance is created by the WindowEventsHandler and injected into every
+ * concrete handler.
  *
  * The view/model operations mirror the GTKmm WindowOps one to one; the only
  * substantive change is the list handling: GTKmm kept every row in the
@@ -131,6 +132,6 @@ class WindowOps : virtual public ComponentTypesAliases,
   void rebuild_current_rects_view();
 };
 
-}  // namespace templateWx::window::event_handlers
+}  // namespace imagesAnnotatorWx::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_WX_EVENTHANDLERS_WINDOWOPS_CLASS_H

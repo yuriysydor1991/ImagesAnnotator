@@ -29,7 +29,7 @@
 
 #include "src/gui/gtkmm3/main-window/event-handlers/WindowOps.h"
 
-namespace templateGtkmm3::window::event_handlers
+namespace imagesAnnotatorGtkmm3::window::event_handlers
 {
 
 AbstractWindowEventHandler::AbstractWindowEventHandler(WindowOpsPtr nops)
@@ -37,4 +37,4 @@ AbstractWindowEventHandler::AbstractWindowEventHandler(WindowOpsPtr nops)
 {
 }
 
-}  // namespace templateGtkmm3::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm3::window::event_handlers

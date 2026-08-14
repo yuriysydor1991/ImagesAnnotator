@@ -38,18 +38,18 @@
 #include "src/gui/qt6/main-window/WindowLoader.h"
 #include "src/gui/qt6/qt_includes.h"
 
-namespace templateQt6::window
+namespace imagesAnnotatorQt6::window
 {
 class WindowEventsHandler;
 class WindowLoader;
-}  // namespace templateQt6::window
+}  // namespace imagesAnnotatorQt6::window
 
-namespace templateQt6
+namespace imagesAnnotatorQt6
 {
 
 /**
- * @brief The Qt analogue of templateGtkmm3::MainWindowContext: the single
- * aggregate the initer, the window loader and every event handler share.
+ * @brief The Qt analogue of imagesAnnotatorGtkmm3::MainWindowContext: the
+ * single aggregate the initer, the window loader and every event handler share.
  */
 class MainWindowContext : virtual public ComponentTypesAliases,
                           public std::enable_shared_from_this<MainWindowContext>
@@ -96,6 +96,6 @@ class MainWindowContext : virtual public ComponentTypesAliases,
   virtual ImageRectsLabelPtr find_current_image_current_visual_rect();
 };
 
-}  // namespace templateQt6
+}  // namespace imagesAnnotatorQt6
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_MAINWINDOWCONTEXT_CLASS_H

@@ -34,7 +34,7 @@
 #include "src/gui/gtkmm4/main-window/WindowDataContext.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm4::window::custom_widgets
+namespace imagesAnnotatorGtkmm4::window::custom_widgets
 {
 
 AllAnnotationsLabel::AllAnnotationsLabel(const std::string& ntext)
@@ -42,4 +42,4 @@ AllAnnotationsLabel::AllAnnotationsLabel(const std::string& ntext)
 {
 }
 
-}  // namespace templateGtkmm4::window::custom_widgets
+}  // namespace imagesAnnotatorGtkmm4::window::custom_widgets

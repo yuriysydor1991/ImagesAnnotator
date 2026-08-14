@@ -6,7 +6,7 @@
 #include "src/gui/qt6/main-window/WindowDataContext.h"
 
 using namespace testing;
-using templateQt6::window::WindowDataContext;
+using imagesAnnotatorQt6::window::WindowDataContext;
 
 TEST(UTEST_Qt6WindowDataContext, get_ids_is_not_empty)
 {

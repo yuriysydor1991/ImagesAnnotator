@@ -31,7 +31,7 @@
 
 #include "src/log/log.h"
 
-namespace templateQt6::window::custom_widgets
+namespace imagesAnnotatorQt6::window::custom_widgets
 {
 
 void ImageRectsLabel::set(ImageRecordRectPtr nptr)
@@ -56,4 +56,4 @@ const std::string& ImageRectsLabel::get_text() const { return text; }
 
 void ImageRectsLabel::set_text(const std::string& ntext) { text = ntext; }
 
-}  // namespace templateQt6::window::custom_widgets
+}  // namespace imagesAnnotatorQt6::window::custom_widgets

@@ -37,13 +37,14 @@
 #include "src/gui/wxwidgets/main-window/custom-widgets/CustomWidgetsFactory.h"
 #include "src/gui/wxwidgets/main-window/custom-widgets/ImageRectsLabel.h"
 
-namespace templateWx
+namespace imagesAnnotatorWx
 {
 
 /**
- * @brief The wxWidgets analogue of templateGtkmm3::ComponentTypesAliases:
- * a single place gathering the toolkit-neutral event types and the wx
- * custom-widget/row-data types the window components share.
+ * @brief The wxWidgets analogue of
+ * imagesAnnotatorGtkmm3::ComponentTypesAliases: a single place gathering the
+ * toolkit-neutral event types and the wx custom-widget/row-data types the
+ * window components share.
  */
 class ComponentTypesAliases
 {
@@ -69,6 +70,6 @@ class ComponentTypesAliases
   using DisplayErrorEventHandler = events::events::DisplayErrorEventHandler;
 };
 
-}  // namespace templateWx
+}  // namespace imagesAnnotatorWx
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_WX_COMPONENTTYPEALIASES_CLASS_H

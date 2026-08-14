@@ -35,7 +35,7 @@
 #include "src/gui/wxwidgets/wx_str_utils.h"
 #include "src/log/log.h"
 
-namespace templateWx::window::event_handlers
+namespace imagesAnnotatorWx::window::event_handlers
 {
 
 namespace
@@ -711,4 +711,4 @@ void WindowOps::clear_all_lists()
   }
 }
 
-}  // namespace templateWx::window::event_handlers
+}  // namespace imagesAnnotatorWx::window::event_handlers

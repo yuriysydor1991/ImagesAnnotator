@@ -36,7 +36,7 @@
 #include "src/gui/gtkmm4/main-window/WindowDataContext.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm4::window::custom_widgets
+namespace imagesAnnotatorGtkmm4::window::custom_widgets
 {
 
 CentralWorkingCanvas::CentralWorkingCanvas(std::shared_ptr<ImagePathLabel>& nci)
@@ -335,4 +335,4 @@ CentralWorkingCanvas::get_mouse_over_rect()
   return rectMouseOver;
 }
 
-}  // namespace templateGtkmm4::window::custom_widgets
+}  // namespace imagesAnnotatorGtkmm4::window::custom_widgets

@@ -30,12 +30,12 @@
 
 #include <memory>
 
-namespace templateGtkmm4
+namespace imagesAnnotatorGtkmm4
 {
 class MainWindowContext;
-}  // namespace templateGtkmm4
+}  // namespace imagesAnnotatorGtkmm4
 
-namespace templateGtkmm4::window::event_handlers
+namespace imagesAnnotatorGtkmm4::window::event_handlers
 {
 
 class WindowOps;
@@ -65,6 +65,6 @@ class AbstractWindowEventHandler
   std::shared_ptr<MainWindowContext> mwctx;
 };
 
-}  // namespace templateGtkmm4::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm4::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_GTKMM_EVENTHANDLERS_ABSTRACTWINDOWEVENTHANDLER_CLASS_H

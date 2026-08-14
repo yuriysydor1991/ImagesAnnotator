@@ -35,7 +35,7 @@
 #include "src/gui/gtkmm4/main-window/WindowDataContext.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm4::window::custom_widgets
+namespace imagesAnnotatorGtkmm4::window::custom_widgets
 {
 
 void ImageRectsLabel::set(ImageRecordRectPtr nptr)
@@ -59,4 +59,4 @@ void ImageRectsLabel::set(ImageRecordRectPtr nptr)
 
 ImageRectsLabel::ImageRecordRectPtr ImageRectsLabel::get() { return myrec; }
 
-}  // namespace templateGtkmm4::window::custom_widgets
+}  // namespace imagesAnnotatorGtkmm4::window::custom_widgets

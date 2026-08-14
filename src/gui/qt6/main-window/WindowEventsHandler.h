@@ -34,25 +34,25 @@
 #include "src/annotator-events/events/ImagesDirProviderChangedHandler.h"
 #include "src/gui/qt6/ComponentTypesAliases.h"
 
-namespace templateQt6
+namespace imagesAnnotatorQt6
 {
 class MainWindowContext;
-}  // namespace templateQt6
+}  // namespace imagesAnnotatorQt6
 
-namespace templateQt6::window::event_handlers
+namespace imagesAnnotatorQt6::window::event_handlers
 {
 class WindowOps;
 class WindowEventHandlersFactory;
 class AbstractWindowEventHandler;
 class WindowSystemEventsHandler;
-}  // namespace templateQt6::window::event_handlers
+}  // namespace imagesAnnotatorQt6::window::event_handlers
 
-namespace templateQt6::window
+namespace imagesAnnotatorQt6::window
 {
 
 /**
  * @brief Coordinates the decomposed main window event handlers - the Qt
- * analogue of templateGtkmm3's WindowEventsHandler. It builds the shared
+ * analogue of imagesAnnotatorGtkmm3's WindowEventsHandler. It builds the shared
  * WindowOps, uses the WindowEventHandlersFactory to create every category
  * handler, asks each to connect its Qt signals, and forwards the application
  * controller (system) events to the system events handler.
@@ -89,6 +89,6 @@ class WindowEventsHandler
   std::shared_ptr<event_handlers::WindowSystemEventsHandler> systemHandler;
 };
 
-}  // namespace templateQt6::window
+}  // namespace imagesAnnotatorQt6::window
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_WINDOWEVENTSHANDLER_CLASS_H

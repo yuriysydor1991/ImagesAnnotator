@@ -34,12 +34,12 @@
 
 #include "src/annotator-events/events/ImageRecordRect.h"
 
-namespace templateWx::window::custom_widgets
+namespace imagesAnnotatorWx::window::custom_widgets
 {
 
 /**
  * @brief Row data holder for one annotation rectangle in the current image
- * annotations list (the wxWidgets analogue of templateGtkmm3's
+ * annotations list (the wxWidgets analogue of imagesAnnotatorGtkmm3's
  * ImageRectsLabel).
  */
 class ImageRectsLabel
@@ -68,6 +68,6 @@ class ImageRectsLabel
 using ImageRectsLabelPtr = std::shared_ptr<ImageRectsLabel>;
 using ImageRectsLabelSet = std::vector<ImageRectsLabelPtr>;
 
-}  // namespace templateWx::window::custom_widgets
+}  // namespace imagesAnnotatorWx::window::custom_widgets
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_WX_CUSTOM_WIDGETS_IMAGERECTSLABEL_CLASS_H

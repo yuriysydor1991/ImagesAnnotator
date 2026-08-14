@@ -25,12 +25,12 @@
 #include "src/gui/gtkmm3/main-window/event-handlers/ZoomEventsHandler.h"
 
 using namespace testing;
-using templateGtkmm3::MainWindowContext;
-using templateGtkmm3::window::custom_widgets::AllAnnotationsLabel;
-using templateGtkmm3::window::custom_widgets::CentralWorkingCanvas;
-using templateGtkmm3::window::custom_widgets::ImagePathLabel;
-using templateGtkmm3::window::custom_widgets::ImageRectsLabel;
-namespace eh = templateGtkmm3::window::event_handlers;
+using imagesAnnotatorGtkmm3::MainWindowContext;
+using imagesAnnotatorGtkmm3::window::custom_widgets::AllAnnotationsLabel;
+using imagesAnnotatorGtkmm3::window::custom_widgets::CentralWorkingCanvas;
+using imagesAnnotatorGtkmm3::window::custom_widgets::ImagePathLabel;
+using imagesAnnotatorGtkmm3::window::custom_widgets::ImageRectsLabel;
+namespace eh = imagesAnnotatorGtkmm3::window::event_handlers;
 
 /**
  * @brief Component tests for the decomposed window event handlers.

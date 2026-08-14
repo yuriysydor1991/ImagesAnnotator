@@ -36,7 +36,7 @@
 #include "src/gui/gtkmm3/main-window/custom-widgets/ImagePathLabel.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm3::window
+namespace imagesAnnotatorGtkmm3::window
 {
 
 bool WindowLoader::load_window(std::shared_ptr<MainWindowContext> nmwctx)
@@ -588,4 +588,4 @@ Gtk::ImageMenuItem* WindowLoader::auto_insert_current_annotation_to_whole_mi()
       mwctx->wctx->auto_insert_current_annotation_to_whole_id);
 }
 
-}  // namespace templateGtkmm3::window
+}  // namespace imagesAnnotatorGtkmm3::window

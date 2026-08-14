@@ -108,6 +108,7 @@
     1. [Безперервна інтеграція за допомогою GitLab CI/CD](/doc/sections/uk_UA/5-35-continuous-integration-with-GitLab-CI.md)
     1. [Вмикання інтеграції бібліотеки ImagesAnnotator-DataDrivers](/doc/sections/uk_UA/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md)
     1. [Вмикання інтеграції бібліотеки ImagesAnnotator-DataExporters](/doc/sections/uk_UA/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md)
+    1. [Швидкі скрипти побудови](/doc/sections/uk_UA/5-38-quick-build-scripts.md)
 1. [Запуск головного виконуваного файлу](/doc/sections/uk_UA/6-run-the-executable.md)
     1. [Запуск через IDE](/doc/sections/uk_UA/6-1-IDE-run.md)
     1. Запуск з терміналу

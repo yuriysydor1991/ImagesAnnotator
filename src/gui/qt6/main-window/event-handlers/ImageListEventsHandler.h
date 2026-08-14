@@ -35,7 +35,7 @@
 #include "src/gui/qt6/qt_includes.h"
 #include "src/helpers/ImageLoader.h"
 
-namespace templateQt6::window::event_handlers
+namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 /**
@@ -66,6 +66,6 @@ class ImageListEventsHandler : public AbstractWindowEventHandler,
   inline static constexpr const double load_image_scale_helper = 1.015;
 };
 
-}  // namespace templateQt6::window::event_handlers
+}  // namespace imagesAnnotatorQt6::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_EVENTHANDLERS_IMAGELISTEVENTSHANDLER_CLASS_H

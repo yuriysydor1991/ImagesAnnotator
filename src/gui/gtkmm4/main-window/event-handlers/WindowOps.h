@@ -37,12 +37,12 @@
 #include "src/gui/gtkmm4/gtkmm_includes.h"
 #include "src/helpers/TypeHelper.h"
 
-namespace templateGtkmm4
+namespace imagesAnnotatorGtkmm4
 {
 class MainWindowContext;
-}  // namespace templateGtkmm4
+}  // namespace imagesAnnotatorGtkmm4
 
-namespace templateGtkmm4::window::event_handlers
+namespace imagesAnnotatorGtkmm4::window::event_handlers
 {
 
 /**
@@ -147,6 +147,6 @@ class WindowOps : virtual public ComponentTypesAliases,
   inline static const std::string changesI = "*";
 };
 
-}  // namespace templateGtkmm4::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm4::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_GTKMM_EVENTHANDLERS_WINDOWOPS_CLASS_H

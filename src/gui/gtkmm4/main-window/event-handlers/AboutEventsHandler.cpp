@@ -34,7 +34,7 @@
 #include "src/gui/gtkmm4/main-window/event-handlers/WindowOps.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm4::window::event_handlers
+namespace imagesAnnotatorGtkmm4::window::event_handlers
 {
 
 AboutEventsHandler::AboutEventsHandler(std::shared_ptr<WindowOps> nops)
@@ -69,4 +69,4 @@ void AboutEventsHandler::handle_about()
   about->present();
 }
 
-}  // namespace templateGtkmm4::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm4::window::event_handlers

@@ -33,7 +33,7 @@
 #include "src/gui/wxwidgets/main-window/event-handlers/AbstractWindowEventHandler.h"
 #include "src/gui/wxwidgets/wx_includes.h"
 
-namespace templateWx::window::event_handlers
+namespace imagesAnnotatorWx::window::event_handlers
 {
 
 /**
@@ -51,6 +51,6 @@ class KeyboardEventsHandler : public AbstractWindowEventHandler
   void handle_key_press(wxKeyEvent& event);
 };
 
-}  // namespace templateWx::window::event_handlers
+}  // namespace imagesAnnotatorWx::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_WX_EVENTHANDLERS_KEYBOARDEVENTSHANDLER_CLASS_H

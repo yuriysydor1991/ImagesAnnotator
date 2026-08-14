@@ -8,8 +8,8 @@
 #include "src/gui/gtkmm3/main-window/event-handlers/WindowOps.h"
 
 using namespace testing;
-using templateGtkmm3::MainWindowContext;
-namespace eh = templateGtkmm3::window::event_handlers;
+using imagesAnnotatorGtkmm3::MainWindowContext;
+namespace eh = imagesAnnotatorGtkmm3::window::event_handlers;
 
 namespace
 {

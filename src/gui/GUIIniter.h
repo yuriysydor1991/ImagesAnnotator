@@ -30,15 +30,16 @@
 
 /**
  * @file
- * @brief Toolkit-neutral facade over the concrete GtkmmIniter implementation.
+ * @brief Toolkit-neutral facade over the concrete IGUIIniter implementation.
  *
  * The project ships four interchangeable GUI implementations under src/gui
- * (gtkmm3, gtkmm4, wxwidgets and qt6). Exactly one is compiled into the
- * application binary, selected at build time by the mutually exclusive
+ * (gtkmm3, gtkmm4, wxwidgets and qt6), each of them implementing the
+ * gui::IGUIIniter interface (see src/gui/IGUIIniter.h). Exactly one is compiled
+ * into the application binary, selected at build time by the mutually exclusive
  * USE_GTKMM3 / USE_GTKMM4 pair and the USE_WXWIDGETS / USE_QT6 overrides, which
  * define the matching preprocessor macro (see
  * cmake/template-project-misc-variables-declare.cmake). The rest of the
- * application depends only on the toolkit-neutral alias @c gui::GtkmmIniter and
+ * application depends only on the toolkit-neutral alias @c gui::GUIIniter and
  * never on a specific toolkit namespace.
  */
 
@@ -56,13 +57,13 @@ namespace gui
 {
 
 #if defined(USE_QT6)
-using GtkmmIniter = templateQt6::Qt6Initer;
+using GUIIniter = imagesAnnotatorQt6::Qt6Initer;
 #elif defined(USE_WXWIDGETS)
-using GtkmmIniter = templateWx::WxWidgetsIniter;
+using GUIIniter = imagesAnnotatorWx::WxWidgetsIniter;
 #elif defined(USE_GTKMM4)
-using GtkmmIniter = templateGtkmm4::GtkmmIniter;
+using GUIIniter = imagesAnnotatorGtkmm4::GtkmmIniter;
 #else
-using GtkmmIniter = templateGtkmm3::GtkmmIniter;
+using GUIIniter = imagesAnnotatorGtkmm3::GtkmmIniter;
 #endif
 
 }  // namespace gui

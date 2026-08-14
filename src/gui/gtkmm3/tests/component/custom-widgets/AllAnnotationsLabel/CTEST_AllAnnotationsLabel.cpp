@@ -7,7 +7,7 @@
 #include "src/gui/gtkmm3/main-window/custom-widgets/AllAnnotationsLabel.h"
 
 using namespace testing;
-using templateGtkmm3::window::custom_widgets::AllAnnotationsLabel;
+using imagesAnnotatorGtkmm3::window::custom_widgets::AllAnnotationsLabel;
 
 class CTEST_AllAnnotationsLabel : public GtkInitFixture
 {

@@ -37,7 +37,7 @@
 #include "src/gui/qt6/qt_str_utils.h"
 #include "src/log/log.h"
 
-namespace templateQt6
+namespace imagesAnnotatorQt6
 {
 
 Qt6Initer::Qt6Initer() : Qt6Initer(MainWindowContext::build_context())
@@ -149,4 +149,4 @@ void Qt6Initer::deinit()
   }
 }
 
-}  // namespace templateQt6
+}  // namespace imagesAnnotatorQt6

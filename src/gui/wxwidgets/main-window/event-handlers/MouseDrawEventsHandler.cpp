@@ -36,7 +36,7 @@
 #include "src/gui/wxwidgets/wx_str_utils.h"
 #include "src/log/log.h"
 
-namespace templateWx::window::event_handlers
+namespace imagesAnnotatorWx::window::event_handlers
 {
 
 MouseDrawEventsHandler::MouseDrawEventsHandler(std::shared_ptr<WindowOps> nops)
@@ -432,4 +432,4 @@ void MouseDrawEventsHandler::update_tooltip()
   }
 }
 
-}  // namespace templateWx::window::event_handlers
+}  // namespace imagesAnnotatorWx::window::event_handlers

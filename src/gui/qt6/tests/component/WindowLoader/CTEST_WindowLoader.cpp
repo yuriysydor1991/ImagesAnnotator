@@ -10,8 +10,8 @@
 #include "src/gui/qt6/qt_includes.h"
 
 using namespace testing;
-using templateQt6::MainWindowContext;
-using templateQt6::window::WindowDataContext;
+using imagesAnnotatorQt6::MainWindowContext;
+using imagesAnnotatorQt6::window::WindowDataContext;
 
 /**
  * @brief Exercises the hand-coded Qt window against the very same widget id set

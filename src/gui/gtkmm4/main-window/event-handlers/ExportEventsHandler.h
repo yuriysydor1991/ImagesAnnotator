@@ -32,7 +32,7 @@
 
 #include "src/gui/gtkmm4/main-window/event-handlers/AbstractWindowEventHandler.h"
 
-namespace templateGtkmm4::window::event_handlers
+namespace imagesAnnotatorGtkmm4::window::event_handlers
 {
 
 /**
@@ -54,6 +54,6 @@ class ExportEventsHandler : public AbstractWindowEventHandler
   bool has_to_export();
 };
 
-}  // namespace templateGtkmm4::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm4::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_GTKMM_EVENTHANDLERS_EXPORTEVENTSHANDLER_CLASS_H

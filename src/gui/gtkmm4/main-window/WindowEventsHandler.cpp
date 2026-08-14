@@ -47,7 +47,7 @@
 #include "src/gui/gtkmm4/main-window/event-handlers/ZoomEventsHandler.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm4::window
+namespace imagesAnnotatorGtkmm4::window
 {
 
 bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
@@ -137,4 +137,4 @@ void WindowEventsHandler::handle(DisplayErrorEventPtr event)
   systemHandler->handle_display_error(event);
 }
 
-}  // namespace templateGtkmm4::window
+}  // namespace imagesAnnotatorGtkmm4::window

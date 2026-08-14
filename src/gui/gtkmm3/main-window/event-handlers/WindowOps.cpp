@@ -39,7 +39,7 @@
 #include "src/gui/gtkmm3/main-window/custom-widgets/ImageRectsLabel.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm3::window::event_handlers
+namespace imagesAnnotatorGtkmm3::window::event_handlers
 {
 
 WindowOps::WindowOps(std::shared_ptr<MainWindowContext> nmwctx) : mwctx{nmwctx}
@@ -752,4 +752,4 @@ WindowOps::get_annotated_images_op()
   };
 }
 
-}  // namespace templateGtkmm3::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm3::window::event_handlers

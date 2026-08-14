@@ -33,7 +33,7 @@
 #include "src/gui/wxwidgets/main-window/event-handlers/WindowOps.h"
 #include "src/log/log.h"
 
-namespace templateWx::window::event_handlers
+namespace imagesAnnotatorWx::window::event_handlers
 {
 
 namespace
@@ -85,4 +85,4 @@ void KeyboardEventsHandler::handle_key_press(wxKeyEvent& event)
   }
 }
 
-}  // namespace templateWx::window::event_handlers
+}  // namespace imagesAnnotatorWx::window::event_handlers

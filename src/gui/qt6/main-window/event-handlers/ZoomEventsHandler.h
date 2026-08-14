@@ -33,7 +33,7 @@
 #include "src/gui/qt6/main-window/event-handlers/AbstractWindowEventHandler.h"
 #include "src/gui/qt6/qt_includes.h"
 
-namespace templateQt6::window::event_handlers
+namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 /**
@@ -53,6 +53,6 @@ class ZoomEventsHandler : public AbstractWindowEventHandler
   void handle_image_scroll(int steps);
 };
 
-}  // namespace templateQt6::window::event_handlers
+}  // namespace imagesAnnotatorQt6::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_EVENTHANDLERS_ZOOMEVENTSHANDLER_CLASS_H

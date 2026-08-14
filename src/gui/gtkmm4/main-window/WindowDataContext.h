@@ -34,7 +34,7 @@
 
 #include "src/gui/gtkmm4/gtkmm_includes.h"
 
-namespace templateGtkmm4::window
+namespace imagesAnnotatorGtkmm4::window
 {
 
 #ifndef RESOURCES_PREFIX
@@ -207,6 +207,6 @@ class WindowDataContext
   inline static constexpr const char* const action_about = "about";
 };
 
-}  // namespace templateGtkmm4::window
+}  // namespace imagesAnnotatorGtkmm4::window
 
 #endif  // IMAGES_ANNOTATOR_TEMPLATE_PROJECT_WINDOWDATACONTEXT_CLASS_H

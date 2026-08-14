@@ -86,7 +86,7 @@ set(GUI_IMAGE_CROPPER_SRC
   "${CMAKE_SOURCE_DIR}/src/gui/qt6/main-window/custom-widgets/QtImageCropperProvider.cpp")
 
 # Propagate the active toolkit as a preprocessor define so the toolkit-neutral
-# facade src/gui/GuiIniter.h (and the app component that consumes it) select the
+# facade src/gui/GUIIniter.h (and the app component that consumes it) select the
 # matching initer implementation. add_compile_definitions() runs here at project
 # scope, so every target defined afterwards inherits the macro.
 add_compile_definitions(USE_QT6)

@@ -48,7 +48,7 @@ set(GUI_IMAGE_CROPPER_SRC
 
 # wxWidgets headers only compile with the feature macros find_package reports in
 # wxWidgets_DEFINITIONS (WXUSINGDLL, __WXGTK3__, ...). Propagate them together
-# with USE_WXWIDGETS - which the toolkit-neutral facade src/gui/GuiIniter.h
+# with USE_WXWIDGETS - which the toolkit-neutral facade src/gui/GUIIniter.h
 # branches on to pick the wxWidgets initer - at project scope, so every target
 # defined afterwards inherits them (matches add_compile_definitions(USE_GTKMM<N>)
 # in the GTKmm enablers).

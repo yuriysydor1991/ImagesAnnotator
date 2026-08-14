@@ -3,7 +3,7 @@
 
 #include "src/annotator-business/AnnotatorController.h"
 #include "src/app/Application.h"
-#include "src/gui/GuiIniter.h"
+#include "src/gui/GUIIniter.h"
 
 using namespace app;
 using namespace gui;
@@ -21,7 +21,7 @@ class UTEST_Application : public Test
 
   ~UTEST_Application()
   {
-    GtkmmIniter::onMockCreate = nullptr;
+    GUIIniter::onMockCreate = nullptr;
     AnnotatorController::onMockCreate = nullptr;
   }
 
@@ -36,12 +36,12 @@ TEST_F(UTEST_Application, no_context_error) { EXPECT_NE(app->run({}), 0); }
 
 TEST_F(UTEST_Application, normal_exit)
 {
-  MockFunction<void(GtkmmIniter & instance)> initerEnsurer;
+  MockFunction<void(GUIIniter & instance)> initerEnsurer;
   MockFunction<void(AnnotatorController & instance)> abcEnsurer;
 
   EXPECT_CALL(initerEnsurer, Call(_))
       .Times(1)
-      .WillOnce(Invoke([&](GtkmmIniter& instance) {
+      .WillOnce(Invoke([&](GUIIniter& instance) {
         EXPECT_CALL(instance, run(appCtx)).Times(1).WillOnce(Return(true));
         EXPECT_CALL(instance, deinit).Times(1);
       }));
@@ -53,7 +53,7 @@ TEST_F(UTEST_Application, normal_exit)
         EXPECT_CALL(instance, deinit).Times(1);
       }));
 
-  GtkmmIniter::onMockCreate = initerEnsurer.AsStdFunction();
+  GUIIniter::onMockCreate = initerEnsurer.AsStdFunction();
   AnnotatorController::onMockCreate = abcEnsurer.AsStdFunction();
 
   EXPECT_CALL(*appCtx, push_error(_)).Times(0);
@@ -68,7 +68,7 @@ TEST_F(UTEST_Application, normal_exit)
 
 TEST_F(UTEST_Application, invalid_bysiness_init_exit_status)
 {
-  MockFunction<void(GtkmmIniter & instance)> initerEnsurer;
+  MockFunction<void(GUIIniter & instance)> initerEnsurer;
   MockFunction<void(AnnotatorController & instance)> abcEnsurer;
 
   EXPECT_CALL(initerEnsurer, Call(_)).Times(0);
@@ -80,7 +80,7 @@ TEST_F(UTEST_Application, invalid_bysiness_init_exit_status)
         EXPECT_CALL(instance, deinit).Times(0);
       }));
 
-  GtkmmIniter::onMockCreate = initerEnsurer.AsStdFunction();
+  GUIIniter::onMockCreate = initerEnsurer.AsStdFunction();
   AnnotatorController::onMockCreate = abcEnsurer.AsStdFunction();
 
   EXPECT_CALL(*appCtx, push_error(_)).Times(0);
@@ -93,14 +93,14 @@ TEST_F(UTEST_Application, invalid_bysiness_init_exit_status)
   EXPECT_FALSE(appCtx->print_version_and_exit);
 }
 
-TEST_F(UTEST_Application, invalid_gtkmm_init_exit)
+TEST_F(UTEST_Application, invalid_gui_init_exit)
 {
-  MockFunction<void(GtkmmIniter & instance)> initerEnsurer;
+  MockFunction<void(GUIIniter & instance)> initerEnsurer;
   MockFunction<void(AnnotatorController & instance)> abcEnsurer;
 
   EXPECT_CALL(initerEnsurer, Call(_))
       .Times(1)
-      .WillOnce(Invoke([&](GtkmmIniter& instance) {
+      .WillOnce(Invoke([&](GUIIniter& instance) {
         EXPECT_CALL(instance, run(appCtx)).Times(1).WillOnce(Return(false));
         EXPECT_CALL(instance, deinit).Times(1);
       }));
@@ -112,7 +112,7 @@ TEST_F(UTEST_Application, invalid_gtkmm_init_exit)
         EXPECT_CALL(instance, deinit).Times(1);
       }));
 
-  GtkmmIniter::onMockCreate = initerEnsurer.AsStdFunction();
+  GUIIniter::onMockCreate = initerEnsurer.AsStdFunction();
   AnnotatorController::onMockCreate = abcEnsurer.AsStdFunction();
 
   EXPECT_CALL(*appCtx, push_error(_)).Times(0);

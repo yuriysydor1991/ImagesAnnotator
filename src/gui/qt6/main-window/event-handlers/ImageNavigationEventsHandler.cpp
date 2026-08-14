@@ -34,7 +34,7 @@
 #include "src/gui/qt6/qt_includes.h"
 #include "src/log/log.h"
 
-namespace templateQt6::window::event_handlers
+namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 ImageNavigationEventsHandler::ImageNavigationEventsHandler(
@@ -110,4 +110,4 @@ void ImageNavigationEventsHandler::handle_prev_file()
   ops->update_rect_edit_entry();
 }
 
-}  // namespace templateQt6::window::event_handlers
+}  // namespace imagesAnnotatorQt6::window::event_handlers

@@ -37,18 +37,18 @@
 #include "src/gui/qt6/qt_includes.h"
 #include "src/helpers/TypeHelper.h"
 
-namespace templateQt6
+namespace imagesAnnotatorQt6
 {
 class MainWindowContext;
-}  // namespace templateQt6
+}  // namespace imagesAnnotatorQt6
 
-namespace templateQt6::window::event_handlers
+namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 /**
  * @brief Shared infrastructure object for the decomposed window event handlers
- * - the Qt analogue of templateGtkmm3's WindowOps. A single instance is created
- * by the WindowEventsHandler and injected into every concrete handler.
+ * - the Qt analogue of imagesAnnotatorGtkmm3's WindowOps. A single instance is
+ * created by the WindowEventsHandler and injected into every concrete handler.
  *
  * The view/model operations mirror the GTKmm WindowOps one to one; the only
  * substantive change is the list handling: GTKmm kept every row in the
@@ -139,6 +139,6 @@ class WindowOps : virtual public ComponentTypesAliases,
   void mark_images_row(QListWidgetItem* item, const bool annotated);
 };
 
-}  // namespace templateQt6::window::event_handlers
+}  // namespace imagesAnnotatorQt6::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_EVENTHANDLERS_WINDOWOPS_CLASS_H

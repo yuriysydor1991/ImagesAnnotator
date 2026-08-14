@@ -34,25 +34,25 @@
 #include "src/annotator-events/events/ImagesDirProviderChangedHandler.h"
 #include "src/gui/wxwidgets/ComponentTypesAliases.h"
 
-namespace templateWx
+namespace imagesAnnotatorWx
 {
 class MainWindowContext;
-}  // namespace templateWx
+}  // namespace imagesAnnotatorWx
 
-namespace templateWx::window::event_handlers
+namespace imagesAnnotatorWx::window::event_handlers
 {
 class WindowOps;
 class WindowEventHandlersFactory;
 class AbstractWindowEventHandler;
 class WindowSystemEventsHandler;
-}  // namespace templateWx::window::event_handlers
+}  // namespace imagesAnnotatorWx::window::event_handlers
 
-namespace templateWx::window
+namespace imagesAnnotatorWx::window
 {
 
 /**
  * @brief Coordinates the decomposed main window event handlers - the wxWidgets
- * analogue of templateGtkmm3's WindowEventsHandler. It builds the shared
+ * analogue of imagesAnnotatorGtkmm3's WindowEventsHandler. It builds the shared
  * WindowOps, uses the WindowEventHandlersFactory to create every category
  * handler, asks each to bind its wx events, and forwards the application
  * controller (system) events to the system events handler.
@@ -89,6 +89,6 @@ class WindowEventsHandler
   std::shared_ptr<event_handlers::WindowSystemEventsHandler> systemHandler;
 };
 
-}  // namespace templateWx::window
+}  // namespace imagesAnnotatorWx::window
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_WX_WINDOWEVENTSHANDLER_CLASS_H

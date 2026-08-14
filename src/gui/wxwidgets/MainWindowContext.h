@@ -38,18 +38,19 @@
 #include "src/gui/wxwidgets/main-window/WindowLoader.h"
 #include "src/gui/wxwidgets/wx_includes.h"
 
-namespace templateWx::window
+namespace imagesAnnotatorWx::window
 {
 class WindowEventsHandler;
 class WindowLoader;
-}  // namespace templateWx::window
+}  // namespace imagesAnnotatorWx::window
 
-namespace templateWx
+namespace imagesAnnotatorWx
 {
 
 /**
- * @brief The wxWidgets analogue of templateGtkmm3::MainWindowContext: the
- * single aggregate the initer, the window loader and every event handler share.
+ * @brief The wxWidgets analogue of imagesAnnotatorGtkmm3::MainWindowContext:
+ * the single aggregate the initer, the window loader and every event handler
+ * share.
  */
 class MainWindowContext : virtual public ComponentTypesAliases,
                           public std::enable_shared_from_this<MainWindowContext>
@@ -95,6 +96,6 @@ class MainWindowContext : virtual public ComponentTypesAliases,
   virtual ImageRectsLabelPtr find_current_image_current_visual_rect();
 };
 
-}  // namespace templateWx
+}  // namespace imagesAnnotatorWx
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_WX_MAINWINDOWCONTEXT_CLASS_H

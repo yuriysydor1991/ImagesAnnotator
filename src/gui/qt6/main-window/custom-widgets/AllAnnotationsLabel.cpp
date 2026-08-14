@@ -27,7 +27,7 @@
 
 #include "src/gui/qt6/main-window/custom-widgets/AllAnnotationsLabel.h"
 
-namespace templateQt6::window::custom_widgets
+namespace imagesAnnotatorQt6::window::custom_widgets
 {
 
 AllAnnotationsLabel::AllAnnotationsLabel(const std::string& ntext) : text{ntext}
@@ -36,4 +36,4 @@ AllAnnotationsLabel::AllAnnotationsLabel(const std::string& ntext) : text{ntext}
 
 const std::string& AllAnnotationsLabel::get_text() const { return text; }
 
-}  // namespace templateQt6::window::custom_widgets
+}  // namespace imagesAnnotatorQt6::window::custom_widgets

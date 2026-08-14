@@ -41,12 +41,12 @@
 #include "src/gui/qt6/main-window/custom-widgets/ImageRectsLabel.h"
 #include "src/gui/qt6/qt_includes.h"
 
-namespace templateQt6::window::custom_widgets
+namespace imagesAnnotatorQt6::window::custom_widgets
 {
 
 /**
  * @brief Builds the Qt row-data holders, the working canvas and the common
- * dialogs - the Qt analogue of templateGtkmm3's CustomWidgetsFactory.
+ * dialogs - the Qt analogue of imagesAnnotatorGtkmm3's CustomWidgetsFactory.
  *
  * The GTKmm factory returned configured Gtk::Dialog objects the callers then
  * run(); the Qt dialogs used here are the modal convenience ones (QFileDialog /
@@ -137,6 +137,6 @@ class CustomWidgetsFactory
   bool ask_folder(QWidget* parent, const std::string& title, std::string& out);
 };
 
-}  // namespace templateQt6::window::custom_widgets
+}  // namespace imagesAnnotatorQt6::window::custom_widgets
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_CUSTOM_WIDGETS_CUSTOMWIDGETSFACTORY_CLASS_H

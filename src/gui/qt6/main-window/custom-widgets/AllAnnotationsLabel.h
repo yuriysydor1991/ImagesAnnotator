@@ -32,12 +32,12 @@
 #include <string>
 #include <vector>
 
-namespace templateQt6::window::custom_widgets
+namespace imagesAnnotatorQt6::window::custom_widgets
 {
 
 /**
  * @brief Row data holder for one entry in the all-annotations list (the Qt
- * analogue of templateGtkmm3's AllAnnotationsLabel).
+ * analogue of imagesAnnotatorGtkmm3's AllAnnotationsLabel).
  */
 class AllAnnotationsLabel
 {
@@ -54,6 +54,6 @@ class AllAnnotationsLabel
 using AllAnnotationsLabelPtr = std::shared_ptr<AllAnnotationsLabel>;
 using AllAnnotationsLabelSet = std::vector<AllAnnotationsLabelPtr>;
 
-}  // namespace templateQt6::window::custom_widgets
+}  // namespace imagesAnnotatorQt6::window::custom_widgets
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_CUSTOM_WIDGETS_ALLANNOTATIONSLABEL_CLASS_H

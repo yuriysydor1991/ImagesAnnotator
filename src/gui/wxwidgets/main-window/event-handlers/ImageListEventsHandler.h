@@ -35,7 +35,7 @@
 #include "src/gui/wxwidgets/wx_includes.h"
 #include "src/helpers/ImageLoader.h"
 
-namespace templateWx::window::event_handlers
+namespace imagesAnnotatorWx::window::event_handlers
 {
 
 /**
@@ -66,6 +66,6 @@ class ImageListEventsHandler : public AbstractWindowEventHandler,
   inline static constexpr const double load_image_scale_helper = 1.015;
 };
 
-}  // namespace templateWx::window::event_handlers
+}  // namespace imagesAnnotatorWx::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_WX_EVENTHANDLERS_IMAGELISTEVENTSHANDLER_CLASS_H

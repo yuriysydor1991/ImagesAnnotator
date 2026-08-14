@@ -41,7 +41,7 @@
 #include "src/gui/qt6/main-window/event-handlers/WindowSystemEventsHandler.h"
 #include "src/gui/qt6/main-window/event-handlers/ZoomEventsHandler.h"
 
-namespace templateQt6::window::event_handlers
+namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 std::shared_ptr<MouseDrawEventsHandler>
@@ -112,4 +112,4 @@ WindowEventHandlersFactory::create_window_system_events_handler(
   return std::make_shared<WindowSystemEventsHandler>(ops);
 }
 
-}  // namespace templateQt6::window::event_handlers
+}  // namespace imagesAnnotatorQt6::window::event_handlers

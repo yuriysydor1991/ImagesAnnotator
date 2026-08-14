@@ -35,12 +35,12 @@
 #include "src/gui/gtkmm4/main-window/WindowDataContext.h"
 #include "src/gui/gtkmm4/main-window/custom-widgets/CustomWidgetsFactory.h"
 
-namespace templateGtkmm4
+namespace imagesAnnotatorGtkmm4
 {
 class MainWindowContext;
 }
 
-namespace templateGtkmm4::window
+namespace imagesAnnotatorGtkmm4::window
 {
 
 /**
@@ -167,6 +167,6 @@ class WindowLoader : virtual public ComponentTypesAliases
   Glib::RefPtr<Gio::SimpleAction> action_auto_insert_annotation;
 };
 
-}  // namespace templateGtkmm4::window
+}  // namespace imagesAnnotatorGtkmm4::window
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_GTKMM4_WINDOWLOADER_CLASS_H

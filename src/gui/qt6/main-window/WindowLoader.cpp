@@ -35,7 +35,7 @@
 #include "src/gui/qt6/qt_str_utils.h"
 #include "src/log/log.h"
 
-namespace templateQt6::window
+namespace imagesAnnotatorQt6::window
 {
 
 bool WindowLoader::load_window(std::shared_ptr<MainWindowContext> nmwctx)
@@ -685,4 +685,4 @@ QAction* WindowLoader::auto_insert_current_annotation_to_whole_mi()
       WindowDataContext::auto_insert_current_annotation_to_whole_id);
 }
 
-}  // namespace templateQt6::window
+}  // namespace imagesAnnotatorQt6::window

@@ -34,7 +34,7 @@
 #include "src/gui/gtkmm3/main-window/event-handlers/WindowOps.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm3::window::event_handlers
+namespace imagesAnnotatorGtkmm3::window::event_handlers
 {
 
 KeyboardEventsHandler::KeyboardEventsHandler(std::shared_ptr<WindowOps> nops)
@@ -73,4 +73,4 @@ bool KeyboardEventsHandler::handle_key_press(GdkEventKey* event)
   return false;  // let other handlers process it
 }
 
-}  // namespace templateGtkmm3::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm3::window::event_handlers

@@ -33,7 +33,7 @@
 #include "src/gui/wxwidgets/main-window/event-handlers/WindowOps.h"
 #include "src/log/log.h"
 
-namespace templateWx::window::event_handlers
+namespace imagesAnnotatorWx::window::event_handlers
 {
 
 ImageNavigationEventsHandler::ImageNavigationEventsHandler(
@@ -105,4 +105,4 @@ void ImageNavigationEventsHandler::handle_prev_file()
   ops->update_rect_edit_entry();
 }
 
-}  // namespace templateWx::window::event_handlers
+}  // namespace imagesAnnotatorWx::window::event_handlers

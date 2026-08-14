@@ -30,21 +30,21 @@
 
 #include <memory>
 
-namespace templateWx
+namespace imagesAnnotatorWx
 {
 class MainWindowContext;
-}  // namespace templateWx
+}  // namespace imagesAnnotatorWx
 
-namespace templateWx::window::event_handlers
+namespace imagesAnnotatorWx::window::event_handlers
 {
 
 class WindowOps;
 
 /**
  * @brief The common interface for the decomposed window event handlers - the
- * wxWidgets analogue of templateGtkmm3's AbstractWindowEventHandler. Each
- * concrete handler receives the shared WindowOps through its constructor and
- * binds its own wx events to its handle(...) methods inside subscribe().
+ * wxWidgets analogue of imagesAnnotatorGtkmm3's AbstractWindowEventHandler.
+ * Each concrete handler receives the shared WindowOps through its constructor
+ * and binds its own wx events to its handle(...) methods inside subscribe().
  */
 class AbstractWindowEventHandler
 {
@@ -63,6 +63,6 @@ class AbstractWindowEventHandler
   std::shared_ptr<MainWindowContext> mwctx;
 };
 
-}  // namespace templateWx::window::event_handlers
+}  // namespace imagesAnnotatorWx::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_WX_EVENTHANDLERS_ABSTRACTWINDOWEVENTHANDLER_CLASS_H

@@ -36,7 +36,7 @@
 #include "src/gui/wxwidgets/wx_str_utils.h"
 #include "src/log/log.h"
 
-namespace templateWx::window::event_handlers
+namespace imagesAnnotatorWx::window::event_handlers
 {
 
 AnnotationsEventsHandler::AnnotationsEventsHandler(
@@ -353,4 +353,4 @@ void AnnotationsEventsHandler::handle_auto_insert_to_whole()
   ops->update_statuses();
 }
 
-}  // namespace templateWx::window::event_handlers
+}  // namespace imagesAnnotatorWx::window::event_handlers

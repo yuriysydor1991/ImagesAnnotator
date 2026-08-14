@@ -34,7 +34,7 @@
 #include "src/gui/gtkmm3/main-window/event-handlers/WindowOps.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm3::window::event_handlers
+namespace imagesAnnotatorGtkmm3::window::event_handlers
 {
 
 ZoomEventsHandler::ZoomEventsHandler(std::shared_ptr<WindowOps> nops)
@@ -134,4 +134,4 @@ bool ZoomEventsHandler::handle_image_scroll(GdkEventScroll* scroll_event)
   return true;
 }
 
-}  // namespace templateGtkmm3::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm3::window::event_handlers

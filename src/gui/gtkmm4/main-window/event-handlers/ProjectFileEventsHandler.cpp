@@ -34,7 +34,7 @@
 #include "src/gui/gtkmm4/main-window/event-handlers/WindowOps.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm4::window::event_handlers
+namespace imagesAnnotatorGtkmm4::window::event_handlers
 {
 
 ProjectFileEventsHandler::ProjectFileEventsHandler(
@@ -191,4 +191,4 @@ void ProjectFileEventsHandler::handle_menu_project_close()
   ops->update_action_buttons_sensitivity();
 }
 
-}  // namespace templateGtkmm4::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm4::window::event_handlers

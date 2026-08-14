@@ -33,7 +33,7 @@
 
 #include "src/gui/qt6/main-window/event-handlers/AbstractWindowEventHandler.h"
 
-namespace templateQt6::window::event_handlers
+namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 /**
@@ -53,6 +53,6 @@ class WebPageEventsHandler : public AbstractWindowEventHandler
   bool ask_user_4_webpage_url(std::string& urldst);
 };
 
-}  // namespace templateQt6::window::event_handlers
+}  // namespace imagesAnnotatorQt6::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_EVENTHANDLERS_WEBPAGEEVENTSHANDLER_CLASS_H

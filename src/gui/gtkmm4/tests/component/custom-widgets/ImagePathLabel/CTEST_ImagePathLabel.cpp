@@ -9,7 +9,7 @@
 
 using namespace testing;
 using events::events::ImageRecord;
-using templateGtkmm4::window::custom_widgets::ImagePathLabel;
+using imagesAnnotatorGtkmm4::window::custom_widgets::ImagePathLabel;
 
 class CTEST_ImagePathLabel : public GtkInitFixture
 {

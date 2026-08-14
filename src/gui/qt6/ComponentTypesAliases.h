@@ -37,13 +37,13 @@
 #include "src/gui/qt6/main-window/custom-widgets/CustomWidgetsFactory.h"
 #include "src/gui/qt6/main-window/custom-widgets/ImageRectsLabel.h"
 
-namespace templateQt6
+namespace imagesAnnotatorQt6
 {
 
 /**
- * @brief The Qt analogue of templateGtkmm3::ComponentTypesAliases: a single
- * place gathering the toolkit-neutral event types and the Qt custom-widget /
- * row-data types the window components share.
+ * @brief The Qt analogue of imagesAnnotatorGtkmm3::ComponentTypesAliases: a
+ * single place gathering the toolkit-neutral event types and the Qt
+ * custom-widget / row-data types the window components share.
  */
 class ComponentTypesAliases
 {
@@ -69,6 +69,6 @@ class ComponentTypesAliases
   using DisplayErrorEventHandler = events::events::DisplayErrorEventHandler;
 };
 
-}  // namespace templateQt6
+}  // namespace imagesAnnotatorQt6
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_COMPONENTTYPEALIASES_CLASS_H

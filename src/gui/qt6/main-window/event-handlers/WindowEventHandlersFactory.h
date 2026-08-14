@@ -30,7 +30,7 @@
 
 #include <memory>
 
-namespace templateQt6::window::event_handlers
+namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 class WindowOps;
@@ -48,8 +48,8 @@ class WindowSystemEventsHandler;
 
 /**
  * @brief Factory creating each decomposed window event handler - the Qt
- * analogue of templateGtkmm3's WindowEventHandlersFactory. Every produced
- * handler receives the shared WindowOps through its constructor.
+ * analogue of imagesAnnotatorGtkmm3's WindowEventHandlersFactory. Every
+ * produced handler receives the shared WindowOps through its constructor.
  */
 class WindowEventHandlersFactory
 {
@@ -83,6 +83,6 @@ class WindowEventHandlersFactory
   create_window_system_events_handler(WindowOpsPtr ops);
 };
 
-}  // namespace templateQt6::window::event_handlers
+}  // namespace imagesAnnotatorQt6::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_EVENTHANDLERS_WINDOWEVENTHANDLERSFACTORY_CLASS_H

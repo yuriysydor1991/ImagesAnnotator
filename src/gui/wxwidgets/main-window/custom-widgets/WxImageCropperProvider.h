@@ -38,16 +38,17 @@
 
 class wxImage;
 
-namespace templateWx::window::custom_widgets
+namespace imagesAnnotatorWx::window::custom_widgets
 {
 
 /**
  * @brief wxImage based IImageCropperFacilityProvider implementation.
  *
- * The wxWidgets analogue of templateGtkmmCommon::GtkmmImageCropperProvider: the
- * PyTorch Vision exporter injects it so the toolkit-agnostic export code can
- * crop the annotated rectangle regions out of the source images without knowing
- * which GUI toolkit is active.
+ * The wxWidgets analogue of
+ * imagesAnnotatorGtkmmCommon::GtkmmImageCropperProvider: the PyTorch Vision
+ * exporter injects it so the toolkit-agnostic export code can crop the
+ * annotated rectangle regions out of the source images without knowing which
+ * GUI toolkit is active.
  */
 class WxImageCropperProvider
     : virtual public events::events::IImageCropperFacilityProvider,
@@ -76,6 +77,6 @@ class WxImageCropperProvider
   std::string get_ext_only(const std::filesystem::path& fspath);
 };
 
-}  // namespace templateWx::window::custom_widgets
+}  // namespace imagesAnnotatorWx::window::custom_widgets
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_WX_WXIMAGECROPPERPROVIDER_CLASS_H

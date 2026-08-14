@@ -41,7 +41,7 @@
 #include "src/gui/gtkmm4/main-window/event-handlers/WindowSystemEventsHandler.h"
 #include "src/gui/gtkmm4/main-window/event-handlers/ZoomEventsHandler.h"
 
-namespace templateGtkmm4::window::event_handlers
+namespace imagesAnnotatorGtkmm4::window::event_handlers
 {
 
 std::shared_ptr<MouseDrawEventsHandler>
@@ -112,4 +112,4 @@ WindowEventHandlersFactory::create_window_system_events_handler(
   return std::make_shared<WindowSystemEventsHandler>(ops);
 }
 
-}  // namespace templateGtkmm4::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm4::window::event_handlers

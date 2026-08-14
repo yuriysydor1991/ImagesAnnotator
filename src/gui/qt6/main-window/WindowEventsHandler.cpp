@@ -46,7 +46,7 @@
 #include "src/gui/qt6/main-window/event-handlers/ZoomEventsHandler.h"
 #include "src/log/log.h"
 
-namespace templateQt6::window
+namespace imagesAnnotatorQt6::window
 {
 
 bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
@@ -135,4 +135,4 @@ void WindowEventsHandler::handle(DisplayErrorEventPtr event)
   systemHandler->handle_display_error(event);
 }
 
-}  // namespace templateQt6::window
+}  // namespace imagesAnnotatorQt6::window

@@ -35,7 +35,7 @@
 #include "src/gui/wxwidgets/wx_includes.h"
 #include "src/helpers/TypeHelper.h"
 
-namespace templateWx::window::event_handlers
+namespace imagesAnnotatorWx::window::event_handlers
 {
 
 /**
@@ -79,6 +79,6 @@ class MouseDrawEventsHandler : public AbstractWindowEventHandler,
   std::string lastTooltip;
 };
 
-}  // namespace templateWx::window::event_handlers
+}  // namespace imagesAnnotatorWx::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_WX_EVENTHANDLERS_MOUSEDRAWEVENTSHANDLER_CLASS_H

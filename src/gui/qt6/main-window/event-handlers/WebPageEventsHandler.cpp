@@ -34,7 +34,7 @@
 #include "src/gui/qt6/qt_includes.h"
 #include "src/log/log.h"
 
-namespace templateQt6::window::event_handlers
+namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 WebPageEventsHandler::WebPageEventsHandler(std::shared_ptr<WindowOps> nops)
@@ -106,4 +106,4 @@ bool WebPageEventsHandler::ask_user_4_webpage_url(std::string& urldst)
   return !urldst.empty();
 }
 
-}  // namespace templateQt6::window::event_handlers
+}  // namespace imagesAnnotatorQt6::window::event_handlers

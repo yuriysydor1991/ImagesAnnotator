@@ -33,7 +33,7 @@
 #include "src/gui/gtkmm4/gtkmm_includes.h"
 #include "src/gui/gtkmm4/main-window/event-handlers/AbstractWindowEventHandler.h"
 
-namespace templateGtkmm4::window::event_handlers
+namespace imagesAnnotatorGtkmm4::window::event_handlers
 {
 
 /**
@@ -51,6 +51,6 @@ class KeyboardEventsHandler : public AbstractWindowEventHandler
   bool handle_key_press(guint keyval, guint keycode, Gdk::ModifierType state);
 };
 
-}  // namespace templateGtkmm4::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm4::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_GTKMM_EVENTHANDLERS_KEYBOARDEVENTSHANDLER_CLASS_H

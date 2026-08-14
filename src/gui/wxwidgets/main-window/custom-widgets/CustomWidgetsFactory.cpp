@@ -35,11 +35,11 @@
 #include "src/log/log.h"
 #include "wx_embedded_logo.h"
 
-namespace templateWx::window::custom_widgets
+namespace imagesAnnotatorWx::window::custom_widgets
 {
 
-using templateWx::from_wx;
-using templateWx::u8;
+using imagesAnnotatorWx::from_wx;
+using imagesAnnotatorWx::u8;
 
 wxBitmap CustomWidgetsFactory::load_logo()
 {
@@ -282,4 +282,4 @@ void CustomWidgetsFactory::show_about(wxWindow* parent)
   wxAboutBox(info, parent);
 }
 
-}  // namespace templateWx::window::custom_widgets
+}  // namespace imagesAnnotatorWx::window::custom_widgets

@@ -35,12 +35,12 @@
 #include "src/gui/gtkmm4/main-window/custom-widgets/ImagePathLabel.h"
 #include "src/helpers/TypeHelper.h"
 
-namespace templateGtkmm4
+namespace imagesAnnotatorGtkmm4
 {
 class MainWindowContext;
 }
 
-namespace templateGtkmm4::window::custom_widgets
+namespace imagesAnnotatorGtkmm4::window::custom_widgets
 {
 
 /**
@@ -120,6 +120,6 @@ class CentralWorkingCanvas
   bool resizersDrawed{false};
 };
 
-}  // namespace templateGtkmm4::window::custom_widgets
+}  // namespace imagesAnnotatorGtkmm4::window::custom_widgets
 
 #endif  // YOUR_CPP_APP_TEMPLATE_PROJECT_GTKMM4_CUSTOM_WIDGETS_CENTRALWORKINGCANVAS_CLASS_H

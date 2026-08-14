@@ -30,7 +30,7 @@
 
 #include <memory>
 
-namespace templateGtkmm4::window::event_handlers
+namespace imagesAnnotatorGtkmm4::window::event_handlers
 {
 
 class WindowOps;
@@ -84,6 +84,6 @@ class WindowEventHandlersFactory
   create_window_system_events_handler(WindowOpsPtr ops);
 };
 
-}  // namespace templateGtkmm4::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm4::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_GTKMM_EVENTHANDLERS_WINDOWEVENTHANDLERSFACTORY_CLASS_H

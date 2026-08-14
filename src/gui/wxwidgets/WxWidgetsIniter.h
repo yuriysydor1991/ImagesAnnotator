@@ -31,30 +31,32 @@
 #include <memory>
 
 #include "src/app/ApplicationContext.h"
+#include "src/gui/IGUIIniter.h"
 
-namespace templateWx
+namespace imagesAnnotatorWx
 {
 
 class MainWindowContext;
 
 /**
- * @brief The wxWidgets analogue of templateGtkmm3::GtkmmIniter.
+ * @brief The wxWidgets analogue of imagesAnnotatorGtkmm3::GtkmmIniter.
  *
  * Owns the wxWidgets application lifetime and the main window context. The rest
- * of the application depends only on the toolkit-neutral alias gui::GtkmmIniter
- * (see src/gui/GuiIniter.h), so this class exposes the very same run()/deinit()
- * contract the GtkmmIniter does.
+ * of the application depends only on the toolkit-neutral alias gui::GUIIniter
+ * (see src/gui/GUIIniter.h), so this class implements the very same
+ * gui::IGUIIniter interface the GtkmmIniter does.
  */
-class WxWidgetsIniter : public std::enable_shared_from_this<WxWidgetsIniter>
+class WxWidgetsIniter : public std::enable_shared_from_this<WxWidgetsIniter>,
+                        virtual public gui::IGUIIniter
 {
  public:
   virtual ~WxWidgetsIniter() = default;
   WxWidgetsIniter();
   explicit WxWidgetsIniter(std::shared_ptr<MainWindowContext> nmwctx);
 
-  virtual bool run(std::shared_ptr<app::ApplicationContext> ctx);
+  virtual bool run(std::shared_ptr<app::ApplicationContext> ctx) override;
 
-  virtual void deinit();
+  virtual void deinit() override;
 
  protected:
   virtual bool prepare_widgets();
@@ -63,6 +65,6 @@ class WxWidgetsIniter : public std::enable_shared_from_this<WxWidgetsIniter>
   std::shared_ptr<MainWindowContext> mwctx;
 };
 
-}  // namespace templateWx
+}  // namespace imagesAnnotatorWx
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_WXWIDGETS_WXWIDGETSINITER_CLASS_H

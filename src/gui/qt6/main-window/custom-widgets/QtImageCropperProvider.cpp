@@ -33,7 +33,7 @@
 #include "src/gui/qt6/qt_includes.h"
 #include "src/log/log.h"
 
-namespace templateQt6::window::custom_widgets
+namespace imagesAnnotatorQt6::window::custom_widgets
 {
 
 bool QtImageCropperProvider::crop_out_2_fs(ImageRecordPtr ir,
@@ -182,4 +182,4 @@ QtImageCropperProvider::clone()
   return std::make_shared<QtImageCropperProvider>(*this);
 }
 
-}  // namespace templateQt6::window::custom_widgets
+}  // namespace imagesAnnotatorQt6::window::custom_widgets

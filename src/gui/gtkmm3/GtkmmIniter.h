@@ -32,6 +32,7 @@
 
 #include "src/annotator-events/events/ImagesDirProviderChanged.h"
 #include "src/app/ApplicationContext.h"
+#include "src/gui/IGUIIniter.h"
 #include "src/gui/gtkmm3/ComponentTypesAliases.h"
 #include "src/gui/gtkmm3/MainWindowContext.h"
 #include "src/gui/gtkmm3/gtkmm_includes.h"
@@ -39,7 +40,7 @@
 #include "src/gui/gtkmm3/main-window/WindowLoader.h"
 #include "src/gui/gtkmm3/main-window/custom-widgets/CustomWidgetsFactory.h"
 
-namespace templateGtkmm3
+namespace imagesAnnotatorGtkmm3
 {
 
 /**
@@ -47,16 +48,17 @@ namespace templateGtkmm3
  * templated GUI window.
  */
 class GtkmmIniter : public std::enable_shared_from_this<GtkmmIniter>,
-                    virtual public ComponentTypesAliases
+                    virtual public ComponentTypesAliases,
+                    virtual public gui::IGUIIniter
 {
  public:
   virtual ~GtkmmIniter() = default;
   GtkmmIniter();
   explicit GtkmmIniter(std::shared_ptr<MainWindowContext> nmwctx);
 
-  virtual bool run(std::shared_ptr<app::ApplicationContext> ctx);
+  virtual bool run(std::shared_ptr<app::ApplicationContext> ctx) override;
 
-  virtual void deinit();
+  virtual void deinit() override;
 
  protected:
   using ImagesDirProviderChanged = events::events::ImagesDirProviderChanged;
@@ -69,6 +71,6 @@ class GtkmmIniter : public std::enable_shared_from_this<GtkmmIniter>,
   std::shared_ptr<MainWindowContext> mwctx;
 };
 
-}  // namespace templateGtkmm3
+}  // namespace imagesAnnotatorGtkmm3
 
 #endif  // YOUR_CPP_APP_TEMPLATE_PROJECT_GTKMMINITER_CLASS_H

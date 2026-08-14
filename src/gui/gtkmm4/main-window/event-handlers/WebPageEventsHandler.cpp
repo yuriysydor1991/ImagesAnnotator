@@ -35,7 +35,7 @@
 #include "src/gui/gtkmm4/main-window/event-handlers/WindowOps.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm4::window::event_handlers
+namespace imagesAnnotatorGtkmm4::window::event_handlers
 {
 
 WebPageEventsHandler::WebPageEventsHandler(std::shared_ptr<WindowOps> nops)
@@ -135,4 +135,4 @@ bool WebPageEventsHandler::ask_user_4_webpage_url(std::string& urldst)
   return !urldst.empty();
 }
 
-}  // namespace templateGtkmm4::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm4::window::event_handlers

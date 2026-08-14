@@ -6,7 +6,7 @@
 #include "src/gui/wxwidgets/main-window/WindowDataContext.h"
 
 using namespace testing;
-using templateWx::window::WindowDataContext;
+using imagesAnnotatorWx::window::WindowDataContext;
 
 TEST(UTEST_WxWindowDataContext, get_ids_is_not_empty)
 {

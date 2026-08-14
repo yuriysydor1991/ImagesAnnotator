@@ -38,16 +38,16 @@
 
 class QImage;
 
-namespace templateQt6::window::custom_widgets
+namespace imagesAnnotatorQt6::window::custom_widgets
 {
 
 /**
  * @brief QImage based IImageCropperFacilityProvider implementation.
  *
- * The Qt analogue of templateGtkmmCommon::GtkmmImageCropperProvider and of the
- * wxWidgets WxImageCropperProvider: the PyTorch Vision exporter injects it so
- * the toolkit-agnostic export code can crop the annotated rectangle regions out
- * of the source images without knowing which GUI toolkit is active.
+ * The Qt analogue of imagesAnnotatorGtkmmCommon::GtkmmImageCropperProvider and
+ * of the wxWidgets WxImageCropperProvider: the PyTorch Vision exporter injects
+ * it so the toolkit-agnostic export code can crop the annotated rectangle
+ * regions out of the source images without knowing which GUI toolkit is active.
  */
 class QtImageCropperProvider
     : virtual public events::events::IImageCropperFacilityProvider,
@@ -76,6 +76,6 @@ class QtImageCropperProvider
   std::string get_ext_only(const std::filesystem::path& fspath);
 };
 
-}  // namespace templateQt6::window::custom_widgets
+}  // namespace imagesAnnotatorQt6::window::custom_widgets
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_QTIMAGECROPPERPROVIDER_CLASS_H

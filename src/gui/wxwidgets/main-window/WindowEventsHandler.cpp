@@ -46,7 +46,7 @@
 #include "src/gui/wxwidgets/main-window/event-handlers/ZoomEventsHandler.h"
 #include "src/log/log.h"
 
-namespace templateWx::window
+namespace imagesAnnotatorWx::window
 {
 
 bool WindowEventsHandler::init(std::shared_ptr<MainWindowContext> nmwctx)
@@ -124,4 +124,4 @@ void WindowEventsHandler::handle(DisplayErrorEventPtr event)
   systemHandler->handle_display_error(event);
 }
 
-}  // namespace templateWx::window
+}  // namespace imagesAnnotatorWx::window

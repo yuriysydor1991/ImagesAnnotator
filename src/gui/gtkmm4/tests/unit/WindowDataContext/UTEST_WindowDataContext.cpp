@@ -7,7 +7,7 @@
 #include "src/gui/gtkmm4/main-window/WindowDataContext.h"
 
 using namespace testing;
-using templateGtkmm4::window::WindowDataContext;
+using imagesAnnotatorGtkmm4::window::WindowDataContext;
 
 TEST(UTEST_WindowDataContext, get_ids_is_not_empty)
 {

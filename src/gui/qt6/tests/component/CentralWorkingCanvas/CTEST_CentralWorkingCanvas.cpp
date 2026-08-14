@@ -13,7 +13,7 @@
 using namespace testing;
 using events::events::ImageRecord;
 using events::events::ImageRecordRect;
-namespace cw = templateQt6::window::custom_widgets;
+namespace cw = imagesAnnotatorQt6::window::custom_widgets;
 
 namespace
 {

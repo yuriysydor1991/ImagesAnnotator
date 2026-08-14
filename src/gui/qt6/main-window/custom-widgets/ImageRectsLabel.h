@@ -34,12 +34,13 @@
 
 #include "src/annotator-events/events/ImageRecordRect.h"
 
-namespace templateQt6::window::custom_widgets
+namespace imagesAnnotatorQt6::window::custom_widgets
 {
 
 /**
  * @brief Row data holder for one annotation rectangle in the current image
- * annotations list (the Qt analogue of templateGtkmm3's ImageRectsLabel).
+ * annotations list (the Qt analogue of imagesAnnotatorGtkmm3's
+ * ImageRectsLabel).
  */
 class ImageRectsLabel
 {
@@ -67,6 +68,6 @@ class ImageRectsLabel
 using ImageRectsLabelPtr = std::shared_ptr<ImageRectsLabel>;
 using ImageRectsLabelSet = std::vector<ImageRectsLabelPtr>;
 
-}  // namespace templateQt6::window::custom_widgets
+}  // namespace imagesAnnotatorQt6::window::custom_widgets
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_CUSTOM_WIDGETS_IMAGERECTSLABEL_CLASS_H

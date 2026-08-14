@@ -33,7 +33,7 @@
 #include "src/gui/gtkmm4/gtkmm_includes.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm4::window
+namespace imagesAnnotatorGtkmm4::window
 {
 
 const std::set<std::string>& WindowDataContext::get_ids()
@@ -81,4 +81,4 @@ const std::set<std::string>& WindowDataContext::get_ids()
   return ids;
 }
 
-}  // namespace templateGtkmm4::window
+}  // namespace imagesAnnotatorGtkmm4::window

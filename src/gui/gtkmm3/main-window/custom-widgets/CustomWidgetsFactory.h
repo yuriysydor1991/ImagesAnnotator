@@ -39,7 +39,7 @@
 #include "src/gui/gtkmm3/main-window/custom-widgets/ImagePathLabel.h"
 #include "src/gui/gtkmm3/main-window/custom-widgets/ImageRectsLabel.h"
 
-namespace templateGtkmm3::window::custom_widgets
+namespace imagesAnnotatorGtkmm3::window::custom_widgets
 {
 
 /**
@@ -122,6 +122,6 @@ class CustomWidgetsFactory
                                          const std::string& title);
 };
 
-}  // namespace templateGtkmm3::window::custom_widgets
+}  // namespace imagesAnnotatorGtkmm3::window::custom_widgets
 
 #endif  // YOUR_CPP_APP_TEMPLATE_PROJECT_GTKMM_WINDOWLOADER_CUSTOMWIDGETS_FACTORY_CLASS_H

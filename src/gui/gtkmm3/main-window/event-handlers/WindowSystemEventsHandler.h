@@ -35,7 +35,7 @@
 #include "src/gui/gtkmm3/gtkmm_includes.h"
 #include "src/gui/gtkmm3/main-window/event-handlers/AbstractWindowEventHandler.h"
 
-namespace templateGtkmm3::window::event_handlers
+namespace imagesAnnotatorGtkmm3::window::event_handlers
 {
 
 /**
@@ -61,6 +61,6 @@ class WindowSystemEventsHandler : public AbstractWindowEventHandler
   bool handle_window_close(GdkEventAny* event);
 };
 
-}  // namespace templateGtkmm3::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm3::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_GTKMM_EVENTHANDLERS_WINDOWSYSTEMEVENTSHANDLER_CLASS_H

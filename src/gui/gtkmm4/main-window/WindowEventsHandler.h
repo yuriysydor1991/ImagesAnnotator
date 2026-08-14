@@ -34,20 +34,20 @@
 #include "src/annotator-events/events/ImagesDirProviderChangedHandler.h"
 #include "src/gui/gtkmm4/ComponentTypesAliases.h"
 
-namespace templateGtkmm4
+namespace imagesAnnotatorGtkmm4
 {
 class MainWindowContext;
-}  // namespace templateGtkmm4
+}  // namespace imagesAnnotatorGtkmm4
 
-namespace templateGtkmm4::window::event_handlers
+namespace imagesAnnotatorGtkmm4::window::event_handlers
 {
 class WindowOps;
 class WindowEventHandlersFactory;
 class AbstractWindowEventHandler;
 class WindowSystemEventsHandler;
-}  // namespace templateGtkmm4::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm4::window::event_handlers
 
-namespace templateGtkmm4::window
+namespace imagesAnnotatorGtkmm4::window
 {
 
 /**
@@ -91,6 +91,6 @@ class WindowEventsHandler
   std::shared_ptr<event_handlers::WindowSystemEventsHandler> systemHandler;
 };
 
-}  // namespace templateGtkmm4::window
+}  // namespace imagesAnnotatorGtkmm4::window
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_GTKMM_WINDOWEVENTSHANDLER_CLASS_H

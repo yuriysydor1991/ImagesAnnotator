@@ -35,7 +35,7 @@
 #include "src/gui/qt6/qt_str_utils.h"
 #include "src/log/log.h"
 
-namespace templateQt6::window::event_handlers
+namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 namespace
@@ -746,4 +746,4 @@ void WindowOps::clear_all_lists()
   }
 }
 
-}  // namespace templateQt6::window::event_handlers
+}  // namespace imagesAnnotatorQt6::window::event_handlers

@@ -9,7 +9,7 @@
 #include "src/gui/wxwidgets/wx_includes.h"
 
 using namespace testing;
-namespace cw = templateWx::window::custom_widgets;
+namespace cw = imagesAnnotatorWx::window::custom_widgets;
 
 class CTEST_WxCentralWorkingCanvas : public WxInitFixture
 {

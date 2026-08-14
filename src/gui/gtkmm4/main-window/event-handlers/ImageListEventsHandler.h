@@ -35,7 +35,7 @@
 #include "src/gui/gtkmm4/main-window/event-handlers/AbstractWindowEventHandler.h"
 #include "src/helpers/ImageLoader.h"
 
-namespace templateGtkmm4::window::event_handlers
+namespace imagesAnnotatorGtkmm4::window::event_handlers
 {
 
 /**
@@ -65,6 +65,6 @@ class ImageListEventsHandler : public AbstractWindowEventHandler,
   inline static constexpr const double load_image_scale_helper = 1.015;
 };
 
-}  // namespace templateGtkmm4::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm4::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_GTKMM_EVENTHANDLERS_IMAGELISTEVENTSHANDLER_CLASS_H

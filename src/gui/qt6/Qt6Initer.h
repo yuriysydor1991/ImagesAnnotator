@@ -31,30 +31,32 @@
 #include <memory>
 
 #include "src/app/ApplicationContext.h"
+#include "src/gui/IGUIIniter.h"
 
-namespace templateQt6
+namespace imagesAnnotatorQt6
 {
 
 class MainWindowContext;
 
 /**
- * @brief The Qt6 analogue of templateGtkmm3::GtkmmIniter.
+ * @brief The Qt6 analogue of imagesAnnotatorGtkmm3::GtkmmIniter.
  *
  * Owns the Qt application lifetime and the main window context. The rest of the
- * application depends only on the toolkit-neutral alias gui::GtkmmIniter (see
- * src/gui/GuiIniter.h), so this class exposes the very same run()/deinit()
- * contract the GtkmmIniter does.
+ * application depends only on the toolkit-neutral alias gui::GUIIniter (see
+ * src/gui/GUIIniter.h), so this class implements the very same gui::IGUIIniter
+ * interface the GtkmmIniter does.
  */
-class Qt6Initer : public std::enable_shared_from_this<Qt6Initer>
+class Qt6Initer : public std::enable_shared_from_this<Qt6Initer>,
+                  virtual public gui::IGUIIniter
 {
  public:
   virtual ~Qt6Initer() = default;
   Qt6Initer();
   explicit Qt6Initer(std::shared_ptr<MainWindowContext> nmwctx);
 
-  virtual bool run(std::shared_ptr<app::ApplicationContext> ctx);
+  virtual bool run(std::shared_ptr<app::ApplicationContext> ctx) override;
 
-  virtual void deinit();
+  virtual void deinit() override;
 
  protected:
   virtual bool prepare_widgets();
@@ -63,6 +65,6 @@ class Qt6Initer : public std::enable_shared_from_this<Qt6Initer>
   std::shared_ptr<MainWindowContext> mwctx;
 };
 
-}  // namespace templateQt6
+}  // namespace imagesAnnotatorQt6
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_QT6INITER_CLASS_H

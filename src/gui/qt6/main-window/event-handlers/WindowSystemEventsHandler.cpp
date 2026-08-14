@@ -35,7 +35,7 @@
 #include "src/gui/qt6/qt_includes.h"
 #include "src/log/log.h"
 
-namespace templateQt6::window::event_handlers
+namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 namespace
@@ -151,4 +151,4 @@ void WindowSystemEventsHandler::handle_display_error(DisplayErrorEventPtr event)
   ops->show_error_dialog(event->description);
 }
 
-}  // namespace templateQt6::window::event_handlers
+}  // namespace imagesAnnotatorQt6::window::event_handlers

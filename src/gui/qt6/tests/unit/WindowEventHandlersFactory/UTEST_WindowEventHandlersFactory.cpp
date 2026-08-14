@@ -8,8 +8,8 @@
 #include "src/gui/qt6/main-window/event-handlers/WindowOps.h"
 
 using namespace testing;
-using templateQt6::MainWindowContext;
-namespace eh = templateQt6::window::event_handlers;
+using imagesAnnotatorQt6::MainWindowContext;
+namespace eh = imagesAnnotatorQt6::window::event_handlers;
 
 namespace
 {

@@ -35,19 +35,19 @@
 #include "src/gui/wxwidgets/main-window/WindowDataContext.h"
 #include "src/gui/wxwidgets/wx_includes.h"
 
-namespace templateWx
+namespace imagesAnnotatorWx
 {
 class MainWindowContext;
 }
 
-namespace templateWx::window
+namespace imagesAnnotatorWx::window
 {
 
 /**
  * @brief Builds the main window widget tree in code - the wxWidgets analogue of
- * templateGtkmm3's WindowLoader, which instead inflated a Glade .ui file. Every
- * control is created here and exposed through a typed getter so the event
- * handlers can bind to and drive them, exactly as the GTKmm getters did.
+ * imagesAnnotatorGtkmm3's WindowLoader, which instead inflated a Glade .ui
+ * file. Every control is created here and exposed through a typed getter so the
+ * event handlers can bind to and drive them, exactly as the GTKmm getters did.
  */
 class WindowLoader : virtual public ComponentTypesAliases
 {
@@ -116,6 +116,6 @@ class WindowLoader : virtual public ComponentTypesAliases
   wxWindow* canvasHost{nullptr};
 };
 
-}  // namespace templateWx::window
+}  // namespace imagesAnnotatorWx::window
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_WX_WINDOWLOADER_CLASS_H

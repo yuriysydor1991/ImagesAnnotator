@@ -37,7 +37,7 @@
 #include "src/gui/gtkmm3/main-window/custom-widgets/CustomWidgetsFactory.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm3
+namespace imagesAnnotatorGtkmm3
 {
 
 std::shared_ptr<MainWindowContext> MainWindowContext::build_context()
@@ -159,4 +159,4 @@ MainWindowContext::find_current_image_current_visual_rect()
   return {};
 }
 
-}  // namespace templateGtkmm3
+}  // namespace imagesAnnotatorGtkmm3

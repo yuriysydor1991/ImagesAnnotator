@@ -35,7 +35,7 @@
 #include "src/gui/qt6/main-window/event-handlers/AbstractWindowEventHandler.h"
 #include "src/gui/qt6/qt_includes.h"
 
-namespace templateQt6::window::event_handlers
+namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 /**
@@ -67,6 +67,6 @@ class AnnotationsEventsHandler : public AbstractWindowEventHandler,
   void update_selected_rect_row_text(const std::string& nname);
 };
 
-}  // namespace templateQt6::window::event_handlers
+}  // namespace imagesAnnotatorQt6::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_EVENTHANDLERS_ANNOTATIONSEVENTSHANDLER_CLASS_H

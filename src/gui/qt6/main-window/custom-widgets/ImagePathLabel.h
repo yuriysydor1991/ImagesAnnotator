@@ -33,13 +33,13 @@
 
 #include "src/annotator-events/events/ImageRecord.h"
 
-namespace templateQt6::window::custom_widgets
+namespace imagesAnnotatorQt6::window::custom_widgets
 {
 
 /**
  * @brief Row data holder for one image in the images list.
  *
- * The Qt analogue of templateGtkmm3's ImagePathLabel. In GTKmm it was a
+ * The Qt analogue of imagesAnnotatorGtkmm3's ImagePathLabel. In GTKmm it was a
  * Gtk::Label living inside a Gtk::ListBox row; the Qt images list is a
  * QListWidget whose rows are QListWidgetItems, so this class carries only the
  * data a row needs - the ImageRecord, the display text and the "has
@@ -78,6 +78,6 @@ class ImagePathLabel
 
 using ImagePathLabelPtr = ImagePathLabel::ImagePathLabelPtr;
 
-}  // namespace templateQt6::window::custom_widgets
+}  // namespace imagesAnnotatorQt6::window::custom_widgets
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_QT6_CUSTOM_WIDGETS_IMAGEPATHLABEL_CLASS_H

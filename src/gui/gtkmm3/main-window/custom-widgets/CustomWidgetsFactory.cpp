@@ -43,7 +43,7 @@
 #include "src/helpers/ImageLoader.h"
 #include "src/log/log.h"
 
-namespace templateGtkmm3::window::custom_widgets
+namespace imagesAnnotatorGtkmm3::window::custom_widgets
 {
 
 namespace
@@ -401,4 +401,4 @@ void CustomWidgetsFactory::prepare_url_asker(Gtk::Dialog* dialog,
   dialog->set_default_response(Gtk::RESPONSE_OK);
 }
 
-}  // namespace templateGtkmm3::window::custom_widgets
+}  // namespace imagesAnnotatorGtkmm3::window::custom_widgets

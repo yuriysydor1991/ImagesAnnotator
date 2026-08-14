@@ -35,12 +35,12 @@
 #include "src/gui/gtkmm3/main-window/WindowDataContext.h"
 #include "src/gui/gtkmm3/main-window/custom-widgets/CustomWidgetsFactory.h"
 
-namespace templateGtkmm3
+namespace imagesAnnotatorGtkmm3
 {
 class MainWindowContext;
 }
 
-namespace templateGtkmm3::window
+namespace imagesAnnotatorGtkmm3::window
 {
 
 /**
@@ -118,6 +118,6 @@ class WindowLoader : virtual public ComponentTypesAliases
   Glib::RefPtr<Gtk::Builder> builder;
 };
 
-}  // namespace templateGtkmm3::window
+}  // namespace imagesAnnotatorGtkmm3::window
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_GTKMM_WINDOWLOADER_CLASS_H

@@ -35,7 +35,7 @@
 #include "src/gui/wxwidgets/wx_includes.h"
 #include "src/log/log.h"
 
-namespace templateWx::window::event_handlers
+namespace imagesAnnotatorWx::window::event_handlers
 {
 
 AboutEventsHandler::AboutEventsHandler(std::shared_ptr<WindowOps> nops)
@@ -63,4 +63,4 @@ void AboutEventsHandler::handle_about()
   mwctx->cwFactory->show_about(mwctx->wloader->get_window());
 }
 
-}  // namespace templateWx::window::event_handlers
+}  // namespace imagesAnnotatorWx::window::event_handlers

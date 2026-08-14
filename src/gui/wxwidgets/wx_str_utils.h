@@ -34,7 +34,7 @@
 
 #include "src/gui/wxwidgets/wx_includes.h"
 
-namespace templateWx
+namespace imagesAnnotatorWx
 {
 
 /// @brief std::string (UTF-8) -> wxString.
@@ -59,6 +59,6 @@ inline std::string to_lower(std::string s)
   return s;
 }
 
-}  // namespace templateWx
+}  // namespace imagesAnnotatorWx
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_WX_WX_STR_UTILS_H

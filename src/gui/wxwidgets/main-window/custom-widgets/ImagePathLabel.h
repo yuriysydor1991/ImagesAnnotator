@@ -33,14 +33,14 @@
 
 #include "src/annotator-events/events/ImageRecord.h"
 
-namespace templateWx::window::custom_widgets
+namespace imagesAnnotatorWx::window::custom_widgets
 {
 
 /**
  * @brief Row data holder for one image in the images list.
  *
- * The wxWidgets analogue of templateGtkmm3's ImagePathLabel. In GTKmm it was a
- * Gtk::Label living inside a Gtk::ListBox row; the wx images list is a
+ * The wxWidgets analogue of imagesAnnotatorGtkmm3's ImagePathLabel. In GTKmm it
+ * was a Gtk::Label living inside a Gtk::ListBox row; the wx images list is a
  * wxListCtrl, so this class carries only the data a row needs - the
  * ImageRecord, the display text and the "has annotations" flag the list uses to
  * paint the row background - instead of being a widget itself.
@@ -77,6 +77,6 @@ class ImagePathLabel
 
 using ImagePathLabelPtr = ImagePathLabel::ImagePathLabelPtr;
 
-}  // namespace templateWx::window::custom_widgets
+}  // namespace imagesAnnotatorWx::window::custom_widgets
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_WX_CUSTOM_WIDGETS_IMAGEPATHLABEL_CLASS_H

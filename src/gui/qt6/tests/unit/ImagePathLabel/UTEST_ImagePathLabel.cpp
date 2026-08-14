@@ -6,7 +6,7 @@
 
 using namespace testing;
 using events::events::ImageRecord;
-using templateQt6::window::custom_widgets::ImagePathLabel;
+using imagesAnnotatorQt6::window::custom_widgets::ImagePathLabel;
 
 TEST(UTEST_Qt6ImagePathLabel, exposes_the_records_full_path_as_its_text)
 {

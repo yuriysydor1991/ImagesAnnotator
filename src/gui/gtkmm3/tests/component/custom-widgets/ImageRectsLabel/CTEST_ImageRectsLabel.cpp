@@ -9,7 +9,7 @@
 
 using namespace testing;
 using events::events::ImageRecordRect;
-using templateGtkmm3::window::custom_widgets::ImageRectsLabel;
+using imagesAnnotatorGtkmm3::window::custom_widgets::ImageRectsLabel;
 
 class CTEST_ImageRectsLabel : public GtkInitFixture
 {

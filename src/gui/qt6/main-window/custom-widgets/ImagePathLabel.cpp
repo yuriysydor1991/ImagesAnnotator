@@ -32,7 +32,7 @@
 #include "src/helpers/ImageRecordUrlAndPathHelper.h"
 #include "src/log/log.h"
 
-namespace templateQt6::window::custom_widgets
+namespace imagesAnnotatorQt6::window::custom_widgets
 {
 
 ImagePathLabel::ImagePathLabel(std::shared_ptr<ImageRecord> nr) : myrec{nr}
@@ -81,4 +81,4 @@ bool ImagePathLabel::remove_has_records_mark()
   return true;
 }
 
-}  // namespace templateQt6::window::custom_widgets
+}  // namespace imagesAnnotatorQt6::window::custom_widgets

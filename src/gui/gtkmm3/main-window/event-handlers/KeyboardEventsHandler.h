@@ -33,7 +33,7 @@
 #include "src/gui/gtkmm3/gtkmm_includes.h"
 #include "src/gui/gtkmm3/main-window/event-handlers/AbstractWindowEventHandler.h"
 
-namespace templateGtkmm3::window::event_handlers
+namespace imagesAnnotatorGtkmm3::window::event_handlers
 {
 
 /**
@@ -50,6 +50,6 @@ class KeyboardEventsHandler : public AbstractWindowEventHandler
   bool handle_key_press(GdkEventKey* event);
 };
 
-}  // namespace templateGtkmm3::window::event_handlers
+}  // namespace imagesAnnotatorGtkmm3::window::event_handlers
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_GTKMM_EVENTHANDLERS_KEYBOARDEVENTSHANDLER_CLASS_H

@@ -35,7 +35,7 @@
 #include "src/gui/qt6/main-window/custom-widgets/CustomWidgetsFactory.h"
 #include "src/log/log.h"
 
-namespace templateQt6
+namespace imagesAnnotatorQt6
 {
 
 std::shared_ptr<MainWindowContext> MainWindowContext::build_context()
@@ -157,4 +157,4 @@ MainWindowContext::find_current_image_current_visual_rect()
   return {};
 }
 
-}  // namespace templateQt6
+}  // namespace imagesAnnotatorQt6

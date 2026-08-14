@@ -33,7 +33,7 @@
 #include "src/gui/qt6/main-window/event-handlers/WindowOps.h"
 #include "src/log/log.h"
 
-namespace templateQt6::window::event_handlers
+namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 ZoomEventsHandler::ZoomEventsHandler(std::shared_ptr<WindowOps> nops)
@@ -112,4 +112,4 @@ void ZoomEventsHandler::handle_image_scroll(int steps)
   }
 }
 
-}  // namespace templateQt6::window::event_handlers
+}  // namespace imagesAnnotatorQt6::window::event_handlers

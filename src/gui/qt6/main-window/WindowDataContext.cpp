@@ -27,7 +27,7 @@
 
 #include "src/gui/qt6/main-window/WindowDataContext.h"
 
-namespace templateQt6::window
+namespace imagesAnnotatorQt6::window
 {
 
 const std::set<std::string>& WindowDataContext::get_ids()
@@ -68,4 +68,4 @@ const std::set<std::string>& WindowDataContext::get_ids()
   return ids;
 }
 
-}  // namespace templateQt6::window
+}  // namespace imagesAnnotatorQt6::window

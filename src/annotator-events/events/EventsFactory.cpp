@@ -174,6 +174,27 @@ EventsFactory::create_pytorch_vision_export_request(
   return std::make_shared<Export2PyTorchVisionRequest>(exportDirPath);
 }
 
+ExportUltralyticsDetectRequestPtr
+EventsFactory::create_ultralytics_detect_export_request(
+    const std::string& exportDirPath)
+{
+  return std::make_shared<ExportUltralyticsDetectRequest>(exportDirPath);
+}
+
+ExportUltralyticsObbRequestPtr
+EventsFactory::create_ultralytics_obb_export_request(
+    const std::string& exportDirPath)
+{
+  return std::make_shared<ExportUltralyticsObbRequest>(exportDirPath);
+}
+
+ExportUltralyticsSegmentRequestPtr
+EventsFactory::create_ultralytics_segment_export_request(
+    const std::string& exportDirPath)
+{
+  return std::make_shared<ExportUltralyticsSegmentRequest>(exportDirPath);
+}
+
 DeleteCurrentImageRequestPtr EventsFactory::create_delete_current_image_request(
     const std::string& irFullPath)
 {

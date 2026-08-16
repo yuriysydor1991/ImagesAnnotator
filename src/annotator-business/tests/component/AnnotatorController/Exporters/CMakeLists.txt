@@ -23,6 +23,9 @@ add_executable(
   ${CMAKE_SOURCE_DIR}/src/helpers/SortHelper.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportPlainTxt2FolderRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportYolo4FolderRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportUltralyticsDetectRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportUltralyticsObbRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportUltralyticsSegmentRequest.cpp
   ${GUI_IMAGE_CROPPER_SRC}
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/Export2PyTorchVisionRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/DeleteCurrentImageRequest.cpp

@@ -16,6 +16,9 @@ add_library(
   ExportPlainTxt2FolderRequest.cpp
   ExportYolo4FolderRequest.cpp
   Export2PyTorchVisionRequest.cpp
+  ExportUltralyticsDetectRequest.cpp
+  ExportUltralyticsObbRequest.cpp
+  ExportUltralyticsSegmentRequest.cpp
   DeleteCurrentImageRequest.cpp
   LoadImagesFromWebPage.cpp
   DisplayErrorEvent.cpp

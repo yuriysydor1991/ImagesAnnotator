@@ -101,6 +101,24 @@ class ImagesAnnotatorEventController : public IImagesAnnotatorEventController
               (events::Export2PyTorchVisionRequestHandlerPtr handler),
               (override));
 
+  MOCK_METHOD(void, submit, (events::ExportUltralyticsDetectRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::ExportUltralyticsDetectRequestHandlerPtr handler),
+              (override));
+
+  MOCK_METHOD(void, submit, (events::ExportUltralyticsObbRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::ExportUltralyticsObbRequestHandlerPtr handler),
+              (override));
+
+  MOCK_METHOD(void, submit, (events::ExportUltralyticsSegmentRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::ExportUltralyticsSegmentRequestHandlerPtr handler),
+              (override));
+
   MOCK_METHOD(void, submit, (events::DeleteCurrentImageRequestPtr event),
               (override));
   MOCK_METHOD(void, subscribe,

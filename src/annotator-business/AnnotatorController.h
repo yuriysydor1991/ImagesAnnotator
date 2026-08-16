@@ -42,6 +42,12 @@
 #include "src/annotator-events/events/Export2PyTorchVisionRequest.h"
 #include "src/annotator-events/events/Export2PyTorchVisionRequestHandler.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequestHandler.h"
+#include "src/annotator-events/events/ExportUltralyticsDetectRequest.h"
+#include "src/annotator-events/events/ExportUltralyticsDetectRequestHandler.h"
+#include "src/annotator-events/events/ExportUltralyticsObbRequest.h"
+#include "src/annotator-events/events/ExportUltralyticsObbRequestHandler.h"
+#include "src/annotator-events/events/ExportUltralyticsSegmentRequest.h"
+#include "src/annotator-events/events/ExportUltralyticsSegmentRequestHandler.h"
 #include "src/annotator-events/events/ExportYolo4FolderRequest.h"
 #include "src/annotator-events/events/ExportYolo4FolderRequestHandler.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
@@ -75,6 +81,9 @@ class AnnotatorController
       virtual public events::events::ExportPlainTxt2FolderRequestHandler,
       virtual public events::events::ExportYolo4FolderRequestHandler,
       virtual public events::events::Export2PyTorchVisionRequestHandler,
+      virtual public events::events::ExportUltralyticsDetectRequestHandler,
+      virtual public events::events::ExportUltralyticsObbRequestHandler,
+      virtual public events::events::ExportUltralyticsSegmentRequestHandler,
       virtual public events::events::DeleteCurrentImageRequestHandler,
       virtual public events::events::LoadImagesFromWebPageHandler,
       public AnnotatorTypeAliases
@@ -94,6 +103,9 @@ class AnnotatorController
   virtual void handle(ExportPlainTxt2FolderRequestPtr event) override;
   virtual void handle(ExportYolo4FolderRequestPtr event) override;
   virtual void handle(Export2PyTorchVisionRequestPtr event) override;
+  virtual void handle(ExportUltralyticsDetectRequestPtr event) override;
+  virtual void handle(ExportUltralyticsObbRequestPtr event) override;
+  virtual void handle(ExportUltralyticsSegmentRequestPtr event) override;
   virtual void handle(DeleteCurrentImageRequestPtr event) override;
   virtual void handle(LoadImagesFromWebPagePtr event) override;
 

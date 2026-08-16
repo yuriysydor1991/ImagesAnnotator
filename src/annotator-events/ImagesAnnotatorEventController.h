@@ -117,6 +117,19 @@ class ImagesAnnotatorEventController
   virtual void subscribe(
       events::Export2PyTorchVisionRequestHandlerPtr handler) override;
 
+  virtual void submit(events::ExportUltralyticsDetectRequestPtr event) override;
+  virtual void subscribe(
+      events::ExportUltralyticsDetectRequestHandlerPtr handler) override;
+
+  virtual void submit(events::ExportUltralyticsObbRequestPtr event) override;
+  virtual void subscribe(
+      events::ExportUltralyticsObbRequestHandlerPtr handler) override;
+
+  virtual void submit(
+      events::ExportUltralyticsSegmentRequestPtr event) override;
+  virtual void subscribe(
+      events::ExportUltralyticsSegmentRequestHandlerPtr handler) override;
+
   virtual void submit(events::DeleteCurrentImageRequestPtr event) override;
   virtual void subscribe(
       events::DeleteCurrentImageRequestHandlerPtr handler) override;
@@ -149,6 +162,12 @@ class ImagesAnnotatorEventController
       std::set<events::ExportYolo4FolderRequestHandlerPtr>;
   using pytorchVisionExportersSet =
       std::set<events::Export2PyTorchVisionRequestHandlerPtr>;
+  using ultralyticsDetectExportersSet =
+      std::set<events::ExportUltralyticsDetectRequestHandlerPtr>;
+  using ultralyticsObbExportersSet =
+      std::set<events::ExportUltralyticsObbRequestHandlerPtr>;
+  using ultralyticsSegmentExportersSet =
+      std::set<events::ExportUltralyticsSegmentRequestHandlerPtr>;
   using deleteCurrentImageHSet =
       std::set<events::DeleteCurrentImageRequestHandlerPtr>;
   using webpageILoadersSet = std::set<events::LoadImagesFromWebPageHandlerPtr>;
@@ -169,6 +188,9 @@ class ImagesAnnotatorEventController
   plainTxtEportersSet plainTxtExporters_handlers;
   yolo4ExportersSet yolo4Exporters_handlers;
   pytorchVisionExportersSet pytorchvision_handlers;
+  ultralyticsDetectExportersSet ultralyticsDetectExporters_handlers;
+  ultralyticsObbExportersSet ultralyticsObbExporters_handlers;
+  ultralyticsSegmentExportersSet ultralyticsSegmentExporters_handlers;
   deleteCurrentImageHSet deletecir_handlers;
   webpageILoadersSet webILoaders_handlers;
   errDispSet errDisp_handlers;

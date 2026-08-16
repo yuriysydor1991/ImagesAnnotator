@@ -126,6 +126,9 @@ bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
   ctx->eventer->subscribe(ExportPlainTxt2FolderRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ExportYolo4FolderRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(Export2PyTorchVisionRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ExportUltralyticsDetectRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ExportUltralyticsObbRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ExportUltralyticsSegmentRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(DeleteCurrentImageRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(LoadImagesFromWebPageHandlerPtr{mptr});
 
@@ -386,6 +389,66 @@ void AnnotatorController::handle(ExportYolo4FolderRequestPtr event)
   if (!handle_export<Yolo4ExportLibraryContext>(event->dst_folder_path)) {
     static const std::string e =
         "Failure during the export to Yolo4 folder at " +
+        event->dst_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ExportUltralyticsDetectRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_export<UltralyticsDetectExportLibraryContext>(
+          event->dst_folder_path)) {
+    const std::string e =
+        "Failure during the export to an Ultralytics YOLO detection folder "
+        "at " +
+        event->dst_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ExportUltralyticsObbRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_export<UltralyticsObbExportLibraryContext>(
+          event->dst_folder_path)) {
+    const std::string e =
+        "Failure during the export to an Ultralytics YOLO oriented bounding "
+        "box folder at " +
+        event->dst_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ExportUltralyticsSegmentRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_export<UltralyticsSegmentExportLibraryContext>(
+          event->dst_folder_path)) {
+    const std::string e =
+        "Failure during the export to an Ultralytics YOLO segmentation folder "
+        "at " +
         event->dst_folder_path;
     LOGE(e);
     emitDisplayError(e);

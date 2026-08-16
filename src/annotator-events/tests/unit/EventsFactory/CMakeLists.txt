@@ -13,6 +13,9 @@ add_executable(
   ${EVENTS_SRC}/StoreRequest.cpp
   ${EVENTS_SRC}/ExportPlainTxt2FolderRequest.cpp
   ${EVENTS_SRC}/ExportYolo4FolderRequest.cpp
+  ${EVENTS_SRC}/ExportUltralyticsDetectRequest.cpp
+  ${EVENTS_SRC}/ExportUltralyticsObbRequest.cpp
+  ${EVENTS_SRC}/ExportUltralyticsSegmentRequest.cpp
   ${EVENTS_SRC}/Export2PyTorchVisionRequest.cpp
   ${EVENTS_SRC}/DeleteCurrentImageRequest.cpp
   ${EVENTS_SRC}/LoadImagesFromWebPage.cpp

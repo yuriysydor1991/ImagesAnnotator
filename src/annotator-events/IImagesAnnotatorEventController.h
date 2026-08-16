@@ -45,6 +45,12 @@
 #include "src/annotator-events/events/Export2PyTorchVisionRequestHandler.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequest.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequestHandler.h"
+#include "src/annotator-events/events/ExportUltralyticsDetectRequest.h"
+#include "src/annotator-events/events/ExportUltralyticsDetectRequestHandler.h"
+#include "src/annotator-events/events/ExportUltralyticsObbRequest.h"
+#include "src/annotator-events/events/ExportUltralyticsObbRequestHandler.h"
+#include "src/annotator-events/events/ExportUltralyticsSegmentRequest.h"
+#include "src/annotator-events/events/ExportUltralyticsSegmentRequestHandler.h"
 #include "src/annotator-events/events/ExportYolo4FolderRequest.h"
 #include "src/annotator-events/events/ExportYolo4FolderRequestHandler.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
@@ -119,6 +125,18 @@ class IImagesAnnotatorEventController
   virtual void submit(events::Export2PyTorchVisionRequestPtr event) = 0;
   virtual void subscribe(
       events::Export2PyTorchVisionRequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ExportUltralyticsDetectRequestPtr event) = 0;
+  virtual void subscribe(
+      events::ExportUltralyticsDetectRequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ExportUltralyticsObbRequestPtr event) = 0;
+  virtual void subscribe(
+      events::ExportUltralyticsObbRequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ExportUltralyticsSegmentRequestPtr event) = 0;
+  virtual void subscribe(
+      events::ExportUltralyticsSegmentRequestHandlerPtr handler) = 0;
 
   virtual void submit(events::DeleteCurrentImageRequestPtr event) = 0;
   virtual void subscribe(

@@ -41,6 +41,12 @@
 #include "src/annotator-events/events/Export2PyTorchVisionRequest.h"
 #include "src/annotator-events/events/Export2PyTorchVisionRequestHandler.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequestHandler.h"
+#include "src/annotator-events/events/ExportUltralyticsDetectRequest.h"
+#include "src/annotator-events/events/ExportUltralyticsDetectRequestHandler.h"
+#include "src/annotator-events/events/ExportUltralyticsObbRequest.h"
+#include "src/annotator-events/events/ExportUltralyticsObbRequestHandler.h"
+#include "src/annotator-events/events/ExportUltralyticsSegmentRequest.h"
+#include "src/annotator-events/events/ExportUltralyticsSegmentRequestHandler.h"
 #include "src/annotator-events/events/ExportYolo4FolderRequest.h"
 #include "src/annotator-events/events/ExportYolo4FolderRequestHandler.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
@@ -87,6 +93,12 @@ class AnnotatorTypeAliases
   using PlainTxtExportLibraryContext = iade::PlainTxtExportLibraryContext;
   using Yolo4ExportLibraryContext = iade::Yolo4ExportLibraryContext;
   using PyTorchExportLibraryContext = iade::PyTorchExportLibraryContext;
+  using UltralyticsDetectExportLibraryContext =
+      iade::UltralyticsDetectExportLibraryContext;
+  using UltralyticsObbExportLibraryContext =
+      iade::UltralyticsObbExportLibraryContext;
+  using UltralyticsSegmentExportLibraryContext =
+      iade::UltralyticsSegmentExportLibraryContext;
   using RequestImagesDirProviderHandler =
       events::events::RequestImagesDirProviderHandler;
   using RequestImagesDirProviderHandlerPtr =
@@ -99,6 +111,18 @@ class AnnotatorTypeAliases
       events::events::Export2PyTorchVisionRequestPtr;
   using Export2PyTorchVisionRequestHandlerPtr =
       events::events::Export2PyTorchVisionRequestHandlerPtr;
+  using ExportUltralyticsDetectRequestPtr =
+      events::events::ExportUltralyticsDetectRequestPtr;
+  using ExportUltralyticsDetectRequestHandlerPtr =
+      events::events::ExportUltralyticsDetectRequestHandlerPtr;
+  using ExportUltralyticsObbRequestPtr =
+      events::events::ExportUltralyticsObbRequestPtr;
+  using ExportUltralyticsObbRequestHandlerPtr =
+      events::events::ExportUltralyticsObbRequestHandlerPtr;
+  using ExportUltralyticsSegmentRequestPtr =
+      events::events::ExportUltralyticsSegmentRequestPtr;
+  using ExportUltralyticsSegmentRequestHandlerPtr =
+      events::events::ExportUltralyticsSegmentRequestHandlerPtr;
   using DeleteCurrentImageRequestPtr =
       events::events::DeleteCurrentImageRequestPtr;
   using DeleteCurrentImageRequestHandlerPtr =

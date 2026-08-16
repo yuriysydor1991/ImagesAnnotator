@@ -216,6 +216,42 @@ void ImagesAnnotatorEventController::subscribe(
 }
 
 void ImagesAnnotatorEventController::submit(
+    events::ExportUltralyticsDetectRequestPtr event)
+{
+  unified_submit(ultralyticsDetectExporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ExportUltralyticsDetectRequestHandlerPtr handler)
+{
+  ultralyticsDetectExporters_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
+    events::ExportUltralyticsObbRequestPtr event)
+{
+  unified_submit(ultralyticsObbExporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ExportUltralyticsObbRequestHandlerPtr handler)
+{
+  ultralyticsObbExporters_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
+    events::ExportUltralyticsSegmentRequestPtr event)
+{
+  unified_submit(ultralyticsSegmentExporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ExportUltralyticsSegmentRequestHandlerPtr handler)
+{
+  ultralyticsSegmentExporters_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
     events::Export2PyTorchVisionRequestPtr event)
 {
   unified_submit(pytorchvision_handlers, event);

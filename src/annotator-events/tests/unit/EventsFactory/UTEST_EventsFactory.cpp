@@ -154,6 +154,31 @@ TEST(UTEST_EventsFactory, create_pytorch_vision_export_request_carries_folder)
       "/out");
 }
 
+TEST(UTEST_EventsFactory,
+     create_ultralytics_detect_export_request_carries_folder)
+{
+  EXPECT_EQ(factory()
+                ->create_ultralytics_detect_export_request("/out")
+                ->dst_folder_path,
+            "/out");
+}
+
+TEST(UTEST_EventsFactory, create_ultralytics_obb_export_request_carries_folder)
+{
+  EXPECT_EQ(
+      factory()->create_ultralytics_obb_export_request("/out")->dst_folder_path,
+      "/out");
+}
+
+TEST(UTEST_EventsFactory,
+     create_ultralytics_segment_export_request_carries_folder)
+{
+  EXPECT_EQ(factory()
+                ->create_ultralytics_segment_export_request("/out")
+                ->dst_folder_path,
+            "/out");
+}
+
 TEST(UTEST_EventsFactory, create_delete_current_image_request_carries_path)
 {
   EXPECT_EQ(factory()

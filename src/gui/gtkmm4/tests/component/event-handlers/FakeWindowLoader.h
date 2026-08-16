@@ -38,6 +38,7 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm4::window::WindowLoader
             Gio::SimpleAction::create("export-ultralytics-obb")},
         export_ultralytics_segment_a_{
             Gio::SimpleAction::create("export-ultralytics-segment")},
+        export_coco_a_{Gio::SimpleAction::create("export-coco")},
         webpage_open_a_{Gio::SimpleAction::create("images-web-page-open")},
         auto_insert_a_{Gio::SimpleAction::create("auto-insert-annotation")}
   {
@@ -145,6 +146,10 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm4::window::WindowLoader
   {
     return export_ultralytics_segment_a_;
   }
+  Glib::RefPtr<Gio::SimpleAction> get_export_coco_action() override
+  {
+    return export_coco_a_;
+  }
   Glib::RefPtr<Gio::SimpleAction> get_images_web_page_open_action() override
   {
     return webpage_open_a_;
@@ -189,6 +194,7 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm4::window::WindowLoader
   Glib::RefPtr<Gio::SimpleAction> export_ultralytics_detect_a_;
   Glib::RefPtr<Gio::SimpleAction> export_ultralytics_obb_a_;
   Glib::RefPtr<Gio::SimpleAction> export_ultralytics_segment_a_;
+  Glib::RefPtr<Gio::SimpleAction> export_coco_a_;
   Glib::RefPtr<Gio::SimpleAction> webpage_open_a_;
   Glib::RefPtr<Gio::SimpleAction> auto_insert_a_;
 };

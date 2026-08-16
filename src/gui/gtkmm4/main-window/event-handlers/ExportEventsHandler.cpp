@@ -81,6 +81,10 @@ bool ExportEventsHandler::subscribe()
       .connect([this]([[maybe_unused]] const Glib::VariantBase& param) {
         handle_export_ultralytics_segment();
       });
+  mwctx->wloader->get_export_coco_action()->signal_activate().connect(
+      [this]([[maybe_unused]] const Glib::VariantBase& param) {
+        handle_export_coco();
+      });
 
   return true;
 }
@@ -220,7 +224,7 @@ void ExportEventsHandler::handle_export_pytorch()
   ops->hide_spinner();
 }
 
-void ExportEventsHandler::handle_ultralytics_export(
+void ExportEventsHandler::handle_folder_export(
     Gtk::FileChooserDialog* dialog,
     const std::function<void(const std::string&)>& submitExport)
 {
@@ -244,7 +248,7 @@ void ExportEventsHandler::handle_ultralytics_export(
 
   const std::string newFileName = dialog->get_file()->get_path();
 
-  LOGD("Selected Ultralytics export folder: " << newFileName);
+  LOGD("Selected export folder: " << newFileName);
 
   submitExport(newFileName);
 
@@ -258,7 +262,7 @@ void ExportEventsHandler::handle_export_ultralytics_detect()
   assert(mwctx != nullptr);
   assert(mwctx->wloader != nullptr);
 
-  handle_ultralytics_export(
+  handle_folder_export(
       mwctx->wloader->get_ultralytics_detect_export_folder_dialog(),
       [this](const std::string& folder) {
         auto efactory = mwctx->actx->eventer->get_events_factory();
@@ -275,7 +279,7 @@ void ExportEventsHandler::handle_export_ultralytics_obb()
   assert(mwctx != nullptr);
   assert(mwctx->wloader != nullptr);
 
-  handle_ultralytics_export(
+  handle_folder_export(
       mwctx->wloader->get_ultralytics_obb_export_folder_dialog(),
       [this](const std::string& folder) {
         auto efactory = mwctx->actx->eventer->get_events_factory();
@@ -292,7 +296,7 @@ void ExportEventsHandler::handle_export_ultralytics_segment()
   assert(mwctx != nullptr);
   assert(mwctx->wloader != nullptr);
 
-  handle_ultralytics_export(
+  handle_folder_export(
       mwctx->wloader->get_ultralytics_segment_export_folder_dialog(),
       [this](const std::string& folder) {
         auto efactory = mwctx->actx->eventer->get_events_factory();
@@ -302,6 +306,23 @@ void ExportEventsHandler::handle_export_ultralytics_segment()
         mwctx->actx->eventer->submit(
             efactory->create_ultralytics_segment_export_request(folder));
       });
+}
+
+void ExportEventsHandler::handle_export_coco()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+
+  handle_folder_export(mwctx->wloader->get_coco_export_folder_dialog(),
+                       [this](const std::string& folder) {
+                         auto efactory =
+                             mwctx->actx->eventer->get_events_factory();
+
+                         assert(efactory != nullptr);
+
+                         mwctx->actx->eventer->submit(
+                             efactory->create_coco_export_request(folder));
+                       });
 }
 
 }  // namespace imagesAnnotatorGtkmm4::window::event_handlers

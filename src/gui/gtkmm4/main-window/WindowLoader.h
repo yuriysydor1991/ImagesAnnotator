@@ -96,6 +96,7 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual Gtk::FileChooserDialog* get_ultralytics_obb_export_folder_dialog();
   virtual Gtk::FileChooserDialog*
   get_ultralytics_segment_export_folder_dialog();
+  virtual Gtk::FileChooserDialog* get_coco_export_folder_dialog();
   virtual Gtk::MessageDialog* get_error_dialog();
   virtual Gtk::MessageDialog* get_save_changes_ask_dialog();
   virtual Gtk::MessageDialog* get_lost_rects_ask_dialog();
@@ -120,6 +121,7 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual Glib::RefPtr<Gio::SimpleAction> get_export_ultralytics_obb_action();
   virtual Glib::RefPtr<Gio::SimpleAction>
   get_export_ultralytics_segment_action();
+  virtual Glib::RefPtr<Gio::SimpleAction> get_export_coco_action();
   virtual Glib::RefPtr<Gio::SimpleAction> get_images_web_page_open_action();
   virtual Glib::RefPtr<Gio::SimpleAction> get_auto_insert_annotation_action();
 
@@ -175,6 +177,7 @@ class WindowLoader : virtual public ComponentTypesAliases
   Glib::RefPtr<Gio::SimpleAction> action_export_ultralytics_detect;
   Glib::RefPtr<Gio::SimpleAction> action_export_ultralytics_obb;
   Glib::RefPtr<Gio::SimpleAction> action_export_ultralytics_segment;
+  Glib::RefPtr<Gio::SimpleAction> action_export_coco;
   Glib::RefPtr<Gio::SimpleAction> action_images_web_page_open;
   Glib::RefPtr<Gio::SimpleAction> action_auto_insert_annotation;
 };

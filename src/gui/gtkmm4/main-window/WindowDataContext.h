@@ -171,6 +171,8 @@ class WindowDataContext
   inline static constexpr const char* const
       ultralytics_segment_export_folder_dialog_id =
           "ultralytics_segment_export_folder_dialog";
+  inline static constexpr const char* const coco_export_folder_dialog_id =
+      "coco_export_folder_dialog";
   inline static constexpr const char* const error_dialog_id = "error_dialog";
   inline static constexpr const char* const save_changes_ask_dialog_id =
       "save_changes_ask_dialog";
@@ -215,6 +217,7 @@ class WindowDataContext
       "export-ultralytics-obb";
   inline static constexpr const char* const action_export_ultralytics_segment =
       "export-ultralytics-segment";
+  inline static constexpr const char* const action_export_coco = "export-coco";
   inline static constexpr const char* const action_images_web_page_open =
       "images-web-page-open";
   inline static constexpr const char* const action_auto_insert_annotation =

@@ -77,6 +77,7 @@ const std::set<std::string>& WindowDataContext::get_ids()
       ultralytics_detect_export_folder_dialog_id,
       ultralytics_obb_export_folder_dialog_id,
       ultralytics_segment_export_folder_dialog_id,
+      coco_export_folder_dialog_id,
       error_dialog_id,
       save_changes_ask_dialog_id,
       lost_rects_ask_dialog_id};

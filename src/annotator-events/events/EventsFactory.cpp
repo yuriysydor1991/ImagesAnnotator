@@ -207,6 +207,12 @@ ExportPascalVocRequestPtr EventsFactory::create_pascal_voc_export_request(
   return std::make_shared<ExportPascalVocRequest>(exportDirPath);
 }
 
+ExportCreateMLRequestPtr EventsFactory::create_createml_export_request(
+    const std::string& exportDirPath)
+{
+  return std::make_shared<ExportCreateMLRequest>(exportDirPath);
+}
+
 DeleteCurrentImageRequestPtr EventsFactory::create_delete_current_image_request(
     const std::string& irFullPath)
 {

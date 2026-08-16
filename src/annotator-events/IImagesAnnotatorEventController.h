@@ -45,6 +45,8 @@
 #include "src/annotator-events/events/Export2PyTorchVisionRequestHandler.h"
 #include "src/annotator-events/events/ExportCocoRequest.h"
 #include "src/annotator-events/events/ExportCocoRequestHandler.h"
+#include "src/annotator-events/events/ExportCreateMLRequest.h"
+#include "src/annotator-events/events/ExportCreateMLRequestHandler.h"
 #include "src/annotator-events/events/ExportPascalVocRequest.h"
 #include "src/annotator-events/events/ExportPascalVocRequestHandler.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequest.h"
@@ -147,6 +149,9 @@ class IImagesAnnotatorEventController
 
   virtual void submit(events::ExportPascalVocRequestPtr event) = 0;
   virtual void subscribe(events::ExportPascalVocRequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ExportCreateMLRequestPtr event) = 0;
+  virtual void subscribe(events::ExportCreateMLRequestHandlerPtr handler) = 0;
 
   virtual void submit(events::DeleteCurrentImageRequestPtr event) = 0;
   virtual void subscribe(

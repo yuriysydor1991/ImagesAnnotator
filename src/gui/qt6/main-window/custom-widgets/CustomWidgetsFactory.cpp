@@ -250,6 +250,12 @@ bool CustomWidgetsFactory::ask_pascal_voc_export_folder(QWidget* parent,
   return ask_folder(parent, "Select Pascal VOC export directory", out);
 }
 
+bool CustomWidgetsFactory::ask_createml_export_folder(QWidget* parent,
+                                                      std::string& out)
+{
+  return ask_folder(parent, "Select Create ML export directory", out);
+}
+
 bool CustomWidgetsFactory::ask_pytorch_export_folder(QWidget* parent,
                                                      std::string& out)
 {

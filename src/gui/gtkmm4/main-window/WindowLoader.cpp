@@ -195,6 +195,7 @@ bool WindowLoader::prepare_dialogs()
       get_ultralytics_segment_export_folder_dialog();
   auto* cocoFolder = get_coco_export_folder_dialog();
   auto* pascalVocFolder = get_pascal_voc_export_folder_dialog();
+  auto* createMLFolder = get_createml_export_folder_dialog();
   auto* error = get_error_dialog();
   auto* saveChanges = get_save_changes_ask_dialog();
   auto* lostRects = get_lost_rects_ask_dialog();
@@ -212,6 +213,7 @@ bool WindowLoader::prepare_dialogs()
         static_cast<Gtk::Window*>(ultralyticsSegmentFolder),
         static_cast<Gtk::Window*>(cocoFolder),
         static_cast<Gtk::Window*>(pascalVocFolder),
+        static_cast<Gtk::Window*>(createMLFolder),
         static_cast<Gtk::Window*>(error),
         static_cast<Gtk::Window*>(saveChanges),
         static_cast<Gtk::Window*>(lostRects)}) {
@@ -235,6 +237,7 @@ bool WindowLoader::prepare_dialogs()
   factory.prepare_folder_choose_dialog(ultralyticsSegmentFolder);
   factory.prepare_folder_choose_dialog(cocoFolder);
   factory.prepare_folder_choose_dialog(pascalVocFolder);
+  factory.prepare_folder_choose_dialog(createMLFolder);
   factory.prepare_save_changes_ask_user(saveChanges);
   factory.prepare_ask_user_about_lost_rects(lostRects);
 
@@ -346,6 +349,8 @@ bool WindowLoader::create_actions()
       actionGroup->add_action(WindowDataContext::action_export_coco);
   action_export_pascal_voc =
       actionGroup->add_action(WindowDataContext::action_export_pascal_voc);
+  action_export_createml =
+      actionGroup->add_action(WindowDataContext::action_export_createml);
   action_images_web_page_open =
       actionGroup->add_action(WindowDataContext::action_images_web_page_open);
   action_auto_insert_annotation =
@@ -587,6 +592,11 @@ Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_export_pascal_voc_action()
   return action_export_pascal_voc;
 }
 
+Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_export_createml_action()
+{
+  return action_export_createml;
+}
+
 Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_export_pytorchvision_action()
 {
   return action_export_pytorchvision;
@@ -790,6 +800,14 @@ Gtk::FileChooserDialog* WindowLoader::get_pascal_voc_export_folder_dialog()
 
   return get_widget<Gtk::FileChooserDialog>(
       mwctx->wctx->pascal_voc_export_folder_dialog_id);
+}
+
+Gtk::FileChooserDialog* WindowLoader::get_createml_export_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->createml_export_folder_dialog_id);
 }
 
 Gtk::FileChooserDialog* WindowLoader::get_yolo4_export_folder_dialog()

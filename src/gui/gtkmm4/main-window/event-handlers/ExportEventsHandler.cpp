@@ -89,6 +89,10 @@ bool ExportEventsHandler::subscribe()
       [this]([[maybe_unused]] const Glib::VariantBase& param) {
         handle_export_pascal_voc();
       });
+  mwctx->wloader->get_export_createml_action()->signal_activate().connect(
+      [this]([[maybe_unused]] const Glib::VariantBase& param) {
+        handle_export_createml();
+      });
 
   return true;
 }
@@ -344,6 +348,23 @@ void ExportEventsHandler::handle_export_pascal_voc()
         mwctx->actx->eventer->submit(
             efactory->create_pascal_voc_export_request(folder));
       });
+}
+
+void ExportEventsHandler::handle_export_createml()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+
+  handle_folder_export(mwctx->wloader->get_createml_export_folder_dialog(),
+                       [this](const std::string& folder) {
+                         auto efactory =
+                             mwctx->actx->eventer->get_events_factory();
+
+                         assert(efactory != nullptr);
+
+                         mwctx->actx->eventer->submit(
+                             efactory->create_createml_export_request(folder));
+                       });
 }
 
 }  // namespace imagesAnnotatorGtkmm4::window::event_handlers

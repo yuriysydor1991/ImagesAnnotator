@@ -40,6 +40,7 @@
 #include "src/annotator-events/events/DisplayErrorEvent.h"
 #include "src/annotator-events/events/Export2PyTorchVisionRequest.h"
 #include "src/annotator-events/events/ExportCocoRequest.h"
+#include "src/annotator-events/events/ExportCreateMLRequest.h"
 #include "src/annotator-events/events/ExportPascalVocRequest.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequest.h"
 #include "src/annotator-events/events/ExportUltralyticsDetectRequest.h"
@@ -129,6 +130,9 @@ class EventsFactory : public std::enable_shared_from_this<EventsFactory>
       const std::string& exportDirPath);
 
   virtual ExportPascalVocRequestPtr create_pascal_voc_export_request(
+      const std::string& exportDirPath);
+
+  virtual ExportCreateMLRequestPtr create_createml_export_request(
       const std::string& exportDirPath);
 
   virtual DeleteCurrentImageRequestPtr create_delete_current_image_request(

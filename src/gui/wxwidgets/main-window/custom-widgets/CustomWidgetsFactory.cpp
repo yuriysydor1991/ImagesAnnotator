@@ -227,6 +227,12 @@ bool CustomWidgetsFactory::ask_pascal_voc_export_folder(wxWindow* parent,
   return ask_folder(parent, "Select Pascal VOC export directory", out);
 }
 
+bool CustomWidgetsFactory::ask_createml_export_folder(wxWindow* parent,
+                                                      std::string& out)
+{
+  return ask_folder(parent, "Select Create ML export directory", out);
+}
+
 bool CustomWidgetsFactory::ask_pytorch_export_folder(wxWindow* parent,
                                                      std::string& out)
 {

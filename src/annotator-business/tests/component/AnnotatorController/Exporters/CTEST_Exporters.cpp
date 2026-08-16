@@ -12,6 +12,7 @@
 #include "src/annotator-events/ImagesAnnotatorEventController.h"
 #include "src/annotator-events/events/EventsFactory.h"
 #include "src/annotator-events/events/ExportCocoRequest.h"
+#include "src/annotator-events/events/ExportCreateMLRequest.h"
 #include "src/annotator-events/events/ExportPascalVocRequest.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequest.h"
 #include "src/annotator-events/events/ExportUltralyticsDetectRequest.h"
@@ -264,6 +265,26 @@ TEST_F(CTEST_Exporters, pascal_voc_request_writes_the_pascal_voc_layout)
 
   EXPECT_TRUE(fs::is_regular_file(export_dir / "ImageSets/Main/train.txt"));
   EXPECT_TRUE(fs::is_regular_file(export_dir / "ImageSets/Main/val.txt"));
+
+  // neither of the two layouts the sibling cases ask for
+  EXPECT_FALSE(fs::is_regular_file(export_dir / "data.yaml"));
+  EXPECT_FALSE(
+      fs::is_regular_file(export_dir / (known_annotation_name + ".txt")));
+}
+
+// The descriptor itself is covered by the exporters library own suite. Here
+// the image files the project file names are not on the disk, so what this
+// case asserts on is the one flat directory the layout is: the descriptor
+// beside the images, with no subdirectory of any sibling layout below it.
+TEST_F(CTEST_Exporters, createml_request_writes_the_createml_layout)
+{
+  controller->handle(
+      std::make_shared<ExportCreateMLRequest>(export_dir.string()));
+
+  EXPECT_TRUE(fs::is_regular_file(export_dir / "annotations.json"));
+
+  EXPECT_FALSE(fs::exists(export_dir / "images"));
+  EXPECT_FALSE(fs::exists(export_dir / "JPEGImages"));
 
   // neither of the two layouts the sibling cases ask for
   EXPECT_FALSE(fs::is_regular_file(export_dir / "data.yaml"));

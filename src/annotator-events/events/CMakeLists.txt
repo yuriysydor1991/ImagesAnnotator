@@ -21,6 +21,7 @@ add_library(
   ExportUltralyticsSegmentRequest.cpp
   ExportCocoRequest.cpp
   ExportPascalVocRequest.cpp
+  ExportCreateMLRequest.cpp
   DeleteCurrentImageRequest.cpp
   LoadImagesFromWebPage.cpp
   DisplayErrorEvent.cpp

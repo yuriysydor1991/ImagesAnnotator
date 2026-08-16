@@ -40,8 +40,9 @@ namespace imagesAnnotatorQt6::window::event_handlers
 /**
  * @brief Handles the annotations export menu items (plain txt, the darknet
  * YOLO4 directory, the three Ultralytics YOLO dataset layouts, the COCO object
- * detection dataset, the Pascal VOC dataset and the PyTorch Vision exports to a
- * folder) - the Qt analogue of GTKmm's ExportEventsHandler.
+ * detection dataset, the Pascal VOC dataset, the Create ML dataset and the
+ * PyTorch Vision exports to a folder) - the Qt analogue of GTKmm's
+ * ExportEventsHandler.
  */
 class ExportEventsHandler : public AbstractWindowEventHandler
 {
@@ -59,11 +60,13 @@ class ExportEventsHandler : public AbstractWindowEventHandler
   void handle_export_ultralytics_segment();
   void handle_export_coco();
   void handle_export_pascal_voc();
+  void handle_export_createml();
 
   /**
    * @brief The shared body of the three Ultralytics YOLO exports, of the COCO
-   * one and of the Pascal VOC one: the same guard, directory chooser and
-   * spinner, with only the chooser and the event to submit left to the caller.
+   * one, of the Pascal VOC one and of the Create ML one: the same guard,
+   * directory chooser and spinner, with only the chooser and the event to
+   * submit left to the caller.
    *
    * @param askFolder Runs the directory chooser of that layout.
    * @param submitExport Hands the chosen directory over to the events factory

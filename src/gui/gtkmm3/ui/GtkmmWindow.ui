@@ -59,6 +59,11 @@
     <property name="can-focus">False</property>
     <property name="icon-name">folder-symbolic</property>
   </object>
+  <object class="GtkImage" id="image17">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">folder-symbolic</property>
+  </object>
   <object class="GtkImage" id="image2">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -243,6 +248,16 @@
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
                                     <property name="image">image16</property>
+                                    <property name="use-stock">False</property>
+                                    <property name="always-show-image">True</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkImageMenuItem" id="annotations_export_createml_2_folder">
+                                    <property name="label" translatable="yes">Create ML JSON folder</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="image">image17</property>
                                     <property name="use-stock">False</property>
                                     <property name="always-show-image">True</property>
                                   </object>

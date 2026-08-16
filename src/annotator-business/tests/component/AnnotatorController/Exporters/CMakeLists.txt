@@ -28,6 +28,7 @@ add_executable(
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportUltralyticsSegmentRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportCocoRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportPascalVocRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportCreateMLRequest.cpp
   ${GUI_IMAGE_CROPPER_SRC}
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/Export2PyTorchVisionRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/DeleteCurrentImageRequest.cpp

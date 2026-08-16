@@ -137,6 +137,10 @@ class ImagesAnnotatorEventController
   virtual void subscribe(
       events::ExportPascalVocRequestHandlerPtr handler) override;
 
+  virtual void submit(events::ExportCreateMLRequestPtr event) override;
+  virtual void subscribe(
+      events::ExportCreateMLRequestHandlerPtr handler) override;
+
   virtual void submit(events::DeleteCurrentImageRequestPtr event) override;
   virtual void subscribe(
       events::DeleteCurrentImageRequestHandlerPtr handler) override;
@@ -178,6 +182,8 @@ class ImagesAnnotatorEventController
   using cocoExportersSet = std::set<events::ExportCocoRequestHandlerPtr>;
   using pascalVocExportersSet =
       std::set<events::ExportPascalVocRequestHandlerPtr>;
+  using createMLExportersSet =
+      std::set<events::ExportCreateMLRequestHandlerPtr>;
   using deleteCurrentImageHSet =
       std::set<events::DeleteCurrentImageRequestHandlerPtr>;
   using webpageILoadersSet = std::set<events::LoadImagesFromWebPageHandlerPtr>;
@@ -203,6 +209,7 @@ class ImagesAnnotatorEventController
   ultralyticsSegmentExportersSet ultralyticsSegmentExporters_handlers;
   cocoExportersSet cocoExporters_handlers;
   pascalVocExportersSet pascalVocExporters_handlers;
+  createMLExportersSet createMLExporters_handlers;
   deleteCurrentImageHSet deletecir_handlers;
   webpageILoadersSet webILoaders_handlers;
   errDispSet errDisp_handlers;

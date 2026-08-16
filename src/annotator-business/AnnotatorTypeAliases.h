@@ -42,6 +42,8 @@
 #include "src/annotator-events/events/Export2PyTorchVisionRequestHandler.h"
 #include "src/annotator-events/events/ExportCocoRequest.h"
 #include "src/annotator-events/events/ExportCocoRequestHandler.h"
+#include "src/annotator-events/events/ExportCreateMLRequest.h"
+#include "src/annotator-events/events/ExportCreateMLRequestHandler.h"
 #include "src/annotator-events/events/ExportPascalVocRequest.h"
 #include "src/annotator-events/events/ExportPascalVocRequestHandler.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequestHandler.h"
@@ -105,6 +107,7 @@ class AnnotatorTypeAliases
       iade::UltralyticsSegmentExportLibraryContext;
   using CocoExportLibraryContext = iade::CocoExportLibraryContext;
   using PascalVocExportLibraryContext = iade::PascalVocExportLibraryContext;
+  using CreateMLExportLibraryContext = iade::CreateMLExportLibraryContext;
   using RequestImagesDirProviderHandler =
       events::events::RequestImagesDirProviderHandler;
   using RequestImagesDirProviderHandlerPtr =
@@ -135,6 +138,9 @@ class AnnotatorTypeAliases
   using ExportPascalVocRequestPtr = events::events::ExportPascalVocRequestPtr;
   using ExportPascalVocRequestHandlerPtr =
       events::events::ExportPascalVocRequestHandlerPtr;
+  using ExportCreateMLRequestPtr = events::events::ExportCreateMLRequestPtr;
+  using ExportCreateMLRequestHandlerPtr =
+      events::events::ExportCreateMLRequestHandlerPtr;
   using DeleteCurrentImageRequestPtr =
       events::events::DeleteCurrentImageRequestPtr;
   using DeleteCurrentImageRequestHandlerPtr =

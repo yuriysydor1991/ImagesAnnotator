@@ -78,6 +78,9 @@ bool ExportEventsHandler::subscribe()
   frame->Bind(
       wxEVT_MENU, [this](wxCommandEvent&) { handle_export_pascal_voc(); },
       WindowDataContext::ID_EXPORT_PASCAL_VOC);
+  frame->Bind(
+      wxEVT_MENU, [this](wxCommandEvent&) { handle_export_createml(); },
+      WindowDataContext::ID_EXPORT_CREATEML);
 
   return true;
 }
@@ -329,6 +332,26 @@ void ExportEventsHandler::handle_export_pascal_voc()
 
         mwctx->actx->eventer->submit(
             efactory->create_pascal_voc_export_request(folder));
+      });
+}
+
+void ExportEventsHandler::handle_export_createml()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_folder_export(
+      [this](std::string& out) {
+        return mwctx->cwFactory->ask_createml_export_folder(
+            mwctx->wloader->get_window(), out);
+      },
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_createml_export_request(folder));
       });
 }
 

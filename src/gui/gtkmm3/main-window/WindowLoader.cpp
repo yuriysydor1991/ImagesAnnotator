@@ -569,6 +569,14 @@ Gtk::ImageMenuItem* WindowLoader::get_export_pascal_voc_folder_mi()
       mwctx->wctx->annotations_export_pascal_voc_2_folder_id);
 }
 
+Gtk::ImageMenuItem* WindowLoader::get_export_createml_folder_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_export_createml_2_folder_id);
+}
+
 Gtk::ImageMenuItem* WindowLoader::get_export_pytorchvision_folder_mi()
 {
   assert(mwctx->wctx != nullptr);

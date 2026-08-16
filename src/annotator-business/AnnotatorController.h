@@ -43,6 +43,8 @@
 #include "src/annotator-events/events/Export2PyTorchVisionRequestHandler.h"
 #include "src/annotator-events/events/ExportCocoRequest.h"
 #include "src/annotator-events/events/ExportCocoRequestHandler.h"
+#include "src/annotator-events/events/ExportCreateMLRequest.h"
+#include "src/annotator-events/events/ExportCreateMLRequestHandler.h"
 #include "src/annotator-events/events/ExportPascalVocRequest.h"
 #include "src/annotator-events/events/ExportPascalVocRequestHandler.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequestHandler.h"
@@ -90,6 +92,7 @@ class AnnotatorController
       virtual public events::events::ExportUltralyticsSegmentRequestHandler,
       virtual public events::events::ExportCocoRequestHandler,
       virtual public events::events::ExportPascalVocRequestHandler,
+      virtual public events::events::ExportCreateMLRequestHandler,
       virtual public events::events::DeleteCurrentImageRequestHandler,
       virtual public events::events::LoadImagesFromWebPageHandler,
       public AnnotatorTypeAliases
@@ -114,6 +117,7 @@ class AnnotatorController
   virtual void handle(ExportUltralyticsSegmentRequestPtr event) override;
   virtual void handle(ExportCocoRequestPtr event) override;
   virtual void handle(ExportPascalVocRequestPtr event) override;
+  virtual void handle(ExportCreateMLRequestPtr event) override;
   virtual void handle(DeleteCurrentImageRequestPtr event) override;
   virtual void handle(LoadImagesFromWebPagePtr event) override;
 

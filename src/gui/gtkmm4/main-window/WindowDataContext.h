@@ -175,6 +175,8 @@ class WindowDataContext
       "coco_export_folder_dialog";
   inline static constexpr const char* const pascal_voc_export_folder_dialog_id =
       "pascal_voc_export_folder_dialog";
+  inline static constexpr const char* const createml_export_folder_dialog_id =
+      "createml_export_folder_dialog";
   inline static constexpr const char* const error_dialog_id = "error_dialog";
   inline static constexpr const char* const save_changes_ask_dialog_id =
       "save_changes_ask_dialog";
@@ -222,6 +224,8 @@ class WindowDataContext
   inline static constexpr const char* const action_export_coco = "export-coco";
   inline static constexpr const char* const action_export_pascal_voc =
       "export-pascal-voc";
+  inline static constexpr const char* const action_export_createml =
+      "export-createml";
   inline static constexpr const char* const action_images_web_page_open =
       "images-web-page-open";
   inline static constexpr const char* const action_auto_insert_annotation =

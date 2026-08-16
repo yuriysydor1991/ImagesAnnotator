@@ -42,7 +42,7 @@
 // the compiler happens to see first.
 //
 // LibraryFacade.h transitively pulls in every other public header of the
-// library (the library context with its eight layout descendants, the exporter
+// library (the library context with its nine layout descendants, the exporter
 // and the image cropper interfaces), so a single include is enough.
 #include <ImagesAnnotatorDataExporters-0.11/LibraryFacade.h>
 

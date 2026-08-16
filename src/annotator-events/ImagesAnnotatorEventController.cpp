@@ -275,6 +275,18 @@ void ImagesAnnotatorEventController::subscribe(
 }
 
 void ImagesAnnotatorEventController::submit(
+    events::ExportCreateMLRequestPtr event)
+{
+  unified_submit(createMLExporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ExportCreateMLRequestHandlerPtr handler)
+{
+  createMLExporters_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
     events::Export2PyTorchVisionRequestPtr event)
 {
   unified_submit(pytorchvision_handlers, event);

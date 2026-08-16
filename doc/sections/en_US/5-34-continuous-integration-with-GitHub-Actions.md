@@ -11,7 +11,7 @@ The workflow is the GitHub counterpart of the [misc/Jenkinsfile](/misc/Jenkinsfi
 - `Release build and install` - a `Release` build followed by a trial `cmake --install`;
 - `cppcheck`, `clang-tidy`, `deb package` and `flatpak package` - the four opt-in jobs.
 
-The `Debug build and tests` job is a matrix over the three selectable GUI toolkits - `gtkmm3` (the default), `gtkmm4` and `wxwidgets` - because each of them compiles its own `src/gui` subtree with its own test targets, and only the three of them together configure every test the project declares. The component tests are executed under an `xvfb-run` X server: they build real toolkit windows and self-skip when no display is available, so without it they would silently stay green instead of being run.
+The `Debug build and tests` job is a matrix over the four selectable GUI toolkits - `gtkmm3` (the default), `gtkmm4`, `wxwidgets` and `qt6` - because each of them compiles its own `src/gui` subtree with its own test targets, and only the four of them together configure every test the project declares. The component tests are executed under an `xvfb-run` X server: they build real toolkit windows and self-skip when no display is available, so without it they would silently stay green instead of being run.
 
 Each toolkit job uploads its `ctest` JUnit reports as a workflow artifact, and the packaging jobs upload the produced `*.deb` / `*.flatpak` files.
 

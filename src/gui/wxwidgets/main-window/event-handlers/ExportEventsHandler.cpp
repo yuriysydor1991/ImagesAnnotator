@@ -28,6 +28,7 @@
 #include "src/gui/wxwidgets/main-window/event-handlers/ExportEventsHandler.h"
 
 #include <cassert>
+#include <functional>
 #include <string>
 
 #include "src/gui/wxwidgets/MainWindowContext.h"
@@ -60,6 +61,17 @@ bool ExportEventsHandler::subscribe()
   frame->Bind(
       wxEVT_MENU, [this](wxCommandEvent&) { handle_export_pytorch(); },
       WindowDataContext::ID_EXPORT_PYTORCH);
+  frame->Bind(
+      wxEVT_MENU,
+      [this](wxCommandEvent&) { handle_export_ultralytics_detect(); },
+      WindowDataContext::ID_EXPORT_ULTRALYTICS_DETECT);
+  frame->Bind(
+      wxEVT_MENU, [this](wxCommandEvent&) { handle_export_ultralytics_obb(); },
+      WindowDataContext::ID_EXPORT_ULTRALYTICS_OBB);
+  frame->Bind(
+      wxEVT_MENU,
+      [this](wxCommandEvent&) { handle_export_ultralytics_segment(); },
+      WindowDataContext::ID_EXPORT_ULTRALYTICS_SEGMENT);
 
   return true;
 }
@@ -185,6 +197,93 @@ void ExportEventsHandler::handle_export_pytorch()
   ops->update_statuses();
 
   ops->hide_spinner();
+}
+
+void ExportEventsHandler::handle_ultralytics_export(
+    const std::function<bool(std::string&)>& askFolder,
+    const std::function<void(const std::string&)>& submitExport)
+{
+  if (!has_to_export()) {
+    ops->show_error_dialog("No images found or db opened to export!");
+    return;
+  }
+
+  std::string newFileName;
+
+  if (!askFolder(newFileName)) {
+    LOGD("Dialog is closed");
+    return;
+  }
+
+  LOGD("Selected Ultralytics export folder: " << newFileName);
+
+  ops->show_spinner();
+
+  submitExport(newFileName);
+
+  ops->update_statuses();
+
+  ops->hide_spinner();
+}
+
+void ExportEventsHandler::handle_export_ultralytics_detect()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_ultralytics_export(
+      [this](std::string& out) {
+        return mwctx->cwFactory->ask_ultralytics_detect_export_folder(
+            mwctx->wloader->get_window(), out);
+      },
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_ultralytics_detect_export_request(folder));
+      });
+}
+
+void ExportEventsHandler::handle_export_ultralytics_obb()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_ultralytics_export(
+      [this](std::string& out) {
+        return mwctx->cwFactory->ask_ultralytics_obb_export_folder(
+            mwctx->wloader->get_window(), out);
+      },
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_ultralytics_obb_export_request(folder));
+      });
+}
+
+void ExportEventsHandler::handle_export_ultralytics_segment()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_ultralytics_export(
+      [this](std::string& out) {
+        return mwctx->cwFactory->ask_ultralytics_segment_export_folder(
+            mwctx->wloader->get_window(), out);
+      },
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_ultralytics_segment_export_request(folder));
+      });
 }
 
 }  // namespace imagesAnnotatorWx::window::event_handlers

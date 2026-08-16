@@ -28,7 +28,9 @@
 #ifndef IMAGES_ANNOTATOR_PROJECT_WX_EVENTHANDLERS_EXPORTEVENTSHANDLER_CLASS_H
 #define IMAGES_ANNOTATOR_PROJECT_WX_EVENTHANDLERS_EXPORTEVENTSHANDLER_CLASS_H
 
+#include <functional>
 #include <memory>
+#include <string>
 
 #include "src/gui/wxwidgets/main-window/event-handlers/AbstractWindowEventHandler.h"
 
@@ -36,7 +38,8 @@ namespace imagesAnnotatorWx::window::event_handlers
 {
 
 /**
- * @brief Handles the annotations export menu items (plain txt, YOLO4 and
+ * @brief Handles the annotations export menu items (plain txt, the darknet
+ * YOLO4 directory, the three Ultralytics YOLO dataset layouts and the
  * PyTorch Vision exports to a folder) - the wx analogue of GTKmm's
  * ExportEventsHandler.
  */
@@ -51,6 +54,22 @@ class ExportEventsHandler : public AbstractWindowEventHandler
   void handle_export_txt();
   void handle_export_yolo4();
   void handle_export_pytorch();
+  void handle_export_ultralytics_detect();
+  void handle_export_ultralytics_obb();
+  void handle_export_ultralytics_segment();
+
+  /**
+   * @brief The shared body of the three Ultralytics YOLO exports: the same
+   * guard, directory chooser and spinner, with only the chooser and the event
+   * to submit left to the caller.
+   *
+   * @param askFolder Runs the directory chooser of that layout.
+   * @param submitExport Hands the chosen directory over to the events factory
+   * and submits the resulting event.
+   */
+  void handle_ultralytics_export(
+      const std::function<bool(std::string&)>& askFolder,
+      const std::function<void(const std::string&)>& submitExport);
 
   bool has_to_export();
 };

@@ -97,6 +97,12 @@ wxMenuBar* WindowLoader::build_menu_bar()
   project->Append(WindowDataContext::ID_EXPORT_TXT,
                   "Export plain txt to folder");
   project->Append(WindowDataContext::ID_EXPORT_YOLO4, "Export YOLO4 to folder");
+  project->Append(WindowDataContext::ID_EXPORT_ULTRALYTICS_DETECT,
+                  "Export Ultralytics YOLO detection to folder");
+  project->Append(WindowDataContext::ID_EXPORT_ULTRALYTICS_OBB,
+                  "Export Ultralytics YOLO oriented boxes to folder");
+  project->Append(WindowDataContext::ID_EXPORT_ULTRALYTICS_SEGMENT,
+                  "Export Ultralytics YOLO segmentation to folder");
   project->Append(WindowDataContext::ID_EXPORT_PYTORCH,
                   "Export PyTorch Vision to folder");
   project->AppendSeparator();

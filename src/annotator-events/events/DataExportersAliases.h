@@ -29,10 +29,11 @@
 #define IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_DATA_EXPORTERS_ALIASES_H
 
 // The one and only place in the whole project that names the
-// ImagesAnnotator-DataExporters library. Everything else - the export context,
-// the exporters themselves and the image cropper interface the GUI toolkits
-// implement - is reached through the iade alias declared below, so bumping the
-// library to a namespace of the next version stays a one line change here.
+// ImagesAnnotator-DataExporters library. Everything else - the library context
+// and its dataset layout descendants, the exporters themselves and the image
+// cropper interface the GUI toolkits implement - is reached through the iade
+// alias declared below, so bumping the library to a namespace of the next
+// version stays a one line change here.
 //
 // The header is included through the versioned
 // <ImagesAnnotatorDataExporters-0.11/...> directory the library installs: the
@@ -41,9 +42,8 @@
 // the compiler happens to see first.
 //
 // LibraryFacade.h transitively pulls in every other public header of the
-// library (the export context, the export format enumeration, the exporter and
-// the image cropper interfaces and the library context), so a single include is
-// enough.
+// library (the library context with its three layout descendants, the exporter
+// and the image cropper interfaces), so a single include is enough.
 #include <ImagesAnnotatorDataExporters-0.11/LibraryFacade.h>
 
 /// @brief The ImagesAnnotator-DataExporters library namespace, whose name

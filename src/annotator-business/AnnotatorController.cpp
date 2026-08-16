@@ -336,17 +336,18 @@ AnnotatorController::get_available_annotations()
   return annotations->get_available_annotations();
 }
 
-AnnotatorController::ExportContextPtr AnnotatorController::build_export_context(
+template <class ContextT>
+std::shared_ptr<ContextT> AnnotatorController::build_export_context(
     const std::string& dirPath)
 {
   assert(annotations != nullptr);
 
-  auto ectx = iade::LibraryFacade::create_export_context();
+  auto ctx = std::make_shared<ContextT>();
 
-  ectx->export_path = dirPath;
-  ectx->dbProvider = annotations;
+  ctx->set_export_path(dirPath);
+  ctx->set_db_provider(annotations);
 
-  return ectx;
+  return ctx;
 }
 
 void AnnotatorController::handle(ExportPlainTxt2FolderRequestPtr event)
@@ -358,7 +359,7 @@ void AnnotatorController::handle(ExportPlainTxt2FolderRequestPtr event)
     return;
   }
 
-  if (!handle_export(ExportFormat::PlainTxt2Folder, event->dst_folder_path)) {
+  if (!handle_export<PlainTxtExportLibraryContext>(event->dst_folder_path)) {
     const std::string e = "Failure during the export to a plain txt folder: " +
                           event->dst_folder_path;
     LOGE(e);
@@ -382,7 +383,7 @@ void AnnotatorController::handle(ExportYolo4FolderRequestPtr event)
     return;
   }
 
-  if (!handle_export(ExportFormat::Yolo42Folder, event->dst_folder_path)) {
+  if (!handle_export<Yolo4ExportLibraryContext>(event->dst_folder_path)) {
     static const std::string e =
         "Failure during the export to Yolo4 folder at " +
         event->dst_folder_path;
@@ -391,8 +392,8 @@ void AnnotatorController::handle(ExportYolo4FolderRequestPtr event)
   }
 }
 
-bool AnnotatorController::handle_export(const ExportFormat& format,
-                                        const std::string& dirPath)
+template <class ContextT>
+bool AnnotatorController::handle_export(const std::string& dirPath)
 {
   if (dirPath.empty()) {
     static const std::string e = "Empty dir path provided";
@@ -403,20 +404,20 @@ bool AnnotatorController::handle_export(const ExportFormat& format,
 
   LOGD("Trying to export to " << dirPath);
 
-  auto ectx = build_export_context(dirPath);
+  auto ctx = build_export_context<ContextT>(dirPath);
 
-  assert(ectx != nullptr);
+  assert(ctx != nullptr);
 
-  auto exporter = iade::LibraryFacade::create_exporter(format);
+  auto exporter = iade::LibraryFacade::create_exporter(ctx);
 
   assert(exporter != nullptr);
 
   if (exporter == nullptr) {
-    LOGE("Fail to create the exporter for the requested format");
+    LOGE("Fail to create the exporter for the requested layout");
     return false;
   }
 
-  if (!exporter->export_db(ectx)) {
+  if (!exporter->export_db(ctx)) {
     LOGE("Invalid export status to " << dirPath);
     return false;
   }
@@ -424,29 +425,6 @@ bool AnnotatorController::handle_export(const ExportFormat& format,
   LOGD("DB seems to be exported");
 
   return true;
-}
-
-AnnotatorController::ExportContextPtr AnnotatorController::build_export_context(
-    Export2PyTorchVisionRequestPtr event)
-{
-  assert(event != nullptr);
-  assert(!event->dst_folder_path.empty());
-  assert(event->cropper != nullptr);
-
-  if (event == nullptr) {
-    LOGE("Invalid event pointer provided");
-    return {};
-  }
-
-  assert(annotations != nullptr);
-
-  auto ectx = iade::LibraryFacade::create_export_context();
-
-  ectx->export_path = event->dst_folder_path;
-  ectx->dbProvider = annotations;
-  ectx->cropper = event->cropper;
-
-  return ectx;
 }
 
 void AnnotatorController::handle(Export2PyTorchVisionRequestPtr event)
@@ -474,20 +452,24 @@ void AnnotatorController::handle(Export2PyTorchVisionRequestPtr event)
     return;
   }
 
-  auto ectx = build_export_context(event);
+  auto ctx =
+      build_export_context<PyTorchExportLibraryContext>(event->dst_folder_path);
 
-  assert(ectx != nullptr);
+  assert(ctx != nullptr);
 
-  auto exporter =
-      iade::LibraryFacade::create_exporter(ExportFormat::PyTorchVisionFolder);
+  // The cropper lives on the context of this layout alone, since the PyTorch
+  // Vision export is the only one which cuts the rectangles out.
+  ctx->set_cropper(event->cropper);
+
+  auto exporter = iade::LibraryFacade::create_exporter(ctx);
 
   assert(exporter != nullptr);
 
-  LOGI("Handle the PyTorch export event to " << ectx->export_path);
+  LOGI("Handle the PyTorch export event to " << ctx->get_export_path());
 
-  if (exporter == nullptr || !exporter->export_db(ectx)) {
+  if (exporter == nullptr || !exporter->export_db(ctx)) {
     const std::string e =
-        "Invalid PyTorch Vision export status into " + ectx->export_path;
+        "Invalid PyTorch Vision export status into " + ctx->get_export_path();
     LOGE(e);
     emitDisplayError(e);
     return;

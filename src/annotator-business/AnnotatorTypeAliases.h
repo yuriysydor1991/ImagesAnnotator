@@ -80,9 +80,13 @@ class AnnotatorTypeAliases
   /// tracking of the project JSON files all live in the library now.
   using AnnotationsDBPtr = iadd::IAnnotationsDBPtr;
   /// @brief The export configuration the controller fills in and hands to an
-  /// exporter of the ImagesAnnotator-DataExporters library.
-  using ExportContextPtr = iade::ExportContextPtr;
-  using ExportFormat = iade::ExportFormat;
+  /// exporter of the ImagesAnnotator-DataExporters library. The wanted dataset
+  /// layout is named by the descendant instantiated, so the library carries no
+  /// format enumeration any more.
+  using LibraryContextPtr = iade::LibraryContextPtr;
+  using PlainTxtExportLibraryContext = iade::PlainTxtExportLibraryContext;
+  using Yolo4ExportLibraryContext = iade::Yolo4ExportLibraryContext;
+  using PyTorchExportLibraryContext = iade::PyTorchExportLibraryContext;
   using RequestImagesDirProviderHandler =
       events::events::RequestImagesDirProviderHandler;
   using RequestImagesDirProviderHandlerPtr =

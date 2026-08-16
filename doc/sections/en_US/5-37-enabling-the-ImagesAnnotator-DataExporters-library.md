@@ -65,8 +65,8 @@ cmake -S . -B build -DTEMPLATE_APP_IADE_PACKAGE=ImagesAnnotatorDataExporters-0
 
 ### What the project takes from the library
 
-- `IExporter` and the `ExportFormat` enumeration - the three exporters the `AnnotatorController` runs when the GUI raises an export request. It builds them through `LibraryFacade::create_exporter()` instead of instantiating exporter classes of its own.
-- `ExportContext` - the export configuration (the destination directory, the annotations database to read and the optional image cropper) the controller fills in.
+- `IExporter` and the three `LibraryContext` layout descendants - the three exporters the `AnnotatorController` runs when the GUI raises an export request. It builds them through `LibraryFacade::create_exporter()`, handing it the context of the wanted layout, instead of instantiating exporter classes of its own.
+- `LibraryContext` - the export configuration (the destination directory and the annotations database to read) the controller fills in through the setters of the context. The optional image cropper sits on `PyTorchExportLibraryContext`, the one layout which cuts rectangles out.
 - `IImageCropperFacility` - the image cropping service the PyTorch Vision export needs. The library decodes no image format itself, so every GUI toolkit of this project implements that interface over the imaging stack it already links: `GtkmmImageCropperProvider`, `QtImageCropperProvider` and `WxImageCropperProvider`. The `src/annotator-events/events/IImageCropperFacilityProvider.h` header of the project is an alias onto it now.
 
 The single place naming the library is `src/annotator-events/events/DataExportersAliases.h`, which declares the `iade` alias of the versioned `ImagesAnnotatorDataExporters011` namespace. Its headers are included through the versioned `<ImagesAnnotatorDataExporters-0.11/...>` directory: both libraries install a public `LibraryFacade.h`, so the plain spelling would name whichever of the two the compiler sees first.

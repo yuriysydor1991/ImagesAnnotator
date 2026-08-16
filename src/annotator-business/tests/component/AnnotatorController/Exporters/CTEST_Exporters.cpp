@@ -32,9 +32,9 @@ namespace fs = std::filesystem;
  * The exporters themselves belong to the ImagesAnnotator-DataExporters library
  * and are covered by its own suites. What is checked here is this project's
  * side of that integration: that a request event reaches the library through
- * LibraryFacade::create_exporter(), that the export context the controller
- * fills in carries the annotations database, and that the requested
- * ExportFormat is the layout that ends up on the filesystem.
+ * LibraryFacade::create_exporter(), that the library context the controller
+ * fills in carries the annotations database, and that the layout named by that
+ * context type is the one which ends up on the filesystem.
  */
 class CTEST_Exporters : public CTEST_AnnotatorController
 {

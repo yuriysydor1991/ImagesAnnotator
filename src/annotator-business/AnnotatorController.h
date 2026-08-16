@@ -106,8 +106,12 @@ class AnnotatorController
   virtual void deinit();
 
  protected:
-  virtual ExportContextPtr build_export_context(const std::string& dirPath);
-  virtual ExportContextPtr build_export_context(Export2PyTorchVisionRequestPtr);
+  /**
+   * @brief Builds the library context of the ContextT dataset layout, filled
+   * with the export destination and the annotations database.
+   */
+  template <class ContextT>
+  std::shared_ptr<ContextT> build_export_context(const std::string& dirPath);
 
  private:
   void emitImagesProviderChanged();
@@ -117,7 +121,12 @@ class AnnotatorController
   void try_to_append_images_dir(const std::string& path);
   AnnotationsDBPtr create_project_data_instance();
 
-  bool handle_export(const ExportFormat& format, const std::string& dirPath);
+  /**
+   * @brief Runs the export of the ContextT dataset layout into the given
+   * directory.
+   */
+  template <class ContextT>
+  bool handle_export(const std::string& dirPath);
 
   AnnotationsDBPtr annotations;
 

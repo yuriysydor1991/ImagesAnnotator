@@ -72,6 +72,9 @@ bool ExportEventsHandler::subscribe()
       wxEVT_MENU,
       [this](wxCommandEvent&) { handle_export_ultralytics_segment(); },
       WindowDataContext::ID_EXPORT_ULTRALYTICS_SEGMENT);
+  frame->Bind(
+      wxEVT_MENU, [this](wxCommandEvent&) { handle_export_coco(); },
+      WindowDataContext::ID_EXPORT_COCO);
 
   return true;
 }
@@ -199,7 +202,7 @@ void ExportEventsHandler::handle_export_pytorch()
   ops->hide_spinner();
 }
 
-void ExportEventsHandler::handle_ultralytics_export(
+void ExportEventsHandler::handle_folder_export(
     const std::function<bool(std::string&)>& askFolder,
     const std::function<void(const std::string&)>& submitExport)
 {
@@ -215,7 +218,7 @@ void ExportEventsHandler::handle_ultralytics_export(
     return;
   }
 
-  LOGD("Selected Ultralytics export folder: " << newFileName);
+  LOGD("Selected export folder: " << newFileName);
 
   ops->show_spinner();
 
@@ -231,7 +234,7 @@ void ExportEventsHandler::handle_export_ultralytics_detect()
   assert(mwctx != nullptr);
   assert(mwctx->cwFactory != nullptr);
 
-  handle_ultralytics_export(
+  handle_folder_export(
       [this](std::string& out) {
         return mwctx->cwFactory->ask_ultralytics_detect_export_folder(
             mwctx->wloader->get_window(), out);
@@ -251,7 +254,7 @@ void ExportEventsHandler::handle_export_ultralytics_obb()
   assert(mwctx != nullptr);
   assert(mwctx->cwFactory != nullptr);
 
-  handle_ultralytics_export(
+  handle_folder_export(
       [this](std::string& out) {
         return mwctx->cwFactory->ask_ultralytics_obb_export_folder(
             mwctx->wloader->get_window(), out);
@@ -271,7 +274,7 @@ void ExportEventsHandler::handle_export_ultralytics_segment()
   assert(mwctx != nullptr);
   assert(mwctx->cwFactory != nullptr);
 
-  handle_ultralytics_export(
+  handle_folder_export(
       [this](std::string& out) {
         return mwctx->cwFactory->ask_ultralytics_segment_export_folder(
             mwctx->wloader->get_window(), out);
@@ -283,6 +286,26 @@ void ExportEventsHandler::handle_export_ultralytics_segment()
 
         mwctx->actx->eventer->submit(
             efactory->create_ultralytics_segment_export_request(folder));
+      });
+}
+
+void ExportEventsHandler::handle_export_coco()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_folder_export(
+      [this](std::string& out) {
+        return mwctx->cwFactory->ask_coco_export_folder(
+            mwctx->wloader->get_window(), out);
+      },
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_coco_export_request(folder));
       });
 }
 

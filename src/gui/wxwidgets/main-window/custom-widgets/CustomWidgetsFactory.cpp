@@ -215,6 +215,12 @@ bool CustomWidgetsFactory::ask_ultralytics_segment_export_folder(
       parent, "Select Ultralytics YOLO segmentation export directory", out);
 }
 
+bool CustomWidgetsFactory::ask_coco_export_folder(wxWindow* parent,
+                                                  std::string& out)
+{
+  return ask_folder(parent, "Select COCO export directory", out);
+}
+
 bool CustomWidgetsFactory::ask_pytorch_export_folder(wxWindow* parent,
                                                      std::string& out)
 {

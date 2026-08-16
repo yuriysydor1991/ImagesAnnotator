@@ -270,6 +270,16 @@ void WindowLoader::build_menu_bar()
   add_menu_action(project, QStringLiteral("Export YOLO4 to folder"),
                   WindowDataContext::annotations_export_yolo4_2_folder2_id);
   add_menu_action(
+      project, QStringLiteral("Export Ultralytics YOLO detection to folder"),
+      WindowDataContext::annotations_export_ultralytics_detect_2_folder_id);
+  add_menu_action(
+      project,
+      QStringLiteral("Export Ultralytics YOLO oriented boxes to folder"),
+      WindowDataContext::annotations_export_ultralytics_obb_2_folder_id);
+  add_menu_action(
+      project, QStringLiteral("Export Ultralytics YOLO segmentation to folder"),
+      WindowDataContext::annotations_export_ultralytics_segment_2_folder_id);
+  add_menu_action(
       project, QStringLiteral("Export PyTorch Vision to folder"),
       WindowDataContext::annotations_export_pytorchvision_2_folder_id);
   project->addSeparator();
@@ -665,6 +675,24 @@ QAction* WindowLoader::get_export_yolo4_folder_mi()
 {
   return get_object<QAction>(
       WindowDataContext::annotations_export_yolo4_2_folder2_id);
+}
+
+QAction* WindowLoader::get_export_ultralytics_detect_folder_mi()
+{
+  return get_object<QAction>(
+      WindowDataContext::annotations_export_ultralytics_detect_2_folder_id);
+}
+
+QAction* WindowLoader::get_export_ultralytics_obb_folder_mi()
+{
+  return get_object<QAction>(
+      WindowDataContext::annotations_export_ultralytics_obb_2_folder_id);
+}
+
+QAction* WindowLoader::get_export_ultralytics_segment_folder_mi()
+{
+  return get_object<QAction>(
+      WindowDataContext::annotations_export_ultralytics_segment_2_folder_id);
 }
 
 QAction* WindowLoader::get_export_pytorchvision_folder_mi()

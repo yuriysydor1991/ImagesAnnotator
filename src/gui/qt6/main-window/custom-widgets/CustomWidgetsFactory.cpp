@@ -216,6 +216,28 @@ bool CustomWidgetsFactory::ask_yolo4_export_folder(QWidget* parent,
   return ask_folder(parent, "Select YOLO4 export directory", out);
 }
 
+bool CustomWidgetsFactory::ask_ultralytics_detect_export_folder(
+    QWidget* parent, std::string& out)
+{
+  return ask_folder(parent,
+                    "Select Ultralytics YOLO detection export directory", out);
+}
+
+bool CustomWidgetsFactory::ask_ultralytics_obb_export_folder(QWidget* parent,
+                                                             std::string& out)
+{
+  return ask_folder(
+      parent, "Select Ultralytics YOLO oriented bounding box export directory",
+      out);
+}
+
+bool CustomWidgetsFactory::ask_ultralytics_segment_export_folder(
+    QWidget* parent, std::string& out)
+{
+  return ask_folder(
+      parent, "Select Ultralytics YOLO segmentation export directory", out);
+}
+
 bool CustomWidgetsFactory::ask_pytorch_export_folder(QWidget* parent,
                                                      std::string& out)
 {

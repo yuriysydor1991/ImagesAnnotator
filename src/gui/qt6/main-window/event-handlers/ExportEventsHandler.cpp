@@ -28,6 +28,7 @@
 #include "src/gui/qt6/main-window/event-handlers/ExportEventsHandler.h"
 
 #include <cassert>
+#include <functional>
 #include <string>
 
 #include "src/gui/qt6/MainWindowContext.h"
@@ -60,6 +61,15 @@ bool ExportEventsHandler::subscribe()
   QObject::connect(mwctx->wloader->get_export_pytorchvision_folder_mi(),
                    &QAction::triggered, window,
                    [this]() { handle_export_pytorch(); });
+  QObject::connect(mwctx->wloader->get_export_ultralytics_detect_folder_mi(),
+                   &QAction::triggered, window,
+                   [this]() { handle_export_ultralytics_detect(); });
+  QObject::connect(mwctx->wloader->get_export_ultralytics_obb_folder_mi(),
+                   &QAction::triggered, window,
+                   [this]() { handle_export_ultralytics_obb(); });
+  QObject::connect(mwctx->wloader->get_export_ultralytics_segment_folder_mi(),
+                   &QAction::triggered, window,
+                   [this]() { handle_export_ultralytics_segment(); });
 
   return true;
 }
@@ -182,6 +192,93 @@ void ExportEventsHandler::handle_export_pytorch()
   ops->update_statuses();
 
   ops->hide_spinner();
+}
+
+void ExportEventsHandler::handle_ultralytics_export(
+    const std::function<bool(std::string&)>& askFolder,
+    const std::function<void(const std::string&)>& submitExport)
+{
+  if (!has_to_export()) {
+    ops->show_error_dialog("No images found or db opened to export!");
+    return;
+  }
+
+  std::string newFileName;
+
+  if (!askFolder(newFileName)) {
+    LOGD("Dialog is closed");
+    return;
+  }
+
+  LOGD("Selected Ultralytics export folder: " << newFileName);
+
+  ops->show_spinner();
+
+  submitExport(newFileName);
+
+  ops->update_statuses();
+
+  ops->hide_spinner();
+}
+
+void ExportEventsHandler::handle_export_ultralytics_detect()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_ultralytics_export(
+      [this](std::string& out) {
+        return mwctx->cwFactory->ask_ultralytics_detect_export_folder(
+            mwctx->wloader->get_window(), out);
+      },
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_ultralytics_detect_export_request(folder));
+      });
+}
+
+void ExportEventsHandler::handle_export_ultralytics_obb()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_ultralytics_export(
+      [this](std::string& out) {
+        return mwctx->cwFactory->ask_ultralytics_obb_export_folder(
+            mwctx->wloader->get_window(), out);
+      },
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_ultralytics_obb_export_request(folder));
+      });
+}
+
+void ExportEventsHandler::handle_export_ultralytics_segment()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_ultralytics_export(
+      [this](std::string& out) {
+        return mwctx->cwFactory->ask_ultralytics_segment_export_folder(
+            mwctx->wloader->get_window(), out);
+      },
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_ultralytics_segment_export_request(folder));
+      });
 }
 
 }  // namespace imagesAnnotatorQt6::window::event_handlers

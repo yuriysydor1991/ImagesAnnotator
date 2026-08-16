@@ -17,6 +17,7 @@ add_executable(
   ${EVENTS_SRC}/ExportUltralyticsDetectRequest.cpp
   ${EVENTS_SRC}/ExportUltralyticsObbRequest.cpp
   ${EVENTS_SRC}/ExportUltralyticsSegmentRequest.cpp
+  ${EVENTS_SRC}/ExportCocoRequest.cpp
   ${EVENTS_SRC}/Export2PyTorchVisionRequest.cpp
   ${EVENTS_SRC}/DeleteCurrentImageRequest.cpp
   ${EVENTS_SRC}/LoadImagesFromWebPage.cpp

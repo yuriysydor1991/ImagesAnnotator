@@ -130,6 +130,9 @@ class ImagesAnnotatorEventController
   virtual void subscribe(
       events::ExportUltralyticsSegmentRequestHandlerPtr handler) override;
 
+  virtual void submit(events::ExportCocoRequestPtr event) override;
+  virtual void subscribe(events::ExportCocoRequestHandlerPtr handler) override;
+
   virtual void submit(events::DeleteCurrentImageRequestPtr event) override;
   virtual void subscribe(
       events::DeleteCurrentImageRequestHandlerPtr handler) override;
@@ -168,6 +171,7 @@ class ImagesAnnotatorEventController
       std::set<events::ExportUltralyticsObbRequestHandlerPtr>;
   using ultralyticsSegmentExportersSet =
       std::set<events::ExportUltralyticsSegmentRequestHandlerPtr>;
+  using cocoExportersSet = std::set<events::ExportCocoRequestHandlerPtr>;
   using deleteCurrentImageHSet =
       std::set<events::DeleteCurrentImageRequestHandlerPtr>;
   using webpageILoadersSet = std::set<events::LoadImagesFromWebPageHandlerPtr>;
@@ -191,6 +195,7 @@ class ImagesAnnotatorEventController
   ultralyticsDetectExportersSet ultralyticsDetectExporters_handlers;
   ultralyticsObbExportersSet ultralyticsObbExporters_handlers;
   ultralyticsSegmentExportersSet ultralyticsSegmentExporters_handlers;
+  cocoExportersSet cocoExporters_handlers;
   deleteCurrentImageHSet deletecir_handlers;
   webpageILoadersSet webILoaders_handlers;
   errDispSet errDisp_handlers;

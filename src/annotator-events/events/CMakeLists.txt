@@ -19,6 +19,7 @@ add_library(
   ExportUltralyticsDetectRequest.cpp
   ExportUltralyticsObbRequest.cpp
   ExportUltralyticsSegmentRequest.cpp
+  ExportCocoRequest.cpp
   DeleteCurrentImageRequest.cpp
   LoadImagesFromWebPage.cpp
   DisplayErrorEvent.cpp

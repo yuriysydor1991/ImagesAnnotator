@@ -11,6 +11,7 @@
 #include "src/annotator-business/AnnotatorController.h"
 #include "src/annotator-events/ImagesAnnotatorEventController.h"
 #include "src/annotator-events/events/EventsFactory.h"
+#include "src/annotator-events/events/ExportCocoRequest.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequest.h"
 #include "src/annotator-events/events/ExportUltralyticsDetectRequest.h"
 #include "src/annotator-events/events/ExportUltralyticsObbRequest.h"
@@ -217,6 +218,33 @@ TEST_F(CTEST_Exporters,
 
   // neither of the two layouts the sibling cases ask for
   EXPECT_FALSE(fs::is_directory(export_dir / "cfg"));
+  EXPECT_FALSE(
+      fs::is_regular_file(export_dir / (known_annotation_name + ".txt")));
+}
+
+// The descriptor contents are covered by the exporters library own suite. What
+// this project has to get right is the wiring: that the request event reaches
+// the library and that the layout of the context type the controller picked for
+// it is the one written. The project file behind this fixture names image files
+// which are not on the disk, so the export carries over the annotation names
+// and copies no image.
+TEST_F(CTEST_Exporters, coco_request_writes_the_coco_layout)
+{
+  controller->handle(std::make_shared<ExportCocoRequest>(export_dir.string()));
+
+  EXPECT_TRUE(fs::is_directory(export_dir / "images"));
+
+  ASSERT_TRUE(
+      fs::is_regular_file(export_dir / "annotations/instances_default.json"));
+
+  const std::string json =
+      read_file(export_dir / "annotations/instances_default.json");
+
+  EXPECT_NE(json.find("\"categories\": ["), std::string::npos);
+  EXPECT_NE(json.find(known_annotation_name), std::string::npos);
+
+  // neither of the two layouts the sibling cases ask for
+  EXPECT_FALSE(fs::is_regular_file(export_dir / "data.yaml"));
   EXPECT_FALSE(
       fs::is_regular_file(export_dir / (known_annotation_name + ".txt")));
 }

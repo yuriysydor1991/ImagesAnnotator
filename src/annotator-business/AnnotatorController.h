@@ -41,6 +41,8 @@
 #include "src/annotator-events/events/DeleteCurrentImageRequestHandler.h"
 #include "src/annotator-events/events/Export2PyTorchVisionRequest.h"
 #include "src/annotator-events/events/Export2PyTorchVisionRequestHandler.h"
+#include "src/annotator-events/events/ExportCocoRequest.h"
+#include "src/annotator-events/events/ExportCocoRequestHandler.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequestHandler.h"
 #include "src/annotator-events/events/ExportUltralyticsDetectRequest.h"
 #include "src/annotator-events/events/ExportUltralyticsDetectRequestHandler.h"
@@ -84,6 +86,7 @@ class AnnotatorController
       virtual public events::events::ExportUltralyticsDetectRequestHandler,
       virtual public events::events::ExportUltralyticsObbRequestHandler,
       virtual public events::events::ExportUltralyticsSegmentRequestHandler,
+      virtual public events::events::ExportCocoRequestHandler,
       virtual public events::events::DeleteCurrentImageRequestHandler,
       virtual public events::events::LoadImagesFromWebPageHandler,
       public AnnotatorTypeAliases
@@ -106,6 +109,7 @@ class AnnotatorController
   virtual void handle(ExportUltralyticsDetectRequestPtr event) override;
   virtual void handle(ExportUltralyticsObbRequestPtr event) override;
   virtual void handle(ExportUltralyticsSegmentRequestPtr event) override;
+  virtual void handle(ExportCocoRequestPtr event) override;
   virtual void handle(DeleteCurrentImageRequestPtr event) override;
   virtual void handle(LoadImagesFromWebPagePtr event) override;
 

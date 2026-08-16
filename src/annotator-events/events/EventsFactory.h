@@ -39,6 +39,7 @@
 #include "src/annotator-events/events/DeleteCurrentImageRequest.h"
 #include "src/annotator-events/events/DisplayErrorEvent.h"
 #include "src/annotator-events/events/Export2PyTorchVisionRequest.h"
+#include "src/annotator-events/events/ExportCocoRequest.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequest.h"
 #include "src/annotator-events/events/ExportUltralyticsDetectRequest.h"
 #include "src/annotator-events/events/ExportUltralyticsObbRequest.h"
@@ -122,6 +123,9 @@ class EventsFactory : public std::enable_shared_from_this<EventsFactory>
 
   virtual ExportUltralyticsSegmentRequestPtr
   create_ultralytics_segment_export_request(const std::string& exportDirPath);
+
+  virtual ExportCocoRequestPtr create_coco_export_request(
+      const std::string& exportDirPath);
 
   virtual DeleteCurrentImageRequestPtr create_delete_current_image_request(
       const std::string& irFullPath);

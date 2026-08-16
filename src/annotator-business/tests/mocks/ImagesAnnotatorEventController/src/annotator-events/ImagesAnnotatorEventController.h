@@ -119,6 +119,10 @@ class ImagesAnnotatorEventController : public IImagesAnnotatorEventController
               (events::ExportUltralyticsSegmentRequestHandlerPtr handler),
               (override));
 
+  MOCK_METHOD(void, submit, (events::ExportCocoRequestPtr event), (override));
+  MOCK_METHOD(void, subscribe, (events::ExportCocoRequestHandlerPtr handler),
+              (override));
+
   MOCK_METHOD(void, submit, (events::DeleteCurrentImageRequestPtr event),
               (override));
   MOCK_METHOD(void, subscribe,

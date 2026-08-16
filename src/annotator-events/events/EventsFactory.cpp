@@ -195,6 +195,12 @@ EventsFactory::create_ultralytics_segment_export_request(
   return std::make_shared<ExportUltralyticsSegmentRequest>(exportDirPath);
 }
 
+ExportCocoRequestPtr EventsFactory::create_coco_export_request(
+    const std::string& exportDirPath)
+{
+  return std::make_shared<ExportCocoRequest>(exportDirPath);
+}
+
 DeleteCurrentImageRequestPtr EventsFactory::create_delete_current_image_request(
     const std::string& irFullPath)
 {

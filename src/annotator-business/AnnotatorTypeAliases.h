@@ -40,6 +40,8 @@
 #include "src/annotator-events/events/DeleteCurrentImageRequestHandler.h"
 #include "src/annotator-events/events/Export2PyTorchVisionRequest.h"
 #include "src/annotator-events/events/Export2PyTorchVisionRequestHandler.h"
+#include "src/annotator-events/events/ExportCocoRequest.h"
+#include "src/annotator-events/events/ExportCocoRequestHandler.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequestHandler.h"
 #include "src/annotator-events/events/ExportUltralyticsDetectRequest.h"
 #include "src/annotator-events/events/ExportUltralyticsDetectRequestHandler.h"
@@ -99,6 +101,7 @@ class AnnotatorTypeAliases
       iade::UltralyticsObbExportLibraryContext;
   using UltralyticsSegmentExportLibraryContext =
       iade::UltralyticsSegmentExportLibraryContext;
+  using CocoExportLibraryContext = iade::CocoExportLibraryContext;
   using RequestImagesDirProviderHandler =
       events::events::RequestImagesDirProviderHandler;
   using RequestImagesDirProviderHandlerPtr =
@@ -123,6 +126,9 @@ class AnnotatorTypeAliases
       events::events::ExportUltralyticsSegmentRequestPtr;
   using ExportUltralyticsSegmentRequestHandlerPtr =
       events::events::ExportUltralyticsSegmentRequestHandlerPtr;
+  using ExportCocoRequestPtr = events::events::ExportCocoRequestPtr;
+  using ExportCocoRequestHandlerPtr =
+      events::events::ExportCocoRequestHandlerPtr;
   using DeleteCurrentImageRequestPtr =
       events::events::DeleteCurrentImageRequestPtr;
   using DeleteCurrentImageRequestHandlerPtr =

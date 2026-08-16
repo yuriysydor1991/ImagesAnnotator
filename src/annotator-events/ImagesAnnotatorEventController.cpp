@@ -251,6 +251,17 @@ void ImagesAnnotatorEventController::subscribe(
   ultralyticsSegmentExporters_handlers.insert(handler);
 }
 
+void ImagesAnnotatorEventController::submit(events::ExportCocoRequestPtr event)
+{
+  unified_submit(cocoExporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ExportCocoRequestHandlerPtr handler)
+{
+  cocoExporters_handlers.insert(handler);
+}
+
 void ImagesAnnotatorEventController::submit(
     events::Export2PyTorchVisionRequestPtr event)
 {

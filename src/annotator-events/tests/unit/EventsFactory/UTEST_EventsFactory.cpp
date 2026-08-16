@@ -179,6 +179,12 @@ TEST(UTEST_EventsFactory,
             "/out");
 }
 
+TEST(UTEST_EventsFactory, create_coco_export_request_carries_folder)
+{
+  EXPECT_EQ(factory()->create_coco_export_request("/out")->dst_folder_path,
+            "/out");
+}
+
 TEST(UTEST_EventsFactory, create_delete_current_image_request_carries_path)
 {
   EXPECT_EQ(factory()

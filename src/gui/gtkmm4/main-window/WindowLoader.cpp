@@ -189,6 +189,10 @@ bool WindowLoader::prepare_dialogs()
   auto* txtFolder = get_txt_export_folder_dialog();
   auto* yolo4Folder = get_yolo4_export_folder_dialog();
   auto* pytorchFolder = get_pytorch_export_folder_dialog();
+  auto* ultralyticsDetectFolder = get_ultralytics_detect_export_folder_dialog();
+  auto* ultralyticsObbFolder = get_ultralytics_obb_export_folder_dialog();
+  auto* ultralyticsSegmentFolder =
+      get_ultralytics_segment_export_folder_dialog();
   auto* error = get_error_dialog();
   auto* saveChanges = get_save_changes_ask_dialog();
   auto* lostRects = get_lost_rects_ask_dialog();
@@ -201,6 +205,9 @@ bool WindowLoader::prepare_dialogs()
         static_cast<Gtk::Window*>(txtFolder),
         static_cast<Gtk::Window*>(yolo4Folder),
         static_cast<Gtk::Window*>(pytorchFolder),
+        static_cast<Gtk::Window*>(ultralyticsDetectFolder),
+        static_cast<Gtk::Window*>(ultralyticsObbFolder),
+        static_cast<Gtk::Window*>(ultralyticsSegmentFolder),
         static_cast<Gtk::Window*>(error),
         static_cast<Gtk::Window*>(saveChanges),
         static_cast<Gtk::Window*>(lostRects)}) {
@@ -219,6 +226,9 @@ bool WindowLoader::prepare_dialogs()
   factory.prepare_folder_choose_dialog(txtFolder);
   factory.prepare_folder_choose_dialog(yolo4Folder);
   factory.prepare_folder_choose_dialog(pytorchFolder);
+  factory.prepare_folder_choose_dialog(ultralyticsDetectFolder);
+  factory.prepare_folder_choose_dialog(ultralyticsObbFolder);
+  factory.prepare_folder_choose_dialog(ultralyticsSegmentFolder);
   factory.prepare_save_changes_ask_user(saveChanges);
   factory.prepare_ask_user_about_lost_rects(lostRects);
 
@@ -320,6 +330,12 @@ bool WindowLoader::create_actions()
       actionGroup->add_action(WindowDataContext::action_export_yolo4);
   action_export_pytorchvision =
       actionGroup->add_action(WindowDataContext::action_export_pytorchvision);
+  action_export_ultralytics_detect = actionGroup->add_action(
+      WindowDataContext::action_export_ultralytics_detect);
+  action_export_ultralytics_obb =
+      actionGroup->add_action(WindowDataContext::action_export_ultralytics_obb);
+  action_export_ultralytics_segment = actionGroup->add_action(
+      WindowDataContext::action_export_ultralytics_segment);
   action_images_web_page_open =
       actionGroup->add_action(WindowDataContext::action_images_web_page_open);
   action_auto_insert_annotation =
@@ -533,6 +549,24 @@ Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_export_yolo4_action()
   return action_export_yolo4;
 }
 
+Glib::RefPtr<Gio::SimpleAction>
+WindowLoader::get_export_ultralytics_detect_action()
+{
+  return action_export_ultralytics_detect;
+}
+
+Glib::RefPtr<Gio::SimpleAction>
+WindowLoader::get_export_ultralytics_obb_action()
+{
+  return action_export_ultralytics_obb;
+}
+
+Glib::RefPtr<Gio::SimpleAction>
+WindowLoader::get_export_ultralytics_segment_action()
+{
+  return action_export_ultralytics_segment;
+}
+
 Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_export_pytorchvision_action()
 {
   return action_export_pytorchvision;
@@ -694,6 +728,32 @@ Gtk::FileChooserDialog* WindowLoader::get_txt_export_folder_dialog()
 
   return get_widget<Gtk::FileChooserDialog>(
       mwctx->wctx->txt_export_folder_dialog_id);
+}
+
+Gtk::FileChooserDialog*
+WindowLoader::get_ultralytics_detect_export_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->ultralytics_detect_export_folder_dialog_id);
+}
+
+Gtk::FileChooserDialog* WindowLoader::get_ultralytics_obb_export_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->ultralytics_obb_export_folder_dialog_id);
+}
+
+Gtk::FileChooserDialog*
+WindowLoader::get_ultralytics_segment_export_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->ultralytics_segment_export_folder_dialog_id);
 }
 
 Gtk::FileChooserDialog* WindowLoader::get_yolo4_export_folder_dialog()

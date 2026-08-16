@@ -39,6 +39,21 @@
             <attribute name="icon">folder-symbolic</attribute>
           </item>
           <item>
+            <attribute name="label" translatable="yes">Ultralytics YOLO detection folder</attribute>
+            <attribute name="action">win.export-ultralytics-detect</attribute>
+            <attribute name="icon">folder-symbolic</attribute>
+          </item>
+          <item>
+            <attribute name="label" translatable="yes">Ultralytics YOLO oriented boxes folder</attribute>
+            <attribute name="action">win.export-ultralytics-obb</attribute>
+            <attribute name="icon">folder-symbolic</attribute>
+          </item>
+          <item>
+            <attribute name="label" translatable="yes">Ultralytics YOLO segmentation folder</attribute>
+            <attribute name="action">win.export-ultralytics-segment</attribute>
+            <attribute name="icon">folder-symbolic</attribute>
+          </item>
+          <item>
             <attribute name="label" translatable="yes">PyTorch Vision folder format</attribute>
             <attribute name="action">win.export-pytorchvision</attribute>
             <attribute name="icon">folder-symbolic</attribute>
@@ -345,6 +360,24 @@
   </object>
   <object class="GtkFileChooserDialog" id="yolo4_export_folder_dialog">
     <property name="title" translatable="yes">Select YOLO4 export directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="ultralytics_detect_export_folder_dialog">
+    <property name="title" translatable="yes">Select Ultralytics YOLO detection export directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="ultralytics_obb_export_folder_dialog">
+    <property name="title" translatable="yes">Select Ultralytics YOLO oriented bounding box export directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="ultralytics_segment_export_folder_dialog">
+    <property name="title" translatable="yes">Select Ultralytics YOLO segmentation export directory</property>
     <property name="action">select-folder</property>
     <property name="modal">true</property>
     <property name="hide-on-close">true</property>

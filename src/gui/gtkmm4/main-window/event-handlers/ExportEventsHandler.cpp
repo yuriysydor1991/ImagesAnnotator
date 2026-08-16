@@ -28,6 +28,7 @@
 #include "src/gui/gtkmm4/main-window/event-handlers/ExportEventsHandler.h"
 
 #include <cassert>
+#include <functional>
 #include <memory>
 #include <string>
 
@@ -63,6 +64,22 @@ bool ExportEventsHandler::subscribe()
   mwctx->wloader->get_export_pytorchvision_action()->signal_activate().connect(
       [this]([[maybe_unused]] const Glib::VariantBase& param) {
         handle_export_pytorch();
+      });
+
+  mwctx->wloader->get_export_ultralytics_detect_action()
+      ->signal_activate()
+      .connect([this]([[maybe_unused]] const Glib::VariantBase& param) {
+        handle_export_ultralytics_detect();
+      });
+  mwctx->wloader->get_export_ultralytics_obb_action()
+      ->signal_activate()
+      .connect([this]([[maybe_unused]] const Glib::VariantBase& param) {
+        handle_export_ultralytics_obb();
+      });
+  mwctx->wloader->get_export_ultralytics_segment_action()
+      ->signal_activate()
+      .connect([this]([[maybe_unused]] const Glib::VariantBase& param) {
+        handle_export_ultralytics_segment();
       });
 
   return true;
@@ -201,6 +218,90 @@ void ExportEventsHandler::handle_export_pytorch()
   ops->update_statuses();
 
   ops->hide_spinner();
+}
+
+void ExportEventsHandler::handle_ultralytics_export(
+    Gtk::FileChooserDialog* dialog,
+    const std::function<void(const std::string&)>& submitExport)
+{
+  assert(dialog != nullptr);
+
+  if (!has_to_export()) {
+    const std::string errmsg = "No images found or db opened to export!";
+    ops->show_error_dialog(errmsg);
+    return;
+  }
+
+  ops->show_spinner();
+
+  const int result = WindowOps::run_dialog(*dialog);
+
+  if (result != Gtk::ResponseType::OK) {
+    LOGD("Dialog is closed");
+    ops->hide_spinner();
+    return;
+  }
+
+  const std::string newFileName = dialog->get_file()->get_path();
+
+  LOGD("Selected Ultralytics export folder: " << newFileName);
+
+  submitExport(newFileName);
+
+  ops->update_statuses();
+
+  ops->hide_spinner();
+}
+
+void ExportEventsHandler::handle_export_ultralytics_detect()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+
+  handle_ultralytics_export(
+      mwctx->wloader->get_ultralytics_detect_export_folder_dialog(),
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_ultralytics_detect_export_request(folder));
+      });
+}
+
+void ExportEventsHandler::handle_export_ultralytics_obb()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+
+  handle_ultralytics_export(
+      mwctx->wloader->get_ultralytics_obb_export_folder_dialog(),
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_ultralytics_obb_export_request(folder));
+      });
+}
+
+void ExportEventsHandler::handle_export_ultralytics_segment()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+
+  handle_ultralytics_export(
+      mwctx->wloader->get_ultralytics_segment_export_folder_dialog(),
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_ultralytics_segment_export_request(folder));
+      });
 }
 
 }  // namespace imagesAnnotatorGtkmm4::window::event_handlers

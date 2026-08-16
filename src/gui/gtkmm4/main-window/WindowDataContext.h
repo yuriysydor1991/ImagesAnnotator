@@ -162,6 +162,15 @@ class WindowDataContext
       "yolo4_export_folder_dialog";
   inline static constexpr const char* const pytorch_export_folder_dialog_id =
       "pytorch_export_folder_dialog";
+  inline static constexpr const char* const
+      ultralytics_detect_export_folder_dialog_id =
+          "ultralytics_detect_export_folder_dialog";
+  inline static constexpr const char* const
+      ultralytics_obb_export_folder_dialog_id =
+          "ultralytics_obb_export_folder_dialog";
+  inline static constexpr const char* const
+      ultralytics_segment_export_folder_dialog_id =
+          "ultralytics_segment_export_folder_dialog";
   inline static constexpr const char* const error_dialog_id = "error_dialog";
   inline static constexpr const char* const save_changes_ask_dialog_id =
       "save_changes_ask_dialog";
@@ -200,6 +209,12 @@ class WindowDataContext
       "export-yolo4";
   inline static constexpr const char* const action_export_pytorchvision =
       "export-pytorchvision";
+  inline static constexpr const char* const action_export_ultralytics_detect =
+      "export-ultralytics-detect";
+  inline static constexpr const char* const action_export_ultralytics_obb =
+      "export-ultralytics-obb";
+  inline static constexpr const char* const action_export_ultralytics_segment =
+      "export-ultralytics-segment";
   inline static constexpr const char* const action_images_web_page_open =
       "images-web-page-open";
   inline static constexpr const char* const action_auto_insert_annotation =

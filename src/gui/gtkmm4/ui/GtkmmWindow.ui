@@ -59,6 +59,11 @@
             <attribute name="icon">folder-symbolic</attribute>
           </item>
           <item>
+            <attribute name="label" translatable="yes">Pascal VOC XML folder</attribute>
+            <attribute name="action">win.export-pascal-voc</attribute>
+            <attribute name="icon">folder-symbolic</attribute>
+          </item>
+          <item>
             <attribute name="label" translatable="yes">PyTorch Vision folder format</attribute>
             <attribute name="action">win.export-pytorchvision</attribute>
             <attribute name="icon">folder-symbolic</attribute>
@@ -389,6 +394,12 @@
   </object>
   <object class="GtkFileChooserDialog" id="coco_export_folder_dialog">
     <property name="title" translatable="yes">Select COCO export directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="pascal_voc_export_folder_dialog">
+    <property name="title" translatable="yes">Select Pascal VOC export directory</property>
     <property name="action">select-folder</property>
     <property name="modal">true</property>
     <property name="hide-on-close">true</property>

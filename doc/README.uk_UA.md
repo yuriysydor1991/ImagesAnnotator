@@ -40,7 +40,7 @@
 
 Поточна програма для анотацій зображень зберігає свою базу даних анотацій у вигляді текстового файлу формату `JSON`. Це набагато полегшує створення користувацьких скриптів експорту у потрібний формат для тренування нейро мереж за допомогою таких мов як `Python` чи `Bash`.
 
-Експортери, які постачає сам застосунок - звичайний текстовий, YOLO v4 та PyTorch Vision, - знаходяться в окремій бібліотеці [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git), тому новий формат можна додати і туди, і тоді його отримає кожен інструмент, побудований на цій бібліотеці. Див. [Вмикання інтеграції бібліотеки ImagesAnnotator-DataExporters](/doc/sections/uk_UA/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md).
+Експортери, які постачає сам застосунок - звичайний текстовий, YOLO v4 (darknet), три Ultralytics YOLO (детекція, орієнтовані рамки та сегментація) і PyTorch Vision, - знаходяться в окремій бібліотеці [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git), тому новий формат можна додати і туди, і тоді його отримає кожен інструмент, побудований на цій бібліотеці. Див. [Вмикання інтеграції бібліотеки ImagesAnnotator-DataExporters](/doc/sections/uk_UA/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md).
 
 # Зміст документації
 

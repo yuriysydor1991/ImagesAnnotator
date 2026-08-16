@@ -132,6 +132,12 @@ class CustomWidgetsFactory
   virtual std::shared_ptr<Gtk::FileChooserDialog>
   create_ultralytics_segment_export_folder_choose_dialog(
       Gtk::Window* parentWindow);
+  /**
+   * @brief Creates the directory chooser of the COCO object detection dataset
+   * export.
+   */
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_coco_export_folder_choose_dialog(Gtk::Window* parentWindow);
 
   virtual void prepare_url_asker(Gtk::Dialog* dialog,
                                  Gtk::Label* cachePathLabel,

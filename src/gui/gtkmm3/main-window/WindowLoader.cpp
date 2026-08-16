@@ -553,6 +553,14 @@ Gtk::ImageMenuItem* WindowLoader::get_export_ultralytics_segment_folder_mi()
       mwctx->wctx->annotations_export_ultralytics_segment_2_folder_id);
 }
 
+Gtk::ImageMenuItem* WindowLoader::get_export_coco_folder_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_export_coco_2_folder_id);
+}
+
 Gtk::ImageMenuItem* WindowLoader::get_export_pytorchvision_folder_mi()
 {
   assert(mwctx->wctx != nullptr);

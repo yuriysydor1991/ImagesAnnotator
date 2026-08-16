@@ -263,6 +263,18 @@ void ImagesAnnotatorEventController::subscribe(
 }
 
 void ImagesAnnotatorEventController::submit(
+    events::ExportPascalVocRequestPtr event)
+{
+  unified_submit(pascalVocExporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ExportPascalVocRequestHandlerPtr handler)
+{
+  pascalVocExporters_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
     events::Export2PyTorchVisionRequestPtr event)
 {
   unified_submit(pytorchvision_handlers, event);

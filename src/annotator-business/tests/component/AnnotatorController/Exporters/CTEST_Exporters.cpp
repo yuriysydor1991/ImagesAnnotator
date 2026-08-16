@@ -12,6 +12,7 @@
 #include "src/annotator-events/ImagesAnnotatorEventController.h"
 #include "src/annotator-events/events/EventsFactory.h"
 #include "src/annotator-events/events/ExportCocoRequest.h"
+#include "src/annotator-events/events/ExportPascalVocRequest.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequest.h"
 #include "src/annotator-events/events/ExportUltralyticsDetectRequest.h"
 #include "src/annotator-events/events/ExportUltralyticsObbRequest.h"
@@ -242,6 +243,27 @@ TEST_F(CTEST_Exporters, coco_request_writes_the_coco_layout)
 
   EXPECT_NE(json.find("\"categories\": ["), std::string::npos);
   EXPECT_NE(json.find(known_annotation_name), std::string::npos);
+
+  // neither of the two layouts the sibling cases ask for
+  EXPECT_FALSE(fs::is_regular_file(export_dir / "data.yaml"));
+  EXPECT_FALSE(
+      fs::is_regular_file(export_dir / (known_annotation_name + ".txt")));
+}
+
+// The descriptors themselves are covered by the exporters library own suite,
+// which is where an image really is on the disk. Here the image files the
+// project file names are not, so what this case can assert on is the directory
+// shape and the two lists, which no other layout of the library writes.
+TEST_F(CTEST_Exporters, pascal_voc_request_writes_the_pascal_voc_layout)
+{
+  controller->handle(
+      std::make_shared<ExportPascalVocRequest>(export_dir.string()));
+
+  EXPECT_TRUE(fs::is_directory(export_dir / "JPEGImages"));
+  EXPECT_TRUE(fs::is_directory(export_dir / "Annotations"));
+
+  EXPECT_TRUE(fs::is_regular_file(export_dir / "ImageSets/Main/train.txt"));
+  EXPECT_TRUE(fs::is_regular_file(export_dir / "ImageSets/Main/val.txt"));
 
   // neither of the two layouts the sibling cases ask for
   EXPECT_FALSE(fs::is_regular_file(export_dir / "data.yaml"));

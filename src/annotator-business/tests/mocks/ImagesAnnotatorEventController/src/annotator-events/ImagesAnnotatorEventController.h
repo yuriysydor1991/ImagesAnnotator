@@ -123,6 +123,11 @@ class ImagesAnnotatorEventController : public IImagesAnnotatorEventController
   MOCK_METHOD(void, subscribe, (events::ExportCocoRequestHandlerPtr handler),
               (override));
 
+  MOCK_METHOD(void, submit, (events::ExportPascalVocRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::ExportPascalVocRequestHandlerPtr handler), (override));
+
   MOCK_METHOD(void, submit, (events::DeleteCurrentImageRequestPtr event),
               (override));
   MOCK_METHOD(void, subscribe,

@@ -130,6 +130,7 @@ bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
   ctx->eventer->subscribe(ExportUltralyticsObbRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ExportUltralyticsSegmentRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ExportCocoRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ExportPascalVocRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(DeleteCurrentImageRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(LoadImagesFromWebPageHandlerPtr{mptr});
 
@@ -468,6 +469,24 @@ void AnnotatorController::handle(ExportCocoRequestPtr event)
   if (!handle_export<CocoExportLibraryContext>(event->dst_folder_path)) {
     const std::string e = "Failure during the export to a COCO folder at " +
                           event->dst_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ExportPascalVocRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_export<PascalVocExportLibraryContext>(event->dst_folder_path)) {
+    const std::string e =
+        "Failure during the export to a Pascal VOC folder at " +
+        event->dst_folder_path;
     LOGE(e);
     emitDisplayError(e);
   }

@@ -105,6 +105,8 @@ wxMenuBar* WindowLoader::build_menu_bar()
                   "Export Ultralytics YOLO segmentation to folder");
   project->Append(WindowDataContext::ID_EXPORT_COCO,
                   "Export COCO JSON to folder");
+  project->Append(WindowDataContext::ID_EXPORT_PASCAL_VOC,
+                  "Export Pascal VOC XML to folder");
   project->Append(WindowDataContext::ID_EXPORT_PYTORCH,
                   "Export PyTorch Vision to folder");
   project->AppendSeparator();

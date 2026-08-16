@@ -77,6 +77,8 @@ bool ExportEventsHandler::subscribe()
           *this, &ExportEventsHandler::handle_export_ultralytics_segment));
   mwctx->wloader->get_export_coco_folder_mi()->signal_activate().connect(
       sigc::mem_fun(*this, &ExportEventsHandler::handle_export_coco));
+  mwctx->wloader->get_export_pascal_voc_folder_mi()->signal_activate().connect(
+      sigc::mem_fun(*this, &ExportEventsHandler::handle_export_pascal_voc));
 
   return true;
 }
@@ -321,6 +323,24 @@ void ExportEventsHandler::handle_export_coco()
 
         mwctx->actx->eventer->submit(
             efactory->create_coco_export_request(folder));
+      });
+}
+
+void ExportEventsHandler::handle_export_pascal_voc()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_folder_export(
+      mwctx->cwFactory->create_pascal_voc_export_folder_choose_dialog(
+          mwctx->wloader->get_window()),
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_pascal_voc_export_request(folder));
       });
 }
 

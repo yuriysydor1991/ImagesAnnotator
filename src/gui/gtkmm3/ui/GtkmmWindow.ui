@@ -54,6 +54,11 @@
     <property name="can-focus">False</property>
     <property name="icon-name">folder-symbolic</property>
   </object>
+  <object class="GtkImage" id="image16">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">folder-symbolic</property>
+  </object>
   <object class="GtkImage" id="image2">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -228,6 +233,16 @@
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
                                     <property name="image">image15</property>
+                                    <property name="use-stock">False</property>
+                                    <property name="always-show-image">True</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkImageMenuItem" id="annotations_export_pascal_voc_2_folder">
+                                    <property name="label" translatable="yes">Pascal VOC XML folder</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="image">image16</property>
                                     <property name="use-stock">False</property>
                                     <property name="always-show-image">True</property>
                                   </object>

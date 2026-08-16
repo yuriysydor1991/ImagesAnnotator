@@ -116,6 +116,7 @@ class CustomWidgetsFactory
   virtual bool ask_ultralytics_segment_export_folder(wxWindow* parent,
                                                      std::string& out);
   virtual bool ask_coco_export_folder(wxWindow* parent, std::string& out);
+  virtual bool ask_pascal_voc_export_folder(wxWindow* parent, std::string& out);
   virtual bool ask_webpage_url(wxWindow* parent, std::string& out);
 
   virtual SaveAnswer ask_save_changes(wxWindow* parent);

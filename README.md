@@ -43,7 +43,7 @@ After annotating the images of interest, use the export submenu of the `Annotati
 
 Current ImagesAnnotator application stores the annotations database in the `JSON` file format. It makes it easy to implement a custom export script into required format to train neural network with the help of `Python` or `Bash`.
 
-The exporters the application itself ships - the plain text one, the darknet YOLO v4 one, the three Ultralytics YOLO ones - detection, oriented bounding boxes and segmentation - the COCO JSON one, the Pascal VOC XML one and the PyTorch Vision one - live in the standalone [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git) library, so a new format may also be added there instead, and every tool built on that library gains it at once. See [Enabling the ImagesAnnotator-DataExporters library](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md).
+The exporters the application itself ships - the plain text one, the darknet YOLO v4 one, the three Ultralytics YOLO ones - detection, oriented bounding boxes and segmentation - the COCO JSON one, the Pascal VOC XML one, the Create ML JSON one and the PyTorch Vision one - live in the standalone [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git) library, so a new format may also be added there instead, and every tool built on that library gains it at once. See [Enabling the ImagesAnnotator-DataExporters library](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md).
 
 # Documentation contents
 

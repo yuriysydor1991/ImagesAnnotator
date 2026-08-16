@@ -283,6 +283,8 @@ void WindowLoader::build_menu_bar()
                   WindowDataContext::annotations_export_coco_2_folder_id);
   add_menu_action(project, QStringLiteral("Export Pascal VOC XML to folder"),
                   WindowDataContext::annotations_export_pascal_voc_2_folder_id);
+  add_menu_action(project, QStringLiteral("Export Create ML JSON to folder"),
+                  WindowDataContext::annotations_export_createml_2_folder_id);
   add_menu_action(
       project, QStringLiteral("Export PyTorch Vision to folder"),
       WindowDataContext::annotations_export_pytorchvision_2_folder_id);
@@ -709,6 +711,12 @@ QAction* WindowLoader::get_export_pascal_voc_folder_mi()
 {
   return get_object<QAction>(
       WindowDataContext::annotations_export_pascal_voc_2_folder_id);
+}
+
+QAction* WindowLoader::get_export_createml_folder_mi()
+{
+  return get_object<QAction>(
+      WindowDataContext::annotations_export_createml_2_folder_id);
 }
 
 QAction* WindowLoader::get_export_pytorchvision_folder_mi()

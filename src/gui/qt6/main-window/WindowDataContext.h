@@ -153,6 +153,9 @@ class WindowDataContext
   inline static constexpr const char* const
       annotations_export_pascal_voc_2_folder_id =
           "annotations_export_pascal_voc_2_folder";
+  inline static constexpr const char* const
+      annotations_export_createml_2_folder_id =
+          "annotations_export_createml_2_folder";
 
   inline static constexpr const char* const images_search_entry_id =
       "images_search_entry";

@@ -259,6 +259,14 @@ CustomWidgetsFactory::create_coco_export_folder_choose_dialog(
 }
 
 std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_pascal_voc_export_folder_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_folder_choose_dialog_with_title(
+      parentWindow, "Select Pascal VOC export directory");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
 CustomWidgetsFactory::create_pytorch_export_folder_choose_dialog(
     Gtk::Window* parentWindow)
 {

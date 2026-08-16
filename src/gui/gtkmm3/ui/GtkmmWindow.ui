@@ -34,6 +34,21 @@
     <property name="can-focus">False</property>
     <property name="icon-name">text-x-generic-symbolic</property>
   </object>
+  <object class="GtkImage" id="image12">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">folder-symbolic</property>
+  </object>
+  <object class="GtkImage" id="image13">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">folder-symbolic</property>
+  </object>
+  <object class="GtkImage" id="image14">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">folder-symbolic</property>
+  </object>
   <object class="GtkImage" id="image2">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -168,6 +183,36 @@
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
                                     <property name="image">image2</property>
+                                    <property name="use-stock">False</property>
+                                    <property name="always-show-image">True</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkImageMenuItem" id="annotations_export_ultralytics_detect_2_folder">
+                                    <property name="label" translatable="yes">Ultralytics YOLO detection folder</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="image">image12</property>
+                                    <property name="use-stock">False</property>
+                                    <property name="always-show-image">True</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkImageMenuItem" id="annotations_export_ultralytics_obb_2_folder">
+                                    <property name="label" translatable="yes">Ultralytics YOLO oriented boxes folder</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="image">image13</property>
+                                    <property name="use-stock">False</property>
+                                    <property name="always-show-image">True</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkImageMenuItem" id="annotations_export_ultralytics_segment_2_folder">
+                                    <property name="label" translatable="yes">Ultralytics YOLO segmentation folder</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="image">image14</property>
                                     <property name="use-stock">False</property>
                                     <property name="always-show-image">True</property>
                                   </object>

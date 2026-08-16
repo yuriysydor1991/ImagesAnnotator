@@ -529,6 +529,30 @@ Gtk::ImageMenuItem* WindowLoader::get_export_yolo4_folder_mi()
       mwctx->wctx->annotations_export_yolo4_2_folder2_id);
 }
 
+Gtk::ImageMenuItem* WindowLoader::get_export_ultralytics_detect_folder_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_export_ultralytics_detect_2_folder_id);
+}
+
+Gtk::ImageMenuItem* WindowLoader::get_export_ultralytics_obb_folder_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_export_ultralytics_obb_2_folder_id);
+}
+
+Gtk::ImageMenuItem* WindowLoader::get_export_ultralytics_segment_folder_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_export_ultralytics_segment_2_folder_id);
+}
+
 Gtk::ImageMenuItem* WindowLoader::get_export_pytorchvision_folder_mi()
 {
   assert(mwctx->wctx != nullptr);

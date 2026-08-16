@@ -27,6 +27,8 @@
 
 #include "src/gui/gtkmm3/main-window/custom-widgets/CustomWidgetsFactory.h"
 
+#include <glib.h>
+
 #include <cassert>
 #include <glib.h>
 #include <memory>
@@ -221,6 +223,31 @@ CustomWidgetsFactory::create_yolo4_export_folder_choose_dialog(
 {
   return create_folder_choose_dialog_with_title(
       parentWindow, "Select YOLO4 export directory");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_ultralytics_detect_export_folder_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_folder_choose_dialog_with_title(
+      parentWindow, "Select Ultralytics YOLO detection export directory");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_ultralytics_obb_export_folder_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_folder_choose_dialog_with_title(
+      parentWindow,
+      "Select Ultralytics YOLO oriented bounding box export directory");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_ultralytics_segment_export_folder_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_folder_choose_dialog_with_title(
+      parentWindow, "Select Ultralytics YOLO segmentation export directory");
 }
 
 std::shared_ptr<Gtk::FileChooserDialog>

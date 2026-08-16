@@ -104,6 +104,18 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm3::window::WindowLoader
   {
     return &export_pytorch_mi_;
   }
+  Gtk::ImageMenuItem* get_export_ultralytics_detect_folder_mi() override
+  {
+    return &export_ultralytics_detect_mi_;
+  }
+  Gtk::ImageMenuItem* get_export_ultralytics_obb_folder_mi() override
+  {
+    return &export_ultralytics_obb_mi_;
+  }
+  Gtk::ImageMenuItem* get_export_ultralytics_segment_folder_mi() override
+  {
+    return &export_ultralytics_segment_mi_;
+  }
 
   Gtk::ImageMenuItem* get_images_web_page_open_menu_item_mi() override
   {
@@ -144,6 +156,9 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm3::window::WindowLoader
   Gtk::ImageMenuItem export_txt_mi_;
   Gtk::ImageMenuItem export_yolo4_mi_;
   Gtk::ImageMenuItem export_pytorch_mi_;
+  Gtk::ImageMenuItem export_ultralytics_detect_mi_;
+  Gtk::ImageMenuItem export_ultralytics_obb_mi_;
+  Gtk::ImageMenuItem export_ultralytics_segment_mi_;
   Gtk::ImageMenuItem webpage_open_mi_;
   Gtk::ImageMenuItem about_mi_;
 };

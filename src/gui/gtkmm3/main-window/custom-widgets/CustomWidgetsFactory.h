@@ -112,6 +112,27 @@ class CustomWidgetsFactory
   virtual std::shared_ptr<Gtk::FileChooserDialog>
   create_pytorch_export_folder_choose_dialog(Gtk::Window* parentWindow);
 
+  /**
+   * @brief Creates the directory chooser of the Ultralytics YOLO detection
+   * dataset export.
+   */
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_ultralytics_detect_export_folder_choose_dialog(
+      Gtk::Window* parentWindow);
+  /**
+   * @brief Creates the directory chooser of the Ultralytics YOLO oriented
+   * bounding box dataset export.
+   */
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_ultralytics_obb_export_folder_choose_dialog(Gtk::Window* parentWindow);
+  /**
+   * @brief Creates the directory chooser of the Ultralytics YOLO segmentation
+   * dataset export.
+   */
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_ultralytics_segment_export_folder_choose_dialog(
+      Gtk::Window* parentWindow);
+
   virtual void prepare_url_asker(Gtk::Dialog* dialog,
                                  Gtk::Label* cachePathLabel,
                                  Gtk::Window* parentWindow);

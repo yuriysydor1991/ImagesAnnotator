@@ -20,6 +20,7 @@ add_library(
   ExportUltralyticsObbRequest.cpp
   ExportUltralyticsSegmentRequest.cpp
   ExportCocoRequest.cpp
+  ExportPascalVocRequest.cpp
   DeleteCurrentImageRequest.cpp
   LoadImagesFromWebPage.cpp
   DisplayErrorEvent.cpp

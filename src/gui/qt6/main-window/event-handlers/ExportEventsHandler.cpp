@@ -73,6 +73,9 @@ bool ExportEventsHandler::subscribe()
   QObject::connect(mwctx->wloader->get_export_coco_folder_mi(),
                    &QAction::triggered, window,
                    [this]() { handle_export_coco(); });
+  QObject::connect(mwctx->wloader->get_export_pascal_voc_folder_mi(),
+                   &QAction::triggered, window,
+                   [this]() { handle_export_pascal_voc(); });
 
   return true;
 }
@@ -301,6 +304,26 @@ void ExportEventsHandler::handle_export_coco()
 
         mwctx->actx->eventer->submit(
             efactory->create_coco_export_request(folder));
+      });
+}
+
+void ExportEventsHandler::handle_export_pascal_voc()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_folder_export(
+      [this](std::string& out) {
+        return mwctx->cwFactory->ask_pascal_voc_export_folder(
+            mwctx->wloader->get_window(), out);
+      },
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_pascal_voc_export_request(folder));
       });
 }
 

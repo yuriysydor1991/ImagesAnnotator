@@ -244,6 +244,12 @@ bool CustomWidgetsFactory::ask_coco_export_folder(QWidget* parent,
   return ask_folder(parent, "Select COCO export directory", out);
 }
 
+bool CustomWidgetsFactory::ask_pascal_voc_export_folder(QWidget* parent,
+                                                        std::string& out)
+{
+  return ask_folder(parent, "Select Pascal VOC export directory", out);
+}
+
 bool CustomWidgetsFactory::ask_pytorch_export_folder(QWidget* parent,
                                                      std::string& out)
 {

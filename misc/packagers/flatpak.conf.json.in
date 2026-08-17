@@ -106,6 +106,21 @@
       ]
     },
     {
+      "name": "ImagesAnnotator-DataImporters",
+      "buildsystem": "cmake",
+      "builddir": true,
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=Release"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "${TEMPLATE_APP_IADI_GIT}",
+          "branch": "${TEMPLATE_APP_IADI_GIT_TAG}"
+        }
+      ]
+    },
+    {
       "name": "${PROJECT_NAME}",
       "buildsystem": "cmake",
       "config-opts": ["-DCMAKE_BUILD_TYPE=Release", "-DUSE_GTKMM3=ON"],

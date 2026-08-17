@@ -4,11 +4,12 @@ RUN apt update
 RUN apt install -y libstdc++6 build-essential git cmake g++ pkg-config libgtkmm-4.0-dev libgtkmm-3.0-dev
 RUN apt install -y nlohmann-json3-dev libcurl4-openssl-dev
 
-# The annotations project database and the dataset exporters live in two
-# standalone libraries the project is built against. They are no distribution
-# packages, so they are built from their sources and installed into /usr, where
-# both the configure of the project below and its run time find them. The data
-# exporters library is built against the data drivers one, hence the order.
+# The annotations project database, the dataset exporters and the dataset
+# importers live in three standalone libraries the project is built against.
+# They are no distribution packages, so they are built from their sources and
+# installed into /usr, where both the configure of the project below and its
+# run time find them. The exporters and the importers libraries are both built
+# against the data drivers one, hence the order.
 RUN git clone --depth 1 --branch ${TEMPLATE_APP_IADD_GIT_TAG} ${TEMPLATE_APP_IADD_GIT} /src/ImagesAnnotator-DataDrivers && \
  cmake -S /src/ImagesAnnotator-DataDrivers -B /src/ImagesAnnotator-DataDrivers-build \
    -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr && \
@@ -20,6 +21,12 @@ RUN git clone --depth 1 --branch ${TEMPLATE_APP_IADE_GIT_TAG} ${TEMPLATE_APP_IAD
    -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr && \
  cmake --build /src/ImagesAnnotator-DataExporters-build -j$(nproc) && \
  cmake --install /src/ImagesAnnotator-DataExporters-build
+
+RUN git clone --depth 1 --branch ${TEMPLATE_APP_IADI_GIT_TAG} ${TEMPLATE_APP_IADI_GIT} /src/ImagesAnnotator-DataImporters && \
+ cmake -S /src/ImagesAnnotator-DataImporters -B /src/ImagesAnnotator-DataImporters-build \
+   -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr && \
+ cmake --build /src/ImagesAnnotator-DataImporters-build -j$(nproc) && \
+ cmake --install /src/ImagesAnnotator-DataImporters-build
 
 ARG BUILDDIR=/src/${PROJECT_BINARY_NAME}-build-docker-singlerun
 

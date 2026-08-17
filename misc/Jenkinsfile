@@ -147,6 +147,15 @@ pipeline {
         stage('UTEST_Export2PyTorchVisionRequest') {
           steps { sh 'cd $BUILDDIR && ctest -R "UTEST_Export2PyTorchVisionRequest\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_Export2PyTorchVisionRequest.junit.xml' }
         }
+        stage('UTEST_ImportPlainTxt2FolderRequest') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImportPlainTxt2FolderRequest\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImportPlainTxt2FolderRequest.junit.xml' }
+        }
+        stage('UTEST_ImportYolo4FolderRequest') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImportYolo4FolderRequest\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImportYolo4FolderRequest.junit.xml' }
+        }
+        stage('UTEST_ImportPyTorchVisionRequest') {
+          steps { sh 'cd $BUILDDIR && ctest -R "UTEST_ImportPyTorchVisionRequest\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImportPyTorchVisionRequest.junit.xml' }
+        }
         stage('UTEST_DeleteCurrentImageRequest') {
           steps { sh 'cd $BUILDDIR && ctest -R "UTEST_DeleteCurrentImageRequest\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_DeleteCurrentImageRequest.junit.xml' }
         }
@@ -197,6 +206,9 @@ pipeline {
         }
         stage('CTEST_Exporters') {
           steps { sh 'cd $BUILDDIR && ctest -R "CTEST_Exporters\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_Exporters.junit.xml' }
+        }
+        stage('CTEST_Importers') {
+          steps { sh 'cd $BUILDDIR && ctest -R "CTEST_Importers\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_Importers.junit.xml' }
         }
         // The custom widget tests need a GDK display. A headless GTK4 broadway
         // server (gtk4-broadwayd) is started per stage (distinct display numbers

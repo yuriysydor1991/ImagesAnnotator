@@ -66,6 +66,13 @@ include(template-project-ImagesAnnotator-DataDrivers-enabler)
 # installed package configuration resolves them as its own dependency.
 include(template-project-ImagesAnnotator-DataExporters-enabler)
 
+# ImagesAnnotator specific: the dataset importers - the mirror image of the
+# exporters above, reading a training dataset back into the annotations - live
+# in the standalone ImagesAnnotator-DataImporters library. It comes last of the
+# three because it is built against the data drivers and, like the exporters,
+# resolves them as its own dependency.
+include(template-project-ImagesAnnotator-DataImporters-enabler)
+
 include(template-project-GTest-enabler)
 include(template-project-clang-format-target)
 include(template-project-valgrind-target)

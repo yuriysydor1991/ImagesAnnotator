@@ -8,6 +8,7 @@ add_library(
   CentralWorkingCanvas.cpp
   CustomWidgetsFactory.cpp
   WxImageCropperProvider.cpp
+  WxImageSizeProvider.cpp
 )
 
 target_include_directories(

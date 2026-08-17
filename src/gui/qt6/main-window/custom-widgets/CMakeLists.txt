@@ -8,6 +8,7 @@ add_library(
   CentralWorkingCanvas.cpp
   CustomWidgetsFactory.cpp
   QtImageCropperProvider.cpp
+  QtImageSizeProvider.cpp
 )
 
 target_include_directories(

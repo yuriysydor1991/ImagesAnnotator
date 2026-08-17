@@ -1,0 +1,74 @@
+## Вмикання інтеграції бібліотеки ImagesAnnotator-DataImporters
+
+Набір даних для навчання, який уже лежить на диску, читається назад до проекту анотацій - звичайні текстові файли, директорія навчання YOLO v4 (darknet) та розкладка PyTorch Vision `ImageFolder` із вирізаними прямокутниками - окремою бібліотекою [ImagesAnnotator-DataImporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataImporters.git). Вона є оберненням бібліотеки [ImagesAnnotator-DataExporters](/doc/sections/uk_UA/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md): що та записує, ця читає, тож проект, експортований в одну з тих трьох розкладок, повертається з тими анотаціями, з якими починав, а набір даних, створений якимось іншим інструментом, уперше потрапляє до проекту.
+
+Через це бібліотека є **обов'язковою**: CMake змінна `ENABLE_IMAGES_ANNOTATOR_DATA_IMPORTERS` за замовчуванням має значення `ON`, і проект не збирається, якщо її вимкнути.
+
+```
+# в середині кореневої директорії проекту
+
+cmake -S . -B build -DENABLE_IMAGES_ANNOTATOR_DATA_IMPORTERS=ON
+```
+
+### Спочатку її треба встановити
+
+На відміну від більшості вмикачів сторонніх бібліотек проекту, цей не має запасного варіанту із завантаженням через Інтернет - із тієї самої причини, з якої його не має вмикач експортерів: бібліотека споживається встановленою, так само як і бібліотека [ImagesAnnotator-DataDrivers](/doc/sections/uk_UA/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md), проти якої вона зібрана. Бібліотека імпортерів знаходить драйвери даних власним викликом `find_package()` та включає їхні заголовки через директорію з версією `<ImagesAnnotatorDataDrivers-0.11/...>`, яку створює лише встановлення.
+
+Зберіть та встановіть обидві, спочатку драйвери даних:
+
+```
+git clone https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers.git
+cmake -S ImagesAnnotator-DataDrivers -B build-iadd -DCMAKE_INSTALL_PREFIX=/opt/images-annotator
+cmake --build build-iadd -j$(nproc)
+cmake --install build-iadd
+
+git clone https://github.com/yuriysydor1991/ImagesAnnotator-DataImporters.git
+cmake -S ImagesAnnotator-DataImporters -B build-iadi \
+  -DCMAKE_INSTALL_PREFIX=/opt/images-annotator \
+  -DCMAKE_PREFIX_PATH=/opt/images-annotator
+cmake --build build-iadi -j$(nproc)
+cmake --install build-iadi
+```
+
+Спільний скрипт [misc/ci/install-annotator-libraries.sh](/misc/ci/install-annotator-libraries.sh) робить рівно це для всіх трьох бібліотек одразу, і це найшвидший спосіб підготувати машину для розробки.
+
+### Як вказати проекту на встановлені копії
+
+Та сама CMake змінна, через яку знаходяться дві споріднені бібліотеки, і вона приймає кожен префікс, коли вони різняться:
+
+```
+cmake -S . -B build -DCMAKE_PREFIX_PATH=/opt/images-annotator
+```
+
+Усі три спільні об'єкти мають бути досяжними для динамічного лінкера під час запуску застосунку. Або зареєструйте префікс (наприклад, додавши його до `/etc/ld.so.conf.d/` та виконавши `ldconfig`), або вкажіть його у середовищі:
+
+```
+LD_LIBRARY_PATH=/opt/images-annotator/lib ./ImagesAnnotator
+```
+
+### Що з цим роблять пакувальники
+
+Бібліотека імпортерів так само не є пакунком дистрибутиву, тож пакувальники поводяться з нею точно так, як із двома іншими:
+
+- пакунок [flatpak](/doc/sections/uk_UA/5-11-enabling-the-flatpak-package-generation-support.md), [snap](/doc/sections/uk_UA/5-19-enabling-the-snap-package-manager.md) та образ [docker](/doc/sections/uk_UA/5-12-enabling-the-docker-container-build-and-run.md) збирають усі три бібліотеки з їхніх сирців у створюваний артефакт, тож ці три лишаються самодостатніми. Репозиторій та ревізія походять із кеш-змінних `TEMPLATE_APP_IADI_GIT` / `TEMPLATE_APP_IADI_GIT_TAG` вмикача;
+- пакунки [deb](/doc/sections/uk_UA/5-10-enabling-DEB-package-generation-with-cpack.md), [rpm](/doc/sections/uk_UA/5-22-enabling-RPM-package-generation-with-cpack.md), [FreeBSD pkg](/doc/sections/uk_UA/5-20-enabling-FreeBSD-pkg-package-generation-with-cpack.md) та [WiX MSI](/doc/sections/uk_UA/5-21-enabling-WIX-MSI-package-generation-with-cpack.md) несуть лише сам застосунок, тож цільова система потребує встановленого спільного об'єкта у спосіб, описаний у цій секції.
+
+Три конвеєри CI встановлюють її тим самим скриптом [misc/ci/install-annotator-libraries.sh](/misc/ci/install-annotator-libraries.sh), змінну середовища `IADI_GIT_TAG` якого перевизначає конвеєр, що перевіряє невипущену ревізію бібліотеки.
+
+### Перевизначення імені пакунка
+
+Бібліотека несе мажорну та мінорну версії всередині імен встановлюваного пакунка, цілі та бінарника - `ImagesAnnotatorDataImporters-0.11`, що відповідає її публічному простору імен `ImagesAnnotatorDataImporters011` із версією, - тож дві мінорні версії встановлюються цілком паралельно. Ім'я, яке цей проект просить у `find_package()`, є кеш-змінною:
+
+```
+# бібліотека, зібрана з -DLIB_INCLUDE_MINOR_IN_NAME=OFF, тобто з іменем лише з мажорною версією
+
+cmake -S . -B build -DTEMPLATE_APP_IADI_PACKAGE=ImagesAnnotatorDataImporters-0
+```
+
+### Що проект бере з бібліотеки
+
+- `IImporter` та три нащадки `LibraryContext` - три імпортери, які запускає `AnnotatorController`, коли GUI створює запит імпорту. Він будує їх через `LibraryFacade::create_importer()`, передаючи контекст потрібної розкладки.
+- `LibraryContext` - конфігурація імпорту (директорія-джерело, база даних анотацій, до якої зливаються відновлені записи, та засіб вимірювання зображень), яку контролер заповнює через сеттери контексту. База даних, яку він передає, - це та сама, через яку редагується проект, тож імпорт доповнює відкритий проект, а не заміщує його, а злиття бібліотеки зберігає зображення, яке проект уже містить, - саме це й робить імпорт безпечним для повторення.
+- `IImageSizeFacility` - засіб вимірювання зображень, потрібний двом із трьох імпортів. Бібліотека не декодує жодного формату зображень сама, а анотація формату проекту - це прямокутник у пікселях свого зображення, тож розкладка YOLO v4 (чиї рамки нормалізовані) та PyTorch Vision (чия анотація і є обрізаним зображенням) просять застосунок виміряти картинки. Кожен набір інструментів GUI цього проекту реалізує той інтерфейс над графічним стеком, який він уже лінкує: `GtkmmImageSizeProvider`, `QtImageSizeProvider` та `WxImageSizeProvider` - відповідники трьох обрізачів зображень з боку експорту. Заголовок проекту `src/annotator-events/events/IImageSizeFacilityProvider.h` є псевдонімом на нього.
+
+Єдине місце, яке називає бібліотеку, - це `src/annotator-events/events/DataImportersAliases.h`, який оголошує псевдонім `iadi` простору імен з версією `ImagesAnnotatorDataImporters011`. Її заголовки включаються через директорію з версією `<ImagesAnnotatorDataImporters-0.11/...>`: усі три бібліотеки встановлюють публічний `LibraryFacade.h`, тож просте написання назвало б ту з них, яку компілятор побачить першою.

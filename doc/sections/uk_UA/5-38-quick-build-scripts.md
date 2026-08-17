@@ -4,7 +4,7 @@
 
 Кожен скрипт тримає своє дерево побудови всередині директорії `build` проекту: `Release` у `build/release`, а `Debug` у `build/debug`.
 
-Проект не будується без двох окремих бібліотек, з якими він збирається, і жодна з них не звантажується кроком конфігурації (див. секції [Увімкнення бібліотеки ImagesAnnotator-DataDrivers](/doc/sections/uk_UA/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md) та [Увімкнення бібліотеки ImagesAnnotator-DataExporters](/doc/sections/uk_UA/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md)), отож їх слід один раз встановити перед запуском будь-якого зі скриптів нижче:
+Проект не будується без трьох окремих бібліотек, з якими він збирається, і жодна з них не звантажується кроком конфігурації (див. секції [Увімкнення бібліотеки ImagesAnnotator-DataDrivers](/doc/sections/uk_UA/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md), [Увімкнення бібліотеки ImagesAnnotator-DataExporters](/doc/sections/uk_UA/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md) та [Вмикання інтеграції бібліотеки ImagesAnnotator-DataImporters](/doc/sections/uk_UA/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md)), отож їх слід один раз встановити перед запуском будь-якого зі скриптів нижче:
 
 ```
 # в середині кореневої директорії проекту
@@ -67,6 +67,18 @@ scripts/build/release.sh -DENABLE_DEB=ON
 # директорії побудови і наступним встановленням у префікс /usr
 scripts/build/release.sh --no-reconfigure --install
 ```
+
+Три бібліотеки ImagesAnnotator знаходяться так само, коли їх встановлено поза типовими префіксами пошуку CMake - а саме це робить `misc/ci/install-annotator-libraries.sh <префікс>`, коли йому передано префікс, - бо `CMAKE_PREFIX_PATH` є такою ж змінною CMake:
+
+```
+# в середині кореневої директорії проекту
+
+misc/ci/install-annotator-libraries.sh "$HOME/.local"
+
+scripts/build/release.sh -DCMAKE_PREFIX_PATH="$HOME/.local"
+```
+
+Самі скрипти нічого не встановлюють: вони конфігурують, збирають і (з `--install`) встановлюють лише **цей** проект, тож три бібліотеки лишаються тим єдиним кроком, який слід виконати один раз заздалегідь.
 
 Інструментарій графічного інтерфейсу обирається так само, оскільки це теж параметр CMake (див. секцію [Розширення](/doc/sections/uk_UA/4-5-extensions.md)). Коли не задано жодного з них, скрипти будують типовий графічний інтерфейс GTKmm3:
 

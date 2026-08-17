@@ -39,11 +39,15 @@ On the bottom of the window there is a status panel that currently indicates onl
 
 After annotating the images of interest, use the export submenu of the `Annotations` menu to export data to widely used annotation formats.
 
+A dataset that already exists on the disk goes the other way: the import submenu beside it reads the plain text, the darknet YOLO v4 and the PyTorch Vision layouts back into the project being edited. The recovered images are appended to the ones already opened - an image the project already holds is kept as it was - so an import may be repeated, and it writes nothing into the directory it reads.
+
 # Implementing custom exporters
 
 Current ImagesAnnotator application stores the annotations database in the `JSON` file format. It makes it easy to implement a custom export script into required format to train neural network with the help of `Python` or `Bash`.
 
 The exporters the application itself ships - the plain text one, the darknet YOLO v4 one, the three Ultralytics YOLO ones - detection, oriented bounding boxes and segmentation - the COCO JSON one, the Pascal VOC XML one, the Create ML JSON one and the PyTorch Vision one - live in the standalone [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git) library, so a new format may also be added there instead, and every tool built on that library gains it at once. See [Enabling the ImagesAnnotator-DataExporters library](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md).
+
+Reading a dataset back is the mirror of that: the importers the application ships - the plain text one, the darknet YOLO v4 one and the PyTorch Vision one - live in the standalone [ImagesAnnotator-DataImporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataImporters.git) library. See [Enabling the ImagesAnnotator-DataImporters library](/doc/sections/en_US/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md).
 
 # Documentation contents
 
@@ -112,6 +116,7 @@ The exporters the application itself ships - the plain text one, the darknet YOL
     1. [Enabling the ImagesAnnotator-DataDrivers library](/doc/sections/en_US/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md)
     1. [Enabling the ImagesAnnotator-DataExporters library](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md)
     1. [Quick build scripts](/doc/sections/en_US/5-38-quick-build-scripts.md)
+    1. [Enabling the ImagesAnnotator-DataImporters library](/doc/sections/en_US/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md)
 1. [Run the executable](/doc/sections/en_US/6-run-the-executable.md)
     1. [IDE run](/doc/sections/en_US/6-1-IDE-run.md)
     1. Command line run

@@ -4,7 +4,7 @@ The [scripts/build](/scripts/build) directory holds the shell scripts which perf
 
 Every script keeps its build tree under the project `build` directory: the `Release` one at `build/release` and the `Debug` one at `build/debug`.
 
-The project does not build without the two standalone libraries it is built against, and neither of them is fetched by the configure step (see the [Enabling the ImagesAnnotator-DataDrivers library](/doc/sections/en_US/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md) and the [Enabling the ImagesAnnotator-DataExporters library](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md) sections), so they are to be installed once before any of the scripts below is started:
+The project does not build without the three standalone libraries it is built against, and none of them is fetched by the configure step (see the [Enabling the ImagesAnnotator-DataDrivers library](/doc/sections/en_US/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md), the [Enabling the ImagesAnnotator-DataExporters library](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md) and the [Enabling the ImagesAnnotator-DataImporters library](/doc/sections/en_US/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md) sections), so they are to be installed once before any of the scripts below is started:
 
 ```
 # inside the project root directory
@@ -67,6 +67,18 @@ scripts/build/release.sh -DENABLE_DEB=ON
 # followed by the installation into the /usr prefix
 scripts/build/release.sh --no-reconfigure --install
 ```
+
+The three ImagesAnnotator libraries are found the very same way when they were installed outside of the CMake default search prefixes - which is what `misc/ci/install-annotator-libraries.sh <prefix>` does when it is given one - since `CMAKE_PREFIX_PATH` is a CMake variable as well:
+
+```
+# inside the project root directory
+
+misc/ci/install-annotator-libraries.sh "$HOME/.local"
+
+scripts/build/release.sh -DCMAKE_PREFIX_PATH="$HOME/.local"
+```
+
+The scripts install nothing of their own: they configure, build and (with `--install`) install **this** project only, so the three libraries stay the one step to run once beforehand.
 
 The GUI toolkit is selected the very same way, since it is a CMake option too (see the [Extensions](/doc/sections/en_US/4-5-extensions.md) section). With none of them given the scripts build the default GTKmm3 GUI:
 

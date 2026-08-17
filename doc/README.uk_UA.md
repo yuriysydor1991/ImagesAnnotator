@@ -42,6 +42,8 @@
 
 Експортери, які постачає сам застосунок - звичайний текстовий, YOLO v4 (darknet), три Ultralytics YOLO (детекція, орієнтовані рамки та сегментація), COCO JSON, Pascal VOC XML, Create ML JSON і PyTorch Vision, - знаходяться в окремій бібліотеці [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git), тому новий формат можна додати і туди, і тоді його отримає кожен інструмент, побудований на цій бібліотеці. Див. [Вмикання інтеграції бібліотеки ImagesAnnotator-DataExporters](/doc/sections/uk_UA/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md).
 
+Читання набору даних назад є оберненням цього: імпортери, які постачає застосунок - звичайний текстовий, YOLO v4 (darknet) і PyTorch Vision, - знаходяться в окремій бібліотеці [ImagesAnnotator-DataImporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataImporters.git). Див. [Вмикання інтеграції бібліотеки ImagesAnnotator-DataImporters](/doc/sections/uk_UA/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md).
+
 # Зміст документації
 
 **Даний документ у процесі покращення**
@@ -109,6 +111,7 @@
     1. [Вмикання інтеграції бібліотеки ImagesAnnotator-DataDrivers](/doc/sections/uk_UA/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md)
     1. [Вмикання інтеграції бібліотеки ImagesAnnotator-DataExporters](/doc/sections/uk_UA/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md)
     1. [Швидкі скрипти побудови](/doc/sections/uk_UA/5-38-quick-build-scripts.md)
+    1. [Вмикання інтеграції бібліотеки ImagesAnnotator-DataImporters](/doc/sections/uk_UA/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md)
 1. [Запуск головного виконуваного файлу](/doc/sections/uk_UA/6-run-the-executable.md)
     1. [Запуск через IDE](/doc/sections/uk_UA/6-1-IDE-run.md)
     1. Запуск з терміналу

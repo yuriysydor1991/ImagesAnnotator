@@ -1,13 +1,16 @@
 ## Required tools for the GNU/Linux based OS
 
-The project is built against two standalone libraries of its own, and neither is
+The project is built against three standalone libraries of its own, and none is
 a distribution package: the
 [ImagesAnnotator-DataDrivers](https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers.git)
-annotations project database and the
+annotations project database, the
 [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git)
-dataset exporters. Both enablers only look them up with `find_package()`, so both
-have to be installed before the project is configured. The shipped script builds
-and installs them in the order the exporters library needs:
+dataset exporters and the
+[ImagesAnnotator-DataImporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataImporters.git)
+dataset importers. All three enablers only look them up with `find_package()`, so
+all three have to be installed before the project is configured. The shipped
+script builds and installs them in the order the data drivers dependency of the
+other two needs:
 
 ```
 misc/ci/install-annotator-libraries.sh
@@ -17,8 +20,10 @@ It installs into `/usr/local`; pass another prefix as its only argument and poin
 the configure at it with `-DCMAKE_PREFIX_PATH=<prefix>`. The script itself needs
 the compiler, CMake and Git below. See [Enabling the ImagesAnnotator-DataDrivers
 library](/doc/sections/en_US/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md)
-and [Enabling the ImagesAnnotator-DataExporters
-library](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md).
+[Enabling the ImagesAnnotator-DataExporters
+library](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md)
+and [Enabling the ImagesAnnotator-DataImporters
+library](/doc/sections/en_US/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md).
 
 In order to build minimum project install the GCC C++ compiler with CMake and Git.
 

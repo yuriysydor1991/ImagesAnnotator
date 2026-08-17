@@ -10,7 +10,7 @@ The library is therefore **mandatory**: the `ENABLE_IMAGES_ANNOTATOR_DATA_DRIVER
 cmake -S . -B build -DENABLE_IMAGES_ANNOTATOR_DATA_DRIVERS=ON
 ```
 
-The enabler looks the library up with `find_package()`. There is no Internet fallback: the sibling [ImagesAnnotator-DataExporters](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md) library, which this project is built against as well, resolves the data drivers with a `find_package()` of its own and includes their headers through the versioned `<ImagesAnnotatorDataDrivers-0.11/...>` directory - a form only an installation provides - so a copy fetched into this build could not serve it. Both libraries are consumed installed.
+The enabler looks the library up with `find_package()`. There is no Internet fallback: the sibling [ImagesAnnotator-DataExporters](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md) and [ImagesAnnotator-DataImporters](/doc/sections/en_US/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md) libraries, which this project is built against as well, each resolve the data drivers with a `find_package()` of their own and include their headers through the versioned `<ImagesAnnotatorDataDrivers-0.11/...>` directory - a form only an installation provides - so a copy fetched into this build could not serve them. All three libraries are consumed installed.
 
 ### Pointing the project at an installed copy
 
@@ -27,7 +27,7 @@ A library installed outside of the default search prefixes is found through the 
 cmake -S . -B build -DCMAKE_PREFIX_PATH=/opt/images-annotator
 ```
 
-The [misc/ci/install-annotator-libraries.sh](/misc/ci/install-annotator-libraries.sh) script performs exactly the steps above for both libraries at once, and is what the three CI pipelines and the packager manifests build them with.
+The [misc/ci/install-annotator-libraries.sh](/misc/ci/install-annotator-libraries.sh) script performs exactly the steps above for all three libraries at once, and is what the three CI pipelines and the packager manifests build them with.
 
 ### Overriding the source repository and the tag
 
@@ -56,4 +56,4 @@ cmake -S . -B build -DTEMPLATE_APP_IADD_PACKAGE=ImagesAnnotatorDataDrivers-0
 - `IImagesPathsDBProvider` - the read only records access interface the GUI consumes, which the `AnnotatorController` implements.
 - `IRecordsFactory` - the records factory the project `EventsFactory` delegates its record creating methods to.
 
-The single place naming the library is `src/annotator-events/events/DataDriversAliases.h`, which declares the `iadd` alias of the versioned `ImagesAnnotatorDataDrivers011` namespace. Its headers are included through the versioned `<ImagesAnnotatorDataDrivers-0.11/...>` directory: the data exporters library installs a public `LibraryFacade.h` of its own, so the plain spelling would name whichever of the two the compiler sees first.
+The single place naming the library is `src/annotator-events/events/DataDriversAliases.h`, which declares the `iadd` alias of the versioned `ImagesAnnotatorDataDrivers011` namespace. Its headers are included through the versioned `<ImagesAnnotatorDataDrivers-0.11/...>` directory: the data exporters and the data importers libraries install a public `LibraryFacade.h` of their own, so the plain spelling would name whichever of the three the compiler sees first.

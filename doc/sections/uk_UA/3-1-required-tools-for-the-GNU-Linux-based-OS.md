@@ -1,12 +1,12 @@
 ## Обов'язкові інструменти для ОС на базі GNU/Лінукс
 
-Проект збирається проти двох власних окремих бібліотек, і жодна з них не є пакунком дистрибутиву: [ImagesAnnotator-DataDrivers](https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers.git) - бази даних проекту анотацій - та [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git) - експортерів набору даних. Обидва активатори лише шукають їх викликом `find_package()`, тому обидві потрібно встановити перед конфігурацією проекту. Долучений сценарій збирає і встановлює їх у порядку, потрібному бібліотеці експортерів:
+Проект збирається проти трьох власних окремих бібліотек, і жодна з них не є пакунком дистрибутиву: [ImagesAnnotator-DataDrivers](https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers.git) - бази даних проекту анотацій, [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git) - експортерів набору даних - та [ImagesAnnotator-DataImporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataImporters.git) - імпортерів набору даних. Усі три активатори лише шукають їх викликом `find_package()`, тому всі три потрібно встановити перед конфігурацією проекту. Долучений сценарій збирає і встановлює їх у порядку, потрібному залежності від драйверів даних двох інших:
 
 ```
 misc/ci/install-annotator-libraries.sh
 ```
 
-Він встановлює у `/usr/local`; передай інший префікс єдиним аргументом і вкажи його конфігурації через `-DCMAKE_PREFIX_PATH=<префікс>`. Самому сценарію потрібні компілятор, CMake і Git, описані нижче. Дивись [Вмикання інтеграції бібліотеки ImagesAnnotator-DataDrivers](/doc/sections/uk_UA/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md) та [Вмикання інтеграції бібліотеки ImagesAnnotator-DataExporters](/doc/sections/uk_UA/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md).
+Він встановлює у `/usr/local`; передай інший префікс єдиним аргументом і вкажи його конфігурації через `-DCMAKE_PREFIX_PATH=<префікс>`. Самому сценарію потрібні компілятор, CMake і Git, описані нижче. Дивись [Вмикання інтеграції бібліотеки ImagesAnnotator-DataDrivers](/doc/sections/uk_UA/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md) [Вмикання інтеграції бібліотеки ImagesAnnotator-DataExporters](/doc/sections/uk_UA/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md) та [Вмикання інтеграції бібліотеки ImagesAnnotator-DataImporters](/doc/sections/uk_UA/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md).
 
 Для того щоб виконати побудову проекту необхідно встановити компілятор GCC C++ разом з системою побудови проекту CMake і системою версіювання Git:
 

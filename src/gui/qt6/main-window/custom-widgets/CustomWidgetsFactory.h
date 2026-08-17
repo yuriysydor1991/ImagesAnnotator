@@ -128,6 +128,9 @@ class CustomWidgetsFactory
   virtual bool ask_coco_export_folder(QWidget* parent, std::string& out);
   virtual bool ask_pascal_voc_export_folder(QWidget* parent, std::string& out);
   virtual bool ask_createml_export_folder(QWidget* parent, std::string& out);
+  virtual bool ask_txt_import_folder(QWidget* parent, std::string& out);
+  virtual bool ask_yolo4_import_folder(QWidget* parent, std::string& out);
+  virtual bool ask_pytorch_import_folder(QWidget* parent, std::string& out);
   virtual bool ask_webpage_url(QWidget* parent, std::string& out);
 
   virtual SaveAnswer ask_save_changes(QWidget* parent);

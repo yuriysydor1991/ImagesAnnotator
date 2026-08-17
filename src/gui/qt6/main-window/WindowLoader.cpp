@@ -289,6 +289,14 @@ void WindowLoader::build_menu_bar()
       project, QStringLiteral("Export PyTorch Vision to folder"),
       WindowDataContext::annotations_export_pytorchvision_2_folder_id);
   project->addSeparator();
+  add_menu_action(project, QStringLiteral("Import plain txt from folder"),
+                  WindowDataContext::annotations_import_txt_2_folder_id);
+  add_menu_action(project, QStringLiteral("Import YOLO4 from folder"),
+                  WindowDataContext::annotations_import_yolo4_2_folder_id);
+  add_menu_action(
+      project, QStringLiteral("Import PyTorch Vision from folder"),
+      WindowDataContext::annotations_import_pytorchvision_2_folder_id);
+  project->addSeparator();
   add_menu_action(project, QStringLiteral("Close project"),
                   WindowDataContext::annotations_project_close_id,
                   QKeySequence{Qt::CTRL | Qt::Key_W});
@@ -717,6 +725,24 @@ QAction* WindowLoader::get_export_createml_folder_mi()
 {
   return get_object<QAction>(
       WindowDataContext::annotations_export_createml_2_folder_id);
+}
+
+QAction* WindowLoader::get_import_txt_folder_mi()
+{
+  return get_object<QAction>(
+      WindowDataContext::annotations_import_txt_2_folder_id);
+}
+
+QAction* WindowLoader::get_import_yolo4_folder_mi()
+{
+  return get_object<QAction>(
+      WindowDataContext::annotations_import_yolo4_2_folder_id);
+}
+
+QAction* WindowLoader::get_import_pytorchvision_folder_mi()
+{
+  return get_object<QAction>(
+      WindowDataContext::annotations_import_pytorchvision_2_folder_id);
 }
 
 QAction* WindowLoader::get_export_pytorchvision_folder_mi()

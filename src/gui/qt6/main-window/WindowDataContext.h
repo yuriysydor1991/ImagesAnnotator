@@ -157,6 +157,15 @@ class WindowDataContext
       annotations_export_createml_2_folder_id =
           "annotations_export_createml_2_folder";
 
+  inline static constexpr const char* const annotations_import_txt_2_folder_id =
+      "annotations_import_txt_2_folder";
+  inline static constexpr const char* const
+      annotations_import_yolo4_2_folder_id =
+          "annotations_import_yolo4_2_folder";
+  inline static constexpr const char* const
+      annotations_import_pytorchvision_2_folder_id =
+          "annotations_import_pytorchvision_2_folder";
+
   inline static constexpr const char* const images_search_entry_id =
       "images_search_entry";
 

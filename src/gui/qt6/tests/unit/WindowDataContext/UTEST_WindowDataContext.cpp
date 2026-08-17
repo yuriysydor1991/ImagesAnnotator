@@ -47,3 +47,17 @@ TEST(UTEST_Qt6WindowDataContext, embedded_resource_paths_use_the_qt_scheme)
   EXPECT_NE(logo.find("/qt6/"), std::string::npos);
   EXPECT_NE(qss.find("/qt6/"), std::string::npos);
 }
+
+TEST(UTEST_Qt6WindowDataContext, get_ids_contains_every_import_id)
+{
+  const auto& ids = WindowDataContext::get_ids();
+
+  EXPECT_EQ(ids.count(WindowDataContext::annotations_import_txt_2_folder_id),
+            1U);
+  EXPECT_EQ(ids.count(WindowDataContext::annotations_import_yolo4_2_folder_id),
+            1U);
+  EXPECT_EQ(
+      ids.count(
+          WindowDataContext::annotations_import_pytorchvision_2_folder_id),
+      1U);
+}

@@ -235,13 +235,13 @@ void WindowLoader::update_window_title(const std::string& openedFile)
 
 void WindowLoader::set_window_icon()
 {
-  // Attach the logo baked into the binary as the application-wide default window
-  // icon. Gtk::Window::set_default_icon() feeds _NET_WM_ICON, which the X11
-  // window list / taskbar / alt-tab switcher use to label the window, so the app
-  // becomes distinctive on the panel without any icon file installed next to it.
-  // The pixbuf is read straight from the embedded GResource (the same asset the
-  // About dialog uses). A failure is logged and swallowed on purpose: a missing
-  // icon must never keep the GUI from starting.
+  // Attach the logo baked into the binary as the application-wide default
+  // window icon. Gtk::Window::set_default_icon() feeds _NET_WM_ICON, which the
+  // X11 window list / taskbar / alt-tab switcher use to label the window, so
+  // the app becomes distinctive on the panel without any icon file installed
+  // next to it. The pixbuf is read straight from the embedded GResource (the
+  // same asset the About dialog uses). A failure is logged and swallowed on
+  // purpose: a missing icon must never keep the GUI from starting.
   try {
     auto icon = Gdk::Pixbuf::create_from_resource(mwctx->wctx->logo_res_path);
     Gtk::Window::set_default_icon(icon);
@@ -575,6 +575,30 @@ Gtk::ImageMenuItem* WindowLoader::get_export_createml_folder_mi()
 
   return get_widget<Gtk::ImageMenuItem>(
       mwctx->wctx->annotations_export_createml_2_folder_id);
+}
+
+Gtk::ImageMenuItem* WindowLoader::get_import_txt_folder_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_import_txt_2_folder_id);
+}
+
+Gtk::ImageMenuItem* WindowLoader::get_import_yolo4_folder_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_import_yolo4_2_folder_id);
+}
+
+Gtk::ImageMenuItem* WindowLoader::get_import_pytorchvision_folder_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_import_pytorchvision_2_folder_id);
 }
 
 Gtk::ImageMenuItem* WindowLoader::get_export_pytorchvision_folder_mi()

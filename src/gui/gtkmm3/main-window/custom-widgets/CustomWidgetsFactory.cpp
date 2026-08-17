@@ -30,7 +30,6 @@
 #include <glib.h>
 
 #include <cassert>
-#include <glib.h>
 #include <memory>
 #include <string>
 #include <vector>
@@ -272,6 +271,30 @@ CustomWidgetsFactory::create_createml_export_folder_choose_dialog(
 {
   return create_folder_choose_dialog_with_title(
       parentWindow, "Select Create ML export directory");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_txt_import_folder_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_folder_choose_dialog_with_title(
+      parentWindow, "Select plain txt import directory");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_yolo4_import_folder_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_folder_choose_dialog_with_title(
+      parentWindow, "Select YOLO4 import directory");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_pytorch_import_folder_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_folder_choose_dialog_with_title(
+      parentWindow, "Select PyTorch Vision import directory");
 }
 
 std::shared_ptr<Gtk::FileChooserDialog>

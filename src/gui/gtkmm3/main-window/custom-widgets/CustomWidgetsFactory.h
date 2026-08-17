@@ -148,6 +148,21 @@ class CustomWidgetsFactory
    */
   virtual std::shared_ptr<Gtk::FileChooserDialog>
   create_createml_export_folder_choose_dialog(Gtk::Window* parentWindow);
+  /**
+   * @brief Creates the directory chooser of the plain txt dataset import.
+   */
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_txt_import_folder_choose_dialog(Gtk::Window* parentWindow);
+  /**
+   * @brief Creates the directory chooser of the YOLO v4 dataset import.
+   */
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_yolo4_import_folder_choose_dialog(Gtk::Window* parentWindow);
+  /**
+   * @brief Creates the directory chooser of the PyTorch Vision dataset import.
+   */
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_pytorch_import_folder_choose_dialog(Gtk::Window* parentWindow);
 
   virtual void prepare_url_asker(Gtk::Dialog* dialog,
                                  Gtk::Label* cachePathLabel,

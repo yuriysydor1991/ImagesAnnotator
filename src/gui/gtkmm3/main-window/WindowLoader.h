@@ -98,6 +98,9 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual Gtk::ImageMenuItem* get_export_coco_folder_mi();
   virtual Gtk::ImageMenuItem* get_export_pascal_voc_folder_mi();
   virtual Gtk::ImageMenuItem* get_export_createml_folder_mi();
+  virtual Gtk::ImageMenuItem* get_import_txt_folder_mi();
+  virtual Gtk::ImageMenuItem* get_import_yolo4_folder_mi();
+  virtual Gtk::ImageMenuItem* get_import_pytorchvision_folder_mi();
   virtual Gtk::ImageMenuItem* get_export_pytorchvision_folder_mi();
   virtual Gtk::ImageMenuItem* get_images_web_page_open_menu_item_mi();
   virtual Gtk::ImageMenuItem* auto_insert_current_annotation_to_whole_mi();

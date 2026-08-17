@@ -36,6 +36,40 @@
 
 Після внесення анотацій до обраних зображень можна скористатись субменю експорту у меню `Annotations` що дозволяє експортувати зображення у широко відомі формати анотування.
 
+# Залежності
+
+Застосунок збирається проти трьох власних окремих бібліотек -
+[ImagesAnnotator-DataDrivers](https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers.git)
+(база даних проекту анотацій),
+[ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git)
+(запис наборів даних) та
+[ImagesAnnotator-DataImporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataImporters.git)
+(читання наборів даних), - а також проти одного з чотирьох взаємозамінних
+наборів інструментів GUI і невеликого набору сторонніх бібліотек:
+
+![Залежності ImagesAnnotator](diagrams/images/dependencies.svg)
+
+Жодна з трьох власних бібліотек не є пакунком дистрибутиву і жодна не
+звантажується кроком конфігурації цього проекту, тож усі три встановлюються
+заздалегідь - долучений скрипт
+[misc/ci/install-annotator-libraries.sh](/misc/ci/install-annotator-libraries.sh)
+збирає та встановлює їх однією командою. Див. [Вмикання інтеграції бібліотеки
+ImagesAnnotator-DataDrivers](/doc/sections/uk_UA/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md),
+[Вмикання інтеграції бібліотеки
+ImagesAnnotator-DataExporters](/doc/sections/uk_UA/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md)
+та [Вмикання інтеграції бібліотеки
+ImagesAnnotator-DataImporters](/doc/sections/uk_UA/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md).
+
+Діаграму згенеровано з джерела PlantUML за адресою
+[doc/diagrams/plantuml/dependencies.puml](diagrams/plantuml/dependencies.puml).
+Редагуй той файл і генеруй її знову щоразу, коли змінюється залежність:
+
+```
+# з кореневої директорії проекту
+
+plantuml -tsvg -o ../images doc/diagrams/plantuml/dependencies.puml
+```
+
 # Реалізування користувацьких екпортерів/перетворювачів
 
 Поточна програма для анотацій зображень зберігає свою базу даних анотацій у вигляді текстового файлу формату `JSON`. Це набагато полегшує створення користувацьких скриптів експорту у потрібний формат для тренування нейро мереж за допомогою таких мов як `Python` чи `Bash`.

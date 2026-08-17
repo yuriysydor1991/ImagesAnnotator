@@ -41,6 +41,39 @@ After annotating the images of interest, use the export submenu of the `Annotati
 
 A dataset that already exists on the disk goes the other way: the import submenu beside it reads the plain text, the darknet YOLO v4 and the PyTorch Vision layouts back into the project being edited. The recovered images are appended to the ones already opened - an image the project already holds is kept as it was - so an import may be repeated, and it writes nothing into the directory it reads.
 
+# Dependencies
+
+The application is built against three standalone libraries of its own - the
+[ImagesAnnotator-DataDrivers](https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers.git)
+annotations project database, the
+[ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git)
+dataset writers and the
+[ImagesAnnotator-DataImporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataImporters.git)
+dataset readers - plus one of the four interchangeable GUI toolkits and a small
+set of third party libraries:
+
+![The ImagesAnnotator dependencies](doc/diagrams/images/dependencies.svg)
+
+None of the three own libraries is a distribution package and none is fetched by
+a configure of this project, so all three are installed first - the shipped
+[misc/ci/install-annotator-libraries.sh](/misc/ci/install-annotator-libraries.sh)
+script builds and installs them in one command. See [Enabling the
+ImagesAnnotator-DataDrivers library](/doc/sections/en_US/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md),
+[Enabling the ImagesAnnotator-DataExporters
+library](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md)
+and [Enabling the ImagesAnnotator-DataImporters
+library](/doc/sections/en_US/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md).
+
+The diagram is rendered from the PlantUML source at
+[doc/diagrams/plantuml/dependencies.puml](doc/diagrams/plantuml/dependencies.puml).
+Edit that file and render it again whenever a dependency changes:
+
+```
+# from the project root directory
+
+plantuml -tsvg -o ../images doc/diagrams/plantuml/dependencies.puml
+```
+
 # Implementing custom exporters
 
 Current ImagesAnnotator application stores the annotations database in the `JSON` file format. It makes it easy to implement a custom export script into required format to train neural network with the help of `Python` or `Bash`.

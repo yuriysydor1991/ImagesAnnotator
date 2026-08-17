@@ -1,0 +1,85 @@
+@startuml
+
+title The ImagesAnnotator dependencies
+
+package "The application" #FFFFFF {
+  component "ImagesAnnotator" as APP
+  component "GUI toolkit\nGTKmm3 | GTKmm4 | Qt6 | wxWidgets" as GUI
+}
+
+package "The ImagesAnnotator libraries" #F4F4F4 {
+  component "ImagesAnnotator-DataExporters\nImagesAnnotatorDataExporters011" as IADE
+  component "ImagesAnnotator-DataImporters\nImagesAnnotatorDataImporters011" as IADI
+  component "ImagesAnnotator-DataDrivers\nImagesAnnotatorDataDrivers011" as IADD
+}
+
+package "Third party" #EEEEEE {
+  component "libcurl" as CURL
+  component "nlohmann/json" as NJSON
+  component "OpenCV\ncore, imgcodecs" as OCV
+  component "GoogleTest / GoogleMock" as GTEST
+}
+
+note right of APP
+  The annotator business logic, the events bus
+  and four interchangeable GUI implementations.
+  Exactly one toolkit is compiled in, picked at
+  the configure time by the mutually exclusive
+  USE_GTKMM3 / USE_GTKMM4 / USE_QT6 /
+  USE_WXWIDGETS options.
+end note
+
+note bottom of IADE
+  Writes nine dataset layouts out of a project.
+  Declares IImageCropperFacility, and ships an
+  OpenCV cropper of its own when the build
+  found OpenCV.
+end note
+
+note bottom of IADI
+  Reads three dataset layouts back into a
+  project. Declares IImageSizeFacility, and
+  ships an OpenCV size reader of its own when
+  the build found OpenCV.
+end note
+
+note bottom of IADD
+  The project JSON database - the parsing, the
+  merging and the storing - and the ImageRecord
+  / ImageRecordRect value types the other two
+  are written in terms of.
+end note
+
+APP --> GUI : compiles one of
+APP --> IADE : export requests
+APP --> IADI : import requests
+APP --> IADD : opens and stores the project
+APP --> CURL : loads web hosted images
+
+GUI ..> IADE : implements\nIImageCropperFacility
+GUI ..> IADI : implements\nIImageSizeFacility
+
+IADE --> IADD : PUBLIC
+IADI --> IADD : PUBLIC
+
+IADE --> CURL : PRIVATE
+IADE ..> OCV : PRIVATE, optional
+IADI ..> OCV : PRIVATE, optional
+
+IADD --> NJSON : PRIVATE
+IADD --> CURL : PRIVATE, the CURLU URL API only
+
+APP ..> GTEST : tests only
+IADE ..> GTEST : tests only
+IADI ..> GTEST : tests only
+IADD ..> GTEST : tests only
+
+legend bottom
+  The three ImagesAnnotator libraries are consumed installed: none of them is
+  fetched by a configure of this project, and none is a distribution package.
+  misc/ci/install-annotator-libraries.sh builds and installs all three.
+  A PUBLIC link is one whose usage requirements reach this project as well -
+  the installable headers of both sibling libraries name the data drivers types.
+end legend
+
+@enduml

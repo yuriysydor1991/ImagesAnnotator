@@ -48,6 +48,7 @@ TEST(UTEST_WxWindowEventHandlersFactory, creates_every_handler_non_null)
   EXPECT_NE(factory.create_annotations_events_handler(ops), nullptr);
   EXPECT_NE(factory.create_project_file_events_handler(ops), nullptr);
   EXPECT_NE(factory.create_export_events_handler(ops), nullptr);
+  EXPECT_NE(factory.create_import_events_handler(ops), nullptr);
   EXPECT_NE(factory.create_web_page_events_handler(ops), nullptr);
   EXPECT_NE(factory.create_about_events_handler(ops), nullptr);
   EXPECT_NE(factory.create_window_system_events_handler(ops), nullptr);

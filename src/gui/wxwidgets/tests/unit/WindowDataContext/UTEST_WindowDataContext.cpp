@@ -23,6 +23,15 @@ TEST(UTEST_WxWindowDataContext, get_ids_contains_the_core_menu_ids)
   EXPECT_EQ(ids.count(WindowDataContext::ID_ABOUT), 1U);
 }
 
+TEST(UTEST_WxWindowDataContext, get_ids_contains_every_import_menu_id)
+{
+  const auto& ids = WindowDataContext::get_ids();
+
+  EXPECT_EQ(ids.count(WindowDataContext::ID_IMPORT_TXT), 1U);
+  EXPECT_EQ(ids.count(WindowDataContext::ID_IMPORT_YOLO4), 1U);
+  EXPECT_EQ(ids.count(WindowDataContext::ID_IMPORT_PYTORCH), 1U);
+}
+
 TEST(UTEST_WxWindowDataContext, all_ids_are_valid_custom_command_ids)
 {
   for (const int id : WindowDataContext::get_ids()) {

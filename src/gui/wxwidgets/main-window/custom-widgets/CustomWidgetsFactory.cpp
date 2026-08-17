@@ -233,6 +233,24 @@ bool CustomWidgetsFactory::ask_createml_export_folder(wxWindow* parent,
   return ask_folder(parent, "Select Create ML export directory", out);
 }
 
+bool CustomWidgetsFactory::ask_txt_import_folder(wxWindow* parent,
+                                                 std::string& out)
+{
+  return ask_folder(parent, "Select plain txt import directory", out);
+}
+
+bool CustomWidgetsFactory::ask_yolo4_import_folder(wxWindow* parent,
+                                                   std::string& out)
+{
+  return ask_folder(parent, "Select YOLO4 import directory", out);
+}
+
+bool CustomWidgetsFactory::ask_pytorch_import_folder(wxWindow* parent,
+                                                     std::string& out)
+{
+  return ask_folder(parent, "Select PyTorch Vision import directory", out);
+}
+
 bool CustomWidgetsFactory::ask_pytorch_export_folder(wxWindow* parent,
                                                      std::string& out)
 {

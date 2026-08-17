@@ -34,6 +34,7 @@
 #include "src/gui/wxwidgets/main-window/event-handlers/ExportEventsHandler.h"
 #include "src/gui/wxwidgets/main-window/event-handlers/ImageListEventsHandler.h"
 #include "src/gui/wxwidgets/main-window/event-handlers/ImageNavigationEventsHandler.h"
+#include "src/gui/wxwidgets/main-window/event-handlers/ImportEventsHandler.h"
 #include "src/gui/wxwidgets/main-window/event-handlers/KeyboardEventsHandler.h"
 #include "src/gui/wxwidgets/main-window/event-handlers/MouseDrawEventsHandler.h"
 #include "src/gui/wxwidgets/main-window/event-handlers/ProjectFileEventsHandler.h"
@@ -91,6 +92,12 @@ std::shared_ptr<ExportEventsHandler>
 WindowEventHandlersFactory::create_export_events_handler(WindowOpsPtr ops)
 {
   return std::make_shared<ExportEventsHandler>(ops);
+}
+
+std::shared_ptr<ImportEventsHandler>
+WindowEventHandlersFactory::create_import_events_handler(WindowOpsPtr ops)
+{
+  return std::make_shared<ImportEventsHandler>(ops);
 }
 
 std::shared_ptr<WebPageEventsHandler>

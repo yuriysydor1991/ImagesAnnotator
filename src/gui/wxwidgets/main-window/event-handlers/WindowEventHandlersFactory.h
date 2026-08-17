@@ -42,6 +42,7 @@ class ImageListEventsHandler;
 class AnnotationsEventsHandler;
 class ProjectFileEventsHandler;
 class ExportEventsHandler;
+class ImportEventsHandler;
 class WebPageEventsHandler;
 class AboutEventsHandler;
 class WindowSystemEventsHandler;
@@ -74,6 +75,8 @@ class WindowEventHandlersFactory
   virtual std::shared_ptr<ProjectFileEventsHandler>
   create_project_file_events_handler(WindowOpsPtr ops);
   virtual std::shared_ptr<ExportEventsHandler> create_export_events_handler(
+      WindowOpsPtr ops);
+  virtual std::shared_ptr<ImportEventsHandler> create_import_events_handler(
       WindowOpsPtr ops);
   virtual std::shared_ptr<WebPageEventsHandler> create_web_page_events_handler(
       WindowOpsPtr ops);

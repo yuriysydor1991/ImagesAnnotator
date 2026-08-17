@@ -47,6 +47,9 @@ const std::set<int>& WindowDataContext::get_ids()
                                  ID_EXPORT_COCO,
                                  ID_EXPORT_PASCAL_VOC,
                                  ID_EXPORT_CREATEML,
+                                 ID_IMPORT_TXT,
+                                 ID_IMPORT_YOLO4,
+                                 ID_IMPORT_PYTORCH,
                                  ID_AUTO_INSERT_TO_WHOLE,
                                  ID_ABOUT};
 

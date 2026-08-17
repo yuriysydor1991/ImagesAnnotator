@@ -14,6 +14,7 @@ add_library(
   AnnotationsEventsHandler.cpp
   ProjectFileEventsHandler.cpp
   ExportEventsHandler.cpp
+  ImportEventsHandler.cpp
   WebPageEventsHandler.cpp
   AboutEventsHandler.cpp
 )

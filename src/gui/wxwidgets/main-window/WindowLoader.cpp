@@ -112,6 +112,13 @@ wxMenuBar* WindowLoader::build_menu_bar()
   project->Append(WindowDataContext::ID_EXPORT_PYTORCH,
                   "Export PyTorch Vision to folder");
   project->AppendSeparator();
+  project->Append(WindowDataContext::ID_IMPORT_TXT,
+                  "Import plain txt from folder");
+  project->Append(WindowDataContext::ID_IMPORT_YOLO4,
+                  "Import YOLO4 from folder");
+  project->Append(WindowDataContext::ID_IMPORT_PYTORCH,
+                  "Import PyTorch Vision from folder");
+  project->AppendSeparator();
   project->Append(WindowDataContext::ID_ANNOTATIONS_PROJECT_CLOSE,
                   "Close project\tCtrl+W");
 

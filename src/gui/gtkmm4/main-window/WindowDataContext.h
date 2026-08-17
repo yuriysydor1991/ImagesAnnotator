@@ -177,6 +177,12 @@ class WindowDataContext
       "pascal_voc_export_folder_dialog";
   inline static constexpr const char* const createml_export_folder_dialog_id =
       "createml_export_folder_dialog";
+  inline static constexpr const char* const txt_import_folder_dialog_id =
+      "txt_import_folder_dialog";
+  inline static constexpr const char* const yolo4_import_folder_dialog_id =
+      "yolo4_import_folder_dialog";
+  inline static constexpr const char* const pytorch_import_folder_dialog_id =
+      "pytorch_import_folder_dialog";
   inline static constexpr const char* const error_dialog_id = "error_dialog";
   inline static constexpr const char* const save_changes_ask_dialog_id =
       "save_changes_ask_dialog";
@@ -226,6 +232,11 @@ class WindowDataContext
       "export-pascal-voc";
   inline static constexpr const char* const action_export_createml =
       "export-createml";
+  inline static constexpr const char* const action_import_txt = "import-txt";
+  inline static constexpr const char* const action_import_yolo4 =
+      "import-yolo4";
+  inline static constexpr const char* const action_import_pytorchvision =
+      "import-pytorchvision";
   inline static constexpr const char* const action_images_web_page_open =
       "images-web-page-open";
   inline static constexpr const char* const action_auto_insert_annotation =

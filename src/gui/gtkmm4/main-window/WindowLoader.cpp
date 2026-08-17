@@ -196,6 +196,9 @@ bool WindowLoader::prepare_dialogs()
   auto* cocoFolder = get_coco_export_folder_dialog();
   auto* pascalVocFolder = get_pascal_voc_export_folder_dialog();
   auto* createMLFolder = get_createml_export_folder_dialog();
+  auto* txtImportFolder = get_txt_import_folder_dialog();
+  auto* yolo4ImportFolder = get_yolo4_import_folder_dialog();
+  auto* pytorchImportFolder = get_pytorch_import_folder_dialog();
   auto* error = get_error_dialog();
   auto* saveChanges = get_save_changes_ask_dialog();
   auto* lostRects = get_lost_rects_ask_dialog();
@@ -203,7 +206,8 @@ bool WindowLoader::prepare_dialogs()
   // The C++ dialogs took the main window as their transient parent at
   // construction; the builder-defined shells are reparented onto it here.
   for (Gtk::Window* dialog :
-       {static_cast<Gtk::Window*>(jsonOpen), static_cast<Gtk::Window*>(jsonSave),
+       {static_cast<Gtk::Window*>(jsonOpen),
+        static_cast<Gtk::Window*>(jsonSave),
         static_cast<Gtk::Window*>(imagesFolder),
         static_cast<Gtk::Window*>(txtFolder),
         static_cast<Gtk::Window*>(yolo4Folder),
@@ -214,6 +218,9 @@ bool WindowLoader::prepare_dialogs()
         static_cast<Gtk::Window*>(cocoFolder),
         static_cast<Gtk::Window*>(pascalVocFolder),
         static_cast<Gtk::Window*>(createMLFolder),
+        static_cast<Gtk::Window*>(txtImportFolder),
+        static_cast<Gtk::Window*>(yolo4ImportFolder),
+        static_cast<Gtk::Window*>(pytorchImportFolder),
         static_cast<Gtk::Window*>(error),
         static_cast<Gtk::Window*>(saveChanges),
         static_cast<Gtk::Window*>(lostRects)}) {
@@ -238,6 +245,9 @@ bool WindowLoader::prepare_dialogs()
   factory.prepare_folder_choose_dialog(cocoFolder);
   factory.prepare_folder_choose_dialog(pascalVocFolder);
   factory.prepare_folder_choose_dialog(createMLFolder);
+  factory.prepare_folder_choose_dialog(txtImportFolder);
+  factory.prepare_folder_choose_dialog(yolo4ImportFolder);
+  factory.prepare_folder_choose_dialog(pytorchImportFolder);
   factory.prepare_save_changes_ask_user(saveChanges);
   factory.prepare_ask_user_about_lost_rects(lostRects);
 
@@ -351,6 +361,12 @@ bool WindowLoader::create_actions()
       actionGroup->add_action(WindowDataContext::action_export_pascal_voc);
   action_export_createml =
       actionGroup->add_action(WindowDataContext::action_export_createml);
+  action_import_txt =
+      actionGroup->add_action(WindowDataContext::action_import_txt);
+  action_import_yolo4 =
+      actionGroup->add_action(WindowDataContext::action_import_yolo4);
+  action_import_pytorchvision =
+      actionGroup->add_action(WindowDataContext::action_import_pytorchvision);
   action_images_web_page_open =
       actionGroup->add_action(WindowDataContext::action_images_web_page_open);
   action_auto_insert_annotation =
@@ -375,13 +391,13 @@ void WindowLoader::update_window_title(const std::string& openedFile)
 
 void WindowLoader::set_window_icon()
 {
-  // GTK4 dropped the pixbuf window-icon API (there is no Gtk::Window::set_icon);
-  // the only accessible route is the themed-name one. set_default_icon_name()
-  // points every window at the icon named after the application id
-  // (project_decls::PROJECT_FLATPAK_URL - the same id handed to
-  // Gtk::Application::create), which GTK and, on Wayland, the compositor / GNOME
-  // Shell resolve against the icon theme. This is the in-binary half of the
-  // wiring: the icon shows on the panel once a matching <app-id>.png +
+  // GTK4 dropped the pixbuf window-icon API (there is no
+  // Gtk::Window::set_icon); the only accessible route is the themed-name one.
+  // set_default_icon_name() points every window at the icon named after the
+  // application id (project_decls::PROJECT_FLATPAK_URL - the same id handed to
+  // Gtk::Application::create), which GTK and, on Wayland, the compositor /
+  // GNOME Shell resolve against the icon theme. This is the in-binary half of
+  // the wiring: the icon shows on the panel once a matching <app-id>.png +
   // <app-id>.desktop are installed into the icon theme, and it already lets a
   // running window associate with that launcher.
   Gtk::Window::set_default_icon_name(project_decls::PROJECT_FLATPAK_URL);
@@ -597,6 +613,21 @@ Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_export_createml_action()
   return action_export_createml;
 }
 
+Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_import_txt_action()
+{
+  return action_import_txt;
+}
+
+Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_import_yolo4_action()
+{
+  return action_import_yolo4;
+}
+
+Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_import_pytorchvision_action()
+{
+  return action_import_pytorchvision;
+}
+
 Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_export_pytorchvision_action()
 {
   return action_export_pytorchvision;
@@ -810,6 +841,30 @@ Gtk::FileChooserDialog* WindowLoader::get_createml_export_folder_dialog()
       mwctx->wctx->createml_export_folder_dialog_id);
 }
 
+Gtk::FileChooserDialog* WindowLoader::get_txt_import_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->txt_import_folder_dialog_id);
+}
+
+Gtk::FileChooserDialog* WindowLoader::get_yolo4_import_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->yolo4_import_folder_dialog_id);
+}
+
+Gtk::FileChooserDialog* WindowLoader::get_pytorch_import_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->pytorch_import_folder_dialog_id);
+}
+
 Gtk::FileChooserDialog* WindowLoader::get_yolo4_export_folder_dialog()
 {
   assert(mwctx->wctx != nullptr);
@@ -837,7 +892,8 @@ Gtk::MessageDialog* WindowLoader::get_save_changes_ask_dialog()
 {
   assert(mwctx->wctx != nullptr);
 
-  return get_widget<Gtk::MessageDialog>(mwctx->wctx->save_changes_ask_dialog_id);
+  return get_widget<Gtk::MessageDialog>(
+      mwctx->wctx->save_changes_ask_dialog_id);
 }
 
 Gtk::MessageDialog* WindowLoader::get_lost_rects_ask_dialog()

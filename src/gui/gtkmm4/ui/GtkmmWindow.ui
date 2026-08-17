@@ -75,6 +75,26 @@
           </item>
         </section>
       </submenu>
+      <submenu>
+        <attribute name="label" translatable="yes">Import db</attribute>
+        <section>
+          <item>
+            <attribute name="label" translatable="yes">Import from plain txt</attribute>
+            <attribute name="action">win.import-txt</attribute>
+            <attribute name="icon">text-x-generic-symbolic</attribute>
+          </item>
+          <item>
+            <attribute name="label" translatable="yes">Import from YOLO4 folder</attribute>
+            <attribute name="action">win.import-yolo4</attribute>
+            <attribute name="icon">folder-symbolic</attribute>
+          </item>
+          <item>
+            <attribute name="label" translatable="yes">Import from PyTorch Vision folder</attribute>
+            <attribute name="action">win.import-pytorchvision</attribute>
+            <attribute name="icon">folder-symbolic</attribute>
+          </item>
+        </section>
+      </submenu>
       <section>
         <item>
           <attribute name="label" translatable="yes">Close</attribute>
@@ -417,6 +437,24 @@
   </object>
   <object class="GtkFileChooserDialog" id="pytorch_export_folder_dialog">
     <property name="title" translatable="yes">Select PyTorch Vision export directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="txt_import_folder_dialog">
+    <property name="title" translatable="yes">Select plain txt import directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="yolo4_import_folder_dialog">
+    <property name="title" translatable="yes">Select YOLO4 import directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="pytorch_import_folder_dialog">
+    <property name="title" translatable="yes">Select PyTorch Vision import directory</property>
     <property name="action">select-folder</property>
     <property name="modal">true</property>
     <property name="hide-on-close">true</property>

@@ -41,6 +41,9 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm4::window::WindowLoader
         export_coco_a_{Gio::SimpleAction::create("export-coco")},
         export_pascal_voc_a_{Gio::SimpleAction::create("export-pascal-voc")},
         export_createml_a_{Gio::SimpleAction::create("export-createml")},
+        import_txt_a_{Gio::SimpleAction::create("import-txt")},
+        import_yolo4_a_{Gio::SimpleAction::create("import-yolo4")},
+        import_pytorch_a_{Gio::SimpleAction::create("import-pytorchvision")},
         webpage_open_a_{Gio::SimpleAction::create("images-web-page-open")},
         auto_insert_a_{Gio::SimpleAction::create("auto-insert-annotation")}
   {
@@ -160,6 +163,18 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm4::window::WindowLoader
   {
     return export_createml_a_;
   }
+  Glib::RefPtr<Gio::SimpleAction> get_import_txt_action() override
+  {
+    return import_txt_a_;
+  }
+  Glib::RefPtr<Gio::SimpleAction> get_import_yolo4_action() override
+  {
+    return import_yolo4_a_;
+  }
+  Glib::RefPtr<Gio::SimpleAction> get_import_pytorchvision_action() override
+  {
+    return import_pytorch_a_;
+  }
   Glib::RefPtr<Gio::SimpleAction> get_images_web_page_open_action() override
   {
     return webpage_open_a_;
@@ -207,6 +222,9 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm4::window::WindowLoader
   Glib::RefPtr<Gio::SimpleAction> export_coco_a_;
   Glib::RefPtr<Gio::SimpleAction> export_pascal_voc_a_;
   Glib::RefPtr<Gio::SimpleAction> export_createml_a_;
+  Glib::RefPtr<Gio::SimpleAction> import_txt_a_;
+  Glib::RefPtr<Gio::SimpleAction> import_yolo4_a_;
+  Glib::RefPtr<Gio::SimpleAction> import_pytorch_a_;
   Glib::RefPtr<Gio::SimpleAction> webpage_open_a_;
   Glib::RefPtr<Gio::SimpleAction> auto_insert_a_;
 };

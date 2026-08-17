@@ -80,6 +80,9 @@ const std::set<std::string>& WindowDataContext::get_ids()
       coco_export_folder_dialog_id,
       pascal_voc_export_folder_dialog_id,
       createml_export_folder_dialog_id,
+      txt_import_folder_dialog_id,
+      yolo4_import_folder_dialog_id,
+      pytorch_import_folder_dialog_id,
       error_dialog_id,
       save_changes_ask_dialog_id,
       lost_rects_ask_dialog_id};

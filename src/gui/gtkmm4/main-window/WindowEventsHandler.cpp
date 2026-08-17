@@ -37,6 +37,7 @@
 #include "src/gui/gtkmm4/main-window/event-handlers/ExportEventsHandler.h"
 #include "src/gui/gtkmm4/main-window/event-handlers/ImageListEventsHandler.h"
 #include "src/gui/gtkmm4/main-window/event-handlers/ImageNavigationEventsHandler.h"
+#include "src/gui/gtkmm4/main-window/event-handlers/ImportEventsHandler.h"
 #include "src/gui/gtkmm4/main-window/event-handlers/KeyboardEventsHandler.h"
 #include "src/gui/gtkmm4/main-window/event-handlers/MouseDrawEventsHandler.h"
 #include "src/gui/gtkmm4/main-window/event-handlers/ProjectFileEventsHandler.h"
@@ -87,6 +88,7 @@ void WindowEventsHandler::build_event_handlers()
   handlers.emplace_back(ehFactory->create_annotations_events_handler(ops));
   handlers.emplace_back(ehFactory->create_project_file_events_handler(ops));
   handlers.emplace_back(ehFactory->create_export_events_handler(ops));
+  handlers.emplace_back(ehFactory->create_import_events_handler(ops));
   handlers.emplace_back(ehFactory->create_web_page_events_handler(ops));
   handlers.emplace_back(ehFactory->create_about_events_handler(ops));
   handlers.emplace_back(systemHandler);

@@ -37,3 +37,12 @@ TEST(UTEST_WindowDataContext, get_ids_returns_a_stable_reference)
 {
   EXPECT_EQ(&WindowDataContext::get_ids(), &WindowDataContext::get_ids());
 }
+
+TEST(UTEST_WindowDataContext, get_ids_contains_every_import_id)
+{
+  const auto& ids = WindowDataContext::get_ids();
+
+  EXPECT_EQ(ids.count(WindowDataContext::txt_import_folder_dialog_id), 1U);
+  EXPECT_EQ(ids.count(WindowDataContext::yolo4_import_folder_dialog_id), 1U);
+  EXPECT_EQ(ids.count(WindowDataContext::pytorch_import_folder_dialog_id), 1U);
+}

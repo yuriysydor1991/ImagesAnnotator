@@ -16,6 +16,7 @@
 #include "src/gui/gtkmm4/main-window/event-handlers/ExportEventsHandler.h"
 #include "src/gui/gtkmm4/main-window/event-handlers/ImageListEventsHandler.h"
 #include "src/gui/gtkmm4/main-window/event-handlers/ImageNavigationEventsHandler.h"
+#include "src/gui/gtkmm4/main-window/event-handlers/ImportEventsHandler.h"
 #include "src/gui/gtkmm4/main-window/event-handlers/KeyboardEventsHandler.h"
 #include "src/gui/gtkmm4/main-window/event-handlers/MouseDrawEventsHandler.h"
 #include "src/gui/gtkmm4/main-window/event-handlers/ProjectFileEventsHandler.h"
@@ -163,6 +164,13 @@ TEST_F(CTEST_WindowEventHandlers, export_subscribe_returns_true)
   EXPECT_TRUE(handler.subscribe());
 }
 
+TEST_F(CTEST_WindowEventHandlers, import_subscribe_returns_true)
+{
+  eh::ImportEventsHandler handler(ops);
+
+  EXPECT_TRUE(handler.subscribe());
+}
+
 TEST_F(CTEST_WindowEventHandlers, web_page_subscribe_returns_true)
 {
   eh::WebPageEventsHandler handler(ops);
@@ -209,7 +217,8 @@ TEST_F(CTEST_WindowEventHandlers, action_buttons_insensitive_when_no_images)
 
   // The list-populating entry-point buttons stay usable.
   EXPECT_TRUE(mwctx->wloader->get_images_folder_open_button()->get_sensitive());
-  EXPECT_TRUE(mwctx->wloader->get_annotations_db_open_button()->get_sensitive());
+  EXPECT_TRUE(
+      mwctx->wloader->get_annotations_db_open_button()->get_sensitive());
 }
 
 TEST_F(CTEST_WindowEventHandlers, delete_buttons_sensitive_when_images_present)
@@ -258,7 +267,8 @@ TEST_F(CTEST_WindowEventHandlers, zoom_buttons_sensitive_at_intermediate_scale)
   EXPECT_TRUE(mwctx->wloader->get_current_image_zoom_out()->get_sensitive());
 }
 
-TEST_F(CTEST_WindowEventHandlers, zoom_buttons_insensitive_without_current_image)
+TEST_F(CTEST_WindowEventHandlers,
+       zoom_buttons_insensitive_without_current_image)
 {
   // Images loaded but none selected as current: nothing to zoom.
   mwctx->imagesVDB.push_back(std::make_shared<ImagePathLabel>(
@@ -378,8 +388,9 @@ TEST_F(CTEST_WindowEventHandlers, navigation_sensitive_on_middle_image)
 TEST_F(CTEST_WindowEventHandlers, navigation_insensitive_when_neighbors_hidden)
 {
   // The middle row is selected but its only neighbours are hidden by the search
-  // filter, so navigation would be a no-op: both directions go insensitive. This
-  // is what distinguishes the visibility-aware scan from plain index adjacency.
+  // filter, so navigation would be a no-op: both directions go insensitive.
+  // This is what distinguishes the visibility-aware scan from plain index
+  // adjacency.
   populate_images(3, 1);
   auto* lb = mwctx->wloader->get_images_list();
   lb->get_row_at_index(0)->set_visible(false);
@@ -393,8 +404,9 @@ TEST_F(CTEST_WindowEventHandlers, navigation_insensitive_when_neighbors_hidden)
 
 TEST_F(CTEST_WindowEventHandlers, navigation_sensitive_when_nothing_selected)
 {
-  // Rows present but none selected (the state right after the list is populated):
-  // either direction jumps to the first / last visible row, so both stay usable.
+  // Rows present but none selected (the state right after the list is
+  // populated): either direction jumps to the first / last visible row, so both
+  // stay usable.
   drive_all_insensitive();
   ASSERT_FALSE(mwctx->wloader->get_next_file_button()->get_sensitive());
 

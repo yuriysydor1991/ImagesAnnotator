@@ -82,10 +82,10 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual Gtk::Entry* get_images_web_page_url_entry();
   virtual Gtk::Label* get_images_web_page_cache_folder();
 
-  /// @brief Dialogs whose shells are defined in GtkmmWindow.ui. Each is a single
-  /// reused instance; the event handlers just obtain the ready dialog and run
-  /// it. The one-time filter / action-button decoration is applied at load by
-  /// prepare_dialogs().
+  /// @brief Dialogs whose shells are defined in GtkmmWindow.ui. Each is a
+  /// single reused instance; the event handlers just obtain the ready dialog
+  /// and run it. The one-time filter / action-button decoration is applied at
+  /// load by prepare_dialogs().
   virtual Gtk::FileChooserDialog* get_json_db_open_dialog();
   virtual Gtk::FileChooserDialog* get_json_db_save_dialog();
   virtual Gtk::FileChooserDialog* get_images_folder_choose_dialog();
@@ -99,6 +99,9 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual Gtk::FileChooserDialog* get_coco_export_folder_dialog();
   virtual Gtk::FileChooserDialog* get_pascal_voc_export_folder_dialog();
   virtual Gtk::FileChooserDialog* get_createml_export_folder_dialog();
+  virtual Gtk::FileChooserDialog* get_txt_import_folder_dialog();
+  virtual Gtk::FileChooserDialog* get_yolo4_import_folder_dialog();
+  virtual Gtk::FileChooserDialog* get_pytorch_import_folder_dialog();
   virtual Gtk::MessageDialog* get_error_dialog();
   virtual Gtk::MessageDialog* get_save_changes_ask_dialog();
   virtual Gtk::MessageDialog* get_lost_rects_ask_dialog();
@@ -126,6 +129,9 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual Glib::RefPtr<Gio::SimpleAction> get_export_coco_action();
   virtual Glib::RefPtr<Gio::SimpleAction> get_export_pascal_voc_action();
   virtual Glib::RefPtr<Gio::SimpleAction> get_export_createml_action();
+  virtual Glib::RefPtr<Gio::SimpleAction> get_import_txt_action();
+  virtual Glib::RefPtr<Gio::SimpleAction> get_import_yolo4_action();
+  virtual Glib::RefPtr<Gio::SimpleAction> get_import_pytorchvision_action();
   virtual Glib::RefPtr<Gio::SimpleAction> get_images_web_page_open_action();
   virtual Glib::RefPtr<Gio::SimpleAction> get_auto_insert_annotation_action();
 
@@ -142,15 +148,15 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual bool attach_spinner();
 
   /// @brief Reparents every builder-defined dialog onto the main window and
-  /// applies the one-time decoration GtkBuilder cannot express from the .ui: the
-  /// JSON file filters and the localized, icon-decorated action buttons.
+  /// applies the one-time decoration GtkBuilder cannot express from the .ui:
+  /// the JSON file filters and the localized, icon-decorated action buttons.
   virtual bool prepare_dialogs();
 
   /// @brief Sizes the two column dividers so the central image working area is
   /// the dominant widget while the left (images) and right (annotations)
-  /// management panels keep a comfortable fixed width. The paned widths are only
-  /// known after the maximized window is mapped, so the split is applied once
-  /// from an idle callback scheduled on the first map.
+  /// management panels keep a comfortable fixed width. The paned widths are
+  /// only known after the maximized window is mapped, so the split is applied
+  /// once from an idle callback scheduled on the first map.
   virtual bool init_paned_layout();
 
  private:
@@ -184,6 +190,9 @@ class WindowLoader : virtual public ComponentTypesAliases
   Glib::RefPtr<Gio::SimpleAction> action_export_coco;
   Glib::RefPtr<Gio::SimpleAction> action_export_pascal_voc;
   Glib::RefPtr<Gio::SimpleAction> action_export_createml;
+  Glib::RefPtr<Gio::SimpleAction> action_import_txt;
+  Glib::RefPtr<Gio::SimpleAction> action_import_yolo4;
+  Glib::RefPtr<Gio::SimpleAction> action_import_pytorchvision;
   Glib::RefPtr<Gio::SimpleAction> action_images_web_page_open;
   Glib::RefPtr<Gio::SimpleAction> action_auto_insert_annotation;
 };

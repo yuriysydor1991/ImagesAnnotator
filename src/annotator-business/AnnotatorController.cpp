@@ -35,6 +35,7 @@
 #include "src/annotator-business/dbs/ImagesLoaders/ImagesWebPageLoader.h"
 #include "src/annotator-events/events/DataDriversAliases.h"
 #include "src/annotator-events/events/DataExportersAliases.h"
+#include "src/annotator-events/events/DataImportersAliases.h"
 #include "src/app/ApplicationContext.h"
 #include "src/app/IApplication.h"
 #include "src/log/log.h"
@@ -56,6 +57,7 @@ AnnotatorController::create_project_data_instance()
   // application log file.
   iadd::LibraryFacade::accept_real_logger(LOG_REAL_LOGGER());
   iade::LibraryFacade::accept_real_logger(LOG_REAL_LOGGER());
+  iadi::LibraryFacade::accept_real_logger(LOG_REAL_LOGGER());
 
   auto ctx = iadd::LibraryFacade::create_library_context();
 
@@ -132,6 +134,9 @@ bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
   ctx->eventer->subscribe(ExportCocoRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ExportPascalVocRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ExportCreateMLRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ImportPlainTxt2FolderRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ImportYolo4FolderRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ImportPyTorchVisionRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(DeleteCurrentImageRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(LoadImagesFromWebPageHandlerPtr{mptr});
 
@@ -542,6 +547,130 @@ bool AnnotatorController::handle_export(const std::string& dirPath)
   }
 
   LOGD("DB seems to be exported");
+
+  return true;
+}
+
+void AnnotatorController::handle(ImportPlainTxt2FolderRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_import<PlainTxtImportLibraryContext>(event->src_folder_path,
+                                                   event->sizer)) {
+    const std::string e =
+        "Failure during the import from a plain txt folder: " +
+        event->src_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ImportYolo4FolderRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_import<Yolo4ImportLibraryContext>(event->src_folder_path,
+                                                event->sizer)) {
+    const std::string e = "Failure during the import from a Yolo4 folder at " +
+                          event->src_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ImportPyTorchVisionRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_import<PyTorchImportLibraryContext>(event->src_folder_path,
+                                                  event->sizer)) {
+    const std::string e =
+        "Failure during the import from a PyTorch Vision folder at " +
+        event->src_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+template <class ContextT>
+std::shared_ptr<ContextT> AnnotatorController::build_import_context(
+    const std::string& dirPath, const IImageSizeFacilityProviderPtr& sizer)
+{
+  assert(annotations != nullptr);
+
+  auto ctx = std::make_shared<ContextT>();
+
+  ctx->set_import_path(dirPath);
+  // The very database the project is being edited through: the library merges
+  // the recovered records into it, keeping the images it already holds, so an
+  // import appends to the open project instead of replacing it.
+  ctx->set_db(annotations);
+  // A reader the GUI toolkit supplies always wins over the one the library
+  // ships itself, and a build of the library without OpenCV has none at all.
+  ctx->set_image_sizer(sizer);
+
+  return ctx;
+}
+
+template <class ContextT>
+bool AnnotatorController::handle_import(
+    const std::string& dirPath, const IImageSizeFacilityProviderPtr& sizer)
+{
+  if (dirPath.empty()) {
+    static const std::string e = "Empty dir path provided";
+    LOGE(e);
+    emitDisplayError(e);
+    return true;
+  }
+
+  LOGD("Trying to import from " << dirPath);
+
+  auto ctx = build_import_context<ContextT>(dirPath, sizer);
+
+  assert(ctx != nullptr);
+
+  auto importer = iadi::LibraryFacade::create_importer(ctx);
+
+  assert(importer != nullptr);
+
+  if (importer == nullptr) {
+    LOGE("Fail to create the importer for the requested layout");
+    return false;
+  }
+
+  if (!importer->import_db(ctx)) {
+    LOGE("Invalid import status from " << dirPath);
+    return false;
+  }
+
+  LOGI("Imported " << ctx->get_imported_records() << " image records from "
+                   << dirPath);
+
+  if (ctx->get_imported_records() == 0U) {
+    const std::string e = "No annotated image was found at: " + dirPath;
+    LOGW(e);
+    emitDisplayError(e);
+    return true;
+  }
+
+  // The database has grown, so whoever displays it is told to read it again -
+  // the very same republication the web page image loader performs.
+  emitImagesProviderChanged();
 
   return true;
 }

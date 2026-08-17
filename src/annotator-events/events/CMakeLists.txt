@@ -22,6 +22,9 @@ add_library(
   ExportCocoRequest.cpp
   ExportPascalVocRequest.cpp
   ExportCreateMLRequest.cpp
+  ImportPlainTxt2FolderRequest.cpp
+  ImportYolo4FolderRequest.cpp
+  ImportPyTorchVisionRequest.cpp
   DeleteCurrentImageRequest.cpp
   LoadImagesFromWebPage.cpp
   DisplayErrorEvent.cpp

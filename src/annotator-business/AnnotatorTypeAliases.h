@@ -36,6 +36,7 @@
 #include "src/annotator-events/events/CurrentImageChangedHandler.h"
 #include "src/annotator-events/events/DataDriversAliases.h"
 #include "src/annotator-events/events/DataExportersAliases.h"
+#include "src/annotator-events/events/DataImportersAliases.h"
 #include "src/annotator-events/events/DeleteCurrentImageRequest.h"
 #include "src/annotator-events/events/DeleteCurrentImageRequestHandler.h"
 #include "src/annotator-events/events/Export2PyTorchVisionRequest.h"
@@ -57,6 +58,12 @@
 #include "src/annotator-events/events/ExportYolo4FolderRequestHandler.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
+#include "src/annotator-events/events/ImportPlainTxt2FolderRequest.h"
+#include "src/annotator-events/events/ImportPlainTxt2FolderRequestHandler.h"
+#include "src/annotator-events/events/ImportPyTorchVisionRequest.h"
+#include "src/annotator-events/events/ImportPyTorchVisionRequestHandler.h"
+#include "src/annotator-events/events/ImportYolo4FolderRequest.h"
+#include "src/annotator-events/events/ImportYolo4FolderRequestHandler.h"
 #include "src/annotator-events/events/LoadImagesFromWebPageHandler.h"
 #include "src/annotator-events/events/RequestImagesDirProvider.h"
 #include "src/annotator-events/events/RequestImagesDirProviderHandler.h"
@@ -108,6 +115,13 @@ class AnnotatorTypeAliases
   using CocoExportLibraryContext = iade::CocoExportLibraryContext;
   using PascalVocExportLibraryContext = iade::PascalVocExportLibraryContext;
   using CreateMLExportLibraryContext = iade::CreateMLExportLibraryContext;
+  /// @brief The import configuration the controller fills in and hands to an
+  /// importer of the ImagesAnnotator-DataImporters library. As on the export
+  /// side, the wanted dataset layout is named by the descendant instantiated.
+  using ImportLibraryContextPtr = iadi::LibraryContextPtr;
+  using PlainTxtImportLibraryContext = iadi::PlainTxtImportLibraryContext;
+  using Yolo4ImportLibraryContext = iadi::Yolo4ImportLibraryContext;
+  using PyTorchImportLibraryContext = iadi::PyTorchImportLibraryContext;
   using RequestImagesDirProviderHandler =
       events::events::RequestImagesDirProviderHandler;
   using RequestImagesDirProviderHandlerPtr =
@@ -141,6 +155,22 @@ class AnnotatorTypeAliases
   using ExportCreateMLRequestPtr = events::events::ExportCreateMLRequestPtr;
   using ExportCreateMLRequestHandlerPtr =
       events::events::ExportCreateMLRequestHandlerPtr;
+  /// @brief The image measuring service the GUI toolkit hands over with an
+  /// import request, the counterpart of the cropper of the PyTorch export.
+  using IImageSizeFacilityProviderPtr =
+      events::events::IImageSizeFacilityProviderPtr;
+  using ImportPlainTxt2FolderRequestPtr =
+      events::events::ImportPlainTxt2FolderRequestPtr;
+  using ImportPlainTxt2FolderRequestHandlerPtr =
+      events::events::ImportPlainTxt2FolderRequestHandlerPtr;
+  using ImportYolo4FolderRequestPtr =
+      events::events::ImportYolo4FolderRequestPtr;
+  using ImportYolo4FolderRequestHandlerPtr =
+      events::events::ImportYolo4FolderRequestHandlerPtr;
+  using ImportPyTorchVisionRequestPtr =
+      events::events::ImportPyTorchVisionRequestPtr;
+  using ImportPyTorchVisionRequestHandlerPtr =
+      events::events::ImportPyTorchVisionRequestHandlerPtr;
   using DeleteCurrentImageRequestPtr =
       events::events::DeleteCurrentImageRequestPtr;
   using DeleteCurrentImageRequestHandlerPtr =

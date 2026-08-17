@@ -58,6 +58,12 @@
 #include "src/annotator-events/events/ExportYolo4FolderRequestHandler.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
+#include "src/annotator-events/events/ImportPlainTxt2FolderRequest.h"
+#include "src/annotator-events/events/ImportPlainTxt2FolderRequestHandler.h"
+#include "src/annotator-events/events/ImportPyTorchVisionRequest.h"
+#include "src/annotator-events/events/ImportPyTorchVisionRequestHandler.h"
+#include "src/annotator-events/events/ImportYolo4FolderRequest.h"
+#include "src/annotator-events/events/ImportYolo4FolderRequestHandler.h"
 #include "src/annotator-events/events/LoadImagesFromWebPageHandler.h"
 #include "src/annotator-events/events/RequestImagesDirProvider.h"
 #include "src/annotator-events/events/RequestImagesDirProviderHandler.h"
@@ -93,6 +99,9 @@ class AnnotatorController
       virtual public events::events::ExportCocoRequestHandler,
       virtual public events::events::ExportPascalVocRequestHandler,
       virtual public events::events::ExportCreateMLRequestHandler,
+      virtual public events::events::ImportPlainTxt2FolderRequestHandler,
+      virtual public events::events::ImportYolo4FolderRequestHandler,
+      virtual public events::events::ImportPyTorchVisionRequestHandler,
       virtual public events::events::DeleteCurrentImageRequestHandler,
       virtual public events::events::LoadImagesFromWebPageHandler,
       public AnnotatorTypeAliases
@@ -118,6 +127,9 @@ class AnnotatorController
   virtual void handle(ExportCocoRequestPtr event) override;
   virtual void handle(ExportPascalVocRequestPtr event) override;
   virtual void handle(ExportCreateMLRequestPtr event) override;
+  virtual void handle(ImportPlainTxt2FolderRequestPtr event) override;
+  virtual void handle(ImportYolo4FolderRequestPtr event) override;
+  virtual void handle(ImportPyTorchVisionRequestPtr event) override;
   virtual void handle(DeleteCurrentImageRequestPtr event) override;
   virtual void handle(LoadImagesFromWebPagePtr event) override;
 
@@ -137,6 +149,15 @@ class AnnotatorController
   template <class ContextT>
   std::shared_ptr<ContextT> build_export_context(const std::string& dirPath);
 
+  /**
+   * @brief Builds the library context of the ContextT dataset layout, filled
+   * with the import source, the annotations database the recovered records are
+   * merged into and the image measuring service of the GUI toolkit in use.
+   */
+  template <class ContextT>
+  std::shared_ptr<ContextT> build_import_context(
+      const std::string& dirPath, const IImageSizeFacilityProviderPtr& sizer);
+
  private:
   void emitImagesProviderChanged();
   void emitDisplayError(const std::string& edesc);
@@ -151,6 +172,14 @@ class AnnotatorController
    */
   template <class ContextT>
   bool handle_export(const std::string& dirPath);
+
+  /**
+   * @brief Runs the import of the ContextT dataset layout out of the given
+   * directory and republishes the images provider when it recovered anything.
+   */
+  template <class ContextT>
+  bool handle_import(const std::string& dirPath,
+                     const IImageSizeFacilityProviderPtr& sizer);
 
   AnnotationsDBPtr annotations;
 

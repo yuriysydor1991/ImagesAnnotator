@@ -63,6 +63,12 @@
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
 #include "src/annotator-events/events/ImagesDirProviderChanged.h"
 #include "src/annotator-events/events/ImagesDirProviderChangedHandler.h"
+#include "src/annotator-events/events/ImportPlainTxt2FolderRequest.h"
+#include "src/annotator-events/events/ImportPlainTxt2FolderRequestHandler.h"
+#include "src/annotator-events/events/ImportPyTorchVisionRequest.h"
+#include "src/annotator-events/events/ImportPyTorchVisionRequestHandler.h"
+#include "src/annotator-events/events/ImportYolo4FolderRequest.h"
+#include "src/annotator-events/events/ImportYolo4FolderRequestHandler.h"
 #include "src/annotator-events/events/LoadImagesFromWebPage.h"
 #include "src/annotator-events/events/LoadImagesFromWebPageHandler.h"
 #include "src/annotator-events/events/RequestImagesDirProvider.h"
@@ -152,6 +158,18 @@ class IImagesAnnotatorEventController
 
   virtual void submit(events::ExportCreateMLRequestPtr event) = 0;
   virtual void subscribe(events::ExportCreateMLRequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ImportPlainTxt2FolderRequestPtr event) = 0;
+  virtual void subscribe(
+      events::ImportPlainTxt2FolderRequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ImportYolo4FolderRequestPtr event) = 0;
+  virtual void subscribe(
+      events::ImportYolo4FolderRequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ImportPyTorchVisionRequestPtr event) = 0;
+  virtual void subscribe(
+      events::ImportPyTorchVisionRequestHandlerPtr handler) = 0;
 
   virtual void submit(events::DeleteCurrentImageRequestPtr event) = 0;
   virtual void subscribe(

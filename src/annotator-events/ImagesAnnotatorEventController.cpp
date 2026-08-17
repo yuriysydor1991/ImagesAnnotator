@@ -287,6 +287,42 @@ void ImagesAnnotatorEventController::subscribe(
 }
 
 void ImagesAnnotatorEventController::submit(
+    events::ImportPlainTxt2FolderRequestPtr event)
+{
+  unified_submit(plainTxtImporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ImportPlainTxt2FolderRequestHandlerPtr handler)
+{
+  plainTxtImporters_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
+    events::ImportYolo4FolderRequestPtr event)
+{
+  unified_submit(yolo4Importers_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ImportYolo4FolderRequestHandlerPtr handler)
+{
+  yolo4Importers_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
+    events::ImportPyTorchVisionRequestPtr event)
+{
+  unified_submit(pytorchVisionImporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ImportPyTorchVisionRequestHandlerPtr handler)
+{
+  pytorchVisionImporters_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
     events::Export2PyTorchVisionRequestPtr event)
 {
   unified_submit(pytorchvision_handlers, event);

@@ -213,6 +213,25 @@ ExportCreateMLRequestPtr EventsFactory::create_createml_export_request(
   return std::make_shared<ExportCreateMLRequest>(exportDirPath);
 }
 
+ImportPlainTxt2FolderRequestPtr EventsFactory::create_plain_txt_import_request(
+    const std::string& importDirPath)
+{
+  return std::make_shared<ImportPlainTxt2FolderRequest>(importDirPath);
+}
+
+ImportYolo4FolderRequestPtr EventsFactory::create_yolo4_import_request(
+    const std::string& importDirPath)
+{
+  return std::make_shared<ImportYolo4FolderRequest>(importDirPath);
+}
+
+ImportPyTorchVisionRequestPtr
+EventsFactory::create_pytorch_vision_import_request(
+    const std::string& importDirPath)
+{
+  return std::make_shared<ImportPyTorchVisionRequest>(importDirPath);
+}
+
 DeleteCurrentImageRequestPtr EventsFactory::create_delete_current_image_request(
     const std::string& irFullPath)
 {

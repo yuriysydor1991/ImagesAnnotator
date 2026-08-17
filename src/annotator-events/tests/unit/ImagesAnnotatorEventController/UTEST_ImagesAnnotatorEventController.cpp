@@ -10,6 +10,9 @@
 #include "src/annotator-events/events/EventsFactory.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
+#include "src/annotator-events/events/ImportPlainTxt2FolderRequestHandler.h"
+#include "src/annotator-events/events/ImportPyTorchVisionRequestHandler.h"
+#include "src/annotator-events/events/ImportYolo4FolderRequestHandler.h"
 
 using namespace testing;
 using events::ImagesAnnotatorEventController;
@@ -40,6 +43,29 @@ class FakeImagesDirHandler : public events::events::ImagesDirChangedIHandler
     received = event;
   }
 };
+
+/**
+ * @brief Records the import request it is handed, so that a submit can be
+ * followed all the way to a subscriber.
+ */
+template <class HandlerT, class EventPtrT>
+class FakeImportHandler : public HandlerT
+{
+ public:
+  EventPtrT received;
+
+  void handle(EventPtrT event) override { received = event; }
+};
+
+using FakePlainTxtImportHandler =
+    FakeImportHandler<events::events::ImportPlainTxt2FolderRequestHandler,
+                      events::events::ImportPlainTxt2FolderRequestPtr>;
+using FakeYolo4ImportHandler =
+    FakeImportHandler<events::events::ImportYolo4FolderRequestHandler,
+                      events::events::ImportYolo4FolderRequestPtr>;
+using FakePyTorchImportHandler =
+    FakeImportHandler<events::events::ImportPyTorchVisionRequestHandler,
+                      events::events::ImportPyTorchVisionRequestPtr>;
 
 std::shared_ptr<ImagesAnnotatorEventController> make_controller()
 {
@@ -94,4 +120,66 @@ TEST(UTEST_ImagesAnnotatorEventController,
 
   ASSERT_NE(handler->received, nullptr);
   EXPECT_EQ(handler->received->images_dir, "/imgs");
+}
+
+TEST(UTEST_ImagesAnnotatorEventController,
+     a_plain_txt_import_request_reaches_its_subscriber)
+{
+  auto eventer = make_controller();
+  auto handler = std::make_shared<FakePlainTxtImportHandler>();
+
+  eventer->subscribe(handler);
+  eventer->submit(
+      eventer->get_events_factory()->create_plain_txt_import_request("/in"));
+
+  ASSERT_NE(handler->received, nullptr);
+  EXPECT_EQ(handler->received->src_folder_path, "/in");
+}
+
+TEST(UTEST_ImagesAnnotatorEventController,
+     a_yolo4_import_request_reaches_its_subscriber)
+{
+  auto eventer = make_controller();
+  auto handler = std::make_shared<FakeYolo4ImportHandler>();
+
+  eventer->subscribe(handler);
+  eventer->submit(
+      eventer->get_events_factory()->create_yolo4_import_request("/in"));
+
+  ASSERT_NE(handler->received, nullptr);
+  EXPECT_EQ(handler->received->src_folder_path, "/in");
+}
+
+TEST(UTEST_ImagesAnnotatorEventController,
+     a_pytorch_vision_import_request_reaches_its_subscriber)
+{
+  auto eventer = make_controller();
+  auto handler = std::make_shared<FakePyTorchImportHandler>();
+
+  eventer->subscribe(handler);
+  eventer->submit(
+      eventer->get_events_factory()->create_pytorch_vision_import_request(
+          "/in"));
+
+  ASSERT_NE(handler->received, nullptr);
+  EXPECT_EQ(handler->received->src_folder_path, "/in");
+}
+
+// Each layout keeps its own subscriber queue, so a handler of one import never
+// sees the request of another.
+TEST(UTEST_ImagesAnnotatorEventController,
+     an_import_request_reaches_no_other_layout_subscriber)
+{
+  auto eventer = make_controller();
+  auto plainTxt = std::make_shared<FakePlainTxtImportHandler>();
+  auto yolo4 = std::make_shared<FakeYolo4ImportHandler>();
+
+  eventer->subscribe(plainTxt);
+  eventer->subscribe(yolo4);
+
+  eventer->submit(
+      eventer->get_events_factory()->create_yolo4_import_request("/in"));
+
+  EXPECT_EQ(plainTxt->received, nullptr);
+  EXPECT_NE(yolo4->received, nullptr);
 }

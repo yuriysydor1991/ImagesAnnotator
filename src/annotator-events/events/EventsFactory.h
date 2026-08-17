@@ -53,6 +53,9 @@
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
 #include "src/annotator-events/events/ImagesDirProviderChanged.h"
 #include "src/annotator-events/events/ImagesPathsDBProvider.h"
+#include "src/annotator-events/events/ImportPlainTxt2FolderRequest.h"
+#include "src/annotator-events/events/ImportPyTorchVisionRequest.h"
+#include "src/annotator-events/events/ImportYolo4FolderRequest.h"
 #include "src/annotator-events/events/LoadImagesFromWebPage.h"
 #include "src/annotator-events/events/RequestImagesDirProvider.h"
 #include "src/annotator-events/events/StoreRequest.h"
@@ -134,6 +137,15 @@ class EventsFactory : public std::enable_shared_from_this<EventsFactory>
 
   virtual ExportCreateMLRequestPtr create_createml_export_request(
       const std::string& exportDirPath);
+
+  virtual ImportPlainTxt2FolderRequestPtr create_plain_txt_import_request(
+      const std::string& importDirPath);
+
+  virtual ImportYolo4FolderRequestPtr create_yolo4_import_request(
+      const std::string& importDirPath);
+
+  virtual ImportPyTorchVisionRequestPtr create_pytorch_vision_import_request(
+      const std::string& importDirPath);
 
   virtual DeleteCurrentImageRequestPtr create_delete_current_image_request(
       const std::string& irFullPath);

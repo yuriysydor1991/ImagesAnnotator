@@ -26,6 +26,9 @@ set(ANNOTATOR_EVENTS_SRC
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportCocoRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportPascalVocRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportCreateMLRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportPlainTxt2FolderRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportYolo4FolderRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportPyTorchVisionRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/Export2PyTorchVisionRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/DeleteCurrentImageRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/LoadImagesFromWebPage.cpp

@@ -198,6 +198,35 @@ TEST(UTEST_EventsFactory, create_createml_export_request_carries_folder)
             "/out");
 }
 
+TEST(UTEST_EventsFactory, create_plain_txt_import_request_carries_folder)
+{
+  EXPECT_EQ(factory()->create_plain_txt_import_request("/in")->src_folder_path,
+            "/in");
+}
+
+TEST(UTEST_EventsFactory, create_yolo4_import_request_carries_folder)
+{
+  EXPECT_EQ(factory()->create_yolo4_import_request("/in")->src_folder_path,
+            "/in");
+}
+
+TEST(UTEST_EventsFactory, create_pytorch_vision_import_request_carries_folder)
+{
+  EXPECT_EQ(
+      factory()->create_pytorch_vision_import_request("/in")->src_folder_path,
+      "/in");
+}
+
+// The image measuring service is what the GUI toolkit attaches afterwards, so
+// a freshly built request carries none of its own.
+TEST(UTEST_EventsFactory, a_created_import_request_carries_no_image_sizer)
+{
+  EXPECT_EQ(factory()->create_plain_txt_import_request("/in")->sizer, nullptr);
+  EXPECT_EQ(factory()->create_yolo4_import_request("/in")->sizer, nullptr);
+  EXPECT_EQ(factory()->create_pytorch_vision_import_request("/in")->sizer,
+            nullptr);
+}
+
 TEST(UTEST_EventsFactory, create_delete_current_image_request_carries_path)
 {
   EXPECT_EQ(factory()

@@ -141,6 +141,18 @@ class ImagesAnnotatorEventController
   virtual void subscribe(
       events::ExportCreateMLRequestHandlerPtr handler) override;
 
+  virtual void submit(events::ImportPlainTxt2FolderRequestPtr event) override;
+  virtual void subscribe(
+      events::ImportPlainTxt2FolderRequestHandlerPtr handler) override;
+
+  virtual void submit(events::ImportYolo4FolderRequestPtr event) override;
+  virtual void subscribe(
+      events::ImportYolo4FolderRequestHandlerPtr handler) override;
+
+  virtual void submit(events::ImportPyTorchVisionRequestPtr event) override;
+  virtual void subscribe(
+      events::ImportPyTorchVisionRequestHandlerPtr handler) override;
+
   virtual void submit(events::DeleteCurrentImageRequestPtr event) override;
   virtual void subscribe(
       events::DeleteCurrentImageRequestHandlerPtr handler) override;
@@ -184,6 +196,12 @@ class ImagesAnnotatorEventController
       std::set<events::ExportPascalVocRequestHandlerPtr>;
   using createMLExportersSet =
       std::set<events::ExportCreateMLRequestHandlerPtr>;
+  using plainTxtImportersSet =
+      std::set<events::ImportPlainTxt2FolderRequestHandlerPtr>;
+  using yolo4ImportersSet =
+      std::set<events::ImportYolo4FolderRequestHandlerPtr>;
+  using pytorchVisionImportersSet =
+      std::set<events::ImportPyTorchVisionRequestHandlerPtr>;
   using deleteCurrentImageHSet =
       std::set<events::DeleteCurrentImageRequestHandlerPtr>;
   using webpageILoadersSet = std::set<events::LoadImagesFromWebPageHandlerPtr>;
@@ -210,6 +228,9 @@ class ImagesAnnotatorEventController
   cocoExportersSet cocoExporters_handlers;
   pascalVocExportersSet pascalVocExporters_handlers;
   createMLExportersSet createMLExporters_handlers;
+  plainTxtImportersSet plainTxtImporters_handlers;
+  yolo4ImportersSet yolo4Importers_handlers;
+  pytorchVisionImportersSet pytorchVisionImporters_handlers;
   deleteCurrentImageHSet deletecir_handlers;
   webpageILoadersSet webILoaders_handlers;
   errDispSet errDisp_handlers;

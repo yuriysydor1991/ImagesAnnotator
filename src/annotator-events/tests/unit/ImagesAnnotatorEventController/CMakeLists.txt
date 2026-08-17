@@ -20,6 +20,9 @@ add_executable(
   ${EVENTS_SRC}/ExportCocoRequest.cpp
   ${EVENTS_SRC}/ExportPascalVocRequest.cpp
   ${EVENTS_SRC}/ExportCreateMLRequest.cpp
+  ${EVENTS_SRC}/ImportPlainTxt2FolderRequest.cpp
+  ${EVENTS_SRC}/ImportYolo4FolderRequest.cpp
+  ${EVENTS_SRC}/ImportPyTorchVisionRequest.cpp
   ${EVENTS_SRC}/Export2PyTorchVisionRequest.cpp
   ${EVENTS_SRC}/DeleteCurrentImageRequest.cpp
   ${EVENTS_SRC}/LoadImagesFromWebPage.cpp

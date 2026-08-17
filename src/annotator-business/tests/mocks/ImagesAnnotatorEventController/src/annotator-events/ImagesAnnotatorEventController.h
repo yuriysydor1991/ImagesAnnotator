@@ -133,6 +133,23 @@ class ImagesAnnotatorEventController : public IImagesAnnotatorEventController
   MOCK_METHOD(void, subscribe,
               (events::ExportCreateMLRequestHandlerPtr handler), (override));
 
+  MOCK_METHOD(void, submit, (events::ImportPlainTxt2FolderRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::ImportPlainTxt2FolderRequestHandlerPtr handler),
+              (override));
+
+  MOCK_METHOD(void, submit, (events::ImportYolo4FolderRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::ImportYolo4FolderRequestHandlerPtr handler), (override));
+
+  MOCK_METHOD(void, submit, (events::ImportPyTorchVisionRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::ImportPyTorchVisionRequestHandlerPtr handler),
+              (override));
+
   MOCK_METHOD(void, submit, (events::DeleteCurrentImageRequestPtr event),
               (override));
   MOCK_METHOD(void, subscribe,

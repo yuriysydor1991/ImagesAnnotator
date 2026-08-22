@@ -121,6 +121,9 @@ class ApplicationFormatsConverter
    */
   bool accept_context(std::shared_ptr<ApplicationContext> ctx);
 
+  /// @brief Runs both halves of the conversion over the accepted context.
+  bool run_conversion();
+
   /**
    * @brief Resolves the command line spellings of both conversion sides.
    *

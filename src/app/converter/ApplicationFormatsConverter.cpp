@@ -50,14 +50,22 @@ bool ApplicationFormatsConverter::convert(
     return false;
   }
 
+  const bool converted = run_conversion();
+
+  // The event controller of the context holds this converter as a subscriber
+  // while this converter holds that very context, so the reference cycle is
+  // broken here the way the annotator controller breaks its own one in deinit.
+  actx.reset();
+
+  return converted;
+}
+
+bool ApplicationFormatsConverter::run_conversion()
+{
   ConversionFormat from{};
   ConversionFormat into{};
 
-  if (!parse_formats(from, into)) {
-    return false;
-  }
-
-  return import_step(from) && export_step(into);
+  return parse_formats(from, into) && import_step(from) && export_step(into);
 }
 
 bool ApplicationFormatsConverter::accept_context(

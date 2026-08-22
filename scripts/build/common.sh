@@ -51,7 +51,7 @@ filter_script_args()
 
     for arg in "$@" ; do
         case "${arg}" in
-            --no-reconfigure|--install)
+            --no-reconfigure|--install|--test)
                 ;;
             -D*)
                 if [[ ${KEEP_DEFINES} == yes ]] ; then

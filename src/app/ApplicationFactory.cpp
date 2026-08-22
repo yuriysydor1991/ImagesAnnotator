@@ -36,6 +36,9 @@
 #include "src/app/ApplicationVersionPrinter.h"
 #include "src/app/CommandLineParser.h"
 #include "src/app/IApplication.h"
+#include "src/app/converter/ApplicationConverterComponent.h"
+#include "src/app/converter/ApplicationFormatsConverter.h"
+#include "src/app/converter/IFormatsConverter.h"
 #include "src/log/log.h"
 
 namespace app
@@ -93,6 +96,19 @@ std::shared_ptr<IApplication> ApplicationFactory::create_version_printer()
   return std::make_shared<ApplicationVersionPrinter>();
 }
 
+std::shared_ptr<converter::IFormatsConverter>
+ApplicationFactory::create_formats_converter()
+{
+  return std::make_shared<converter::ApplicationFormatsConverter>();
+}
+
+std::shared_ptr<IApplication>
+ApplicationFactory::create_formats_converter_application()
+{
+  return std::make_shared<converter::ApplicationConverterComponent>(
+      create_formats_converter());
+}
+
 std::shared_ptr<IApplication> ApplicationFactory::create_application(
     std::shared_ptr<ApplicationContext> ctx)
 {
@@ -111,6 +127,11 @@ std::shared_ptr<IApplication> ApplicationFactory::create_application(
   if (ctx->print_version_and_exit) {
     LOGT("Creating version printer application");
     return create_version_printer();
+  }
+
+  if (ctx->conversion_requested()) {
+    LOGT("Creating the formats converter application");
+    return create_formats_converter_application();
   }
 
   LOGT("Creating the default application object");

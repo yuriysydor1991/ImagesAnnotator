@@ -142,6 +142,23 @@ class ApplicationFormatsConverter
   /// @brief Runs and reports the writing half of the conversion.
   bool export_step(const ConversionFormat& format);
 
+  /**
+   * @brief Creates the destination the writing half is about to fill.
+   *
+   * A command line names a path which need not exist yet, while the graphical
+   * interface only ever hands over a directory the user has picked out of a
+   * chooser. The layouts differ on this - all of them but the plain text one
+   * create the directory they were given - so the destination is made here
+   * once for every format instead.
+   *
+   * @param format The format about to be written.
+   * @param dstPath The path it is to be written into.
+   *
+   * @return Returns true when the destination is there and false otherwise.
+   */
+  bool prepare_destination(const ConversionFormat& format,
+                           const std::string& dstPath);
+
   std::shared_ptr<ApplicationContext> actx;
 
   /// @brief Set by the error event of the half being run, since the request

@@ -28,8 +28,10 @@
 #include "src/app/converter/ApplicationFormatsConverter.h"
 
 #include <cassert>
+#include <filesystem>
 #include <memory>
 #include <string>
+#include <system_error>
 
 #include "src/annotator-events/events/DisplayErrorEvent.h"
 #include "src/annotator-events/events/DisplayErrorEventHandler.h"
@@ -123,6 +125,10 @@ bool ApplicationFormatsConverter::export_step(const ConversionFormat& format)
   LOGI("Writing the " << actx->convert_to << " annotations into "
                       << actx->convert_dst);
 
+  if (!prepare_destination(format, actx->convert_dst)) {
+    return false;
+  }
+
   failed = false;
 
   if (!export_into(format, actx->convert_dst) || failed) {
@@ -132,6 +138,33 @@ bool ApplicationFormatsConverter::export_step(const ConversionFormat& format)
   }
 
   LOGI("The conversion into " << actx->convert_dst << " is complete");
+
+  return true;
+}
+
+bool ApplicationFormatsConverter::prepare_destination(
+    const ConversionFormat& format, const std::string& dstPath)
+{
+  // The native project is a single file, so what has to be there is the
+  // directory holding it; every other format is given a directory of its own.
+  const std::filesystem::path wanted =
+      format == ConversionFormat::imagesannotator
+          ? std::filesystem::path{dstPath}.parent_path()
+          : std::filesystem::path{dstPath};
+
+  if (wanted.empty() || std::filesystem::exists(wanted)) {
+    return true;
+  }
+
+  std::error_code ecode;
+
+  std::filesystem::create_directories(wanted, ecode);
+
+  if (ecode) {
+    LOGE("Fail to create the destination " << wanted.string() << ": "
+                                           << ecode.message());
+    return false;
+  }
 
   return true;
 }

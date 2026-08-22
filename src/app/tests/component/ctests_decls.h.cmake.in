@@ -1,0 +1,11 @@
+#ifndef IMAGES_ANNOTATOR_PROJECT_APP_CTEST_DECLS_H
+#define IMAGES_ANNOTATOR_PROJECT_APP_CTEST_DECLS_H
+
+#include <string>
+
+namespace ctests_decls
+{
+  const std::string tmp_data_path_root = "${APP_CTESTS_INCLUDE_DIR}/ctests-data";
+}
+
+#endif // IMAGES_ANNOTATOR_PROJECT_APP_CTEST_DECLS_H

@@ -53,8 +53,14 @@
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
 #include "src/annotator-events/events/ImagesDirProviderChanged.h"
 #include "src/annotator-events/events/ImagesPathsDBProvider.h"
+#include "src/annotator-events/events/ImportCocoRequest.h"
+#include "src/annotator-events/events/ImportCreateMLRequest.h"
+#include "src/annotator-events/events/ImportPascalVocRequest.h"
 #include "src/annotator-events/events/ImportPlainTxt2FolderRequest.h"
 #include "src/annotator-events/events/ImportPyTorchVisionRequest.h"
+#include "src/annotator-events/events/ImportUltralyticsDetectRequest.h"
+#include "src/annotator-events/events/ImportUltralyticsObbRequest.h"
+#include "src/annotator-events/events/ImportUltralyticsSegmentRequest.h"
 #include "src/annotator-events/events/ImportYolo4FolderRequest.h"
 #include "src/annotator-events/events/LoadImagesFromWebPage.h"
 #include "src/annotator-events/events/RequestImagesDirProvider.h"
@@ -142,6 +148,24 @@ class EventsFactory : public std::enable_shared_from_this<EventsFactory>
       const std::string& importDirPath);
 
   virtual ImportYolo4FolderRequestPtr create_yolo4_import_request(
+      const std::string& importDirPath);
+
+  virtual ImportUltralyticsDetectRequestPtr
+  create_ultralytics_detect_import_request(const std::string& importDirPath);
+
+  virtual ImportUltralyticsObbRequestPtr create_ultralytics_obb_import_request(
+      const std::string& importDirPath);
+
+  virtual ImportUltralyticsSegmentRequestPtr
+  create_ultralytics_segment_import_request(const std::string& importDirPath);
+
+  virtual ImportCocoRequestPtr create_coco_import_request(
+      const std::string& importDirPath);
+
+  virtual ImportPascalVocRequestPtr create_pascal_voc_import_request(
+      const std::string& importDirPath);
+
+  virtual ImportCreateMLRequestPtr create_createml_import_request(
       const std::string& importDirPath);
 
   virtual ImportPyTorchVisionRequestPtr create_pytorch_vision_import_request(

@@ -24,6 +24,12 @@ add_library(
   ExportCreateMLRequest.cpp
   ImportPlainTxt2FolderRequest.cpp
   ImportYolo4FolderRequest.cpp
+  ImportUltralyticsDetectRequest.cpp
+  ImportUltralyticsObbRequest.cpp
+  ImportUltralyticsSegmentRequest.cpp
+  ImportCocoRequest.cpp
+  ImportPascalVocRequest.cpp
+  ImportCreateMLRequest.cpp
   ImportPyTorchVisionRequest.cpp
   DeleteCurrentImageRequest.cpp
   LoadImagesFromWebPage.cpp

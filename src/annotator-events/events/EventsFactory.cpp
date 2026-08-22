@@ -225,6 +225,45 @@ ImportYolo4FolderRequestPtr EventsFactory::create_yolo4_import_request(
   return std::make_shared<ImportYolo4FolderRequest>(importDirPath);
 }
 
+ImportUltralyticsDetectRequestPtr
+EventsFactory::create_ultralytics_detect_import_request(
+    const std::string& importDirPath)
+{
+  return std::make_shared<ImportUltralyticsDetectRequest>(importDirPath);
+}
+
+ImportUltralyticsObbRequestPtr
+EventsFactory::create_ultralytics_obb_import_request(
+    const std::string& importDirPath)
+{
+  return std::make_shared<ImportUltralyticsObbRequest>(importDirPath);
+}
+
+ImportUltralyticsSegmentRequestPtr
+EventsFactory::create_ultralytics_segment_import_request(
+    const std::string& importDirPath)
+{
+  return std::make_shared<ImportUltralyticsSegmentRequest>(importDirPath);
+}
+
+ImportCocoRequestPtr EventsFactory::create_coco_import_request(
+    const std::string& importDirPath)
+{
+  return std::make_shared<ImportCocoRequest>(importDirPath);
+}
+
+ImportPascalVocRequestPtr EventsFactory::create_pascal_voc_import_request(
+    const std::string& importDirPath)
+{
+  return std::make_shared<ImportPascalVocRequest>(importDirPath);
+}
+
+ImportCreateMLRequestPtr EventsFactory::create_createml_import_request(
+    const std::string& importDirPath)
+{
+  return std::make_shared<ImportCreateMLRequest>(importDirPath);
+}
+
 ImportPyTorchVisionRequestPtr
 EventsFactory::create_pytorch_vision_import_request(
     const std::string& importDirPath)

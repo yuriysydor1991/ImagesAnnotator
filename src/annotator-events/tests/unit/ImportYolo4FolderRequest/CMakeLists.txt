@@ -4,6 +4,12 @@ add_executable(
   UTEST_ImportYolo4FolderRequest
   UTEST_ImportYolo4FolderRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportYolo4FolderRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportUltralyticsDetectRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportUltralyticsObbRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportUltralyticsSegmentRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportCocoRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportPascalVocRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportCreateMLRequest.cpp
 )
 
 target_include_directories(

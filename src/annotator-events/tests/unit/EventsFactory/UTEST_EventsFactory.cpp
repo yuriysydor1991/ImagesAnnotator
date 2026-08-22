@@ -210,6 +210,49 @@ TEST(UTEST_EventsFactory, create_yolo4_import_request_carries_folder)
             "/in");
 }
 
+TEST(UTEST_EventsFactory,
+     create_ultralytics_detect_import_request_carries_folder)
+{
+  EXPECT_EQ(factory()
+                ->create_ultralytics_detect_import_request("/in")
+                ->src_folder_path,
+            "/in");
+}
+
+TEST(UTEST_EventsFactory, create_ultralytics_obb_import_request_carries_folder)
+{
+  EXPECT_EQ(
+      factory()->create_ultralytics_obb_import_request("/in")->src_folder_path,
+      "/in");
+}
+
+TEST(UTEST_EventsFactory,
+     create_ultralytics_segment_import_request_carries_folder)
+{
+  EXPECT_EQ(factory()
+                ->create_ultralytics_segment_import_request("/in")
+                ->src_folder_path,
+            "/in");
+}
+
+TEST(UTEST_EventsFactory, create_coco_import_request_carries_folder)
+{
+  EXPECT_EQ(factory()->create_coco_import_request("/in")->src_folder_path,
+            "/in");
+}
+
+TEST(UTEST_EventsFactory, create_pascal_voc_import_request_carries_folder)
+{
+  EXPECT_EQ(factory()->create_pascal_voc_import_request("/in")->src_folder_path,
+            "/in");
+}
+
+TEST(UTEST_EventsFactory, create_createml_import_request_carries_folder)
+{
+  EXPECT_EQ(factory()->create_createml_import_request("/in")->src_folder_path,
+            "/in");
+}
+
 TEST(UTEST_EventsFactory, create_pytorch_vision_import_request_carries_folder)
 {
   EXPECT_EQ(
@@ -223,6 +266,15 @@ TEST(UTEST_EventsFactory, a_created_import_request_carries_no_image_sizer)
 {
   EXPECT_EQ(factory()->create_plain_txt_import_request("/in")->sizer, nullptr);
   EXPECT_EQ(factory()->create_yolo4_import_request("/in")->sizer, nullptr);
+  EXPECT_EQ(factory()->create_ultralytics_detect_import_request("/in")->sizer,
+            nullptr);
+  EXPECT_EQ(factory()->create_ultralytics_obb_import_request("/in")->sizer,
+            nullptr);
+  EXPECT_EQ(factory()->create_ultralytics_segment_import_request("/in")->sizer,
+            nullptr);
+  EXPECT_EQ(factory()->create_coco_import_request("/in")->sizer, nullptr);
+  EXPECT_EQ(factory()->create_pascal_voc_import_request("/in")->sizer, nullptr);
+  EXPECT_EQ(factory()->create_createml_import_request("/in")->sizer, nullptr);
   EXPECT_EQ(factory()->create_pytorch_vision_import_request("/in")->sizer,
             nullptr);
 }

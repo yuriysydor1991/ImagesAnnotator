@@ -42,7 +42,8 @@ TEST_F(UTEST_ApplicationHelpPrinter, normal_exit)
   EXPECT_FALSE(appCtx->print_version_and_exit);
 }
 
-TEST_F(UTEST_ApplicationHelpPrinter, the_conversion_flags_and_formats_are_printed)
+TEST_F(UTEST_ApplicationHelpPrinter,
+       the_conversion_flags_and_formats_are_printed)
 {
   internal::CaptureStdout();
 

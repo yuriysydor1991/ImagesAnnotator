@@ -85,8 +85,8 @@ TEST_F(UTEST_ApplicationConverterComponent, no_context_error)
 
 TEST_F(UTEST_ApplicationConverterComponent, no_converter_error)
 {
-  auto orphan = std::make_shared<ApplicationConverterComponent>(
-      IFormatsConverterPtr{});
+  auto orphan =
+      std::make_shared<ApplicationConverterComponent>(IFormatsConverterPtr{});
 
   EXPECT_NE(orphan->run(appCtx), 0);
 }

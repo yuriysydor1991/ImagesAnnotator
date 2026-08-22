@@ -59,8 +59,8 @@ class UTEST_CommandLineParser : public Test
   /// @brief The four parameters of a complete conversion request.
   static std::vector<std::string> conversion_args()
   {
-    return {"--convert-from", "yolo4",     "--convert-src", "/datasets/in",
-            "--convert-to",   "coco",      "--convert-dst", "/datasets/out"};
+    return {"--convert-from", "yolo4", "--convert-src", "/datasets/in",
+            "--convert-to",   "coco",  "--convert-dst", "/datasets/out"};
   }
 
   int argc{0};

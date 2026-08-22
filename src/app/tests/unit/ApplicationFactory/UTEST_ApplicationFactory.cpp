@@ -299,7 +299,8 @@ TEST_F(UTEST_ApplicationFactory, create_formats_converter_application)
   std::shared_ptr<IApplication> app =
       factory->create_formats_converter_application();
 
-  auto component = std::dynamic_pointer_cast<ApplicationConverterComponent>(app);
+  auto component =
+      std::dynamic_pointer_cast<ApplicationConverterComponent>(app);
 
   ASSERT_NE(component, nullptr);
 

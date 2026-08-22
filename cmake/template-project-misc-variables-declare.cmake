@@ -9,6 +9,74 @@ set(
 
 string(TOLOWER ${PROJECT_BINARY_NAME} PROJECT_BINARY_NAME_lower)
 
+# ---------------------------------------------------------------------------
+# ImagesAnnotator specific: the converter only binary.
+#
+# The project builds two application binaries out of one and the same code. The
+# main one carries the graphical interface; the second one, named after it,
+# carries the annotations format conversion alone and no GUI toolkit at all -
+# it is the very same src/app component compiled with the
+# IMAGES_ANNOTATOR_CONVERTER_ONLY definition, which leaves the app::Application
+# class (and with it the whole src/gui subtree that class pulls) out. The
+# conversion stays available through the command line of the main binary as
+# well, so the second one adds a deployment option rather than a feature.
+#
+#   (nothing given)                             -> both binaries
+#   -DENABLE_IMAGES_ANNOTATOR_CONVERTER=OFF     -> the main binary alone
+#   -DBUILD_IMAGES_ANNOTATOR_CONVERTER_ONLY=ON  -> the converter alone, and no
+#                                                  GUI toolkit is even probed
+# ---------------------------------------------------------------------------
+option(
+  ENABLE_IMAGES_ANNOTATOR_CONVERTER
+  "Build the converter only binary beside the main application one"
+  ON
+)
+
+option(
+  BUILD_IMAGES_ANNOTATOR_CONVERTER_ONLY
+  "Build the converter only binary alone, with the main application target and its GUI toolkit excluded"
+  OFF
+)
+
+set(
+  PROJECT_CONVERTER_BINARY_NAME "${PROJECT_BINARY_NAME}Converter"
+  CACHE STRING "The converter only binary name and target"
+)
+
+# Asking for the converter alone is asking for the converter, so the pair can
+# never end up contradicting itself.
+if(BUILD_IMAGES_ANNOTATOR_CONVERTER_ONLY AND NOT ENABLE_IMAGES_ANNOTATOR_CONVERTER)
+  set(ENABLE_IMAGES_ANNOTATOR_CONVERTER ON CACHE BOOL
+    "Build the converter only binary beside the main application one" FORCE)
+endif()
+
+# The application targets this configure builds, in the order they are declared.
+# Every component of the src subtree hands its object library and its sources to
+# all of them at once through the annotator_app_targets_* functions, which is
+# what keeps the two binaries built out of one and the same code.
+set(ANNOTATOR_APP_TARGETS "")
+
+if(NOT BUILD_IMAGES_ANNOTATOR_CONVERTER_ONLY)
+  list(APPEND ANNOTATOR_APP_TARGETS ${PROJECT_BINARY_NAME})
+endif()
+
+if(ENABLE_IMAGES_ANNOTATOR_CONVERTER)
+  list(APPEND ANNOTATOR_APP_TARGETS ${PROJECT_CONVERTER_BINARY_NAME})
+endif()
+
+if(NOT ANNOTATOR_APP_TARGETS)
+  message(FATAL_ERROR
+    "Neither application binary is enabled - ENABLE_IMAGES_ANNOTATOR_CONVERTER "
+    "is OFF while BUILD_IMAGES_ANNOTATOR_CONVERTER_ONLY is ON, which asks for "
+    "the converter alone and for no converter at the same time.")
+endif()
+
+# The binary the profiling and the memory check targets are pointed at: the main
+# one whenever it is built, and the converter when it is the only one there.
+list(GET ANNOTATOR_APP_TARGETS 0 ANNOTATOR_PRIMARY_APP_TARGET)
+
+message(STATUS "Application targets: ${ANNOTATOR_APP_TARGETS}")
+
 # ImagesAnnotator specific: the GTKmm3 based object library target name shared
 # between the gtkmm3 sources and their component/unit tests.
 set(
@@ -159,6 +227,17 @@ message(STATUS "GUI toolkit: GTKmm${GTKMM_SELECTED} "
 
 set(GUI_TOOLKIT_NAME "gtkmm${GTKMM_SELECTED}")
 
+endif()
+
+# The block above is resolved even for a converter only build, since the
+# application id it derives is written into the produced binaries whether or not
+# a graphical interface is compiled in. Nothing of the toolkit it names is
+# probed, built or linked in that case, so the resolved name is said out loud
+# not to read as a promise of a GUI.
+if(BUILD_IMAGES_ANNOTATOR_CONVERTER_ONLY)
+  message(STATUS
+    "GUI toolkit: none is probed, built or linked "
+    "(BUILD_IMAGES_ANNOTATOR_CONVERTER_ONLY=ON)")
 endif()
 
 # ---------------------------------------------------------------------------

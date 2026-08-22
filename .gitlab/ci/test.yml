@@ -46,6 +46,7 @@ debug-build-and-test:
     - |
       cmake -S . -B "$BUILDDIR" -DCMAKE_BUILD_TYPE=Debug $TOOLKIT_CMAKE_FLAGS \
         -DENABLE_UNIT_TESTS=ON -DENABLE_COMPONENT_TESTS=ON \
+        -DENABLE_INTEGRATION_TESTS=ON \
         -DENABLE_SANITIZERS=ON -DMAX_LOG_LEVEL=5 \
         -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
     - cmake --build "$BUILDDIR" -j$(nproc)

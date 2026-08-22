@@ -13,16 +13,26 @@ option(
 )
 
 option(
+  ENABLE_INTEGRATION_TESTS
+  "Set to ON value if the integration tests run should be available"
+  OFF
+)
+
+option(
   GTEST_TRY_SYSTEM_PROBE 
   "Set to ON value if current project CMake files should probe the system GTest"
   ON
 )
 
+# The integration tests are shell scripts driving the produced binaries, so
+# they need the ctest registration but none of the GoogleTest below.
+if(ENABLE_UNIT_TESTS OR ENABLE_COMPONENT_TESTS OR ENABLE_INTEGRATION_TESTS)
+  enable_testing()
+endif()
+
 if(NOT (ENABLE_UNIT_TESTS OR ENABLE_COMPONENT_TESTS))
   return()
 endif()
-
-enable_testing()
 
 set(TEMPLATE_APP_GTEST_GIT "https://github.com/google/googletest.git" CACHE STRING "The GoogleTest git source repository")
 set(TEMPLATE_APP_GTEST_GIT_TAG "v1.16.0" CACHE STRING "The GoogleTest project git repository tag of interest")

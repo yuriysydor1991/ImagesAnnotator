@@ -68,6 +68,7 @@ pipeline {
         sh '''
           cmake -S . -B $BUILDDIR -DCMAKE_BUILD_TYPE=Debug \
             -DENABLE_UNIT_TESTS=ON -DENABLE_COMPONENT_TESTS=ON \
+            -DENABLE_INTEGRATION_TESTS=ON \
             -DENABLE_SANITIZERS=ON -DMAX_LOG_LEVEL=5
         '''
       }

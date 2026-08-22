@@ -96,6 +96,20 @@ class CommandLineParser
                             const std::string& nextParam);
 
   /**
+   * @brief Checks that a requested format conversion was named completely,
+   * since a conversion is driven by four command line parameters and half of
+   * them describe nothing on their own.
+   *
+   * @param ctx The parsed application context.
+   *
+   * @return Returns true when no conversion parameter was given at all or when
+   * all four of them were, and false otherwise. A partial request is reported
+   * through the ctx errors and its print_help_and_exit field.
+   */
+  virtual bool check_conversion_request(
+      std::shared_ptr<ApplicationContext> ctx);
+
+  /**
    * @brief Method should return the set of command line parameters that are
    * requiring data given next to it.
    */

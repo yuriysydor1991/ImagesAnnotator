@@ -54,6 +54,13 @@ class ApplicationHelpPrinter : public IApplication
    * and other value otherwise.
    */
   virtual int run(std::shared_ptr<ApplicationContext> ctx) override;
+
+ protected:
+  /**
+   * @brief Prints the format conversion part of the help message, the four
+   * command line flags of it and the annotations formats they accept.
+   */
+  virtual void print_conversion_help();
 };
 
 }  // namespace app

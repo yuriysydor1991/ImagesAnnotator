@@ -89,6 +89,36 @@
             <attribute name="icon">folder-symbolic</attribute>
           </item>
           <item>
+            <attribute name="label" translatable="yes">Import from Ultralytics YOLO detection folder</attribute>
+            <attribute name="action">win.import-ultralytics-detect</attribute>
+            <attribute name="icon">folder-symbolic</attribute>
+          </item>
+          <item>
+            <attribute name="label" translatable="yes">Import from Ultralytics YOLO oriented boxes folder</attribute>
+            <attribute name="action">win.import-ultralytics-obb</attribute>
+            <attribute name="icon">folder-symbolic</attribute>
+          </item>
+          <item>
+            <attribute name="label" translatable="yes">Import from Ultralytics YOLO segmentation folder</attribute>
+            <attribute name="action">win.import-ultralytics-segment</attribute>
+            <attribute name="icon">folder-symbolic</attribute>
+          </item>
+          <item>
+            <attribute name="label" translatable="yes">Import from COCO JSON folder</attribute>
+            <attribute name="action">win.import-coco</attribute>
+            <attribute name="icon">folder-symbolic</attribute>
+          </item>
+          <item>
+            <attribute name="label" translatable="yes">Import from Pascal VOC XML folder</attribute>
+            <attribute name="action">win.import-pascal-voc</attribute>
+            <attribute name="icon">folder-symbolic</attribute>
+          </item>
+          <item>
+            <attribute name="label" translatable="yes">Import from Create ML JSON folder</attribute>
+            <attribute name="action">win.import-createml</attribute>
+            <attribute name="icon">folder-symbolic</attribute>
+          </item>
+          <item>
             <attribute name="label" translatable="yes">Import from PyTorch Vision folder</attribute>
             <attribute name="action">win.import-pytorchvision</attribute>
             <attribute name="icon">folder-symbolic</attribute>
@@ -449,6 +479,42 @@
   </object>
   <object class="GtkFileChooserDialog" id="yolo4_import_folder_dialog">
     <property name="title" translatable="yes">Select YOLO4 import directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="ultralytics_detect_import_folder_dialog">
+    <property name="title" translatable="yes">Select Ultralytics YOLO detection import directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="ultralytics_obb_import_folder_dialog">
+    <property name="title" translatable="yes">Select Ultralytics YOLO oriented bounding box import directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="ultralytics_segment_import_folder_dialog">
+    <property name="title" translatable="yes">Select Ultralytics YOLO segmentation import directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="coco_import_folder_dialog">
+    <property name="title" translatable="yes">Select COCO import directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="pascal_voc_import_folder_dialog">
+    <property name="title" translatable="yes">Select Pascal VOC import directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="createml_import_folder_dialog">
+    <property name="title" translatable="yes">Select Create ML import directory</property>
     <property name="action">select-folder</property>
     <property name="modal">true</property>
     <property name="hide-on-close">true</property>

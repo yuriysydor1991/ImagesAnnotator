@@ -101,6 +101,13 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual Gtk::FileChooserDialog* get_createml_export_folder_dialog();
   virtual Gtk::FileChooserDialog* get_txt_import_folder_dialog();
   virtual Gtk::FileChooserDialog* get_yolo4_import_folder_dialog();
+  virtual Gtk::FileChooserDialog* get_ultralytics_detect_import_folder_dialog();
+  virtual Gtk::FileChooserDialog* get_ultralytics_obb_import_folder_dialog();
+  virtual Gtk::FileChooserDialog*
+  get_ultralytics_segment_import_folder_dialog();
+  virtual Gtk::FileChooserDialog* get_coco_import_folder_dialog();
+  virtual Gtk::FileChooserDialog* get_pascal_voc_import_folder_dialog();
+  virtual Gtk::FileChooserDialog* get_createml_import_folder_dialog();
   virtual Gtk::FileChooserDialog* get_pytorch_import_folder_dialog();
   virtual Gtk::MessageDialog* get_error_dialog();
   virtual Gtk::MessageDialog* get_save_changes_ask_dialog();
@@ -131,6 +138,14 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual Glib::RefPtr<Gio::SimpleAction> get_export_createml_action();
   virtual Glib::RefPtr<Gio::SimpleAction> get_import_txt_action();
   virtual Glib::RefPtr<Gio::SimpleAction> get_import_yolo4_action();
+  virtual Glib::RefPtr<Gio::SimpleAction>
+  get_import_ultralytics_detect_action();
+  virtual Glib::RefPtr<Gio::SimpleAction> get_import_ultralytics_obb_action();
+  virtual Glib::RefPtr<Gio::SimpleAction>
+  get_import_ultralytics_segment_action();
+  virtual Glib::RefPtr<Gio::SimpleAction> get_import_coco_action();
+  virtual Glib::RefPtr<Gio::SimpleAction> get_import_pascal_voc_action();
+  virtual Glib::RefPtr<Gio::SimpleAction> get_import_createml_action();
   virtual Glib::RefPtr<Gio::SimpleAction> get_import_pytorchvision_action();
   virtual Glib::RefPtr<Gio::SimpleAction> get_images_web_page_open_action();
   virtual Glib::RefPtr<Gio::SimpleAction> get_auto_insert_annotation_action();
@@ -192,6 +207,12 @@ class WindowLoader : virtual public ComponentTypesAliases
   Glib::RefPtr<Gio::SimpleAction> action_export_createml;
   Glib::RefPtr<Gio::SimpleAction> action_import_txt;
   Glib::RefPtr<Gio::SimpleAction> action_import_yolo4;
+  Glib::RefPtr<Gio::SimpleAction> action_import_ultralytics_detect;
+  Glib::RefPtr<Gio::SimpleAction> action_import_ultralytics_obb;
+  Glib::RefPtr<Gio::SimpleAction> action_import_ultralytics_segment;
+  Glib::RefPtr<Gio::SimpleAction> action_import_coco;
+  Glib::RefPtr<Gio::SimpleAction> action_import_pascal_voc;
+  Glib::RefPtr<Gio::SimpleAction> action_import_createml;
   Glib::RefPtr<Gio::SimpleAction> action_import_pytorchvision;
   Glib::RefPtr<Gio::SimpleAction> action_images_web_page_open;
   Glib::RefPtr<Gio::SimpleAction> action_auto_insert_annotation;

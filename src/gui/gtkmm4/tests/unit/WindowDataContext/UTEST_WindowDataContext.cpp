@@ -44,5 +44,18 @@ TEST(UTEST_WindowDataContext, get_ids_contains_every_import_id)
 
   EXPECT_EQ(ids.count(WindowDataContext::txt_import_folder_dialog_id), 1U);
   EXPECT_EQ(ids.count(WindowDataContext::yolo4_import_folder_dialog_id), 1U);
+  EXPECT_EQ(
+      ids.count(WindowDataContext::ultralytics_detect_import_folder_dialog_id),
+      1U);
+  EXPECT_EQ(
+      ids.count(WindowDataContext::ultralytics_obb_import_folder_dialog_id),
+      1U);
+  EXPECT_EQ(
+      ids.count(WindowDataContext::ultralytics_segment_import_folder_dialog_id),
+      1U);
+  EXPECT_EQ(ids.count(WindowDataContext::coco_import_folder_dialog_id), 1U);
+  EXPECT_EQ(ids.count(WindowDataContext::pascal_voc_import_folder_dialog_id),
+            1U);
+  EXPECT_EQ(ids.count(WindowDataContext::createml_import_folder_dialog_id), 1U);
   EXPECT_EQ(ids.count(WindowDataContext::pytorch_import_folder_dialog_id), 1U);
 }

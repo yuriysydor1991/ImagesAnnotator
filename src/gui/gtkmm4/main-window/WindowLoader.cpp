@@ -365,6 +365,18 @@ bool WindowLoader::create_actions()
       actionGroup->add_action(WindowDataContext::action_import_txt);
   action_import_yolo4 =
       actionGroup->add_action(WindowDataContext::action_import_yolo4);
+  action_import_ultralytics_detect = actionGroup->add_action(
+      WindowDataContext::action_import_ultralytics_detect);
+  action_import_ultralytics_obb =
+      actionGroup->add_action(WindowDataContext::action_import_ultralytics_obb);
+  action_import_ultralytics_segment = actionGroup->add_action(
+      WindowDataContext::action_import_ultralytics_segment);
+  action_import_coco =
+      actionGroup->add_action(WindowDataContext::action_import_coco);
+  action_import_pascal_voc =
+      actionGroup->add_action(WindowDataContext::action_import_pascal_voc);
+  action_import_createml =
+      actionGroup->add_action(WindowDataContext::action_import_createml);
   action_import_pytorchvision =
       actionGroup->add_action(WindowDataContext::action_import_pytorchvision);
   action_images_web_page_open =
@@ -623,6 +635,39 @@ Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_import_yolo4_action()
   return action_import_yolo4;
 }
 
+Glib::RefPtr<Gio::SimpleAction>
+WindowLoader::get_import_ultralytics_detect_action()
+{
+  return action_import_ultralytics_detect;
+}
+
+Glib::RefPtr<Gio::SimpleAction>
+WindowLoader::get_import_ultralytics_obb_action()
+{
+  return action_import_ultralytics_obb;
+}
+
+Glib::RefPtr<Gio::SimpleAction>
+WindowLoader::get_import_ultralytics_segment_action()
+{
+  return action_import_ultralytics_segment;
+}
+
+Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_import_coco_action()
+{
+  return action_import_coco;
+}
+
+Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_import_pascal_voc_action()
+{
+  return action_import_pascal_voc;
+}
+
+Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_import_createml_action()
+{
+  return action_import_createml;
+}
+
 Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_import_pytorchvision_action()
 {
   return action_import_pytorchvision;
@@ -855,6 +900,56 @@ Gtk::FileChooserDialog* WindowLoader::get_yolo4_import_folder_dialog()
 
   return get_widget<Gtk::FileChooserDialog>(
       mwctx->wctx->yolo4_import_folder_dialog_id);
+}
+
+Gtk::FileChooserDialog*
+WindowLoader::get_ultralytics_detect_import_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->ultralytics_detect_import_folder_dialog_id);
+}
+
+Gtk::FileChooserDialog* WindowLoader::get_ultralytics_obb_import_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->ultralytics_obb_import_folder_dialog_id);
+}
+
+Gtk::FileChooserDialog*
+WindowLoader::get_ultralytics_segment_import_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->ultralytics_segment_import_folder_dialog_id);
+}
+
+Gtk::FileChooserDialog* WindowLoader::get_coco_import_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->coco_import_folder_dialog_id);
+}
+
+Gtk::FileChooserDialog* WindowLoader::get_pascal_voc_import_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->pascal_voc_import_folder_dialog_id);
+}
+
+Gtk::FileChooserDialog* WindowLoader::get_createml_import_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->createml_import_folder_dialog_id);
 }
 
 Gtk::FileChooserDialog* WindowLoader::get_pytorch_import_folder_dialog()

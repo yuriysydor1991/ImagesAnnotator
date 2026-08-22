@@ -181,6 +181,21 @@ class WindowDataContext
       "txt_import_folder_dialog";
   inline static constexpr const char* const yolo4_import_folder_dialog_id =
       "yolo4_import_folder_dialog";
+  inline static constexpr const char* const
+      ultralytics_detect_import_folder_dialog_id =
+          "ultralytics_detect_import_folder_dialog";
+  inline static constexpr const char* const
+      ultralytics_obb_import_folder_dialog_id =
+          "ultralytics_obb_import_folder_dialog";
+  inline static constexpr const char* const
+      ultralytics_segment_import_folder_dialog_id =
+          "ultralytics_segment_import_folder_dialog";
+  inline static constexpr const char* const coco_import_folder_dialog_id =
+      "coco_import_folder_dialog";
+  inline static constexpr const char* const pascal_voc_import_folder_dialog_id =
+      "pascal_voc_import_folder_dialog";
+  inline static constexpr const char* const createml_import_folder_dialog_id =
+      "createml_import_folder_dialog";
   inline static constexpr const char* const pytorch_import_folder_dialog_id =
       "pytorch_import_folder_dialog";
   inline static constexpr const char* const error_dialog_id = "error_dialog";
@@ -235,6 +250,17 @@ class WindowDataContext
   inline static constexpr const char* const action_import_txt = "import-txt";
   inline static constexpr const char* const action_import_yolo4 =
       "import-yolo4";
+  inline static constexpr const char* const action_import_ultralytics_detect =
+      "import-ultralytics-detect";
+  inline static constexpr const char* const action_import_ultralytics_obb =
+      "import-ultralytics-obb";
+  inline static constexpr const char* const action_import_ultralytics_segment =
+      "import-ultralytics-segment";
+  inline static constexpr const char* const action_import_coco = "import-coco";
+  inline static constexpr const char* const action_import_pascal_voc =
+      "import-pascal-voc";
+  inline static constexpr const char* const action_import_createml =
+      "import-createml";
   inline static constexpr const char* const action_import_pytorchvision =
       "import-pytorchvision";
   inline static constexpr const char* const action_images_web_page_open =

@@ -61,6 +61,39 @@ bool ImportEventsHandler::subscribe()
         handle_import_yolo4();
       });
 
+  mwctx->wloader->get_import_ultralytics_detect_action()
+      ->signal_activate()
+      .connect([this]([[maybe_unused]] const Glib::VariantBase& param) {
+        handle_import_ultralytics_detect();
+      });
+
+  mwctx->wloader->get_import_ultralytics_obb_action()
+      ->signal_activate()
+      .connect([this]([[maybe_unused]] const Glib::VariantBase& param) {
+        handle_import_ultralytics_obb();
+      });
+
+  mwctx->wloader->get_import_ultralytics_segment_action()
+      ->signal_activate()
+      .connect([this]([[maybe_unused]] const Glib::VariantBase& param) {
+        handle_import_ultralytics_segment();
+      });
+
+  mwctx->wloader->get_import_coco_action()->signal_activate().connect(
+      [this]([[maybe_unused]] const Glib::VariantBase& param) {
+        handle_import_coco();
+      });
+
+  mwctx->wloader->get_import_pascal_voc_action()->signal_activate().connect(
+      [this]([[maybe_unused]] const Glib::VariantBase& param) {
+        handle_import_pascal_voc();
+      });
+
+  mwctx->wloader->get_import_createml_action()->signal_activate().connect(
+      [this]([[maybe_unused]] const Glib::VariantBase& param) {
+        handle_import_createml();
+      });
+
   mwctx->wloader->get_import_pytorchvision_action()->signal_activate().connect(
       [this]([[maybe_unused]] const Glib::VariantBase& param) {
         handle_import_pytorch();
@@ -138,6 +171,129 @@ void ImportEventsHandler::handle_import_yolo4()
         assert(efactory != nullptr);
 
         auto importEvent = efactory->create_yolo4_import_request(folder);
+
+        importEvent->sizer = create_image_sizer();
+
+        mwctx->actx->eventer->submit(importEvent);
+      });
+}
+
+void ImportEventsHandler::handle_import_ultralytics_detect()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+
+  handle_folder_import(
+      mwctx->wloader->get_ultralytics_detect_import_folder_dialog(),
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        auto importEvent =
+            efactory->create_ultralytics_detect_import_request(folder);
+
+        importEvent->sizer = create_image_sizer();
+
+        mwctx->actx->eventer->submit(importEvent);
+      });
+}
+
+void ImportEventsHandler::handle_import_ultralytics_obb()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+
+  handle_folder_import(
+      mwctx->wloader->get_ultralytics_obb_import_folder_dialog(),
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        auto importEvent =
+            efactory->create_ultralytics_obb_import_request(folder);
+
+        importEvent->sizer = create_image_sizer();
+
+        mwctx->actx->eventer->submit(importEvent);
+      });
+}
+
+void ImportEventsHandler::handle_import_ultralytics_segment()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+
+  handle_folder_import(
+      mwctx->wloader->get_ultralytics_segment_import_folder_dialog(),
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        auto importEvent =
+            efactory->create_ultralytics_segment_import_request(folder);
+
+        importEvent->sizer = create_image_sizer();
+
+        mwctx->actx->eventer->submit(importEvent);
+      });
+}
+
+void ImportEventsHandler::handle_import_coco()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+
+  handle_folder_import(
+      mwctx->wloader->get_coco_import_folder_dialog(),
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        auto importEvent = efactory->create_coco_import_request(folder);
+
+        importEvent->sizer = create_image_sizer();
+
+        mwctx->actx->eventer->submit(importEvent);
+      });
+}
+
+void ImportEventsHandler::handle_import_pascal_voc()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+
+  handle_folder_import(
+      mwctx->wloader->get_pascal_voc_import_folder_dialog(),
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        auto importEvent = efactory->create_pascal_voc_import_request(folder);
+
+        importEvent->sizer = create_image_sizer();
+
+        mwctx->actx->eventer->submit(importEvent);
+      });
+}
+
+void ImportEventsHandler::handle_import_createml()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+
+  handle_folder_import(
+      mwctx->wloader->get_createml_import_folder_dialog(),
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        auto importEvent = efactory->create_createml_import_request(folder);
 
         importEvent->sizer = create_image_sizer();
 

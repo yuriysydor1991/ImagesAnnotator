@@ -290,6 +290,54 @@ CustomWidgetsFactory::create_yolo4_import_folder_choose_dialog(
 }
 
 std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_ultralytics_detect_import_folder_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_folder_choose_dialog_with_title(
+      parentWindow, "Select Ultralytics YOLO detection import directory");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_ultralytics_obb_import_folder_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_folder_choose_dialog_with_title(
+      parentWindow, "Select Ultralytics YOLO oriented boxes import directory");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_ultralytics_segment_import_folder_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_folder_choose_dialog_with_title(
+      parentWindow, "Select Ultralytics YOLO segmentation import directory");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_coco_import_folder_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_folder_choose_dialog_with_title(parentWindow,
+                                                "Select COCO import directory");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_pascal_voc_import_folder_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_folder_choose_dialog_with_title(
+      parentWindow, "Select Pascal VOC import directory");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_createml_import_folder_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_folder_choose_dialog_with_title(
+      parentWindow, "Select Create ML import directory");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
 CustomWidgetsFactory::create_pytorch_import_folder_choose_dialog(
     Gtk::Window* parentWindow)
 {

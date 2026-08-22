@@ -159,6 +159,41 @@ class CustomWidgetsFactory
   virtual std::shared_ptr<Gtk::FileChooserDialog>
   create_yolo4_import_folder_choose_dialog(Gtk::Window* parentWindow);
   /**
+   * @brief Creates the directory chooser of the Ultralytics YOLO detection
+   * dataset import.
+   */
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_ultralytics_detect_import_folder_choose_dialog(
+      Gtk::Window* parentWindow);
+  /**
+   * @brief Creates the directory chooser of the Ultralytics YOLO oriented
+   * bounding box dataset import.
+   */
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_ultralytics_obb_import_folder_choose_dialog(Gtk::Window* parentWindow);
+  /**
+   * @brief Creates the directory chooser of the Ultralytics YOLO segmentation
+   * dataset import.
+   */
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_ultralytics_segment_import_folder_choose_dialog(
+      Gtk::Window* parentWindow);
+  /**
+   * @brief Creates the directory chooser of the COCO dataset import.
+   */
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_coco_import_folder_choose_dialog(Gtk::Window* parentWindow);
+  /**
+   * @brief Creates the directory chooser of the Pascal VOC dataset import.
+   */
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_pascal_voc_import_folder_choose_dialog(Gtk::Window* parentWindow);
+  /**
+   * @brief Creates the directory chooser of the Create ML dataset import.
+   */
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_createml_import_folder_choose_dialog(Gtk::Window* parentWindow);
+  /**
    * @brief Creates the directory chooser of the PyTorch Vision dataset import.
    */
   virtual std::shared_ptr<Gtk::FileChooserDialog>

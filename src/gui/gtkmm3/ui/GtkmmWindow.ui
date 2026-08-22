@@ -79,6 +79,36 @@
     <property name="can-focus">False</property>
     <property name="icon-name">folder-symbolic</property>
   </object>
+  <object class="GtkImage" id="image21">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">folder-symbolic</property>
+  </object>
+  <object class="GtkImage" id="image22">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">folder-symbolic</property>
+  </object>
+  <object class="GtkImage" id="image23">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">folder-symbolic</property>
+  </object>
+  <object class="GtkImage" id="image24">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">folder-symbolic</property>
+  </object>
+  <object class="GtkImage" id="image25">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">folder-symbolic</property>
+  </object>
+  <object class="GtkImage" id="image26">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">folder-symbolic</property>
+  </object>
   <object class="GtkImage" id="image2">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -316,6 +346,66 @@
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
                                     <property name="image">image19</property>
+                                    <property name="use-stock">False</property>
+                                    <property name="always-show-image">True</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkImageMenuItem" id="annotations_import_ultralytics_detect_2_folder">
+                                    <property name="label" translatable="yes">Import from Ultralytics YOLO detection folder</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="image">image21</property>
+                                    <property name="use-stock">False</property>
+                                    <property name="always-show-image">True</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkImageMenuItem" id="annotations_import_ultralytics_obb_2_folder">
+                                    <property name="label" translatable="yes">Import from Ultralytics YOLO oriented boxes folder</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="image">image22</property>
+                                    <property name="use-stock">False</property>
+                                    <property name="always-show-image">True</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkImageMenuItem" id="annotations_import_ultralytics_segment_2_folder">
+                                    <property name="label" translatable="yes">Import from Ultralytics YOLO segmentation folder</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="image">image23</property>
+                                    <property name="use-stock">False</property>
+                                    <property name="always-show-image">True</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkImageMenuItem" id="annotations_import_coco_2_folder">
+                                    <property name="label" translatable="yes">Import from COCO JSON folder</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="image">image24</property>
+                                    <property name="use-stock">False</property>
+                                    <property name="always-show-image">True</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkImageMenuItem" id="annotations_import_pascal_voc_2_folder">
+                                    <property name="label" translatable="yes">Import from Pascal VOC XML folder</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="image">image25</property>
+                                    <property name="use-stock">False</property>
+                                    <property name="always-show-image">True</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkImageMenuItem" id="annotations_import_createml_2_folder">
+                                    <property name="label" translatable="yes">Import from Create ML JSON folder</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="image">image26</property>
                                     <property name="use-stock">False</property>
                                     <property name="always-show-image">True</property>
                                   </object>

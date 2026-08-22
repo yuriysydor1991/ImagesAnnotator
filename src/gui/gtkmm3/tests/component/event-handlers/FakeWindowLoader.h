@@ -136,6 +136,30 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm3::window::WindowLoader
   {
     return &import_yolo4_mi_;
   }
+  Gtk::ImageMenuItem* get_import_ultralytics_detect_folder_mi() override
+  {
+    return &import_ultralytics_detect_mi_;
+  }
+  Gtk::ImageMenuItem* get_import_ultralytics_obb_folder_mi() override
+  {
+    return &import_ultralytics_obb_mi_;
+  }
+  Gtk::ImageMenuItem* get_import_ultralytics_segment_folder_mi() override
+  {
+    return &import_ultralytics_segment_mi_;
+  }
+  Gtk::ImageMenuItem* get_import_coco_folder_mi() override
+  {
+    return &import_coco_mi_;
+  }
+  Gtk::ImageMenuItem* get_import_pascal_voc_folder_mi() override
+  {
+    return &import_pascal_voc_mi_;
+  }
+  Gtk::ImageMenuItem* get_import_createml_folder_mi() override
+  {
+    return &import_createml_mi_;
+  }
   Gtk::ImageMenuItem* get_import_pytorchvision_folder_mi() override
   {
     return &import_pytorch_mi_;
@@ -188,6 +212,12 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm3::window::WindowLoader
   Gtk::ImageMenuItem export_createml_mi_;
   Gtk::ImageMenuItem import_txt_mi_;
   Gtk::ImageMenuItem import_yolo4_mi_;
+  Gtk::ImageMenuItem import_ultralytics_detect_mi_;
+  Gtk::ImageMenuItem import_ultralytics_obb_mi_;
+  Gtk::ImageMenuItem import_ultralytics_segment_mi_;
+  Gtk::ImageMenuItem import_coco_mi_;
+  Gtk::ImageMenuItem import_pascal_voc_mi_;
+  Gtk::ImageMenuItem import_createml_mi_;
   Gtk::ImageMenuItem import_pytorch_mi_;
   Gtk::ImageMenuItem webpage_open_mi_;
   Gtk::ImageMenuItem about_mi_;

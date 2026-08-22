@@ -593,6 +593,54 @@ Gtk::ImageMenuItem* WindowLoader::get_import_yolo4_folder_mi()
       mwctx->wctx->annotations_import_yolo4_2_folder_id);
 }
 
+Gtk::ImageMenuItem* WindowLoader::get_import_ultralytics_detect_folder_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_import_ultralytics_detect_2_folder_id);
+}
+
+Gtk::ImageMenuItem* WindowLoader::get_import_ultralytics_obb_folder_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_import_ultralytics_obb_2_folder_id);
+}
+
+Gtk::ImageMenuItem* WindowLoader::get_import_ultralytics_segment_folder_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_import_ultralytics_segment_2_folder_id);
+}
+
+Gtk::ImageMenuItem* WindowLoader::get_import_coco_folder_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_import_coco_2_folder_id);
+}
+
+Gtk::ImageMenuItem* WindowLoader::get_import_pascal_voc_folder_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_import_pascal_voc_2_folder_id);
+}
+
+Gtk::ImageMenuItem* WindowLoader::get_import_createml_folder_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_import_createml_2_folder_id);
+}
+
 Gtk::ImageMenuItem* WindowLoader::get_import_pytorchvision_folder_mi()
 {
   assert(mwctx->wctx != nullptr);

@@ -40,4 +40,10 @@ void ApplicationContext::push_error(const std::string& errorDescription)
   errors.emplace_back(errorDescription);
 }
 
+bool ApplicationContext::conversion_requested() const
+{
+  return !convert_from.empty() && !convert_src.empty() && !convert_to.empty() &&
+         !convert_dst.empty();
+}
+
 }  // namespace app

@@ -34,6 +34,13 @@ struct ApplicationContext
 
   std::shared_ptr<events::IImagesAnnotatorEventController> eventer;
 
+  std::string convert_from{};
+  std::string convert_src{};
+  std::string convert_to{};
+  std::string convert_dst{};
+
+  bool conversion_requested() const;
+
   const std::string& app_dbus_url{project_decls::PROJECT_FLATPAK_URL};
 };
 

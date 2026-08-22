@@ -7,8 +7,11 @@
 #include "src/app/ApplicationFactory.h"
 #include "src/app/ApplicationHelpPrinter.h"
 #include "src/app/ApplicationVersionPrinter.h"
+#include "src/app/converter/ApplicationConverterComponent.h"
+#include "src/app/converter/ApplicationFormatsConverter.h"
 
 using namespace app;
+using namespace app::converter;
 using namespace testing;
 
 class UTEST_ApplicationFactory : public Test
@@ -24,6 +27,18 @@ class UTEST_ApplicationFactory : public Test
     Application::onMockCreate = nullptr;
     ApplicationHelpPrinter::onMockCreate = nullptr;
     ApplicationVersionPrinter::onMockCreate = nullptr;
+    ApplicationConverterComponent::onMockCreate = nullptr;
+    ApplicationFormatsConverter::onMockCreate = nullptr;
+  }
+
+  /// @brief Fills the four parameters a conversion is asked for with.
+  static void given_the_conversion_request(
+      std::shared_ptr<ApplicationContext> ctx)
+  {
+    ctx->convert_from = "yolo4";
+    ctx->convert_src = "/datasets/in";
+    ctx->convert_to = "coco";
+    ctx->convert_dst = "/datasets/out";
   }
 
   inline std::shared_ptr<ApplicationContext> create_context(int& gargc,
@@ -267,4 +282,103 @@ TEST_F(UTEST_ApplicationFactory, factory_execute_default_app)
   Application::onMockCreate = onMockCreateAppEnsurer.AsStdFunction();
 
   EXPECT_EQ(ApplicationFactory::execute(customArgc, customArgv), 0);
+}
+
+TEST_F(UTEST_ApplicationFactory, create_formats_converter)
+{
+  std::shared_ptr<IFormatsConverter> converter =
+      factory->create_formats_converter();
+
+  EXPECT_NE(converter, nullptr);
+  EXPECT_NE(std::dynamic_pointer_cast<ApplicationFormatsConverter>(converter),
+            nullptr);
+}
+
+TEST_F(UTEST_ApplicationFactory, create_formats_converter_application)
+{
+  std::shared_ptr<IApplication> app =
+      factory->create_formats_converter_application();
+
+  auto component =
+      std::dynamic_pointer_cast<ApplicationConverterComponent>(app);
+
+  ASSERT_NE(component, nullptr);
+
+  // Both instances come out of the one call: the component is of no use
+  // without the converter it was handed.
+  EXPECT_NE(std::dynamic_pointer_cast<ApplicationFormatsConverter>(
+                component->converter),
+            nullptr);
+}
+
+TEST_F(UTEST_ApplicationFactory, create_application_formats_converter)
+{
+  std::shared_ptr<ApplicationContext> ctx =
+      create_context(customArgc, customArgv);
+
+  given_the_conversion_request(ctx);
+
+  std::shared_ptr<IApplication> app = factory->create_application(ctx);
+
+  EXPECT_NE(app, nullptr);
+  EXPECT_NE(std::dynamic_pointer_cast<ApplicationConverterComponent>(app),
+            nullptr);
+}
+
+TEST_F(UTEST_ApplicationFactory, a_partial_conversion_request_is_no_converter)
+{
+  std::shared_ptr<ApplicationContext> ctx =
+      create_context(customArgc, customArgv);
+
+  ctx->convert_from = "yolo4";
+
+  std::shared_ptr<IApplication> app = factory->create_application(ctx);
+
+  EXPECT_EQ(std::dynamic_pointer_cast<ApplicationConverterComponent>(app),
+            nullptr);
+  EXPECT_NE(std::dynamic_pointer_cast<Application>(app), nullptr);
+}
+
+TEST_F(UTEST_ApplicationFactory, help_wins_over_a_conversion_request)
+{
+  std::shared_ptr<ApplicationContext> ctx =
+      create_context(customArgc, customArgv);
+
+  given_the_conversion_request(ctx);
+
+  ctx->print_help_and_exit = true;
+
+  std::shared_ptr<IApplication> app = factory->create_application(ctx);
+
+  EXPECT_NE(std::dynamic_pointer_cast<ApplicationHelpPrinter>(app), nullptr);
+}
+
+TEST_F(UTEST_ApplicationFactory, factory_run_formats_converter_app)
+{
+  MockFunction<void(CommandLineParser & instance)> onMockCreateParserEnsurer;
+  MockFunction<void(ApplicationConverterComponent & instance)>
+      onMockCreateAppEnsurer;
+
+  EXPECT_CALL(onMockCreateParserEnsurer, Call(_))
+      .Times(1)
+      .WillOnce(Invoke([&](CommandLineParser& instance) {
+        EXPECT_CALL(instance, parse_args(_))
+            .Times(1)
+            .WillOnce(Invoke([&](std::shared_ptr<ApplicationContext> ctx) {
+              given_the_conversion_request(ctx);
+              return true;
+            }));
+      }));
+
+  EXPECT_CALL(onMockCreateAppEnsurer, Call(_))
+      .Times(1)
+      .WillOnce(Invoke([&](ApplicationConverterComponent& instance) {
+        EXPECT_CALL(instance, run(_)).Times(1).WillOnce(Return(0));
+      }));
+
+  CommandLineParser::onMockCreate = onMockCreateParserEnsurer.AsStdFunction();
+  ApplicationConverterComponent::onMockCreate =
+      onMockCreateAppEnsurer.AsStdFunction();
+
+  EXPECT_EQ(factory->run(customArgc, customArgv), 0);
 }

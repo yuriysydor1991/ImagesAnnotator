@@ -45,6 +45,10 @@ const std::string HELPW{"--help"};
 const std::string HELP{"-h"};
 const std::string VERSIONW{"--version"};
 const std::string VERSION{"-v"};
+const std::string CONVERT_FROM{"--convert-from"};
+const std::string CONVERT_SRC{"--convert-src"};
+const std::string CONVERT_TO{"--convert-to"};
+const std::string CONVERT_DST{"--convert-dst"};
 }  // namespace
 
 bool CommandLineParser::parse_args(std::shared_ptr<ApplicationContext> ctx)
@@ -69,7 +73,29 @@ bool CommandLineParser::parse_args(std::shared_ptr<ApplicationContext> ctx)
     }
   }
 
-  return true;
+  return check_conversion_request(ctx);
+}
+
+bool CommandLineParser::check_conversion_request(
+    std::shared_ptr<ApplicationContext> ctx)
+{
+  const bool anyGiven = !ctx->convert_from.empty() ||
+                        !ctx->convert_src.empty() || !ctx->convert_to.empty() ||
+                        !ctx->convert_dst.empty();
+
+  if (!anyGiven || ctx->conversion_requested()) {
+    return true;
+  }
+
+  static const std::string e =
+      "A conversion requires all of the " + CONVERT_FROM + ", " + CONVERT_SRC +
+      ", " + CONVERT_TO + " and " + CONVERT_DST + " parameters.";
+
+  ctx->print_help_and_exit = true;
+  ctx->push_error(e);
+  LOGE(e);
+
+  return false;
 }
 
 bool CommandLineParser::check_4_data(std::shared_ptr<ApplicationContext> ctx,
@@ -87,7 +113,7 @@ bool CommandLineParser::check_4_data(std::shared_ptr<ApplicationContext> ctx,
   const bool requiresData = requires_data(param);
 
   if (requiresData && !hasNext) {
-    ctx->print_version_and_exit = true;
+    ctx->print_help_and_exit = true;
     ctx->push_error("Parameter " + param + " requires the data next to it.");
     LOGE("Parameter " << param << " requires the data next to it.");
     return false;
@@ -114,6 +140,14 @@ bool CommandLineParser::parse_arg(std::shared_ptr<ApplicationContext> ctx,
     ctx->print_help_and_exit = true;
   } else if (param == VERSIONW || param == VERSION) {
     ctx->print_version_and_exit = true;
+  } else if (param == CONVERT_FROM) {
+    ctx->convert_from = nextParam;
+  } else if (param == CONVERT_SRC) {
+    ctx->convert_src = nextParam;
+  } else if (param == CONVERT_TO) {
+    ctx->convert_to = nextParam;
+  } else if (param == CONVERT_DST) {
+    ctx->convert_dst = nextParam;
   } else {
     ctx->print_help_and_exit = true;
     ctx->push_error("Unknown parameter: " + param);
@@ -132,7 +166,8 @@ const std::set<std::string>& CommandLineParser::get_params_requiring_data()
 {
   // Place here command line parameters that are requiring
   // some data after it.
-  static const std::set<std::string> requireNext{};
+  static const std::set<std::string> requireNext{CONVERT_FROM, CONVERT_SRC,
+                                                 CONVERT_TO, CONVERT_DST};
 
   return requireNext;
 }

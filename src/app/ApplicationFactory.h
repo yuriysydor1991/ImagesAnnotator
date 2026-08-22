@@ -33,6 +33,7 @@
 #include "src/app/ApplicationContext.h"
 #include "src/app/CommandLineParser.h"
 #include "src/app/IApplication.h"
+#include "src/app/converter/IFormatsConverter.h"
 
 namespace app
 {
@@ -87,6 +88,23 @@ class ApplicationFactory
    * @return Instantiates a default version message printer and returns it.
    */
   virtual std::shared_ptr<IApplication> create_version_printer();
+
+  /**
+   * @brief Instantiates the converter which performs a requested annotations
+   * format conversion.
+   *
+   * @return Instantiates a default formats converter and returns it.
+   */
+  virtual std::shared_ptr<converter::IFormatsConverter>
+  create_formats_converter();
+
+  /**
+   * @brief Instantiates the application component which runs a requested
+   * annotations format conversion, together with the converter it runs.
+   *
+   * @return Instantiates the converter application component and returns it.
+   */
+  virtual std::shared_ptr<IApplication> create_formats_converter_application();
 
   /**
    * @brief Creates context and perform args parse operation

@@ -10,4 +10,5 @@ target_sources(
   PRIVATE ApplicationVersionPrinter.cpp
 )
 
+add_subdirectory(converter)
 add_subdirectory(tests)

@@ -102,6 +102,31 @@ struct ApplicationContext
 
   std::shared_ptr<events::IImagesAnnotatorEventController> eventer;
 
+  /// @brief The annotations format a requested conversion reads, as spelled
+  /// after the --convert-from command line flag.
+  std::string convert_from{};
+
+  /// @brief The path a requested conversion reads, as given after the
+  /// --convert-src command line flag.
+  std::string convert_src{};
+
+  /// @brief The annotations format a requested conversion writes, as spelled
+  /// after the --convert-to command line flag.
+  std::string convert_to{};
+
+  /// @brief The path a requested conversion writes, as given after the
+  /// --convert-dst command line flag.
+  std::string convert_dst{};
+
+  /**
+   * @brief Reports whether a format conversion was asked for on the command
+   * line, which is what makes the ApplicationFactory create the converter
+   * application instead of the graphical one.
+   *
+   * @return Returns true when all four conversion parameters were given.
+   */
+  bool conversion_requested() const;
+
   const std::string& app_dbus_url{project_decls::PROJECT_FLATPAK_URL};
 };
 

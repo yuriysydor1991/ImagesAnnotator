@@ -32,6 +32,7 @@
 #include <memory>
 
 #include "project-global-decls.h"
+#include "src/app/converter/ConversionFormats.h"
 #include "src/log/log.h"
 
 namespace app
@@ -61,9 +62,39 @@ int ApplicationHelpPrinter::run(std::shared_ptr<ApplicationContext> ctx)
             << "\t--help or -h - print current help message" << std::endl
             << "\t--version or -v - print application version, build git "
                "commit and configure date"
+            << std::endl
+            << "\t--convert-from FORMAT - the annotations format to read"
+            << std::endl
+            << "\t--convert-src PATH - the path to read the annotations from"
+            << std::endl
+            << "\t--convert-to FORMAT - the annotations format to write"
+            << std::endl
+            << "\t--convert-dst PATH - the path to write the annotations into"
             << std::endl;
 
+  print_conversion_help();
+
   return 0;
+}
+
+void ApplicationHelpPrinter::print_conversion_help()
+{
+  std::cout << std::endl
+            << "The four conversion flags go together and convert the"
+            << std::endl
+            << "annotations without starting the graphical interface."
+            << std::endl
+            << "A FORMAT is one of:" << std::endl;
+
+  for (const auto& name : converter::ConversionFormats::names()) {
+    std::cout << "\t" << name << std::endl;
+  }
+
+  std::cout << std::endl
+            << "The pytorch one is read only, since writing it cuts the"
+            << std::endl
+            << "rectangles out of the pictures through a graphical toolkit."
+            << std::endl;
 }
 
 }  // namespace app

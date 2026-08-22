@@ -76,7 +76,7 @@ plantuml -tsvg -o ../images doc/diagrams/plantuml/dependencies.puml
 
 Експортери, які постачає сам застосунок - звичайний текстовий, YOLO v4 (darknet), три Ultralytics YOLO (детекція, орієнтовані рамки та сегментація), COCO JSON, Pascal VOC XML, Create ML JSON і PyTorch Vision, - знаходяться в окремій бібліотеці [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git), тому новий формат можна додати і туди, і тоді його отримає кожен інструмент, побудований на цій бібліотеці. Див. [Вмикання інтеграції бібліотеки ImagesAnnotator-DataExporters](/doc/sections/uk_UA/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md).
 
-Читання набору даних назад є оберненням цього: імпортери, які постачає застосунок - звичайний текстовий, YOLO v4 (darknet) і PyTorch Vision, - знаходяться в окремій бібліотеці [ImagesAnnotator-DataImporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataImporters.git). Див. [Вмикання інтеграції бібліотеки ImagesAnnotator-DataImporters](/doc/sections/uk_UA/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md).
+Читання набору даних назад є оберненням цього: девʼять імпортерів, які постачає застосунок - по одному на кожну розкладку, яку він експортує, - знаходяться в окремій бібліотеці [ImagesAnnotator-DataImporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataImporters.git). Див. [Вмикання інтеграції бібліотеки ImagesAnnotator-DataImporters](/doc/sections/uk_UA/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md).
 
 # Зміст документації
 

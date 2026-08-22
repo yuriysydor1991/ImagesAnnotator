@@ -149,6 +149,30 @@ class ImagesAnnotatorEventController
   virtual void subscribe(
       events::ImportYolo4FolderRequestHandlerPtr handler) override;
 
+  virtual void submit(events::ImportUltralyticsDetectRequestPtr event) override;
+  virtual void subscribe(
+      events::ImportUltralyticsDetectRequestHandlerPtr handler) override;
+
+  virtual void submit(events::ImportUltralyticsObbRequestPtr event) override;
+  virtual void subscribe(
+      events::ImportUltralyticsObbRequestHandlerPtr handler) override;
+
+  virtual void submit(
+      events::ImportUltralyticsSegmentRequestPtr event) override;
+  virtual void subscribe(
+      events::ImportUltralyticsSegmentRequestHandlerPtr handler) override;
+
+  virtual void submit(events::ImportCocoRequestPtr event) override;
+  virtual void subscribe(events::ImportCocoRequestHandlerPtr handler) override;
+
+  virtual void submit(events::ImportPascalVocRequestPtr event) override;
+  virtual void subscribe(
+      events::ImportPascalVocRequestHandlerPtr handler) override;
+
+  virtual void submit(events::ImportCreateMLRequestPtr event) override;
+  virtual void subscribe(
+      events::ImportCreateMLRequestHandlerPtr handler) override;
+
   virtual void submit(events::ImportPyTorchVisionRequestPtr event) override;
   virtual void subscribe(
       events::ImportPyTorchVisionRequestHandlerPtr handler) override;
@@ -200,6 +224,17 @@ class ImagesAnnotatorEventController
       std::set<events::ImportPlainTxt2FolderRequestHandlerPtr>;
   using yolo4ImportersSet =
       std::set<events::ImportYolo4FolderRequestHandlerPtr>;
+  using ultralyticsDetectImportersSet =
+      std::set<events::ImportUltralyticsDetectRequestHandlerPtr>;
+  using ultralyticsObbImportersSet =
+      std::set<events::ImportUltralyticsObbRequestHandlerPtr>;
+  using ultralyticsSegmentImportersSet =
+      std::set<events::ImportUltralyticsSegmentRequestHandlerPtr>;
+  using cocoImportersSet = std::set<events::ImportCocoRequestHandlerPtr>;
+  using pascalVocImportersSet =
+      std::set<events::ImportPascalVocRequestHandlerPtr>;
+  using createMLImportersSet =
+      std::set<events::ImportCreateMLRequestHandlerPtr>;
   using pytorchVisionImportersSet =
       std::set<events::ImportPyTorchVisionRequestHandlerPtr>;
   using deleteCurrentImageHSet =
@@ -230,6 +265,12 @@ class ImagesAnnotatorEventController
   createMLExportersSet createMLExporters_handlers;
   plainTxtImportersSet plainTxtImporters_handlers;
   yolo4ImportersSet yolo4Importers_handlers;
+  ultralyticsDetectImportersSet ultralyticsDetectImporters_handlers;
+  ultralyticsObbImportersSet ultralyticsObbImporters_handlers;
+  ultralyticsSegmentImportersSet ultralyticsSegmentImporters_handlers;
+  cocoImportersSet cocoImporters_handlers;
+  pascalVocImportersSet pascalVocImporters_handlers;
+  createMLImportersSet createMLImporters_handlers;
   pytorchVisionImportersSet pytorchVisionImporters_handlers;
   deleteCurrentImageHSet deletecir_handlers;
   webpageILoadersSet webILoaders_handlers;

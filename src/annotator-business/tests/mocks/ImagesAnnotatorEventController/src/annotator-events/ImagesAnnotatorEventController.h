@@ -144,6 +144,38 @@ class ImagesAnnotatorEventController : public IImagesAnnotatorEventController
   MOCK_METHOD(void, subscribe,
               (events::ImportYolo4FolderRequestHandlerPtr handler), (override));
 
+  MOCK_METHOD(void, submit, (events::ImportUltralyticsDetectRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::ImportUltralyticsDetectRequestHandlerPtr handler),
+              (override));
+
+  MOCK_METHOD(void, submit, (events::ImportUltralyticsObbRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::ImportUltralyticsObbRequestHandlerPtr handler),
+              (override));
+
+  MOCK_METHOD(void, submit, (events::ImportUltralyticsSegmentRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::ImportUltralyticsSegmentRequestHandlerPtr handler),
+              (override));
+
+  MOCK_METHOD(void, submit, (events::ImportCocoRequestPtr event), (override));
+  MOCK_METHOD(void, subscribe, (events::ImportCocoRequestHandlerPtr handler),
+              (override));
+
+  MOCK_METHOD(void, submit, (events::ImportPascalVocRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::ImportPascalVocRequestHandlerPtr handler), (override));
+
+  MOCK_METHOD(void, submit, (events::ImportCreateMLRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::ImportCreateMLRequestHandlerPtr handler), (override));
+
   MOCK_METHOD(void, submit, (events::ImportPyTorchVisionRequestPtr event),
               (override));
   MOCK_METHOD(void, subscribe,

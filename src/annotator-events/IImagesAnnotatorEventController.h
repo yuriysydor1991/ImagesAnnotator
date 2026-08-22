@@ -63,10 +63,22 @@
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
 #include "src/annotator-events/events/ImagesDirProviderChanged.h"
 #include "src/annotator-events/events/ImagesDirProviderChangedHandler.h"
+#include "src/annotator-events/events/ImportCocoRequest.h"
+#include "src/annotator-events/events/ImportCocoRequestHandler.h"
+#include "src/annotator-events/events/ImportCreateMLRequest.h"
+#include "src/annotator-events/events/ImportCreateMLRequestHandler.h"
+#include "src/annotator-events/events/ImportPascalVocRequest.h"
+#include "src/annotator-events/events/ImportPascalVocRequestHandler.h"
 #include "src/annotator-events/events/ImportPlainTxt2FolderRequest.h"
 #include "src/annotator-events/events/ImportPlainTxt2FolderRequestHandler.h"
 #include "src/annotator-events/events/ImportPyTorchVisionRequest.h"
 #include "src/annotator-events/events/ImportPyTorchVisionRequestHandler.h"
+#include "src/annotator-events/events/ImportUltralyticsDetectRequest.h"
+#include "src/annotator-events/events/ImportUltralyticsDetectRequestHandler.h"
+#include "src/annotator-events/events/ImportUltralyticsObbRequest.h"
+#include "src/annotator-events/events/ImportUltralyticsObbRequestHandler.h"
+#include "src/annotator-events/events/ImportUltralyticsSegmentRequest.h"
+#include "src/annotator-events/events/ImportUltralyticsSegmentRequestHandler.h"
 #include "src/annotator-events/events/ImportYolo4FolderRequest.h"
 #include "src/annotator-events/events/ImportYolo4FolderRequestHandler.h"
 #include "src/annotator-events/events/LoadImagesFromWebPage.h"
@@ -166,6 +178,27 @@ class IImagesAnnotatorEventController
   virtual void submit(events::ImportYolo4FolderRequestPtr event) = 0;
   virtual void subscribe(
       events::ImportYolo4FolderRequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ImportUltralyticsDetectRequestPtr event) = 0;
+  virtual void subscribe(
+      events::ImportUltralyticsDetectRequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ImportUltralyticsObbRequestPtr event) = 0;
+  virtual void subscribe(
+      events::ImportUltralyticsObbRequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ImportUltralyticsSegmentRequestPtr event) = 0;
+  virtual void subscribe(
+      events::ImportUltralyticsSegmentRequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ImportCocoRequestPtr event) = 0;
+  virtual void subscribe(events::ImportCocoRequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ImportPascalVocRequestPtr event) = 0;
+  virtual void subscribe(events::ImportPascalVocRequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ImportCreateMLRequestPtr event) = 0;
+  virtual void subscribe(events::ImportCreateMLRequestHandlerPtr handler) = 0;
 
   virtual void submit(events::ImportPyTorchVisionRequestPtr event) = 0;
   virtual void subscribe(

@@ -63,6 +63,24 @@ using FakePlainTxtImportHandler =
 using FakeYolo4ImportHandler =
     FakeImportHandler<events::events::ImportYolo4FolderRequestHandler,
                       events::events::ImportYolo4FolderRequestPtr>;
+using FakeUltralyticsDetectImportHandler =
+    FakeImportHandler<events::events::ImportUltralyticsDetectRequestHandler,
+                      events::events::ImportUltralyticsDetectRequestPtr>;
+using FakeUltralyticsObbImportHandler =
+    FakeImportHandler<events::events::ImportUltralyticsObbRequestHandler,
+                      events::events::ImportUltralyticsObbRequestPtr>;
+using FakeUltralyticsSegmentImportHandler =
+    FakeImportHandler<events::events::ImportUltralyticsSegmentRequestHandler,
+                      events::events::ImportUltralyticsSegmentRequestPtr>;
+using FakeCocoImportHandler =
+    FakeImportHandler<events::events::ImportCocoRequestHandler,
+                      events::events::ImportCocoRequestPtr>;
+using FakePascalVocImportHandler =
+    FakeImportHandler<events::events::ImportPascalVocRequestHandler,
+                      events::events::ImportPascalVocRequestPtr>;
+using FakeCreateMLImportHandler =
+    FakeImportHandler<events::events::ImportCreateMLRequestHandler,
+                      events::events::ImportCreateMLRequestPtr>;
 using FakePyTorchImportHandler =
     FakeImportHandler<events::events::ImportPyTorchVisionRequestHandler,
                       events::events::ImportPyTorchVisionRequestPtr>;
@@ -145,6 +163,93 @@ TEST(UTEST_ImagesAnnotatorEventController,
   eventer->subscribe(handler);
   eventer->submit(
       eventer->get_events_factory()->create_yolo4_import_request("/in"));
+
+  ASSERT_NE(handler->received, nullptr);
+  EXPECT_EQ(handler->received->src_folder_path, "/in");
+}
+
+TEST(UTEST_ImagesAnnotatorEventController,
+     a_ultralytics_detect_import_request_reaches_its_subscriber)
+{
+  auto eventer = make_controller();
+  auto handler = std::make_shared<FakeUltralyticsDetectImportHandler>();
+
+  eventer->subscribe(handler);
+  eventer->submit(
+      eventer->get_events_factory()->create_ultralytics_detect_import_request(
+          "/in"));
+
+  ASSERT_NE(handler->received, nullptr);
+  EXPECT_EQ(handler->received->src_folder_path, "/in");
+}
+
+TEST(UTEST_ImagesAnnotatorEventController,
+     a_ultralytics_obb_import_request_reaches_its_subscriber)
+{
+  auto eventer = make_controller();
+  auto handler = std::make_shared<FakeUltralyticsObbImportHandler>();
+
+  eventer->subscribe(handler);
+  eventer->submit(
+      eventer->get_events_factory()->create_ultralytics_obb_import_request(
+          "/in"));
+
+  ASSERT_NE(handler->received, nullptr);
+  EXPECT_EQ(handler->received->src_folder_path, "/in");
+}
+
+TEST(UTEST_ImagesAnnotatorEventController,
+     a_ultralytics_segment_import_request_reaches_its_subscriber)
+{
+  auto eventer = make_controller();
+  auto handler = std::make_shared<FakeUltralyticsSegmentImportHandler>();
+
+  eventer->subscribe(handler);
+  eventer->submit(
+      eventer->get_events_factory()->create_ultralytics_segment_import_request(
+          "/in"));
+
+  ASSERT_NE(handler->received, nullptr);
+  EXPECT_EQ(handler->received->src_folder_path, "/in");
+}
+
+TEST(UTEST_ImagesAnnotatorEventController,
+     a_coco_import_request_reaches_its_subscriber)
+{
+  auto eventer = make_controller();
+  auto handler = std::make_shared<FakeCocoImportHandler>();
+
+  eventer->subscribe(handler);
+  eventer->submit(
+      eventer->get_events_factory()->create_coco_import_request("/in"));
+
+  ASSERT_NE(handler->received, nullptr);
+  EXPECT_EQ(handler->received->src_folder_path, "/in");
+}
+
+TEST(UTEST_ImagesAnnotatorEventController,
+     a_pascal_voc_import_request_reaches_its_subscriber)
+{
+  auto eventer = make_controller();
+  auto handler = std::make_shared<FakePascalVocImportHandler>();
+
+  eventer->subscribe(handler);
+  eventer->submit(
+      eventer->get_events_factory()->create_pascal_voc_import_request("/in"));
+
+  ASSERT_NE(handler->received, nullptr);
+  EXPECT_EQ(handler->received->src_folder_path, "/in");
+}
+
+TEST(UTEST_ImagesAnnotatorEventController,
+     a_createml_import_request_reaches_its_subscriber)
+{
+  auto eventer = make_controller();
+  auto handler = std::make_shared<FakeCreateMLImportHandler>();
+
+  eventer->subscribe(handler);
+  eventer->submit(
+      eventer->get_events_factory()->create_createml_import_request("/in"));
 
   ASSERT_NE(handler->received, nullptr);
   EXPECT_EQ(handler->received->src_folder_path, "/in");

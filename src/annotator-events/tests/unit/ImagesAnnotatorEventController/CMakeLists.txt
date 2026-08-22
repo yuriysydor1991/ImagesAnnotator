@@ -22,6 +22,12 @@ add_executable(
   ${EVENTS_SRC}/ExportCreateMLRequest.cpp
   ${EVENTS_SRC}/ImportPlainTxt2FolderRequest.cpp
   ${EVENTS_SRC}/ImportYolo4FolderRequest.cpp
+  ${EVENTS_SRC}/ImportUltralyticsDetectRequest.cpp
+  ${EVENTS_SRC}/ImportUltralyticsObbRequest.cpp
+  ${EVENTS_SRC}/ImportUltralyticsSegmentRequest.cpp
+  ${EVENTS_SRC}/ImportCocoRequest.cpp
+  ${EVENTS_SRC}/ImportPascalVocRequest.cpp
+  ${EVENTS_SRC}/ImportCreateMLRequest.cpp
   ${EVENTS_SRC}/ImportPyTorchVisionRequest.cpp
   ${EVENTS_SRC}/Export2PyTorchVisionRequest.cpp
   ${EVENTS_SRC}/DeleteCurrentImageRequest.cpp

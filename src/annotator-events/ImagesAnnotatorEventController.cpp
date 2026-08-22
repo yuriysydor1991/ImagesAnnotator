@@ -311,6 +311,77 @@ void ImagesAnnotatorEventController::subscribe(
 }
 
 void ImagesAnnotatorEventController::submit(
+    events::ImportUltralyticsDetectRequestPtr event)
+{
+  unified_submit(ultralyticsDetectImporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ImportUltralyticsDetectRequestHandlerPtr handler)
+{
+  ultralyticsDetectImporters_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
+    events::ImportUltralyticsObbRequestPtr event)
+{
+  unified_submit(ultralyticsObbImporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ImportUltralyticsObbRequestHandlerPtr handler)
+{
+  ultralyticsObbImporters_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
+    events::ImportUltralyticsSegmentRequestPtr event)
+{
+  unified_submit(ultralyticsSegmentImporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ImportUltralyticsSegmentRequestHandlerPtr handler)
+{
+  ultralyticsSegmentImporters_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(events::ImportCocoRequestPtr event)
+{
+  unified_submit(cocoImporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ImportCocoRequestHandlerPtr handler)
+{
+  cocoImporters_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
+    events::ImportPascalVocRequestPtr event)
+{
+  unified_submit(pascalVocImporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ImportPascalVocRequestHandlerPtr handler)
+{
+  pascalVocImporters_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
+    events::ImportCreateMLRequestPtr event)
+{
+  unified_submit(createMLImporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ImportCreateMLRequestHandlerPtr handler)
+{
+  createMLImporters_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
     events::ImportPyTorchVisionRequestPtr event)
 {
   unified_submit(pytorchVisionImporters_handlers, event);

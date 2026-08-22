@@ -19,7 +19,7 @@ misc/ci/install-annotator-libraries.sh
 | Скрипт | Виконує |
 | --- | --- |
 | [release.sh](/scripts/build/release.sh) | побудову `Release` |
-| [debug.sh](/scripts/build/debug.sh) | побудову `Debug` з увімкненими тестами, документацією, `cppcheck`, `valgrind` і `callgrind` |
+| [debug.sh](/scripts/build/debug.sh) | побудову `Debug` з увімкненими модульними, компонентними та інтеграційними тестами, документацією, `cppcheck`, `valgrind` і `callgrind` |
 | [debug-cppcheck.sh](/scripts/build/debug-cppcheck.sh) | побудову `Debug` цілі `cppcheck` |
 | [debug-valgrind.sh](/scripts/build/debug-valgrind.sh) | побудову `Debug` цілі `valgrind` |
 | [debug-callgrind.sh](/scripts/build/debug-callgrind.sh) | побудову `Debug` цілі `callgrind` |

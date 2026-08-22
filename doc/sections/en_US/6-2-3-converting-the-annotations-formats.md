@@ -16,6 +16,12 @@ alone, so it fits a script and a build pipeline.
   --convert-dst ./the-wanted-dataset
 ```
 
+The project also builds a second binary, `ImagesAnnotatorConverter`, which
+carries this very conversion and no graphical interface at all - the same flags,
+the same formats, the same behaviour - and which may be built and installed on
+its own, without any GUI toolkit present. See [The ImagesAnnotatorConverter
+binary](/doc/sections/en_US/5-40-the-ImagesAnnotatorConverter-binary.md).
+
 - `--convert-from FORMAT` - the annotations format to read,
 - `--convert-src PATH` - the path to read the annotations from,
 - `--convert-to FORMAT` - the annotations format to write,

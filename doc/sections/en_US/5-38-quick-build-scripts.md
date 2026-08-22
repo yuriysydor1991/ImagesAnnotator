@@ -19,7 +19,7 @@ Each of the scripts below performs the configure, the build and the install step
 | Script | Performs |
 | --- | --- |
 | [release.sh](/scripts/build/release.sh) | the `Release` build |
-| [debug.sh](/scripts/build/debug.sh) | the `Debug` build with the tests, the documentation, the `cppcheck`, the `valgrind` and the `callgrind` enabled |
+| [debug.sh](/scripts/build/debug.sh) | the `Debug` build with the unit, the component and the integration tests, the documentation, the `cppcheck`, the `valgrind` and the `callgrind` enabled |
 | [debug-cppcheck.sh](/scripts/build/debug-cppcheck.sh) | the `Debug` build of the `cppcheck` target |
 | [debug-valgrind.sh](/scripts/build/debug-valgrind.sh) | the `Debug` build of the `valgrind` target |
 | [debug-callgrind.sh](/scripts/build/debug-callgrind.sh) | the `Debug` build of the `callgrind` target |

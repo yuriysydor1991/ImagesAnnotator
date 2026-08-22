@@ -1,6 +1,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include <filesystem>
 #include <memory>
 #include <string>
 
@@ -28,8 +29,14 @@ using namespace testing;
 class UTEST_ApplicationFormatsConverter : public Test
 {
  public:
+  /// @brief Never touched here: the mocked event controller hands the import
+  /// request to nobody who would read it.
   inline static const std::string src_path{"/datasets/source"};
-  inline static const std::string dst_path{"/datasets/destination"};
+
+  /// @brief A directory which is already there, since the converter creates a
+  /// destination that is not - and this suite is to write nothing.
+  inline static const std::string dst_path{
+      std::filesystem::current_path().string()};
 
   UTEST_ApplicationFormatsConverter() { reset_pipeline(); }
 
@@ -40,8 +47,9 @@ class UTEST_ApplicationFormatsConverter : public Test
   {
     converter = std::make_shared<ApplicationFormatsConverter>();
     appctx = std::make_shared<ApplicationContext>(argc, argv);
-    eventer = std::make_shared<NiceMock<events::ImagesAnnotatorEventController>>(
-        appctx);
+    eventer =
+        std::make_shared<NiceMock<events::ImagesAnnotatorEventController>>(
+            appctx);
     appctx->eventer = eventer;
 
     ON_CALL(*eventer, get_events_factory())
@@ -228,6 +236,20 @@ TEST_F(UTEST_ApplicationFormatsConverter,
   expect_export_of<ExportCocoRequest>("coco");
   expect_export_of<ExportPascalVocRequest>("pascal-voc");
   expect_export_of<ExportCreateMLRequest>("createml");
+}
+
+TEST_F(UTEST_ApplicationFormatsConverter,
+       a_destination_which_can_not_be_created_fails_the_conversion)
+{
+  given_the_request("plain-txt", "coco");
+
+  // A child of something which is no directory, so that the destination can
+  // not be made whatever the suite is run as.
+  appctx->convert_dst = "/dev/null/destination";
+
+  EXPECT_CALL(*eventer, submit(A<ExportCocoRequestPtr>())).Times(0);
+
+  EXPECT_FALSE(converter->convert(appctx));
 }
 
 TEST_F(UTEST_ApplicationFormatsConverter,

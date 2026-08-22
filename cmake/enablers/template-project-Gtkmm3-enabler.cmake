@@ -27,6 +27,25 @@ find_package(PkgConfig)
 # targets are configured.
 pkg_check_modules(GTKMM gtkmm-3.0 REQUIRED)
 
+# The toolkit headers are third party, so the diagnostics raised inside them are
+# not actionable from this project. pkg-config hands out its directories as
+# plain -I paths, and a -I path is a user directory to the compiler even when it
+# sits under /usr/include, so the strict warning set of
+# cmake/compile-options/template-project-compile-options-GCC.cmake is applied to
+# them in full: the G_DEFINE_AUTOPTR_CLEANUP_FUNC() expansions of
+# glib/gmacros.h alone answer -Wold-style-cast several hundred times per
+# translation unit that includes gtkmm, and harfbuzz answers -Wuseless-cast.
+#
+# Repeating the very same directories as SYSTEM ones demotes them to the system
+# include chain, which silences everything originating inside them while leaving
+# every warning of this project's own sources reported as before. It is done
+# here at project scope, before add_subdirectory(src), so it covers the GUI
+# sources and every test target that includes the toolkit. The per-target
+# target_include_directories() calls under src/gui keep listing
+# GTKMM_INCLUDE_DIRS: a directory named by both -I and -isystem is searched at
+# its system position, so those stay correct and need no change.
+include_directories(SYSTEM ${GTKMM_INCLUDE_DIRS})
+
 # The src/gui subdirectory holding this toolkit's implementation.
 set(GTKMM_GUI_SUBDIR "gtkmm3")
 

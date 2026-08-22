@@ -66,6 +66,15 @@ foreach(QT6_COMPONENT IN ITEMS Core Gui Widgets)
 endforeach()
 list(REMOVE_DUPLICATES GTKMM_INCLUDE_DIRS)
 
+# Linking an imported Qt target would have marked its interface include
+# directories as system ones automatically. Consuming them as plain directories
+# above loses that, which hands the whole strict warning set of
+# cmake/compile-options/template-project-compile-options-GCC.cmake to headers
+# this project cannot fix, so the system marking is restored explicitly. It is
+# done here at project scope, before add_subdirectory(src), so it covers the GUI
+# sources and every test target that includes the toolkit.
+include_directories(SYSTEM ${GTKMM_INCLUDE_DIRS})
+
 # The imported targets carry their own link directories, so there is nothing to
 # publish here; the variable is still defined so the target_link_directories()
 # calls under src stay valid with an empty list.

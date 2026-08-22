@@ -32,6 +32,19 @@ set(GTKMM_INCLUDE_DIRS ${wxWidgets_INCLUDE_DIRS})
 set(GTKMM_LIBRARIES ${wxWidgets_LIBRARIES})
 set(GTKMM_LIBRARY_DIRS ${wxWidgets_LIBRARY_DIRS})
 
+# The toolkit headers are third party, so the diagnostics raised inside them are
+# not actionable from this project. wx-config hands out its directories as plain
+# -I paths, and a -I path is a user directory to the compiler even when it sits
+# under /usr/include, so the strict warning set of
+# cmake/compile-options/template-project-compile-options-GCC.cmake is applied to
+# them in full - wxWidgets is a GTK build here, so it drags in the very glib and
+# harfbuzz headers the two GTKmm enablers demote for the same reason. Marking
+# the directories as SYSTEM ones silences everything originating inside them
+# while leaving every warning of this project's own sources reported as before.
+# It is done here at project scope, before add_subdirectory(src), so it covers
+# the GUI sources and every test target that includes the toolkit.
+include_directories(SYSTEM ${GTKMM_INCLUDE_DIRS})
+
 # The src/gui subdirectory holding this toolkit's implementation.
 set(GTKMM_GUI_SUBDIR "wxwidgets")
 

@@ -43,7 +43,7 @@
 // three the compiler happens to see first.
 //
 // LibraryFacade.h transitively pulls in every other public header of the
-// library (the library context with its three layout descendants, the importer
+// library (the library context with its nine layout descendants, the importer
 // and the image size reader interfaces), so a single include is enough.
 #include <ImagesAnnotatorDataImporters-0.11/LibraryFacade.h>
 

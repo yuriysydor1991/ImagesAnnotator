@@ -12,10 +12,7 @@ target_include_directories(
     ${CMAKE_BINARY_DIR}
 )
 
-target_link_libraries(
-  ${PROJECT_BINARY_NAME}
-  TemplateProjectDefaultLoggerObj
-)
+annotator_app_targets_link_libraries(TemplateProjectDefaultLoggerObj)
 
 add_subdirectory(real-default-logger)
 add_subdirectory(tests)

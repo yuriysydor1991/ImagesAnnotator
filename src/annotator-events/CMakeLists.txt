@@ -12,10 +12,7 @@ target_include_directories(
     ${CMAKE_BINARY_DIR}
 )
 
-target_link_libraries(
-  ${PROJECT_BINARY_NAME}
-  ImagesAnnotatorEventControllerObj
-)
+annotator_app_targets_link_libraries(ImagesAnnotatorEventControllerObj)
 
 add_subdirectory(events)
 add_subdirectory(tests)

@@ -12,10 +12,7 @@ target_include_directories(
     ${CMAKE_BINARY_DIR}
 )
 
-target_link_libraries(
-  ${PROJECT_BINARY_NAME}
-  ImagesAnnotatorControllerObj
-)
+annotator_app_targets_link_libraries(ImagesAnnotatorControllerObj)
 
 # The exporters subdirectory is gone: the plain txt, the YOLO v4 and the
 # PyTorch Vision writers now come from the ImagesAnnotator-DataExporters

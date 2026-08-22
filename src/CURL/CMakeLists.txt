@@ -15,8 +15,7 @@ target_include_directories(
     ${CURL_INCLUDE_DIRS}
 )
 
-target_link_libraries(
-  ${PROJECT_BINARY_NAME}
+annotator_app_targets_link_libraries(
   TemplateProjectCURLControllerObj
   ${CURL_LIBRARIES}
 )

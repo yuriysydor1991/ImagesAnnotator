@@ -13,3 +13,11 @@ ctest
 ```
 ctest --tests-dir /шлях/до/директорії/побудови/проекту
 ```
+
+Скрипт [debug-test.sh](/scripts/build/debug-test.sh) із секції [Швидкі скрипти побудови](/doc/sections/uk_UA/5-38-quick-build-scripts.md) виконує той самий виклик `ctest` всередині директорії `build/debug` - як самостійно, так і кроком скриптів побудови `Debug`, - щоразу, коли надано параметр `--test` (для GNU/Linux ОС і подібних):
+
+```
+# в середині кореневої директорії проекту
+
+scripts/build/debug-test.sh --test
+```

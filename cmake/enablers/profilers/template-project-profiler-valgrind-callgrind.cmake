@@ -20,8 +20,8 @@ message(STATUS "valgrind (callgrind): ${VALGRIND_EXEC}")
 
 add_custom_target(
   callgrind
-  COMMAND ${VALGRIND_EXEC} --tool=callgrind $<TARGET_FILE:${PROJECT_BINARY_NAME}>
+  COMMAND ${VALGRIND_EXEC} --tool=callgrind $<TARGET_FILE:${ANNOTATOR_PRIMARY_APP_TARGET}>
   COMMENT "Executing valgrind --tool=callgrind command for the project main binary file. Outputs into the ${CMAKE_BINARY_DIR}/callgrind.out.* files"
-  DEPENDS ${PROJECT_BINARY_NAME}
+  DEPENDS ${ANNOTATOR_PRIMARY_APP_TARGET}
   WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )

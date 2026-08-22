@@ -20,7 +20,4 @@ template_project_default_3rdparty_enabler(
   GIT_TAG ${TEMPLATE_APP_LIBXML2_GIT_TAG}
 )
 
-target_link_libraries(
-  ${PROJECT_BINARY_NAME}
-  LibXml2::LibXml2
-)
+annotator_app_targets_link_libraries(LibXml2::LibXml2)

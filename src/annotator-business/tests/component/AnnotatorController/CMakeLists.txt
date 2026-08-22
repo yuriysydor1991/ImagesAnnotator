@@ -1,5 +1,13 @@
 cmake_minimum_required(VERSION 3.13)
 
+# These suites compile the image cropper of the active GUI toolkit and link the
+# toolkit itself, so a converter only build - which probes no toolkit at all -
+# has nothing to build them against. The conversion pipeline they share with the
+# converter is covered by src/app/tests/component, which links no toolkit.
+if(BUILD_IMAGES_ANNOTATOR_CONVERTER_ONLY)
+  return()
+endif()
+
 # todo: delete Gtkmm assets and replace orig classes with mocks
 # The GTKMM_* variables come from the active GUI toolkit enabler
 # (cmake/enablers/template-project-Gtkmm{3,4}-enabler.cmake), so the shared

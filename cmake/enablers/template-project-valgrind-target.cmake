@@ -31,7 +31,7 @@ add_custom_target(
   COMMAND ${VALGRIND_EXECUTABLE} --leak-check=full
     --error-exitcode=1 
     --show-leak-kinds=all 
-    $<TARGET_FILE:${PROJECT_BINARY_NAME}>
+    $<TARGET_FILE:${ANNOTATOR_PRIMARY_APP_TARGET}>
   COMMENT "Executing valgrind command for the project main binary file. Output all findings into the stdout."
-  DEPENDS ${PROJECT_BINARY_NAME}
+  DEPENDS ${ANNOTATOR_PRIMARY_APP_TARGET}
 )

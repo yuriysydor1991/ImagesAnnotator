@@ -20,6 +20,14 @@ include(template-project-git-enabler)
 # ahead of the packagers below, because they publish the GTKMM_* probe results
 # consumed all over the src subtree, GTKMM_GUI_SUBDIR and the
 # GTKMM_DEB_RUNTIME_DEPENDS the DEB packager needs.
+#
+# A converter only build (BUILD_IMAGES_ANNOTATOR_CONVERTER_ONLY) has no
+# graphical interface target at all, so none of the four toolkits is probed
+# here and none has to be installed for such a build to configure. The desktop
+# launcher below belongs to the graphical binary as well and is skipped with
+# them.
+if(NOT BUILD_IMAGES_ANNOTATOR_CONVERTER_ONLY)
+
 include(template-project-Gtkmm3-enabler)
 include(template-project-Gtkmm4-enabler)
 
@@ -39,6 +47,8 @@ include(template-project-Qt6-enabler)
 # registers configure-time install() rules and depends on APPLICATION_ID, which
 # template-project-misc-variables-declare.cmake has already resolved.
 include(template-project-desktop-entry-enabler)
+
+endif()
 
 # ImagesAnnotator specific: these libraries are made available before the src
 # subdirectory is added because the project sources consume them while their

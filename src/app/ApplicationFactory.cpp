@@ -30,7 +30,6 @@
 #include <cassert>
 #include <memory>
 
-#include "src/app/Application.h"
 #include "src/app/ApplicationContext.h"
 #include "src/app/ApplicationHelpPrinter.h"
 #include "src/app/ApplicationVersionPrinter.h"
@@ -40,6 +39,13 @@
 #include "src/app/converter/ApplicationFormatsConverter.h"
 #include "src/app/converter/IFormatsConverter.h"
 #include "src/log/log.h"
+
+#ifndef IMAGES_ANNOTATOR_CONVERTER_ONLY
+// The graphical application, and with it the whole src/gui subtree it starts.
+// The converter only binary is compiled without both, which is the single
+// place in this project where the two binaries part ways.
+#include "src/app/Application.h"
+#endif  // IMAGES_ANNOTATOR_CONVERTER_ONLY
 
 namespace app
 {
@@ -83,7 +89,16 @@ std::shared_ptr<ApplicationContext> ApplicationFactory::create_context(
 
 std::shared_ptr<IApplication> ApplicationFactory::create_default_application()
 {
+#ifdef IMAGES_ANNOTATOR_CONVERTER_ONLY
+  // There is no default application in a converter only binary: what it can do
+  // is named by the conversion command line flags, so the help message which
+  // lists them is what an empty command line deserves.
+  LOGE("No annotations format conversion was requested");
+
+  return create_help_printer();
+#else
   return std::make_shared<Application>();
+#endif  // IMAGES_ANNOTATOR_CONVERTER_ONLY
 }
 
 std::shared_ptr<IApplication> ApplicationFactory::create_help_printer()

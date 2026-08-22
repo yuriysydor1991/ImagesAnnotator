@@ -32,6 +32,7 @@
 #include <memory>
 
 #include "project-global-decls.h"
+#include "src/app/ApplicationBinaryName.h"
 #include "src/app/converter/ConversionFormats.h"
 #include "src/log/log.h"
 
@@ -51,7 +52,7 @@ int ApplicationHelpPrinter::run(std::shared_ptr<ApplicationContext> ctx)
   // CommandLineParser class.
   std::cout << "Usage:" << std::endl
             << std::endl
-            << "\t" << project_decls::PROJECT_NAME << " [OPTIONS]" << std::endl
+            << "\t" << application_binary_name() << " [OPTIONS]" << std::endl
             << std::endl
             << "Introduce a new command line flags by registering them in"
             << std::endl

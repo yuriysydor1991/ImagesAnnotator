@@ -32,6 +32,7 @@
 #include <memory>
 
 #include "project-global-decls.h"
+#include "src/app/ApplicationBinaryName.h"
 #include "src/log/log.h"
 
 namespace app
@@ -46,7 +47,7 @@ int ApplicationVersionPrinter::run(std::shared_ptr<ApplicationContext> ctx)
     return INVALID;
   }
 
-  std::cout << project_decls::PROJECT_NAME << " version "
+  std::cout << application_binary_name() << " version "
             << project_decls::PROJECT_BUILD_VERSION << std::endl
             << "configure date " << project_decls::PROJECT_CONFIGURE_DATE
             << std::endl

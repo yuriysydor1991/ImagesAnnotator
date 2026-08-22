@@ -8,6 +8,8 @@ namespace project_decls
 
 /// @brief Global project' binary name
 const std::string PROJECT_NAME = "ImagesAnnotator";
+/// @brief The converter only binary name
+const std::string PROJECT_CONVERTER_NAME = "ImagesAnnotatorConverter";
 /// @brief Global project' build version
 const std::string PROJECT_BUILD_VERSION = "0.11.0";
 /// @brief Global project' configure git commit hash

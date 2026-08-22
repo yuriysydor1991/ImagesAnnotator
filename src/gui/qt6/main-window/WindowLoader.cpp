@@ -294,6 +294,23 @@ void WindowLoader::build_menu_bar()
   add_menu_action(project, QStringLiteral("Import YOLO4 from folder"),
                   WindowDataContext::annotations_import_yolo4_2_folder_id);
   add_menu_action(
+      project, QStringLiteral("Import Ultralytics YOLO detection from folder"),
+      WindowDataContext::annotations_import_ultralytics_detect_2_folder_id);
+  add_menu_action(
+      project,
+      QStringLiteral("Import Ultralytics YOLO oriented boxes from folder"),
+      WindowDataContext::annotations_import_ultralytics_obb_2_folder_id);
+  add_menu_action(
+      project,
+      QStringLiteral("Import Ultralytics YOLO segmentation from folder"),
+      WindowDataContext::annotations_import_ultralytics_segment_2_folder_id);
+  add_menu_action(project, QStringLiteral("Import COCO JSON from folder"),
+                  WindowDataContext::annotations_import_coco_2_folder_id);
+  add_menu_action(project, QStringLiteral("Import Pascal VOC XML from folder"),
+                  WindowDataContext::annotations_import_pascal_voc_2_folder_id);
+  add_menu_action(project, QStringLiteral("Import Create ML JSON from folder"),
+                  WindowDataContext::annotations_import_createml_2_folder_id);
+  add_menu_action(
       project, QStringLiteral("Import PyTorch Vision from folder"),
       WindowDataContext::annotations_import_pytorchvision_2_folder_id);
   project->addSeparator();
@@ -737,6 +754,42 @@ QAction* WindowLoader::get_import_yolo4_folder_mi()
 {
   return get_object<QAction>(
       WindowDataContext::annotations_import_yolo4_2_folder_id);
+}
+
+QAction* WindowLoader::get_import_ultralytics_detect_folder_mi()
+{
+  return get_object<QAction>(
+      WindowDataContext::annotations_import_ultralytics_detect_2_folder_id);
+}
+
+QAction* WindowLoader::get_import_ultralytics_obb_folder_mi()
+{
+  return get_object<QAction>(
+      WindowDataContext::annotations_import_ultralytics_obb_2_folder_id);
+}
+
+QAction* WindowLoader::get_import_ultralytics_segment_folder_mi()
+{
+  return get_object<QAction>(
+      WindowDataContext::annotations_import_ultralytics_segment_2_folder_id);
+}
+
+QAction* WindowLoader::get_import_coco_folder_mi()
+{
+  return get_object<QAction>(
+      WindowDataContext::annotations_import_coco_2_folder_id);
+}
+
+QAction* WindowLoader::get_import_pascal_voc_folder_mi()
+{
+  return get_object<QAction>(
+      WindowDataContext::annotations_import_pascal_voc_2_folder_id);
+}
+
+QAction* WindowLoader::get_import_createml_folder_mi()
+{
+  return get_object<QAction>(
+      WindowDataContext::annotations_import_createml_2_folder_id);
 }
 
 QAction* WindowLoader::get_import_pytorchvision_folder_mi()

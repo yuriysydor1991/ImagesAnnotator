@@ -39,8 +39,9 @@ namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 /**
- * @brief Handles the annotations import menu items (plain txt, the darknet
- * YOLO4 directory and the PyTorch Vision layout) - the mirror image of
+ * @brief Handles the annotations import menu items (the nine dataset layouts
+ * the ImagesAnnotator-DataImporters library reads, which are the very nine the
+ * export side writes) - the mirror image of
  * ExportEventsHandler.
  *
  * Unlike an export, an import needs no project to be open: it fills one. What
@@ -58,10 +59,16 @@ class ImportEventsHandler : public AbstractWindowEventHandler
  protected:
   void handle_import_txt();
   void handle_import_yolo4();
+  void handle_import_ultralytics_detect();
+  void handle_import_ultralytics_obb();
+  void handle_import_ultralytics_segment();
+  void handle_import_coco();
+  void handle_import_pascal_voc();
+  void handle_import_createml();
   void handle_import_pytorch();
 
   /**
-   * @brief The shared body of the three imports: the same directory chooser
+   * @brief The shared body of every import: the same directory chooser
    * and spinner, with only the chooser and the event to submit left to the
    * caller.
    *

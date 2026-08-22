@@ -58,6 +58,25 @@ TEST(UTEST_Qt6WindowDataContext, get_ids_contains_every_import_id)
             1U);
   EXPECT_EQ(
       ids.count(
+          WindowDataContext::annotations_import_ultralytics_detect_2_folder_id),
+      1U);
+  EXPECT_EQ(
+      ids.count(
+          WindowDataContext::annotations_import_ultralytics_obb_2_folder_id),
+      1U);
+  EXPECT_EQ(ids.count(WindowDataContext::
+                          annotations_import_ultralytics_segment_2_folder_id),
+            1U);
+  EXPECT_EQ(ids.count(WindowDataContext::annotations_import_coco_2_folder_id),
+            1U);
+  EXPECT_EQ(
+      ids.count(WindowDataContext::annotations_import_pascal_voc_2_folder_id),
+      1U);
+  EXPECT_EQ(
+      ids.count(WindowDataContext::annotations_import_createml_2_folder_id),
+      1U);
+  EXPECT_EQ(
+      ids.count(
           WindowDataContext::annotations_import_pytorchvision_2_folder_id),
       1U);
 }

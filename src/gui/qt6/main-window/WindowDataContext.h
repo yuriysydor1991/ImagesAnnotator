@@ -163,6 +163,23 @@ class WindowDataContext
       annotations_import_yolo4_2_folder_id =
           "annotations_import_yolo4_2_folder";
   inline static constexpr const char* const
+      annotations_import_ultralytics_detect_2_folder_id =
+          "annotations_import_ultralytics_detect_2_folder";
+  inline static constexpr const char* const
+      annotations_import_ultralytics_obb_2_folder_id =
+          "annotations_import_ultralytics_obb_2_folder";
+  inline static constexpr const char* const
+      annotations_import_ultralytics_segment_2_folder_id =
+          "annotations_import_ultralytics_segment_2_folder";
+  inline static constexpr const char* const
+      annotations_import_coco_2_folder_id = "annotations_import_coco_2_folder";
+  inline static constexpr const char* const
+      annotations_import_pascal_voc_2_folder_id =
+          "annotations_import_pascal_voc_2_folder";
+  inline static constexpr const char* const
+      annotations_import_createml_2_folder_id =
+          "annotations_import_createml_2_folder";
+  inline static constexpr const char* const
       annotations_import_pytorchvision_2_folder_id =
           "annotations_import_pytorchvision_2_folder";
 

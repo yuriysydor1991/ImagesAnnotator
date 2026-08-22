@@ -6,4 +6,4 @@ To proceed the application implementation right away look for the `GtkmmIniter.c
 
 It's preferable to create other directories which would contain implemented components of the application and include them into the `GtkmmIniter` class implementation, rather than put all the code inside the `GtkmmIniter` class itself (which may be justified only for a trivial project).
 
-Additional code may be introduced into the `Application` class or by creating a descendant of the `IApplication` interface class in order to provide variability at the executable level.
+Additional code may be introduced into the `Application` class or by creating a descendant of the `IApplication` interface class in order to provide variability at the executable level. The `app::converter::ApplicationConverterComponent` under `src/app/converter` is such a descendant: it brings up the very same annotations pipeline the `Application` does and runs a format conversion over it instead of a graphical interface, which is what the `--convert-*` command line flags select in the `ApplicationFactory`.

@@ -41,6 +41,8 @@ After annotating the images of interest, use the export submenu of the `Annotati
 
 A dataset that already exists on the disk goes the other way: the import submenu beside it reads back every one of the nine layouts the export submenu writes - the plain text one, the darknet YOLO v4 one, the three Ultralytics YOLO ones, the COCO and the Create ML JSON ones, the Pascal VOC XML one and the PyTorch Vision one - into the project being edited. The recovered images are appended to the ones already opened - an image the project already holds is kept as it was - so an import may be repeated, and it writes nothing into the directory it reads.
 
+Neither half needs the window at all. Given the `--convert-from`, `--convert-src`, `--convert-to` and `--convert-dst` flags the executable reads a dataset of one format and writes it back in another one without starting any graphical interface, reporting what it prepares and converts through the log messages alone - so a dataset conversion fits a script and a build pipeline. The annotations project of the application itself is one of the formats, beside the nine dataset layouts of the menus. See [Converting the annotations formats](/doc/sections/en_US/6-2-3-converting-the-annotations-formats.md).
+
 # Dependencies
 
 The application is built against three standalone libraries of its own - the
@@ -155,6 +157,7 @@ Reading a dataset back is the mirror of that: the nine importers the application
     1. Command line run
         1. [Searching for the generated executable](/doc/sections/en_US/6-2-1-searching-for-the-generated-executable.md)
         1. [Starting the generated executable](/doc/sections/en_US/6-2-2-starting-the-generated-executable.md)
+        1. [Converting the annotations formats](/doc/sections/en_US/6-2-3-converting-the-annotations-formats.md)
     1. Tests run
         1. [Run tests by the ctest](/doc/sections/en_US/6-3-1-run-tests-by-the-ctest.md)
 1. [Installing](/doc/sections/en_US/7-installing.md)

@@ -31,6 +31,12 @@ add_executable(
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportCreateMLRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportPlainTxt2FolderRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportYolo4FolderRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportUltralyticsDetectRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportUltralyticsObbRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportUltralyticsSegmentRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportCocoRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportPascalVocRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportCreateMLRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportPyTorchVisionRequest.cpp
   ${GUI_IMAGE_CROPPER_SRC}
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/Export2PyTorchVisionRequest.cpp

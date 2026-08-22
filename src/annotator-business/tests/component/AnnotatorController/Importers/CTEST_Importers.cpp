@@ -12,8 +12,14 @@
 #include "src/annotator-events/ImagesAnnotatorEventController.h"
 #include "src/annotator-events/events/EventsFactory.h"
 #include "src/annotator-events/events/IImageSizeFacilityProvider.h"
+#include "src/annotator-events/events/ImportCocoRequest.h"
+#include "src/annotator-events/events/ImportCreateMLRequest.h"
+#include "src/annotator-events/events/ImportPascalVocRequest.h"
 #include "src/annotator-events/events/ImportPlainTxt2FolderRequest.h"
 #include "src/annotator-events/events/ImportPyTorchVisionRequest.h"
+#include "src/annotator-events/events/ImportUltralyticsDetectRequest.h"
+#include "src/annotator-events/events/ImportUltralyticsObbRequest.h"
+#include "src/annotator-events/events/ImportUltralyticsSegmentRequest.h"
 #include "src/annotator-events/events/ImportYolo4FolderRequest.h"
 #include "src/app/ApplicationContext.h"
 #include "src/log/log.h"
@@ -139,6 +145,40 @@ class CTEST_Importers : public CTEST_AnnotatorController
     return db.front()->rects.front();
   }
 
+  /**
+   * @brief Writes the Ultralytics YOLO directory of one image and the one
+   * rectangle the given label line names.
+   */
+  void given_the_ultralytics_dataset(const std::string& labelLine)
+  {
+    given_file("data.yaml",
+               "train: images/train\n"
+               "names:\n"
+               "  0: 'cat'\n");
+    given_file("images/train/a.png", "not-a-real-image");
+    given_file("labels/train/a.txt", labelLine);
+  }
+
+  /**
+   * @brief Expects the database to hold the one image and the one rectangle
+   * every dataset of this suite carries: a 100x40 box at 50,20.
+   *
+   * @param name The annotation name that rectangle is to carry.
+   */
+  void expect_the_recovered_box(const std::string& name)
+  {
+    ASSERT_EQ(controller->get_images_db().size(), 1U);
+
+    auto rect = only_rect();
+
+    ASSERT_NE(rect, nullptr);
+    EXPECT_EQ(rect->name, name);
+    EXPECT_EQ(rect->x, 50);
+    EXPECT_EQ(rect->y, 20);
+    EXPECT_EQ(rect->width, 100);
+    EXPECT_EQ(rect->height, 40);
+  }
+
   fs::path import_dir;
 };
 
@@ -221,6 +261,123 @@ TEST_F(CTEST_Importers, pytorch_vision_request_fills_the_database)
 
 // The library merges by the image path, so the very same directory imported
 // twice leaves the project with the images it already had.
+// The three Ultralytics YOLO layouts differ in the one label file line only,
+// which is what these three cases show: one and the same box comes back out of
+// the centre and size of the detection line, out of the four corners of the
+// oriented one and out of the polygon of the segmentation one.
+TEST_F(CTEST_Importers, ultralytics_detect_request_fills_the_database)
+{
+  given_the_ultralytics_dataset("0 0.5 0.4 0.5 0.4\n");
+
+  auto event =
+      std::make_shared<ImportUltralyticsDetectRequest>(import_dir.string());
+  event->sizer = sizer();
+
+  controller->handle(event);
+
+  ASSERT_EQ(controller->get_images_db().size(), 1U);
+  EXPECT_EQ(controller->get_images_db().front()->iwidth, image_width);
+
+  expect_the_recovered_box("cat");
+}
+
+TEST_F(CTEST_Importers, ultralytics_obb_request_fills_the_database)
+{
+  given_the_ultralytics_dataset("0 0.25 0.2 0.75 0.2 0.75 0.6 0.25 0.6\n");
+
+  auto event =
+      std::make_shared<ImportUltralyticsObbRequest>(import_dir.string());
+  event->sizer = sizer();
+
+  controller->handle(event);
+
+  expect_the_recovered_box("cat");
+}
+
+TEST_F(CTEST_Importers, ultralytics_segment_request_fills_the_database)
+{
+  given_the_ultralytics_dataset("0 0.25 0.2 0.75 0.2 0.75 0.6 0.25 0.6\n");
+
+  auto event =
+      std::make_shared<ImportUltralyticsSegmentRequest>(import_dir.string());
+  event->sizer = sizer();
+
+  controller->handle(event);
+
+  expect_the_recovered_box("cat");
+}
+
+// The COCO descriptor carries the image size itself, so this is the layout
+// which needs nothing of the reader the request hands over.
+TEST_F(CTEST_Importers, coco_request_fills_the_database)
+{
+  given_file("images/a.png", "not-a-real-image");
+  given_file("annotations/instances_default.json", R"({
+"images": [{"id": 1, "file_name": "a.png", "width": 640, "height": 400}],
+"annotations": [{"id": 1, "image_id": 1, "category_id": 1,
+                 "bbox": [50, 20, 100, 40]}],
+"categories": [{"id": 1, "name": "cat"}]})");
+
+  auto event = std::make_shared<ImportCocoRequest>(import_dir.string());
+  event->sizer = sizer();
+
+  controller->handle(event);
+
+  ASSERT_EQ(controller->get_images_db().size(), 1U);
+  // the descriptor size wins over the one the reader would have reported
+  EXPECT_EQ(controller->get_images_db().front()->iwidth, 640);
+
+  expect_the_recovered_box("cat");
+}
+
+TEST_F(CTEST_Importers, pascal_voc_request_fills_the_database)
+{
+  given_file("JPEGImages/a.png", "not-a-real-image");
+  given_file("Annotations/a.xml", R"(<annotation>
+  <folder>JPEGImages</folder>
+  <filename>a.png</filename>
+  <size><width>640</width><height>400</height><depth>3</depth></size>
+  <object>
+    <name>cat</name>
+    <bndbox><xmin>50</xmin><ymin>20</ymin><xmax>150</xmax><ymax>60</ymax></bndbox>
+  </object>
+</annotation>)");
+
+  auto event = std::make_shared<ImportPascalVocRequest>(import_dir.string());
+  event->sizer = sizer();
+
+  controller->handle(event);
+
+  ASSERT_EQ(controller->get_images_db().size(), 1U);
+  EXPECT_EQ(controller->get_images_db().front()->iwidth, 640);
+
+  expect_the_recovered_box("cat");
+}
+
+// The Create ML descriptor writes the centre of a box, which comes back on the
+// corner it was drawn from.
+TEST_F(CTEST_Importers, createml_request_fills_the_database)
+{
+  given_file("a.png", "not-a-real-image");
+  given_file("annotations.json", R"([
+  {"imagefilename": "a.png", "annotation": [
+    {"label": "cat", "coordinates": {"x": 100, "y": 40, "width": 100,
+                                     "height": 40}}
+  ]}
+])");
+
+  auto event = std::make_shared<ImportCreateMLRequest>(import_dir.string());
+  event->sizer = sizer();
+
+  controller->handle(event);
+
+  ASSERT_EQ(controller->get_images_db().size(), 1U);
+  // the layout carries no size, so the reader of the request filled it in
+  EXPECT_EQ(controller->get_images_db().front()->iwidth, image_width);
+
+  expect_the_recovered_box("cat");
+}
+
 TEST_F(CTEST_Importers, importing_one_directory_twice_adds_its_images_once)
 {
   given_file("cat.txt", "/imgs/a.png 1 50 20 100 40\n");

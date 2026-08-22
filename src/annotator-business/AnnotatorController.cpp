@@ -136,6 +136,12 @@ bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
   ctx->eventer->subscribe(ExportCreateMLRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ImportPlainTxt2FolderRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ImportYolo4FolderRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ImportUltralyticsDetectRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ImportUltralyticsObbRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ImportUltralyticsSegmentRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ImportCocoRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ImportPascalVocRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ImportCreateMLRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ImportPyTorchVisionRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(DeleteCurrentImageRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(LoadImagesFromWebPageHandlerPtr{mptr});
@@ -583,6 +589,122 @@ void AnnotatorController::handle(ImportYolo4FolderRequestPtr event)
                                                 event->sizer)) {
     const std::string e = "Failure during the import from a Yolo4 folder at " +
                           event->src_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ImportUltralyticsDetectRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_import<UltralyticsDetectImportLibraryContext>(
+          event->src_folder_path, event->sizer)) {
+    const std::string e =
+        "Failure during the import from an Ultralytics YOLO detection folder "
+        "at " +
+        event->src_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ImportUltralyticsObbRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_import<UltralyticsObbImportLibraryContext>(event->src_folder_path,
+                                                         event->sizer)) {
+    const std::string e =
+        "Failure during the import from an Ultralytics YOLO oriented bounding "
+        "box folder at " +
+        event->src_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ImportUltralyticsSegmentRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_import<UltralyticsSegmentImportLibraryContext>(
+          event->src_folder_path, event->sizer)) {
+    const std::string e =
+        "Failure during the import from an Ultralytics YOLO segmentation "
+        "folder at " +
+        event->src_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ImportCocoRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_import<CocoImportLibraryContext>(event->src_folder_path,
+                                               event->sizer)) {
+    const std::string e = "Failure during the import from a COCO folder at " +
+                          event->src_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ImportPascalVocRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_import<PascalVocImportLibraryContext>(event->src_folder_path,
+                                                    event->sizer)) {
+    const std::string e =
+        "Failure during the import from a Pascal VOC folder at " +
+        event->src_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ImportCreateMLRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_import<CreateMLImportLibraryContext>(event->src_folder_path,
+                                                   event->sizer)) {
+    const std::string e =
+        "Failure during the import from a Create ML folder at " +
+        event->src_folder_path;
     LOGE(e);
     emitDisplayError(e);
   }

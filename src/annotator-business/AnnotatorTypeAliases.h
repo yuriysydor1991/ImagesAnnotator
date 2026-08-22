@@ -58,10 +58,22 @@
 #include "src/annotator-events/events/ExportYolo4FolderRequestHandler.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
+#include "src/annotator-events/events/ImportCocoRequest.h"
+#include "src/annotator-events/events/ImportCocoRequestHandler.h"
+#include "src/annotator-events/events/ImportCreateMLRequest.h"
+#include "src/annotator-events/events/ImportCreateMLRequestHandler.h"
+#include "src/annotator-events/events/ImportPascalVocRequest.h"
+#include "src/annotator-events/events/ImportPascalVocRequestHandler.h"
 #include "src/annotator-events/events/ImportPlainTxt2FolderRequest.h"
 #include "src/annotator-events/events/ImportPlainTxt2FolderRequestHandler.h"
 #include "src/annotator-events/events/ImportPyTorchVisionRequest.h"
 #include "src/annotator-events/events/ImportPyTorchVisionRequestHandler.h"
+#include "src/annotator-events/events/ImportUltralyticsDetectRequest.h"
+#include "src/annotator-events/events/ImportUltralyticsDetectRequestHandler.h"
+#include "src/annotator-events/events/ImportUltralyticsObbRequest.h"
+#include "src/annotator-events/events/ImportUltralyticsObbRequestHandler.h"
+#include "src/annotator-events/events/ImportUltralyticsSegmentRequest.h"
+#include "src/annotator-events/events/ImportUltralyticsSegmentRequestHandler.h"
 #include "src/annotator-events/events/ImportYolo4FolderRequest.h"
 #include "src/annotator-events/events/ImportYolo4FolderRequestHandler.h"
 #include "src/annotator-events/events/LoadImagesFromWebPageHandler.h"
@@ -121,6 +133,15 @@ class AnnotatorTypeAliases
   using ImportLibraryContextPtr = iadi::LibraryContextPtr;
   using PlainTxtImportLibraryContext = iadi::PlainTxtImportLibraryContext;
   using Yolo4ImportLibraryContext = iadi::Yolo4ImportLibraryContext;
+  using UltralyticsDetectImportLibraryContext =
+      iadi::UltralyticsDetectImportLibraryContext;
+  using UltralyticsObbImportLibraryContext =
+      iadi::UltralyticsObbImportLibraryContext;
+  using UltralyticsSegmentImportLibraryContext =
+      iadi::UltralyticsSegmentImportLibraryContext;
+  using CocoImportLibraryContext = iadi::CocoImportLibraryContext;
+  using PascalVocImportLibraryContext = iadi::PascalVocImportLibraryContext;
+  using CreateMLImportLibraryContext = iadi::CreateMLImportLibraryContext;
   using PyTorchImportLibraryContext = iadi::PyTorchImportLibraryContext;
   using RequestImagesDirProviderHandler =
       events::events::RequestImagesDirProviderHandler;
@@ -167,6 +188,27 @@ class AnnotatorTypeAliases
       events::events::ImportYolo4FolderRequestPtr;
   using ImportYolo4FolderRequestHandlerPtr =
       events::events::ImportYolo4FolderRequestHandlerPtr;
+  using ImportUltralyticsDetectRequestPtr =
+      events::events::ImportUltralyticsDetectRequestPtr;
+  using ImportUltralyticsDetectRequestHandlerPtr =
+      events::events::ImportUltralyticsDetectRequestHandlerPtr;
+  using ImportUltralyticsObbRequestPtr =
+      events::events::ImportUltralyticsObbRequestPtr;
+  using ImportUltralyticsObbRequestHandlerPtr =
+      events::events::ImportUltralyticsObbRequestHandlerPtr;
+  using ImportUltralyticsSegmentRequestPtr =
+      events::events::ImportUltralyticsSegmentRequestPtr;
+  using ImportUltralyticsSegmentRequestHandlerPtr =
+      events::events::ImportUltralyticsSegmentRequestHandlerPtr;
+  using ImportCocoRequestPtr = events::events::ImportCocoRequestPtr;
+  using ImportCocoRequestHandlerPtr =
+      events::events::ImportCocoRequestHandlerPtr;
+  using ImportPascalVocRequestPtr = events::events::ImportPascalVocRequestPtr;
+  using ImportPascalVocRequestHandlerPtr =
+      events::events::ImportPascalVocRequestHandlerPtr;
+  using ImportCreateMLRequestPtr = events::events::ImportCreateMLRequestPtr;
+  using ImportCreateMLRequestHandlerPtr =
+      events::events::ImportCreateMLRequestHandlerPtr;
   using ImportPyTorchVisionRequestPtr =
       events::events::ImportPyTorchVisionRequestPtr;
   using ImportPyTorchVisionRequestHandlerPtr =

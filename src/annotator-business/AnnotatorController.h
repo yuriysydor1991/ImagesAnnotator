@@ -58,10 +58,22 @@
 #include "src/annotator-events/events/ExportYolo4FolderRequestHandler.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
+#include "src/annotator-events/events/ImportCocoRequest.h"
+#include "src/annotator-events/events/ImportCocoRequestHandler.h"
+#include "src/annotator-events/events/ImportCreateMLRequest.h"
+#include "src/annotator-events/events/ImportCreateMLRequestHandler.h"
+#include "src/annotator-events/events/ImportPascalVocRequest.h"
+#include "src/annotator-events/events/ImportPascalVocRequestHandler.h"
 #include "src/annotator-events/events/ImportPlainTxt2FolderRequest.h"
 #include "src/annotator-events/events/ImportPlainTxt2FolderRequestHandler.h"
 #include "src/annotator-events/events/ImportPyTorchVisionRequest.h"
 #include "src/annotator-events/events/ImportPyTorchVisionRequestHandler.h"
+#include "src/annotator-events/events/ImportUltralyticsDetectRequest.h"
+#include "src/annotator-events/events/ImportUltralyticsDetectRequestHandler.h"
+#include "src/annotator-events/events/ImportUltralyticsObbRequest.h"
+#include "src/annotator-events/events/ImportUltralyticsObbRequestHandler.h"
+#include "src/annotator-events/events/ImportUltralyticsSegmentRequest.h"
+#include "src/annotator-events/events/ImportUltralyticsSegmentRequestHandler.h"
 #include "src/annotator-events/events/ImportYolo4FolderRequest.h"
 #include "src/annotator-events/events/ImportYolo4FolderRequestHandler.h"
 #include "src/annotator-events/events/LoadImagesFromWebPageHandler.h"
@@ -101,6 +113,12 @@ class AnnotatorController
       virtual public events::events::ExportCreateMLRequestHandler,
       virtual public events::events::ImportPlainTxt2FolderRequestHandler,
       virtual public events::events::ImportYolo4FolderRequestHandler,
+      virtual public events::events::ImportUltralyticsDetectRequestHandler,
+      virtual public events::events::ImportUltralyticsObbRequestHandler,
+      virtual public events::events::ImportUltralyticsSegmentRequestHandler,
+      virtual public events::events::ImportCocoRequestHandler,
+      virtual public events::events::ImportPascalVocRequestHandler,
+      virtual public events::events::ImportCreateMLRequestHandler,
       virtual public events::events::ImportPyTorchVisionRequestHandler,
       virtual public events::events::DeleteCurrentImageRequestHandler,
       virtual public events::events::LoadImagesFromWebPageHandler,
@@ -129,6 +147,12 @@ class AnnotatorController
   virtual void handle(ExportCreateMLRequestPtr event) override;
   virtual void handle(ImportPlainTxt2FolderRequestPtr event) override;
   virtual void handle(ImportYolo4FolderRequestPtr event) override;
+  virtual void handle(ImportUltralyticsDetectRequestPtr event) override;
+  virtual void handle(ImportUltralyticsObbRequestPtr event) override;
+  virtual void handle(ImportUltralyticsSegmentRequestPtr event) override;
+  virtual void handle(ImportCocoRequestPtr event) override;
+  virtual void handle(ImportPascalVocRequestPtr event) override;
+  virtual void handle(ImportCreateMLRequestPtr event) override;
   virtual void handle(ImportPyTorchVisionRequestPtr event) override;
   virtual void handle(DeleteCurrentImageRequestPtr event) override;
   virtual void handle(LoadImagesFromWebPagePtr event) override;

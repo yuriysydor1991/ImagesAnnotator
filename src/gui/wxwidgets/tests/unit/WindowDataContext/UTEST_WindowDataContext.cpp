@@ -29,6 +29,12 @@ TEST(UTEST_WxWindowDataContext, get_ids_contains_every_import_menu_id)
 
   EXPECT_EQ(ids.count(WindowDataContext::ID_IMPORT_TXT), 1U);
   EXPECT_EQ(ids.count(WindowDataContext::ID_IMPORT_YOLO4), 1U);
+  EXPECT_EQ(ids.count(WindowDataContext::ID_IMPORT_ULTRALYTICS_DETECT), 1U);
+  EXPECT_EQ(ids.count(WindowDataContext::ID_IMPORT_ULTRALYTICS_OBB), 1U);
+  EXPECT_EQ(ids.count(WindowDataContext::ID_IMPORT_ULTRALYTICS_SEGMENT), 1U);
+  EXPECT_EQ(ids.count(WindowDataContext::ID_IMPORT_COCO), 1U);
+  EXPECT_EQ(ids.count(WindowDataContext::ID_IMPORT_PASCAL_VOC), 1U);
+  EXPECT_EQ(ids.count(WindowDataContext::ID_IMPORT_CREATEML), 1U);
   EXPECT_EQ(ids.count(WindowDataContext::ID_IMPORT_PYTORCH), 1U);
 }
 

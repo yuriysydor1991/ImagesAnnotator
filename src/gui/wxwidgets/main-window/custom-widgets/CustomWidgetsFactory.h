@@ -120,6 +120,15 @@ class CustomWidgetsFactory
   virtual bool ask_createml_export_folder(wxWindow* parent, std::string& out);
   virtual bool ask_txt_import_folder(wxWindow* parent, std::string& out);
   virtual bool ask_yolo4_import_folder(wxWindow* parent, std::string& out);
+  virtual bool ask_ultralytics_detect_import_folder(wxWindow* parent,
+                                                    std::string& out);
+  virtual bool ask_ultralytics_obb_import_folder(wxWindow* parent,
+                                                 std::string& out);
+  virtual bool ask_ultralytics_segment_import_folder(wxWindow* parent,
+                                                     std::string& out);
+  virtual bool ask_coco_import_folder(wxWindow* parent, std::string& out);
+  virtual bool ask_pascal_voc_import_folder(wxWindow* parent, std::string& out);
+  virtual bool ask_createml_import_folder(wxWindow* parent, std::string& out);
   virtual bool ask_pytorch_import_folder(wxWindow* parent, std::string& out);
   virtual bool ask_webpage_url(wxWindow* parent, std::string& out);
 

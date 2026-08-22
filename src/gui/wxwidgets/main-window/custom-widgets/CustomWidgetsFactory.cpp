@@ -245,6 +245,45 @@ bool CustomWidgetsFactory::ask_yolo4_import_folder(wxWindow* parent,
   return ask_folder(parent, "Select YOLO4 import directory", out);
 }
 
+bool CustomWidgetsFactory::ask_ultralytics_detect_import_folder(
+    wxWindow* parent, std::string& out)
+{
+  return ask_folder(parent,
+                    "Select Ultralytics YOLO detection import directory", out);
+}
+
+bool CustomWidgetsFactory::ask_ultralytics_obb_import_folder(wxWindow* parent,
+                                                             std::string& out)
+{
+  return ask_folder(
+      parent, "Select Ultralytics YOLO oriented boxes import directory", out);
+}
+
+bool CustomWidgetsFactory::ask_ultralytics_segment_import_folder(
+    wxWindow* parent, std::string& out)
+{
+  return ask_folder(
+      parent, "Select Ultralytics YOLO segmentation import directory", out);
+}
+
+bool CustomWidgetsFactory::ask_coco_import_folder(wxWindow* parent,
+                                                  std::string& out)
+{
+  return ask_folder(parent, "Select COCO import directory", out);
+}
+
+bool CustomWidgetsFactory::ask_pascal_voc_import_folder(wxWindow* parent,
+                                                        std::string& out)
+{
+  return ask_folder(parent, "Select Pascal VOC import directory", out);
+}
+
+bool CustomWidgetsFactory::ask_createml_import_folder(wxWindow* parent,
+                                                      std::string& out)
+{
+  return ask_folder(parent, "Select Create ML import directory", out);
+}
+
 bool CustomWidgetsFactory::ask_pytorch_import_folder(wxWindow* parent,
                                                      std::string& out)
 {

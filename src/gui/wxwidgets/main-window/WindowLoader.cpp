@@ -116,6 +116,18 @@ wxMenuBar* WindowLoader::build_menu_bar()
                   "Import plain txt from folder");
   project->Append(WindowDataContext::ID_IMPORT_YOLO4,
                   "Import YOLO4 from folder");
+  project->Append(WindowDataContext::ID_IMPORT_ULTRALYTICS_DETECT,
+                  "Import Ultralytics YOLO detection from folder");
+  project->Append(WindowDataContext::ID_IMPORT_ULTRALYTICS_OBB,
+                  "Import Ultralytics YOLO oriented boxes from folder");
+  project->Append(WindowDataContext::ID_IMPORT_ULTRALYTICS_SEGMENT,
+                  "Import Ultralytics YOLO segmentation from folder");
+  project->Append(WindowDataContext::ID_IMPORT_COCO,
+                  "Import COCO JSON from folder");
+  project->Append(WindowDataContext::ID_IMPORT_PASCAL_VOC,
+                  "Import Pascal VOC XML from folder");
+  project->Append(WindowDataContext::ID_IMPORT_CREATEML,
+                  "Import Create ML JSON from folder");
   project->Append(WindowDataContext::ID_IMPORT_PYTORCH,
                   "Import PyTorch Vision from folder");
   project->AppendSeparator();

@@ -27,7 +27,7 @@ endif()
 # (ON by default), LIB_INCLUDE_MICRO_IN_NAME and LIB_NAME_SUFFIX options may
 # shorten or extend that name. The name the find_package() probe asks for is
 # therefore a cache variable rather than a literal.
-set(TEMPLATE_APP_IADI_PACKAGE "ImagesAnnotatorDataImporters-0.11" CACHE STRING "The ImagesAnnotator-DataImporters CMake package (and target) name to look for")
+set(TEMPLATE_APP_IADI_PACKAGE "ImagesAnnotatorDataImporters-0.13" CACHE STRING "The ImagesAnnotator-DataImporters CMake package (and target) name to look for")
 
 # Where the library comes from. Nothing in this build fetches it - the two
 # variables are what the packager manifests, which have to build it inside

@@ -54,7 +54,7 @@
 <rect x="1070" y="302" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
 <rect x="1070" y="308" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
 <text x="634" y="311" class="cname">ImagesAnnotator-DataImporters</text>
-<text x="634" y="325" class="sub">ImagesAnnotatorDataImporters011</text>
+<text x="634" y="325" class="sub">ImagesAnnotatorDataImporters013</text>
 <line x1="620" y1="335" x2="1100" y2="335" stroke="#3a3a3a" stroke-width="1"/>
 <text x="630" y="349" class="member">reads three dataset layouts back into a project</text>
 <text x="630" y="364" class="member">declares IImageSizeFacility</text>

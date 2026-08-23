@@ -9,7 +9,7 @@ package "The application" #FFFFFF {
 
 package "The ImagesAnnotator libraries" #F4F4F4 {
   component "ImagesAnnotator-DataExporters\nImagesAnnotatorDataExporters011" as IADE
-  component "ImagesAnnotator-DataImporters\nImagesAnnotatorDataImporters011" as IADI
+  component "ImagesAnnotator-DataImporters\nImagesAnnotatorDataImporters013" as IADI
   component "ImagesAnnotator-DataDrivers\nImagesAnnotatorDataDrivers011" as IADD
 }
 

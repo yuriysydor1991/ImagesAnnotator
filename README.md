@@ -37,9 +37,19 @@ On the right panel there are list all the annotations in the project list box an
 
 On the bottom of the window there is a status panel that currently indicates only opened JSON db file.
 
-After annotating the images of interest, use the export submenu of the `Annotations` menu to export data to widely used annotation formats.
+After annotating the images of interest, use the export submenu of the `Annotations` menu to export data to widely used annotation formats. Nine dataset layouts are written, and the import submenu beside it reads back every one of them:
 
-A dataset that already exists on the disk goes the other way: the import submenu beside it reads back every one of the nine layouts the export submenu writes - the plain text one, the darknet YOLO v4 one, the three Ultralytics YOLO ones, the COCO and the Create ML JSON ones, the Pascal VOC XML one and the PyTorch Vision one - into the project being edited. The recovered images are appended to the ones already opened - an image the project already holds is kept as it was - so an import may be repeated, and it writes nothing into the directory it reads.
+- **Plain text** - one `<annotation-name>.txt` file per annotation name, each line naming an image and its rectangles;
+- **YOLO v4 (darknet)** - the whole darknet training directory of the detector: `data/obj.names`, `data/obj.data`, the `cfg/yolov4-obj.cfg` descriptor of the network written for the classes of the project, the copied images with their normalised `.txt` label files, the `train.txt` and `val.txt` lists and an empty `backup/`;
+- **Ultralytics YOLO - detection** - the layout every Ultralytics release reads: a single `data.yaml` descriptor over the `images/train` and `labels/train` directories, one `class centre-x centre-y width height` line per rectangle;
+- **Ultralytics YOLO - oriented bounding boxes** - the same directory and descriptor, one line of the four box corners per rectangle;
+- **Ultralytics YOLO - segmentation** - the same directory and descriptor, one polygon line per rectangle;
+- **COCO JSON** - the copied images and the single `annotations/instances_default.json` descriptor over them, the one Detectron2, MMDetection, torchvision, CVAT, FiftyOne, Label Studio and Roboflow read;
+- **Pascal VOC XML** - the copied images under `JPEGImages/`, one `Annotations/<stem>.xml` descriptor per image over them and the `ImageSets/Main` lists naming those, the very files [LabelImg](https://github.com/HumanSignal/labelImg) writes and reads;
+- **Create ML JSON** - the copied images and the single `annotations.json` descriptor beside them in one flat directory, the folder Apple's Create ML takes to train a Core ML detector;
+- **PyTorch Vision `ImageFolder`** - one directory per annotation name holding the images cropped down to the rectangles of that name.
+
+A dataset that already exists on the disk goes the other way: the import submenu beside the export one reads every one of those nine layouts back into the project being edited. The recovered images are appended to the ones already opened - an image the project already holds is kept as it was - so an import may be repeated, and it writes nothing into the directory it reads.
 
 Neither half needs the window at all. Given the `--convert-from`, `--convert-src`, `--convert-to` and `--convert-dst` flags the executable reads a dataset of one format and writes it back in another one without starting any graphical interface, reporting what it prepares and converts through the log messages alone - so a dataset conversion fits a script and a build pipeline. The annotations project of the application itself is one of the formats, beside the nine dataset layouts of the menus. See [Converting the annotations formats](/doc/sections/en_US/6-2-3-converting-the-annotations-formats.md).
 
@@ -80,7 +90,7 @@ plantuml -tsvg -o ../images doc/diagrams/plantuml/dependencies.puml
 
 Current ImagesAnnotator application stores the annotations database in the `JSON` file format. It makes it easy to implement a custom export script into required format to train neural network with the help of `Python` or `Bash`.
 
-The exporters the application itself ships - the plain text one, the darknet YOLO v4 one, the three Ultralytics YOLO ones - detection, oriented bounding boxes and segmentation - the COCO JSON one, the Pascal VOC XML one, the Create ML JSON one and the PyTorch Vision one - live in the standalone [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git) library, so a new format may also be added there instead, and every tool built on that library gains it at once. See [Enabling the ImagesAnnotator-DataExporters library](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md).
+The exporters the application itself ships - one for every one of the nine layouts listed under [Usage](#usage) - live in the standalone [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git) library, so a new format may also be added there instead, and every tool built on that library gains it at once. See [Enabling the ImagesAnnotator-DataExporters library](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md).
 
 Reading a dataset back is the mirror of that: the nine importers the application ships - one for every layout it exports - live in the standalone [ImagesAnnotator-DataImporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataImporters.git) library. See [Enabling the ImagesAnnotator-DataImporters library](/doc/sections/en_US/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md).
 

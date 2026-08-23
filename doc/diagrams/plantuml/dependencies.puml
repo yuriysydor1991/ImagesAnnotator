@@ -5,6 +5,7 @@ title The ImagesAnnotator dependencies
 package "The application" #FFFFFF {
   component "ImagesAnnotator" as APP
   component "GUI toolkit\nGTKmm3 | GTKmm4 | Qt6 | wxWidgets" as GUI
+  component "ImagesAnnotatorConverter" as CONV
 }
 
 package "The ImagesAnnotator libraries" #F4F4F4 {
@@ -29,6 +30,17 @@ note right of APP
   USE_WXWIDGETS options.
 end note
 
+note bottom of CONV
+  The very same components built into a second
+  binary with no GUI toolkit at all, so it
+  implements neither IImageCropperFacility nor
+  IImageSizeFacility - and the OpenCV cropper
+  and size reader the two libraries ship are
+  the only implementations it has. OpenCV is
+  therefore REQUIRED for this binary, while it
+  stays optional for the one above.
+end note
+
 note bottom of IADE
   Writes nine dataset layouts out of a project.
   Declares IImageCropperFacility, and ships an
@@ -37,7 +49,7 @@ note bottom of IADE
 end note
 
 note bottom of IADI
-  Reads three dataset layouts back into a
+  Reads nine dataset layouts back into a
   project. Declares IImageSizeFacility, and
   ships an OpenCV size reader of its own when
   the build found OpenCV.
@@ -51,6 +63,7 @@ note bottom of IADD
 end note
 
 APP --> GUI : compiles one of
+APP ..> CONV : built out of the\nsame components
 APP --> IADE : export requests
 APP --> IADI : import requests
 APP --> IADD : opens and stores the project
@@ -59,12 +72,14 @@ APP --> CURL : loads web hosted images
 GUI ..> IADE : implements\nIImageCropperFacility
 GUI ..> IADI : implements\nIImageSizeFacility
 
+CONV --> OCV : REQUIRED,\nin both libraries
+
 IADE --> IADD : PUBLIC
 IADI --> IADD : PUBLIC
 
 IADE --> CURL : PRIVATE
-IADE ..> OCV : PRIVATE, optional
-IADI ..> OCV : PRIVATE, optional
+IADE ..> OCV : PRIVATE, optional *
+IADI ..> OCV : PRIVATE, optional *
 
 IADD --> NJSON : PRIVATE
 IADD --> CURL : PRIVATE, the CURLU URL API only
@@ -80,6 +95,10 @@ legend bottom
   misc/ci/install-annotator-libraries.sh builds and installs all three.
   A PUBLIC link is one whose usage requirements reach this project as well -
   the installable headers of both sibling libraries name the data drivers types.
+  * OpenCV is optional for the ImagesAnnotator binary, whose GUI toolkit
+  implements both facilities, and required for the ImagesAnnotatorConverter one,
+  which starts no toolkit and has the OpenCV implementations of the two
+  libraries alone.
 end legend
 
 @enduml

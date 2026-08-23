@@ -64,6 +64,20 @@ performed by them; see [Enabling the ImagesAnnotator-DataDrivers
 library](/doc/sections/en_US/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md)
 and the two sections after it.
 
+**Two of them need their OpenCV for this binary.** The exporters library asks
+its consumer to cut the annotated rectangles out of the pictures through
+`IImageCropperFacility`, and the importers one asks it to measure them through
+`IImageSizeFacility` - and it is the GUI toolkit of the main application which
+implements the pair. This binary starts no toolkit at all, so the OpenCV cropper
+and the OpenCV size reader those libraries ship themselves are the only
+implementations it has. Their `ENABLE_OPENCV` option is `ON` by default, so a
+stock installation of both needs nothing done about it; an installation built
+with `-DENABLE_OPENCV=OFF`, or made on a machine carrying no OpenCV development
+packages, leaves this binary unable to write the PyTorch Vision layout and
+unable to read the YOLO v4, the three Ultralytics YOLO and the PyTorch Vision
+ones, whose annotations are stored relative to a size it can then not measure.
+OpenCV is therefore optional for the application and required here.
+
 The `ENABLE_IMAGES_ANNOTATOR_CONVERTER=OFF` case is the mirror of that one: the
 main application binary alone, exactly as the project was built before the
 second target existed.

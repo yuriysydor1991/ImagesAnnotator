@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="1010" viewBox="0 0 1180 1010">
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="1200" viewBox="0 0 1180 1200">
 <defs>
   <marker id="open" markerWidth="12" markerHeight="12" refX="10" refY="4" orient="auto">
     <path d="M 0 0 L 10 4 L 0 8" fill="none" stroke="#3a3a3a" stroke-width="1.3"/>
@@ -13,9 +13,9 @@
   .edge { font-size: 10px; fill: #444444; }
   .note { font-size: 11px; fill: #4a4300; }
 </style>
-<rect width="1180" height="1010" fill="#ffffff"/>
+<rect x="0" y="0" width="1180" height="1200" fill="#ffffff" stroke="none" stroke-width="0"/>
 <text x="590.0" y="14" text-anchor="middle" style="font-size:15px;font-weight:bold;fill:#222">The ImagesAnnotator dependencies</text>
-<rect x="20" y="20" width="1140" height="210" rx="4" fill="#ffffff" stroke="#8a8a8a" stroke-width="1.5"/>
+<rect x="20" y="20" width="1140" height="340" rx="4" fill="#ffffff" stroke="#8a8a8a" stroke-width="1.5"/>
 <text x="32" y="40" class="pkg">The application</text>
 <rect x="60" y="52" width="440" height="97" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
 <rect x="474" y="60" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
@@ -37,101 +37,121 @@
 <text x="630" y="109" class="member">exactly one is compiled in, picked at configure time</text>
 <text x="630" y="124" class="member">implements IImageCropperFacility  (the export side)</text>
 <text x="630" y="139" class="member">implements IImageSizeFacility     (the import side)</text>
-<rect x="20" y="260" width="1140" height="380" rx="4" fill="#f4f4f4" stroke="#8a8a8a" stroke-width="1.5"/>
-<text x="32" y="280" class="pkg">The ImagesAnnotator libraries</text>
-<rect x="60" y="292" width="440" height="97" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
-<rect x="474" y="300" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<rect x="470" y="302" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<rect x="470" y="308" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<text x="74" y="311" class="cname">ImagesAnnotator-DataExporters</text>
-<text x="74" y="325" class="sub">ImagesAnnotatorDataExporters011</text>
-<line x1="60" y1="335" x2="500" y2="335" stroke="#3a3a3a" stroke-width="1"/>
-<text x="70" y="349" class="member">writes nine dataset layouts out of a project</text>
-<text x="70" y="364" class="member">declares IImageCropperFacility</text>
-<text x="70" y="379" class="member">own OpenCV cropper in a build which found it</text>
-<rect x="620" y="292" width="480" height="97" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
-<rect x="1074" y="300" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<rect x="1070" y="302" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<rect x="1070" y="308" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<text x="634" y="311" class="cname">ImagesAnnotator-DataImporters</text>
-<text x="634" y="325" class="sub">ImagesAnnotatorDataImporters013</text>
-<line x1="620" y1="335" x2="1100" y2="335" stroke="#3a3a3a" stroke-width="1"/>
-<text x="630" y="349" class="member">reads three dataset layouts back into a project</text>
-<text x="630" y="364" class="member">declares IImageSizeFacility</text>
-<text x="630" y="379" class="member">own OpenCV size reader in a build which found it</text>
-<rect x="300" y="492" width="560" height="82" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
-<rect x="834" y="500" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<rect x="830" y="502" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<rect x="830" y="508" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<text x="314" y="511" class="cname">ImagesAnnotator-DataDrivers</text>
-<text x="314" y="525" class="sub">ImagesAnnotatorDataDrivers011</text>
-<line x1="300" y1="535" x2="860" y2="535" stroke="#3a3a3a" stroke-width="1"/>
-<text x="310" y="549" class="member">the project JSON database: parsing, merging, storing</text>
-<text x="310" y="564" class="member">the ImageRecord / ImageRecordRect value types</text>
-<rect x="20" y="670" width="1140" height="250" rx="4" fill="#eeeeee" stroke="#8a8a8a" stroke-width="1.5"/>
-<text x="32" y="690" class="pkg">Third party</text>
-<rect x="60" y="702" width="300" height="53" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
-<rect x="334" y="710" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<rect x="330" y="712" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<rect x="330" y="718" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<text x="74" y="721" class="cname">libcurl</text>
-<line x1="60" y1="731" x2="360" y2="731" stroke="#3a3a3a" stroke-width="1"/>
-<text x="70" y="745" class="member">HTTP and the CURLU URL API</text>
-<rect x="420" y="702" width="300" height="53" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
-<rect x="694" y="710" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<rect x="690" y="712" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<rect x="690" y="718" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<text x="434" y="721" class="cname">nlohmann/json</text>
-<line x1="420" y1="731" x2="720" y2="731" stroke="#3a3a3a" stroke-width="1"/>
-<text x="430" y="745" class="member">the project file parser and writer</text>
-<rect x="780" y="702" width="320" height="67" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
-<rect x="1074" y="710" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<rect x="1070" y="712" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<rect x="1070" y="718" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<text x="794" y="721" class="cname">OpenCV</text>
-<text x="794" y="735" class="sub">core, imgcodecs</text>
-<line x1="780" y1="745" x2="1100" y2="745" stroke="#3a3a3a" stroke-width="1"/>
-<text x="790" y="759" class="member">optional in both libraries</text>
-<rect x="420" y="830" width="300" height="53" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
-<rect x="694" y="838" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<rect x="690" y="840" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<rect x="690" y="846" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<text x="434" y="849" class="cname">GoogleTest / GoogleMock</text>
-<line x1="420" y1="859" x2="720" y2="859" stroke="#3a3a3a" stroke-width="1"/>
-<text x="430" y="873" class="member">the suites of all four projects</text>
+<rect x="300" y="195" width="560" height="112" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<rect x="834" y="203" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="830" y="205" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="830" y="211" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<text x="314" y="214" class="cname">ImagesAnnotatorConverter</text>
+<text x="314" y="228" class="sub">the converter only binary</text>
+<line x1="300" y1="238" x2="860" y2="238" stroke="#3a3a3a" stroke-width="1"/>
+<text x="310" y="252" class="member">the very same components, with no GUI toolkit at all</text>
+<text x="310" y="267" class="member">implements neither facility of the two libraries, so their</text>
+<text x="310" y="282" class="member">own OpenCV ones are the only implementations it has:</text>
+<text x="310" y="297" class="member">OpenCV is REQUIRED for this binary, not optional</text>
+<rect x="20" y="410" width="1140" height="380" rx="4" fill="#f4f4f4" stroke="#8a8a8a" stroke-width="1.5"/>
+<text x="32" y="430" class="pkg">The ImagesAnnotator libraries</text>
+<rect x="60" y="442" width="440" height="97" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<rect x="474" y="450" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="470" y="452" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="470" y="458" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<text x="74" y="461" class="cname">ImagesAnnotator-DataExporters</text>
+<text x="74" y="475" class="sub">ImagesAnnotatorDataExporters011</text>
+<line x1="60" y1="485" x2="500" y2="485" stroke="#3a3a3a" stroke-width="1"/>
+<text x="70" y="499" class="member">writes nine dataset layouts out of a project</text>
+<text x="70" y="514" class="member">declares IImageCropperFacility</text>
+<text x="70" y="529" class="member">own OpenCV cropper in a build which found it</text>
+<rect x="620" y="442" width="480" height="97" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<rect x="1074" y="450" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="1070" y="452" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="1070" y="458" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<text x="634" y="461" class="cname">ImagesAnnotator-DataImporters</text>
+<text x="634" y="475" class="sub">ImagesAnnotatorDataImporters013</text>
+<line x1="620" y1="485" x2="1100" y2="485" stroke="#3a3a3a" stroke-width="1"/>
+<text x="630" y="499" class="member">reads nine dataset layouts back into a project</text>
+<text x="630" y="514" class="member">declares IImageSizeFacility</text>
+<text x="630" y="529" class="member">own OpenCV size reader in a build which found it</text>
+<rect x="300" y="642" width="560" height="82" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<rect x="834" y="650" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="830" y="652" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="830" y="658" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<text x="314" y="661" class="cname">ImagesAnnotator-DataDrivers</text>
+<text x="314" y="675" class="sub">ImagesAnnotatorDataDrivers011</text>
+<line x1="300" y1="685" x2="860" y2="685" stroke="#3a3a3a" stroke-width="1"/>
+<text x="310" y="699" class="member">the project JSON database: parsing, merging, storing</text>
+<text x="310" y="714" class="member">the ImageRecord / ImageRecordRect value types</text>
+<rect x="20" y="820" width="1140" height="250" rx="4" fill="#eeeeee" stroke="#8a8a8a" stroke-width="1.5"/>
+<text x="32" y="840" class="pkg">Third party</text>
+<rect x="60" y="852" width="300" height="53" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<rect x="334" y="860" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="330" y="862" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="330" y="868" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<text x="74" y="871" class="cname">libcurl</text>
+<line x1="60" y1="881" x2="360" y2="881" stroke="#3a3a3a" stroke-width="1"/>
+<text x="70" y="895" class="member">HTTP and the CURLU URL API</text>
+<rect x="420" y="852" width="300" height="53" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<rect x="694" y="860" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="690" y="862" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="690" y="868" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<text x="434" y="871" class="cname">nlohmann/json</text>
+<line x1="420" y1="881" x2="720" y2="881" stroke="#3a3a3a" stroke-width="1"/>
+<text x="430" y="895" class="member">the project file parser and writer</text>
+<rect x="780" y="852" width="320" height="82" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<rect x="1074" y="860" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="1070" y="862" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="1070" y="868" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<text x="794" y="871" class="cname">OpenCV</text>
+<text x="794" y="885" class="sub">core, imgcodecs</text>
+<line x1="780" y1="895" x2="1100" y2="895" stroke="#3a3a3a" stroke-width="1"/>
+<text x="790" y="909" class="member">optional for the ImagesAnnotator binary</text>
+<text x="790" y="924" class="member">REQUIRED for ImagesAnnotatorConverter</text>
+<rect x="420" y="980" width="300" height="53" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<rect x="694" y="988" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="690" y="990" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="690" y="996" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<text x="434" y="999" class="cname">GoogleTest / GoogleMock</text>
+<line x1="420" y1="1009" x2="720" y2="1009" stroke="#3a3a3a" stroke-width="1"/>
+<text x="430" y="1023" class="member">the suites of all four projects</text>
 <path d="M 500 80 L 620 80" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
 <text x="560" y="74" class="edge" text-anchor="middle">compiles one of</text>
-<path d="M 160 149 L 160 292" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
-<text x="168" y="205" class="edge" text-anchor="start">export</text>
-<text x="168" y="217" class="edge" text-anchor="start">requests</text>
-<path d="M 400 149 L 400 245 L 860 245 L 860 292" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
-<text x="630" y="239" class="edge" text-anchor="middle">import requests</text>
-<path d="M 60 100 L 36 100 L 36 540 L 300 540" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
-<text x="44" y="560" class="edge" text-anchor="start">opens and stores the project</text>
-<path d="M 60 125 L 24 125 L 24 740 L 60 740" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
-<text x="46" y="500" class="edge" text-anchor="start">loads web hosted images</text>
-<path d="M 660 149 L 660 268 L 300 268 L 300 292" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="6,5" marker-end="url(#open)"/>
-<text x="480" y="262" class="edge" text-anchor="middle">implements</text>
-<path d="M 700 149 L 700 292" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="6,5" marker-end="url(#open)"/>
-<text x="708" y="210" class="edge" text-anchor="start">implements</text>
-<path d="M 360 389 L 360 492" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
-<text x="368" y="445" class="edge" text-anchor="start">PUBLIC</text>
-<path d="M 800 389 L 800 492" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
-<text x="808" y="445" class="edge" text-anchor="start">PUBLIC</text>
-<path d="M 160 389 L 160 702" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
-<text x="168" y="610" class="edge" text-anchor="start">PRIVATE</text>
-<path d="M 460 389 L 460 415 L 940 415 L 940 702" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="6,5" marker-end="url(#open)"/>
-<text x="700" y="409" class="edge" text-anchor="middle">PRIVATE, optional</text>
-<path d="M 1000 389 L 1000 702" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="6,5" marker-end="url(#open)"/>
-<text x="1008" y="530" class="edge" text-anchor="start">PRIVATE,</text>
-<text x="1008" y="542" class="edge" text-anchor="start">optional</text>
-<path d="M 570 574 L 570 702" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
-<text x="578" y="645" class="edge" text-anchor="start">PRIVATE</text>
-<path d="M 340 574 L 340 655 L 240 655 L 240 702" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
-<text x="332" y="649" class="edge" text-anchor="end">PRIVATE, the URL API only</text>
-<rect x="20" y="928" width="1140" height="76" rx="4" fill="#fffbe6" stroke="#b8a54a" stroke-width="1.1"/>
-<text x="34" y="946" class="note">The three ImagesAnnotator libraries are consumed installed: none is fetched by a configure of this project and none is a</text>
-<text x="34" y="961" class="note">distribution package - misc/ci/install-annotator-libraries.sh builds and installs all three. A PUBLIC link is one whose usage</text>
-<text x="34" y="976" class="note">requirements reach this project as well, which is why the installable headers of both sibling libraries may name the data drivers types.</text>
-<text x="34" y="991" class="note">Solid arrow: a mandatory dependency. Dashed arrow: an optional one, or an interface this project implements for the library.</text>
+<path d="M 380 149 L 380 195" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="6,5" marker-end="url(#open)"/>
+<text x="388" y="166" class="edge" text-anchor="start">built out of the</text>
+<text x="388" y="178" class="edge" text-anchor="start">same components</text>
+<path d="M 160 149 L 160 442" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
+<text x="168" y="290" class="edge" text-anchor="start">export</text>
+<text x="168" y="302" class="edge" text-anchor="start">requests</text>
+<path d="M 260 149 L 260 385 L 860 385 L 860 442" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
+<text x="620" y="379" class="edge" text-anchor="middle">import requests</text>
+<path d="M 60 100 L 36 100 L 36 683 L 300 683" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
+<text x="44" y="703" class="edge" text-anchor="start">opens and stores the project</text>
+<path d="M 60 125 L 24 125 L 24 878 L 60 878" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
+<text x="46" y="620" class="edge" text-anchor="start">loads web hosted images</text>
+<path d="M 940 149 L 940 340 L 240 340 L 240 442" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="6,5" marker-end="url(#open)"/>
+<text x="590" y="334" class="edge" text-anchor="middle">implements</text>
+<path d="M 1000 149 L 1000 442" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="6,5" marker-end="url(#open)"/>
+<text x="1008" y="300" class="edge" text-anchor="start">implements</text>
+<path d="M 860 250 L 1140 250 L 1140 880 L 1100 880" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
+<text x="1132" y="595" class="edge" text-anchor="end">REQUIRED,</text>
+<text x="1132" y="607" class="edge" text-anchor="end">in both libraries</text>
+<path d="M 360 539 L 360 642" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
+<text x="368" y="595" class="edge" text-anchor="start">PUBLIC</text>
+<path d="M 800 539 L 800 642" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
+<text x="808" y="595" class="edge" text-anchor="start">PUBLIC</text>
+<path d="M 160 539 L 160 852" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
+<text x="168" y="750" class="edge" text-anchor="start">PRIVATE</text>
+<path d="M 460 539 L 460 565 L 940 565 L 940 852" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="6,5" marker-end="url(#open)"/>
+<text x="700" y="559" class="edge" text-anchor="middle">PRIVATE, optional *</text>
+<path d="M 1000 539 L 1000 852" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="6,5" marker-end="url(#open)"/>
+<text x="1008" y="680" class="edge" text-anchor="start">PRIVATE,</text>
+<text x="1008" y="692" class="edge" text-anchor="start">optional *</text>
+<path d="M 570 724 L 570 852" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
+<text x="578" y="795" class="edge" text-anchor="start">PRIVATE</text>
+<path d="M 340 724 L 340 805 L 240 805 L 240 852" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
+<text x="332" y="799" class="edge" text-anchor="end">PRIVATE, the URL API only</text>
+<rect x="20" y="1078" width="1140" height="106" rx="4" fill="#fffbe6" stroke="#b8a54a" stroke-width="1.1"/>
+<text x="34" y="1096" class="note">The three ImagesAnnotator libraries are consumed installed: none is fetched by a configure of this project and none is a</text>
+<text x="34" y="1111" class="note">distribution package - misc/ci/install-annotator-libraries.sh builds and installs all three. A PUBLIC link is one whose usage</text>
+<text x="34" y="1126" class="note">requirements reach this project as well, which is why the installable headers of both sibling libraries may name the data drivers types.</text>
+<text x="34" y="1141" class="note">Solid arrow: a mandatory dependency. Dashed arrow: an optional one, or an interface this project implements for the library.</text>
+<text x="34" y="1156" class="note">* OpenCV is optional for the ImagesAnnotator binary, whose GUI toolkit implements both facilities, and required for the</text>
+<text x="34" y="1171" class="note">ImagesAnnotatorConverter one, which starts no toolkit: the OpenCV cropper and size reader of the two libraries are all it has.</text>
 </svg>

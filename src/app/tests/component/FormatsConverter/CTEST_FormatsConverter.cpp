@@ -8,6 +8,7 @@
 #include <string>
 
 #include "ctests_decls.h"
+#include "src/annotator-events/events/DataExportersAliases.h"
 #include "src/app/ApplicationContext.h"
 #include "src/app/converter/ApplicationConverterComponent.h"
 #include "src/app/converter/ApplicationFormatsConverter.h"
@@ -33,7 +34,9 @@ namespace fs = std::filesystem;
  * really travels the whole pipeline with no graphical interface behind it.
  *
  * The native project database is the side of every conversion which carries the
- * image sizes itself, so no case here needs an image to be decoded.
+ * image sizes itself, so no case here needs an image to be decoded - save for
+ * the PyTorch Vision destination, the one layout which is written by cutting
+ * the rectangles out of the picture and therefore reads the pixels.
  */
 class CTEST_FormatsConverter : public Test
 {
@@ -74,6 +77,48 @@ class CTEST_FormatsConverter : public Test
   void given_the_native_project()
   {
     given_file("imgs/a.png", "the-pixels-are-never-decoded-here");
+    given_the_native_project_file();
+  }
+
+  /**
+   * @brief The very same project over an image whose pixels really are there,
+   * for the one destination layout which decodes what it was given.
+   */
+  void given_the_native_project_over_a_decodable_image()
+  {
+    given_png_image("imgs/a.png");
+    given_the_native_project_file();
+  }
+
+  /// @brief The 200x100 greyscale PNG the project above describes, written as
+  /// the bytes of the file rather than as a fixture on the disk, so that the
+  /// suite keeps carrying everything it drives.
+  void given_png_image(const std::string& relPath)
+  {
+    static const unsigned char png[] = {
+        0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00, 0x00, 0x00, 0x0d,
+        0x49, 0x48, 0x44, 0x52, 0x00, 0x00, 0x00, 0xc8, 0x00, 0x00, 0x00, 0x64,
+        0x08, 0x00, 0x00, 0x00, 0x00, 0xe6, 0xed, 0x20, 0xd7, 0x00, 0x00, 0x00,
+        0x68, 0x49, 0x44, 0x41, 0x54, 0x78, 0xda, 0xed, 0xcf, 0x41, 0x11, 0x00,
+        0x00, 0x0c, 0x02, 0x20, 0xa3, 0x1b, 0xdd, 0x08, 0xfb, 0xef, 0xa0, 0x01,
+        0xe9, 0x13, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11,
+        0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11,
+        0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11,
+        0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11,
+        0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11,
+        0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11,
+        0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0xb9, 0x0c, 0x4e, 0x68, 0x12,
+        0x4a, 0x25, 0x79, 0x0f, 0xfc, 0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4e,
+        0x44, 0xae, 0x42, 0x60, 0x82};
+
+    given_file(relPath,
+               std::string{reinterpret_cast<const char*>(png), sizeof(png)});
+  }
+
+  /// @brief The project descriptor both of the two above share, naming the
+  /// image beside it whatever its bytes are.
+  void given_the_native_project_file()
+  {
     given_file("project.json",
                "{\"ImagesAnnotator\":{\"version\":\"0.12.0\"},"
                "\"annotations\":[{\"annotations\":[{\"annotations\":["
@@ -194,11 +239,26 @@ TEST_F(CTEST_FormatsConverter, an_unknown_format_is_a_failed_conversion)
   EXPECT_FALSE(fs::exists(work_dir / "out"));
 }
 
-TEST_F(CTEST_FormatsConverter, the_pytorch_vision_layout_is_no_destination)
+TEST_F(CTEST_FormatsConverter,
+       a_native_project_converts_into_a_pytorch_vision_dataset)
 {
-  given_the_native_project();
+  given_the_native_project_over_a_decodable_image();
 
-  EXPECT_NE(run_conversion("imagesannotator", work_dir / "project.json",
-                           "pytorch", work_dir / "out"),
+  // A conversion starts no graphical interface, so the cutter of the
+  // rectangles is the one the ImagesAnnotator-DataExporters library ships with
+  // its OpenCV. An installation built without it carries none, and then this
+  // one destination is what the conversion cannot write - which is the very
+  // thing this case tells apart.
+  if (iade::LibraryFacade::create_image_cropper() == nullptr) {
+    GTEST_SKIP() << "The installed ImagesAnnotator-DataExporters library was "
+                    "built without OpenCV and ships no image cropper";
+  }
+
+  EXPECT_EQ(run_conversion("imagesannotator", work_dir / "project.json",
+                           "pytorch", work_dir / "pytorch"),
             0);
+
+  // The layout is one directory per tag name, holding the rectangles cut out
+  // of the pictures they were drawn over.
+  EXPECT_TRUE(fs::exists(work_dir / "pytorch" / "cat" / "a.png"));
 }

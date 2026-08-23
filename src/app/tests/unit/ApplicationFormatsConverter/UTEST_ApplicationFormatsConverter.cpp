@@ -236,6 +236,7 @@ TEST_F(UTEST_ApplicationFormatsConverter,
   expect_export_of<ExportCocoRequest>("coco");
   expect_export_of<ExportPascalVocRequest>("pascal-voc");
   expect_export_of<ExportCreateMLRequest>("createml");
+  expect_export_of<Export2PyTorchVisionRequest>("pytorch");
 }
 
 TEST_F(UTEST_ApplicationFormatsConverter,
@@ -253,11 +254,21 @@ TEST_F(UTEST_ApplicationFormatsConverter,
 }
 
 TEST_F(UTEST_ApplicationFormatsConverter,
-       the_pytorch_vision_layout_is_no_destination)
+       the_pytorch_vision_request_leaves_the_cropper_slot_empty)
 {
   given_the_request("plain-txt", "pytorch");
 
-  EXPECT_CALL(*eventer, submit(A<Export2PyTorchVisionRequestPtr>())).Times(0);
+  // The cutters of the rectangles are implementations of the graphical
+  // toolkits, and a conversion starts none of them, so the slot is left for
+  // the ImagesAnnotator-DataExporters library to fill with the OpenCV cropper
+  // it ships itself - the resolution the annotator controller hands the
+  // request over to.
+  EXPECT_CALL(*eventer, submit(A<Export2PyTorchVisionRequestPtr>()))
+      .Times(1)
+      .WillOnce(Invoke([](Export2PyTorchVisionRequestPtr event) {
+        EXPECT_EQ(event->dst_folder_path, dst_path);
+        EXPECT_EQ(event->cropper, nullptr);
+      }));
 
-  EXPECT_FALSE(converter->convert(appctx));
+  EXPECT_TRUE(converter->convert(appctx));
 }

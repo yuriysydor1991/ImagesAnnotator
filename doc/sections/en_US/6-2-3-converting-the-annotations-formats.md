@@ -58,11 +58,18 @@ For the `imagesannotator` format the path is the project JSON file itself, and
 for every other one it is the directory holding the dataset. A destination that
 does not exist yet is created.
 
-The `pytorch` one is a source only. Writing that layout cuts every annotated
-rectangle out of the picture it was drawn over, and the cropping is done by the
-imaging stack of the graphical toolkit the application was built against, which
-a conversion never starts. Reading it back is unaffected and works as any other
-source.
+Writing the `pytorch` one cuts every annotated rectangle out of the picture it
+was drawn over, so that one layout of the nine reads the pixels of the images
+instead of their annotations alone. The cutters the graphical toolkits of this
+application implement are not there for a conversion, which starts no interface
+at all, so the cutting is done by the OpenCV image cropper the
+[ImagesAnnotator-DataExporters](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md)
+library ships itself. That cropper is what its `ENABLE_OPENCV` option builds,
+and that option is `ON` by default, so a stock installation of the library
+converts into this layout as it does into every other one. An installation
+built with `-DENABLE_OPENCV=OFF`, or on a machine with no OpenCV development
+packages, carries no cropper - and then this one destination fails with the
+library saying so, while reading the layout back is unaffected either way.
 
 Both halves of a conversion are the very ones the menu entries drive: the
 source is read into the annotations project the application edits, and that

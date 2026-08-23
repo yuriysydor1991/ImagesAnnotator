@@ -801,7 +801,6 @@ void AnnotatorController::handle(Export2PyTorchVisionRequestPtr event)
 {
   assert(event != nullptr);
   assert(!event->dst_folder_path.empty());
-  assert(event->cropper != nullptr);
 
   if (event == nullptr) {
     LOGE("Invalid event pointer provided");
@@ -815,20 +814,18 @@ void AnnotatorController::handle(Export2PyTorchVisionRequestPtr event)
     return;
   }
 
-  if (event->cropper == nullptr) {
-    static const std::string e = "No image cropper provided";
-    LOGE(e);
-    emitDisplayError(e);
-    return;
-  }
-
   auto ctx =
       build_export_context<PyTorchExportLibraryContext>(event->dst_folder_path);
 
   assert(ctx != nullptr);
 
   // The cropper lives on the context of this layout alone, since the PyTorch
-  // Vision export is the only one which cuts the rectangles out.
+  // Vision export is the only one which cuts the rectangles out. A cutter the
+  // GUI toolkit supplies always wins over the one the library ships itself,
+  // and a build of the library without OpenCV has none at all - the very
+  // resolution the image size reader of an import goes through, which is what
+  // lets a conversion, starting no interface and so carrying no cutter, write
+  // this layout as well.
   ctx->set_cropper(event->cropper);
 
   auto exporter = iade::LibraryFacade::create_exporter(ctx);

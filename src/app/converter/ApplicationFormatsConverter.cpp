@@ -285,13 +285,15 @@ bool ApplicationFormatsConverter::export_into(const ConversionFormat& format,
       break;
     case ConversionFormat::pytorch:
       // The only layout of the export side which is written by cutting the
-      // rectangles out of the pictures, and the cropper doing that is an
-      // implementation of the graphical toolkit in use, which a conversion
-      // never starts.
-      LOGE(
-          "The PyTorch Vision layout is written through the imaging stack of a "
-          "graphical toolkit, so it converts as a source only");
-      return false;
+      // rectangles out of the pictures. The cutters the graphical toolkits
+      // implement are not there for a conversion, which starts no interface at
+      // all, so the request goes out with an empty cropper slot and the
+      // ImagesAnnotator-DataExporters library fills it with the OpenCV cropper
+      // it ships itself - the very way the reading half leaves the image size
+      // reader to the importers library.
+      actx->eventer->submit(
+          efactory->create_pytorch_vision_export_request(dstPath));
+      break;
   }
 
   return true;

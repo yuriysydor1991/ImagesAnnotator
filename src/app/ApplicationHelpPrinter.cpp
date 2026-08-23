@@ -92,10 +92,11 @@ void ApplicationHelpPrinter::print_conversion_help()
   }
 
   std::cout << std::endl
-            << "The pytorch one is read only, since writing it cuts the"
+            << "Writing the pytorch one cuts the rectangles out of the"
             << std::endl
-            << "rectangles out of the pictures through a graphical toolkit."
-            << std::endl;
+            << "pictures, which needs the ImagesAnnotator-DataExporters"
+            << std::endl
+            << "library built with its OpenCV image cropper." << std::endl;
 }
 
 }  // namespace app

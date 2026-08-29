@@ -10,7 +10,7 @@
 cmake -S . -B build -DENABLE_IMAGES_ANNOTATOR_DATA_DRIVERS=ON
 ```
 
-Вмикач шукає бібліотеку за допомогою `find_package()`. Запасного варіанту із завантаженням через Інтернет немає: сусідні бібліотеки [ImagesAnnotator-DataExporters](/doc/sections/uk_UA/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md) та [ImagesAnnotator-DataImporters](/doc/sections/uk_UA/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md), проти яких цей проект теж зібрано, кожна знаходить драйвери даних власним викликом `find_package()` та включає їхні заголовки через директорію з версією `<ImagesAnnotatorDataDrivers-0.11/...>` - таку форму створює лише встановлення, - тому копія, завантажена у цю збірку, не змогла б їм прислужитись. Усі три бібліотеки споживаються встановленими.
+Вмикач шукає бібліотеку за допомогою `find_package()`. Запасного варіанту із завантаженням через Інтернет немає: сусідні бібліотеки [ImagesAnnotator-DataExporters](/doc/sections/uk_UA/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md) та [ImagesAnnotator-DataImporters](/doc/sections/uk_UA/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md), проти яких цей проект теж зібрано, кожна знаходить драйвери даних власним викликом `find_package()` та включає їхні заголовки через директорію з версією `<ImagesAnnotatorDataDrivers-0.12/...>` - таку форму створює лише встановлення, - тому копія, завантажена у цю збірку, не змогла б їм прислужитись. Усі три бібліотеки споживаються встановленими.
 
 ### Вказування шляху до встановленої копії
 
@@ -41,7 +41,7 @@ cmake -S . -B build \
 
 ### Заміна назви пакунка
 
-Бібліотека містить свою основну (major) та проміжну (minor) версії у назвах встановленого пакунка, цілі та двійкового файлу - `ImagesAnnotatorDataDrivers-0.11`, що відповідає її публічному простору імен `ImagesAnnotatorDataDrivers011`, - тому дві проміжні версії встановлюються повністю паралельно. Її власні опції `LIB_INCLUDE_MINOR_IN_NAME` (за замовчуванням `ON`), `LIB_INCLUDE_MICRO_IN_NAME` та `LIB_NAME_SUFFIX` можуть скоротити або розширити цю назву далі. Назва, яку цей проект передає до `find_package()`, є змінною кешу, тому інакше названа збірка тієї самої бібліотеки залишається однією опцією командного рядка:
+Бібліотека містить свою основну (major) та проміжну (minor) версії у назвах встановленого пакунка, цілі та двійкового файлу - `ImagesAnnotatorDataDrivers-0.12`, що відповідає її публічному простору імен `ImagesAnnotatorDataDrivers012`, - тому дві проміжні версії встановлюються повністю паралельно. Її власні опції `LIB_INCLUDE_MINOR_IN_NAME` (за замовчуванням `ON`), `LIB_INCLUDE_MICRO_IN_NAME` та `LIB_NAME_SUFFIX` можуть скоротити або розширити цю назву далі. Назва, яку цей проект передає до `find_package()`, є змінною кешу, тому інакше названа збірка тієї самої бібліотеки залишається однією опцією командного рядка:
 
 ```
 # бібліотека, зібрана з -DLIB_INCLUDE_MINOR_IN_NAME=OFF, тобто лише з основною версією
@@ -52,8 +52,8 @@ cmake -S . -B build -DTEMPLATE_APP_IADD_PACKAGE=ImagesAnnotatorDataDrivers-0
 ### Що проект бере з бібліотеки
 
 - `ImageRecord` та `ImageRecordRect` - об'єкти-значення записів, які передаються по всьому проекту, включно з графічним інтерфейсом. Заголовки з такими назвами у `src/annotator-events/events/` тепер є псевдонімами типів бібліотеки.
-- `IAnnotationsDB` - база даних проекту анотацій, яку тримає `AnnotatorController` та створює через `LibraryFacade::create_annotations_db()`.
+- `IAnnotationsDB` - база даних проекту анотацій, яку тримає `AnnotatorController` та створює через `IADataDriversFacade::create_annotations_db()`.
 - `IImagesPathsDBProvider` - інтерфейс доступу до записів тільки для читання, який споживає графічний інтерфейс та реалізує `AnnotatorController`.
 - `IRecordsFactory` - фабрика записів, до якої `EventsFactory` проекту делегує свої методи створення записів.
 
-Єдине місце, що називає бібліотеку, - це `src/annotator-events/events/DataDriversAliases.h`, у якому оголошено псевдонім `iadd` для простору імен `ImagesAnnotatorDataDrivers011`, що містить номер версії. Її заголовки включаються через директорію з версією `<ImagesAnnotatorDataDrivers-0.11/...>`: бібліотеки експортерів та імпортерів даних встановлюють власні публічні `LibraryFacade.h`, тому проста форма назвала б той із трьох, який компілятор побачить першим.
+Єдине місце, що називає бібліотеку, - це `src/annotator-events/events/DataDriversAliases.h`, у якому оголошено псевдонім `iadd` для простору імен `ImagesAnnotatorDataDrivers012`, що містить номер версії. Її заголовки включаються через директорію з версією `<ImagesAnnotatorDataDrivers-0.12/...>`: префікс закріплює версію бібліотеки, з якою розмовляє кожна одиниця трансляції, а загальні імена на кшталт `IRecord.h` чи `ImageRecord.h` лежать поруч у корені підключення без префікса.

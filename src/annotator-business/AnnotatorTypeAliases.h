@@ -114,35 +114,35 @@ class AnnotatorTypeAliases
   /// exporter of the ImagesAnnotator-DataExporters library. The wanted dataset
   /// layout is named by the descendant instantiated, so the library carries no
   /// format enumeration any more.
-  using LibraryContextPtr = iade::LibraryContextPtr;
-  using PlainTxtExportLibraryContext = iade::PlainTxtExportLibraryContext;
-  using Yolo4ExportLibraryContext = iade::Yolo4ExportLibraryContext;
-  using PyTorchExportLibraryContext = iade::PyTorchExportLibraryContext;
-  using UltralyticsDetectExportLibraryContext =
-      iade::UltralyticsDetectExportLibraryContext;
-  using UltralyticsObbExportLibraryContext =
-      iade::UltralyticsObbExportLibraryContext;
-  using UltralyticsSegmentExportLibraryContext =
-      iade::UltralyticsSegmentExportLibraryContext;
-  using CocoExportLibraryContext = iade::CocoExportLibraryContext;
-  using PascalVocExportLibraryContext = iade::PascalVocExportLibraryContext;
-  using CreateMLExportLibraryContext = iade::CreateMLExportLibraryContext;
+  using ExportContextPtr = iade::IADataExportersContextPtr;
+  using PlainTxtExportContext = iade::PlainTxtExportContext;
+  using Yolo4ExportContext = iade::Yolo4ExportContext;
+  using PyTorchExportContext = iade::PyTorchExportContext;
+  using UltralyticsDetectExportContext =
+      iade::UltralyticsDetectExportContext;
+  using UltralyticsObbExportContext =
+      iade::UltralyticsObbExportContext;
+  using UltralyticsSegmentExportContext =
+      iade::UltralyticsSegmentExportContext;
+  using CocoExportContext = iade::CocoExportContext;
+  using PascalVocExportContext = iade::PascalVocExportContext;
+  using CreateMLExportContext = iade::CreateMLExportContext;
   /// @brief The import configuration the controller fills in and hands to an
   /// importer of the ImagesAnnotator-DataImporters library. As on the export
   /// side, the wanted dataset layout is named by the descendant instantiated.
-  using ImportLibraryContextPtr = iadi::LibraryContextPtr;
-  using PlainTxtImportLibraryContext = iadi::PlainTxtImportLibraryContext;
-  using Yolo4ImportLibraryContext = iadi::Yolo4ImportLibraryContext;
-  using UltralyticsDetectImportLibraryContext =
-      iadi::UltralyticsDetectImportLibraryContext;
-  using UltralyticsObbImportLibraryContext =
-      iadi::UltralyticsObbImportLibraryContext;
-  using UltralyticsSegmentImportLibraryContext =
-      iadi::UltralyticsSegmentImportLibraryContext;
-  using CocoImportLibraryContext = iadi::CocoImportLibraryContext;
-  using PascalVocImportLibraryContext = iadi::PascalVocImportLibraryContext;
-  using CreateMLImportLibraryContext = iadi::CreateMLImportLibraryContext;
-  using PyTorchImportLibraryContext = iadi::PyTorchImportLibraryContext;
+  using ImportContextPtr = iadi::IADataImportersContextPtr;
+  using PlainTxtImportContext = iadi::PlainTxtImportContext;
+  using Yolo4ImportContext = iadi::Yolo4ImportContext;
+  using UltralyticsDetectImportContext =
+      iadi::UltralyticsDetectImportContext;
+  using UltralyticsObbImportContext =
+      iadi::UltralyticsObbImportContext;
+  using UltralyticsSegmentImportContext =
+      iadi::UltralyticsSegmentImportContext;
+  using CocoImportContext = iadi::CocoImportContext;
+  using PascalVocImportContext = iadi::PascalVocImportContext;
+  using CreateMLImportContext = iadi::CreateMLImportContext;
+  using PyTorchImportContext = iadi::PyTorchImportContext;
   using RequestImagesDirProviderHandler =
       events::events::RequestImagesDirProviderHandler;
   using RequestImagesDirProviderHandlerPtr =

@@ -10,7 +10,7 @@ The library is therefore **mandatory**: the `ENABLE_IMAGES_ANNOTATOR_DATA_DRIVER
 cmake -S . -B build -DENABLE_IMAGES_ANNOTATOR_DATA_DRIVERS=ON
 ```
 
-The enabler looks the library up with `find_package()`. There is no Internet fallback: the sibling [ImagesAnnotator-DataExporters](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md) and [ImagesAnnotator-DataImporters](/doc/sections/en_US/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md) libraries, which this project is built against as well, each resolve the data drivers with a `find_package()` of their own and include their headers through the versioned `<ImagesAnnotatorDataDrivers-0.11/...>` directory - a form only an installation provides - so a copy fetched into this build could not serve them. All three libraries are consumed installed.
+The enabler looks the library up with `find_package()`. There is no Internet fallback: the sibling [ImagesAnnotator-DataExporters](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md) and [ImagesAnnotator-DataImporters](/doc/sections/en_US/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md) libraries, which this project is built against as well, each resolve the data drivers with a `find_package()` of their own and include their headers through the versioned `<ImagesAnnotatorDataDrivers-0.12/...>` directory - a form only an installation provides - so a copy fetched into this build could not serve them. All three libraries are consumed installed.
 
 ### Pointing the project at an installed copy
 
@@ -41,7 +41,7 @@ cmake -S . -B build \
 
 ### Overriding the package name
 
-The library carries its major and minor version inside the installed package, target and binary names - `ImagesAnnotatorDataDrivers-0.11`, matching its version carrying `ImagesAnnotatorDataDrivers011` public namespace - so two minor versions install completely side by side. Its own `LIB_INCLUDE_MINOR_IN_NAME` (`ON` by default), `LIB_INCLUDE_MICRO_IN_NAME` and `LIB_NAME_SUFFIX` options may shorten or extend that name further. The name this project asks `find_package()` for is a cache variable, so a differently named build of the very same library stays a single command line option:
+The library carries its major and minor version inside the installed package, target and binary names - `ImagesAnnotatorDataDrivers-0.12`, matching its version carrying `ImagesAnnotatorDataDrivers012` public namespace - so two minor versions install completely side by side. Its own `LIB_INCLUDE_MINOR_IN_NAME` (`ON` by default), `LIB_INCLUDE_MICRO_IN_NAME` and `LIB_NAME_SUFFIX` options may shorten or extend that name further. The name this project asks `find_package()` for is a cache variable, so a differently named build of the very same library stays a single command line option:
 
 ```
 # a library built with -DLIB_INCLUDE_MINOR_IN_NAME=OFF, that is a major-only name
@@ -52,8 +52,8 @@ cmake -S . -B build -DTEMPLATE_APP_IADD_PACKAGE=ImagesAnnotatorDataDrivers-0
 ### What the project takes from the library
 
 - `ImageRecord` and `ImageRecordRect` - the record value objects the whole project, the GUI included, passes around. The `src/annotator-events/events/` headers of those names are aliases onto the library types now.
-- `IAnnotationsDB` - the annotations project database the `AnnotatorController` holds, created through `LibraryFacade::create_annotations_db()`.
+- `IAnnotationsDB` - the annotations project database the `AnnotatorController` holds, created through `IADataDriversFacade::create_annotations_db()`.
 - `IImagesPathsDBProvider` - the read only records access interface the GUI consumes, which the `AnnotatorController` implements.
 - `IRecordsFactory` - the records factory the project `EventsFactory` delegates its record creating methods to.
 
-The single place naming the library is `src/annotator-events/events/DataDriversAliases.h`, which declares the `iadd` alias of the versioned `ImagesAnnotatorDataDrivers011` namespace. Its headers are included through the versioned `<ImagesAnnotatorDataDrivers-0.11/...>` directory: the data exporters and the data importers libraries install a public `LibraryFacade.h` of their own, so the plain spelling would name whichever of the three the compiler sees first.
+The single place naming the library is `src/annotator-events/events/DataDriversAliases.h`, which declares the `iadd` alias of the versioned `ImagesAnnotatorDataDrivers012` namespace. Its headers are included through the versioned `<ImagesAnnotatorDataDrivers-0.12/...>` directory: the prefix pins the library version every translation unit is talking to, and generic names such as `IRecord.h` and `ImageRecord.h` sit on the unprefixed include root beside it.

@@ -55,11 +55,11 @@ AnnotatorController::create_project_data_instance()
   // logger is handed over right here: each library would otherwise keep a
   // silent own logger instance and the library messages would never reach the
   // application log file.
-  iadd::LibraryFacade::accept_real_logger(LOG_REAL_LOGGER());
-  iade::LibraryFacade::accept_real_logger(LOG_REAL_LOGGER());
-  iadi::LibraryFacade::accept_real_logger(LOG_REAL_LOGGER());
+  iadd::IADataDriversFacade::accept_real_logger(LOG_REAL_LOGGER());
+  iade::IADataExportersFacade::accept_real_logger(LOG_REAL_LOGGER());
+  iadi::IADataImportersFacade::accept_real_logger(LOG_REAL_LOGGER());
 
-  auto ctx = iadd::LibraryFacade::create_library_context();
+  auto ctx = iadd::IADataDriversFacade::create_library_context();
 
   // The JSON root element of the project files is named after the application,
   // not after the library, and the version stored under it is the application
@@ -70,7 +70,7 @@ AnnotatorController::create_project_data_instance()
   ctx->app_name = project_decls::PROJECT_NAME;
   ctx->app_version = project_decls::PROJECT_BUILD_VERSION;
 
-  return iadd::LibraryFacade::create_annotations_db(ctx);
+  return iadd::IADataDriversFacade::create_annotations_db(ctx);
 }
 
 bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
@@ -376,7 +376,7 @@ void AnnotatorController::handle(ExportPlainTxt2FolderRequestPtr event)
     return;
   }
 
-  if (!handle_export<PlainTxtExportLibraryContext>(event->dst_folder_path)) {
+  if (!handle_export<PlainTxtExportContext>(event->dst_folder_path)) {
     const std::string e = "Failure during the export to a plain txt folder: " +
                           event->dst_folder_path;
     LOGE(e);
@@ -400,7 +400,7 @@ void AnnotatorController::handle(ExportYolo4FolderRequestPtr event)
     return;
   }
 
-  if (!handle_export<Yolo4ExportLibraryContext>(event->dst_folder_path)) {
+  if (!handle_export<Yolo4ExportContext>(event->dst_folder_path)) {
     static const std::string e =
         "Failure during the export to Yolo4 folder at " +
         event->dst_folder_path;
@@ -418,7 +418,7 @@ void AnnotatorController::handle(ExportUltralyticsDetectRequestPtr event)
     return;
   }
 
-  if (!handle_export<UltralyticsDetectExportLibraryContext>(
+  if (!handle_export<UltralyticsDetectExportContext>(
           event->dst_folder_path)) {
     const std::string e =
         "Failure during the export to an Ultralytics YOLO detection folder "
@@ -438,7 +438,7 @@ void AnnotatorController::handle(ExportUltralyticsObbRequestPtr event)
     return;
   }
 
-  if (!handle_export<UltralyticsObbExportLibraryContext>(
+  if (!handle_export<UltralyticsObbExportContext>(
           event->dst_folder_path)) {
     const std::string e =
         "Failure during the export to an Ultralytics YOLO oriented bounding "
@@ -458,7 +458,7 @@ void AnnotatorController::handle(ExportUltralyticsSegmentRequestPtr event)
     return;
   }
 
-  if (!handle_export<UltralyticsSegmentExportLibraryContext>(
+  if (!handle_export<UltralyticsSegmentExportContext>(
           event->dst_folder_path)) {
     const std::string e =
         "Failure during the export to an Ultralytics YOLO segmentation folder "
@@ -478,7 +478,7 @@ void AnnotatorController::handle(ExportCocoRequestPtr event)
     return;
   }
 
-  if (!handle_export<CocoExportLibraryContext>(event->dst_folder_path)) {
+  if (!handle_export<CocoExportContext>(event->dst_folder_path)) {
     const std::string e = "Failure during the export to a COCO folder at " +
                           event->dst_folder_path;
     LOGE(e);
@@ -495,7 +495,7 @@ void AnnotatorController::handle(ExportPascalVocRequestPtr event)
     return;
   }
 
-  if (!handle_export<PascalVocExportLibraryContext>(event->dst_folder_path)) {
+  if (!handle_export<PascalVocExportContext>(event->dst_folder_path)) {
     const std::string e =
         "Failure during the export to a Pascal VOC folder at " +
         event->dst_folder_path;
@@ -513,7 +513,7 @@ void AnnotatorController::handle(ExportCreateMLRequestPtr event)
     return;
   }
 
-  if (!handle_export<CreateMLExportLibraryContext>(event->dst_folder_path)) {
+  if (!handle_export<CreateMLExportContext>(event->dst_folder_path)) {
     const std::string e =
         "Failure during the export to a Create ML folder at " +
         event->dst_folder_path;
@@ -538,7 +538,7 @@ bool AnnotatorController::handle_export(const std::string& dirPath)
 
   assert(ctx != nullptr);
 
-  auto exporter = iade::LibraryFacade::create_exporter(ctx);
+  auto exporter = iade::IADataExportersFacade::create_exporter(ctx);
 
   assert(exporter != nullptr);
 
@@ -566,7 +566,7 @@ void AnnotatorController::handle(ImportPlainTxt2FolderRequestPtr event)
     return;
   }
 
-  if (!handle_import<PlainTxtImportLibraryContext>(event->src_folder_path,
+  if (!handle_import<PlainTxtImportContext>(event->src_folder_path,
                                                    event->sizer)) {
     const std::string e =
         "Failure during the import from a plain txt folder: " +
@@ -585,7 +585,7 @@ void AnnotatorController::handle(ImportYolo4FolderRequestPtr event)
     return;
   }
 
-  if (!handle_import<Yolo4ImportLibraryContext>(event->src_folder_path,
+  if (!handle_import<Yolo4ImportContext>(event->src_folder_path,
                                                 event->sizer)) {
     const std::string e = "Failure during the import from a Yolo4 folder at " +
                           event->src_folder_path;
@@ -603,7 +603,7 @@ void AnnotatorController::handle(ImportUltralyticsDetectRequestPtr event)
     return;
   }
 
-  if (!handle_import<UltralyticsDetectImportLibraryContext>(
+  if (!handle_import<UltralyticsDetectImportContext>(
           event->src_folder_path, event->sizer)) {
     const std::string e =
         "Failure during the import from an Ultralytics YOLO detection folder "
@@ -623,7 +623,7 @@ void AnnotatorController::handle(ImportUltralyticsObbRequestPtr event)
     return;
   }
 
-  if (!handle_import<UltralyticsObbImportLibraryContext>(event->src_folder_path,
+  if (!handle_import<UltralyticsObbImportContext>(event->src_folder_path,
                                                          event->sizer)) {
     const std::string e =
         "Failure during the import from an Ultralytics YOLO oriented bounding "
@@ -643,7 +643,7 @@ void AnnotatorController::handle(ImportUltralyticsSegmentRequestPtr event)
     return;
   }
 
-  if (!handle_import<UltralyticsSegmentImportLibraryContext>(
+  if (!handle_import<UltralyticsSegmentImportContext>(
           event->src_folder_path, event->sizer)) {
     const std::string e =
         "Failure during the import from an Ultralytics YOLO segmentation "
@@ -663,7 +663,7 @@ void AnnotatorController::handle(ImportCocoRequestPtr event)
     return;
   }
 
-  if (!handle_import<CocoImportLibraryContext>(event->src_folder_path,
+  if (!handle_import<CocoImportContext>(event->src_folder_path,
                                                event->sizer)) {
     const std::string e = "Failure during the import from a COCO folder at " +
                           event->src_folder_path;
@@ -681,7 +681,7 @@ void AnnotatorController::handle(ImportPascalVocRequestPtr event)
     return;
   }
 
-  if (!handle_import<PascalVocImportLibraryContext>(event->src_folder_path,
+  if (!handle_import<PascalVocImportContext>(event->src_folder_path,
                                                     event->sizer)) {
     const std::string e =
         "Failure during the import from a Pascal VOC folder at " +
@@ -700,7 +700,7 @@ void AnnotatorController::handle(ImportCreateMLRequestPtr event)
     return;
   }
 
-  if (!handle_import<CreateMLImportLibraryContext>(event->src_folder_path,
+  if (!handle_import<CreateMLImportContext>(event->src_folder_path,
                                                    event->sizer)) {
     const std::string e =
         "Failure during the import from a Create ML folder at " +
@@ -719,7 +719,7 @@ void AnnotatorController::handle(ImportPyTorchVisionRequestPtr event)
     return;
   }
 
-  if (!handle_import<PyTorchImportLibraryContext>(event->src_folder_path,
+  if (!handle_import<PyTorchImportContext>(event->src_folder_path,
                                                   event->sizer)) {
     const std::string e =
         "Failure during the import from a PyTorch Vision folder at " +
@@ -766,7 +766,7 @@ bool AnnotatorController::handle_import(
 
   assert(ctx != nullptr);
 
-  auto importer = iadi::LibraryFacade::create_importer(ctx);
+  auto importer = iadi::IADataImportersFacade::create_importer(ctx);
 
   assert(importer != nullptr);
 
@@ -815,7 +815,7 @@ void AnnotatorController::handle(Export2PyTorchVisionRequestPtr event)
   }
 
   auto ctx =
-      build_export_context<PyTorchExportLibraryContext>(event->dst_folder_path);
+      build_export_context<PyTorchExportContext>(event->dst_folder_path);
 
   assert(ctx != nullptr);
 
@@ -828,7 +828,7 @@ void AnnotatorController::handle(Export2PyTorchVisionRequestPtr event)
   // this layout as well.
   ctx->set_cropper(event->cropper);
 
-  auto exporter = iade::LibraryFacade::create_exporter(ctx);
+  auto exporter = iade::IADataExportersFacade::create_exporter(ctx);
 
   assert(exporter != nullptr);
 

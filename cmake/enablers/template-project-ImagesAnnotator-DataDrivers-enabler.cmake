@@ -11,7 +11,7 @@ option(
 # reads and writes the annotations project files, so switching it off leaves
 # the sources without the record value objects and without the annotations
 # database they are written against. Say so here instead of letting the
-# configure succeed and the compilation fail on a missing <LibraryFacade.h>.
+# configure succeed and the compilation fail on a missing <IADataDriversFacade.h>.
 if (NOT ENABLE_IMAGES_ANNOTATOR_DATA_DRIVERS)
   message(WARNING
     "ENABLE_IMAGES_ANNOTATOR_DATA_DRIVERS is OFF - the project will not "
@@ -28,9 +28,9 @@ endif()
 # shorten or extend that name. The name the find_package() probe asks for is
 # therefore a cache variable rather than a literal: pointing the project at a
 # differently named build of the very same library - a major-only
-# "ImagesAnnotatorDataDrivers-0" or a "ImagesAnnotatorDataDrivers-0.11-dev" one -
+# "ImagesAnnotatorDataDrivers-0" or a "ImagesAnnotatorDataDrivers-0.12-dev" one -
 # stays a single -D on the command line.
-set(TEMPLATE_APP_IADD_PACKAGE "ImagesAnnotatorDataDrivers-0.11" CACHE STRING "The ImagesAnnotator-DataDrivers CMake package (and target) name to look for")
+set(TEMPLATE_APP_IADD_PACKAGE "ImagesAnnotatorDataDrivers-0.12" CACHE STRING "The ImagesAnnotator-DataDrivers CMake package (and target) name to look for")
 
 # Where the library comes from. Nothing in this build fetches it - the two
 # variables are what the packager manifests, which have to build it inside
@@ -44,16 +44,16 @@ set(TEMPLATE_APP_IADD_GIT_TAG "main" CACHE STRING "The ImagesAnnotator-DataDrive
 # ImagesAnnotator-DataExporters library, which the enabler next to this one
 # brings in, resolves the data drivers with a find_package() of its own and
 # includes their headers through the versioned
-# <ImagesAnnotatorDataDrivers-0.11/...> directory - a form only an installation
+# <ImagesAnnotatorDataDrivers-0.12/...> directory - a form only an installation
 # provides. Both libraries are therefore consumed installed, and the sources
 # include their headers the prefixed way (see
-# src/annotator-events/events/DataDriversAliases.h), which is what keeps the two
-# same named LibraryFacade.h headers of the two libraries apart.
+# src/annotator-events/events/DataDriversAliases.h), which pins the library
+# version every translation unit is talking to.
 #
-# No version is requested on purpose: the 0.11.0 release of the library installs
-# its package Config file without the companion <package>ConfigVersion.cmake, so
-# a versioned find_package() would never match it. The package name already
-# carries the major and the minor version.
+# No version is requested on purpose: the library installs its package Config
+# file without the companion <package>ConfigVersion.cmake, so a versioned
+# find_package() would never match it. The package name already carries the
+# major and the minor version.
 find_package(${TEMPLATE_APP_IADD_PACKAGE} QUIET CONFIG)
 
 if (NOT ${TEMPLATE_APP_IADD_PACKAGE}_FOUND)

@@ -56,13 +56,14 @@ std::shared_ptr<EventsFactory> EventsFactory::instance()
  * std::make_shared is what keeps the naming of the auto generated rectangles
  * and the naming the annotations database applies while it deserializes a
  * project file the very same rule: both go through one IRecordsFactory
- * implementation. Replacing it (see LibraryContext::records_factory) makes the
- * whole project build the enriched record subclasses of a descendant.
+ * implementation. Replacing it (see IADataDriversContext::records_factory)
+ * makes the whole project build the enriched record subclasses of a
+ * descendant.
  */
 static iadd::IRecordsFactoryPtr records_factory()
 {
   static iadd::IRecordsFactoryPtr factory =
-      iadd::LibraryFacade::create_records_factory();
+      iadd::IADataDriversFacade::create_records_factory();
 
   return factory;
 }

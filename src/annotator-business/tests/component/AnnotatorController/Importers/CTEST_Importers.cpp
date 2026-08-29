@@ -66,10 +66,10 @@ class FakeImageSizer : public IImageSizeFacilityProvider
  * The importers themselves belong to the ImagesAnnotator-DataImporters library
  * and are covered by its own suites. What is checked here is this project's
  * side of that integration: that a request event reaches the library through
- * LibraryFacade::create_importer(), that the library context the controller
- * fills in carries the annotations database and the image size reader of the
- * event, and that the records the layout named by that context type yields end
- * up in the database the application is editing.
+ * IADataImportersFacade::create_importer(), that the library context the
+ * controller fills in carries the annotations database and the image size
+ * reader of the event, and that the records the layout named by that context
+ * type yields end up in the database the application is editing.
  */
 class CTEST_Importers : public CTEST_AnnotatorController
 {

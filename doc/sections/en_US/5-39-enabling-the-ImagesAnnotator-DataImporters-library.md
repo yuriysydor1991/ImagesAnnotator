@@ -12,7 +12,7 @@ cmake -S . -B build -DENABLE_IMAGES_ANNOTATOR_DATA_IMPORTERS=ON
 
 ### It has to be installed first
 
-Unlike most of the third party enablers of the project, this one has no Internet fallback, for the very reason the exporters one has none: the library is consumed installed, and so is the [ImagesAnnotator-DataDrivers](/doc/sections/en_US/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md) library it is built against. The importers library resolves the data drivers with a `find_package()` of its own and includes their headers through the versioned `<ImagesAnnotatorDataDrivers-0.11/...>` directory, which only an installation provides.
+Unlike most of the third party enablers of the project, this one has no Internet fallback, for the very reason the exporters one has none: the library is consumed installed, and so is the [ImagesAnnotator-DataDrivers](/doc/sections/en_US/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md) library it is built against. The importers library resolves the data drivers with a `find_package()` of its own and includes their headers through the versioned `<ImagesAnnotatorDataDrivers-0.12/...>` directory, which only an installation provides.
 
 Build and install both, the data drivers first:
 
@@ -57,7 +57,7 @@ The three CI pipelines install it through the same [misc/ci/install-annotator-li
 
 ### Overriding the package name
 
-The library carries its major and minor version inside the installed package, target and binary names - `ImagesAnnotatorDataImporters-0.13`, matching its version carrying `ImagesAnnotatorDataImporters013` public namespace - so two minor versions install completely side by side. The name this project asks `find_package()` for is a cache variable:
+The library carries its major and minor version inside the installed package, target and binary names - `ImagesAnnotatorDataImporters-0.14`, matching its version carrying `ImagesAnnotatorDataImporters014` public namespace - so two minor versions install completely side by side. The name this project asks `find_package()` for is a cache variable:
 
 ```
 # a library built with -DLIB_INCLUDE_MINOR_IN_NAME=OFF, that is a major-only name
@@ -67,8 +67,8 @@ cmake -S . -B build -DTEMPLATE_APP_IADI_PACKAGE=ImagesAnnotatorDataImporters-0
 
 ### What the project takes from the library
 
-- `IImporter` and the nine `LibraryContext` layout descendants - the nine importers the `AnnotatorController` runs when the GUI raises an import request. It builds them through `LibraryFacade::create_importer()`, handing it the context of the wanted layout.
-- `LibraryContext` - the import configuration (the source directory, the annotations database the recovered records are merged into and the image measuring service) the controller fills in through the setters of the context. The database it hands over is the very one the project is being edited through, so an import appends to the open project instead of replacing it, and the library merge keeps an image the project already holds - which is what makes an import safe to repeat.
+- `IImporter` and the nine `IADataImportersContext` layout descendants - the nine importers the `AnnotatorController` runs when the GUI raises an import request. It builds them through `IADataImportersFacade::create_importer()`, handing it the context of the wanted layout.
+- `IADataImportersContext` - the import configuration (the source directory, the annotations database the recovered records are merged into and the image measuring service) the controller fills in through the setters of the context. The database it hands over is the very one the project is being edited through, so an import appends to the open project instead of replacing it, and the library merge keeps an image the project already holds - which is what makes an import safe to repeat.
 - `IImageSizeFacility` - the image measuring service five of the nine imports need. The library decodes no image format itself, and an annotation of the project format is a rectangle in the pixels of its image, so the YOLO v4 layout and the three Ultralytics YOLO ones (whose boxes are stored divided by that size) and the PyTorch Vision one (whose annotation is the cropped image itself) ask the application to measure the pictures. The COCO and the Pascal VOC descriptors carry the image dimensions themselves, and the plain text and the Create ML layouts hold their rectangles in the image own pixels, so those four are read whatever the application supplies - and every import request carries the reader all the same, since it is what fills the image dimensions of a recovered record in. Every GUI toolkit of this project implements that interface over the imaging stack it already links: `GtkmmImageSizeProvider`, `QtImageSizeProvider` and `WxImageSizeProvider`, the counterparts of the three image croppers of the export side. The `src/annotator-events/events/IImageSizeFacilityProvider.h` header of the project is an alias onto it.
 
-The single place naming the library is `src/annotator-events/events/DataImportersAliases.h`, which declares the `iadi` alias of the versioned `ImagesAnnotatorDataImporters013` namespace. Its headers are included through the versioned `<ImagesAnnotatorDataImporters-0.13/...>` directory: all three libraries install a public `LibraryFacade.h`, so the plain spelling would name whichever of them the compiler sees first.
+The single place naming the library is `src/annotator-events/events/DataImportersAliases.h`, which declares the `iadi` alias of the versioned `ImagesAnnotatorDataImporters014` namespace. Its headers are included through the versioned `<ImagesAnnotatorDataImporters-0.14/...>` directory: the prefix pins the library version every translation unit is talking to, and `IImporter.h` beside it is generic enough to collide on a busy include path.

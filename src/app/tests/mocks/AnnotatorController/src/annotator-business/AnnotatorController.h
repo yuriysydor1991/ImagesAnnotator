@@ -79,7 +79,7 @@ class AnnotatorController
   using ExportPlainTxt2FolderRequestPtr =
       events::events::ExportPlainTxt2FolderRequestPtr;
   using AnnotationsDBPtr = iadd::IAnnotationsDBPtr;
-  using LibraryContextPtr = iade::LibraryContextPtr;
+  using ExportContextPtr = iade::IADataExportersContextPtr;
 
   using RequestImagesDirProviderHandler =
       events::events::RequestImagesDirProviderHandler;

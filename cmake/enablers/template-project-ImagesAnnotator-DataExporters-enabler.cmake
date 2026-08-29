@@ -11,7 +11,7 @@ option(
 # writes the annotations out as a training dataset, so switching it off leaves
 # the sources without the export context and without the three exporters the
 # AnnotatorController runs. Say so here instead of letting the configure
-# succeed and the compilation fail on a missing <LibraryFacade.h>.
+# succeed and the compilation fail on a missing <IADataExportersFacade.h>.
 if (NOT ENABLE_IMAGES_ANNOTATOR_DATA_EXPORTERS)
   message(WARNING
     "ENABLE_IMAGES_ANNOTATOR_DATA_EXPORTERS is OFF - the project will not "
@@ -27,7 +27,7 @@ endif()
 # (ON by default), LIB_INCLUDE_MICRO_IN_NAME and LIB_NAME_SUFFIX options may
 # shorten or extend that name. The name the find_package() probe asks for is
 # therefore a cache variable rather than a literal.
-set(TEMPLATE_APP_IADE_PACKAGE "ImagesAnnotatorDataExporters-0.11" CACHE STRING "The ImagesAnnotator-DataExporters CMake package (and target) name to look for")
+set(TEMPLATE_APP_IADE_PACKAGE "ImagesAnnotatorDataExporters-0.12" CACHE STRING "The ImagesAnnotator-DataExporters CMake package (and target) name to look for")
 
 # Where the library comes from. Nothing in this build fetches it - the two
 # variables are what the packager manifests, which have to build it inside
@@ -39,14 +39,12 @@ set(TEMPLATE_APP_IADE_GIT_TAG "main" CACHE STRING "The ImagesAnnotator-DataExpor
 # No Internet fallback here, unlike most of the third party enablers of the
 # project: this library is not consumable as a sub-project. Its own configure
 # resolves the data drivers library with find_package(), and its public headers
-# include the versioned <ImagesAnnotatorDataDrivers-0.11/...> directory, which
+# include the versioned <ImagesAnnotatorDataDrivers-0.12/...> directory, which
 # only an installation provides. It is consumed installed, exactly the way its
 # own "Using the library in your project" documentation section describes.
 #
-# No version is requested on purpose: the 0.11.0 release of the library installs
-# its package Config file without the companion <package>ConfigVersion.cmake, so
-# a versioned find_package() would never match it. The package name already
-# carries the major and the minor version.
+# No version is requested on purpose: the package name already carries the major
+# and the minor version, which is what keeps incompatible releases apart.
 find_package(${TEMPLATE_APP_IADE_PACKAGE} QUIET CONFIG)
 
 if (NOT ${TEMPLATE_APP_IADE_PACKAGE}_FOUND)

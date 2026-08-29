@@ -249,7 +249,7 @@ TEST_F(CTEST_FormatsConverter,
   // its OpenCV. An installation built without it carries none, and then this
   // one destination is what the conversion cannot write - which is the very
   // thing this case tells apart.
-  if (iade::LibraryFacade::create_image_cropper() == nullptr) {
+  if (iade::IADataExportersFacade::create_image_cropper() == nullptr) {
     GTEST_SKIP() << "The installed ImagesAnnotator-DataExporters library was "
                     "built without OpenCV and ships no image cropper";
   }

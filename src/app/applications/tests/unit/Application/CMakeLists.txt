@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.13)
 add_executable(
   UTEST_Application  
   UTEST_Application.cpp
-  ${CMAKE_SOURCE_DIR}/src/app/Application.cpp
+  ${CMAKE_SOURCE_DIR}/src/app/applications/Application.cpp
   ${APP_MOCKS_ROOT}/ApplicationContext/src/app/ApplicationContext.cpp
 )
 
@@ -11,7 +11,6 @@ target_include_directories(
   UTEST_Application
   PRIVATE ${APP_MOCKS_ROOT}/ApplicationContext
   PRIVATE ${APP_MOCKS_ROOT}/GUIIniter
-  PRIVATE ${APP_MOCKS_ROOT}/FreeGlutIniter
   PRIVATE ${APP_MOCKS_ROOT}/project-global-decls
   PRIVATE ${APP_MOCKS_ROOT}/log
   PRIVATE ${APP_MOCKS_ROOT}/AnnotatorController

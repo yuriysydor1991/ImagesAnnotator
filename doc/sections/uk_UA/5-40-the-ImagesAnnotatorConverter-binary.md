@@ -95,8 +95,9 @@ YOLO та PyTorch Vision, чиї анотації збережено відно�
 [cmake/template-project-annotator-app-targets.cmake](/cmake/template-project-annotator-app-targets.cmake).
 Обидва виконувані файли входять через один і той самий `src/main.cpp`.
 
-Відрізняється рівно одна одиниця трансляції: `src/app/Application.cpp`, клас,
-який запускає вкомпільований `gui::GUIIniter`. Його передає лише головній цілі
+Відрізняється рівно одна одиниця трансляції:
+`src/app/applications/Application.cpp`, клас, який запускає вкомпільований
+`gui::GUIIniter`. Його передає лише головній цілі
 файл [src/ImagesAnnotator-target.cmake](/src/ImagesAnnotator-target.cmake),
 натомість [src/ImagesAnnotatorConverter-target.cmake](/src/ImagesAnnotatorConverter-target.cmake)
 компілює свою ціль із визначенням препроцесора

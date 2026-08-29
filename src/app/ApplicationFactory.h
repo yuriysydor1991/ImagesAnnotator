@@ -32,8 +32,8 @@
 
 #include "src/app/ApplicationContext.h"
 #include "src/app/CommandLineParser.h"
-#include "src/app/IApplication.h"
-#include "src/app/converter/IFormatsConverter.h"
+#include "src/app/applications/IApplication.h"
+#include "src/app/applications/converter/IFormatsConverter.h"
 
 namespace app
 {

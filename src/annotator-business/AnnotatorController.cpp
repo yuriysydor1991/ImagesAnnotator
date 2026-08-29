@@ -37,7 +37,7 @@
 #include "src/annotator-events/events/DataExportersAliases.h"
 #include "src/annotator-events/events/DataImportersAliases.h"
 #include "src/app/ApplicationContext.h"
-#include "src/app/IApplication.h"
+#include "src/app/applications/IApplication.h"
 #include "src/log/log.h"
 
 namespace iannotator

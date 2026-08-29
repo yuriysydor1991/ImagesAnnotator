@@ -23,9 +23,10 @@ annotator_configure_app_target(${PROJECT_BINARY_NAME})
 
 # The app::Application class is what this binary has and the converter only one
 # has not: it starts the compiled in gui::GUIIniter, so the whole src/gui
-# subtree follows the single translation unit added here. The sources both
-# binaries share are handed over by src/app/CMakeLists.txt instead.
+# subtree follows the single translation unit added here. The other IApplication
+# descendants beside it are handed over by src/app/applications/CMakeLists.txt,
+# and the rest of the component by src/app/CMakeLists.txt, to both binaries.
 target_sources(
   ${PROJECT_BINARY_NAME}
-  PRIVATE ${ANNOTATOR_SRC_ROOT}/app/Application.cpp
+  PRIVATE ${ANNOTATOR_SRC_ROOT}/app/applications/Application.cpp
 )

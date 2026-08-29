@@ -31,20 +31,20 @@
 #include <memory>
 
 #include "src/app/ApplicationContext.h"
-#include "src/app/ApplicationHelpPrinter.h"
-#include "src/app/ApplicationVersionPrinter.h"
 #include "src/app/CommandLineParser.h"
-#include "src/app/IApplication.h"
-#include "src/app/converter/ApplicationConverterComponent.h"
-#include "src/app/converter/ApplicationFormatsConverter.h"
-#include "src/app/converter/IFormatsConverter.h"
+#include "src/app/applications/ApplicationHelpPrinter.h"
+#include "src/app/applications/ApplicationVersionPrinter.h"
+#include "src/app/applications/IApplication.h"
+#include "src/app/applications/converter/ApplicationConverterComponent.h"
+#include "src/app/applications/converter/ApplicationFormatsConverter.h"
+#include "src/app/applications/converter/IFormatsConverter.h"
 #include "src/log/log.h"
 
 #ifndef IMAGES_ANNOTATOR_CONVERTER_ONLY
 // The graphical application, and with it the whole src/gui subtree it starts.
 // The converter only binary is compiled without both, which is the single
 // place in this project where the two binaries part ways.
-#include "src/app/Application.h"
+#include "src/app/applications/Application.h"
 #endif  // IMAGES_ANNOTATOR_CONVERTER_ONLY
 
 namespace app

@@ -10,12 +10,12 @@ add_executable(
 target_include_directories(
   UTEST_ApplicationFactory
   PRIVATE ${APP_MOCKS_ROOT}/ApplicationContext
-  PRIVATE ${APP_MOCKS_ROOT}/Application
-  PRIVATE ${APP_MOCKS_ROOT}/ApplicationHelpPrinter
-  PRIVATE ${APP_MOCKS_ROOT}/ApplicationVersionPrinter
+  PRIVATE ${APPLICATIONS_MOCKS_ROOT}/Application
+  PRIVATE ${APPLICATIONS_MOCKS_ROOT}/ApplicationHelpPrinter
+  PRIVATE ${APPLICATIONS_MOCKS_ROOT}/ApplicationVersionPrinter
   PRIVATE ${APP_MOCKS_ROOT}/CommandLineParser
-  PRIVATE ${APP_MOCKS_ROOT}/ApplicationConverterComponent
-  PRIVATE ${APP_MOCKS_ROOT}/ApplicationFormatsConverter
+  PRIVATE ${APPLICATIONS_MOCKS_ROOT}/ApplicationConverterComponent
+  PRIVATE ${APPLICATIONS_MOCKS_ROOT}/ApplicationFormatsConverter
   PRIVATE ${APP_MOCKS_ROOT}/project-global-decls
   PRIVATE ${APP_MOCKS_ROOT}/log
   PRIVATE ${CMAKE_SOURCE_DIR}

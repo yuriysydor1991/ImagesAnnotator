@@ -94,8 +94,9 @@ functions of
 [cmake/template-project-annotator-app-targets.cmake](/cmake/template-project-annotator-app-targets.cmake).
 Both binaries are entered through one and the same `src/main.cpp`.
 
-Exactly one translation unit differs: `src/app/Application.cpp`, the class which
-starts the compiled in `gui::GUIIniter`. It is handed to the main target alone
+Exactly one translation unit differs:
+`src/app/applications/Application.cpp`, the class which starts the compiled in
+`gui::GUIIniter`. It is handed to the main target alone
 by [src/ImagesAnnotator-target.cmake](/src/ImagesAnnotator-target.cmake), while
 [src/ImagesAnnotatorConverter-target.cmake](/src/ImagesAnnotatorConverter-target.cmake)
 compiles its target with the `IMAGES_ANNOTATOR_CONVERTER_ONLY` preprocessor

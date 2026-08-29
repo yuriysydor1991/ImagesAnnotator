@@ -10,8 +10,8 @@
 #include "ctests_decls.h"
 #include "src/annotator-events/events/DataExportersAliases.h"
 #include "src/app/ApplicationContext.h"
-#include "src/app/converter/ApplicationConverterComponent.h"
-#include "src/app/converter/ApplicationFormatsConverter.h"
+#include "src/app/applications/converter/ApplicationConverterComponent.h"
+#include "src/app/applications/converter/ApplicationFormatsConverter.h"
 
 using namespace app;
 using namespace app::converter;

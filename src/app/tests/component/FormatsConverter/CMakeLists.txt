@@ -12,9 +12,9 @@ add_executable(
   ${CCTNAME}
   CTEST_FormatsConverter.cpp
   ${CMAKE_SOURCE_DIR}/src/app/ApplicationContext.cpp
-  ${CMAKE_SOURCE_DIR}/src/app/converter/ApplicationConverterComponent.cpp
-  ${CMAKE_SOURCE_DIR}/src/app/converter/ApplicationFormatsConverter.cpp
-  ${CMAKE_SOURCE_DIR}/src/app/converter/ConversionFormats.cpp
+  ${CMAKE_SOURCE_DIR}/src/app/applications/converter/ApplicationConverterComponent.cpp
+  ${CMAKE_SOURCE_DIR}/src/app/applications/converter/ApplicationFormatsConverter.cpp
+  ${CMAKE_SOURCE_DIR}/src/app/applications/converter/ConversionFormats.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-business/AnnotatorController.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/ImagesLoaders/ImagesDirLoader.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-business/dbs/ImagesLoaders/ImagesWebPageLoader.cpp

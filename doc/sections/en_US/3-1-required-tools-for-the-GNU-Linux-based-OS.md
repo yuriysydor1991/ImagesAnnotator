@@ -25,6 +25,28 @@ library](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-lib
 and [Enabling the ImagesAnnotator-DataImporters
 library](/doc/sections/en_US/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md).
 
+The distribution packages the commands below install one at a time are installed
+in a single command as well, by
+[scripts/packages/install-debian.sh](/scripts/packages/install-debian.sh), which
+names them all: the compiler, the CMake, the Git, the GTest, the libraries the
+configure would otherwise build from their sources and the development packages
+of a single GUI toolkit - the default GTKmm3 one, or the one named as its only
+argument:
+
+```
+# inside the project root directory
+
+scripts/packages/install-debian.sh
+
+# gtkmm3 (the default), gtkmm4, wxwidgets, qt6 or all
+scripts/packages/install-debian.sh qt6
+```
+
+[scripts/packages/install-ubuntu.sh](/scripts/packages/install-ubuntu.sh) is its
+Ubuntu named alias, as the two distributions share the package set. The rest of
+this section names those packages one by one, which is what a system missing
+only a part of them needs.
+
 In order to build minimum project install the GCC C++ compiler with CMake and Git.
 
 ```

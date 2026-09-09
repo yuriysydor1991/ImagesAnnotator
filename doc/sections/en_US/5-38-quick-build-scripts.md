@@ -4,6 +4,17 @@ The [scripts/build](/scripts/build) directory holds the shell scripts which perf
 
 Every script keeps its build tree under the project `build` directory: the `Release` one at `build/release` and the `Debug` one at `build/debug`.
 
+The [scripts/packages](/scripts/packages) directory holds what has to be there before any of them is started: [install-debian.sh](/scripts/packages/install-debian.sh) and its [install-ubuntu.sh](/scripts/packages/install-ubuntu.sh) alias install the compiler, the CMake, the GTest, the two libraries the default configure would otherwise fetch and build from their sources, the OpenCV the `ImagesAnnotatorConverter` binary needs and the development packages of a **single** GUI toolkit - the default GTKmm3 one, or the one named as the only argument:
+
+```
+# inside the project root directory
+
+scripts/packages/install-debian.sh
+
+# gtkmm3 (the default), gtkmm4, wxwidgets, qt6 or all
+scripts/packages/install-debian.sh gtkmm4
+```
+
 The project does not build without the three standalone libraries it is built against, and none of them is fetched by the configure step (see the [Enabling the ImagesAnnotator-DataDrivers library](/doc/sections/en_US/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md), the [Enabling the ImagesAnnotator-DataExporters library](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md) and the [Enabling the ImagesAnnotator-DataImporters library](/doc/sections/en_US/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md) sections), so they are to be installed once before any of the scripts below is started:
 
 ```
@@ -38,6 +49,29 @@ A complete `Release` build takes the single command:
 scripts/build/release.sh
 ```
 
+### Packager scripts
+
+Each of the scripts below performs the `Release` configure step with a single packager option enabled and then builds the target which produces the package. There is no separate build step: each of those targets builds whatever it needs on its own, so nothing unused is built into the `build/release` directory beforehand. They accept the parameters of the entry point scripts above, and the produced package lands there:
+
+| Script | Produces | The `--install` installs it with |
+| --- | --- | --- |
+| [build-deb.sh](/scripts/build/build-deb.sh) | the DEB package - the `ENABLE_DEB` option and the `package` target | `sudo apt-get install` |
+| [build-flatpak.sh](/scripts/build/build-flatpak.sh) | the flatpak bundle - the `ENABLE_FLATPAK` option and the `flatpak` target | `flatpak install --user` |
+| [build-freebsd-pkg.sh](/scripts/build/build-freebsd-pkg.sh) | the FreeBSD pkg package - the `ENABLE_FREEBSD_PKG` option and the `package` target | `sudo pkg add` |
+| [build-rpm.sh](/scripts/build/build-rpm.sh) | the RPM package - the `ENABLE_RPM` option and the `package` target | `sudo dnf install` |
+| [build-snap.sh](/scripts/build/build-snap.sh) | the snap package - the `ENABLE_SNAP` option and the `snap` target | `sudo snap install --dangerous` |
+| [build-wix.sh](/scripts/build/build-wix.sh) | the WIX MSI installer - the `ENABLE_WIX` option and the `package` target | `msiexec //i` |
+
+An own `-D<variable>=<value>` argument is forwarded to the configure step after the packager option, so it overrides that option and every other project setting - the GUI toolkit of the packaged binary among them:
+
+```
+# inside the project root directory
+
+scripts/build/build-deb.sh -DUSE_QT6=ON
+```
+
+The packager options themselves, the tools they need and their own settings are described by the [Enabling DEB package generation with cpack](/doc/sections/en_US/5-10-enabling-DEB-package-generation-with-cpack.md), the [Enabling the flatpak package generation support](/doc/sections/en_US/5-11-enabling-the-flatpak-package-generation-support.md), the [Enabling FreeBSD pkg package generation with cpack](/doc/sections/en_US/5-20-enabling-FreeBSD-pkg-package-generation-with-cpack.md), the [Enabling WIX MSI package generation with cpack](/doc/sections/en_US/5-21-enabling-WIX-MSI-package-generation-with-cpack.md), the [Enabling RPM package generation with cpack](/doc/sections/en_US/5-22-enabling-RPM-package-generation-with-cpack.md) and the [Enabling the snap packager](/doc/sections/en_US/5-19-enabling-the-snap-package-manager.md) sections.
+
 ### Stage scripts
 
 Every entry point script above is a chain of the stage scripts below, which may be started on their own when a single step is needed:
@@ -57,7 +91,7 @@ The scripts accept the next parameters of their own, which are never passed to t
 | --- | --- |
 | `--no-reconfigure` | Keeps the existing build directory and skips the configure step entirely. Without the parameter the configure step **erases** the build directory before configuring the project anew. |
 | `--test` | Performs the test step, which starts the `ctest` command inside the `Debug` build directory. Without the parameter the test step is skipped. The parameter belongs to the `Debug` scripts alone, as the tests are enabled by their configure step only. |
-| `--install` | Performs the install step. Without the parameter the install step is skipped, so no `sudo` password is ever asked for a plain build. |
+| `--install` | Performs the install step. Without the parameter the install step is skipped, so no `sudo` password is ever asked for a plain build. The packager scripts install the package they have just produced instead, with the tool of that packager. |
 
 Any `-D<variable>=<value>` argument is passed to the configure step, which makes every CMake option of this documentation available to the scripts:
 

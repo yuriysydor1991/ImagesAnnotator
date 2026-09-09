@@ -65,6 +65,26 @@ filter_script_args()
     done
 }
 
+# Installs the last built package the name pattern matches inside the Release
+# build directory. The rest of the arguments is the installer command the
+# package path is appended to.
+install_built_package()
+{
+    PACKAGE_PATTERN=$1
+    shift
+
+    PACKAGE=$(find "${RELEASE_BUILD_DIR}" -name "${PACKAGE_PATTERN}" -print0 |
+        xargs -0 -r ls -t | head -n1)
+
+    if [[ -z ${PACKAGE} ]] ; then
+        log_fatal "No ${PACKAGE_PATTERN} package inside ${RELEASE_BUILD_DIR}"
+    fi
+
+    log "Installing ${PACKAGE}"
+
+    "$@" "${PACKAGE}"
+}
+
 INSTALL_PREFIX="/usr"
 RELEASE_BUILD_DIR="${PROJECT_ROOT}/build/release"
 DEBUG_BUILD_DIR="${PROJECT_ROOT}/build/debug"

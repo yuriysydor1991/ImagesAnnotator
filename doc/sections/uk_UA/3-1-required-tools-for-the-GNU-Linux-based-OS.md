@@ -8,6 +8,19 @@ misc/ci/install-annotator-libraries.sh
 
 Він встановлює у `/usr/local`; передай інший префікс єдиним аргументом і вкажи його конфігурації через `-DCMAKE_PREFIX_PATH=<префікс>`. Самому сценарію потрібні компілятор, CMake і Git, описані нижче. Дивись [Вмикання інтеграції бібліотеки ImagesAnnotator-DataDrivers](/doc/sections/uk_UA/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md) [Вмикання інтеграції бібліотеки ImagesAnnotator-DataExporters](/doc/sections/uk_UA/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md) та [Вмикання інтеграції бібліотеки ImagesAnnotator-DataImporters](/doc/sections/uk_UA/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md).
 
+Пакунки дистрибутиву, які команди нижче встановлюють по черзі, встановлюються і однією командою - сценарієм [scripts/packages/install-debian.sh](/scripts/packages/install-debian.sh), який перелічує їх усі: компілятор, CMake, Git, GTest, бібліотеки, які конфігурація інакше зібрала б з їхніх джерел, і пакунки розробника одного інструментарію графічного інтерфейсу - типового GTKmm3 або того, який названо його єдиним аргументом:
+
+```
+# в середині кореневої директорії проекту
+
+scripts/packages/install-debian.sh
+
+# gtkmm3 (типовий), gtkmm4, wxwidgets, qt6 або all
+scripts/packages/install-debian.sh qt6
+```
+
+[scripts/packages/install-ubuntu.sh](/scripts/packages/install-ubuntu.sh) є його назвою для Ubuntu, оскільки обидва дистрибутиви мають однаковий набір пакунків. Решта цієї секції перелічує ті пакунки по одному, що потрібно системі, якій бракує лише частини з них.
+
 Для того щоб виконати побудову проекту необхідно встановити компілятор GCC C++ разом з системою побудови проекту CMake і системою версіювання Git:
 
 ```

@@ -4,6 +4,17 @@
 
 Кожен скрипт тримає своє дерево побудови всередині директорії `build` проекту: `Release` у `build/release`, а `Debug` у `build/debug`.
 
+Директорія [scripts/packages](/scripts/packages) містить те, що має бути встановлено перед запуском будь-якого з них: [install-debian.sh](/scripts/packages/install-debian.sh) і його псевдонім [install-ubuntu.sh](/scripts/packages/install-ubuntu.sh) встановлюють компілятор, CMake, GTest, дві бібліотеки, які типова конфігурація інакше звантажила б і зібрала з їхніх джерел, OpenCV, потрібний виконуваному файлу `ImagesAnnotatorConverter`, і пакунки розробника **одного** інструментарію графічного інтерфейсу - типового GTKmm3 або того, який названо єдиним аргументом:
+
+```
+# в середині кореневої директорії проекту
+
+scripts/packages/install-debian.sh
+
+# gtkmm3 (типовий), gtkmm4, wxwidgets, qt6 або all
+scripts/packages/install-debian.sh gtkmm4
+```
+
 Проект не будується без трьох окремих бібліотек, з якими він збирається, і жодна з них не звантажується кроком конфігурації (див. секції [Увімкнення бібліотеки ImagesAnnotator-DataDrivers](/doc/sections/uk_UA/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md), [Увімкнення бібліотеки ImagesAnnotator-DataExporters](/doc/sections/uk_UA/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md) та [Вмикання інтеграції бібліотеки ImagesAnnotator-DataImporters](/doc/sections/uk_UA/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md)), отож їх слід один раз встановити перед запуском будь-якого зі скриптів нижче:
 
 ```
@@ -38,6 +49,29 @@ misc/ci/install-annotator-libraries.sh
 scripts/build/release.sh
 ```
 
+### Скрипти пакувальників
+
+Кожен зі скриптів нижче виконує крок конфігурації `Release` з увімкненим одним параметром пакувальника, а потім будує ціль, яка створює пакунок. Окремого кроку побудови немає: кожна з тих цілей самостійно будує все, що їй потрібно, отож нічого зайвого до директорії `build/release` заздалегідь не збирається. Вони приймають параметри скриптів повного циклу вище, а створений пакунок з'являється саме там:
+
+| Скрипт | Створює | З `--install` встановлює його через |
+| --- | --- | --- |
+| [build-deb.sh](/scripts/build/build-deb.sh) | пакунок DEB - параметр `ENABLE_DEB` і ціль `package` | `sudo apt-get install` |
+| [build-flatpak.sh](/scripts/build/build-flatpak.sh) | зв'язку flatpak - параметр `ENABLE_FLATPAK` і ціль `flatpak` | `flatpak install --user` |
+| [build-freebsd-pkg.sh](/scripts/build/build-freebsd-pkg.sh) | пакунок FreeBSD pkg - параметр `ENABLE_FREEBSD_PKG` і ціль `package` | `sudo pkg add` |
+| [build-rpm.sh](/scripts/build/build-rpm.sh) | пакунок RPM - параметр `ENABLE_RPM` і ціль `package` | `sudo dnf install` |
+| [build-snap.sh](/scripts/build/build-snap.sh) | пакунок snap - параметр `ENABLE_SNAP` і ціль `snap` | `sudo snap install --dangerous` |
+| [build-wix.sh](/scripts/build/build-wix.sh) | інсталятор WIX MSI - параметр `ENABLE_WIX` і ціль `package` | `msiexec //i` |
+
+Власний аргумент виду `-D<змінна>=<значення>` передається до кроку конфігурації після параметра пакувальника, отож він перекриває і цей параметр, і будь-яке інше налаштування проекту - зокрема інструментарій графічного інтерфейсу запакованого виконуваного файлу:
+
+```
+# в середині кореневої директорії проекту
+
+scripts/build/build-deb.sh -DUSE_QT6=ON
+```
+
+Самі параметри пакувальників, потрібні їм інструменти та їхні власні налаштування описані у секціях [Вмикання підтримки генерування DEB-пакетів з cpack](/doc/sections/uk_UA/5-10-enabling-DEB-package-generation-with-cpack.md), [Вмикання підтримки генерації flatpak пакету](/doc/sections/uk_UA/5-11-enabling-the-flatpak-package-generation-support.md), [Вмикання підтримки генерування пакунків FreeBSD pkg з cpack](/doc/sections/uk_UA/5-20-enabling-FreeBSD-pkg-package-generation-with-cpack.md), [Вмикання підтримки генерування WIX MSI-пакетів з cpack](/doc/sections/uk_UA/5-21-enabling-WIX-MSI-package-generation-with-cpack.md), [Вмикання підтримки генерування RPM-пакунків з cpack](/doc/sections/uk_UA/5-22-enabling-RPM-package-generation-with-cpack.md) та [Вмикання пакувальника snap](/doc/sections/uk_UA/5-19-enabling-the-snap-package-manager.md).
+
 ### Скрипти окремих кроків
 
 Кожен скрипт повного циклу вище є ланцюжком зі скриптів окремих кроків нижче, які можна запускати самостійно, коли потрібен лише один крок:
@@ -57,7 +91,7 @@ scripts/build/release.sh
 | --- | --- |
 | `--no-reconfigure` | Зберігає наявну директорію побудови і повністю пропускає крок конфігурації. Без цього параметра крок конфігурації **стирає** директорію побудови перед новою конфігурацією проекту. |
 | `--test` | Виконує крок тестування, який запускає команду `ctest` всередині директорії побудови `Debug`. Без цього параметра крок тестування пропускається. Параметр належить лише скриптам `Debug`, оскільки тести вмикає тільки їхній крок конфігурації. |
-| `--install` | Виконує крок встановлення. Без цього параметра крок встановлення пропускається, отож для звичайної побудови пароль `sudo` ніколи не запитується. |
+| `--install` | Виконує крок встановлення. Без цього параметра крок встановлення пропускається, отож для звичайної побудови пароль `sudo` ніколи не запитується. Скрипти пакувальників натомість встановлюють щойно створений ними пакунок інструментом того пакувальника. |
 
 Будь-який аргумент виду `-D<змінна>=<значення>` передається до кроку конфігурації, що робить доступним для скриптів кожен параметр CMake з цієї документації:
 

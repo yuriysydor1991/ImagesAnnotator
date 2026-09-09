@@ -55,6 +55,7 @@ Each of the scripts below performs the `Release` configure step with a single pa
 
 | Script | Produces | The `--install` installs it with |
 | --- | --- | --- |
+| [build-appimage.sh](/scripts/build/build-appimage.sh) | the AppImage package - the `ENABLE_APPIMAGE` option and the `appimage` target | `install` into the `${HOME}/.local/bin` |
 | [build-deb.sh](/scripts/build/build-deb.sh) | the DEB package - the `ENABLE_DEB` option and the `package` target | `sudo apt-get install` |
 | [build-flatpak.sh](/scripts/build/build-flatpak.sh) | the flatpak bundle - the `ENABLE_FLATPAK` option and the `flatpak` target | `flatpak install --user` |
 | [build-freebsd-pkg.sh](/scripts/build/build-freebsd-pkg.sh) | the FreeBSD pkg package - the `ENABLE_FREEBSD_PKG` option and the `package` target | `sudo pkg add` |
@@ -70,7 +71,7 @@ An own `-D<variable>=<value>` argument is forwarded to the configure step after 
 scripts/build/build-deb.sh -DUSE_QT6=ON
 ```
 
-The packager options themselves, the tools they need and their own settings are described by the [Enabling DEB package generation with cpack](/doc/sections/en_US/5-10-enabling-DEB-package-generation-with-cpack.md), the [Enabling the flatpak package generation support](/doc/sections/en_US/5-11-enabling-the-flatpak-package-generation-support.md), the [Enabling FreeBSD pkg package generation with cpack](/doc/sections/en_US/5-20-enabling-FreeBSD-pkg-package-generation-with-cpack.md), the [Enabling WIX MSI package generation with cpack](/doc/sections/en_US/5-21-enabling-WIX-MSI-package-generation-with-cpack.md), the [Enabling RPM package generation with cpack](/doc/sections/en_US/5-22-enabling-RPM-package-generation-with-cpack.md) and the [Enabling the snap packager](/doc/sections/en_US/5-19-enabling-the-snap-package-manager.md) sections.
+The packager options themselves, the tools they need and their own settings are described by the [Enabling the AppImage packager](/doc/sections/en_US/5-41-enabling-the-AppImage-packager.md), the [Enabling DEB package generation with cpack](/doc/sections/en_US/5-10-enabling-DEB-package-generation-with-cpack.md), the [Enabling the flatpak package generation support](/doc/sections/en_US/5-11-enabling-the-flatpak-package-generation-support.md), the [Enabling FreeBSD pkg package generation with cpack](/doc/sections/en_US/5-20-enabling-FreeBSD-pkg-package-generation-with-cpack.md), the [Enabling WIX MSI package generation with cpack](/doc/sections/en_US/5-21-enabling-WIX-MSI-package-generation-with-cpack.md), the [Enabling RPM package generation with cpack](/doc/sections/en_US/5-22-enabling-RPM-package-generation-with-cpack.md) and the [Enabling the snap packager](/doc/sections/en_US/5-19-enabling-the-snap-package-manager.md) sections.
 
 ### Stage scripts
 

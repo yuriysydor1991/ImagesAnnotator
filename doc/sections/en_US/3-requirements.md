@@ -13,3 +13,4 @@ This section contains list of required packages and/or tools that must be presen
 1. [Optional for the flatpak packager](/doc/sections/en_US/3-9-optional-for-the-flatpak-packager.md)
 1. [Optional for the Docker container runs](/doc/sections/en_US/3-10-optional-for-docker-container-runs.md)
 1. [Optional for the snap packager](/doc/sections/en_US/3-11-optional-for-snap-packager.md)
+1. [Optional for the AppImage packager](/doc/sections/en_US/3-12-optional-for-the-AppImage-packager.md)

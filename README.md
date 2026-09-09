@@ -112,6 +112,7 @@ Reading a dataset back is the mirror of that: the nine importers the application
     1. [Optional for the flatpak packager](/doc/sections/en_US/3-9-optional-for-the-flatpak-packager.md)
     1. [Optional for the Docker container runs](/doc/sections/en_US/3-10-optional-for-docker-container-runs.md)
     1. [Optional for the snap packager](/doc/sections/en_US/3-11-optional-for-snap-packager.md)
+    1. [Optional for the AppImage packager](/doc/sections/en_US/3-12-optional-for-the-AppImage-packager.md)
 1. [Project structure](/doc/sections/en_US/4-project-structure.md)
     1. [Implement code straight away!](/doc/sections/en_US/4-1-implement-code-straight-away.md)
     1. [Changing the project and executable name](/doc/sections/en_US/4-2-changing-the-project-and-executable-name.md)
@@ -163,6 +164,7 @@ Reading a dataset back is the mirror of that: the nine importers the application
     1. [Quick build scripts](/doc/sections/en_US/5-38-quick-build-scripts.md)
     1. [Enabling the ImagesAnnotator-DataImporters library](/doc/sections/en_US/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md)
     1. [The ImagesAnnotatorConverter binary](/doc/sections/en_US/5-40-the-ImagesAnnotatorConverter-binary.md)
+    1. [Enabling the AppImage packager](/doc/sections/en_US/5-41-enabling-the-AppImage-packager.md)
 1. [Run the executable](/doc/sections/en_US/6-run-the-executable.md)
     1. [IDE run](/doc/sections/en_US/6-1-IDE-run.md)
     1. Command line run

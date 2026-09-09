@@ -110,6 +110,7 @@ plantuml -tsvg -o ../images doc/diagrams/plantuml/dependencies.puml
     1. [Необов'язковий програми для генерації пакету flatpak](/doc/sections/uk_UA/3-9-optional-for-the-flatpak-packager.md)
     1. [Необов'язкові пакети для запуску контейнера Docker](/doc/sections/uk_UA/3-10-optional-for-docker-container-runs.md)
     1. [Необов'язкові пакети для snap пакувальника](/doc/sections/uk_UA/3-11-optional-for-snap-packager.md)
+    1. [Необов'язкові програми для генерації пакунку AppImage](/doc/sections/uk_UA/3-12-optional-for-the-AppImage-packager.md)
 1. [Структура проекту](/doc/sections/uk_UA/4-project-structure.md)
     1. [Реалізуй код одразу!](/doc/sections/uk_UA/4-1-implement-code-straight-away.md)
     1. [Зміна назви проекту і головного виконуваного файлу](/doc/sections/uk_UA/4-2-changing-the-project-and-executable-name.md)
@@ -161,6 +162,7 @@ plantuml -tsvg -o ../images doc/diagrams/plantuml/dependencies.puml
     1. [Швидкі скрипти побудови](/doc/sections/uk_UA/5-38-quick-build-scripts.md)
     1. [Вмикання інтеграції бібліотеки ImagesAnnotator-DataImporters](/doc/sections/uk_UA/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md)
     1. [Виконуваний файл ImagesAnnotatorConverter](/doc/sections/uk_UA/5-40-the-ImagesAnnotatorConverter-binary.md)
+    1. [Вмикання пакувальника AppImage](/doc/sections/uk_UA/5-41-enabling-the-AppImage-packager.md)
 1. [Запуск головного виконуваного файлу](/doc/sections/uk_UA/6-run-the-executable.md)
     1. [Запуск через IDE](/doc/sections/uk_UA/6-1-IDE-run.md)
     1. Запуск з терміналу

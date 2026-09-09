@@ -55,6 +55,7 @@ scripts/build/release.sh
 
 | Скрипт | Створює | З `--install` встановлює його через |
 | --- | --- | --- |
+| [build-appimage.sh](/scripts/build/build-appimage.sh) | пакунок AppImage - параметр `ENABLE_APPIMAGE` і ціль `appimage` | `install` у каталог `${HOME}/.local/bin` |
 | [build-deb.sh](/scripts/build/build-deb.sh) | пакунок DEB - параметр `ENABLE_DEB` і ціль `package` | `sudo apt-get install` |
 | [build-flatpak.sh](/scripts/build/build-flatpak.sh) | зв'язку flatpak - параметр `ENABLE_FLATPAK` і ціль `flatpak` | `flatpak install --user` |
 | [build-freebsd-pkg.sh](/scripts/build/build-freebsd-pkg.sh) | пакунок FreeBSD pkg - параметр `ENABLE_FREEBSD_PKG` і ціль `package` | `sudo pkg add` |
@@ -70,7 +71,7 @@ scripts/build/release.sh
 scripts/build/build-deb.sh -DUSE_QT6=ON
 ```
 
-Самі параметри пакувальників, потрібні їм інструменти та їхні власні налаштування описані у секціях [Вмикання підтримки генерування DEB-пакетів з cpack](/doc/sections/uk_UA/5-10-enabling-DEB-package-generation-with-cpack.md), [Вмикання підтримки генерації flatpak пакету](/doc/sections/uk_UA/5-11-enabling-the-flatpak-package-generation-support.md), [Вмикання підтримки генерування пакунків FreeBSD pkg з cpack](/doc/sections/uk_UA/5-20-enabling-FreeBSD-pkg-package-generation-with-cpack.md), [Вмикання підтримки генерування WIX MSI-пакетів з cpack](/doc/sections/uk_UA/5-21-enabling-WIX-MSI-package-generation-with-cpack.md), [Вмикання підтримки генерування RPM-пакунків з cpack](/doc/sections/uk_UA/5-22-enabling-RPM-package-generation-with-cpack.md) та [Вмикання пакувальника snap](/doc/sections/uk_UA/5-19-enabling-the-snap-package-manager.md).
+Самі параметри пакувальників, потрібні їм інструменти та їхні власні налаштування описані у секціях [Вмикання пакувальника AppImage](/doc/sections/uk_UA/5-41-enabling-the-AppImage-packager.md), [Вмикання підтримки генерування DEB-пакетів з cpack](/doc/sections/uk_UA/5-10-enabling-DEB-package-generation-with-cpack.md), [Вмикання підтримки генерації flatpak пакету](/doc/sections/uk_UA/5-11-enabling-the-flatpak-package-generation-support.md), [Вмикання підтримки генерування пакунків FreeBSD pkg з cpack](/doc/sections/uk_UA/5-20-enabling-FreeBSD-pkg-package-generation-with-cpack.md), [Вмикання підтримки генерування WIX MSI-пакетів з cpack](/doc/sections/uk_UA/5-21-enabling-WIX-MSI-package-generation-with-cpack.md), [Вмикання підтримки генерування RPM-пакунків з cpack](/doc/sections/uk_UA/5-22-enabling-RPM-package-generation-with-cpack.md) та [Вмикання пакувальника snap](/doc/sections/uk_UA/5-19-enabling-the-snap-package-manager.md).
 
 ### Скрипти окремих кроків
 

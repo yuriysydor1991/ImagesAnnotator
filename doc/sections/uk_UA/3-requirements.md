@@ -13,3 +13,4 @@
 1. [Необов'язковий програми для генерації пакету flatpak](/doc/sections/uk_UA/3-9-optional-for-the-flatpak-packager.md)
 1. [Необов'язкові пакети для запуску контейнера Docker](/doc/sections/uk_UA/3-10-optional-for-docker-container-runs.md)
 1. [Необов'язкові пакети для snap пакувальника](/doc/sections/uk_UA/3-11-optional-for-snap-packager.md)
+1. [Необов'язкові програми для генерації пакунку AppImage](/doc/sections/uk_UA/3-12-optional-for-the-AppImage-packager.md)

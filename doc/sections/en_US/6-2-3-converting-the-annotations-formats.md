@@ -53,9 +53,15 @@ libraries, the same ones the import and the export submenus offer:
 | `pascal-voc` | the Pascal VOC XML devkit |
 | `createml` | the Create ML object detection JSON descriptor |
 | `pytorch` | the PyTorch Vision `ImageFolder` layout |
+| `dxxwjz2` | the darknetxx training directory: the YOLO v4 one with the dxxwjz2 network to train |
+| `dxxwjz2p` | the darknetxx dxxwjz2p training project |
+| `dxxwjz3` | the darknetxx training directory: the YOLO v4 one with the dxxwjz3 network to train |
+| `dxxwjz3p` | the darknetxx dxxwjz3p training project |
 
 For the `imagesannotator` format the path is the project JSON file itself, and
-for every other one it is the directory holding the dataset. A destination that
+for every other one it is the directory holding the dataset - the source path of
+the `dxxwjz2p` and the `dxxwjz3p` projects may name the project file itself as
+well. A destination that
 does not exist yet is created.
 
 Writing the `pytorch` one cuts every annotated rectangle out of the picture it

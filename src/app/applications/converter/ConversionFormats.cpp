@@ -47,7 +47,11 @@ const std::vector<std::string> formatNames{"imagesannotator",
                                            "coco",
                                            "pascal-voc",
                                            "createml",
-                                           "pytorch"};
+                                           "pytorch",
+                                           "dxxwjz2",
+                                           "dxxwjz2p",
+                                           "dxxwjz3",
+                                           "dxxwjz3p"};
 }  // namespace
 
 bool ConversionFormats::parse(const std::string& name, ConversionFormat& format)

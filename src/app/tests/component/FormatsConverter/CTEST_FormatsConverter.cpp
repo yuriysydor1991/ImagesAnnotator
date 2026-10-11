@@ -221,6 +221,34 @@ TEST_F(CTEST_FormatsConverter,
   EXPECT_THAT(produced, HasSubstr("\"rel_path\": \"a.png\""));
 }
 
+// The darknetxx training project written by one conversion and read back by
+// the next one: the gzip compressed project of the copied image and its box.
+TEST_F(CTEST_FormatsConverter, a_darknetxx_project_converts_both_ways)
+{
+  given_the_native_project();
+
+  ASSERT_EQ(run_conversion("imagesannotator", work_dir / "project.json",
+                           "dxxwjz3p", work_dir / "darknetxx"),
+            0);
+
+  ASSERT_TRUE(fs::exists(work_dir / "darknetxx" / "yolov4-obj.dxxwjz3p"));
+
+  EXPECT_EQ(
+      run_conversion("dxxwjz3p", work_dir / "darknetxx", "imagesannotator",
+                     work_dir / "recovered" / "project.json"),
+      0);
+
+  const std::string produced =
+      read_file(work_dir / "recovered" / "project.json");
+
+  EXPECT_THAT(produced, HasSubstr("\"name\": \"cat\""));
+  EXPECT_THAT(produced, HasSubstr("\"x\": 50"));
+  EXPECT_THAT(produced, HasSubstr("\"width\": 100"));
+  EXPECT_THAT(produced, HasSubstr("\"rel_path\": \"a.png\""));
+  EXPECT_THAT(produced,
+              HasSubstr((work_dir / "darknetxx" / "images").string()));
+}
+
 TEST_F(CTEST_FormatsConverter, a_missing_source_is_a_failed_conversion)
 {
   EXPECT_NE(run_conversion("coco", work_dir / "nothing-here", "yolo4",

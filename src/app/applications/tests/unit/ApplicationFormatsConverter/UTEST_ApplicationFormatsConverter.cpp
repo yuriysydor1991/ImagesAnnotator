@@ -222,6 +222,10 @@ TEST_F(UTEST_ApplicationFormatsConverter,
   expect_import_of<ImportPascalVocRequest>("pascal-voc");
   expect_import_of<ImportCreateMLRequest>("createml");
   expect_import_of<ImportPyTorchVisionRequest>("pytorch");
+  expect_import_of<ImportDxxwjz2Request>("dxxwjz2");
+  expect_import_of<ImportDxxwjz2pRequest>("dxxwjz2p");
+  expect_import_of<ImportDxxwjz3Request>("dxxwjz3");
+  expect_import_of<ImportDxxwjz3pRequest>("dxxwjz3p");
 }
 
 TEST_F(UTEST_ApplicationFormatsConverter,
@@ -237,6 +241,10 @@ TEST_F(UTEST_ApplicationFormatsConverter,
   expect_export_of<ExportPascalVocRequest>("pascal-voc");
   expect_export_of<ExportCreateMLRequest>("createml");
   expect_export_of<Export2PyTorchVisionRequest>("pytorch");
+  expect_export_of<ExportDxxwjz2Request>("dxxwjz2");
+  expect_export_of<ExportDxxwjz2pRequest>("dxxwjz2p");
+  expect_export_of<ExportDxxwjz3Request>("dxxwjz3");
+  expect_export_of<ExportDxxwjz3pRequest>("dxxwjz3p");
 }
 
 TEST_F(UTEST_ApplicationFormatsConverter,

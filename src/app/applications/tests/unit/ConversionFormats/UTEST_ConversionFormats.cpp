@@ -33,7 +33,7 @@ TEST(UTEST_ConversionFormats, the_native_annotations_project_is_a_format)
 TEST(UTEST_ConversionFormats, every_dataset_layout_of_the_libraries_is_a_format)
 {
   EXPECT_EQ(ConversionFormats::names().size(),
-            static_cast<std::size_t>(ConversionFormat::pytorch) + 1U);
+            static_cast<std::size_t>(ConversionFormat::dxxwjz3p) + 1U);
 }
 
 TEST(UTEST_ConversionFormats, an_unknown_name_leaves_the_format_alone)

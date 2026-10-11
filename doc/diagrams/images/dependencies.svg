@@ -57,7 +57,7 @@
 <text x="74" y="461" class="cname">ImagesAnnotator-DataExporters</text>
 <text x="74" y="475" class="sub">ImagesAnnotatorDataExporters012</text>
 <line x1="60" y1="485" x2="500" y2="485" stroke="#3a3a3a" stroke-width="1"/>
-<text x="70" y="499" class="member">writes nine dataset layouts out of a project</text>
+<text x="70" y="499" class="member">writes thirteen dataset layouts out of a project</text>
 <text x="70" y="514" class="member">declares IImageCropperFacility</text>
 <text x="70" y="529" class="member">own OpenCV cropper in a build which found it</text>
 <rect x="620" y="442" width="480" height="97" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
@@ -67,7 +67,7 @@
 <text x="634" y="461" class="cname">ImagesAnnotator-DataImporters</text>
 <text x="634" y="475" class="sub">ImagesAnnotatorDataImporters014</text>
 <line x1="620" y1="485" x2="1100" y2="485" stroke="#3a3a3a" stroke-width="1"/>
-<text x="630" y="499" class="member">reads nine dataset layouts back into a project</text>
+<text x="630" y="499" class="member">reads thirteen dataset layouts back into a project</text>
 <text x="630" y="514" class="member">declares IImageSizeFacility</text>
 <text x="630" y="529" class="member">own OpenCV size reader in a build which found it</text>
 <rect x="300" y="642" width="560" height="82" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>

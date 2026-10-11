@@ -43,14 +43,14 @@ note bottom of CONV
 end note
 
 note bottom of IADE
-  Writes nine dataset layouts out of a project.
+  Writes thirteen dataset layouts out of a project.
   Declares IImageCropperFacility, and ships an
   OpenCV cropper of its own when the build
   found OpenCV.
 end note
 
 note bottom of IADI
-  Reads nine dataset layouts back into a
+  Reads thirteen dataset layouts back into a
   project. Declares IImageSizeFacility, and
   ships an OpenCV size reader of its own when
   the build found OpenCV.

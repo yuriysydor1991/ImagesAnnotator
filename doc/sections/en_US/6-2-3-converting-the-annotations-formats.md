@@ -35,7 +35,7 @@ A `FORMAT` is one of the names below. The first one is the annotations project
 of the application itself - the JSON file the
 [ImagesAnnotator-DataDrivers](https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers.git)
 library reads and writes, the very file the `Annotations` menu opens and stores
-- and the nine others are the dataset layouts of the
+- and the thirteen others are the dataset layouts of the
 [ImagesAnnotator-DataImporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataImporters.git)
 and the
 [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git)
@@ -65,7 +65,7 @@ well. A destination that
 does not exist yet is created.
 
 Writing the `pytorch` one cuts every annotated rectangle out of the picture it
-was drawn over, so that one layout of the nine reads the pixels of the images
+was drawn over, so that one layout of the thirteen reads the pixels of the images
 instead of their annotations alone. The cutters the graphical toolkits of this
 application implement are not there for a conversion, which starts no interface
 at all, so the cutting is done by the OpenCV image cropper the

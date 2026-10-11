@@ -36,7 +36,7 @@ ImagesAnnotatorConverter](/doc/sections/uk_UA/5-40-the-ImagesAnnotatorConverter-
 `FORMAT` є одним з наведених нижче імен. Перше з них - це проект анотацій
 самого застосунку, файл JSON, який читає та записує бібліотека
 [ImagesAnnotator-DataDrivers](https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers.git),
-той самий файл, який відкриває та зберігає меню `Annotations`, а решта дев'ять
+той самий файл, який відкриває та зберігає меню `Annotations`, а решта тринадцять
 - це формати наборів даних бібліотек
 [ImagesAnnotator-DataImporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataImporters.git)
 та
@@ -66,7 +66,7 @@ ImagesAnnotatorConverter](/doc/sections/uk_UA/5-40-the-ImagesAnnotatorConverter-
 не існує, створюється.
 
 Запис формату `pytorch` вирізає кожен анотований прямокутник із зображення, на
-якому його було намальовано, тож ця єдина з девʼяти розкладок читає самі пікселі
+якому його було намальовано, тож ця єдина з тринадцяти розкладок читає самі пікселі
 зображень, а не лише їхні анотації. Обрізачів, які реалізують графічні
 інструментарії цього застосунку, конвертація не має, бо не запускає жодного
 інтерфейсу, тому вирізання виконує обрізач зображень на основі OpenCV, який

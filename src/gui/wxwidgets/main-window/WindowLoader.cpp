@@ -96,6 +96,16 @@ wxMenuBar* WindowLoader::build_menu_bar()
   project->AppendSeparator();
   project->Append(WindowDataContext::ID_EXPORT_TXT,
                   "Export plain txt to folder");
+  // the darknetxx layouts, the newest format first, above the YOLO4 one they
+  // grew out of
+  auto* darknetxx = new wxMenu();
+  darknetxx->Append(WindowDataContext::ID_EXPORT_DXXWJZ3P, "dxxwjz3p project");
+  darknetxx->Append(WindowDataContext::ID_EXPORT_DXXWJZ2P, "dxxwjz2p project");
+  darknetxx->Append(WindowDataContext::ID_EXPORT_DXXWJZ3,
+                    "dxxwjz3 with YOLO4 folder");
+  darknetxx->Append(WindowDataContext::ID_EXPORT_DXXWJZ2,
+                    "dxxwjz2 with YOLO4 folder");
+  project->AppendSubMenu(darknetxx, "Export DarknetXX to folder");
   project->Append(WindowDataContext::ID_EXPORT_YOLO4, "Export YOLO4 to folder");
   project->Append(WindowDataContext::ID_EXPORT_ULTRALYTICS_DETECT,
                   "Export Ultralytics YOLO detection to folder");
@@ -114,6 +124,18 @@ wxMenuBar* WindowLoader::build_menu_bar()
   project->AppendSeparator();
   project->Append(WindowDataContext::ID_IMPORT_TXT,
                   "Import plain txt from folder");
+  // the darknetxx layouts, the newest format first, above the YOLO4 one they
+  // grew out of; the two projects are picked as a file, the rest as a folder
+  auto* darknetxxImport = new wxMenu();
+  darknetxxImport->Append(WindowDataContext::ID_IMPORT_DXXWJZ3P,
+                          "dxxwjz3p project");
+  darknetxxImport->Append(WindowDataContext::ID_IMPORT_DXXWJZ2P,
+                          "dxxwjz2p project");
+  darknetxxImport->Append(WindowDataContext::ID_IMPORT_DXXWJZ3,
+                          "dxxwjz3 with YOLO4 folder");
+  darknetxxImport->Append(WindowDataContext::ID_IMPORT_DXXWJZ2,
+                          "dxxwjz2 with YOLO4 folder");
+  project->AppendSubMenu(darknetxxImport, "Import DarknetXX");
   project->Append(WindowDataContext::ID_IMPORT_YOLO4,
                   "Import YOLO4 from folder");
   project->Append(WindowDataContext::ID_IMPORT_ULTRALYTICS_DETECT,

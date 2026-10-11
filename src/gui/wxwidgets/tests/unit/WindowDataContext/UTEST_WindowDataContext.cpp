@@ -23,6 +23,16 @@ TEST(UTEST_WxWindowDataContext, get_ids_contains_the_core_menu_ids)
   EXPECT_EQ(ids.count(WindowDataContext::ID_ABOUT), 1U);
 }
 
+TEST(UTEST_WxWindowDataContext, get_ids_contains_the_darknetxx_export_menu_ids)
+{
+  const auto& ids = WindowDataContext::get_ids();
+
+  EXPECT_EQ(ids.count(WindowDataContext::ID_EXPORT_DXXWJZ2), 1U);
+  EXPECT_EQ(ids.count(WindowDataContext::ID_EXPORT_DXXWJZ2P), 1U);
+  EXPECT_EQ(ids.count(WindowDataContext::ID_EXPORT_DXXWJZ3), 1U);
+  EXPECT_EQ(ids.count(WindowDataContext::ID_EXPORT_DXXWJZ3P), 1U);
+}
+
 TEST(UTEST_WxWindowDataContext, get_ids_contains_every_import_menu_id)
 {
   const auto& ids = WindowDataContext::get_ids();
@@ -36,6 +46,16 @@ TEST(UTEST_WxWindowDataContext, get_ids_contains_every_import_menu_id)
   EXPECT_EQ(ids.count(WindowDataContext::ID_IMPORT_PASCAL_VOC), 1U);
   EXPECT_EQ(ids.count(WindowDataContext::ID_IMPORT_CREATEML), 1U);
   EXPECT_EQ(ids.count(WindowDataContext::ID_IMPORT_PYTORCH), 1U);
+}
+
+TEST(UTEST_WxWindowDataContext, get_ids_contains_the_darknetxx_import_menu_ids)
+{
+  const auto& ids = WindowDataContext::get_ids();
+
+  EXPECT_EQ(ids.count(WindowDataContext::ID_IMPORT_DXXWJZ2), 1U);
+  EXPECT_EQ(ids.count(WindowDataContext::ID_IMPORT_DXXWJZ2P), 1U);
+  EXPECT_EQ(ids.count(WindowDataContext::ID_IMPORT_DXXWJZ3), 1U);
+  EXPECT_EQ(ids.count(WindowDataContext::ID_IMPORT_DXXWJZ3P), 1U);
 }
 
 TEST(UTEST_WxWindowDataContext, all_ids_are_valid_custom_command_ids)

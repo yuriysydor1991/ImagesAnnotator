@@ -47,6 +47,10 @@ const std::set<int>& WindowDataContext::get_ids()
                                  ID_EXPORT_COCO,
                                  ID_EXPORT_PASCAL_VOC,
                                  ID_EXPORT_CREATEML,
+                                 ID_EXPORT_DXXWJZ2,
+                                 ID_EXPORT_DXXWJZ2P,
+                                 ID_EXPORT_DXXWJZ3,
+                                 ID_EXPORT_DXXWJZ3P,
                                  ID_IMPORT_TXT,
                                  ID_IMPORT_YOLO4,
                                  ID_IMPORT_ULTRALYTICS_DETECT,
@@ -56,6 +60,10 @@ const std::set<int>& WindowDataContext::get_ids()
                                  ID_IMPORT_PASCAL_VOC,
                                  ID_IMPORT_CREATEML,
                                  ID_IMPORT_PYTORCH,
+                                 ID_IMPORT_DXXWJZ2,
+                                 ID_IMPORT_DXXWJZ2P,
+                                 ID_IMPORT_DXXWJZ3,
+                                 ID_IMPORT_DXXWJZ3P,
                                  ID_AUTO_INSERT_TO_WHOLE,
                                  ID_ABOUT};
 

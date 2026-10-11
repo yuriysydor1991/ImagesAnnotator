@@ -30,6 +30,8 @@ cmake --build build-iadi -j$(nproc)
 cmake --install build-iadi
 ```
 
+Бібліотека лінкує також [zlib](https://zlib.net/), якою її розкладки darknetxx читають стиснуті gzip файли dxxwjz: встанови її пакунок розробки (`zlib1g-dev` у системах на базі Debian) перед її конфігуруванням або дозволь її вмикачу завантажити джерельні коди.
+
 Спільний скрипт [misc/ci/install-annotator-libraries.sh](/misc/ci/install-annotator-libraries.sh) робить рівно це для всіх трьох бібліотек одразу, і це найшвидший спосіб підготувати машину для розробки.
 
 ### Як вказати проекту на встановлені копії

@@ -2,7 +2,7 @@ FROM ${DOCKERFILE_SINGLE_RUN_BASE_IMAGE_STRING}
 
 RUN apt update
 RUN apt install -y libstdc++6 build-essential git cmake g++ pkg-config libgtkmm-4.0-dev libgtkmm-3.0-dev
-RUN apt install -y nlohmann-json3-dev libcurl4-openssl-dev
+RUN apt install -y nlohmann-json3-dev libcurl4-openssl-dev zlib1g-dev
 
 # The annotations project database, the dataset exporters and the dataset
 # importers live in three standalone libraries the project is built against.

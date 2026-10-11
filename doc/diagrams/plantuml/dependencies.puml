@@ -18,6 +18,7 @@ package "Third party" #EEEEEE {
   component "libcurl" as CURL
   component "nlohmann/json" as NJSON
   component "OpenCV\ncore, imgcodecs" as OCV
+  component "zlib" as ZLIB
   component "GoogleTest / GoogleMock" as GTEST
 }
 
@@ -78,6 +79,8 @@ IADE --> IADD : PUBLIC
 IADI --> IADD : PUBLIC
 
 IADE --> CURL : PRIVATE
+IADE --> ZLIB : PRIVATE, the darknetxx files
+IADI --> ZLIB : PRIVATE, the darknetxx files
 IADE ..> OCV : PRIVATE, optional *
 IADI ..> OCV : PRIVATE, optional *
 

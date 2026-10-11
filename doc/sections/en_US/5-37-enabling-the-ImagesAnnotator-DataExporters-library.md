@@ -30,6 +30,8 @@ cmake --build build-iade -j$(nproc)
 cmake --install build-iade
 ```
 
+The library links the [zlib](https://zlib.net/) as well, which its darknetxx layouts write the gzip compressed dxxwjz files with: install its development package (`zlib1g-dev` on Debian based systems) before configuring it, or let its enabler fetch its sources.
+
 ### Pointing the project at the installed copies
 
 Libraries installed outside of the default search prefixes are found through the usual CMake variable, which takes both prefixes when they differ:

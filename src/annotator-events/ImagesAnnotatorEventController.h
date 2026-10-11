@@ -193,6 +193,22 @@ class ImagesAnnotatorEventController
   virtual void subscribe(
       events::ImportPyTorchVisionRequestHandlerPtr handler) override;
 
+  virtual void submit(events::ImportDxxwjz3pRequestPtr event) override;
+  virtual void subscribe(
+      events::ImportDxxwjz3pRequestHandlerPtr handler) override;
+
+  virtual void submit(events::ImportDxxwjz2pRequestPtr event) override;
+  virtual void subscribe(
+      events::ImportDxxwjz2pRequestHandlerPtr handler) override;
+
+  virtual void submit(events::ImportDxxwjz3RequestPtr event) override;
+  virtual void subscribe(
+      events::ImportDxxwjz3RequestHandlerPtr handler) override;
+
+  virtual void submit(events::ImportDxxwjz2RequestPtr event) override;
+  virtual void subscribe(
+      events::ImportDxxwjz2RequestHandlerPtr handler) override;
+
   virtual void submit(events::DeleteCurrentImageRequestPtr event) override;
   virtual void subscribe(
       events::DeleteCurrentImageRequestHandlerPtr handler) override;
@@ -259,6 +275,12 @@ class ImagesAnnotatorEventController
       std::set<events::ImportCreateMLRequestHandlerPtr>;
   using pytorchVisionImportersSet =
       std::set<events::ImportPyTorchVisionRequestHandlerPtr>;
+  using dxxwjz3pImportersSet =
+      std::set<events::ImportDxxwjz3pRequestHandlerPtr>;
+  using dxxwjz2pImportersSet =
+      std::set<events::ImportDxxwjz2pRequestHandlerPtr>;
+  using dxxwjz3ImportersSet = std::set<events::ImportDxxwjz3RequestHandlerPtr>;
+  using dxxwjz2ImportersSet = std::set<events::ImportDxxwjz2RequestHandlerPtr>;
   using deleteCurrentImageHSet =
       std::set<events::DeleteCurrentImageRequestHandlerPtr>;
   using webpageILoadersSet = std::set<events::LoadImagesFromWebPageHandlerPtr>;
@@ -298,6 +320,10 @@ class ImagesAnnotatorEventController
   pascalVocImportersSet pascalVocImporters_handlers;
   createMLImportersSet createMLImporters_handlers;
   pytorchVisionImportersSet pytorchVisionImporters_handlers;
+  dxxwjz3pImportersSet dxxwjz3pImporters_handlers;
+  dxxwjz2pImportersSet dxxwjz2pImporters_handlers;
+  dxxwjz3ImportersSet dxxwjz3Importers_handlers;
+  dxxwjz2ImportersSet dxxwjz2Importers_handlers;
   deleteCurrentImageHSet deletecir_handlers;
   webpageILoadersSet webILoaders_handlers;
   errDispSet errDisp_handlers;

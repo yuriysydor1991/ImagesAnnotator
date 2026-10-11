@@ -35,6 +35,10 @@ add_library(
   ImportPascalVocRequest.cpp
   ImportCreateMLRequest.cpp
   ImportPyTorchVisionRequest.cpp
+  ImportDxxwjz3pRequest.cpp
+  ImportDxxwjz2pRequest.cpp
+  ImportDxxwjz3Request.cpp
+  ImportDxxwjz2Request.cpp
   DeleteCurrentImageRequest.cpp
   LoadImagesFromWebPage.cpp
   DisplayErrorEvent.cpp

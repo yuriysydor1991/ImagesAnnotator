@@ -75,6 +75,14 @@
 #include "src/annotator-events/events/ImportCocoRequestHandler.h"
 #include "src/annotator-events/events/ImportCreateMLRequest.h"
 #include "src/annotator-events/events/ImportCreateMLRequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz2Request.h"
+#include "src/annotator-events/events/ImportDxxwjz2RequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz2pRequest.h"
+#include "src/annotator-events/events/ImportDxxwjz2pRequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz3Request.h"
+#include "src/annotator-events/events/ImportDxxwjz3RequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz3pRequest.h"
+#include "src/annotator-events/events/ImportDxxwjz3pRequestHandler.h"
 #include "src/annotator-events/events/ImportPascalVocRequest.h"
 #include "src/annotator-events/events/ImportPascalVocRequestHandler.h"
 #include "src/annotator-events/events/ImportPlainTxt2FolderRequest.h"
@@ -223,6 +231,18 @@ class IImagesAnnotatorEventController
   virtual void submit(events::ImportPyTorchVisionRequestPtr event) = 0;
   virtual void subscribe(
       events::ImportPyTorchVisionRequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ImportDxxwjz3pRequestPtr event) = 0;
+  virtual void subscribe(events::ImportDxxwjz3pRequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ImportDxxwjz2pRequestPtr event) = 0;
+  virtual void subscribe(events::ImportDxxwjz2pRequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ImportDxxwjz3RequestPtr event) = 0;
+  virtual void subscribe(events::ImportDxxwjz3RequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ImportDxxwjz2RequestPtr event) = 0;
+  virtual void subscribe(events::ImportDxxwjz2RequestHandlerPtr handler) = 0;
 
   virtual void submit(events::DeleteCurrentImageRequestPtr event) = 0;
   virtual void subscribe(

@@ -14,6 +14,10 @@
 #include "src/annotator-events/events/ExportDxxwjz3pRequestHandler.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz2RequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz2pRequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz3RequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz3pRequestHandler.h"
 #include "src/annotator-events/events/ImportPlainTxt2FolderRequestHandler.h"
 #include "src/annotator-events/events/ImportPyTorchVisionRequestHandler.h"
 #include "src/annotator-events/events/ImportYolo4FolderRequestHandler.h"
@@ -101,6 +105,18 @@ using FakeDxxwjz3ExportHandler =
 using FakeDxxwjz3pExportHandler =
     FakeImportHandler<events::events::ExportDxxwjz3pRequestHandler,
                       events::events::ExportDxxwjz3pRequestPtr>;
+using FakeDxxwjz3pImportHandler =
+    FakeImportHandler<events::events::ImportDxxwjz3pRequestHandler,
+                      events::events::ImportDxxwjz3pRequestPtr>;
+using FakeDxxwjz2pImportHandler =
+    FakeImportHandler<events::events::ImportDxxwjz2pRequestHandler,
+                      events::events::ImportDxxwjz2pRequestPtr>;
+using FakeDxxwjz3ImportHandler =
+    FakeImportHandler<events::events::ImportDxxwjz3RequestHandler,
+                      events::events::ImportDxxwjz3RequestPtr>;
+using FakeDxxwjz2ImportHandler =
+    FakeImportHandler<events::events::ImportDxxwjz2RequestHandler,
+                      events::events::ImportDxxwjz2RequestPtr>;
 
 std::shared_ptr<ImagesAnnotatorEventController> make_controller()
 {
@@ -341,6 +357,62 @@ TEST(UTEST_ImagesAnnotatorEventController,
 
   ASSERT_NE(handler->received, nullptr);
   EXPECT_EQ(handler->received->dst_folder_path, "/out");
+}
+
+TEST(UTEST_ImagesAnnotatorEventController,
+     a_dxxwjz3p_import_request_reaches_its_subscriber)
+{
+  auto eventer = make_controller();
+  auto handler = std::make_shared<FakeDxxwjz3pImportHandler>();
+
+  eventer->subscribe(handler);
+  eventer->submit(
+      eventer->get_events_factory()->create_dxxwjz3p_import_request("/in"));
+
+  ASSERT_NE(handler->received, nullptr);
+  EXPECT_EQ(handler->received->src_folder_path, "/in");
+}
+
+TEST(UTEST_ImagesAnnotatorEventController,
+     a_dxxwjz2p_import_request_reaches_its_subscriber)
+{
+  auto eventer = make_controller();
+  auto handler = std::make_shared<FakeDxxwjz2pImportHandler>();
+
+  eventer->subscribe(handler);
+  eventer->submit(
+      eventer->get_events_factory()->create_dxxwjz2p_import_request("/in"));
+
+  ASSERT_NE(handler->received, nullptr);
+  EXPECT_EQ(handler->received->src_folder_path, "/in");
+}
+
+TEST(UTEST_ImagesAnnotatorEventController,
+     a_dxxwjz3_import_request_reaches_its_subscriber)
+{
+  auto eventer = make_controller();
+  auto handler = std::make_shared<FakeDxxwjz3ImportHandler>();
+
+  eventer->subscribe(handler);
+  eventer->submit(
+      eventer->get_events_factory()->create_dxxwjz3_import_request("/in"));
+
+  ASSERT_NE(handler->received, nullptr);
+  EXPECT_EQ(handler->received->src_folder_path, "/in");
+}
+
+TEST(UTEST_ImagesAnnotatorEventController,
+     a_dxxwjz2_import_request_reaches_its_subscriber)
+{
+  auto eventer = make_controller();
+  auto handler = std::make_shared<FakeDxxwjz2ImportHandler>();
+
+  eventer->subscribe(handler);
+  eventer->submit(
+      eventer->get_events_factory()->create_dxxwjz2_import_request("/in"));
+
+  ASSERT_NE(handler->received, nullptr);
+  EXPECT_EQ(handler->received->src_folder_path, "/in");
 }
 
 // Each layout keeps its own subscriber queue, so a handler of one import never

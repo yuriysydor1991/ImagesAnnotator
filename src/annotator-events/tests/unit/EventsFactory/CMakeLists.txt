@@ -32,6 +32,10 @@ add_executable(
   ${EVENTS_SRC}/ImportPascalVocRequest.cpp
   ${EVENTS_SRC}/ImportCreateMLRequest.cpp
   ${EVENTS_SRC}/ImportPyTorchVisionRequest.cpp
+  ${EVENTS_SRC}/ImportDxxwjz3pRequest.cpp
+  ${EVENTS_SRC}/ImportDxxwjz2pRequest.cpp
+  ${EVENTS_SRC}/ImportDxxwjz3Request.cpp
+  ${EVENTS_SRC}/ImportDxxwjz2Request.cpp
   ${EVENTS_SRC}/Export2PyTorchVisionRequest.cpp
   ${EVENTS_SRC}/DeleteCurrentImageRequest.cpp
   ${EVENTS_SRC}/LoadImagesFromWebPage.cpp

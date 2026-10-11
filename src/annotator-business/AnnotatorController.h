@@ -70,6 +70,14 @@
 #include "src/annotator-events/events/ImportCocoRequestHandler.h"
 #include "src/annotator-events/events/ImportCreateMLRequest.h"
 #include "src/annotator-events/events/ImportCreateMLRequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz2Request.h"
+#include "src/annotator-events/events/ImportDxxwjz2RequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz2pRequest.h"
+#include "src/annotator-events/events/ImportDxxwjz2pRequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz3Request.h"
+#include "src/annotator-events/events/ImportDxxwjz3RequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz3pRequest.h"
+#include "src/annotator-events/events/ImportDxxwjz3pRequestHandler.h"
 #include "src/annotator-events/events/ImportPascalVocRequest.h"
 #include "src/annotator-events/events/ImportPascalVocRequestHandler.h"
 #include "src/annotator-events/events/ImportPlainTxt2FolderRequest.h"
@@ -132,6 +140,10 @@ class AnnotatorController
       virtual public events::events::ImportPascalVocRequestHandler,
       virtual public events::events::ImportCreateMLRequestHandler,
       virtual public events::events::ImportPyTorchVisionRequestHandler,
+      virtual public events::events::ImportDxxwjz3pRequestHandler,
+      virtual public events::events::ImportDxxwjz2pRequestHandler,
+      virtual public events::events::ImportDxxwjz3RequestHandler,
+      virtual public events::events::ImportDxxwjz2RequestHandler,
       virtual public events::events::DeleteCurrentImageRequestHandler,
       virtual public events::events::LoadImagesFromWebPageHandler,
       public AnnotatorTypeAliases
@@ -170,6 +182,10 @@ class AnnotatorController
   virtual void handle(ImportPascalVocRequestPtr event) override;
   virtual void handle(ImportCreateMLRequestPtr event) override;
   virtual void handle(ImportPyTorchVisionRequestPtr event) override;
+  virtual void handle(ImportDxxwjz3pRequestPtr event) override;
+  virtual void handle(ImportDxxwjz2pRequestPtr event) override;
+  virtual void handle(ImportDxxwjz3RequestPtr event) override;
+  virtual void handle(ImportDxxwjz2RequestPtr event) override;
   virtual void handle(DeleteCurrentImageRequestPtr event) override;
   virtual void handle(LoadImagesFromWebPagePtr event) override;
 

@@ -42,6 +42,10 @@ add_executable(
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportPascalVocRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportCreateMLRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportPyTorchVisionRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportDxxwjz3pRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportDxxwjz2pRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportDxxwjz3Request.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ImportDxxwjz2Request.cpp
   ${GUI_IMAGE_CROPPER_SRC}
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/Export2PyTorchVisionRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/DeleteCurrentImageRequest.cpp

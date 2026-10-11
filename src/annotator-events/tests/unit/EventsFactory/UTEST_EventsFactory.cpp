@@ -222,6 +222,30 @@ TEST(UTEST_EventsFactory, create_dxxwjz3p_export_request_carries_folder)
             "/out");
 }
 
+TEST(UTEST_EventsFactory, create_dxxwjz3p_import_request_carries_path)
+{
+  EXPECT_EQ(factory()->create_dxxwjz3p_import_request("/in")->src_folder_path,
+            "/in");
+}
+
+TEST(UTEST_EventsFactory, create_dxxwjz2p_import_request_carries_path)
+{
+  EXPECT_EQ(factory()->create_dxxwjz2p_import_request("/in")->src_folder_path,
+            "/in");
+}
+
+TEST(UTEST_EventsFactory, create_dxxwjz3_import_request_carries_path)
+{
+  EXPECT_EQ(factory()->create_dxxwjz3_import_request("/in")->src_folder_path,
+            "/in");
+}
+
+TEST(UTEST_EventsFactory, create_dxxwjz2_import_request_carries_path)
+{
+  EXPECT_EQ(factory()->create_dxxwjz2_import_request("/in")->src_folder_path,
+            "/in");
+}
+
 TEST(UTEST_EventsFactory, create_plain_txt_import_request_carries_folder)
 {
   EXPECT_EQ(factory()->create_plain_txt_import_request("/in")->src_folder_path,
@@ -301,6 +325,10 @@ TEST(UTEST_EventsFactory, a_created_import_request_carries_no_image_sizer)
   EXPECT_EQ(factory()->create_createml_import_request("/in")->sizer, nullptr);
   EXPECT_EQ(factory()->create_pytorch_vision_import_request("/in")->sizer,
             nullptr);
+  EXPECT_EQ(factory()->create_dxxwjz3p_import_request("/in")->sizer, nullptr);
+  EXPECT_EQ(factory()->create_dxxwjz2p_import_request("/in")->sizer, nullptr);
+  EXPECT_EQ(factory()->create_dxxwjz3_import_request("/in")->sizer, nullptr);
+  EXPECT_EQ(factory()->create_dxxwjz2_import_request("/in")->sizer, nullptr);
 }
 
 TEST(UTEST_EventsFactory, create_delete_current_image_request_carries_path)

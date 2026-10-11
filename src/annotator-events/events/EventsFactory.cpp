@@ -296,6 +296,30 @@ EventsFactory::create_pytorch_vision_import_request(
   return std::make_shared<ImportPyTorchVisionRequest>(importDirPath);
 }
 
+ImportDxxwjz3pRequestPtr EventsFactory::create_dxxwjz3p_import_request(
+    const std::string& importPath)
+{
+  return std::make_shared<ImportDxxwjz3pRequest>(importPath);
+}
+
+ImportDxxwjz2pRequestPtr EventsFactory::create_dxxwjz2p_import_request(
+    const std::string& importPath)
+{
+  return std::make_shared<ImportDxxwjz2pRequest>(importPath);
+}
+
+ImportDxxwjz3RequestPtr EventsFactory::create_dxxwjz3_import_request(
+    const std::string& importPath)
+{
+  return std::make_shared<ImportDxxwjz3Request>(importPath);
+}
+
+ImportDxxwjz2RequestPtr EventsFactory::create_dxxwjz2_import_request(
+    const std::string& importPath)
+{
+  return std::make_shared<ImportDxxwjz2Request>(importPath);
+}
+
 DeleteCurrentImageRequestPtr EventsFactory::create_delete_current_image_request(
     const std::string& irFullPath)
 {

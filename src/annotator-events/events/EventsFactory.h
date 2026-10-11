@@ -59,6 +59,10 @@
 #include "src/annotator-events/events/ImagesPathsDBProvider.h"
 #include "src/annotator-events/events/ImportCocoRequest.h"
 #include "src/annotator-events/events/ImportCreateMLRequest.h"
+#include "src/annotator-events/events/ImportDxxwjz2Request.h"
+#include "src/annotator-events/events/ImportDxxwjz2pRequest.h"
+#include "src/annotator-events/events/ImportDxxwjz3Request.h"
+#include "src/annotator-events/events/ImportDxxwjz3pRequest.h"
 #include "src/annotator-events/events/ImportPascalVocRequest.h"
 #include "src/annotator-events/events/ImportPlainTxt2FolderRequest.h"
 #include "src/annotator-events/events/ImportPyTorchVisionRequest.h"
@@ -186,6 +190,18 @@ class EventsFactory : public std::enable_shared_from_this<EventsFactory>
 
   virtual ImportPyTorchVisionRequestPtr create_pytorch_vision_import_request(
       const std::string& importDirPath);
+
+  virtual ImportDxxwjz3pRequestPtr create_dxxwjz3p_import_request(
+      const std::string& importPath);
+
+  virtual ImportDxxwjz2pRequestPtr create_dxxwjz2p_import_request(
+      const std::string& importPath);
+
+  virtual ImportDxxwjz3RequestPtr create_dxxwjz3_import_request(
+      const std::string& importPath);
+
+  virtual ImportDxxwjz2RequestPtr create_dxxwjz2_import_request(
+      const std::string& importPath);
 
   virtual DeleteCurrentImageRequestPtr create_delete_current_image_request(
       const std::string& irFullPath);

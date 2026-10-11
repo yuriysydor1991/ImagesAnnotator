@@ -70,6 +70,14 @@
 #include "src/annotator-events/events/ImportCocoRequestHandler.h"
 #include "src/annotator-events/events/ImportCreateMLRequest.h"
 #include "src/annotator-events/events/ImportCreateMLRequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz2Request.h"
+#include "src/annotator-events/events/ImportDxxwjz2RequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz2pRequest.h"
+#include "src/annotator-events/events/ImportDxxwjz2pRequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz3Request.h"
+#include "src/annotator-events/events/ImportDxxwjz3RequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz3pRequest.h"
+#include "src/annotator-events/events/ImportDxxwjz3pRequestHandler.h"
 #include "src/annotator-events/events/ImportPascalVocRequest.h"
 #include "src/annotator-events/events/ImportPascalVocRequestHandler.h"
 #include "src/annotator-events/events/ImportPlainTxt2FolderRequest.h"
@@ -155,6 +163,10 @@ class AnnotatorTypeAliases
   using PascalVocImportContext = iadi::PascalVocImportContext;
   using CreateMLImportContext = iadi::CreateMLImportContext;
   using PyTorchImportContext = iadi::PyTorchImportContext;
+  using Dxxwjz3pImportContext = iadi::Dxxwjz3pImportContext;
+  using Dxxwjz2pImportContext = iadi::Dxxwjz2pImportContext;
+  using Dxxwjz3ImportContext = iadi::Dxxwjz3ImportContext;
+  using Dxxwjz2ImportContext = iadi::Dxxwjz2ImportContext;
   using RequestImagesDirProviderHandler =
       events::events::RequestImagesDirProviderHandler;
   using RequestImagesDirProviderHandlerPtr =
@@ -237,6 +249,18 @@ class AnnotatorTypeAliases
       events::events::ImportPyTorchVisionRequestPtr;
   using ImportPyTorchVisionRequestHandlerPtr =
       events::events::ImportPyTorchVisionRequestHandlerPtr;
+  using ImportDxxwjz3pRequestPtr = events::events::ImportDxxwjz3pRequestPtr;
+  using ImportDxxwjz3pRequestHandlerPtr =
+      events::events::ImportDxxwjz3pRequestHandlerPtr;
+  using ImportDxxwjz2pRequestPtr = events::events::ImportDxxwjz2pRequestPtr;
+  using ImportDxxwjz2pRequestHandlerPtr =
+      events::events::ImportDxxwjz2pRequestHandlerPtr;
+  using ImportDxxwjz3RequestPtr = events::events::ImportDxxwjz3RequestPtr;
+  using ImportDxxwjz3RequestHandlerPtr =
+      events::events::ImportDxxwjz3RequestHandlerPtr;
+  using ImportDxxwjz2RequestPtr = events::events::ImportDxxwjz2RequestPtr;
+  using ImportDxxwjz2RequestHandlerPtr =
+      events::events::ImportDxxwjz2RequestHandlerPtr;
   using DeleteCurrentImageRequestPtr =
       events::events::DeleteCurrentImageRequestPtr;
   using DeleteCurrentImageRequestHandlerPtr =

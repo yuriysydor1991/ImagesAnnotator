@@ -238,6 +238,26 @@ class ImagesAnnotatorEventController
               (events::ImportPyTorchVisionRequestHandlerPtr handler),
               (override));
 
+  MOCK_METHOD(void, submit, (events::ImportDxxwjz3pRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::ImportDxxwjz3pRequestHandlerPtr handler), (override));
+
+  MOCK_METHOD(void, submit, (events::ImportDxxwjz2pRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::ImportDxxwjz2pRequestHandlerPtr handler), (override));
+
+  MOCK_METHOD(void, submit, (events::ImportDxxwjz3RequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe, (events::ImportDxxwjz3RequestHandlerPtr handler),
+              (override));
+
+  MOCK_METHOD(void, submit, (events::ImportDxxwjz2RequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe, (events::ImportDxxwjz2RequestHandlerPtr handler),
+              (override));
+
   MOCK_METHOD(void, submit, (events::DeleteCurrentImageRequestPtr event),
               (override));
   MOCK_METHOD(void, subscribe,

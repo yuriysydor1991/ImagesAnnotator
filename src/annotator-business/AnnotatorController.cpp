@@ -147,6 +147,10 @@ bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
   ctx->eventer->subscribe(ImportPascalVocRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ImportCreateMLRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ImportPyTorchVisionRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ImportDxxwjz3pRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ImportDxxwjz2pRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ImportDxxwjz3RequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ImportDxxwjz2RequestHandlerPtr{mptr});
   ctx->eventer->subscribe(DeleteCurrentImageRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(LoadImagesFromWebPageHandlerPtr{mptr});
 
@@ -798,6 +802,82 @@ void AnnotatorController::handle(ImportPyTorchVisionRequestPtr event)
                                            event->sizer)) {
     const std::string e =
         "Failure during the import from a PyTorch Vision folder at " +
+        event->src_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ImportDxxwjz3pRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_import<Dxxwjz3pImportContext>(event->src_folder_path,
+                                            event->sizer)) {
+    const std::string e =
+        "Failure during the import from a darknetxx dxxwjz3p project at " +
+        event->src_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ImportDxxwjz2pRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_import<Dxxwjz2pImportContext>(event->src_folder_path,
+                                            event->sizer)) {
+    const std::string e =
+        "Failure during the import from a darknetxx dxxwjz2p project at " +
+        event->src_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ImportDxxwjz3RequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_import<Dxxwjz3ImportContext>(event->src_folder_path,
+                                           event->sizer)) {
+    const std::string e =
+        "Failure during the import from a darknetxx dxxwjz3 folder at " +
+        event->src_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ImportDxxwjz2RequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_import<Dxxwjz2ImportContext>(event->src_folder_path,
+                                           event->sizer)) {
+    const std::string e =
+        "Failure during the import from a darknetxx dxxwjz2 folder at " +
         event->src_folder_path;
     LOGE(e);
     emitDisplayError(e);

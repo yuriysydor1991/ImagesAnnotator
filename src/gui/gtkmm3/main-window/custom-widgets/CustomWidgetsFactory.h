@@ -162,8 +162,7 @@ class CustomWidgetsFactory
   create_dxxwjz2p_export_folder_choose_dialog(Gtk::Window* parentWindow);
   /**
    * @brief Creates the directory chooser of the darknetxx dxxwjz3 training
-   * directory
-   * export.
+   * directory export.
    */
   virtual std::shared_ptr<Gtk::FileChooserDialog>
   create_dxxwjz3_export_folder_choose_dialog(Gtk::Window* parentWindow);

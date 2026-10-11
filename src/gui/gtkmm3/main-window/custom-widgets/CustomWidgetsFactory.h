@@ -149,6 +149,31 @@ class CustomWidgetsFactory
   virtual std::shared_ptr<Gtk::FileChooserDialog>
   create_createml_export_folder_choose_dialog(Gtk::Window* parentWindow);
   /**
+   * @brief Creates the directory chooser of the darknetxx dxxwjz2 training
+   * directory export.
+   */
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_dxxwjz2_export_folder_choose_dialog(Gtk::Window* parentWindow);
+  /**
+   * @brief Creates the directory chooser of the darknetxx dxxwjz2p training
+   * project export.
+   */
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_dxxwjz2p_export_folder_choose_dialog(Gtk::Window* parentWindow);
+  /**
+   * @brief Creates the directory chooser of the darknetxx dxxwjz3 training
+   * directory
+   * export.
+   */
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_dxxwjz3_export_folder_choose_dialog(Gtk::Window* parentWindow);
+  /**
+   * @brief Creates the directory chooser of the darknetxx dxxwjz3p training
+   * project export.
+   */
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_dxxwjz3p_export_folder_choose_dialog(Gtk::Window* parentWindow);
+  /**
    * @brief Creates the directory chooser of the plain txt dataset import.
    */
   virtual std::shared_ptr<Gtk::FileChooserDialog>
@@ -198,6 +223,30 @@ class CustomWidgetsFactory
    */
   virtual std::shared_ptr<Gtk::FileChooserDialog>
   create_pytorch_import_folder_choose_dialog(Gtk::Window* parentWindow);
+  /**
+   * @brief Creates the directory chooser of the darknetxx dxxwjz2 training
+   * directory import.
+   */
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_dxxwjz2_import_folder_choose_dialog(Gtk::Window* parentWindow);
+  /**
+   * @brief Creates the file chooser of the darknetxx dxxwjz2p training project
+   * import.
+   */
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_dxxwjz2p_import_file_choose_dialog(Gtk::Window* parentWindow);
+  /**
+   * @brief Creates the directory chooser of the darknetxx dxxwjz3 training
+   * directory import.
+   */
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_dxxwjz3_import_folder_choose_dialog(Gtk::Window* parentWindow);
+  /**
+   * @brief Creates the file chooser of the darknetxx dxxwjz3p training project
+   * import.
+   */
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_dxxwjz3p_import_file_choose_dialog(Gtk::Window* parentWindow);
 
   virtual void prepare_url_asker(Gtk::Dialog* dialog,
                                  Gtk::Label* cachePathLabel,
@@ -207,6 +256,13 @@ class CustomWidgetsFactory
   std::shared_ptr<Gtk::FileChooserDialog>
   create_folder_choose_dialog_with_title(Gtk::Window* parentWindow,
                                          const std::string& title);
+  /**
+   * @brief Creates the chooser of an existing file, offering the files of the
+   * given pattern first and all the files as a fallback.
+   */
+  std::shared_ptr<Gtk::FileChooserDialog> create_file_choose_dialog_with_filter(
+      Gtk::Window* parentWindow, const std::string& title,
+      const std::string& filterName, const std::string& filterPattern);
 };
 
 }  // namespace imagesAnnotatorGtkmm3::window::custom_widgets

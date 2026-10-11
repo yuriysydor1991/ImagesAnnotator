@@ -107,6 +107,24 @@ class CustomWidgetsFactory
   virtual void prepare_json_db_dialog(Gtk::FileChooserDialog* dialog);
 
   /**
+   * @brief Decorate the builder-defined darknetxx dxxwjz3p project file
+   * chooser of the import with the "darknetxx dxxwjz3p projects" / "All files"
+   * filters and the localized, icon-decorated Cancel / Select action buttons.
+   * Idempotent.
+   */
+  virtual void prepare_dxxwjz3p_import_file_choose_dialog(
+      Gtk::FileChooserDialog* dialog);
+
+  /**
+   * @brief Decorate the builder-defined darknetxx dxxwjz2p project file
+   * chooser of the import with the "darknetxx dxxwjz2p projects" / "All files"
+   * filters and the localized, icon-decorated Cancel / Select action buttons.
+   * Idempotent.
+   */
+  virtual void prepare_dxxwjz2p_import_file_choose_dialog(
+      Gtk::FileChooserDialog* dialog);
+
+  /**
    * @brief Decorate a builder-defined folder-choosing dialog with the localized,
    * icon-decorated Cancel / Select action buttons. Idempotent.
    */

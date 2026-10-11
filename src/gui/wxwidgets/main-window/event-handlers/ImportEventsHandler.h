@@ -40,9 +40,9 @@ namespace imagesAnnotatorWx::window::event_handlers
 
 /**
  * @brief Handles the annotations import menu items (the nine dataset layouts
- * the ImagesAnnotator-DataImporters library reads, which are the very nine the
- * export side writes) - the mirror image of
- * ExportEventsHandler.
+ * the ImagesAnnotator-DataImporters library reads plus the four darknetxx
+ * dxxwjz ones, which are the very ones the export side writes) - the mirror
+ * image of ExportEventsHandler.
  *
  * Unlike an export, an import needs no project to be open: it fills one. What
  * it does need is a way to measure the pictures it recovers, which the
@@ -66,15 +66,22 @@ class ImportEventsHandler : public AbstractWindowEventHandler
   void handle_import_pascal_voc();
   void handle_import_createml();
   void handle_import_pytorch();
+  void handle_import_dxxwjz2();
+  void handle_import_dxxwjz2p();
+  void handle_import_dxxwjz3();
+  void handle_import_dxxwjz3p();
 
   /**
-   * @brief The shared body of every import: the same directory chooser
-   * and spinner, with only the chooser and the event to submit left to the
-   * caller.
+   * @brief The shared body of every import: the same chooser and spinner, with
+   * only the chooser and the event to submit left to the caller. The chooser
+   * is a directory one for the folder layouts and a file one for the two
+   * darknetxx projects (dxxwjz3p and dxxwjz2p), which are imported from their
+   * project file.
    *
-   * @param askFolder Runs the directory chooser of that layout.
-   * @param submitImport Hands the chosen directory over to the events factory
-   * and submits the resulting event.
+   * @param askFolder Runs the directory (or the darknetxx project file)
+   * chooser of that layout.
+   * @param submitImport Hands the chosen directory (or project file) over to
+   * the events factory and submits the resulting event.
    */
   void handle_folder_import(
       const std::function<bool(std::string&)>& askFolder,

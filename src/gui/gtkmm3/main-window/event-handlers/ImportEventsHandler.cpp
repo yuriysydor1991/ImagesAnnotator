@@ -76,6 +76,14 @@ bool ImportEventsHandler::subscribe()
       ->signal_activate()
       .connect(
           sigc::mem_fun(*this, &ImportEventsHandler::handle_import_pytorch));
+  mwctx->wloader->get_import_dxxwjz2_folder_mi()->signal_activate().connect(
+      sigc::mem_fun(*this, &ImportEventsHandler::handle_import_dxxwjz2));
+  mwctx->wloader->get_import_dxxwjz2p_project_mi()->signal_activate().connect(
+      sigc::mem_fun(*this, &ImportEventsHandler::handle_import_dxxwjz2p));
+  mwctx->wloader->get_import_dxxwjz3_folder_mi()->signal_activate().connect(
+      sigc::mem_fun(*this, &ImportEventsHandler::handle_import_dxxwjz3));
+  mwctx->wloader->get_import_dxxwjz3p_project_mi()->signal_activate().connect(
+      sigc::mem_fun(*this, &ImportEventsHandler::handle_import_dxxwjz3p));
 
   return true;
 }
@@ -107,7 +115,7 @@ void ImportEventsHandler::handle_folder_import(
 
   const std::string newFileName = dialog->get_filename();
 
-  LOGD("Selected import folder: " << newFileName);
+  LOGD("Selected import folder or project file: " << newFileName);
 
   submitImport(newFileName);
 
@@ -302,6 +310,92 @@ void ImportEventsHandler::handle_import_pytorch()
 
         auto importEvent =
             efactory->create_pytorch_vision_import_request(folder);
+
+        importEvent->sizer = create_image_sizer();
+
+        mwctx->actx->eventer->submit(importEvent);
+      });
+}
+
+void ImportEventsHandler::handle_import_dxxwjz2()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_folder_import(
+      mwctx->cwFactory->create_dxxwjz2_import_folder_choose_dialog(
+          mwctx->wloader->get_window()),
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        auto importEvent = efactory->create_dxxwjz2_import_request(folder);
+
+        importEvent->sizer = create_image_sizer();
+
+        mwctx->actx->eventer->submit(importEvent);
+      });
+}
+
+void ImportEventsHandler::handle_import_dxxwjz2p()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_folder_import(
+      mwctx->cwFactory->create_dxxwjz2p_import_file_choose_dialog(
+          mwctx->wloader->get_window()),
+      [this](const std::string& projectFile) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        auto importEvent =
+            efactory->create_dxxwjz2p_import_request(projectFile);
+
+        importEvent->sizer = create_image_sizer();
+
+        mwctx->actx->eventer->submit(importEvent);
+      });
+}
+
+void ImportEventsHandler::handle_import_dxxwjz3()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_folder_import(
+      mwctx->cwFactory->create_dxxwjz3_import_folder_choose_dialog(
+          mwctx->wloader->get_window()),
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        auto importEvent = efactory->create_dxxwjz3_import_request(folder);
+
+        importEvent->sizer = create_image_sizer();
+
+        mwctx->actx->eventer->submit(importEvent);
+      });
+}
+
+void ImportEventsHandler::handle_import_dxxwjz3p()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_folder_import(
+      mwctx->cwFactory->create_dxxwjz3p_import_file_choose_dialog(
+          mwctx->wloader->get_window()),
+      [this](const std::string& projectFile) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        auto importEvent =
+            efactory->create_dxxwjz3p_import_request(projectFile);
 
         importEvent->sizer = create_image_sizer();
 

@@ -41,6 +41,10 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm4::window::WindowLoader
         export_coco_a_{Gio::SimpleAction::create("export-coco")},
         export_pascal_voc_a_{Gio::SimpleAction::create("export-pascal-voc")},
         export_createml_a_{Gio::SimpleAction::create("export-createml")},
+        export_dxxwjz2_a_{Gio::SimpleAction::create("export-dxxwjz2")},
+        export_dxxwjz2p_a_{Gio::SimpleAction::create("export-dxxwjz2p")},
+        export_dxxwjz3_a_{Gio::SimpleAction::create("export-dxxwjz3")},
+        export_dxxwjz3p_a_{Gio::SimpleAction::create("export-dxxwjz3p")},
         import_txt_a_{Gio::SimpleAction::create("import-txt")},
         import_yolo4_a_{Gio::SimpleAction::create("import-yolo4")},
         import_ultralytics_detect_a_{
@@ -52,6 +56,10 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm4::window::WindowLoader
         import_coco_a_{Gio::SimpleAction::create("import-coco")},
         import_pascal_voc_a_{Gio::SimpleAction::create("import-pascal-voc")},
         import_createml_a_{Gio::SimpleAction::create("import-createml")},
+        import_dxxwjz2_a_{Gio::SimpleAction::create("import-dxxwjz2")},
+        import_dxxwjz2p_a_{Gio::SimpleAction::create("import-dxxwjz2p")},
+        import_dxxwjz3_a_{Gio::SimpleAction::create("import-dxxwjz3")},
+        import_dxxwjz3p_a_{Gio::SimpleAction::create("import-dxxwjz3p")},
         import_pytorch_a_{Gio::SimpleAction::create("import-pytorchvision")},
         webpage_open_a_{Gio::SimpleAction::create("images-web-page-open")},
         auto_insert_a_{Gio::SimpleAction::create("auto-insert-annotation")}
@@ -172,6 +180,22 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm4::window::WindowLoader
   {
     return export_createml_a_;
   }
+  Glib::RefPtr<Gio::SimpleAction> get_export_dxxwjz2_action() override
+  {
+    return export_dxxwjz2_a_;
+  }
+  Glib::RefPtr<Gio::SimpleAction> get_export_dxxwjz2p_action() override
+  {
+    return export_dxxwjz2p_a_;
+  }
+  Glib::RefPtr<Gio::SimpleAction> get_export_dxxwjz3_action() override
+  {
+    return export_dxxwjz3_a_;
+  }
+  Glib::RefPtr<Gio::SimpleAction> get_export_dxxwjz3p_action() override
+  {
+    return export_dxxwjz3p_a_;
+  }
   Glib::RefPtr<Gio::SimpleAction> get_import_txt_action() override
   {
     return import_txt_a_;
@@ -205,6 +229,22 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm4::window::WindowLoader
   Glib::RefPtr<Gio::SimpleAction> get_import_createml_action() override
   {
     return import_createml_a_;
+  }
+  Glib::RefPtr<Gio::SimpleAction> get_import_dxxwjz2_action() override
+  {
+    return import_dxxwjz2_a_;
+  }
+  Glib::RefPtr<Gio::SimpleAction> get_import_dxxwjz2p_action() override
+  {
+    return import_dxxwjz2p_a_;
+  }
+  Glib::RefPtr<Gio::SimpleAction> get_import_dxxwjz3_action() override
+  {
+    return import_dxxwjz3_a_;
+  }
+  Glib::RefPtr<Gio::SimpleAction> get_import_dxxwjz3p_action() override
+  {
+    return import_dxxwjz3p_a_;
   }
   Glib::RefPtr<Gio::SimpleAction> get_import_pytorchvision_action() override
   {
@@ -257,6 +297,10 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm4::window::WindowLoader
   Glib::RefPtr<Gio::SimpleAction> export_coco_a_;
   Glib::RefPtr<Gio::SimpleAction> export_pascal_voc_a_;
   Glib::RefPtr<Gio::SimpleAction> export_createml_a_;
+  Glib::RefPtr<Gio::SimpleAction> export_dxxwjz2_a_;
+  Glib::RefPtr<Gio::SimpleAction> export_dxxwjz2p_a_;
+  Glib::RefPtr<Gio::SimpleAction> export_dxxwjz3_a_;
+  Glib::RefPtr<Gio::SimpleAction> export_dxxwjz3p_a_;
   Glib::RefPtr<Gio::SimpleAction> import_txt_a_;
   Glib::RefPtr<Gio::SimpleAction> import_yolo4_a_;
   Glib::RefPtr<Gio::SimpleAction> import_ultralytics_detect_a_;
@@ -265,6 +309,10 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm4::window::WindowLoader
   Glib::RefPtr<Gio::SimpleAction> import_coco_a_;
   Glib::RefPtr<Gio::SimpleAction> import_pascal_voc_a_;
   Glib::RefPtr<Gio::SimpleAction> import_createml_a_;
+  Glib::RefPtr<Gio::SimpleAction> import_dxxwjz2_a_;
+  Glib::RefPtr<Gio::SimpleAction> import_dxxwjz2p_a_;
+  Glib::RefPtr<Gio::SimpleAction> import_dxxwjz3_a_;
+  Glib::RefPtr<Gio::SimpleAction> import_dxxwjz3p_a_;
   Glib::RefPtr<Gio::SimpleAction> import_pytorch_a_;
   Glib::RefPtr<Gio::SimpleAction> webpage_open_a_;
   Glib::RefPtr<Gio::SimpleAction> auto_insert_a_;

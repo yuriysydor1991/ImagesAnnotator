@@ -169,6 +169,26 @@ class ImagesAnnotatorEventController
   MOCK_METHOD(void, subscribe,
               (events::ExportCreateMLRequestHandlerPtr handler), (override));
 
+  MOCK_METHOD(void, submit, (events::ExportDxxwjz2RequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe, (events::ExportDxxwjz2RequestHandlerPtr handler),
+              (override));
+
+  MOCK_METHOD(void, submit, (events::ExportDxxwjz2pRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::ExportDxxwjz2pRequestHandlerPtr handler), (override));
+
+  MOCK_METHOD(void, submit, (events::ExportDxxwjz3RequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe, (events::ExportDxxwjz3RequestHandlerPtr handler),
+              (override));
+
+  MOCK_METHOD(void, submit, (events::ExportDxxwjz3pRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::ExportDxxwjz3pRequestHandlerPtr handler), (override));
+
   MOCK_METHOD(void, submit, (events::ImportPlainTxt2FolderRequestPtr event),
               (override));
   MOCK_METHOD(void, subscribe,
@@ -216,6 +236,26 @@ class ImagesAnnotatorEventController
               (override));
   MOCK_METHOD(void, subscribe,
               (events::ImportPyTorchVisionRequestHandlerPtr handler),
+              (override));
+
+  MOCK_METHOD(void, submit, (events::ImportDxxwjz3pRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::ImportDxxwjz3pRequestHandlerPtr handler), (override));
+
+  MOCK_METHOD(void, submit, (events::ImportDxxwjz2pRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::ImportDxxwjz2pRequestHandlerPtr handler), (override));
+
+  MOCK_METHOD(void, submit, (events::ImportDxxwjz3RequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe, (events::ImportDxxwjz3RequestHandlerPtr handler),
+              (override));
+
+  MOCK_METHOD(void, submit, (events::ImportDxxwjz2RequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe, (events::ImportDxxwjz2RequestHandlerPtr handler),
               (override));
 
   MOCK_METHOD(void, submit, (events::DeleteCurrentImageRequestPtr event),

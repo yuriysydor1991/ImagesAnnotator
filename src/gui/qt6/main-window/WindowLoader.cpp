@@ -267,6 +267,18 @@ void WindowLoader::build_menu_bar()
   project->addSeparator();
   add_menu_action(project, QStringLiteral("Export plain txt to folder"),
                   WindowDataContext::annotations_export_txt_2_folder_id);
+  // the darknetxx layouts, the newest format first, above the YOLO4 one they
+  // grew out of
+  auto* darknetxx =
+      project->addMenu(QStringLiteral("Export DarknetXX to folder"));
+  add_menu_action(darknetxx, QStringLiteral("dxxwjz3p project"),
+                  WindowDataContext::annotations_export_dxxwjz3p_2_folder_id);
+  add_menu_action(darknetxx, QStringLiteral("dxxwjz2p project"),
+                  WindowDataContext::annotations_export_dxxwjz2p_2_folder_id);
+  add_menu_action(darknetxx, QStringLiteral("dxxwjz3 with YOLO4 folder"),
+                  WindowDataContext::annotations_export_dxxwjz3_2_folder_id);
+  add_menu_action(darknetxx, QStringLiteral("dxxwjz2 with YOLO4 folder"),
+                  WindowDataContext::annotations_export_dxxwjz2_2_folder_id);
   add_menu_action(project, QStringLiteral("Export YOLO4 to folder"),
                   WindowDataContext::annotations_export_yolo4_2_folder2_id);
   add_menu_action(
@@ -291,6 +303,17 @@ void WindowLoader::build_menu_bar()
   project->addSeparator();
   add_menu_action(project, QStringLiteral("Import plain txt from folder"),
                   WindowDataContext::annotations_import_txt_2_folder_id);
+  // the darknetxx layouts in the order of their export submenu, above the
+  // YOLO4 import; the two projects are read from a file, not from a folder
+  auto* darknetxxImport = project->addMenu(QStringLiteral("Import DarknetXX"));
+  add_menu_action(darknetxxImport, QStringLiteral("dxxwjz3p project"),
+                  WindowDataContext::annotations_import_dxxwjz3p_project_id);
+  add_menu_action(darknetxxImport, QStringLiteral("dxxwjz2p project"),
+                  WindowDataContext::annotations_import_dxxwjz2p_project_id);
+  add_menu_action(darknetxxImport, QStringLiteral("dxxwjz3 with YOLO4 folder"),
+                  WindowDataContext::annotations_import_dxxwjz3_2_folder_id);
+  add_menu_action(darknetxxImport, QStringLiteral("dxxwjz2 with YOLO4 folder"),
+                  WindowDataContext::annotations_import_dxxwjz2_2_folder_id);
   add_menu_action(project, QStringLiteral("Import YOLO4 from folder"),
                   WindowDataContext::annotations_import_yolo4_2_folder_id);
   add_menu_action(
@@ -744,6 +767,30 @@ QAction* WindowLoader::get_export_createml_folder_mi()
       WindowDataContext::annotations_export_createml_2_folder_id);
 }
 
+QAction* WindowLoader::get_export_dxxwjz2_folder_mi()
+{
+  return get_object<QAction>(
+      WindowDataContext::annotations_export_dxxwjz2_2_folder_id);
+}
+
+QAction* WindowLoader::get_export_dxxwjz2p_folder_mi()
+{
+  return get_object<QAction>(
+      WindowDataContext::annotations_export_dxxwjz2p_2_folder_id);
+}
+
+QAction* WindowLoader::get_export_dxxwjz3_folder_mi()
+{
+  return get_object<QAction>(
+      WindowDataContext::annotations_export_dxxwjz3_2_folder_id);
+}
+
+QAction* WindowLoader::get_export_dxxwjz3p_folder_mi()
+{
+  return get_object<QAction>(
+      WindowDataContext::annotations_export_dxxwjz3p_2_folder_id);
+}
+
 QAction* WindowLoader::get_import_txt_folder_mi()
 {
   return get_object<QAction>(
@@ -796,6 +843,30 @@ QAction* WindowLoader::get_import_pytorchvision_folder_mi()
 {
   return get_object<QAction>(
       WindowDataContext::annotations_import_pytorchvision_2_folder_id);
+}
+
+QAction* WindowLoader::get_import_dxxwjz2_folder_mi()
+{
+  return get_object<QAction>(
+      WindowDataContext::annotations_import_dxxwjz2_2_folder_id);
+}
+
+QAction* WindowLoader::get_import_dxxwjz2p_project_mi()
+{
+  return get_object<QAction>(
+      WindowDataContext::annotations_import_dxxwjz2p_project_id);
+}
+
+QAction* WindowLoader::get_import_dxxwjz3_folder_mi()
+{
+  return get_object<QAction>(
+      WindowDataContext::annotations_import_dxxwjz3_2_folder_id);
+}
+
+QAction* WindowLoader::get_import_dxxwjz3p_project_mi()
+{
+  return get_object<QAction>(
+      WindowDataContext::annotations_import_dxxwjz3p_project_id);
 }
 
 QAction* WindowLoader::get_export_pytorchvision_folder_mi()

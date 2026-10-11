@@ -45,6 +45,14 @@
 #include "src/annotator-events/events/ExportCocoRequestHandler.h"
 #include "src/annotator-events/events/ExportCreateMLRequest.h"
 #include "src/annotator-events/events/ExportCreateMLRequestHandler.h"
+#include "src/annotator-events/events/ExportDxxwjz2Request.h"
+#include "src/annotator-events/events/ExportDxxwjz2RequestHandler.h"
+#include "src/annotator-events/events/ExportDxxwjz2pRequest.h"
+#include "src/annotator-events/events/ExportDxxwjz2pRequestHandler.h"
+#include "src/annotator-events/events/ExportDxxwjz3Request.h"
+#include "src/annotator-events/events/ExportDxxwjz3RequestHandler.h"
+#include "src/annotator-events/events/ExportDxxwjz3pRequest.h"
+#include "src/annotator-events/events/ExportDxxwjz3pRequestHandler.h"
 #include "src/annotator-events/events/ExportPascalVocRequest.h"
 #include "src/annotator-events/events/ExportPascalVocRequestHandler.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequestHandler.h"
@@ -62,6 +70,14 @@
 #include "src/annotator-events/events/ImportCocoRequestHandler.h"
 #include "src/annotator-events/events/ImportCreateMLRequest.h"
 #include "src/annotator-events/events/ImportCreateMLRequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz2Request.h"
+#include "src/annotator-events/events/ImportDxxwjz2RequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz2pRequest.h"
+#include "src/annotator-events/events/ImportDxxwjz2pRequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz3Request.h"
+#include "src/annotator-events/events/ImportDxxwjz3RequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz3pRequest.h"
+#include "src/annotator-events/events/ImportDxxwjz3pRequestHandler.h"
 #include "src/annotator-events/events/ImportPascalVocRequest.h"
 #include "src/annotator-events/events/ImportPascalVocRequestHandler.h"
 #include "src/annotator-events/events/ImportPlainTxt2FolderRequest.h"
@@ -111,6 +127,10 @@ class AnnotatorController
       virtual public events::events::ExportCocoRequestHandler,
       virtual public events::events::ExportPascalVocRequestHandler,
       virtual public events::events::ExportCreateMLRequestHandler,
+      virtual public events::events::ExportDxxwjz2RequestHandler,
+      virtual public events::events::ExportDxxwjz2pRequestHandler,
+      virtual public events::events::ExportDxxwjz3RequestHandler,
+      virtual public events::events::ExportDxxwjz3pRequestHandler,
       virtual public events::events::ImportPlainTxt2FolderRequestHandler,
       virtual public events::events::ImportYolo4FolderRequestHandler,
       virtual public events::events::ImportUltralyticsDetectRequestHandler,
@@ -120,6 +140,10 @@ class AnnotatorController
       virtual public events::events::ImportPascalVocRequestHandler,
       virtual public events::events::ImportCreateMLRequestHandler,
       virtual public events::events::ImportPyTorchVisionRequestHandler,
+      virtual public events::events::ImportDxxwjz3pRequestHandler,
+      virtual public events::events::ImportDxxwjz2pRequestHandler,
+      virtual public events::events::ImportDxxwjz3RequestHandler,
+      virtual public events::events::ImportDxxwjz2RequestHandler,
       virtual public events::events::DeleteCurrentImageRequestHandler,
       virtual public events::events::LoadImagesFromWebPageHandler,
       public AnnotatorTypeAliases
@@ -145,6 +169,10 @@ class AnnotatorController
   virtual void handle(ExportCocoRequestPtr event) override;
   virtual void handle(ExportPascalVocRequestPtr event) override;
   virtual void handle(ExportCreateMLRequestPtr event) override;
+  virtual void handle(ExportDxxwjz2RequestPtr event) override;
+  virtual void handle(ExportDxxwjz2pRequestPtr event) override;
+  virtual void handle(ExportDxxwjz3RequestPtr event) override;
+  virtual void handle(ExportDxxwjz3pRequestPtr event) override;
   virtual void handle(ImportPlainTxt2FolderRequestPtr event) override;
   virtual void handle(ImportYolo4FolderRequestPtr event) override;
   virtual void handle(ImportUltralyticsDetectRequestPtr event) override;
@@ -154,6 +182,10 @@ class AnnotatorController
   virtual void handle(ImportPascalVocRequestPtr event) override;
   virtual void handle(ImportCreateMLRequestPtr event) override;
   virtual void handle(ImportPyTorchVisionRequestPtr event) override;
+  virtual void handle(ImportDxxwjz3pRequestPtr event) override;
+  virtual void handle(ImportDxxwjz2pRequestPtr event) override;
+  virtual void handle(ImportDxxwjz3RequestPtr event) override;
+  virtual void handle(ImportDxxwjz2RequestPtr event) override;
   virtual void handle(DeleteCurrentImageRequestPtr event) override;
   virtual void handle(LoadImagesFromWebPagePtr event) override;
 

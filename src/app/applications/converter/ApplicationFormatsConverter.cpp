@@ -236,6 +236,18 @@ bool ApplicationFormatsConverter::import_from(const ConversionFormat& format,
       actx->eventer->submit(
           efactory->create_pytorch_vision_import_request(srcPath));
       break;
+    case ConversionFormat::dxxwjz2:
+      actx->eventer->submit(efactory->create_dxxwjz2_import_request(srcPath));
+      break;
+    case ConversionFormat::dxxwjz2p:
+      actx->eventer->submit(efactory->create_dxxwjz2p_import_request(srcPath));
+      break;
+    case ConversionFormat::dxxwjz3:
+      actx->eventer->submit(efactory->create_dxxwjz3_import_request(srcPath));
+      break;
+    case ConversionFormat::dxxwjz3p:
+      actx->eventer->submit(efactory->create_dxxwjz3p_import_request(srcPath));
+      break;
   }
 
   return true;
@@ -293,6 +305,18 @@ bool ApplicationFormatsConverter::export_into(const ConversionFormat& format,
       // reader to the importers library.
       actx->eventer->submit(
           efactory->create_pytorch_vision_export_request(dstPath));
+      break;
+    case ConversionFormat::dxxwjz2:
+      actx->eventer->submit(efactory->create_dxxwjz2_export_request(dstPath));
+      break;
+    case ConversionFormat::dxxwjz2p:
+      actx->eventer->submit(efactory->create_dxxwjz2p_export_request(dstPath));
+      break;
+    case ConversionFormat::dxxwjz3:
+      actx->eventer->submit(efactory->create_dxxwjz3_export_request(dstPath));
+      break;
+    case ConversionFormat::dxxwjz3p:
+      actx->eventer->submit(efactory->create_dxxwjz3p_export_request(dstPath));
       break;
   }
 

@@ -61,12 +61,16 @@ class ExportEventsHandler : public AbstractWindowEventHandler
   void handle_export_coco();
   void handle_export_pascal_voc();
   void handle_export_createml();
+  void handle_export_dxxwjz2();
+  void handle_export_dxxwjz2p();
+  void handle_export_dxxwjz3();
+  void handle_export_dxxwjz3p();
 
   /**
    * @brief The shared body of the three Ultralytics YOLO exports, of the COCO
-   * one, of the Pascal VOC one and of the Create ML one: the same guard,
-   * spinner and directory chooser, with only the dialog title and the event to
-   * submit left to the caller.
+   * one, of the Pascal VOC one, of the Create ML one and of the four darknetxx
+   * ones: the same guard, spinner and directory chooser, with only the dialog
+   * title and the event to submit left to the caller.
    *
    * @param dialog The already built directory chooser of that layout.
    * @param submitExport Hands the chosen directory over to the events factory

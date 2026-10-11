@@ -134,6 +134,10 @@ bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
   ctx->eventer->subscribe(ExportCocoRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ExportPascalVocRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ExportCreateMLRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ExportDxxwjz2RequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ExportDxxwjz2pRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ExportDxxwjz3RequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ExportDxxwjz3pRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ImportPlainTxt2FolderRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ImportYolo4FolderRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ImportUltralyticsDetectRequestHandlerPtr{mptr});
@@ -143,6 +147,10 @@ bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
   ctx->eventer->subscribe(ImportPascalVocRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ImportCreateMLRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ImportPyTorchVisionRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ImportDxxwjz3pRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ImportDxxwjz2pRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ImportDxxwjz3RequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ImportDxxwjz2RequestHandlerPtr{mptr});
   ctx->eventer->subscribe(DeleteCurrentImageRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(LoadImagesFromWebPageHandlerPtr{mptr});
 
@@ -522,6 +530,78 @@ void AnnotatorController::handle(ExportCreateMLRequestPtr event)
   }
 }
 
+void AnnotatorController::handle(ExportDxxwjz2RequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_export<Dxxwjz2ExportContext>(event->dst_folder_path)) {
+    const std::string e =
+        "Failure during the export to a darknetxx dxxwjz2 folder at " +
+        event->dst_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ExportDxxwjz2pRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_export<Dxxwjz2pExportContext>(event->dst_folder_path)) {
+    const std::string e =
+        "Failure during the export to a darknetxx dxxwjz2p project at " +
+        event->dst_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ExportDxxwjz3RequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_export<Dxxwjz3ExportContext>(event->dst_folder_path)) {
+    const std::string e =
+        "Failure during the export to a darknetxx dxxwjz3 folder at " +
+        event->dst_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ExportDxxwjz3pRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_export<Dxxwjz3pExportContext>(event->dst_folder_path)) {
+    const std::string e =
+        "Failure during the export to a darknetxx dxxwjz3p project at " +
+        event->dst_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
 template <class ContextT>
 bool AnnotatorController::handle_export(const std::string& dirPath)
 {
@@ -567,7 +647,7 @@ void AnnotatorController::handle(ImportPlainTxt2FolderRequestPtr event)
   }
 
   if (!handle_import<PlainTxtImportContext>(event->src_folder_path,
-                                                   event->sizer)) {
+                                            event->sizer)) {
     const std::string e =
         "Failure during the import from a plain txt folder: " +
         event->src_folder_path;
@@ -586,7 +666,7 @@ void AnnotatorController::handle(ImportYolo4FolderRequestPtr event)
   }
 
   if (!handle_import<Yolo4ImportContext>(event->src_folder_path,
-                                                event->sizer)) {
+                                         event->sizer)) {
     const std::string e = "Failure during the import from a Yolo4 folder at " +
                           event->src_folder_path;
     LOGE(e);
@@ -603,8 +683,8 @@ void AnnotatorController::handle(ImportUltralyticsDetectRequestPtr event)
     return;
   }
 
-  if (!handle_import<UltralyticsDetectImportContext>(
-          event->src_folder_path, event->sizer)) {
+  if (!handle_import<UltralyticsDetectImportContext>(event->src_folder_path,
+                                                     event->sizer)) {
     const std::string e =
         "Failure during the import from an Ultralytics YOLO detection folder "
         "at " +
@@ -624,7 +704,7 @@ void AnnotatorController::handle(ImportUltralyticsObbRequestPtr event)
   }
 
   if (!handle_import<UltralyticsObbImportContext>(event->src_folder_path,
-                                                         event->sizer)) {
+                                                  event->sizer)) {
     const std::string e =
         "Failure during the import from an Ultralytics YOLO oriented bounding "
         "box folder at " +
@@ -643,8 +723,8 @@ void AnnotatorController::handle(ImportUltralyticsSegmentRequestPtr event)
     return;
   }
 
-  if (!handle_import<UltralyticsSegmentImportContext>(
-          event->src_folder_path, event->sizer)) {
+  if (!handle_import<UltralyticsSegmentImportContext>(event->src_folder_path,
+                                                      event->sizer)) {
     const std::string e =
         "Failure during the import from an Ultralytics YOLO segmentation "
         "folder at " +
@@ -663,8 +743,7 @@ void AnnotatorController::handle(ImportCocoRequestPtr event)
     return;
   }
 
-  if (!handle_import<CocoImportContext>(event->src_folder_path,
-                                               event->sizer)) {
+  if (!handle_import<CocoImportContext>(event->src_folder_path, event->sizer)) {
     const std::string e = "Failure during the import from a COCO folder at " +
                           event->src_folder_path;
     LOGE(e);
@@ -682,7 +761,7 @@ void AnnotatorController::handle(ImportPascalVocRequestPtr event)
   }
 
   if (!handle_import<PascalVocImportContext>(event->src_folder_path,
-                                                    event->sizer)) {
+                                             event->sizer)) {
     const std::string e =
         "Failure during the import from a Pascal VOC folder at " +
         event->src_folder_path;
@@ -701,7 +780,7 @@ void AnnotatorController::handle(ImportCreateMLRequestPtr event)
   }
 
   if (!handle_import<CreateMLImportContext>(event->src_folder_path,
-                                                   event->sizer)) {
+                                            event->sizer)) {
     const std::string e =
         "Failure during the import from a Create ML folder at " +
         event->src_folder_path;
@@ -720,9 +799,85 @@ void AnnotatorController::handle(ImportPyTorchVisionRequestPtr event)
   }
 
   if (!handle_import<PyTorchImportContext>(event->src_folder_path,
-                                                  event->sizer)) {
+                                           event->sizer)) {
     const std::string e =
         "Failure during the import from a PyTorch Vision folder at " +
+        event->src_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ImportDxxwjz3pRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_import<Dxxwjz3pImportContext>(event->src_folder_path,
+                                            event->sizer)) {
+    const std::string e =
+        "Failure during the import from a darknetxx dxxwjz3p project at " +
+        event->src_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ImportDxxwjz2pRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_import<Dxxwjz2pImportContext>(event->src_folder_path,
+                                            event->sizer)) {
+    const std::string e =
+        "Failure during the import from a darknetxx dxxwjz2p project at " +
+        event->src_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ImportDxxwjz3RequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_import<Dxxwjz3ImportContext>(event->src_folder_path,
+                                           event->sizer)) {
+    const std::string e =
+        "Failure during the import from a darknetxx dxxwjz3 folder at " +
+        event->src_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ImportDxxwjz2RequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_import<Dxxwjz2ImportContext>(event->src_folder_path,
+                                           event->sizer)) {
+    const std::string e =
+        "Failure during the import from a darknetxx dxxwjz2 folder at " +
         event->src_folder_path;
     LOGE(e);
     emitDisplayError(e);
@@ -814,8 +969,7 @@ void AnnotatorController::handle(Export2PyTorchVisionRequestPtr event)
     return;
   }
 
-  auto ctx =
-      build_export_context<PyTorchExportContext>(event->dst_folder_path);
+  auto ctx = build_export_context<PyTorchExportContext>(event->dst_folder_path);
 
   assert(ctx != nullptr);
 

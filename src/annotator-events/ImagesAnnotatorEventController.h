@@ -141,6 +141,22 @@ class ImagesAnnotatorEventController
   virtual void subscribe(
       events::ExportCreateMLRequestHandlerPtr handler) override;
 
+  virtual void submit(events::ExportDxxwjz2RequestPtr event) override;
+  virtual void subscribe(
+      events::ExportDxxwjz2RequestHandlerPtr handler) override;
+
+  virtual void submit(events::ExportDxxwjz2pRequestPtr event) override;
+  virtual void subscribe(
+      events::ExportDxxwjz2pRequestHandlerPtr handler) override;
+
+  virtual void submit(events::ExportDxxwjz3RequestPtr event) override;
+  virtual void subscribe(
+      events::ExportDxxwjz3RequestHandlerPtr handler) override;
+
+  virtual void submit(events::ExportDxxwjz3pRequestPtr event) override;
+  virtual void subscribe(
+      events::ExportDxxwjz3pRequestHandlerPtr handler) override;
+
   virtual void submit(events::ImportPlainTxt2FolderRequestPtr event) override;
   virtual void subscribe(
       events::ImportPlainTxt2FolderRequestHandlerPtr handler) override;
@@ -176,6 +192,22 @@ class ImagesAnnotatorEventController
   virtual void submit(events::ImportPyTorchVisionRequestPtr event) override;
   virtual void subscribe(
       events::ImportPyTorchVisionRequestHandlerPtr handler) override;
+
+  virtual void submit(events::ImportDxxwjz3pRequestPtr event) override;
+  virtual void subscribe(
+      events::ImportDxxwjz3pRequestHandlerPtr handler) override;
+
+  virtual void submit(events::ImportDxxwjz2pRequestPtr event) override;
+  virtual void subscribe(
+      events::ImportDxxwjz2pRequestHandlerPtr handler) override;
+
+  virtual void submit(events::ImportDxxwjz3RequestPtr event) override;
+  virtual void subscribe(
+      events::ImportDxxwjz3RequestHandlerPtr handler) override;
+
+  virtual void submit(events::ImportDxxwjz2RequestPtr event) override;
+  virtual void subscribe(
+      events::ImportDxxwjz2RequestHandlerPtr handler) override;
 
   virtual void submit(events::DeleteCurrentImageRequestPtr event) override;
   virtual void subscribe(
@@ -220,6 +252,12 @@ class ImagesAnnotatorEventController
       std::set<events::ExportPascalVocRequestHandlerPtr>;
   using createMLExportersSet =
       std::set<events::ExportCreateMLRequestHandlerPtr>;
+  using dxxwjz2ExportersSet = std::set<events::ExportDxxwjz2RequestHandlerPtr>;
+  using dxxwjz2pExportersSet =
+      std::set<events::ExportDxxwjz2pRequestHandlerPtr>;
+  using dxxwjz3ExportersSet = std::set<events::ExportDxxwjz3RequestHandlerPtr>;
+  using dxxwjz3pExportersSet =
+      std::set<events::ExportDxxwjz3pRequestHandlerPtr>;
   using plainTxtImportersSet =
       std::set<events::ImportPlainTxt2FolderRequestHandlerPtr>;
   using yolo4ImportersSet =
@@ -237,6 +275,12 @@ class ImagesAnnotatorEventController
       std::set<events::ImportCreateMLRequestHandlerPtr>;
   using pytorchVisionImportersSet =
       std::set<events::ImportPyTorchVisionRequestHandlerPtr>;
+  using dxxwjz3pImportersSet =
+      std::set<events::ImportDxxwjz3pRequestHandlerPtr>;
+  using dxxwjz2pImportersSet =
+      std::set<events::ImportDxxwjz2pRequestHandlerPtr>;
+  using dxxwjz3ImportersSet = std::set<events::ImportDxxwjz3RequestHandlerPtr>;
+  using dxxwjz2ImportersSet = std::set<events::ImportDxxwjz2RequestHandlerPtr>;
   using deleteCurrentImageHSet =
       std::set<events::DeleteCurrentImageRequestHandlerPtr>;
   using webpageILoadersSet = std::set<events::LoadImagesFromWebPageHandlerPtr>;
@@ -263,6 +307,10 @@ class ImagesAnnotatorEventController
   cocoExportersSet cocoExporters_handlers;
   pascalVocExportersSet pascalVocExporters_handlers;
   createMLExportersSet createMLExporters_handlers;
+  dxxwjz2ExportersSet dxxwjz2Exporters_handlers;
+  dxxwjz2pExportersSet dxxwjz2pExporters_handlers;
+  dxxwjz3ExportersSet dxxwjz3Exporters_handlers;
+  dxxwjz3pExportersSet dxxwjz3pExporters_handlers;
   plainTxtImportersSet plainTxtImporters_handlers;
   yolo4ImportersSet yolo4Importers_handlers;
   ultralyticsDetectImportersSet ultralyticsDetectImporters_handlers;
@@ -272,6 +320,10 @@ class ImagesAnnotatorEventController
   pascalVocImportersSet pascalVocImporters_handlers;
   createMLImportersSet createMLImporters_handlers;
   pytorchVisionImportersSet pytorchVisionImporters_handlers;
+  dxxwjz3pImportersSet dxxwjz3pImporters_handlers;
+  dxxwjz2pImportersSet dxxwjz2pImporters_handlers;
+  dxxwjz3ImportersSet dxxwjz3Importers_handlers;
+  dxxwjz2ImportersSet dxxwjz2Importers_handlers;
   deleteCurrentImageHSet deletecir_handlers;
   webpageILoadersSet webILoaders_handlers;
   errDispSet errDisp_handlers;

@@ -118,6 +118,10 @@ class CustomWidgetsFactory
   virtual bool ask_coco_export_folder(wxWindow* parent, std::string& out);
   virtual bool ask_pascal_voc_export_folder(wxWindow* parent, std::string& out);
   virtual bool ask_createml_export_folder(wxWindow* parent, std::string& out);
+  virtual bool ask_dxxwjz2_export_folder(wxWindow* parent, std::string& out);
+  virtual bool ask_dxxwjz2p_export_folder(wxWindow* parent, std::string& out);
+  virtual bool ask_dxxwjz3_export_folder(wxWindow* parent, std::string& out);
+  virtual bool ask_dxxwjz3p_export_folder(wxWindow* parent, std::string& out);
   virtual bool ask_txt_import_folder(wxWindow* parent, std::string& out);
   virtual bool ask_yolo4_import_folder(wxWindow* parent, std::string& out);
   virtual bool ask_ultralytics_detect_import_folder(wxWindow* parent,
@@ -130,6 +134,10 @@ class CustomWidgetsFactory
   virtual bool ask_pascal_voc_import_folder(wxWindow* parent, std::string& out);
   virtual bool ask_createml_import_folder(wxWindow* parent, std::string& out);
   virtual bool ask_pytorch_import_folder(wxWindow* parent, std::string& out);
+  virtual bool ask_dxxwjz2_import_folder(wxWindow* parent, std::string& out);
+  virtual bool ask_dxxwjz2p_import_file(wxWindow* parent, std::string& out);
+  virtual bool ask_dxxwjz3_import_folder(wxWindow* parent, std::string& out);
+  virtual bool ask_dxxwjz3p_import_file(wxWindow* parent, std::string& out);
   virtual bool ask_webpage_url(wxWindow* parent, std::string& out);
 
   virtual SaveAnswer ask_save_changes(wxWindow* parent);
@@ -145,6 +153,10 @@ class CustomWidgetsFactory
 
  private:
   bool ask_folder(wxWindow* parent, const std::string& title, std::string& out);
+  /// @brief Runs an open dialog for one already existing file, offering the
+  /// given wxFileDialog wildcard (its first filter is the preselected one).
+  bool ask_existing_file(wxWindow* parent, const std::string& title,
+                         const std::string& wildcard, std::string& out);
 };
 
 }  // namespace imagesAnnotatorWx::window::custom_widgets

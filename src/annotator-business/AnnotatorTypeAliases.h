@@ -45,6 +45,14 @@
 #include "src/annotator-events/events/ExportCocoRequestHandler.h"
 #include "src/annotator-events/events/ExportCreateMLRequest.h"
 #include "src/annotator-events/events/ExportCreateMLRequestHandler.h"
+#include "src/annotator-events/events/ExportDxxwjz2Request.h"
+#include "src/annotator-events/events/ExportDxxwjz2RequestHandler.h"
+#include "src/annotator-events/events/ExportDxxwjz2pRequest.h"
+#include "src/annotator-events/events/ExportDxxwjz2pRequestHandler.h"
+#include "src/annotator-events/events/ExportDxxwjz3Request.h"
+#include "src/annotator-events/events/ExportDxxwjz3RequestHandler.h"
+#include "src/annotator-events/events/ExportDxxwjz3pRequest.h"
+#include "src/annotator-events/events/ExportDxxwjz3pRequestHandler.h"
 #include "src/annotator-events/events/ExportPascalVocRequest.h"
 #include "src/annotator-events/events/ExportPascalVocRequestHandler.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequestHandler.h"
@@ -62,6 +70,14 @@
 #include "src/annotator-events/events/ImportCocoRequestHandler.h"
 #include "src/annotator-events/events/ImportCreateMLRequest.h"
 #include "src/annotator-events/events/ImportCreateMLRequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz2Request.h"
+#include "src/annotator-events/events/ImportDxxwjz2RequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz2pRequest.h"
+#include "src/annotator-events/events/ImportDxxwjz2pRequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz3Request.h"
+#include "src/annotator-events/events/ImportDxxwjz3RequestHandler.h"
+#include "src/annotator-events/events/ImportDxxwjz3pRequest.h"
+#include "src/annotator-events/events/ImportDxxwjz3pRequestHandler.h"
 #include "src/annotator-events/events/ImportPascalVocRequest.h"
 #include "src/annotator-events/events/ImportPascalVocRequestHandler.h"
 #include "src/annotator-events/events/ImportPlainTxt2FolderRequest.h"
@@ -127,6 +143,10 @@ class AnnotatorTypeAliases
   using CocoExportContext = iade::CocoExportContext;
   using PascalVocExportContext = iade::PascalVocExportContext;
   using CreateMLExportContext = iade::CreateMLExportContext;
+  using Dxxwjz2ExportContext = iade::Dxxwjz2ExportContext;
+  using Dxxwjz2pExportContext = iade::Dxxwjz2pExportContext;
+  using Dxxwjz3ExportContext = iade::Dxxwjz3ExportContext;
+  using Dxxwjz3pExportContext = iade::Dxxwjz3pExportContext;
   /// @brief The import configuration the controller fills in and hands to an
   /// importer of the ImagesAnnotator-DataImporters library. As on the export
   /// side, the wanted dataset layout is named by the descendant instantiated.
@@ -143,6 +163,10 @@ class AnnotatorTypeAliases
   using PascalVocImportContext = iadi::PascalVocImportContext;
   using CreateMLImportContext = iadi::CreateMLImportContext;
   using PyTorchImportContext = iadi::PyTorchImportContext;
+  using Dxxwjz3pImportContext = iadi::Dxxwjz3pImportContext;
+  using Dxxwjz2pImportContext = iadi::Dxxwjz2pImportContext;
+  using Dxxwjz3ImportContext = iadi::Dxxwjz3ImportContext;
+  using Dxxwjz2ImportContext = iadi::Dxxwjz2ImportContext;
   using RequestImagesDirProviderHandler =
       events::events::RequestImagesDirProviderHandler;
   using RequestImagesDirProviderHandlerPtr =
@@ -176,6 +200,18 @@ class AnnotatorTypeAliases
   using ExportCreateMLRequestPtr = events::events::ExportCreateMLRequestPtr;
   using ExportCreateMLRequestHandlerPtr =
       events::events::ExportCreateMLRequestHandlerPtr;
+  using ExportDxxwjz2RequestPtr = events::events::ExportDxxwjz2RequestPtr;
+  using ExportDxxwjz2RequestHandlerPtr =
+      events::events::ExportDxxwjz2RequestHandlerPtr;
+  using ExportDxxwjz2pRequestPtr = events::events::ExportDxxwjz2pRequestPtr;
+  using ExportDxxwjz2pRequestHandlerPtr =
+      events::events::ExportDxxwjz2pRequestHandlerPtr;
+  using ExportDxxwjz3RequestPtr = events::events::ExportDxxwjz3RequestPtr;
+  using ExportDxxwjz3RequestHandlerPtr =
+      events::events::ExportDxxwjz3RequestHandlerPtr;
+  using ExportDxxwjz3pRequestPtr = events::events::ExportDxxwjz3pRequestPtr;
+  using ExportDxxwjz3pRequestHandlerPtr =
+      events::events::ExportDxxwjz3pRequestHandlerPtr;
   /// @brief The image measuring service the GUI toolkit hands over with an
   /// import request, the counterpart of the cropper of the PyTorch export.
   using IImageSizeFacilityProviderPtr =
@@ -213,6 +249,18 @@ class AnnotatorTypeAliases
       events::events::ImportPyTorchVisionRequestPtr;
   using ImportPyTorchVisionRequestHandlerPtr =
       events::events::ImportPyTorchVisionRequestHandlerPtr;
+  using ImportDxxwjz3pRequestPtr = events::events::ImportDxxwjz3pRequestPtr;
+  using ImportDxxwjz3pRequestHandlerPtr =
+      events::events::ImportDxxwjz3pRequestHandlerPtr;
+  using ImportDxxwjz2pRequestPtr = events::events::ImportDxxwjz2pRequestPtr;
+  using ImportDxxwjz2pRequestHandlerPtr =
+      events::events::ImportDxxwjz2pRequestHandlerPtr;
+  using ImportDxxwjz3RequestPtr = events::events::ImportDxxwjz3RequestPtr;
+  using ImportDxxwjz3RequestHandlerPtr =
+      events::events::ImportDxxwjz3RequestHandlerPtr;
+  using ImportDxxwjz2RequestPtr = events::events::ImportDxxwjz2RequestPtr;
+  using ImportDxxwjz2RequestHandlerPtr =
+      events::events::ImportDxxwjz2RequestHandlerPtr;
   using DeleteCurrentImageRequestPtr =
       events::events::DeleteCurrentImageRequestPtr;
   using DeleteCurrentImageRequestHandlerPtr =

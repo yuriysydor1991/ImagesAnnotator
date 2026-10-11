@@ -81,6 +81,18 @@ bool ExportEventsHandler::subscribe()
   frame->Bind(
       wxEVT_MENU, [this](wxCommandEvent&) { handle_export_createml(); },
       WindowDataContext::ID_EXPORT_CREATEML);
+  frame->Bind(
+      wxEVT_MENU, [this](wxCommandEvent&) { handle_export_dxxwjz2(); },
+      WindowDataContext::ID_EXPORT_DXXWJZ2);
+  frame->Bind(
+      wxEVT_MENU, [this](wxCommandEvent&) { handle_export_dxxwjz2p(); },
+      WindowDataContext::ID_EXPORT_DXXWJZ2P);
+  frame->Bind(
+      wxEVT_MENU, [this](wxCommandEvent&) { handle_export_dxxwjz3(); },
+      WindowDataContext::ID_EXPORT_DXXWJZ3);
+  frame->Bind(
+      wxEVT_MENU, [this](wxCommandEvent&) { handle_export_dxxwjz3p(); },
+      WindowDataContext::ID_EXPORT_DXXWJZ3P);
 
   return true;
 }
@@ -352,6 +364,86 @@ void ExportEventsHandler::handle_export_createml()
 
         mwctx->actx->eventer->submit(
             efactory->create_createml_export_request(folder));
+      });
+}
+
+void ExportEventsHandler::handle_export_dxxwjz2()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_folder_export(
+      [this](std::string& out) {
+        return mwctx->cwFactory->ask_dxxwjz2_export_folder(
+            mwctx->wloader->get_window(), out);
+      },
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_dxxwjz2_export_request(folder));
+      });
+}
+
+void ExportEventsHandler::handle_export_dxxwjz2p()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_folder_export(
+      [this](std::string& out) {
+        return mwctx->cwFactory->ask_dxxwjz2p_export_folder(
+            mwctx->wloader->get_window(), out);
+      },
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_dxxwjz2p_export_request(folder));
+      });
+}
+
+void ExportEventsHandler::handle_export_dxxwjz3()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_folder_export(
+      [this](std::string& out) {
+        return mwctx->cwFactory->ask_dxxwjz3_export_folder(
+            mwctx->wloader->get_window(), out);
+      },
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_dxxwjz3_export_request(folder));
+      });
+}
+
+void ExportEventsHandler::handle_export_dxxwjz3p()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_folder_export(
+      [this](std::string& out) {
+        return mwctx->cwFactory->ask_dxxwjz3p_export_folder(
+            mwctx->wloader->get_window(), out);
+      },
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_dxxwjz3p_export_request(folder));
       });
 }
 

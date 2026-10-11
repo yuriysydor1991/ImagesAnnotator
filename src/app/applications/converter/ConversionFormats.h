@@ -45,7 +45,10 @@ namespace app::converter
  * Every one of them but the native project database is a dataset layout of the
  * ImagesAnnotator-DataImporters and ImagesAnnotator-DataExporters libraries;
  * the native one is the project JSON file the ImagesAnnotator-DataDrivers
- * library reads and writes.
+ * library reads and writes. The four darknetxx ones are its training
+ * directories of the dxxwjz2 and the dxxwjz3 networks and its dxxwjz2p and
+ * dxxwjz3p training projects, the source path of which names the project file
+ * or the directory holding it.
  */
 enum class ConversionFormat
 {
@@ -58,7 +61,11 @@ enum class ConversionFormat
   coco,
   pascal_voc,
   createml,
-  pytorch
+  pytorch,
+  dxxwjz2,
+  dxxwjz2p,
+  dxxwjz3,
+  dxxwjz3p
 };
 
 /**

@@ -39,9 +39,9 @@ namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 /**
- * @brief Handles the annotations import menu items (the nine dataset layouts
- * the ImagesAnnotator-DataImporters library reads, which are the very nine the
- * export side writes) - the mirror image of
+ * @brief Handles the annotations import menu items (the thirteen dataset
+ * layouts the ImagesAnnotator-DataImporters library reads, which are the very
+ * thirteen the export side writes) - the mirror image of
  * ExportEventsHandler.
  *
  * Unlike an export, an import needs no project to be open: it fills one. What
@@ -66,15 +66,21 @@ class ImportEventsHandler : public AbstractWindowEventHandler
   void handle_import_pascal_voc();
   void handle_import_createml();
   void handle_import_pytorch();
+  void handle_import_dxxwjz2();
+  void handle_import_dxxwjz2p();
+  void handle_import_dxxwjz3();
+  void handle_import_dxxwjz3p();
 
   /**
-   * @brief The shared body of every import: the same directory chooser
-   * and spinner, with only the chooser and the event to submit left to the
-   * caller.
+   * @brief The shared body of every import: the same chooser and spinner, with
+   * only the chooser and the event to submit left to the caller. The chooser
+   * is a directory one for every layout but the two darknetxx projects, which
+   * pick their project file instead.
    *
-   * @param askFolder Runs the directory chooser of that layout.
-   * @param submitImport Hands the chosen directory over to the events factory
-   * and submits the resulting event.
+   * @param askFolder Runs the directory chooser of that layout, or the file
+   * chooser of a darknetxx project.
+   * @param submitImport Hands the chosen directory (or project file) over to
+   * the events factory and submits the resulting event.
    */
   void handle_folder_import(
       const std::function<bool(std::string&)>& askFolder,

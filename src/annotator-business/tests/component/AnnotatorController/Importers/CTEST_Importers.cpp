@@ -1,19 +1,30 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <memory>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "CTEST_AnnotatorController.h"
 #include "ctests_decls.h"
 #include "src/annotator-business/AnnotatorController.h"
 #include "src/annotator-events/ImagesAnnotatorEventController.h"
 #include "src/annotator-events/events/EventsFactory.h"
+#include "src/annotator-events/events/ExportDxxwjz2Request.h"
+#include "src/annotator-events/events/ExportDxxwjz2pRequest.h"
+#include "src/annotator-events/events/ExportDxxwjz3Request.h"
+#include "src/annotator-events/events/ExportDxxwjz3pRequest.h"
 #include "src/annotator-events/events/IImageSizeFacilityProvider.h"
 #include "src/annotator-events/events/ImportCocoRequest.h"
 #include "src/annotator-events/events/ImportCreateMLRequest.h"
+#include "src/annotator-events/events/ImportDxxwjz2Request.h"
+#include "src/annotator-events/events/ImportDxxwjz2pRequest.h"
+#include "src/annotator-events/events/ImportDxxwjz3Request.h"
+#include "src/annotator-events/events/ImportDxxwjz3pRequest.h"
 #include "src/annotator-events/events/ImportPascalVocRequest.h"
 #include "src/annotator-events/events/ImportPlainTxt2FolderRequest.h"
 #include "src/annotator-events/events/ImportPyTorchVisionRequest.h"
@@ -177,6 +188,33 @@ class CTEST_Importers : public CTEST_AnnotatorController
     EXPECT_EQ(rect->y, 20);
     EXPECT_EQ(rect->width, 100);
     EXPECT_EQ(rect->height, 40);
+  }
+
+  /**
+   * @brief The darknetxx training project document of the given format, the
+   * plain JSON text of which the darknetxx reads as well: the one image of
+   * every dataset of this suite and its one cat box.
+   */
+  static std::string project_of(const std::string& format,
+                                const std::string& network)
+  {
+    return R"({"format": ")" + format + R"(", "version": 1,
+"network": )" +
+           network + R"(,
+"annotations": {"ImagesAnnotator": {"version": "0.12.0"}, "annotations": [
+  {"db": {"path": "images"}, "annotations": [
+    {"rel_path": "a.png", "width": 200, "height": 100, "annotations": [{"name": "cat", "rect": {"x": 50, "y": 20, "width": 100, "height": 40}}]}
+  ]}
+]}})";
+  }
+
+  /// @brief The YOLO v4 directory of the one image of this suite and of no
+  /// class names file, the darknetxx network to train left to the caller
+  void given_the_yolo4_directory()
+  {
+    given_file("data/train.txt", "data/a.png\n");
+    given_file("data/a.png", "not-a-real-image");
+    given_file("data/a.txt", "0 0.5 0.4 0.5 0.4\n");
   }
 
   fs::path import_dir;
@@ -437,4 +475,164 @@ TEST_F(CTEST_Importers, a_missing_directory_leaves_the_database_empty)
   controller->handle(event);
 
   EXPECT_TRUE(controller->get_images_db().empty());
+}
+
+// The darknetxx training project, the annotations of its images in the
+// project structure of this very application: the import path names the
+// directory the export writes the project into.
+TEST_F(CTEST_Importers, dxxwjz2p_request_fills_the_database)
+{
+  given_file("images/a.png", "not-a-real-image");
+  given_file("yolov4-obj.dxxwjz2p",
+             project_of("dxxwjz2p", R"({"cfg": "[net]\nbatch=64\n",
+               "classes": [{"index": 0, "name": "cat"}]})"));
+
+  auto event = std::make_shared<ImportDxxwjz2pRequest>(import_dir.string());
+  event->sizer = sizer();
+
+  controller->handle(event);
+
+  expect_the_recovered_box("cat");
+
+  EXPECT_EQ(controller->get_images_db().front()->get_full_path(),
+            (import_dir / "images" / "a.png").string());
+}
+
+// ... or the project file itself, of any name.
+TEST_F(CTEST_Importers, dxxwjz3p_request_reads_the_project_file)
+{
+  given_file("images/a.png", "not-a-real-image");
+  given_file("trained.dxxwjz3p",
+             project_of("dxxwjz3p", R"({"net": {"batch": 64}, "layers": [],
+               "classes": ["cat"]})"));
+
+  auto event = std::make_shared<ImportDxxwjz3pRequest>(
+      (import_dir / "trained.dxxwjz3p").string());
+  event->sizer = sizer();
+
+  controller->handle(event);
+
+  expect_the_recovered_box("cat");
+}
+
+// The YOLO v4 directory of no class names file, the classes of which the
+// dxxwjz2 network to train beside the cfg file keeps.
+TEST_F(CTEST_Importers, dxxwjz2_request_reads_the_classes_of_the_network)
+{
+  given_the_yolo4_directory();
+  given_file("cfg/yolov4-obj.dxxwjz2", R"({"format": "dxxwjz2", "version": 2,
+    "network": {"cfg": "[net]\nbatch=64\n", "classes": [
+      {"index": 0, "name": "cat"}]}})");
+
+  auto event = std::make_shared<ImportDxxwjz2Request>(import_dir.string());
+  event->sizer = sizer();
+
+  controller->handle(event);
+
+  expect_the_recovered_box("cat");
+}
+
+TEST_F(CTEST_Importers, dxxwjz3_request_reads_the_classes_of_the_network)
+{
+  given_the_yolo4_directory();
+  given_file("cfg/yolov4-obj.dxxwjz3", R"({"format": "dxxwjz3", "version": 3,
+    "network": {"net": {"batch": 64}, "layers": [], "classes": ["cat"]}})");
+
+  auto event = std::make_shared<ImportDxxwjz3Request>(import_dir.string());
+  event->sizer = sizer();
+
+  controller->handle(event);
+
+  expect_the_recovered_box("cat");
+}
+
+// A file of another darknetxx format is no project of the requested one.
+TEST_F(CTEST_Importers, a_dxxwjz2p_request_of_a_dxxwjz3p_file_fills_nothing)
+{
+  given_file("images/a.png", "not-a-real-image");
+  given_file("yolov4-obj.dxxwjz2p",
+             project_of("dxxwjz3p", R"({"net": {"batch": 64}, "layers": [],
+               "classes": ["cat"]})"));
+
+  auto event = std::make_shared<ImportDxxwjz2pRequest>(import_dir.string());
+  event->sizer = sizer();
+
+  controller->handle(event);
+
+  EXPECT_TRUE(controller->get_images_db().empty());
+}
+
+// Every darknetxx layout the application exports reads back into the very
+// annotations it was exported of: the gzip compressed documents the exporters
+// library writes through the zlib are the ones the importers library reads.
+TEST_F(CTEST_Importers, the_darknetxx_exports_import_back)
+{
+  given_file("data/obj.names", "cat\n");
+  given_the_yolo4_directory();
+
+  auto yolo4 = std::make_shared<ImportYolo4FolderRequest>(import_dir.string());
+  yolo4->sizer = sizer();
+
+  controller->handle(yolo4);
+
+  expect_the_recovered_box("cat");
+
+  const fs::path exports = import_dir / "exports";
+
+  controller->handle(
+      std::make_shared<ExportDxxwjz2pRequest>((exports / "2p").string()));
+  controller->handle(
+      std::make_shared<ExportDxxwjz3pRequest>((exports / "3p").string()));
+  controller->handle(
+      std::make_shared<ExportDxxwjz2Request>((exports / "2").string()));
+  controller->handle(
+      std::make_shared<ExportDxxwjz3Request>((exports / "3").string()));
+
+  auto dxxwjz2p =
+      std::make_shared<ImportDxxwjz2pRequest>((exports / "2p").string());
+  auto dxxwjz3p =
+      std::make_shared<ImportDxxwjz3pRequest>((exports / "3p").string());
+  auto dxxwjz2 =
+      std::make_shared<ImportDxxwjz2Request>((exports / "2").string());
+  auto dxxwjz3 =
+      std::make_shared<ImportDxxwjz3Request>((exports / "3").string());
+
+  dxxwjz2p->sizer = sizer();
+  dxxwjz3p->sizer = sizer();
+  dxxwjz2->sizer = sizer();
+  dxxwjz3->sizer = sizer();
+
+  controller->handle(dxxwjz2p);
+  controller->handle(dxxwjz3p);
+  controller->handle(dxxwjz2);
+  controller->handle(dxxwjz3);
+
+  // the source image and its four exported copies
+  const auto& db = controller->get_images_db();
+
+  ASSERT_EQ(db.size(), 5U);
+
+  std::vector<std::string> exported;
+
+  for (const auto& ir : db) {
+    ASSERT_EQ(ir->rects.size(), 1U) << ir->get_full_path();
+
+    EXPECT_EQ(ir->rects.front()->name, "cat") << ir->get_full_path();
+    EXPECT_EQ(ir->rects.front()->x, 50) << ir->get_full_path();
+    EXPECT_EQ(ir->rects.front()->y, 20) << ir->get_full_path();
+    EXPECT_EQ(ir->rects.front()->width, 100) << ir->get_full_path();
+    EXPECT_EQ(ir->rects.front()->height, 40) << ir->get_full_path();
+
+    const std::string full = ir->get_full_path();
+
+    if (full.find(exports.string()) == 0U) {
+      exported.push_back(full.substr(exports.string().size() + 1U));
+    }
+  }
+
+  std::sort(exported.begin(), exported.end());
+
+  EXPECT_EQ(exported,
+            (std::vector<std::string>{"2/data/a.png", "2p/images/a.png",
+                                      "3/data/a.png", "3p/images/a.png"}));
 }

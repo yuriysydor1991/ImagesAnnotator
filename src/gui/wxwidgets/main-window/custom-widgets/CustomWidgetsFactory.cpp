@@ -176,6 +176,23 @@ bool CustomWidgetsFactory::ask_folder(wxWindow* parent,
   return !out.empty();
 }
 
+bool CustomWidgetsFactory::ask_existing_file(wxWindow* parent,
+                                             const std::string& title,
+                                             const std::string& wildcard,
+                                             std::string& out)
+{
+  wxFileDialog dlg(parent, u8(title), "", "", u8(wildcard),
+                   wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+
+  if (dlg.ShowModal() != wxID_OK) {
+    return false;
+  }
+
+  out = from_wx(dlg.GetPath());
+
+  return !out.empty();
+}
+
 bool CustomWidgetsFactory::ask_images_folder(wxWindow* parent, std::string& out)
 {
   return ask_folder(parent, "Select directory containing source images", out);
@@ -233,6 +250,32 @@ bool CustomWidgetsFactory::ask_createml_export_folder(wxWindow* parent,
   return ask_folder(parent, "Select Create ML export directory", out);
 }
 
+bool CustomWidgetsFactory::ask_dxxwjz2_export_folder(wxWindow* parent,
+                                                     std::string& out)
+{
+  return ask_folder(parent, "Select darknetxx dxxwjz2 export directory", out);
+}
+
+bool CustomWidgetsFactory::ask_dxxwjz2p_export_folder(wxWindow* parent,
+                                                      std::string& out)
+{
+  return ask_folder(parent,
+                    "Select darknetxx dxxwjz2p project export directory", out);
+}
+
+bool CustomWidgetsFactory::ask_dxxwjz3_export_folder(wxWindow* parent,
+                                                     std::string& out)
+{
+  return ask_folder(parent, "Select darknetxx dxxwjz3 export directory", out);
+}
+
+bool CustomWidgetsFactory::ask_dxxwjz3p_export_folder(wxWindow* parent,
+                                                      std::string& out)
+{
+  return ask_folder(parent,
+                    "Select darknetxx dxxwjz3p project export directory", out);
+}
+
 bool CustomWidgetsFactory::ask_txt_import_folder(wxWindow* parent,
                                                  std::string& out)
 {
@@ -288,6 +331,36 @@ bool CustomWidgetsFactory::ask_pytorch_import_folder(wxWindow* parent,
                                                      std::string& out)
 {
   return ask_folder(parent, "Select PyTorch Vision import directory", out);
+}
+
+bool CustomWidgetsFactory::ask_dxxwjz2_import_folder(wxWindow* parent,
+                                                     std::string& out)
+{
+  return ask_folder(parent, "Select darknetxx dxxwjz2 import directory", out);
+}
+
+bool CustomWidgetsFactory::ask_dxxwjz2p_import_file(wxWindow* parent,
+                                                    std::string& out)
+{
+  return ask_existing_file(
+      parent, "Select darknetxx dxxwjz2p project file",
+      "darknetxx dxxwjz2p projects (*.dxxwjz2p)|*.dxxwjz2p|All files (*)|*",
+      out);
+}
+
+bool CustomWidgetsFactory::ask_dxxwjz3_import_folder(wxWindow* parent,
+                                                     std::string& out)
+{
+  return ask_folder(parent, "Select darknetxx dxxwjz3 import directory", out);
+}
+
+bool CustomWidgetsFactory::ask_dxxwjz3p_import_file(wxWindow* parent,
+                                                    std::string& out)
+{
+  return ask_existing_file(
+      parent, "Select darknetxx dxxwjz3p project file",
+      "darknetxx dxxwjz3p projects (*.dxxwjz3p)|*.dxxwjz3p|All files (*)|*",
+      out);
 }
 
 bool CustomWidgetsFactory::ask_pytorch_export_folder(wxWindow* parent,

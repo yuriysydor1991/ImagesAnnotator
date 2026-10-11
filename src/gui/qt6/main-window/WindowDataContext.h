@@ -156,6 +156,18 @@ class WindowDataContext
   inline static constexpr const char* const
       annotations_export_createml_2_folder_id =
           "annotations_export_createml_2_folder";
+  inline static constexpr const char* const
+      annotations_export_dxxwjz2_2_folder_id =
+          "annotations_export_dxxwjz2_2_folder";
+  inline static constexpr const char* const
+      annotations_export_dxxwjz2p_2_folder_id =
+          "annotations_export_dxxwjz2p_2_folder";
+  inline static constexpr const char* const
+      annotations_export_dxxwjz3_2_folder_id =
+          "annotations_export_dxxwjz3_2_folder";
+  inline static constexpr const char* const
+      annotations_export_dxxwjz3p_2_folder_id =
+          "annotations_export_dxxwjz3p_2_folder";
 
   inline static constexpr const char* const annotations_import_txt_2_folder_id =
       "annotations_import_txt_2_folder";
@@ -182,6 +194,18 @@ class WindowDataContext
   inline static constexpr const char* const
       annotations_import_pytorchvision_2_folder_id =
           "annotations_import_pytorchvision_2_folder";
+  inline static constexpr const char* const
+      annotations_import_dxxwjz2_2_folder_id =
+          "annotations_import_dxxwjz2_2_folder";
+  inline static constexpr const char* const
+      annotations_import_dxxwjz2p_project_id =
+          "annotations_import_dxxwjz2p_project";
+  inline static constexpr const char* const
+      annotations_import_dxxwjz3_2_folder_id =
+          "annotations_import_dxxwjz3_2_folder";
+  inline static constexpr const char* const
+      annotations_import_dxxwjz3p_project_id =
+          "annotations_import_dxxwjz3p_project";
 
   inline static constexpr const char* const images_search_entry_id =
       "images_search_entry";

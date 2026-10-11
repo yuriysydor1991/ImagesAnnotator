@@ -33,6 +33,31 @@
             <attribute name="action">win.export-txt</attribute>
             <attribute name="icon">text-x-generic-symbolic</attribute>
           </item>
+          <submenu>
+            <attribute name="label" translatable="yes">DarknetXX</attribute>
+            <section>
+              <item>
+                <attribute name="label" translatable="yes">dxxwjz3p project</attribute>
+                <attribute name="action">win.export-dxxwjz3p</attribute>
+                <attribute name="icon">folder-symbolic</attribute>
+              </item>
+              <item>
+                <attribute name="label" translatable="yes">dxxwjz2p project</attribute>
+                <attribute name="action">win.export-dxxwjz2p</attribute>
+                <attribute name="icon">folder-symbolic</attribute>
+              </item>
+              <item>
+                <attribute name="label" translatable="yes">dxxwjz3 with YOLO4 folder</attribute>
+                <attribute name="action">win.export-dxxwjz3</attribute>
+                <attribute name="icon">folder-symbolic</attribute>
+              </item>
+              <item>
+                <attribute name="label" translatable="yes">dxxwjz2 with YOLO4 folder</attribute>
+                <attribute name="action">win.export-dxxwjz2</attribute>
+                <attribute name="icon">folder-symbolic</attribute>
+              </item>
+            </section>
+          </submenu>
           <item>
             <attribute name="label" translatable="yes">Export to YOLO4 folder</attribute>
             <attribute name="action">win.export-yolo4</attribute>
@@ -83,6 +108,31 @@
             <attribute name="action">win.import-txt</attribute>
             <attribute name="icon">text-x-generic-symbolic</attribute>
           </item>
+          <submenu>
+            <attribute name="label" translatable="yes">DarknetXX</attribute>
+            <section>
+              <item>
+                <attribute name="label" translatable="yes">dxxwjz3p project</attribute>
+                <attribute name="action">win.import-dxxwjz3p</attribute>
+                <attribute name="icon">folder-symbolic</attribute>
+              </item>
+              <item>
+                <attribute name="label" translatable="yes">dxxwjz2p project</attribute>
+                <attribute name="action">win.import-dxxwjz2p</attribute>
+                <attribute name="icon">folder-symbolic</attribute>
+              </item>
+              <item>
+                <attribute name="label" translatable="yes">dxxwjz3 with YOLO4 folder</attribute>
+                <attribute name="action">win.import-dxxwjz3</attribute>
+                <attribute name="icon">folder-symbolic</attribute>
+              </item>
+              <item>
+                <attribute name="label" translatable="yes">dxxwjz2 with YOLO4 folder</attribute>
+                <attribute name="action">win.import-dxxwjz2</attribute>
+                <attribute name="icon">folder-symbolic</attribute>
+              </item>
+            </section>
+          </submenu>
           <item>
             <attribute name="label" translatable="yes">Import from YOLO4 folder</attribute>
             <attribute name="action">win.import-yolo4</attribute>
@@ -395,10 +445,11 @@
        single reused instance (hide-on-close) that WindowLoader exposes through a
        getter. The two things GtkBuilder cannot express without a behavioural
        regression stay in C++, applied once at load by CustomWidgetsFactory: the
-       file-chooser filters (a GtkFileFilter cannot be added to a chooser from a
-       .ui file) and the localized, icon-decorated action buttons (which reuse
-       GTK's own translated "_Cancel"/"_Save"/... labels). The error dialog needs
-       neither, so its GTK-localized OK button is declared here via buttons=ok. -->
+       file-chooser filters of the JSON db and of the darknetxx project choosers
+       (a GtkFileFilter cannot be added to a chooser from a .ui file) and the
+       localized, icon-decorated action buttons (which reuse GTK's own translated
+       "_Cancel"/"_Save"/... labels). The error dialog needs neither, so its
+       GTK-localized OK button is declared here via buttons=ok. -->
   <object class="GtkFileChooserDialog" id="json_db_open_dialog">
     <property name="title" translatable="yes">Select annotations JSON db file</property>
     <property name="action">open</property>
@@ -465,6 +516,30 @@
     <property name="modal">true</property>
     <property name="hide-on-close">true</property>
   </object>
+  <object class="GtkFileChooserDialog" id="dxxwjz2_export_folder_dialog">
+    <property name="title" translatable="yes">Select darknetxx dxxwjz2 export directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="dxxwjz2p_export_folder_dialog">
+    <property name="title" translatable="yes">Select darknetxx dxxwjz2p project export directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="dxxwjz3_export_folder_dialog">
+    <property name="title" translatable="yes">Select darknetxx dxxwjz3 export directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="dxxwjz3p_export_folder_dialog">
+    <property name="title" translatable="yes">Select darknetxx dxxwjz3p project export directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
   <object class="GtkFileChooserDialog" id="pytorch_export_folder_dialog">
     <property name="title" translatable="yes">Select PyTorch Vision export directory</property>
     <property name="action">select-folder</property>
@@ -516,6 +591,30 @@
   <object class="GtkFileChooserDialog" id="createml_import_folder_dialog">
     <property name="title" translatable="yes">Select Create ML import directory</property>
     <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="dxxwjz2_import_folder_dialog">
+    <property name="title" translatable="yes">Select darknetxx dxxwjz2 import directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="dxxwjz2p_import_file_dialog">
+    <property name="title" translatable="yes">Select darknetxx dxxwjz2p project file</property>
+    <property name="action">open</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="dxxwjz3_import_folder_dialog">
+    <property name="title" translatable="yes">Select darknetxx dxxwjz3 import directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="dxxwjz3p_import_file_dialog">
+    <property name="title" translatable="yes">Select darknetxx dxxwjz3p project file</property>
+    <property name="action">open</property>
     <property name="modal">true</property>
     <property name="hide-on-close">true</property>
   </object>

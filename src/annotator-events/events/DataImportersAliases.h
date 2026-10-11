@@ -42,7 +42,7 @@
 // collide on a busy include path.
 //
 // IADataImportersFacade.h transitively pulls in every other public header of
-// the library (the library context with its nine layout descendants, the
+// the library (the library context with its thirteen layout descendants, the
 // importer and the image size reader interfaces), so a single include is
 // enough.
 #include <ImagesAnnotatorDataImporters-0.14/IADataImportersFacade.h>

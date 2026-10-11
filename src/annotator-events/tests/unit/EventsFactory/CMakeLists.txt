@@ -19,6 +19,10 @@ add_executable(
   ${EVENTS_SRC}/ExportCocoRequest.cpp
   ${EVENTS_SRC}/ExportPascalVocRequest.cpp
   ${EVENTS_SRC}/ExportCreateMLRequest.cpp
+  ${EVENTS_SRC}/ExportDxxwjz2Request.cpp
+  ${EVENTS_SRC}/ExportDxxwjz2pRequest.cpp
+  ${EVENTS_SRC}/ExportDxxwjz3Request.cpp
+  ${EVENTS_SRC}/ExportDxxwjz3pRequest.cpp
   ${EVENTS_SRC}/ImportPlainTxt2FolderRequest.cpp
   ${EVENTS_SRC}/ImportYolo4FolderRequest.cpp
   ${EVENTS_SRC}/ImportUltralyticsDetectRequest.cpp
@@ -28,6 +32,10 @@ add_executable(
   ${EVENTS_SRC}/ImportPascalVocRequest.cpp
   ${EVENTS_SRC}/ImportCreateMLRequest.cpp
   ${EVENTS_SRC}/ImportPyTorchVisionRequest.cpp
+  ${EVENTS_SRC}/ImportDxxwjz3pRequest.cpp
+  ${EVENTS_SRC}/ImportDxxwjz2pRequest.cpp
+  ${EVENTS_SRC}/ImportDxxwjz3Request.cpp
+  ${EVENTS_SRC}/ImportDxxwjz2Request.cpp
   ${EVENTS_SRC}/Export2PyTorchVisionRequest.cpp
   ${EVENTS_SRC}/DeleteCurrentImageRequest.cpp
   ${EVENTS_SRC}/LoadImagesFromWebPage.cpp

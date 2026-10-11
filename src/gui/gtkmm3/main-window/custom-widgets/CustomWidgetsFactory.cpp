@@ -274,6 +274,38 @@ CustomWidgetsFactory::create_createml_export_folder_choose_dialog(
 }
 
 std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_dxxwjz2_export_folder_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_folder_choose_dialog_with_title(
+      parentWindow, "Select darknetxx dxxwjz2 export directory");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_dxxwjz2p_export_folder_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_folder_choose_dialog_with_title(
+      parentWindow, "Select darknetxx dxxwjz2p project export directory");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_dxxwjz3_export_folder_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_folder_choose_dialog_with_title(
+      parentWindow, "Select darknetxx dxxwjz3 export directory");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_dxxwjz3p_export_folder_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_folder_choose_dialog_with_title(
+      parentWindow, "Select darknetxx dxxwjz3p project export directory");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
 CustomWidgetsFactory::create_txt_import_folder_choose_dialog(
     Gtk::Window* parentWindow)
 {
@@ -346,6 +378,40 @@ CustomWidgetsFactory::create_pytorch_import_folder_choose_dialog(
 }
 
 std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_dxxwjz2_import_folder_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_folder_choose_dialog_with_title(
+      parentWindow, "Select darknetxx dxxwjz2 import directory");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_dxxwjz2p_import_file_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_file_choose_dialog_with_filter(
+      parentWindow, "Select darknetxx dxxwjz2p project file",
+      "darknetxx dxxwjz2p projects", "*.dxxwjz2p");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_dxxwjz3_import_folder_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_folder_choose_dialog_with_title(
+      parentWindow, "Select darknetxx dxxwjz3 import directory");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_dxxwjz3p_import_file_choose_dialog(
+    Gtk::Window* parentWindow)
+{
+  return create_file_choose_dialog_with_filter(
+      parentWindow, "Select darknetxx dxxwjz3p project file",
+      "darknetxx dxxwjz3p projects", "*.dxxwjz3p");
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
 CustomWidgetsFactory::create_pytorch_export_folder_choose_dialog(
     Gtk::Window* parentWindow)
 {
@@ -359,6 +425,32 @@ CustomWidgetsFactory::create_folder_choose_dialog_with_title(
 {
   auto dialog = std::make_shared<Gtk::FileChooserDialog>(
       *parentWindow, title, Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER);
+
+  add_std_button(*dialog, "_Cancel", Gtk::RESPONSE_CANCEL);
+  add_std_button(*dialog, "_Select", Gtk::RESPONSE_OK);
+
+  return dialog;
+}
+
+std::shared_ptr<Gtk::FileChooserDialog>
+CustomWidgetsFactory::create_file_choose_dialog_with_filter(
+    Gtk::Window* parentWindow, const std::string& title,
+    const std::string& filterName, const std::string& filterPattern)
+{
+  auto dialog = std::make_shared<Gtk::FileChooserDialog>(
+      *parentWindow, title, Gtk::FILE_CHOOSER_ACTION_OPEN);
+
+  // The files of the given type first
+  auto filter_typed = Gtk::FileFilter::create();
+  filter_typed->set_name(filterName);
+  filter_typed->add_pattern(filterPattern);
+  dialog->add_filter(filter_typed);
+
+  // Allow all files as a fallback
+  auto filter_all = Gtk::FileFilter::create();
+  filter_all->set_name("All files");
+  filter_all->add_pattern("*");
+  dialog->add_filter(filter_all);
 
   add_std_button(*dialog, "_Cancel", Gtk::RESPONSE_CANCEL);
   add_std_button(*dialog, "_Select", Gtk::RESPONSE_OK);

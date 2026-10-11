@@ -46,6 +46,11 @@ namespace
 /// @brief The annotations project files filter, shared by the open and save
 /// dialogs (the Qt analogue of the Gtk::FileFilter the GTKmm factory attaches).
 const char* const jsonDbFilter = "JSON files (*.json);;All files (*)";
+/// @brief The filters of the two darknetxx project import dialogs.
+const char* const dxxwjz2pProjectFilter =
+    "darknetxx dxxwjz2p projects (*.dxxwjz2p);;All files (*)";
+const char* const dxxwjz3pProjectFilter =
+    "darknetxx dxxwjz3p projects (*.dxxwjz3p);;All files (*)";
 }  // namespace
 
 void CustomWidgetsFactory::add_button_icon(QPushButton& button,
@@ -199,6 +204,21 @@ bool CustomWidgetsFactory::ask_folder(QWidget* parent, const std::string& title,
   return !out.empty();
 }
 
+bool CustomWidgetsFactory::ask_file(QWidget* parent, const std::string& title,
+                                    const char* filter, std::string& out)
+{
+  const QString selected = QFileDialog::getOpenFileName(
+      parent, u8(title), QString{}, QString::fromUtf8(filter));
+
+  if (selected.isEmpty()) {
+    return false;
+  }
+
+  out = from_qt(selected);
+
+  return !out.empty();
+}
+
 bool CustomWidgetsFactory::ask_images_folder(QWidget* parent, std::string& out)
 {
   return ask_folder(parent, "Select directory containing source images", out);
@@ -256,6 +276,32 @@ bool CustomWidgetsFactory::ask_createml_export_folder(QWidget* parent,
   return ask_folder(parent, "Select Create ML export directory", out);
 }
 
+bool CustomWidgetsFactory::ask_dxxwjz2_export_folder(QWidget* parent,
+                                                     std::string& out)
+{
+  return ask_folder(parent, "Select darknetxx dxxwjz2 export directory", out);
+}
+
+bool CustomWidgetsFactory::ask_dxxwjz2p_export_folder(QWidget* parent,
+                                                      std::string& out)
+{
+  return ask_folder(parent,
+                    "Select darknetxx dxxwjz2p project export directory", out);
+}
+
+bool CustomWidgetsFactory::ask_dxxwjz3_export_folder(QWidget* parent,
+                                                     std::string& out)
+{
+  return ask_folder(parent, "Select darknetxx dxxwjz3 export directory", out);
+}
+
+bool CustomWidgetsFactory::ask_dxxwjz3p_export_folder(QWidget* parent,
+                                                      std::string& out)
+{
+  return ask_folder(parent,
+                    "Select darknetxx dxxwjz3p project export directory", out);
+}
+
 bool CustomWidgetsFactory::ask_txt_import_folder(QWidget* parent,
                                                  std::string& out)
 {
@@ -311,6 +357,32 @@ bool CustomWidgetsFactory::ask_pytorch_import_folder(QWidget* parent,
                                                      std::string& out)
 {
   return ask_folder(parent, "Select PyTorch Vision import directory", out);
+}
+
+bool CustomWidgetsFactory::ask_dxxwjz2_import_folder(QWidget* parent,
+                                                     std::string& out)
+{
+  return ask_folder(parent, "Select darknetxx dxxwjz2 import directory", out);
+}
+
+bool CustomWidgetsFactory::ask_dxxwjz2p_import_file(QWidget* parent,
+                                                    std::string& out)
+{
+  return ask_file(parent, "Select darknetxx dxxwjz2p project file",
+                  dxxwjz2pProjectFilter, out);
+}
+
+bool CustomWidgetsFactory::ask_dxxwjz3_import_folder(QWidget* parent,
+                                                     std::string& out)
+{
+  return ask_folder(parent, "Select darknetxx dxxwjz3 import directory", out);
+}
+
+bool CustomWidgetsFactory::ask_dxxwjz3p_import_file(QWidget* parent,
+                                                    std::string& out)
+{
+  return ask_file(parent, "Select darknetxx dxxwjz3p project file",
+                  dxxwjz3pProjectFilter, out);
 }
 
 bool CustomWidgetsFactory::ask_pytorch_export_folder(QWidget* parent,

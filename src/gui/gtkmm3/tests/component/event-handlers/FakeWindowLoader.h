@@ -128,6 +128,22 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm3::window::WindowLoader
   {
     return &export_createml_mi_;
   }
+  Gtk::ImageMenuItem* get_export_dxxwjz2_folder_mi() override
+  {
+    return &export_dxxwjz2_mi_;
+  }
+  Gtk::ImageMenuItem* get_export_dxxwjz2p_folder_mi() override
+  {
+    return &export_dxxwjz2p_mi_;
+  }
+  Gtk::ImageMenuItem* get_export_dxxwjz3_folder_mi() override
+  {
+    return &export_dxxwjz3_mi_;
+  }
+  Gtk::ImageMenuItem* get_export_dxxwjz3p_folder_mi() override
+  {
+    return &export_dxxwjz3p_mi_;
+  }
   Gtk::ImageMenuItem* get_import_txt_folder_mi() override
   {
     return &import_txt_mi_;
@@ -163,6 +179,22 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm3::window::WindowLoader
   Gtk::ImageMenuItem* get_import_pytorchvision_folder_mi() override
   {
     return &import_pytorch_mi_;
+  }
+  Gtk::ImageMenuItem* get_import_dxxwjz2_folder_mi() override
+  {
+    return &import_dxxwjz2_mi_;
+  }
+  Gtk::ImageMenuItem* get_import_dxxwjz2p_project_mi() override
+  {
+    return &import_dxxwjz2p_mi_;
+  }
+  Gtk::ImageMenuItem* get_import_dxxwjz3_folder_mi() override
+  {
+    return &import_dxxwjz3_mi_;
+  }
+  Gtk::ImageMenuItem* get_import_dxxwjz3p_project_mi() override
+  {
+    return &import_dxxwjz3p_mi_;
   }
 
   Gtk::ImageMenuItem* get_images_web_page_open_menu_item_mi() override
@@ -210,6 +242,10 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm3::window::WindowLoader
   Gtk::ImageMenuItem export_coco_mi_;
   Gtk::ImageMenuItem export_pascal_voc_mi_;
   Gtk::ImageMenuItem export_createml_mi_;
+  Gtk::ImageMenuItem export_dxxwjz2_mi_;
+  Gtk::ImageMenuItem export_dxxwjz2p_mi_;
+  Gtk::ImageMenuItem export_dxxwjz3_mi_;
+  Gtk::ImageMenuItem export_dxxwjz3p_mi_;
   Gtk::ImageMenuItem import_txt_mi_;
   Gtk::ImageMenuItem import_yolo4_mi_;
   Gtk::ImageMenuItem import_ultralytics_detect_mi_;
@@ -219,6 +255,10 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm3::window::WindowLoader
   Gtk::ImageMenuItem import_pascal_voc_mi_;
   Gtk::ImageMenuItem import_createml_mi_;
   Gtk::ImageMenuItem import_pytorch_mi_;
+  Gtk::ImageMenuItem import_dxxwjz2_mi_;
+  Gtk::ImageMenuItem import_dxxwjz2p_mi_;
+  Gtk::ImageMenuItem import_dxxwjz3_mi_;
+  Gtk::ImageMenuItem import_dxxwjz3p_mi_;
   Gtk::ImageMenuItem webpage_open_mi_;
   Gtk::ImageMenuItem about_mi_;
 };

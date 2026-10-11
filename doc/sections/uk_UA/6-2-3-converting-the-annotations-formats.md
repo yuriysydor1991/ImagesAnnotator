@@ -55,9 +55,14 @@ ImagesAnnotatorConverter](/doc/sections/uk_UA/5-40-the-ImagesAnnotatorConverter-
 | `pascal-voc` | набір файлів XML Pascal VOC |
 | `createml` | описовий файл JSON виявлення об'єктів Create ML |
 | `pytorch` | структура директорій `ImageFolder` PyTorch Vision |
+| `dxxwjz2` | тренувальна директорія darknetxx: директорія YOLO v4 з мережею dxxwjz2 для тренування |
+| `dxxwjz2p` | тренувальний проект darknetxx dxxwjz2p |
+| `dxxwjz3` | тренувальна директорія darknetxx: директорія YOLO v4 з мережею dxxwjz3 для тренування |
+| `dxxwjz3p` | тренувальний проект darknetxx dxxwjz3p |
 
 Для формату `imagesannotator` шлях є самим файлом JSON проекту, а для будь-якого
-іншого - директорією, яка містить набір даних. Директорія призначення, якої ще
+іншого - директорією, яка містить набір даних; шлях джерела проектів `dxxwjz2p`
+та `dxxwjz3p` може називати і сам файл проекту. Директорія призначення, якої ще
 не існує, створюється.
 
 Запис формату `pytorch` вирізає кожен анотований прямокутник із зображення, на

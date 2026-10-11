@@ -30,6 +30,10 @@ PACKAGES=(
     # configure would then pay for.
     libcurl4-openssl-dev
     nlohmann-json3-dev
+    # The zlib the two dataset libraries read and write the gzip compressed
+    # darknetxx dxxwjz files with is mandatory for them, and their enabler
+    # builds it from its sources for the same price as the two above.
+    zlib1g-dev
     # The ENABLE_OPENCV of the two dataset libraries is ON by default and is
     # dropped silently instead, which leaves the ImagesAnnotatorConverter
     # binary unable to write the PyTorch Vision layout and to read the five

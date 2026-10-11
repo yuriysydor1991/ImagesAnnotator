@@ -287,6 +287,54 @@ void ImagesAnnotatorEventController::subscribe(
 }
 
 void ImagesAnnotatorEventController::submit(
+    events::ExportDxxwjz2RequestPtr event)
+{
+  unified_submit(dxxwjz2Exporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ExportDxxwjz2RequestHandlerPtr handler)
+{
+  dxxwjz2Exporters_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
+    events::ExportDxxwjz2pRequestPtr event)
+{
+  unified_submit(dxxwjz2pExporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ExportDxxwjz2pRequestHandlerPtr handler)
+{
+  dxxwjz2pExporters_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
+    events::ExportDxxwjz3RequestPtr event)
+{
+  unified_submit(dxxwjz3Exporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ExportDxxwjz3RequestHandlerPtr handler)
+{
+  dxxwjz3Exporters_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
+    events::ExportDxxwjz3pRequestPtr event)
+{
+  unified_submit(dxxwjz3pExporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ExportDxxwjz3pRequestHandlerPtr handler)
+{
+  dxxwjz3pExporters_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
     events::ImportPlainTxt2FolderRequestPtr event)
 {
   unified_submit(plainTxtImporters_handlers, event);
@@ -391,6 +439,54 @@ void ImagesAnnotatorEventController::subscribe(
     events::ImportPyTorchVisionRequestHandlerPtr handler)
 {
   pytorchVisionImporters_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
+    events::ImportDxxwjz3pRequestPtr event)
+{
+  unified_submit(dxxwjz3pImporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ImportDxxwjz3pRequestHandlerPtr handler)
+{
+  dxxwjz3pImporters_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
+    events::ImportDxxwjz2pRequestPtr event)
+{
+  unified_submit(dxxwjz2pImporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ImportDxxwjz2pRequestHandlerPtr handler)
+{
+  dxxwjz2pImporters_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
+    events::ImportDxxwjz3RequestPtr event)
+{
+  unified_submit(dxxwjz3Importers_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ImportDxxwjz3RequestHandlerPtr handler)
+{
+  dxxwjz3Importers_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
+    events::ImportDxxwjz2RequestPtr event)
+{
+  unified_submit(dxxwjz2Importers_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ImportDxxwjz2RequestHandlerPtr handler)
+{
+  dxxwjz2Importers_handlers.insert(handler);
 }
 
 void ImagesAnnotatorEventController::submit(

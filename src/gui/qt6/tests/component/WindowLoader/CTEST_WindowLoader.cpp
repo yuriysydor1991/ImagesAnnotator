@@ -89,8 +89,66 @@ TEST_F(CTEST_Qt6WindowLoader, every_menu_action_resolves)
   EXPECT_NE(wl.get_export_txt2_folder_mi(), nullptr);
   EXPECT_NE(wl.get_export_yolo4_folder_mi(), nullptr);
   EXPECT_NE(wl.get_export_pytorchvision_folder_mi(), nullptr);
+  EXPECT_NE(wl.get_import_dxxwjz3p_project_mi(), nullptr);
+  EXPECT_NE(wl.get_import_dxxwjz2p_project_mi(), nullptr);
+  EXPECT_NE(wl.get_import_dxxwjz3_folder_mi(), nullptr);
+  EXPECT_NE(wl.get_import_dxxwjz2_folder_mi(), nullptr);
   EXPECT_NE(wl.get_images_web_page_open_menu_item_mi(), nullptr);
   EXPECT_NE(wl.auto_insert_current_annotation_to_whole_mi(), nullptr);
+}
+
+TEST_F(CTEST_Qt6WindowLoader, darknetxx_import_submenu_sits_above_yolo4_import)
+{
+  auto& wl = *mwctx->wloader;
+
+  QAction* const yolo4Import = wl.get_import_yolo4_folder_mi();
+
+  ASSERT_NE(yolo4Import, nullptr);
+
+  const auto menus = wl.get_window()->findChildren<QMenu*>();
+
+  QMenu* project{nullptr};
+
+  for (QMenu* menu : menus) {
+    if (menu->actions().contains(yolo4Import)) {
+      project = menu;
+    }
+  }
+
+  ASSERT_NE(project, nullptr);
+
+  // the entry right above the YOLO4 import is the darknetxx submenu
+  const auto projectActions = project->actions();
+  const auto yolo4At = projectActions.indexOf(yolo4Import);
+
+  ASSERT_GT(yolo4At, 0);
+
+  QMenu* darknetxx{nullptr};
+
+  for (QMenu* menu : menus) {
+    if (menu->menuAction() == projectActions.at(yolo4At - 1)) {
+      darknetxx = menu;
+    }
+  }
+
+  ASSERT_NE(darknetxx, nullptr);
+  EXPECT_TRUE(darknetxx->title().contains(QStringLiteral("DarknetXX")));
+
+  const QList<QAction*> expected{
+      wl.get_import_dxxwjz3p_project_mi(), wl.get_import_dxxwjz2p_project_mi(),
+      wl.get_import_dxxwjz3_folder_mi(), wl.get_import_dxxwjz2_folder_mi()};
+
+  EXPECT_EQ(darknetxx->actions(), expected);
+
+  ASSERT_EQ(darknetxx->actions().size(), 4);
+  EXPECT_EQ(darknetxx->actions().at(0)->text(),
+            QStringLiteral("dxxwjz3p project"));
+  EXPECT_EQ(darknetxx->actions().at(1)->text(),
+            QStringLiteral("dxxwjz2p project"));
+  EXPECT_EQ(darknetxx->actions().at(2)->text(),
+            QStringLiteral("dxxwjz3 with YOLO4 folder"));
+  EXPECT_EQ(darknetxx->actions().at(3)->text(),
+            QStringLiteral("dxxwjz2 with YOLO4 folder"));
 }
 
 TEST_F(CTEST_Qt6WindowLoader, carries_the_gtkmm_menu_accelerators)

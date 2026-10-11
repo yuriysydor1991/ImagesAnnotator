@@ -22,6 +22,10 @@ add_library(
   ExportCocoRequest.cpp
   ExportPascalVocRequest.cpp
   ExportCreateMLRequest.cpp
+  ExportDxxwjz2Request.cpp
+  ExportDxxwjz2pRequest.cpp
+  ExportDxxwjz3Request.cpp
+  ExportDxxwjz3pRequest.cpp
   ImportPlainTxt2FolderRequest.cpp
   ImportYolo4FolderRequest.cpp
   ImportUltralyticsDetectRequest.cpp
@@ -31,6 +35,10 @@ add_library(
   ImportPascalVocRequest.cpp
   ImportCreateMLRequest.cpp
   ImportPyTorchVisionRequest.cpp
+  ImportDxxwjz3pRequest.cpp
+  ImportDxxwjz2pRequest.cpp
+  ImportDxxwjz3Request.cpp
+  ImportDxxwjz2Request.cpp
   DeleteCurrentImageRequest.cpp
   LoadImagesFromWebPage.cpp
   DisplayErrorEvent.cpp

@@ -48,6 +48,24 @@ TEST(UTEST_Qt6WindowDataContext, embedded_resource_paths_use_the_qt_scheme)
   EXPECT_NE(qss.find("/qt6/"), std::string::npos);
 }
 
+// The menu actions of the darknetxx exports are looked up by these object
+// names, so the window loader resolves them only once listed here.
+TEST(UTEST_Qt6WindowDataContext, get_ids_contains_the_darknetxx_export_ids)
+{
+  const auto& ids = WindowDataContext::get_ids();
+
+  EXPECT_EQ(
+      ids.count(WindowDataContext::annotations_export_dxxwjz2_2_folder_id), 1U);
+  EXPECT_EQ(
+      ids.count(WindowDataContext::annotations_export_dxxwjz2p_2_folder_id),
+      1U);
+  EXPECT_EQ(
+      ids.count(WindowDataContext::annotations_export_dxxwjz3_2_folder_id), 1U);
+  EXPECT_EQ(
+      ids.count(WindowDataContext::annotations_export_dxxwjz3p_2_folder_id),
+      1U);
+}
+
 TEST(UTEST_Qt6WindowDataContext, get_ids_contains_every_import_id)
 {
   const auto& ids = WindowDataContext::get_ids();
@@ -79,4 +97,20 @@ TEST(UTEST_Qt6WindowDataContext, get_ids_contains_every_import_id)
       ids.count(
           WindowDataContext::annotations_import_pytorchvision_2_folder_id),
       1U);
+}
+
+// The menu actions of the darknetxx imports are looked up by these object
+// names, so the window loader resolves them only once listed here.
+TEST(UTEST_Qt6WindowDataContext, get_ids_contains_the_darknetxx_import_ids)
+{
+  const auto& ids = WindowDataContext::get_ids();
+
+  EXPECT_EQ(
+      ids.count(WindowDataContext::annotations_import_dxxwjz2_2_folder_id), 1U);
+  EXPECT_EQ(
+      ids.count(WindowDataContext::annotations_import_dxxwjz2p_project_id), 1U);
+  EXPECT_EQ(
+      ids.count(WindowDataContext::annotations_import_dxxwjz3_2_folder_id), 1U);
+  EXPECT_EQ(
+      ids.count(WindowDataContext::annotations_import_dxxwjz3p_project_id), 1U);
 }

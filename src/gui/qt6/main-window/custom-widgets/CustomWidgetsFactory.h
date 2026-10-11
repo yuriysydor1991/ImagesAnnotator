@@ -128,6 +128,10 @@ class CustomWidgetsFactory
   virtual bool ask_coco_export_folder(QWidget* parent, std::string& out);
   virtual bool ask_pascal_voc_export_folder(QWidget* parent, std::string& out);
   virtual bool ask_createml_export_folder(QWidget* parent, std::string& out);
+  virtual bool ask_dxxwjz2_export_folder(QWidget* parent, std::string& out);
+  virtual bool ask_dxxwjz2p_export_folder(QWidget* parent, std::string& out);
+  virtual bool ask_dxxwjz3_export_folder(QWidget* parent, std::string& out);
+  virtual bool ask_dxxwjz3p_export_folder(QWidget* parent, std::string& out);
   virtual bool ask_txt_import_folder(QWidget* parent, std::string& out);
   virtual bool ask_yolo4_import_folder(QWidget* parent, std::string& out);
   virtual bool ask_ultralytics_detect_import_folder(QWidget* parent,
@@ -140,6 +144,10 @@ class CustomWidgetsFactory
   virtual bool ask_pascal_voc_import_folder(QWidget* parent, std::string& out);
   virtual bool ask_createml_import_folder(QWidget* parent, std::string& out);
   virtual bool ask_pytorch_import_folder(QWidget* parent, std::string& out);
+  virtual bool ask_dxxwjz2_import_folder(QWidget* parent, std::string& out);
+  virtual bool ask_dxxwjz2p_import_file(QWidget* parent, std::string& out);
+  virtual bool ask_dxxwjz3_import_folder(QWidget* parent, std::string& out);
+  virtual bool ask_dxxwjz3p_import_file(QWidget* parent, std::string& out);
   virtual bool ask_webpage_url(QWidget* parent, std::string& out);
 
   virtual SaveAnswer ask_save_changes(QWidget* parent);
@@ -156,6 +164,10 @@ class CustomWidgetsFactory
 
  private:
   bool ask_folder(QWidget* parent, const std::string& title, std::string& out);
+  /// @brief The existing file counterpart of ask_folder(), offering the
+  /// @a filter name filters ("name (*.ext);;All files (*)").
+  bool ask_file(QWidget* parent, const std::string& title, const char* filter,
+                std::string& out);
 };
 
 }  // namespace imagesAnnotatorQt6::window::custom_widgets

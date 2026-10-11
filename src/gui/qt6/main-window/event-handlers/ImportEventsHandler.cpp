@@ -81,6 +81,18 @@ bool ImportEventsHandler::subscribe()
   QObject::connect(mwctx->wloader->get_import_pytorchvision_folder_mi(),
                    &QAction::triggered, window,
                    [this]() { handle_import_pytorch(); });
+  QObject::connect(mwctx->wloader->get_import_dxxwjz2_folder_mi(),
+                   &QAction::triggered, window,
+                   [this]() { handle_import_dxxwjz2(); });
+  QObject::connect(mwctx->wloader->get_import_dxxwjz2p_project_mi(),
+                   &QAction::triggered, window,
+                   [this]() { handle_import_dxxwjz2p(); });
+  QObject::connect(mwctx->wloader->get_import_dxxwjz3_folder_mi(),
+                   &QAction::triggered, window,
+                   [this]() { handle_import_dxxwjz3(); });
+  QObject::connect(mwctx->wloader->get_import_dxxwjz3p_project_mi(),
+                   &QAction::triggered, window,
+                   [this]() { handle_import_dxxwjz3p(); });
 
   return true;
 }
@@ -106,7 +118,7 @@ void ImportEventsHandler::handle_folder_import(
     return;
   }
 
-  LOGD("Selected import folder: " << newFileName);
+  LOGD("Selected import folder or project file: " << newFileName);
 
   ops->show_spinner();
 
@@ -321,6 +333,100 @@ void ImportEventsHandler::handle_import_pytorch()
 
         auto importEvent =
             efactory->create_pytorch_vision_import_request(folder);
+
+        importEvent->sizer = create_image_sizer();
+
+        mwctx->actx->eventer->submit(importEvent);
+      });
+}
+
+void ImportEventsHandler::handle_import_dxxwjz2()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_folder_import(
+      [this](std::string& out) {
+        return mwctx->cwFactory->ask_dxxwjz2_import_folder(
+            mwctx->wloader->get_window(), out);
+      },
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        auto importEvent = efactory->create_dxxwjz2_import_request(folder);
+
+        importEvent->sizer = create_image_sizer();
+
+        mwctx->actx->eventer->submit(importEvent);
+      });
+}
+
+void ImportEventsHandler::handle_import_dxxwjz2p()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_folder_import(
+      [this](std::string& out) {
+        return mwctx->cwFactory->ask_dxxwjz2p_import_file(
+            mwctx->wloader->get_window(), out);
+      },
+      [this](const std::string& projectFile) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        auto importEvent =
+            efactory->create_dxxwjz2p_import_request(projectFile);
+
+        importEvent->sizer = create_image_sizer();
+
+        mwctx->actx->eventer->submit(importEvent);
+      });
+}
+
+void ImportEventsHandler::handle_import_dxxwjz3()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_folder_import(
+      [this](std::string& out) {
+        return mwctx->cwFactory->ask_dxxwjz3_import_folder(
+            mwctx->wloader->get_window(), out);
+      },
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        auto importEvent = efactory->create_dxxwjz3_import_request(folder);
+
+        importEvent->sizer = create_image_sizer();
+
+        mwctx->actx->eventer->submit(importEvent);
+      });
+}
+
+void ImportEventsHandler::handle_import_dxxwjz3p()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_folder_import(
+      [this](std::string& out) {
+        return mwctx->cwFactory->ask_dxxwjz3p_import_file(
+            mwctx->wloader->get_window(), out);
+      },
+      [this](const std::string& projectFile) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        auto importEvent =
+            efactory->create_dxxwjz3p_import_request(projectFile);
 
         importEvent->sizer = create_image_sizer();
 

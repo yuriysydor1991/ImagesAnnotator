@@ -81,6 +81,14 @@ bool ExportEventsHandler::subscribe()
       sigc::mem_fun(*this, &ExportEventsHandler::handle_export_pascal_voc));
   mwctx->wloader->get_export_createml_folder_mi()->signal_activate().connect(
       sigc::mem_fun(*this, &ExportEventsHandler::handle_export_createml));
+  mwctx->wloader->get_export_dxxwjz2_folder_mi()->signal_activate().connect(
+      sigc::mem_fun(*this, &ExportEventsHandler::handle_export_dxxwjz2));
+  mwctx->wloader->get_export_dxxwjz2p_folder_mi()->signal_activate().connect(
+      sigc::mem_fun(*this, &ExportEventsHandler::handle_export_dxxwjz2p));
+  mwctx->wloader->get_export_dxxwjz3_folder_mi()->signal_activate().connect(
+      sigc::mem_fun(*this, &ExportEventsHandler::handle_export_dxxwjz3));
+  mwctx->wloader->get_export_dxxwjz3p_folder_mi()->signal_activate().connect(
+      sigc::mem_fun(*this, &ExportEventsHandler::handle_export_dxxwjz3p));
 
   return true;
 }
@@ -361,6 +369,78 @@ void ExportEventsHandler::handle_export_createml()
 
         mwctx->actx->eventer->submit(
             efactory->create_createml_export_request(folder));
+      });
+}
+
+void ExportEventsHandler::handle_export_dxxwjz2()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_folder_export(
+      mwctx->cwFactory->create_dxxwjz2_export_folder_choose_dialog(
+          mwctx->wloader->get_window()),
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_dxxwjz2_export_request(folder));
+      });
+}
+
+void ExportEventsHandler::handle_export_dxxwjz2p()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_folder_export(
+      mwctx->cwFactory->create_dxxwjz2p_export_folder_choose_dialog(
+          mwctx->wloader->get_window()),
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_dxxwjz2p_export_request(folder));
+      });
+}
+
+void ExportEventsHandler::handle_export_dxxwjz3()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_folder_export(
+      mwctx->cwFactory->create_dxxwjz3_export_folder_choose_dialog(
+          mwctx->wloader->get_window()),
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_dxxwjz3_export_request(folder));
+      });
+}
+
+void ExportEventsHandler::handle_export_dxxwjz3p()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_folder_export(
+      mwctx->cwFactory->create_dxxwjz3p_export_folder_choose_dialog(
+          mwctx->wloader->get_window()),
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_dxxwjz3p_export_request(folder));
       });
 }
 

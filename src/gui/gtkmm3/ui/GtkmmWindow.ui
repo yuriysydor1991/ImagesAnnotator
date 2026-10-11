@@ -109,6 +109,46 @@
     <property name="can-focus">False</property>
     <property name="icon-name">folder-symbolic</property>
   </object>
+  <object class="GtkImage" id="image27">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">folder-symbolic</property>
+  </object>
+  <object class="GtkImage" id="image28">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">folder-symbolic</property>
+  </object>
+  <object class="GtkImage" id="image29">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">folder-symbolic</property>
+  </object>
+  <object class="GtkImage" id="image30">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">folder-symbolic</property>
+  </object>
+  <object class="GtkImage" id="image31">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">folder-symbolic</property>
+  </object>
+  <object class="GtkImage" id="image32">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">folder-symbolic</property>
+  </object>
+  <object class="GtkImage" id="image33">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">folder-symbolic</property>
+  </object>
+  <object class="GtkImage" id="image34">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">folder-symbolic</property>
+  </object>
   <object class="GtkImage" id="image2">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -238,6 +278,59 @@
                                   </object>
                                 </child>
                                 <child>
+                                  <object class="GtkMenuItem" id="annotations_export_darknetxx_menu">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">DarknetXX</property>
+                                    <child type="submenu">
+                                      <object class="GtkMenu">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <child>
+                                          <object class="GtkImageMenuItem" id="annotations_export_dxxwjz3p_2_folder">
+                                            <property name="label" translatable="yes">dxxwjz3p project</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="image">image30</property>
+                                            <property name="use-stock">False</property>
+                                            <property name="always-show-image">True</property>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkImageMenuItem" id="annotations_export_dxxwjz2p_2_folder">
+                                            <property name="label" translatable="yes">dxxwjz2p project</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="image">image29</property>
+                                            <property name="use-stock">False</property>
+                                            <property name="always-show-image">True</property>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkImageMenuItem" id="annotations_export_dxxwjz3_2_folder">
+                                            <property name="label" translatable="yes">dxxwjz3 with YOLO4 folder</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="image">image28</property>
+                                            <property name="use-stock">False</property>
+                                            <property name="always-show-image">True</property>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkImageMenuItem" id="annotations_export_dxxwjz2_2_folder">
+                                            <property name="label" translatable="yes">dxxwjz2 with YOLO4 folder</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="image">image27</property>
+                                            <property name="use-stock">False</property>
+                                            <property name="always-show-image">True</property>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                                <child>
                                   <object class="GtkImageMenuItem" id="annotations_export_yolo4_2_folder2">
                                     <property name="label" translatable="yes">Export to YOLO4 folder</property>
                                     <property name="visible">True</property>
@@ -338,6 +431,59 @@
                                     <property name="image">image18</property>
                                     <property name="use-stock">False</property>
                                     <property name="always-show-image">True</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkMenuItem" id="annotations_import_darknetxx_menu">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">DarknetXX</property>
+                                    <child type="submenu">
+                                      <object class="GtkMenu">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <child>
+                                          <object class="GtkImageMenuItem" id="annotations_import_dxxwjz3p_project">
+                                            <property name="label" translatable="yes">dxxwjz3p project</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="image">image34</property>
+                                            <property name="use-stock">False</property>
+                                            <property name="always-show-image">True</property>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkImageMenuItem" id="annotations_import_dxxwjz2p_project">
+                                            <property name="label" translatable="yes">dxxwjz2p project</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="image">image33</property>
+                                            <property name="use-stock">False</property>
+                                            <property name="always-show-image">True</property>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkImageMenuItem" id="annotations_import_dxxwjz3_2_folder">
+                                            <property name="label" translatable="yes">dxxwjz3 with YOLO4 folder</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="image">image32</property>
+                                            <property name="use-stock">False</property>
+                                            <property name="always-show-image">True</property>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkImageMenuItem" id="annotations_import_dxxwjz2_2_folder">
+                                            <property name="label" translatable="yes">dxxwjz2 with YOLO4 folder</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="image">image31</property>
+                                            <property name="use-stock">False</property>
+                                            <property name="always-show-image">True</property>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
                                   </object>
                                 </child>
                                 <child>

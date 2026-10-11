@@ -577,6 +577,38 @@ Gtk::ImageMenuItem* WindowLoader::get_export_createml_folder_mi()
       mwctx->wctx->annotations_export_createml_2_folder_id);
 }
 
+Gtk::ImageMenuItem* WindowLoader::get_export_dxxwjz2_folder_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_export_dxxwjz2_2_folder_id);
+}
+
+Gtk::ImageMenuItem* WindowLoader::get_export_dxxwjz2p_folder_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_export_dxxwjz2p_2_folder_id);
+}
+
+Gtk::ImageMenuItem* WindowLoader::get_export_dxxwjz3_folder_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_export_dxxwjz3_2_folder_id);
+}
+
+Gtk::ImageMenuItem* WindowLoader::get_export_dxxwjz3p_folder_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_export_dxxwjz3p_2_folder_id);
+}
+
 Gtk::ImageMenuItem* WindowLoader::get_import_txt_folder_mi()
 {
   assert(mwctx->wctx != nullptr);
@@ -647,6 +679,38 @@ Gtk::ImageMenuItem* WindowLoader::get_import_pytorchvision_folder_mi()
 
   return get_widget<Gtk::ImageMenuItem>(
       mwctx->wctx->annotations_import_pytorchvision_2_folder_id);
+}
+
+Gtk::ImageMenuItem* WindowLoader::get_import_dxxwjz2_folder_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_import_dxxwjz2_2_folder_id);
+}
+
+Gtk::ImageMenuItem* WindowLoader::get_import_dxxwjz2p_project_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_import_dxxwjz2p_project_id);
+}
+
+Gtk::ImageMenuItem* WindowLoader::get_import_dxxwjz3_folder_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_import_dxxwjz3_2_folder_id);
+}
+
+Gtk::ImageMenuItem* WindowLoader::get_import_dxxwjz3p_project_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_import_dxxwjz3p_project_id);
 }
 
 Gtk::ImageMenuItem* WindowLoader::get_export_pytorchvision_folder_mi()

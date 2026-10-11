@@ -42,7 +42,8 @@ namespace imagesAnnotatorGtkmm3::window::event_handlers
 /**
  * @brief Handles the annotations import menu items - the nine dataset layouts
  * the ImagesAnnotator-DataImporters library reads, which are the very nine the
- * export side writes - the mirror image of ExportEventsHandler.
+ * export side writes, and the four darknetxx dxxwjz ones of the DarknetXX
+ * submenu - the mirror image of ExportEventsHandler.
  *
  * Unlike an export, an import needs no project to be open: it fills one. What
  * it does need is a way to measure the pictures it recovers, which the
@@ -66,15 +67,21 @@ class ImportEventsHandler : public AbstractWindowEventHandler
   void handle_import_pascal_voc();
   void handle_import_createml();
   void handle_import_pytorch();
+  void handle_import_dxxwjz2();
+  void handle_import_dxxwjz2p();
+  void handle_import_dxxwjz3();
+  void handle_import_dxxwjz3p();
 
   /**
-   * @brief The shared body of the three imports: the same spinner and
-   * directory chooser, with only the dialog and the event to submit left to
-   * the caller.
+   * @brief The shared body of the imports: the same spinner and directory
+   * chooser, with only the dialog and the event to submit left to the caller.
+   * It also serves the file choosers of the two darknetxx project imports, as
+   * both kinds of the chooser hand the choice over the very same way.
    *
-   * @param dialog The already built directory chooser of that layout.
-   * @param submitImport Hands the chosen directory over to the events factory
-   * and submits the resulting event.
+   * @param dialog The already built directory (or project file) chooser of
+   * that layout.
+   * @param submitImport Hands the chosen directory (or project file) over to
+   * the events factory and submits the resulting event.
    */
   void handle_folder_import(
       std::shared_ptr<Gtk::FileChooserDialog> dialog,

@@ -41,6 +41,10 @@
 #include "src/annotator-events/events/Export2PyTorchVisionRequest.h"
 #include "src/annotator-events/events/ExportCocoRequest.h"
 #include "src/annotator-events/events/ExportCreateMLRequest.h"
+#include "src/annotator-events/events/ExportDxxwjz2Request.h"
+#include "src/annotator-events/events/ExportDxxwjz2pRequest.h"
+#include "src/annotator-events/events/ExportDxxwjz3Request.h"
+#include "src/annotator-events/events/ExportDxxwjz3pRequest.h"
 #include "src/annotator-events/events/ExportPascalVocRequest.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequest.h"
 #include "src/annotator-events/events/ExportUltralyticsDetectRequest.h"
@@ -142,6 +146,18 @@ class EventsFactory : public std::enable_shared_from_this<EventsFactory>
       const std::string& exportDirPath);
 
   virtual ExportCreateMLRequestPtr create_createml_export_request(
+      const std::string& exportDirPath);
+
+  virtual ExportDxxwjz2RequestPtr create_dxxwjz2_export_request(
+      const std::string& exportDirPath);
+
+  virtual ExportDxxwjz2pRequestPtr create_dxxwjz2p_export_request(
+      const std::string& exportDirPath);
+
+  virtual ExportDxxwjz3RequestPtr create_dxxwjz3_export_request(
+      const std::string& exportDirPath);
+
+  virtual ExportDxxwjz3pRequestPtr create_dxxwjz3p_export_request(
       const std::string& exportDirPath);
 
   virtual ImportPlainTxt2FolderRequestPtr create_plain_txt_import_request(

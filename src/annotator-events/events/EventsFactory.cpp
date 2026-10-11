@@ -214,6 +214,30 @@ ExportCreateMLRequestPtr EventsFactory::create_createml_export_request(
   return std::make_shared<ExportCreateMLRequest>(exportDirPath);
 }
 
+ExportDxxwjz2RequestPtr EventsFactory::create_dxxwjz2_export_request(
+    const std::string& exportDirPath)
+{
+  return std::make_shared<ExportDxxwjz2Request>(exportDirPath);
+}
+
+ExportDxxwjz2pRequestPtr EventsFactory::create_dxxwjz2p_export_request(
+    const std::string& exportDirPath)
+{
+  return std::make_shared<ExportDxxwjz2pRequest>(exportDirPath);
+}
+
+ExportDxxwjz3RequestPtr EventsFactory::create_dxxwjz3_export_request(
+    const std::string& exportDirPath)
+{
+  return std::make_shared<ExportDxxwjz3Request>(exportDirPath);
+}
+
+ExportDxxwjz3pRequestPtr EventsFactory::create_dxxwjz3p_export_request(
+    const std::string& exportDirPath)
+{
+  return std::make_shared<ExportDxxwjz3pRequest>(exportDirPath);
+}
+
 ImportPlainTxt2FolderRequestPtr EventsFactory::create_plain_txt_import_request(
     const std::string& importDirPath)
 {

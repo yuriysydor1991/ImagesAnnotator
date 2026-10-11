@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <utility>
 
 #include "CTEST_AnnotatorController.h"
 #include "ctests_decls.h"
@@ -13,6 +14,10 @@
 #include "src/annotator-events/events/EventsFactory.h"
 #include "src/annotator-events/events/ExportCocoRequest.h"
 #include "src/annotator-events/events/ExportCreateMLRequest.h"
+#include "src/annotator-events/events/ExportDxxwjz2Request.h"
+#include "src/annotator-events/events/ExportDxxwjz2pRequest.h"
+#include "src/annotator-events/events/ExportDxxwjz3Request.h"
+#include "src/annotator-events/events/ExportDxxwjz3pRequest.h"
 #include "src/annotator-events/events/ExportPascalVocRequest.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequest.h"
 #include "src/annotator-events/events/ExportUltralyticsDetectRequest.h"
@@ -139,6 +144,10 @@ TEST_F(CTEST_Exporters, yolo4_request_writes_the_yolo_directory_layout)
   // The plain txt layout of the sibling test is not the one that was asked for.
   EXPECT_FALSE(
       fs::is_regular_file(export_dir / (known_annotation_name + ".txt")));
+
+  // nor are the networks to train the darknetxx layouts add to this one
+  EXPECT_FALSE(fs::exists(export_dir / "cfg/yolov4-obj.dxxwjz2"));
+  EXPECT_FALSE(fs::exists(export_dir / "cfg/yolov4-obj.dxxwjz3"));
 }
 
 // The label file lines of each task are covered by the exporters library own
@@ -290,6 +299,79 @@ TEST_F(CTEST_Exporters, createml_request_writes_the_createml_layout)
   EXPECT_FALSE(fs::is_regular_file(export_dir / "data.yaml"));
   EXPECT_FALSE(
       fs::is_regular_file(export_dir / (known_annotation_name + ".txt")));
+}
+
+// The network document itself is covered by the exporters library own suite.
+// What is asserted on here is the layout: the YOLO v4 directory of the sibling
+// case with the gzip compressed network to train beside its cfg file.
+TEST_F(CTEST_Exporters, dxxwjz2_request_writes_the_darknetxx_layout)
+{
+  controller->handle(
+      std::make_shared<ExportDxxwjz2Request>(export_dir.string()));
+
+  EXPECT_TRUE(fs::is_directory(export_dir / "backup"));
+  EXPECT_TRUE(fs::is_regular_file(export_dir / "cfg/yolov4-obj.cfg"));
+
+  const std::string names = read_file(export_dir / "data/obj.names");
+
+  EXPECT_NE(names.find(known_annotation_name), std::string::npos);
+
+  const fs::path network = export_dir / "cfg/yolov4-obj.dxxwjz2";
+
+  ASSERT_TRUE(fs::is_regular_file(network));
+
+  // the gzip magic the darknetxx tells a dxxwjz2 file from a plain JSON one by
+  EXPECT_EQ(read_file(network).substr(0, 2), "\x1F\x8B");
+
+  // neither of the two layouts the sibling cases ask for
+  EXPECT_FALSE(fs::is_regular_file(export_dir / "data.yaml"));
+  EXPECT_FALSE(
+      fs::is_regular_file(export_dir / (known_annotation_name + ".txt")));
+}
+
+// The dxxwjz3 sibling of the case above: the network to train of the JSON
+// data alone beside the cfg file, the dxxwjz2 one not
+TEST_F(CTEST_Exporters, dxxwjz3_request_writes_the_darknetxx_layout)
+{
+  controller->handle(
+      std::make_shared<ExportDxxwjz3Request>(export_dir.string()));
+
+  EXPECT_TRUE(fs::is_directory(export_dir / "backup"));
+  EXPECT_TRUE(fs::is_regular_file(export_dir / "cfg/yolov4-obj.cfg"));
+
+  const fs::path network = export_dir / "cfg/yolov4-obj.dxxwjz3";
+
+  ASSERT_TRUE(fs::is_regular_file(network));
+  EXPECT_EQ(read_file(network).substr(0, 2), "\x1F\x8B");
+  EXPECT_FALSE(fs::exists(export_dir / "cfg/yolov4-obj.dxxwjz2"));
+}
+
+// The darknetxx training projects: the project file beside the copies of the
+// images, none of the YOLO v4 directory
+TEST_F(CTEST_Exporters, darknetxx_project_requests_write_the_project_layouts)
+{
+  const fs::path dxxwjz2p = export_dir / "dxxwjz2p";
+  const fs::path dxxwjz3p = export_dir / "dxxwjz3p";
+
+  controller->handle(
+      std::make_shared<ExportDxxwjz2pRequest>(dxxwjz2p.string()));
+  controller->handle(
+      std::make_shared<ExportDxxwjz3pRequest>(dxxwjz3p.string()));
+
+  for (const auto& [dir, project] :
+       {std::make_pair(dxxwjz2p, std::string{"yolov4-obj.dxxwjz2p"}),
+        std::make_pair(dxxwjz3p, std::string{"yolov4-obj.dxxwjz3p"})}) {
+    EXPECT_TRUE(fs::is_directory(dir / "backup")) << project;
+    EXPECT_TRUE(fs::is_directory(dir / "images")) << project;
+    EXPECT_FALSE(fs::exists(dir / "data")) << project;
+    EXPECT_FALSE(fs::exists(dir / "cfg")) << project;
+
+    ASSERT_TRUE(fs::is_regular_file(dir / project)) << project;
+    EXPECT_EQ(read_file(dir / project).substr(0, 2), "\x1F\x8B") << project;
+  }
+
+  EXPECT_FALSE(fs::exists(dxxwjz2p / "yolov4-obj.dxxwjz3p"));
+  EXPECT_FALSE(fs::exists(dxxwjz3p / "yolov4-obj.dxxwjz2p"));
 }
 
 TEST_F(CTEST_Exporters, an_empty_destination_path_is_rejected)

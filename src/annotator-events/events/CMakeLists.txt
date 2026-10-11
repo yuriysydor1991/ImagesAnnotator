@@ -22,6 +22,10 @@ add_library(
   ExportCocoRequest.cpp
   ExportPascalVocRequest.cpp
   ExportCreateMLRequest.cpp
+  ExportDxxwjz2Request.cpp
+  ExportDxxwjz2pRequest.cpp
+  ExportDxxwjz3Request.cpp
+  ExportDxxwjz3pRequest.cpp
   ImportPlainTxt2FolderRequest.cpp
   ImportYolo4FolderRequest.cpp
   ImportUltralyticsDetectRequest.cpp

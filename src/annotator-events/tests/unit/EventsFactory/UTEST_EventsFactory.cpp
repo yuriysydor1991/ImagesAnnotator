@@ -198,6 +198,30 @@ TEST(UTEST_EventsFactory, create_createml_export_request_carries_folder)
             "/out");
 }
 
+TEST(UTEST_EventsFactory, create_dxxwjz2_export_request_carries_folder)
+{
+  EXPECT_EQ(factory()->create_dxxwjz2_export_request("/out")->dst_folder_path,
+            "/out");
+}
+
+TEST(UTEST_EventsFactory, create_dxxwjz2p_export_request_carries_folder)
+{
+  EXPECT_EQ(factory()->create_dxxwjz2p_export_request("/out")->dst_folder_path,
+            "/out");
+}
+
+TEST(UTEST_EventsFactory, create_dxxwjz3_export_request_carries_folder)
+{
+  EXPECT_EQ(factory()->create_dxxwjz3_export_request("/out")->dst_folder_path,
+            "/out");
+}
+
+TEST(UTEST_EventsFactory, create_dxxwjz3p_export_request_carries_folder)
+{
+  EXPECT_EQ(factory()->create_dxxwjz3p_export_request("/out")->dst_folder_path,
+            "/out");
+}
+
 TEST(UTEST_EventsFactory, create_plain_txt_import_request_carries_folder)
 {
   EXPECT_EQ(factory()->create_plain_txt_import_request("/in")->src_folder_path,

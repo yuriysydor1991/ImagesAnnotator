@@ -45,6 +45,14 @@
 #include "src/annotator-events/events/ExportCocoRequestHandler.h"
 #include "src/annotator-events/events/ExportCreateMLRequest.h"
 #include "src/annotator-events/events/ExportCreateMLRequestHandler.h"
+#include "src/annotator-events/events/ExportDxxwjz2Request.h"
+#include "src/annotator-events/events/ExportDxxwjz2RequestHandler.h"
+#include "src/annotator-events/events/ExportDxxwjz2pRequest.h"
+#include "src/annotator-events/events/ExportDxxwjz2pRequestHandler.h"
+#include "src/annotator-events/events/ExportDxxwjz3Request.h"
+#include "src/annotator-events/events/ExportDxxwjz3RequestHandler.h"
+#include "src/annotator-events/events/ExportDxxwjz3pRequest.h"
+#include "src/annotator-events/events/ExportDxxwjz3pRequestHandler.h"
 #include "src/annotator-events/events/ExportPascalVocRequest.h"
 #include "src/annotator-events/events/ExportPascalVocRequestHandler.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequestHandler.h"
@@ -111,6 +119,10 @@ class AnnotatorController
       virtual public events::events::ExportCocoRequestHandler,
       virtual public events::events::ExportPascalVocRequestHandler,
       virtual public events::events::ExportCreateMLRequestHandler,
+      virtual public events::events::ExportDxxwjz2RequestHandler,
+      virtual public events::events::ExportDxxwjz2pRequestHandler,
+      virtual public events::events::ExportDxxwjz3RequestHandler,
+      virtual public events::events::ExportDxxwjz3pRequestHandler,
       virtual public events::events::ImportPlainTxt2FolderRequestHandler,
       virtual public events::events::ImportYolo4FolderRequestHandler,
       virtual public events::events::ImportUltralyticsDetectRequestHandler,
@@ -145,6 +157,10 @@ class AnnotatorController
   virtual void handle(ExportCocoRequestPtr event) override;
   virtual void handle(ExportPascalVocRequestPtr event) override;
   virtual void handle(ExportCreateMLRequestPtr event) override;
+  virtual void handle(ExportDxxwjz2RequestPtr event) override;
+  virtual void handle(ExportDxxwjz2pRequestPtr event) override;
+  virtual void handle(ExportDxxwjz3RequestPtr event) override;
+  virtual void handle(ExportDxxwjz3pRequestPtr event) override;
   virtual void handle(ImportPlainTxt2FolderRequestPtr event) override;
   virtual void handle(ImportYolo4FolderRequestPtr event) override;
   virtual void handle(ImportUltralyticsDetectRequestPtr event) override;

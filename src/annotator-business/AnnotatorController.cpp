@@ -134,6 +134,10 @@ bool AnnotatorController::init(std::shared_ptr<app::ApplicationContext> ctx)
   ctx->eventer->subscribe(ExportCocoRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ExportPascalVocRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ExportCreateMLRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ExportDxxwjz2RequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ExportDxxwjz2pRequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ExportDxxwjz3RequestHandlerPtr{mptr});
+  ctx->eventer->subscribe(ExportDxxwjz3pRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ImportPlainTxt2FolderRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ImportYolo4FolderRequestHandlerPtr{mptr});
   ctx->eventer->subscribe(ImportUltralyticsDetectRequestHandlerPtr{mptr});
@@ -516,6 +520,78 @@ void AnnotatorController::handle(ExportCreateMLRequestPtr event)
   if (!handle_export<CreateMLExportContext>(event->dst_folder_path)) {
     const std::string e =
         "Failure during the export to a Create ML folder at " +
+        event->dst_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ExportDxxwjz2RequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_export<Dxxwjz2ExportContext>(event->dst_folder_path)) {
+    const std::string e =
+        "Failure during the export to a darknetxx dxxwjz2 folder at " +
+        event->dst_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ExportDxxwjz2pRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_export<Dxxwjz2pExportContext>(event->dst_folder_path)) {
+    const std::string e =
+        "Failure during the export to a darknetxx dxxwjz2p project at " +
+        event->dst_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ExportDxxwjz3RequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_export<Dxxwjz3ExportContext>(event->dst_folder_path)) {
+    const std::string e =
+        "Failure during the export to a darknetxx dxxwjz3 folder at " +
+        event->dst_folder_path;
+    LOGE(e);
+    emitDisplayError(e);
+  }
+}
+
+void AnnotatorController::handle(ExportDxxwjz3pRequestPtr event)
+{
+  assert(event != nullptr);
+
+  if (event == nullptr) {
+    LOGE("Invalid event pointer provided");
+    return;
+  }
+
+  if (!handle_export<Dxxwjz3pExportContext>(event->dst_folder_path)) {
+    const std::string e =
+        "Failure during the export to a darknetxx dxxwjz3p project at " +
         event->dst_folder_path;
     LOGE(e);
     emitDisplayError(e);

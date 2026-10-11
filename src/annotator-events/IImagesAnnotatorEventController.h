@@ -47,6 +47,14 @@
 #include "src/annotator-events/events/ExportCocoRequestHandler.h"
 #include "src/annotator-events/events/ExportCreateMLRequest.h"
 #include "src/annotator-events/events/ExportCreateMLRequestHandler.h"
+#include "src/annotator-events/events/ExportDxxwjz2Request.h"
+#include "src/annotator-events/events/ExportDxxwjz2RequestHandler.h"
+#include "src/annotator-events/events/ExportDxxwjz2pRequest.h"
+#include "src/annotator-events/events/ExportDxxwjz2pRequestHandler.h"
+#include "src/annotator-events/events/ExportDxxwjz3Request.h"
+#include "src/annotator-events/events/ExportDxxwjz3RequestHandler.h"
+#include "src/annotator-events/events/ExportDxxwjz3pRequest.h"
+#include "src/annotator-events/events/ExportDxxwjz3pRequestHandler.h"
 #include "src/annotator-events/events/ExportPascalVocRequest.h"
 #include "src/annotator-events/events/ExportPascalVocRequestHandler.h"
 #include "src/annotator-events/events/ExportPlainTxt2FolderRequest.h"
@@ -170,6 +178,18 @@ class IImagesAnnotatorEventController
 
   virtual void submit(events::ExportCreateMLRequestPtr event) = 0;
   virtual void subscribe(events::ExportCreateMLRequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ExportDxxwjz2RequestPtr event) = 0;
+  virtual void subscribe(events::ExportDxxwjz2RequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ExportDxxwjz2pRequestPtr event) = 0;
+  virtual void subscribe(events::ExportDxxwjz2pRequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ExportDxxwjz3RequestPtr event) = 0;
+  virtual void subscribe(events::ExportDxxwjz3RequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ExportDxxwjz3pRequestPtr event) = 0;
+  virtual void subscribe(events::ExportDxxwjz3pRequestHandlerPtr handler) = 0;
 
   virtual void submit(events::ImportPlainTxt2FolderRequestPtr event) = 0;
   virtual void subscribe(

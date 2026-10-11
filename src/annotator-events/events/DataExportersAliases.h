@@ -42,7 +42,7 @@
 // collide on a busy include path.
 //
 // IADataExportersFacade.h transitively pulls in every other public header of
-// the library (the library context with its nine layout descendants, the
+// the library (the library context with its thirteen layout descendants, the
 // exporter and the image cropper interfaces), so a single include is enough.
 #include <ImagesAnnotatorDataExporters-0.12/IADataExportersFacade.h>
 

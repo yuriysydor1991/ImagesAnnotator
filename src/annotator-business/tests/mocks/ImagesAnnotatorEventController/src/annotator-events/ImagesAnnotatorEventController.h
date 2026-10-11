@@ -133,6 +133,26 @@ class ImagesAnnotatorEventController : public IImagesAnnotatorEventController
   MOCK_METHOD(void, subscribe,
               (events::ExportCreateMLRequestHandlerPtr handler), (override));
 
+  MOCK_METHOD(void, submit, (events::ExportDxxwjz2RequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe, (events::ExportDxxwjz2RequestHandlerPtr handler),
+              (override));
+
+  MOCK_METHOD(void, submit, (events::ExportDxxwjz2pRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::ExportDxxwjz2pRequestHandlerPtr handler), (override));
+
+  MOCK_METHOD(void, submit, (events::ExportDxxwjz3RequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe, (events::ExportDxxwjz3RequestHandlerPtr handler),
+              (override));
+
+  MOCK_METHOD(void, submit, (events::ExportDxxwjz3pRequestPtr event),
+              (override));
+  MOCK_METHOD(void, subscribe,
+              (events::ExportDxxwjz3pRequestHandlerPtr handler), (override));
+
   MOCK_METHOD(void, submit, (events::ImportPlainTxt2FolderRequestPtr event),
               (override));
   MOCK_METHOD(void, subscribe,

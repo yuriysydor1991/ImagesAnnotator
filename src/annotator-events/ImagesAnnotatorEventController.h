@@ -141,6 +141,22 @@ class ImagesAnnotatorEventController
   virtual void subscribe(
       events::ExportCreateMLRequestHandlerPtr handler) override;
 
+  virtual void submit(events::ExportDxxwjz2RequestPtr event) override;
+  virtual void subscribe(
+      events::ExportDxxwjz2RequestHandlerPtr handler) override;
+
+  virtual void submit(events::ExportDxxwjz2pRequestPtr event) override;
+  virtual void subscribe(
+      events::ExportDxxwjz2pRequestHandlerPtr handler) override;
+
+  virtual void submit(events::ExportDxxwjz3RequestPtr event) override;
+  virtual void subscribe(
+      events::ExportDxxwjz3RequestHandlerPtr handler) override;
+
+  virtual void submit(events::ExportDxxwjz3pRequestPtr event) override;
+  virtual void subscribe(
+      events::ExportDxxwjz3pRequestHandlerPtr handler) override;
+
   virtual void submit(events::ImportPlainTxt2FolderRequestPtr event) override;
   virtual void subscribe(
       events::ImportPlainTxt2FolderRequestHandlerPtr handler) override;
@@ -220,6 +236,12 @@ class ImagesAnnotatorEventController
       std::set<events::ExportPascalVocRequestHandlerPtr>;
   using createMLExportersSet =
       std::set<events::ExportCreateMLRequestHandlerPtr>;
+  using dxxwjz2ExportersSet = std::set<events::ExportDxxwjz2RequestHandlerPtr>;
+  using dxxwjz2pExportersSet =
+      std::set<events::ExportDxxwjz2pRequestHandlerPtr>;
+  using dxxwjz3ExportersSet = std::set<events::ExportDxxwjz3RequestHandlerPtr>;
+  using dxxwjz3pExportersSet =
+      std::set<events::ExportDxxwjz3pRequestHandlerPtr>;
   using plainTxtImportersSet =
       std::set<events::ImportPlainTxt2FolderRequestHandlerPtr>;
   using yolo4ImportersSet =
@@ -263,6 +285,10 @@ class ImagesAnnotatorEventController
   cocoExportersSet cocoExporters_handlers;
   pascalVocExportersSet pascalVocExporters_handlers;
   createMLExportersSet createMLExporters_handlers;
+  dxxwjz2ExportersSet dxxwjz2Exporters_handlers;
+  dxxwjz2pExportersSet dxxwjz2pExporters_handlers;
+  dxxwjz3ExportersSet dxxwjz3Exporters_handlers;
+  dxxwjz3pExportersSet dxxwjz3pExporters_handlers;
   plainTxtImportersSet plainTxtImporters_handlers;
   yolo4ImportersSet yolo4Importers_handlers;
   ultralyticsDetectImportersSet ultralyticsDetectImporters_handlers;

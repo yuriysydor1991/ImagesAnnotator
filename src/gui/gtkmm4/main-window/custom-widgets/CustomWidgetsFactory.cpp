@@ -98,19 +98,45 @@ void add_cancel_select_buttons(Gtk::FileChooserDialog& dialog)
   add_std_button(dialog, "_Select", Gtk::ResponseType::OK);
 }
 
-// The "JSON files" + "All files" fallback filters. A GtkFileFilter cannot be
-// attached to a chooser from a .ui file, so the filter list is built here.
-void add_json_filters(Gtk::FileChooserDialog& dialog)
+// The given file type filter (e.g. "JSON files" + "*.json") followed by the
+// "All files" fallback one. A GtkFileFilter cannot be attached to a chooser
+// from a .ui file, so the filter list is built here.
+void add_file_filters(Gtk::FileChooserDialog& dialog,
+                      const Glib::ustring& filterName,
+                      const Glib::ustring& filterPattern)
 {
-  auto filter_json = Gtk::FileFilter::create();
-  filter_json->set_name("JSON files");
-  filter_json->add_pattern("*.json");
-  dialog.add_filter(filter_json);
+  auto filter_type = Gtk::FileFilter::create();
+  filter_type->set_name(filterName);
+  filter_type->add_pattern(filterPattern);
+  dialog.add_filter(filter_type);
 
   auto filter_all = Gtk::FileFilter::create();
   filter_all->set_name("All files");
   filter_all->add_pattern("*");
   dialog.add_filter(filter_all);
+}
+
+// The shared body of the darknetxx project file choosers: the project type
+// filter, the "All files" fallback and the Cancel / Select buttons, applied
+// only once to the reused dialog.
+void prepare_project_file_dialog(Gtk::FileChooserDialog* dialog,
+                                 const Glib::ustring& filterName,
+                                 const Glib::ustring& filterPattern)
+{
+  assert(dialog != nullptr);
+
+  if (dialog == nullptr) {
+    LOGE("No project file-chooser dialog provided");
+    return;
+  }
+
+  if (already_prepared(*dialog, Gtk::ResponseType::OK)) {
+    LOGT("Project file-chooser dialog already prepared");
+    return;
+  }
+
+  add_file_filters(*dialog, filterName, filterPattern);
+  add_cancel_select_buttons(*dialog);
 }
 
 }  // namespace
@@ -146,9 +172,10 @@ void CustomWidgetsFactory::add_button_icon(Gtk::Button& button,
 
 void CustomWidgetsFactory::reset_file_chooser(Gtk::FileChooserDialog& dialog)
 {
-  // Re-activate the first filter. The JSON choosers add "JSON files" first, so
-  // this restores the default the fresh-per-call dialogs always opened with; a
-  // folder chooser has no filters, making this a no-op there.
+  // Re-activate the first filter. The JSON choosers add "JSON files" first and
+  // the darknetxx project ones their project type, so this restores the default
+  // the fresh-per-call dialogs always opened with; a folder chooser has no
+  // filters, making this a no-op there.
   auto filters = dialog.get_filters();
   if (filters && filters->get_n_items() > 0) {
     // Gio::ListModel::get_object() hands back a RefPtr-to-const; the filter is
@@ -226,8 +253,22 @@ void CustomWidgetsFactory::prepare_json_db_dialog(
     return;
   }
 
-  add_json_filters(*dialog);
+  add_file_filters(*dialog, "JSON files", "*.json");
   add_cancel_select_buttons(*dialog);
+}
+
+void CustomWidgetsFactory::prepare_dxxwjz3p_import_file_choose_dialog(
+    Gtk::FileChooserDialog* dialog)
+{
+  prepare_project_file_dialog(dialog, "darknetxx dxxwjz3p projects",
+                              "*.dxxwjz3p");
+}
+
+void CustomWidgetsFactory::prepare_dxxwjz2p_import_file_choose_dialog(
+    Gtk::FileChooserDialog* dialog)
+{
+  prepare_project_file_dialog(dialog, "darknetxx dxxwjz2p projects",
+                              "*.dxxwjz2p");
 }
 
 void CustomWidgetsFactory::prepare_folder_choose_dialog(

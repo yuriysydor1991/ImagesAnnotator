@@ -196,9 +196,17 @@ bool WindowLoader::prepare_dialogs()
   auto* cocoFolder = get_coco_export_folder_dialog();
   auto* pascalVocFolder = get_pascal_voc_export_folder_dialog();
   auto* createMLFolder = get_createml_export_folder_dialog();
+  auto* dxxwjz2Folder = get_dxxwjz2_export_folder_dialog();
+  auto* dxxwjz2pFolder = get_dxxwjz2p_export_folder_dialog();
+  auto* dxxwjz3Folder = get_dxxwjz3_export_folder_dialog();
+  auto* dxxwjz3pFolder = get_dxxwjz3p_export_folder_dialog();
   auto* txtImportFolder = get_txt_import_folder_dialog();
   auto* yolo4ImportFolder = get_yolo4_import_folder_dialog();
   auto* pytorchImportFolder = get_pytorch_import_folder_dialog();
+  auto* dxxwjz2ImportFolder = get_dxxwjz2_import_folder_dialog();
+  auto* dxxwjz2pImportFile = get_dxxwjz2p_import_file_dialog();
+  auto* dxxwjz3ImportFolder = get_dxxwjz3_import_folder_dialog();
+  auto* dxxwjz3pImportFile = get_dxxwjz3p_import_file_dialog();
   auto* error = get_error_dialog();
   auto* saveChanges = get_save_changes_ask_dialog();
   auto* lostRects = get_lost_rects_ask_dialog();
@@ -218,9 +226,17 @@ bool WindowLoader::prepare_dialogs()
         static_cast<Gtk::Window*>(cocoFolder),
         static_cast<Gtk::Window*>(pascalVocFolder),
         static_cast<Gtk::Window*>(createMLFolder),
+        static_cast<Gtk::Window*>(dxxwjz2Folder),
+        static_cast<Gtk::Window*>(dxxwjz2pFolder),
+        static_cast<Gtk::Window*>(dxxwjz3Folder),
+        static_cast<Gtk::Window*>(dxxwjz3pFolder),
         static_cast<Gtk::Window*>(txtImportFolder),
         static_cast<Gtk::Window*>(yolo4ImportFolder),
         static_cast<Gtk::Window*>(pytorchImportFolder),
+        static_cast<Gtk::Window*>(dxxwjz2ImportFolder),
+        static_cast<Gtk::Window*>(dxxwjz2pImportFile),
+        static_cast<Gtk::Window*>(dxxwjz3ImportFolder),
+        static_cast<Gtk::Window*>(dxxwjz3pImportFile),
         static_cast<Gtk::Window*>(error),
         static_cast<Gtk::Window*>(saveChanges),
         static_cast<Gtk::Window*>(lostRects)}) {
@@ -229,10 +245,11 @@ bool WindowLoader::prepare_dialogs()
   }
 
   // Apply the one-time decoration GtkBuilder cannot express: the JSON dialogs
-  // get the file filters plus the localized Cancel / Select buttons, the folder
-  // choosers just the buttons, and the two question dialogs their button sets.
-  // The error dialog needs neither - its GTK-localized OK button is declared in
-  // the .ui via buttons=ok.
+  // and the darknetxx project file choosers get the file filters plus the
+  // localized Cancel / Select buttons, the folder choosers just the buttons,
+  // and the two question dialogs their button sets. The error dialog needs
+  // neither - its GTK-localized OK button is declared in the .ui via
+  // buttons=ok.
   factory.prepare_json_db_dialog(jsonOpen);
   factory.prepare_json_db_dialog(jsonSave);
   factory.prepare_folder_choose_dialog(imagesFolder);
@@ -245,9 +262,17 @@ bool WindowLoader::prepare_dialogs()
   factory.prepare_folder_choose_dialog(cocoFolder);
   factory.prepare_folder_choose_dialog(pascalVocFolder);
   factory.prepare_folder_choose_dialog(createMLFolder);
+  factory.prepare_folder_choose_dialog(dxxwjz2Folder);
+  factory.prepare_folder_choose_dialog(dxxwjz2pFolder);
+  factory.prepare_folder_choose_dialog(dxxwjz3Folder);
+  factory.prepare_folder_choose_dialog(dxxwjz3pFolder);
   factory.prepare_folder_choose_dialog(txtImportFolder);
   factory.prepare_folder_choose_dialog(yolo4ImportFolder);
   factory.prepare_folder_choose_dialog(pytorchImportFolder);
+  factory.prepare_folder_choose_dialog(dxxwjz2ImportFolder);
+  factory.prepare_dxxwjz2p_import_file_choose_dialog(dxxwjz2pImportFile);
+  factory.prepare_folder_choose_dialog(dxxwjz3ImportFolder);
+  factory.prepare_dxxwjz3p_import_file_choose_dialog(dxxwjz3pImportFile);
   factory.prepare_save_changes_ask_user(saveChanges);
   factory.prepare_ask_user_about_lost_rects(lostRects);
 
@@ -361,6 +386,14 @@ bool WindowLoader::create_actions()
       actionGroup->add_action(WindowDataContext::action_export_pascal_voc);
   action_export_createml =
       actionGroup->add_action(WindowDataContext::action_export_createml);
+  action_export_dxxwjz2 =
+      actionGroup->add_action(WindowDataContext::action_export_dxxwjz2);
+  action_export_dxxwjz2p =
+      actionGroup->add_action(WindowDataContext::action_export_dxxwjz2p);
+  action_export_dxxwjz3 =
+      actionGroup->add_action(WindowDataContext::action_export_dxxwjz3);
+  action_export_dxxwjz3p =
+      actionGroup->add_action(WindowDataContext::action_export_dxxwjz3p);
   action_import_txt =
       actionGroup->add_action(WindowDataContext::action_import_txt);
   action_import_yolo4 =
@@ -377,6 +410,14 @@ bool WindowLoader::create_actions()
       actionGroup->add_action(WindowDataContext::action_import_pascal_voc);
   action_import_createml =
       actionGroup->add_action(WindowDataContext::action_import_createml);
+  action_import_dxxwjz2 =
+      actionGroup->add_action(WindowDataContext::action_import_dxxwjz2);
+  action_import_dxxwjz2p =
+      actionGroup->add_action(WindowDataContext::action_import_dxxwjz2p);
+  action_import_dxxwjz3 =
+      actionGroup->add_action(WindowDataContext::action_import_dxxwjz3);
+  action_import_dxxwjz3p =
+      actionGroup->add_action(WindowDataContext::action_import_dxxwjz3p);
   action_import_pytorchvision =
       actionGroup->add_action(WindowDataContext::action_import_pytorchvision);
   action_images_web_page_open =
@@ -625,6 +666,26 @@ Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_export_createml_action()
   return action_export_createml;
 }
 
+Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_export_dxxwjz2_action()
+{
+  return action_export_dxxwjz2;
+}
+
+Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_export_dxxwjz2p_action()
+{
+  return action_export_dxxwjz2p;
+}
+
+Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_export_dxxwjz3_action()
+{
+  return action_export_dxxwjz3;
+}
+
+Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_export_dxxwjz3p_action()
+{
+  return action_export_dxxwjz3p;
+}
+
 Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_import_txt_action()
 {
   return action_import_txt;
@@ -666,6 +727,26 @@ Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_import_pascal_voc_action()
 Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_import_createml_action()
 {
   return action_import_createml;
+}
+
+Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_import_dxxwjz2_action()
+{
+  return action_import_dxxwjz2;
+}
+
+Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_import_dxxwjz2p_action()
+{
+  return action_import_dxxwjz2p;
+}
+
+Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_import_dxxwjz3_action()
+{
+  return action_import_dxxwjz3;
+}
+
+Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_import_dxxwjz3p_action()
+{
+  return action_import_dxxwjz3p;
 }
 
 Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_import_pytorchvision_action()
@@ -886,6 +967,38 @@ Gtk::FileChooserDialog* WindowLoader::get_createml_export_folder_dialog()
       mwctx->wctx->createml_export_folder_dialog_id);
 }
 
+Gtk::FileChooserDialog* WindowLoader::get_dxxwjz2_export_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->dxxwjz2_export_folder_dialog_id);
+}
+
+Gtk::FileChooserDialog* WindowLoader::get_dxxwjz2p_export_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->dxxwjz2p_export_folder_dialog_id);
+}
+
+Gtk::FileChooserDialog* WindowLoader::get_dxxwjz3_export_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->dxxwjz3_export_folder_dialog_id);
+}
+
+Gtk::FileChooserDialog* WindowLoader::get_dxxwjz3p_export_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->dxxwjz3p_export_folder_dialog_id);
+}
+
 Gtk::FileChooserDialog* WindowLoader::get_txt_import_folder_dialog()
 {
   assert(mwctx->wctx != nullptr);
@@ -950,6 +1063,38 @@ Gtk::FileChooserDialog* WindowLoader::get_createml_import_folder_dialog()
 
   return get_widget<Gtk::FileChooserDialog>(
       mwctx->wctx->createml_import_folder_dialog_id);
+}
+
+Gtk::FileChooserDialog* WindowLoader::get_dxxwjz2_import_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->dxxwjz2_import_folder_dialog_id);
+}
+
+Gtk::FileChooserDialog* WindowLoader::get_dxxwjz2p_import_file_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->dxxwjz2p_import_file_dialog_id);
+}
+
+Gtk::FileChooserDialog* WindowLoader::get_dxxwjz3_import_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->dxxwjz3_import_folder_dialog_id);
+}
+
+Gtk::FileChooserDialog* WindowLoader::get_dxxwjz3p_import_file_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->dxxwjz3p_import_file_dialog_id);
 }
 
 Gtk::FileChooserDialog* WindowLoader::get_pytorch_import_folder_dialog()

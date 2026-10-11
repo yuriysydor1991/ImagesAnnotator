@@ -567,7 +567,7 @@ void AnnotatorController::handle(ImportPlainTxt2FolderRequestPtr event)
   }
 
   if (!handle_import<PlainTxtImportContext>(event->src_folder_path,
-                                                   event->sizer)) {
+                                            event->sizer)) {
     const std::string e =
         "Failure during the import from a plain txt folder: " +
         event->src_folder_path;
@@ -586,7 +586,7 @@ void AnnotatorController::handle(ImportYolo4FolderRequestPtr event)
   }
 
   if (!handle_import<Yolo4ImportContext>(event->src_folder_path,
-                                                event->sizer)) {
+                                         event->sizer)) {
     const std::string e = "Failure during the import from a Yolo4 folder at " +
                           event->src_folder_path;
     LOGE(e);
@@ -603,8 +603,8 @@ void AnnotatorController::handle(ImportUltralyticsDetectRequestPtr event)
     return;
   }
 
-  if (!handle_import<UltralyticsDetectImportContext>(
-          event->src_folder_path, event->sizer)) {
+  if (!handle_import<UltralyticsDetectImportContext>(event->src_folder_path,
+                                                     event->sizer)) {
     const std::string e =
         "Failure during the import from an Ultralytics YOLO detection folder "
         "at " +
@@ -624,7 +624,7 @@ void AnnotatorController::handle(ImportUltralyticsObbRequestPtr event)
   }
 
   if (!handle_import<UltralyticsObbImportContext>(event->src_folder_path,
-                                                         event->sizer)) {
+                                                  event->sizer)) {
     const std::string e =
         "Failure during the import from an Ultralytics YOLO oriented bounding "
         "box folder at " +
@@ -643,8 +643,8 @@ void AnnotatorController::handle(ImportUltralyticsSegmentRequestPtr event)
     return;
   }
 
-  if (!handle_import<UltralyticsSegmentImportContext>(
-          event->src_folder_path, event->sizer)) {
+  if (!handle_import<UltralyticsSegmentImportContext>(event->src_folder_path,
+                                                      event->sizer)) {
     const std::string e =
         "Failure during the import from an Ultralytics YOLO segmentation "
         "folder at " +
@@ -663,8 +663,7 @@ void AnnotatorController::handle(ImportCocoRequestPtr event)
     return;
   }
 
-  if (!handle_import<CocoImportContext>(event->src_folder_path,
-                                               event->sizer)) {
+  if (!handle_import<CocoImportContext>(event->src_folder_path, event->sizer)) {
     const std::string e = "Failure during the import from a COCO folder at " +
                           event->src_folder_path;
     LOGE(e);
@@ -682,7 +681,7 @@ void AnnotatorController::handle(ImportPascalVocRequestPtr event)
   }
 
   if (!handle_import<PascalVocImportContext>(event->src_folder_path,
-                                                    event->sizer)) {
+                                             event->sizer)) {
     const std::string e =
         "Failure during the import from a Pascal VOC folder at " +
         event->src_folder_path;
@@ -701,7 +700,7 @@ void AnnotatorController::handle(ImportCreateMLRequestPtr event)
   }
 
   if (!handle_import<CreateMLImportContext>(event->src_folder_path,
-                                                   event->sizer)) {
+                                            event->sizer)) {
     const std::string e =
         "Failure during the import from a Create ML folder at " +
         event->src_folder_path;
@@ -720,7 +719,7 @@ void AnnotatorController::handle(ImportPyTorchVisionRequestPtr event)
   }
 
   if (!handle_import<PyTorchImportContext>(event->src_folder_path,
-                                                  event->sizer)) {
+                                           event->sizer)) {
     const std::string e =
         "Failure during the import from a PyTorch Vision folder at " +
         event->src_folder_path;
@@ -814,8 +813,7 @@ void AnnotatorController::handle(Export2PyTorchVisionRequestPtr event)
     return;
   }
 
-  auto ctx =
-      build_export_context<PyTorchExportContext>(event->dst_folder_path);
+  auto ctx = build_export_context<PyTorchExportContext>(event->dst_folder_path);
 
   assert(ctx != nullptr);
 

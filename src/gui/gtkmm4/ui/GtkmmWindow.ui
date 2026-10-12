@@ -445,19 +445,19 @@
        single reused instance (hide-on-close) that WindowLoader exposes through a
        getter. The two things GtkBuilder cannot express without a behavioural
        regression stay in C++, applied once at load by CustomWidgetsFactory: the
-       file-chooser filters of the JSON db and of the darknetxx project choosers
-       (a GtkFileFilter cannot be added to a chooser from a .ui file) and the
-       localized, icon-decorated action buttons (which reuse GTK's own translated
-       "_Cancel"/"_Save"/... labels). The error dialog needs neither, so its
-       GTK-localized OK button is declared here via buttons=ok. -->
+       file-chooser filters of the annotations project and of the darknetxx
+       project choosers (a GtkFileFilter cannot be added to a chooser from a .ui
+       file) and the localized, icon-decorated action buttons (which reuse GTK's
+       own translated "_Cancel"/"_Save"/... labels). The error dialog needs
+       neither, so its GTK-localized OK button is declared here via buttons=ok. -->
   <object class="GtkFileChooserDialog" id="json_db_open_dialog">
-    <property name="title" translatable="yes">Select annotations JSON db file</property>
+    <property name="title" translatable="yes">Select annotations project file</property>
     <property name="action">open</property>
     <property name="modal">true</property>
     <property name="hide-on-close">true</property>
   </object>
   <object class="GtkFileChooserDialog" id="json_db_save_dialog">
-    <property name="title" translatable="yes">Save annotations JSON db file</property>
+    <property name="title" translatable="yes">Save annotations project file</property>
     <property name="action">save</property>
     <property name="modal">true</property>
     <property name="hide-on-close">true</property>

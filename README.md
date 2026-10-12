@@ -29,13 +29,13 @@ On the top located regular menu:
 - `Annotations` to manage current project,
 - `Help` for help options.
 
-Next in line located buttons to open and append new image containing directory (duplicated functionality from `Images` menu), increase and decrease zoom on the current opened image, the next and previous image if any from the opened images in the queue (left list panel), and finally duplicated button to open already existing annotations DB (currently only internal JSON format is supported).
+Next in line located buttons to open and append new image containing directory (duplicated functionality from `Images` menu), increase and decrease zoom on the current opened image, the next and previous image if any from the opened images in the queue (left list panel), and finally duplicated button to open already existing annotations DB - the annotations project file of the application, either the plain JSON one or the gzip compressed imgajz1 one (see [The annotations project file](#the-annotations-project-file) below).
 
 The images that are listed on the green background on the left panel indicating having at least one annotation.
 
 On the right panel there are list all the annotations in the project list box and the currently opened image annotations only list box. The `Copy annotation name` button designed to copy text from a top list box selected annotation to the current image selected annotation. The `copy annotation` duplicates current selected image annotation. The delete button in the bottom of the current image annotations list designed to delete current image selected annotation respectively.
 
-On the bottom of the window there is a status panel that currently indicates only opened JSON db file.
+On the bottom of the window there is a status panel that currently indicates only opened project file.
 
 After annotating the images of interest, use the export submenu of the `Annotations` menu to export data to widely used annotation formats. Thirteen dataset layouts are written, and the import submenu beside it reads back every one of them:
 
@@ -56,7 +56,16 @@ After annotating the images of interest, use the export submenu of the `Annotati
 
 A dataset that already exists on the disk goes the other way: the import submenu beside the export one reads those layouts back into the project being edited. Its `DarknetXX` submenu, right above the YOLO v4 entry the way the export one is, reads the four darknetxx layouts: the `dxxwjz3p project` and the `dxxwjz2p project` entries open a project file - the one the export writes, or one the darknetxx training has updated with its weights - and read the annotations of its images, while the `dxxwjz3 with YOLO4 folder` and the `dxxwjz2 with YOLO4 folder` ones read the YOLO v4 directory with the class names of its network when it has no `data/obj.names` file. The project of a trained network carries hundreds of megabytes of weights, which the import steps over a chunk at a time instead of loading them. The recovered images are appended to the ones already opened - an image the project already holds is kept as it was - so an import may be repeated, and it writes nothing into the directory it reads.
 
-Neither half needs the window at all. Given the `--convert-from`, `--convert-src`, `--convert-to` and `--convert-dst` flags the executable reads a dataset of one format and writes it back in another one without starting any graphical interface, reporting what it prepares and converts through the log messages alone - so a dataset conversion fits a script and a build pipeline. The annotations project of the application itself is one of the formats, beside the thirteen dataset layouts of the import submenu. See [Converting the annotations formats](/doc/sections/en_US/6-2-3-converting-the-annotations-formats.md).
+Neither half needs the window at all. Given the `--convert-from`, `--convert-src`, `--convert-to` and `--convert-dst` flags the executable reads a dataset of one format and writes it back in another one without starting any graphical interface, reporting what it prepares and converts through the log messages alone - so a dataset conversion fits a script and a build pipeline. The annotations project of the application itself is one of the formats, beside the thirteen dataset layouts of the import submenu - the imgajz1 project file for a path of the `.imgajz1` file name extension, the JSON one for any other path. See [Converting the annotations formats](/doc/sections/en_US/6-2-3-converting-the-annotations-formats.md).
+
+## The annotations project file
+
+The `Annotations` menu saves the project into one of the two files of the [ImagesAnnotator-DataDrivers](https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers.git) library, and the file name extension of the path tells which one, for the opening and for the saving alike:
+
+- **`*.imgajz1`** - the imgajz1 file (the images annotator JSON zipped file of the first version), the native project file format of the application: the regular JSON project file, gzip compressed by the `ZlibController` of the library - the very text of the JSON file, nothing added and nothing taken out. A project takes about 16 times less disk space in it: the project of 20000 images takes 0.99 MB instead of the 16.3 MB of its JSON file, and is saved and opened in about the same time;
+- **any other path**, `*.json` above all - the plain JSON text of the project, the file every earlier version of the application has written.
+
+So type a name ending in `.imgajz1` into the `Save as` dialog to save the project compressed, and one ending in `.json` to save it as the JSON text: a project opened out of one of them is converted into the other by that very save, and the plain `Save` goes on with the file of the project. The project file dialogs list both kinds of the files. The stock gzip tools convert the two files as well: `gzip -dc project.imgajz1 > project.json` and `gzip -c project.json > project.imgajz1`. See [The imgajz1 compressed project format](https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers/blob/main/doc/sections/en_US/4-project-structure/4-11-the-imgajz1-compressed-project-format.md) of the library for the details of the format.
 
 # Dependencies
 
@@ -93,7 +102,7 @@ plantuml -tsvg -o ../images doc/diagrams/plantuml/dependencies.puml
 
 # Implementing custom exporters
 
-Current ImagesAnnotator application stores the annotations database in the `JSON` file format. It makes it easy to implement a custom export script into required format to train neural network with the help of `Python` or `Bash`.
+Current ImagesAnnotator application stores the annotations database in the `JSON` file format - as the plain JSON text or as that very text gzip compressed into the imgajz1 project file (`json.load(gzip.open("project.imgajz1"))` in `Python`, `gzip -dc project.imgajz1 | jq .` in `Bash`). It makes it easy to implement a custom export script into required format to train neural network with the help of `Python` or `Bash`.
 
 The exporters the application itself ships - one for every one of the thirteen layouts listed under [Usage](#usage) - live in the standalone [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git) library, so a new format may also be added there instead, and every tool built on that library gains it at once. See [Enabling the ImagesAnnotator-DataExporters library](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md).
 

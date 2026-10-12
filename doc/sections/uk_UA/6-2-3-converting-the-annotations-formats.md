@@ -34,7 +34,7 @@ ImagesAnnotatorConverter](/doc/sections/uk_UA/5-40-the-ImagesAnnotatorConverter-
 з них - як і раніше запускається графічний інтерфейс.
 
 `FORMAT` є одним з наведених нижче імен. Перше з них - це проект анотацій
-самого застосунку, файл JSON, який читає та записує бібліотека
+самого застосунку, файл JSON або imgajz1, який читає та записує бібліотека
 [ImagesAnnotator-DataDrivers](https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers.git),
 той самий файл, який відкриває та зберігає меню `Annotations`, а решта тринадцять
 - це формати наборів даних бібліотек
@@ -45,7 +45,7 @@ ImagesAnnotatorConverter](/doc/sections/uk_UA/5-40-the-ImagesAnnotatorConverter-
 
 | `FORMAT` | Анотації, які він позначає |
 | --- | --- |
-| `imagesannotator` | файл JSON проекту анотацій самого застосунку |
+| `imagesannotator` | файл проекту анотацій самого застосунку: стиснений gzip файл imgajz1 або файл JSON |
 | `plain-txt` | текстові файли з одним рядком на прямокутник |
 | `yolo4` | тренувальна директорія darknet YOLO v4 |
 | `ultralytics-detect` | набір даних виявлення Ultralytics YOLO |
@@ -60,10 +60,26 @@ ImagesAnnotatorConverter](/doc/sections/uk_UA/5-40-the-ImagesAnnotatorConverter-
 | `dxxwjz3` | тренувальна директорія darknetxx: директорія YOLO v4 з мережею dxxwjz3 для тренування |
 | `dxxwjz3p` | тренувальний проект darknetxx dxxwjz3p |
 
-Для формату `imagesannotator` шлях є самим файлом JSON проекту, а для будь-якого
+Для формату `imagesannotator` шлях є самим файлом проекту, а для будь-якого
 іншого - директорією, яка містить набір даних; шлях джерела проектів `dxxwjz2p`
 та `dxxwjz3p` може називати і сам файл проекту. Директорія призначення, якої ще
 не існує, створюється.
+
+Формат файлу проекту для шляху `imagesannotator` визначає розширення імені
+файлу, з обох боків конвертації: шлях з розширенням `.imgajz1` - це файл
+проекту imgajz1, рідний для застосунку, - стиснений gzip файл проекту JSON, - а
+будь-який інший шлях - звичайний файл проекту JSON. Тож рідний проект
+конвертується і між двома своїми файлами:
+
+```
+# проект JSON у проект imgajz1, приблизно в 16 разів менший
+
+./src/ImagesAnnotator \
+  --convert-from imagesannotator \
+  --convert-src ./cars.json \
+  --convert-to imagesannotator \
+  --convert-dst ./cars.imgajz1
+```
 
 Запис формату `pytorch` вирізає кожен анотований прямокутник із зображення, на
 якому його було намальовано, тож ця єдина з тринадцяти розкладок читає самі пікселі

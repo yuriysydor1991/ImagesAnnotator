@@ -32,7 +32,7 @@ the help message is printed instead; naming none of them starts the graphical
 interface as before.
 
 A `FORMAT` is one of the names below. The first one is the annotations project
-of the application itself - the JSON file the
+of the application itself - the JSON or the imgajz1 file the
 [ImagesAnnotator-DataDrivers](https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers.git)
 library reads and writes, the very file the `Annotations` menu opens and stores
 - and the thirteen others are the dataset layouts of the
@@ -43,7 +43,7 @@ libraries, the same ones the import and the export submenus offer:
 
 | `FORMAT` | The annotations it names |
 | --- | --- |
-| `imagesannotator` | the annotations project JSON file of the application |
+| `imagesannotator` | the annotations project file of the application: the gzip compressed imgajz1 one or the JSON one |
 | `plain-txt` | the plain text files of one line per rectangle |
 | `yolo4` | the darknet YOLO v4 training directory |
 | `ultralytics-detect` | the Ultralytics YOLO detection dataset |
@@ -58,10 +58,26 @@ libraries, the same ones the import and the export submenus offer:
 | `dxxwjz3` | the darknetxx training directory: the YOLO v4 one with the dxxwjz3 network to train |
 | `dxxwjz3p` | the darknetxx dxxwjz3p training project |
 
-For the `imagesannotator` format the path is the project JSON file itself, and
+For the `imagesannotator` format the path is the project file itself, and
 for every other one it is the directory holding the dataset - the source path of
 the `dxxwjz2p` and the `dxxwjz3p` projects may name the project file itself as
 well. A destination that does not exist yet is created.
+
+The file name extension of the `imagesannotator` path tells the project file
+format, on either side of a conversion: a path of the `.imgajz1` extension is
+the imgajz1 project file, the native one of the application - the JSON project
+file gzip compressed - and any other path is the plain JSON project file. So
+the native project converts between its two files as well:
+
+```
+# the JSON project into the imgajz1 one, about 16 times smaller
+
+./src/ImagesAnnotator \
+  --convert-from imagesannotator \
+  --convert-src ./cars.json \
+  --convert-to imagesannotator \
+  --convert-dst ./cars.imgajz1
+```
 
 Writing the `pytorch` one cuts every annotated rectangle out of the picture it
 was drawn over, so that one layout of the thirteen reads the pixels of the images

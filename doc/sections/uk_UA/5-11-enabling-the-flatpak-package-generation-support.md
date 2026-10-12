@@ -18,7 +18,7 @@ cmake -B build -S . -DENABLE_FLATPAK=ON
 cmake --build build --target flatpak
 ```
 
-У разі успішної побудови цілі буде створено файл під назвою `ImagesAnnotator-0.9.0.flatpak` у кореневій директорії побудови проекту. Для того щоб преглянути або/і змінити ціль побудови пакету flatpak необхідно відвідати файли `cmake/enablers/packagers/template-project-flatpak-target.cmake` або `misc/packagers/flatpak.conf.json.in`.
+У разі успішної побудови цілі буде створено файл під назвою `ImagesAnnotator-0.9.0-x86_64.flatpak` у кореневій директорії побудови проекту. Назва завершується архітектурою центрального процесора, під яку зібрано пакет, тією, яку виводить команда `flatpak --default-arch` (наприклад `x86_64` чи `aarch64`). Для того щоб преглянути або/і змінити ціль побудови пакету flatpak необхідно відвідати файли `cmake/enablers/packagers/template-project-flatpak-target.cmake` або `misc/packagers/flatpak.conf.json.in`.
 
 Зверни увагу, що маніфест flatpak будує у пісочниці GTKmm 3.24.8, тому вбудована програма конфігурується з `-DUSE_GTKMM3=ON` і постачається з інтерфейсом GTKmm3 незалежно від типового GTKmm4, який використовується для звичайних збірок. Саме тому ідентифікатор програми нижче містить частину `gtkmm3`. Щоб натомість постачати інтерфейс GTKmm4, заміни модуль `gtkmm` у файлі `misc/packagers/flatpak.conf.json.in` на версію GTKmm 4.x, прибери опцію `-DUSE_GTKMM3=ON` і зміни `FLATPAK_PROJECT_URL` у файлі `cmake/enablers/packagers/template-project-flatpak-target.cmake`.
 
@@ -27,7 +27,7 @@ cmake --build build --target flatpak
 ```
 # для встановлення (версія може змінитись)
 # всередині директорії побудови проекту 
-flatpak install --user ImagesAnnotator-0.9.0.flatpak
+flatpak install --user ImagesAnnotator-0.9.0-x86_64.flatpak
 
 # для запуску встановленої програми
 flatpak run ua.org.kytok.template.gtkmm3.ImagesAnnotator

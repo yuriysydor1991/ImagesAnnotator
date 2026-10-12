@@ -55,7 +55,7 @@
 <rect x="470" y="452" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
 <rect x="470" y="458" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
 <text x="74" y="461" class="cname">ImagesAnnotator-DataExporters</text>
-<text x="74" y="475" class="sub">ImagesAnnotatorDataExporters012</text>
+<text x="74" y="475" class="sub">ImagesAnnotatorDataExporters013</text>
 <line x1="60" y1="485" x2="500" y2="485" stroke="#3a3a3a" stroke-width="1"/>
 <text x="70" y="499" class="member">writes thirteen dataset layouts out of a project</text>
 <text x="70" y="514" class="member">declares IImageCropperFacility</text>
@@ -65,7 +65,7 @@
 <rect x="1070" y="452" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
 <rect x="1070" y="458" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
 <text x="634" y="461" class="cname">ImagesAnnotator-DataImporters</text>
-<text x="634" y="475" class="sub">ImagesAnnotatorDataImporters014</text>
+<text x="634" y="475" class="sub">ImagesAnnotatorDataImporters015</text>
 <line x1="620" y1="485" x2="1100" y2="485" stroke="#3a3a3a" stroke-width="1"/>
 <text x="630" y="499" class="member">reads thirteen dataset layouts back into a project</text>
 <text x="630" y="514" class="member">declares IImageSizeFacility</text>
@@ -75,7 +75,7 @@
 <rect x="830" y="652" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
 <rect x="830" y="658" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
 <text x="314" y="661" class="cname">ImagesAnnotator-DataDrivers</text>
-<text x="314" y="675" class="sub">ImagesAnnotatorDataDrivers012</text>
+<text x="314" y="675" class="sub">ImagesAnnotatorDataDrivers013</text>
 <line x1="300" y1="685" x2="860" y2="685" stroke="#3a3a3a" stroke-width="1"/>
 <text x="310" y="699" class="member">the project database: parsing, merging, storing</text>
 <text x="310" y="714" class="member">of the JSON and the gzip compressed imgajz1 files</text>

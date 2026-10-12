@@ -36,7 +36,7 @@
 // version stays a one line change here.
 //
 // The header is included through the versioned
-// <ImagesAnnotatorDataExporters-0.12/...> directory the library installs rather
+// <ImagesAnnotatorDataExporters-0.13/...> directory the library installs rather
 // than through the plain spelling: the prefix pins the library version this
 // translation unit talks to, and IExporter.h beside it is generic enough to
 // collide on a busy include path.
@@ -44,10 +44,10 @@
 // IADataExportersFacade.h transitively pulls in every other public header of
 // the library (the library context with its thirteen layout descendants, the
 // exporter and the image cropper interfaces), so a single include is enough.
-#include <ImagesAnnotatorDataExporters-0.12/IADataExportersFacade.h>
+#include <ImagesAnnotatorDataExporters-0.13/IADataExportersFacade.h>
 
 /// @brief The ImagesAnnotator-DataExporters library namespace, whose name
 /// carries the library major and minor version numbers.
-namespace iade = ImagesAnnotatorDataExporters012;
+namespace iade = ImagesAnnotatorDataExporters013;
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_DATA_EXPORTERS_ALIASES_H

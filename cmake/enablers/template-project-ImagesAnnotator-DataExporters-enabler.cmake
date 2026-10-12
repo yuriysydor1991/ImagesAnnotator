@@ -27,7 +27,7 @@ endif()
 # (ON by default), LIB_INCLUDE_MICRO_IN_NAME and LIB_NAME_SUFFIX options may
 # shorten or extend that name. The name the find_package() probe asks for is
 # therefore a cache variable rather than a literal.
-set(TEMPLATE_APP_IADE_PACKAGE "ImagesAnnotatorDataExporters-0.12" CACHE STRING "The ImagesAnnotator-DataExporters CMake package (and target) name to look for")
+set(TEMPLATE_APP_IADE_PACKAGE "ImagesAnnotatorDataExporters-0.13" CACHE STRING "The ImagesAnnotator-DataExporters CMake package (and target) name to look for")
 
 # Where the library comes from. Nothing in this build fetches it - the two
 # variables are what the packager manifests, which have to build it inside
@@ -39,7 +39,7 @@ set(TEMPLATE_APP_IADE_GIT_TAG "main" CACHE STRING "The ImagesAnnotator-DataExpor
 # No Internet fallback here, unlike most of the third party enablers of the
 # project: this library is not consumable as a sub-project. Its own configure
 # resolves the data drivers library with find_package(), and its public headers
-# include the versioned <ImagesAnnotatorDataDrivers-0.12/...> directory, which
+# include the versioned <ImagesAnnotatorDataDrivers-0.13/...> directory, which
 # only an installation provides. It is consumed installed, exactly the way its
 # own "Using the library in your project" documentation section describes.
 #

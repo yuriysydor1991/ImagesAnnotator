@@ -36,7 +36,7 @@
 // version stays a one line change here.
 //
 // The header is included through the versioned
-// <ImagesAnnotatorDataImporters-0.14/...> directory the library installs rather
+// <ImagesAnnotatorDataImporters-0.15/...> directory the library installs rather
 // than through the plain spelling: the prefix pins the library version this
 // translation unit talks to, and IImporter.h beside it is generic enough to
 // collide on a busy include path.
@@ -45,10 +45,10 @@
 // the library (the library context with its thirteen layout descendants, the
 // importer and the image size reader interfaces), so a single include is
 // enough.
-#include <ImagesAnnotatorDataImporters-0.14/IADataImportersFacade.h>
+#include <ImagesAnnotatorDataImporters-0.15/IADataImportersFacade.h>
 
 /// @brief The ImagesAnnotator-DataImporters library namespace, whose name
 /// carries the library major and minor version numbers.
-namespace iadi = ImagesAnnotatorDataImporters014;
+namespace iadi = ImagesAnnotatorDataImporters015;
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_DATA_IMPORTERS_ALIASES_H

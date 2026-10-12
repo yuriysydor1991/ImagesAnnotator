@@ -16,6 +16,7 @@ set(
   ITEST_CASES
   converts-a-native-project-into-a-coco-dataset
   converts-a-plain-txt-dataset-into-a-native-project
+  converts-a-native-project-into-an-imgajz1-project
   reports-a-failing-conversion
   prints-the-conversion-help
   no-gui-toolkit-linked

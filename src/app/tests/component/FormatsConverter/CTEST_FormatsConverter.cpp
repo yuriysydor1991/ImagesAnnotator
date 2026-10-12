@@ -249,6 +249,38 @@ TEST_F(CTEST_FormatsConverter, a_darknetxx_project_converts_both_ways)
               HasSubstr((work_dir / "darknetxx" / "images").string()));
 }
 
+// The native project written into the gzip compressed imgajz1 file by one
+// conversion and read back into the JSON one by the next: the file name
+// extension of the path tells the format of the native project.
+TEST_F(CTEST_FormatsConverter, a_native_project_converts_into_imgajz1_and_back)
+{
+  given_the_native_project();
+
+  const fs::path compressed = work_dir / "compressed" / "project.imgajz1";
+
+  ASSERT_EQ(run_conversion("imagesannotator", work_dir / "project.json",
+                           "imagesannotator", compressed),
+            0);
+
+  const std::string imgajz1 = read_file(compressed);
+
+  ASSERT_GT(imgajz1.size(), 2U);
+  EXPECT_EQ(imgajz1[0], '\x1F');
+  EXPECT_EQ(imgajz1[1], '\x8B');
+
+  EXPECT_EQ(run_conversion("imagesannotator", compressed, "imagesannotator",
+                           work_dir / "recovered" / "project.json"),
+            0);
+
+  const std::string produced =
+      read_file(work_dir / "recovered" / "project.json");
+
+  EXPECT_THAT(produced, HasSubstr("\"name\": \"cat\""));
+  EXPECT_THAT(produced, HasSubstr("\"x\": 50"));
+  EXPECT_THAT(produced, HasSubstr("\"width\": 200"));
+  EXPECT_THAT(produced, HasSubstr("\"rel_path\": \"a.png\""));
+}
+
 TEST_F(CTEST_FormatsConverter, a_missing_source_is_a_failed_conversion)
 {
   EXPECT_NE(run_conversion("coco", work_dir / "nothing-here", "yolo4",

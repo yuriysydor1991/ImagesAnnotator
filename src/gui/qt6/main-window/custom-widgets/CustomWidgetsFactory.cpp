@@ -43,9 +43,14 @@ using imagesAnnotatorQt6::u8;
 
 namespace
 {
-/// @brief The annotations project files filter, shared by the open and save
-/// dialogs (the Qt analogue of the Gtk::FileFilter the GTKmm factory attaches).
-const char* const jsonDbFilter = "JSON files (*.json);;All files (*)";
+/// @brief The annotations project files filters, shared by the open and save
+/// dialogs (the Qt analogue of the Gtk::FileFilter the GTKmm factory attaches):
+/// both project file formats first, then the JSON and the gzip compressed
+/// imgajz1 ones alone. The file name extension of the path tells the format
+/// the project is read and written in.
+const char* const projectFileFilter =
+    "ImagesAnnotator projects (*.json *.imgajz1);;JSON files (*.json);;"
+    "imgajz1 compressed projects (*.imgajz1);;All files (*)";
 /// @brief The filters of the two darknetxx project import dialogs.
 const char* const dxxwjz2pProjectFilter =
     "darknetxx dxxwjz2p projects (*.dxxwjz2p);;All files (*)";
@@ -162,8 +167,8 @@ CentralWorkingCanvas* CustomWidgetsFactory::create_working_canvas(
 bool CustomWidgetsFactory::ask_open_json_db(QWidget* parent, std::string& out)
 {
   const QString selected = QFileDialog::getOpenFileName(
-      parent, QStringLiteral("Select annotations JSON db file"), QString{},
-      QString::fromUtf8(jsonDbFilter));
+      parent, QStringLiteral("Select annotations project file"), QString{},
+      QString::fromUtf8(projectFileFilter));
 
   if (selected.isEmpty()) {
     return false;
@@ -177,8 +182,8 @@ bool CustomWidgetsFactory::ask_open_json_db(QWidget* parent, std::string& out)
 bool CustomWidgetsFactory::ask_save_json_db(QWidget* parent, std::string& out)
 {
   const QString selected = QFileDialog::getSaveFileName(
-      parent, QStringLiteral("Save annotations JSON db file"), QString{},
-      QString::fromUtf8(jsonDbFilter));
+      parent, QStringLiteral("Save annotations project file"), QString{},
+      QString::fromUtf8(projectFileFilter));
 
   if (selected.isEmpty()) {
     return false;

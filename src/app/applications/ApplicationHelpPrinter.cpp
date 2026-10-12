@@ -92,6 +92,14 @@ void ApplicationHelpPrinter::print_conversion_help()
   }
 
   std::cout << std::endl
+            << "The imagesannotator one is the annotations project file of"
+            << std::endl
+            << "the application: the gzip compressed imgajz1 project for a"
+            << std::endl
+            << "path of the .imgajz1 file name extension, the JSON project"
+            << std::endl
+            << "for any other path." << std::endl
+            << std::endl
             << "Writing the pytorch one cuts the rectangles out of the"
             << std::endl
             << "pictures, which needs the ImagesAnnotator-DataExporters"

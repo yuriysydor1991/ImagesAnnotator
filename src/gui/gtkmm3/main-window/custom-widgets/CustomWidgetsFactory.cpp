@@ -85,6 +85,34 @@ Gtk::Button* add_std_button(Gtk::Dialog& dialog, const char* msgid,
   return button;
 }
 
+// The file filters of the annotations project choosers: both project file
+// formats first, then the JSON and the gzip compressed imgajz1 ones alone and
+// the "All files" fallback. The file name extension of the path tells the
+// format the project is read and written in.
+void add_project_file_filters(Gtk::FileChooserDialog& dialog)
+{
+  auto filter_projects = Gtk::FileFilter::create();
+  filter_projects->set_name("ImagesAnnotator projects");
+  filter_projects->add_pattern("*.json");
+  filter_projects->add_pattern("*.imgajz1");
+  dialog.add_filter(filter_projects);
+
+  auto filter_json = Gtk::FileFilter::create();
+  filter_json->set_name("JSON files");
+  filter_json->add_pattern("*.json");
+  dialog.add_filter(filter_json);
+
+  auto filter_imgajz1 = Gtk::FileFilter::create();
+  filter_imgajz1->set_name("imgajz1 compressed projects");
+  filter_imgajz1->add_pattern("*.imgajz1");
+  dialog.add_filter(filter_imgajz1);
+
+  auto filter_all = Gtk::FileFilter::create();
+  filter_all->set_name("All files");
+  filter_all->add_pattern("*");
+  dialog.add_filter(filter_all);
+}
+
 }  // namespace
 
 void CustomWidgetsFactory::add_button_icon(Gtk::Button& button,
@@ -149,20 +177,10 @@ std::shared_ptr<Gtk::FileChooserDialog>
 CustomWidgetsFactory::create_json_db_dialog(Gtk::Window* parentWindow)
 {
   auto dialog = std::make_shared<Gtk::FileChooserDialog>(
-      *parentWindow, "Select annotations JSON db file",
+      *parentWindow, "Select annotations project file",
       Gtk::FILE_CHOOSER_ACTION_OPEN);
 
-  // Add a JSON filter
-  auto filter_json = Gtk::FileFilter::create();
-  filter_json->set_name("JSON files");
-  filter_json->add_pattern("*.json");
-  dialog->add_filter(filter_json);
-
-  // Allow all files as a fallback
-  auto filter_all = Gtk::FileFilter::create();
-  filter_all->set_name("All files");
-  filter_all->add_pattern("*");
-  dialog->add_filter(filter_all);
+  add_project_file_filters(*dialog);
 
   add_std_button(*dialog, "_Cancel", Gtk::RESPONSE_CANCEL);
   add_std_button(*dialog, "_Select", Gtk::RESPONSE_OK);
@@ -174,20 +192,10 @@ std::shared_ptr<Gtk::FileChooserDialog>
 CustomWidgetsFactory::create_save_json_db_dialog(Gtk::Window* parentWindow)
 {
   auto dialog = std::make_shared<Gtk::FileChooserDialog>(
-      *parentWindow, "Save annotations JSON db file",
+      *parentWindow, "Save annotations project file",
       Gtk::FILE_CHOOSER_ACTION_SAVE);
 
-  // Add a JSON filter
-  auto filter_json = Gtk::FileFilter::create();
-  filter_json->set_name("JSON files");
-  filter_json->add_pattern("*.json");
-  dialog->add_filter(filter_json);
-
-  // Allow all files as a fallback
-  auto filter_all = Gtk::FileFilter::create();
-  filter_all->set_name("All files");
-  filter_all->add_pattern("*");
-  dialog->add_filter(filter_all);
+  add_project_file_filters(*dialog);
 
   add_std_button(*dialog, "_Cancel", Gtk::RESPONSE_CANCEL);
   add_std_button(*dialog, "_Select", Gtk::RESPONSE_OK);

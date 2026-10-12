@@ -71,7 +71,7 @@ env:
   # back to fetching the sources over the Internet when they are missing (see
   # cmake/tools/template-project-enabler-function.cmake), which would make every
   # job pay for a libcurl build, so they are installed up front. The zlib is the
-  # one the dataset libraries the jobs build first link.
+  # one the three libraries the jobs build first link.
   BASE_PACKAGES: >-
     build-essential cmake git pkg-config ccache
     libgtest-dev libgmock-dev nlohmann-json3-dev libcurl4-openssl-dev

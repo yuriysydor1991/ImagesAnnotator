@@ -98,11 +98,13 @@ class CustomWidgetsFactory
                              Gtk::Window* parentWindow);
 
   /**
-   * @brief Decorate a builder-defined JSON file-chooser dialog (the open or the
-   * save one) with the "JSON files" / "All files" filters and the localized,
-   * icon-decorated Cancel / Select action buttons. GtkBuilder cannot express
-   * either from the .ui file, so WindowLoader applies this once at load.
-   * Idempotent - re-invoking it on an already prepared dialog is a no-op.
+   * @brief Decorate a builder-defined annotations project file-chooser dialog
+   * (the open or the save one) with the "ImagesAnnotator projects" (*.json and
+   * *.imgajz1) / "JSON files" / "imgajz1 compressed projects" / "All files"
+   * filters and the localized, icon-decorated Cancel / Select action buttons.
+   * GtkBuilder cannot express either from the .ui file, so WindowLoader
+   * applies this once at load. Idempotent - re-invoking it on an already
+   * prepared dialog is a no-op.
    */
   virtual void prepare_json_db_dialog(Gtk::FileChooserDialog* dialog);
 

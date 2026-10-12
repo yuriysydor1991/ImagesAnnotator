@@ -70,31 +70,40 @@
 <text x="630" y="499" class="member">reads thirteen dataset layouts back into a project</text>
 <text x="630" y="514" class="member">declares IImageSizeFacility</text>
 <text x="630" y="529" class="member">own OpenCV size reader in a build which found it</text>
-<rect x="300" y="642" width="560" height="82" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<rect x="300" y="642" width="560" height="97" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
 <rect x="834" y="650" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
 <rect x="830" y="652" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
 <rect x="830" y="658" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
 <text x="314" y="661" class="cname">ImagesAnnotator-DataDrivers</text>
 <text x="314" y="675" class="sub">ImagesAnnotatorDataDrivers012</text>
 <line x1="300" y1="685" x2="860" y2="685" stroke="#3a3a3a" stroke-width="1"/>
-<text x="310" y="699" class="member">the project JSON database: parsing, merging, storing</text>
-<text x="310" y="714" class="member">the ImageRecord / ImageRecordRect value types</text>
+<text x="310" y="699" class="member">the project database: parsing, merging, storing</text>
+<text x="310" y="714" class="member">of the JSON and the gzip compressed imgajz1 files</text>
+<text x="310" y="729" class="member">the ImageRecord / ImageRecordRect value types</text>
 <rect x="20" y="820" width="1140" height="250" rx="4" fill="#eeeeee" stroke="#8a8a8a" stroke-width="1.5"/>
 <text x="32" y="840" class="pkg">Third party</text>
-<rect x="60" y="852" width="300" height="53" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
-<rect x="334" y="860" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<rect x="330" y="862" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<rect x="330" y="868" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="60" y="852" width="190" height="53" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<rect x="224" y="860" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="220" y="862" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="220" y="868" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
 <text x="74" y="871" class="cname">libcurl</text>
-<line x1="60" y1="881" x2="360" y2="881" stroke="#3a3a3a" stroke-width="1"/>
+<line x1="60" y1="881" x2="250" y2="881" stroke="#3a3a3a" stroke-width="1"/>
 <text x="70" y="895" class="member">HTTP and the CURLU URL API</text>
-<rect x="420" y="852" width="300" height="53" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
-<rect x="694" y="860" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<rect x="690" y="862" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<rect x="690" y="868" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
-<text x="434" y="871" class="cname">nlohmann/json</text>
-<line x1="420" y1="881" x2="720" y2="881" stroke="#3a3a3a" stroke-width="1"/>
-<text x="430" y="895" class="member">the project file parser and writer</text>
+<rect x="280" y="852" width="250" height="53" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<rect x="504" y="860" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="500" y="862" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="500" y="868" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<text x="294" y="871" class="cname">nlohmann/json</text>
+<line x1="280" y1="881" x2="530" y2="881" stroke="#3a3a3a" stroke-width="1"/>
+<text x="290" y="895" class="member">the project file parser and writer</text>
+<rect x="560" y="852" width="190" height="68" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<rect x="724" y="860" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="720" y="862" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<rect x="720" y="868" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
+<text x="574" y="871" class="cname">zlib</text>
+<line x1="560" y1="881" x2="750" y2="881" stroke="#3a3a3a" stroke-width="1"/>
+<text x="570" y="895" class="member">gzip: the darknetxx files,</text>
+<text x="570" y="910" class="member">the imgajz1 project files</text>
 <rect x="780" y="852" width="320" height="82" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
 <rect x="1074" y="860" width="18" height="12" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
 <rect x="1070" y="862" width="8" height="3.5" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1"/>
@@ -135,7 +144,7 @@
 <path d="M 360 539 L 360 642" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
 <text x="368" y="595" class="edge" text-anchor="start">PUBLIC</text>
 <path d="M 800 539 L 800 642" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
-<text x="808" y="595" class="edge" text-anchor="start">PUBLIC</text>
+<text x="808" y="627" class="edge" text-anchor="start">PUBLIC</text>
 <path d="M 160 539 L 160 852" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
 <text x="168" y="750" class="edge" text-anchor="start">PRIVATE</text>
 <path d="M 460 539 L 460 565 L 940 565 L 940 852" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="6,5" marker-end="url(#open)"/>
@@ -143,10 +152,16 @@
 <path d="M 1000 539 L 1000 852" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="6,5" marker-end="url(#open)"/>
 <text x="1008" y="680" class="edge" text-anchor="start">PRIVATE,</text>
 <text x="1008" y="692" class="edge" text-anchor="start">optional *</text>
-<path d="M 570 724 L 570 852" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
-<text x="578" y="795" class="edge" text-anchor="start">PRIVATE</text>
-<path d="M 340 724 L 340 805 L 240 805 L 240 852" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
-<text x="332" y="799" class="edge" text-anchor="end">PRIVATE, the URL API only</text>
+<path d="M 405 739 L 405 852" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
+<text x="413" y="795" class="edge" text-anchor="start">PRIVATE</text>
+<path d="M 320 739 L 320 805 L 220 805 L 220 852" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
+<text x="312" y="799" class="edge" text-anchor="end">PRIVATE, the URL API only</text>
+<path d="M 620 739 L 620 852" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
+<text x="628" y="771" class="edge" text-anchor="start">PRIVATE, the imgajz1</text>
+<text x="628" y="783" class="edge" text-anchor="start">project files</text>
+<path d="M 440 539 L 440 590 L 880 590" fill="none" stroke="#3a3a3a" stroke-width="1.3"/>
+<path d="M 880 539 L 880 805 L 710 805 L 710 852" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
+<text x="620" y="606" class="edge" text-anchor="middle">PRIVATE, the darknetxx files</text>
 <rect x="20" y="1078" width="1140" height="106" rx="4" fill="#fffbe6" stroke="#b8a54a" stroke-width="1.1"/>
 <text x="34" y="1096" class="note">The three ImagesAnnotator libraries are consumed installed: none is fetched by a configure of this project and none is a</text>
 <text x="34" y="1111" class="note">distribution package - misc/ci/install-annotator-libraries.sh builds and installs all three. A PUBLIC link is one whose usage</text>

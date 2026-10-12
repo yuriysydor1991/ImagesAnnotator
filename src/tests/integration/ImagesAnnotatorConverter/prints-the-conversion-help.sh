@@ -20,3 +20,6 @@ for CONVERSION_FORMAT in imagesannotator plain-txt yolo4 ultralytics-detect \
                          createml pytorch ; do
     itest_expect_output_contains "${PRINTED}" "${CONVERSION_FORMAT}"
 done
+
+# the native project is told by the file name extension of its path
+itest_expect_output_contains "${PRINTED}" ".imgajz1 file name extension"

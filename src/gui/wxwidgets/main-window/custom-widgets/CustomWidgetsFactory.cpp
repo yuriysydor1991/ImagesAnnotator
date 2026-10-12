@@ -41,6 +41,19 @@ namespace imagesAnnotatorWx::window::custom_widgets
 using imagesAnnotatorWx::from_wx;
 using imagesAnnotatorWx::u8;
 
+namespace
+{
+/// @brief The annotations project files wildcard, shared by the open and save
+/// dialogs: both project file formats first, then the JSON and the gzip
+/// compressed imgajz1 ones alone. The file name extension of the path tells the
+/// format the project is read and written in.
+const char* const projectFileWildcard =
+    "ImagesAnnotator projects (*.json;*.imgajz1)|*.json;*.imgajz1|"
+    "JSON files (*.json)|*.json|"
+    "imgajz1 compressed projects (*.imgajz1)|*.imgajz1|"
+    "All files (*)|*";
+}  // namespace
+
 wxBitmap CustomWidgetsFactory::load_logo()
 {
   wxMemoryInputStream stream(wx_embedded_logo_png, wx_embedded_logo_png_len);
@@ -133,9 +146,8 @@ CentralWorkingCanvas* CustomWidgetsFactory::create_working_canvas(
 
 bool CustomWidgetsFactory::ask_open_json_db(wxWindow* parent, std::string& out)
 {
-  wxFileDialog dlg(parent, "Select annotations JSON db file", "", "",
-                   "JSON files (*.json)|*.json|All files (*)|*",
-                   wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+  wxFileDialog dlg(parent, "Select annotations project file", "", "",
+                   projectFileWildcard, wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 
   if (dlg.ShowModal() != wxID_OK) {
     return false;
@@ -148,9 +160,8 @@ bool CustomWidgetsFactory::ask_open_json_db(wxWindow* parent, std::string& out)
 
 bool CustomWidgetsFactory::ask_save_json_db(wxWindow* parent, std::string& out)
 {
-  wxFileDialog dlg(parent, "Save annotations JSON db file", "", "",
-                   "JSON files (*.json)|*.json|All files (*)|*",
-                   wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+  wxFileDialog dlg(parent, "Save annotations project file", "", "",
+                   projectFileWildcard, wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 
   if (dlg.ShowModal() != wxID_OK) {
     return false;

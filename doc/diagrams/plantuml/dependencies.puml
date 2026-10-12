@@ -58,9 +58,10 @@ end note
 
 note bottom of IADD
   The project JSON database - the parsing, the
-  merging and the storing - and the ImageRecord
-  / ImageRecordRect value types the other two
-  are written in terms of.
+  merging and the storing of the JSON and of
+  the gzip compressed imgajz1 project files -
+  and the ImageRecord / ImageRecordRect value
+  types the other two are written in terms of.
 end note
 
 APP --> GUI : compiles one of
@@ -86,6 +87,7 @@ IADI ..> OCV : PRIVATE, optional *
 
 IADD --> NJSON : PRIVATE
 IADD --> CURL : PRIVATE, the CURLU URL API only
+IADD --> ZLIB : PRIVATE, the imgajz1 project files
 
 APP ..> GTEST : tests only
 IADE ..> GTEST : tests only

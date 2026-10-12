@@ -90,14 +90,16 @@ library](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-lib
 and [Enabling the ImagesAnnotator-DataImporters
 library](/doc/sections/en_US/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md).
 
-The diagram is rendered from the PlantUML source at
+The diagram is drawn by hand after the PlantUML source at
 [doc/diagrams/plantuml/dependencies.puml](doc/diagrams/plantuml/dependencies.puml).
-Edit that file and render it again whenever a dependency changes:
+Edit that file whenever a dependency changes and bring the drawing along with
+it. Rendering the source into a directory of its own shows what to compare the
+drawing against, without overwriting it:
 
 ```
 # from the project root directory
 
-plantuml -tsvg -o ../images doc/diagrams/plantuml/dependencies.puml
+plantuml -tsvg -o "$(pwd)/build/diagrams" doc/diagrams/plantuml/dependencies.puml
 ```
 
 # Implementing custom exporters

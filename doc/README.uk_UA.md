@@ -88,14 +88,16 @@ ImagesAnnotator-DataExporters](/doc/sections/uk_UA/5-37-enabling-the-ImagesAnnot
 та [Вмикання інтеграції бібліотеки
 ImagesAnnotator-DataImporters](/doc/sections/uk_UA/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md).
 
-Діаграму згенеровано з джерела PlantUML за адресою
+Діаграму намальовано вручну за джерелом PlantUML за адресою
 [doc/diagrams/plantuml/dependencies.puml](diagrams/plantuml/dependencies.puml).
-Редагуй той файл і генеруй її знову щоразу, коли змінюється залежність:
+Редагуй той файл щоразу, коли змінюється залежність, і змінюй малюнок разом із
+ним. Генерування джерела в окрему директорію показує, з чим порівнювати
+малюнок, не перезаписуючи його:
 
 ```
 # з кореневої директорії проекту
 
-plantuml -tsvg -o ../images doc/diagrams/plantuml/dependencies.puml
+plantuml -tsvg -o "$(pwd)/build/diagrams" doc/diagrams/plantuml/dependencies.puml
 ```
 
 # Реалізування користувацьких екпортерів/перетворювачів

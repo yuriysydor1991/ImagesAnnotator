@@ -24,7 +24,7 @@ Finally, execute the `cpack` command inside the template project build directory
 cpack
 ```
 
-The package file should be generated inside the project build root directory. For example, if the project name wasn't changed and its version is `0.12.0` the package name may look like `ImagesAnnotator-0.12.0-1.x86_64.rpm`.
+The package file should be generated inside the project build root directory. For example, if the project name wasn't changed and its version is `0.12.0` the package name may look like `ImagesAnnotator-0.12.0-x86_64.rpm`.
 
 In order to examine details of the `.rpm` package configuration visit the [cmake/enablers/packagers/template-project-rpm-enabler.cmake](/cmake/enablers/packagers/template-project-rpm-enabler.cmake) file.
 
@@ -35,7 +35,7 @@ The following cache variables may optionally be overridden in order to tune the 
 - `TEMPLATE_PROJECT_RPM_LICENSE` - SPDX-style license tag (default: `BSD-2-Clause`). Common values are `BSD-2-Clause`, `BSD-3-Clause`, `GPLv3`, `MIT`, `Apache-2.0`.
 - `TEMPLATE_PROJECT_RPM_GROUP` - package group (default: `Applications/System`). Other typical values are `Development/Libraries`, `Development/Tools`, `Applications/Internet`.
 - `TEMPLATE_PROJECT_RPM_RELEASE` - package release number (default: `1`). Bump it for rebuilds of the same upstream version.
-- `TEMPLATE_PROJECT_RPM_PACKAGE_ARCHITECTURE` - architecture tag (default: `x86_64`). Other typical values are `aarch64`, `armv7hl`, `noarch`.
+- `TEMPLATE_PROJECT_RPM_PACKAGE_ARCHITECTURE` - architecture tag, which the package file name ends with as well (default: the `CMAKE_SYSTEM_PROCESSOR` variable of the CMake). Other typical values are `aarch64`, `armv7hl`, `noarch`.
 
 In addition to those, the package `URL` is taken from the project `HOMEPAGE_URL` declared in the top-level `CMakeLists.txt`, the maintainer contact from `PROJECT_MAINTAINER_EMAIL`, the vendor from `PROJECT_MAINTAINER`, and the summary/description from the project `DESCRIPTION`. There is no need to declare anything new in the project's CMake files in order to start producing packages - just turn the option on.
 

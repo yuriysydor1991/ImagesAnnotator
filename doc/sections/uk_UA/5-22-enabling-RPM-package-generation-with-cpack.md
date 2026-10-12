@@ -24,7 +24,7 @@ cmake --build . --target all
 cpack
 ```
 
-Згенерований пакунок повинен з'явитись всередині кореня директорії побудови проекту. Наприклад, якщо ім'я проекту не змінювалось і його версія `0.12.0`, тоді назва пакунку може виглядати наступним чином: `ImagesAnnotator-0.12.0-1.x86_64.rpm`.
+Згенерований пакунок повинен з'явитись всередині кореня директорії побудови проекту. Наприклад, якщо ім'я проекту не змінювалось і його версія `0.12.0`, тоді назва пакунку може виглядати наступним чином: `ImagesAnnotator-0.12.0-x86_64.rpm`.
 
 Для того щоб переглянути або змінити параметри створення `.rpm`-пакунків необхідно відвідати файл [cmake/enablers/packagers/template-project-rpm-enabler.cmake](/cmake/enablers/packagers/template-project-rpm-enabler.cmake).
 
@@ -35,7 +35,7 @@ cpack
 - `TEMPLATE_PROJECT_RPM_LICENSE` - SPDX-подібний тег ліцензії (за замовчуванням: `BSD-2-Clause`). Поширені значення: `BSD-2-Clause`, `BSD-3-Clause`, `GPLv3`, `MIT`, `Apache-2.0`.
 - `TEMPLATE_PROJECT_RPM_GROUP` - група пакунку (за замовчуванням: `Applications/System`). Інші типові значення: `Development/Libraries`, `Development/Tools`, `Applications/Internet`.
 - `TEMPLATE_PROJECT_RPM_RELEASE` - номер релізу пакунку (за замовчуванням: `1`). Збільшуйте його під час повторних збирань тієї ж самої вихідної версії.
-- `TEMPLATE_PROJECT_RPM_PACKAGE_ARCHITECTURE` - тег архітектури (за замовчуванням: `x86_64`). Інші типові значення: `aarch64`, `armv7hl`, `noarch`.
+- `TEMPLATE_PROJECT_RPM_PACKAGE_ARCHITECTURE` - тег архітектури, яким також завершується назва файлу пакунку (за замовчуванням: змінна CMake `CMAKE_SYSTEM_PROCESSOR`). Інші типові значення: `aarch64`, `armv7hl`, `noarch`.
 
 Окрім цього, поле `URL` пакунку береться з `HOMEPAGE_URL`, оголошеного у верхньорівневому `CMakeLists.txt`, контактна адреса супровідника - з `PROJECT_MAINTAINER_EMAIL`, видавця - з `PROJECT_MAINTAINER`, а коротке резюме та опис - з `DESCRIPTION` проекту. Жодних додаткових оголошень у CMake-файлах проекту вносити не потрібно - достатньо просто увімкнути опцію.
 

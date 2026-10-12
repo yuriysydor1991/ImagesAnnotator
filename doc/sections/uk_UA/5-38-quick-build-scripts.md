@@ -15,7 +15,7 @@ scripts/packages/install-debian.sh
 scripts/packages/install-debian.sh gtkmm4
 ```
 
-Проект не будується без трьох окремих бібліотек, з якими він збирається, і жодна з них не звантажується кроком конфігурації (див. секції [Увімкнення бібліотеки ImagesAnnotator-DataDrivers](/doc/sections/uk_UA/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md), [Увімкнення бібліотеки ImagesAnnotator-DataExporters](/doc/sections/uk_UA/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md) та [Вмикання інтеграції бібліотеки ImagesAnnotator-DataImporters](/doc/sections/uk_UA/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md)), отож їх слід один раз встановити перед запуском будь-якого зі скриптів нижче:
+Проект не будується без трьох окремих бібліотек, з якими він збирається, і жодна з них не звантажується кроком конфігурації (див. секції [Увімкнення бібліотеки ImagesAnnotator-DataDrivers](/doc/sections/uk_UA/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md), [Увімкнення бібліотеки ImagesAnnotator-DataExporters](/doc/sections/uk_UA/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md) та [Вмикання інтеграції бібліотеки ImagesAnnotator-DataImporters](/doc/sections/uk_UA/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md)), отож їх слід один раз встановити перед запуском будь-якого зі скриптів нижче - окрім скрипта [build-deb-with-libraries.sh](/scripts/build/build-deb-with-libraries.sh), який збирає їх сам:
 
 ```
 # в середині кореневої директорії проекту
@@ -57,6 +57,7 @@ scripts/build/release.sh
 | --- | --- | --- |
 | [build-appimage.sh](/scripts/build/build-appimage.sh) | пакунок AppImage - параметр `ENABLE_APPIMAGE` і ціль `appimage` | `install` у каталог `${HOME}/.local/bin` |
 | [build-deb.sh](/scripts/build/build-deb.sh) | пакунок DEB - параметр `ENABLE_DEB` і ціль `package` | `sudo apt-get install` |
+| [build-deb-with-libraries.sh](/scripts/build/build-deb-with-libraries.sh) | пакунок DEB із запакованими в нього трьома бібліотеками ImagesAnnotator - спершу бібліотеки, зібрані в директорію `build/annotator-libraries`, потім параметри `ENABLE_DEB` і `ENABLE_DEB_IMAGES_ANNOTATOR_LIBRARIES` та ціль `package` | `sudo apt-get install` |
 | [build-flatpak.sh](/scripts/build/build-flatpak.sh) | зв'язку flatpak - параметр `ENABLE_FLATPAK` і ціль `flatpak` | `flatpak install --user` |
 | [build-freebsd-pkg.sh](/scripts/build/build-freebsd-pkg.sh) | пакунок FreeBSD pkg - параметр `ENABLE_FREEBSD_PKG` і ціль `package` | `sudo pkg add` |
 | [build-rpm.sh](/scripts/build/build-rpm.sh) | пакунок RPM - параметр `ENABLE_RPM` і ціль `package` | `sudo dnf install` |
@@ -120,7 +121,7 @@ misc/ci/install-annotator-libraries.sh "$HOME/.local"
 scripts/build/release.sh -DCMAKE_PREFIX_PATH="$HOME/.local"
 ```
 
-Самі скрипти нічого не встановлюють: вони конфігурують, збирають і (з `--install`) встановлюють лише **цей** проект, тож три бібліотеки лишаються тим єдиним кроком, який слід виконати один раз заздалегідь.
+Самі скрипти нічого не встановлюють: вони конфігурують, збирають і (з `--install`) встановлюють лише **цей** проект, тож три бібліотеки лишаються тим єдиним кроком, який слід виконати один раз заздалегідь. Єдиний виняток - скрипт [build-deb-with-libraries.sh](/scripts/build/build-deb-with-libraries.sh): він сам збирає три бібліотеки, у директорію `build/annotator-libraries`, а не в систему, і пакує їх у створюваний ним пакунок DEB, тож цей пакунок встановлюється і працює там, де жодної з них не встановлено.
 
 Інструментарій графічного інтерфейсу обирається так само, оскільки це теж параметр CMake (див. секцію [Розширення](/doc/sections/uk_UA/4-5-extensions.md)). Коли не задано жодного з них, скрипти будують типовий графічний інтерфейс GTKmm3:
 

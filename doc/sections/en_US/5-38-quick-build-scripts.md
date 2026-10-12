@@ -15,7 +15,7 @@ scripts/packages/install-debian.sh
 scripts/packages/install-debian.sh gtkmm4
 ```
 
-The project does not build without the three standalone libraries it is built against, and none of them is fetched by the configure step (see the [Enabling the ImagesAnnotator-DataDrivers library](/doc/sections/en_US/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md), the [Enabling the ImagesAnnotator-DataExporters library](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md) and the [Enabling the ImagesAnnotator-DataImporters library](/doc/sections/en_US/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md) sections), so they are to be installed once before any of the scripts below is started:
+The project does not build without the three standalone libraries it is built against, and none of them is fetched by the configure step (see the [Enabling the ImagesAnnotator-DataDrivers library](/doc/sections/en_US/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md), the [Enabling the ImagesAnnotator-DataExporters library](/doc/sections/en_US/5-37-enabling-the-ImagesAnnotator-DataExporters-library.md) and the [Enabling the ImagesAnnotator-DataImporters library](/doc/sections/en_US/5-39-enabling-the-ImagesAnnotator-DataImporters-library.md) sections), so they are to be installed once before any of the scripts below is started - all but the [build-deb-with-libraries.sh](/scripts/build/build-deb-with-libraries.sh) one, which builds them on its own:
 
 ```
 # inside the project root directory
@@ -57,6 +57,7 @@ Each of the scripts below performs the `Release` configure step with a single pa
 | --- | --- | --- |
 | [build-appimage.sh](/scripts/build/build-appimage.sh) | the AppImage package - the `ENABLE_APPIMAGE` option and the `appimage` target | `install` into the `${HOME}/.local/bin` |
 | [build-deb.sh](/scripts/build/build-deb.sh) | the DEB package - the `ENABLE_DEB` option and the `package` target | `sudo apt-get install` |
+| [build-deb-with-libraries.sh](/scripts/build/build-deb-with-libraries.sh) | the DEB package with the three ImagesAnnotator libraries packed inside - the libraries built into the `build/annotator-libraries` directory first, then the `ENABLE_DEB` and the `ENABLE_DEB_IMAGES_ANNOTATOR_LIBRARIES` options and the `package` target | `sudo apt-get install` |
 | [build-flatpak.sh](/scripts/build/build-flatpak.sh) | the flatpak bundle - the `ENABLE_FLATPAK` option and the `flatpak` target | `flatpak install --user` |
 | [build-freebsd-pkg.sh](/scripts/build/build-freebsd-pkg.sh) | the FreeBSD pkg package - the `ENABLE_FREEBSD_PKG` option and the `package` target | `sudo pkg add` |
 | [build-rpm.sh](/scripts/build/build-rpm.sh) | the RPM package - the `ENABLE_RPM` option and the `package` target | `sudo dnf install` |
@@ -120,7 +121,7 @@ misc/ci/install-annotator-libraries.sh "$HOME/.local"
 scripts/build/release.sh -DCMAKE_PREFIX_PATH="$HOME/.local"
 ```
 
-The scripts install nothing of their own: they configure, build and (with `--install`) install **this** project only, so the three libraries stay the one step to run once beforehand.
+The scripts install nothing of their own: they configure, build and (with `--install`) install **this** project only, so the three libraries stay the one step to run once beforehand. The [build-deb-with-libraries.sh](/scripts/build/build-deb-with-libraries.sh) script is the one exception: it builds the three libraries itself, into the `build/annotator-libraries` directory rather than the system, and packs them into the DEB package it produces, so that package installs and runs where none of them is installed.
 
 The GUI toolkit is selected the very same way, since it is a CMake option too (see the [Extensions](/doc/sections/en_US/4-5-extensions.md) section). With none of them given the scripts build the default GTKmm3 GUI:
 

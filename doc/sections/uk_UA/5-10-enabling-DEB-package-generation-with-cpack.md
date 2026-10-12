@@ -29,3 +29,25 @@ cpack
 Для того щоб переглянути або змінити параметри створення `deb`-пакетів необхідно відвідати файл `cmake/enablers/packagers/template-project-deb-enabler.cmake`.
 
 Згенерований пакет оголошує залежністю те середовище виконання інтерфейсу, з яким його було зібрано (`libgtkmm-3.0-1v5`, `libgtkmm-4.0-0`, `libwxgtk3.2-1t64` або `libqt6widgets6`). Цю назву визначає не сам активатор DEB: її публікує як `GTKMM_DEB_RUNTIME_DEPENDS` той активатор інструментарію інтерфейсу, який спрацював, тому залежність пакета автоматично слідує за вибором `USE_GTKMM3` / `USE_GTKMM4` / `USE_WXWIDGETS` / `USE_QT6`, описаним у розділі розширень.
+
+### Пакування бібліотек ImagesAnnotator
+
+Три бібліотеки ImagesAnnotator, з якими збирається проект, - [ImagesAnnotator-DataDrivers](https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers.git), [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git) та [ImagesAnnotator-DataImporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataImporters.git) - не є пакунками дистрибутиву, тому пакунок вище не оголошує залежності від них: він встановлюється будь-де, але його виконувані файли запускаються лише в системі, де ці три бібліотеки вже встановлено. Параметр `ENABLE_DEB_IMAGES_ANNOTATOR_LIBRARIES` натомість пакує їх у сам пакунок, а кроки побудови та `cpack` вище лишаються тими самими:
+
+```
+# всередині кореневої директорії проекту
+
+cmake -B build -S . -DENABLE_DEB=ON -DENABLE_DEB_IMAGES_ANNOTATOR_LIBRARIES=ON
+```
+
+Тоді пакунок містить саме ті файли спільних бібліотек, які знайшла конфігурація, кожен зі своїм посиланням SONAME, у директорії `/usr/lib`, яку використовує їхній власний крок встановлення. Ці бібліотеки своєю чергою скомпоновано з `libcurl`, `zlib` та `OpenCV`, яких у системі, куди встановлюють пакунок, може не бути, тому з увімкненим параметром пакунок оголошує ще й ті залежності, які інструмент `dpkg-shlibdeps` обчислює для кожного виконуваного файлу в ньому, поруч із залежністю від середовища виконання інтерфейсу. Три запаковані бібліотеки інструмент знаходить всередині самого пакунка, тож власних залежностей вони не додають. Інструмент постачає пакунок `dpkg-dev`, від якого залежить `build-essential`, а CPack потребує ще й утиліти `file`, щоб знайти виконувані файли, які слід передати інструменту. Те саме сканування додає виклик `ldconfig` до скриптів `postinst` і `postrm` пакунка.
+
+Скрипт [scripts/build/build-deb-with-libraries.sh](/scripts/build/build-deb-with-libraries.sh) не бере жодної з бібліотек із системи: спершу він збирає всі три в директорію `build/annotator-libraries` скриптом [misc/ci/install-annotator-libraries.sh](/misc/ci/install-annotator-libraries.sh), а потім створює пакунок з ними з увімкненим параметром (дивись [Швидкі скрипти побудови](/doc/sections/uk_UA/5-38-quick-build-scripts.md)):
+
+```
+# всередині кореневої директорії проекту
+
+scripts/build/build-deb-with-libraries.sh
+```
+
+Бібліотеки клонуються з гілок `main` їхніх репозиторіїв; і репозиторії, і гілки перевизначаються змінними середовища `IADD_GIT`, `IADD_GIT_TAG`, `IADE_GIT`, `IADE_GIT_TAG`, `IADI_GIT` та `IADI_GIT_TAG` того скрипта - наприклад, тегами тих випусків бібліотек, з якими збирається випуск проекту.

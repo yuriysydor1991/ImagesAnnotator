@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+- Follow the three libraries to the installable names of their next development cycle, which each of them moved on to right after its 2026-10-12 release: `ImagesAnnotatorDataDrivers-0.14` with `ImagesAnnotatorDataDrivers014`, `ImagesAnnotatorDataExporters-0.14` with `ImagesAnnotatorDataExporters014` and `ImagesAnnotatorDataImporters-0.16` with `ImagesAnnotatorDataImporters016`, so the project keeps building against the `main` branches of the libraries, which the CI pipelines and the packager manifests build it with. The v0.12.0 release stays on the 0.13.0, 0.13.0 and 0.15.0 releases of the libraries, and the two trios install side by side.
+
 ## [v0.12.0] - 2026-10-12
 
 The first release since the annotations database, the dataset exporters and the dataset importers left the application for the three standalone libraries it is built against now: [ImagesAnnotator-DataDrivers](https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers.git) 0.13.0, [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git) 0.13.0 and [ImagesAnnotator-DataImporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataImporters.git) 0.15.0. The application exports the annotations into thirteen dataset layouts and reads every one of them back - the plain text, the YOLO v4, the PyTorch Vision, the three Ultralytics YOLO, the COCO, the Pascal VOC, the Create ML and the four darknetxx ones - keeps a project in its JSON file or in the about 16 times smaller imgajz1 one, converts between any two of them from the command line through the new `ImagesAnnotatorConverter` binary, and is built with one of four GUI toolkits: GTKmm3 (the default), GTKmm4, Qt6 or wxWidgets. The entries run from the newest change to the oldest one.

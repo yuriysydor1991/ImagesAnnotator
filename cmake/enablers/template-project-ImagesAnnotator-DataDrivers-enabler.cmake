@@ -28,9 +28,9 @@ endif()
 # shorten or extend that name. The name the find_package() probe asks for is
 # therefore a cache variable rather than a literal: pointing the project at a
 # differently named build of the very same library - a major-only
-# "ImagesAnnotatorDataDrivers-0" or a "ImagesAnnotatorDataDrivers-0.13-dev" one -
+# "ImagesAnnotatorDataDrivers-0" or a "ImagesAnnotatorDataDrivers-0.14-dev" one -
 # stays a single -D on the command line.
-set(TEMPLATE_APP_IADD_PACKAGE "ImagesAnnotatorDataDrivers-0.13" CACHE STRING "The ImagesAnnotator-DataDrivers CMake package (and target) name to look for")
+set(TEMPLATE_APP_IADD_PACKAGE "ImagesAnnotatorDataDrivers-0.14" CACHE STRING "The ImagesAnnotator-DataDrivers CMake package (and target) name to look for")
 
 # Where the library comes from. Nothing in this build fetches it - the two
 # variables are what the packager manifests, which have to build it inside
@@ -44,7 +44,7 @@ set(TEMPLATE_APP_IADD_GIT_TAG "main" CACHE STRING "The ImagesAnnotator-DataDrive
 # ImagesAnnotator-DataExporters library, which the enabler next to this one
 # brings in, resolves the data drivers with a find_package() of its own and
 # includes their headers through the versioned
-# <ImagesAnnotatorDataDrivers-0.13/...> directory - a form only an installation
+# <ImagesAnnotatorDataDrivers-0.14/...> directory - a form only an installation
 # provides. Both libraries are therefore consumed installed, and the sources
 # include their headers the prefixed way (see
 # src/annotator-events/events/DataDriversAliases.h), which pins the library

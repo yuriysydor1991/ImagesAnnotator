@@ -12,7 +12,7 @@ cmake -S . -B build -DENABLE_IMAGES_ANNOTATOR_DATA_EXPORTERS=ON
 
 ### It has to be installed first
 
-Unlike most of the third party enablers of the project, this one has no Internet fallback: the library is consumed installed, and so is the [ImagesAnnotator-DataDrivers](/doc/sections/en_US/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md) library it is built against. The exporters library resolves the data drivers with a `find_package()` of its own and includes their headers through the versioned `<ImagesAnnotatorDataDrivers-0.13/...>` directory, which only an installation provides, so a copy pulled in as a sub-project could not be configured at all.
+Unlike most of the third party enablers of the project, this one has no Internet fallback: the library is consumed installed, and so is the [ImagesAnnotator-DataDrivers](/doc/sections/en_US/5-36-enabling-the-ImagesAnnotator-DataDrivers-library.md) library it is built against. The exporters library resolves the data drivers with a `find_package()` of its own and includes their headers through the versioned `<ImagesAnnotatorDataDrivers-0.14/...>` directory, which only an installation provides, so a copy pulled in as a sub-project could not be configured at all.
 
 Build and install both, the data drivers first:
 
@@ -57,7 +57,7 @@ The three CI pipelines - [misc/Jenkinsfile](/misc/Jenkinsfile), [.github/workflo
 
 ### Overriding the package name
 
-The library carries its major and minor version inside the installed package, target and binary names - `ImagesAnnotatorDataExporters-0.13`, matching its version carrying `ImagesAnnotatorDataExporters013` public namespace - so two minor versions install completely side by side. Its own `LIB_INCLUDE_MINOR_IN_NAME` (`ON` by default), `LIB_INCLUDE_MICRO_IN_NAME` and `LIB_NAME_SUFFIX` options may shorten or extend that name further. The name this project asks `find_package()` for is a cache variable, so a differently named build of the very same library stays a single command line option:
+The library carries its major and minor version inside the installed package, target and binary names - `ImagesAnnotatorDataExporters-0.14`, matching its version carrying `ImagesAnnotatorDataExporters014` public namespace - so two minor versions install completely side by side. Its own `LIB_INCLUDE_MINOR_IN_NAME` (`ON` by default), `LIB_INCLUDE_MICRO_IN_NAME` and `LIB_NAME_SUFFIX` options may shorten or extend that name further. The name this project asks `find_package()` for is a cache variable, so a differently named build of the very same library stays a single command line option:
 
 ```
 # a library built with -DLIB_INCLUDE_MINOR_IN_NAME=OFF, that is a major-only name
@@ -71,4 +71,4 @@ cmake -S . -B build -DTEMPLATE_APP_IADE_PACKAGE=ImagesAnnotatorDataExporters-0
 - `IADataExportersContext` - the export configuration (the destination directory and the annotations database to read) the controller fills in through the setters of the context. The optional image cropper sits on `PyTorchExportContext`, the one layout which cuts rectangles out.
 - `IImageCropperFacility` - the image cropping service the PyTorch Vision export needs. The library decodes no image format itself, so every GUI toolkit of this project implements that interface over the imaging stack it already links: `GtkmmImageCropperProvider`, `QtImageCropperProvider` and `WxImageCropperProvider`. The `src/annotator-events/events/IImageCropperFacilityProvider.h` header of the project is an alias onto it now. A cutter the interface supplies always wins, and an export left without one falls back to the OpenCV cropper the library ships itself - which is what lets the [command line conversion](/doc/sections/en_US/6-2-3-converting-the-annotations-formats.md), starting no interface at all, write that layout as well.
 
-The single place naming the library is `src/annotator-events/events/DataExportersAliases.h`, which declares the `iade` alias of the versioned `ImagesAnnotatorDataExporters013` namespace. Its headers are included through the versioned `<ImagesAnnotatorDataExporters-0.13/...>` directory: the prefix pins the library version every translation unit is talking to, and `IExporter.h` beside it is generic enough to collide on a busy include path.
+The single place naming the library is `src/annotator-events/events/DataExportersAliases.h`, which declares the `iade` alias of the versioned `ImagesAnnotatorDataExporters014` namespace. Its headers are included through the versioned `<ImagesAnnotatorDataExporters-0.14/...>` directory: the prefix pins the library version every translation unit is talking to, and `IExporter.h` beside it is generic enough to collide on a busy include path.

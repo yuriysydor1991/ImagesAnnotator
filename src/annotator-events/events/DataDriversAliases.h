@@ -35,7 +35,7 @@
 // library to a namespace of the next version stays a one line change here.
 //
 // The header is included through the versioned
-// <ImagesAnnotatorDataDrivers-0.13/...> directory the library installs, and not
+// <ImagesAnnotatorDataDrivers-0.14/...> directory the library installs, and not
 // through the plain <IADataDriversFacade.h> the unprefixed include root would
 // also resolve: the prefix pins the library version this translation unit talks
 // to, and the generic names sitting on that same root - IRecord.h,
@@ -45,10 +45,10 @@
 // library (the annotations database, the merger, the records factory, the
 // library context and both record value objects), so a single include is
 // enough.
-#include <ImagesAnnotatorDataDrivers-0.13/IADataDriversFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.14/IADataDriversFacade.h>
 
 /// @brief The ImagesAnnotator-DataDrivers library namespace, whose name carries
 /// the library major and minor version numbers.
-namespace iadd = ImagesAnnotatorDataDrivers013;
+namespace iadd = ImagesAnnotatorDataDrivers014;
 
 #endif  // IMAGES_ANNOTATOR_PROJECT_ANNOTATOR_EVENTS_DATA_DRIVERS_ALIASES_H

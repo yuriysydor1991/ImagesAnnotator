@@ -47,6 +47,20 @@ set(
   "Optional absolute path to an .ico file used as the MSI product icon"
 )
 
+# the architecture the CPack WIX generator picks when given none
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+  set(wixArchitecture x64)
+else()
+  set(wixArchitecture x86)
+endif()
+
+set(
+  TEMPLATE_PROJECT_WIX_ARCHITECTURE
+  ${wixArchitecture}
+  CACHE STRING
+  "The destination CPU architecture of the MSI installer (e.g. x64, arm64, x86)"
+)
+
 set(CPACK_GENERATOR "WIX")
 set(CPACK_PACKAGE_NAME ${CMAKE_PROJECT_NAME})
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
@@ -60,6 +74,7 @@ set(CPACK_WIX_UPGRADE_GUID ${TEMPLATE_PROJECT_WIX_UPGRADE_GUID})
 set(CPACK_WIX_PROGRAM_MENU_FOLDER ${TEMPLATE_PROJECT_WIX_PROGRAM_MENU_FOLDER})
 set(CPACK_WIX_CULTURES ${TEMPLATE_PROJECT_WIX_CULTURES})
 set(CPACK_WIX_ROOT_FOLDER_ID "ProgramFiles64Folder")
+set(CPACK_WIX_ARCHITECTURE ${TEMPLATE_PROJECT_WIX_ARCHITECTURE})
 
 if(TEMPLATE_PROJECT_WIX_LICENSE_RTF)
   set(CPACK_WIX_LICENSE_RTF ${TEMPLATE_PROJECT_WIX_LICENSE_RTF})
@@ -68,5 +83,12 @@ endif()
 if(TEMPLATE_PROJECT_WIX_PRODUCT_ICON)
   set(CPACK_WIX_PRODUCT_ICON ${TEMPLATE_PROJECT_WIX_PRODUCT_ICON})
 endif()
+
+# the CPACK_SYSTEM_NAME of the default file name (win64 or win32) names no CPU,
+# so the destination one takes its place
+set(
+  CPACK_PACKAGE_FILE_NAME
+  ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${TEMPLATE_PROJECT_WIX_ARCHITECTURE}
+)
 
 include(CPack)

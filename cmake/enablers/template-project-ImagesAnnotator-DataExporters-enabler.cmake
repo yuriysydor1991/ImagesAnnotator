@@ -31,8 +31,9 @@ set(TEMPLATE_APP_IADE_PACKAGE "ImagesAnnotatorDataExporters-0.14" CACHE STRING "
 
 # Where the library comes from. Nothing in this build fetches it - the two
 # variables are what the packager manifests, which have to build it inside
-# their own sandbox, are configured with (misc/packagers/flatpak.conf.json.in,
-# misc/packagers/snapcraft.yaml.in and misc/Dockerfiles/Dockerfile.in).
+# their own sandbox, are configured with (the flatpak manifests and the
+# snapcraft.yaml files of every GUI toolkit under misc/packagers/flatpak and
+# misc/packagers/snapcraft, and misc/Dockerfiles/Dockerfile.in).
 set(TEMPLATE_APP_IADE_GIT "https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git" CACHE STRING "The ImagesAnnotator-DataExporters library git source repository")
 set(TEMPLATE_APP_IADE_GIT_TAG "main" CACHE STRING "The ImagesAnnotator-DataExporters project git repository tag of interest")
 

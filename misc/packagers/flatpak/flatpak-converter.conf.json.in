@@ -1,0 +1,127 @@
+{
+  "id": "${FLATPAK_APP_ID}",
+  "runtime": "org.freedesktop.Platform",
+  "runtime-version": "24.08",
+  "sdk": "org.freedesktop.Sdk",
+  "command": "${FLATPAK_COMMAND}",
+  "modules": [
+    {
+      "name": "nlohmann-json",
+      "buildsystem": "cmake",
+      "builddir": true,
+      "config-opts": [
+        "-DJSON_BuildTests=OFF"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/nlohmann/json.git",
+          "tag": "v3.11.3"
+        }
+      ]
+    },
+    {
+      "name": "opencv",
+      "buildsystem": "cmake-ninja",
+      "builddir": true,
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DCMAKE_INSTALL_LIBDIR=lib",
+        "-DBUILD_LIST=core,imgproc,imgcodecs",
+        "-DBUILD_TESTS=OFF",
+        "-DBUILD_PERF_TESTS=OFF",
+        "-DBUILD_EXAMPLES=OFF",
+        "-DBUILD_opencv_apps=OFF",
+        "-DBUILD_JAVA=OFF",
+        "-DBUILD_opencv_python3=OFF",
+        "-DWITH_IPP=OFF",
+        "-DWITH_ADE=OFF",
+        "-DWITH_ITT=OFF",
+        "-DWITH_FFMPEG=OFF",
+        "-DWITH_GSTREAMER=OFF",
+        "-DWITH_GTK=OFF",
+        "-DWITH_QT=OFF",
+        "-DWITH_V4L=OFF",
+        "-DWITH_OPENCL=OFF",
+        "-DWITH_PROTOBUF=OFF",
+        "-DWITH_EIGEN=OFF",
+        "-DOPENCV_GENERATE_PKGCONFIG=OFF"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/opencv/opencv/archive/refs/tags/4.10.0.tar.gz",
+          "sha256": "b2171af5be6b26f7a06b1229948bbb2bdaa74fcf5cd097e0af6378fce50a6eb9"
+        }
+      ],
+      "cleanup": [
+        "/bin",
+        "/include",
+        "/lib/cmake",
+        "/share/opencv4"
+      ]
+    },
+    {
+      "name": "ImagesAnnotator-DataDrivers",
+      "buildsystem": "cmake",
+      "builddir": true,
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=Release"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "${TEMPLATE_APP_IADD_GIT}",
+          "branch": "${TEMPLATE_APP_IADD_GIT_TAG}"
+        }
+      ]
+    },
+    {
+      "name": "ImagesAnnotator-DataExporters",
+      "buildsystem": "cmake",
+      "builddir": true,
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=Release"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "${TEMPLATE_APP_IADE_GIT}",
+          "branch": "${TEMPLATE_APP_IADE_GIT_TAG}"
+        }
+      ]
+    },
+    {
+      "name": "ImagesAnnotator-DataImporters",
+      "buildsystem": "cmake",
+      "builddir": true,
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=Release"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "${TEMPLATE_APP_IADI_GIT}",
+          "branch": "${TEMPLATE_APP_IADI_GIT_TAG}"
+        }
+      ]
+    },
+    {
+      "name": "${PROJECT_NAME}",
+      "buildsystem": "cmake",
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_IMAGES_ANNOTATOR_CONVERTER_ONLY=ON"
+      ],
+      "sources": [
+        {
+          "type": "dir",
+          "path": "${CMAKE_SOURCE_DIR}"
+        }
+      ]
+    }
+  ],
+  "finish-args": [
+    "--filesystem=home"
+  ]
+}

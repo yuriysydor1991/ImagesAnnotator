@@ -13,8 +13,31 @@ endif()
 set(TEMPLATE_PROJECT_SNAP_GRADE "devel" CACHE STRING "The snap package grade")
 set(TEMPLATE_PROJECT_SNAP_CONFINEMENT "strict" CACHE STRING "The snap package confinement")
 
+# ImagesAnnotator specific: each GUI toolkit brings the packages it is built
+# against and the packages it runs with of its own, so each has a snapcraft.yaml
+# of its own under misc/packagers/snapcraft, named after the
+# ANNOTATOR_PACKAGE_FLAVOR (the converter only build has one as well, which
+# carries no toolkit at all). The cache variable stays empty unless the user
+# hands a file of their own, so a reconfigure switching the toolkit switches the
+# file along with it.
+set(
+  SNAPCRAFT_CONF_SRC
+  ""
+  CACHE STRING
+  "The snapcraft.yaml source file cmake configured (empty: the one of the selected GUI toolkit under misc/packagers/snapcraft)"
+)
+
+if(SNAPCRAFT_CONF_SRC)
+  set(snapcraftConfSrc ${SNAPCRAFT_CONF_SRC})
+else()
+  set(
+    snapcraftConfSrc
+    ${CMAKE_SOURCE_DIR}/misc/packagers/snapcraft/snapcraft-${ANNOTATOR_PACKAGE_FLAVOR}.yaml.in
+  )
+endif()
+
 configure_file(
-  ${CMAKE_SOURCE_DIR}/misc/packagers/snapcraft.yaml.in
+  ${snapcraftConfSrc}
   ${CMAKE_CURRENT_BINARY_DIR}/snap/snapcraft.yaml
 )
 
@@ -44,6 +67,7 @@ set(
 
 find_program(SNAPCRAFT_EXEC snapcraft)
 
+message(STATUS "snapcraft.yaml src: ${snapcraftConfSrc}")
 message(STATUS "snap package: ${SNAP_DST_NAME}")
 
 add_custom_target(

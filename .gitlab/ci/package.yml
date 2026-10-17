@@ -35,9 +35,10 @@ deb-package:
 # ---------------------------------------------------------------------------
 # Jenkins: "flatpak package" (RUN_FLATPAK_PACKAGER).
 #
-# flatpak-builder compiles graphviz, mm-common and GTKmm 3.24.8 from source
-# inside the sandbox (see misc/packagers/flatpak.conf.json.in), so this job is by
-# far the longest one of the pipeline. It also needs a runner whose container
+# flatpak-builder compiles graphviz, mm-common, GTKmm 3.24.8 and OpenCV from
+# source inside the sandbox (see misc/packagers/flatpak/flatpak-gtkmm3.conf.json.in,
+# the manifest of the default GTKmm3 toolkit), so this job is by far the longest
+# one of the pipeline. It also needs a runner whose container
 # may create user namespaces - which is what flatpak's bubblewrap sandbox is
 # built on - so it can fail on a locked down shared runner.
 # ---------------------------------------------------------------------------

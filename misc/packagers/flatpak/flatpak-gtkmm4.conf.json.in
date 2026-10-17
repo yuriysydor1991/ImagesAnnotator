@@ -1,0 +1,212 @@
+{
+  "id": "${FLATPAK_APP_ID}",
+  "runtime": "org.gnome.Platform",
+  "runtime-version": "49",
+  "sdk": "org.gnome.Sdk",
+  "command": "${FLATPAK_COMMAND}",
+  "modules": [
+    {
+      "name": "libsigc++",
+      "buildsystem": "meson",
+      "config-opts": [
+        "--libdir=lib",
+        "-Dbuild-examples=false",
+        "-Dbuild-tests=false"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://download.gnome.org/sources/libsigc++/3.6/libsigc++-3.6.0.tar.xz",
+          "sha256": "c3d23b37dfd6e39f2e09f091b77b1541fbfa17c4f0b6bf5c89baef7229080e17"
+        }
+      ]
+    },
+    {
+      "name": "glibmm",
+      "buildsystem": "meson",
+      "config-opts": [
+        "--libdir=lib",
+        "-Dbuild-examples=false"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://download.gnome.org/sources/glibmm/2.86/glibmm-2.86.0.tar.xz",
+          "sha256": "39c0e9f6da046d679390774efdb9ad564436236736dc2f7825e614b2d4087826"
+        }
+      ]
+    },
+    {
+      "name": "cairomm",
+      "buildsystem": "meson",
+      "config-opts": [
+        "--libdir=lib",
+        "-Dbuild-examples=false",
+        "-Dbuild-tests=false"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://www.cairographics.org/releases/cairomm-1.18.1.tar.xz",
+          "sha256": "e0e996a979ee52c840dca3ee74f5d005e3259b94ddce58f255d3b6f47c8cb41d"
+        }
+      ]
+    },
+    {
+      "name": "pangomm",
+      "buildsystem": "meson",
+      "config-opts": [
+        "--libdir=lib"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://download.gnome.org/sources/pangomm/2.56/pangomm-2.56.2.tar.xz",
+          "sha256": "f1e984c85a85b6a0e61616366521f51dd8282a072bb45d15b5084762b62f4c0e"
+        }
+      ]
+    },
+    {
+      "name": "gtkmm",
+      "buildsystem": "meson",
+      "config-opts": [
+        "--libdir=lib",
+        "-Dbuild-demos=false",
+        "-Dbuild-tests=false"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://download.gnome.org/sources/gtkmm/4.20/gtkmm-4.20.0.tar.xz",
+          "sha256": "daad9bf9b70f90975f91781fc7a656c923a91374261f576c883cd3aebd59c833"
+        }
+      ]
+    },
+    {
+      "name": "nlohmann-json",
+      "buildsystem": "cmake",
+      "builddir": true,
+      "config-opts": [
+        "-DJSON_BuildTests=OFF"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/nlohmann/json.git",
+          "tag": "v3.11.3"
+        }
+      ]
+    },
+    {
+      "name": "opencv",
+      "buildsystem": "cmake-ninja",
+      "builddir": true,
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DCMAKE_INSTALL_LIBDIR=lib",
+        "-DBUILD_LIST=core,imgproc,imgcodecs",
+        "-DBUILD_TESTS=OFF",
+        "-DBUILD_PERF_TESTS=OFF",
+        "-DBUILD_EXAMPLES=OFF",
+        "-DBUILD_opencv_apps=OFF",
+        "-DBUILD_JAVA=OFF",
+        "-DBUILD_opencv_python3=OFF",
+        "-DWITH_IPP=OFF",
+        "-DWITH_ADE=OFF",
+        "-DWITH_ITT=OFF",
+        "-DWITH_FFMPEG=OFF",
+        "-DWITH_GSTREAMER=OFF",
+        "-DWITH_GTK=OFF",
+        "-DWITH_QT=OFF",
+        "-DWITH_V4L=OFF",
+        "-DWITH_OPENCL=OFF",
+        "-DWITH_PROTOBUF=OFF",
+        "-DWITH_EIGEN=OFF",
+        "-DOPENCV_GENERATE_PKGCONFIG=OFF"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/opencv/opencv/archive/refs/tags/4.10.0.tar.gz",
+          "sha256": "b2171af5be6b26f7a06b1229948bbb2bdaa74fcf5cd097e0af6378fce50a6eb9"
+        }
+      ],
+      "cleanup": [
+        "/bin",
+        "/include",
+        "/lib/cmake",
+        "/share/opencv4"
+      ]
+    },
+    {
+      "name": "ImagesAnnotator-DataDrivers",
+      "buildsystem": "cmake",
+      "builddir": true,
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=Release"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "${TEMPLATE_APP_IADD_GIT}",
+          "branch": "${TEMPLATE_APP_IADD_GIT_TAG}"
+        }
+      ]
+    },
+    {
+      "name": "ImagesAnnotator-DataExporters",
+      "buildsystem": "cmake",
+      "builddir": true,
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=Release"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "${TEMPLATE_APP_IADE_GIT}",
+          "branch": "${TEMPLATE_APP_IADE_GIT_TAG}"
+        }
+      ]
+    },
+    {
+      "name": "ImagesAnnotator-DataImporters",
+      "buildsystem": "cmake",
+      "builddir": true,
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=Release"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "${TEMPLATE_APP_IADI_GIT}",
+          "branch": "${TEMPLATE_APP_IADI_GIT_TAG}"
+        }
+      ]
+    },
+    {
+      "name": "${PROJECT_NAME}",
+      "buildsystem": "cmake",
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DUSE_GTKMM4=ON",
+        "-DENABLE_IMAGES_ANNOTATOR_CONVERTER=${ENABLE_IMAGES_ANNOTATOR_CONVERTER}"
+      ],
+      "sources": [
+        {
+          "type": "dir",
+          "path": "${CMAKE_SOURCE_DIR}"
+        }
+      ]
+    }
+  ],
+  "finish-args": [
+    "--filesystem=/run/host",
+    "--share=ipc",
+    "--socket=fallback-x11",
+    "--socket=wayland",
+    "--device=dri",
+    "--talk-name=org.freedesktop.DBus",
+    "--talk-name=org.freedesktop.Notifications",
+    "--own-name=${FLATPAK_APP_ID}"
+  ]
+}

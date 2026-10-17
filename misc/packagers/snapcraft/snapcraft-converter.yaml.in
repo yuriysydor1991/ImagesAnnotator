@@ -1,0 +1,71 @@
+name: ${PROJECT_BINARY_NAME_lower}
+base: core24
+version: '${CMAKE_PROJECT_VERSION}'
+summary: ${CMAKE_PROJECT_DESCRIPTION}
+description: |
+  ${CMAKE_PROJECT_DESCRIPTION}
+
+grade: ${TEMPLATE_PROJECT_SNAP_GRADE}
+confinement: ${TEMPLATE_PROJECT_SNAP_CONFINEMENT}
+
+apps:
+  ${PROJECT_CONVERTER_BINARY_NAME}:
+    command: ${PROJECT_BINARY_INSTALLATION_DIR}/${PROJECT_CONVERTER_BINARY_NAME}
+    plugs:
+      - home
+
+parts:
+  # The three libraries the application is built against are not distribution
+  # packages, so they are built from their sources into the very same snap.
+  # The exporters and the importers libraries are both built against the data
+  # drivers one, hence the after: ordering. Both of them bring an OpenCV image
+  # cropper and size reader along when they find the OpenCV, which the
+  # converter only binary has no GUI toolkit to replace with.
+  images-annotator-data-drivers:
+    plugin: cmake
+    source: '${TEMPLATE_APP_IADD_GIT}'
+    source-type: git
+    source-branch: '${TEMPLATE_APP_IADD_GIT_TAG}'
+    cmake-parameters:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+
+  images-annotator-data-exporters:
+    after: [images-annotator-data-drivers]
+    plugin: cmake
+    source: '${TEMPLATE_APP_IADE_GIT}'
+    source-type: git
+    source-branch: '${TEMPLATE_APP_IADE_GIT_TAG}'
+    cmake-parameters:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+    build-packages:
+      - libopencv-dev
+    stage-packages:
+      - libopencv-core406t64
+      - libopencv-imgcodecs406t64
+
+  images-annotator-data-importers:
+    after: [images-annotator-data-drivers]
+    plugin: cmake
+    source: '${TEMPLATE_APP_IADI_GIT}'
+    source-type: git
+    source-branch: '${TEMPLATE_APP_IADI_GIT_TAG}'
+    cmake-parameters:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+    build-packages:
+      - libopencv-dev
+    stage-packages:
+      - libopencv-core406t64
+      - libopencv-imgcodecs406t64
+
+  ${PROJECT_BINARY_NAME}:
+    after: [images-annotator-data-exporters, images-annotator-data-importers]
+    plugin: cmake
+    source: '${CMAKE_SOURCE_DIR}'
+    cmake-generator: '${CMAKE_GENERATOR}'
+    cmake-parameters:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+      - -DBUILD_IMAGES_ANNOTATOR_CONVERTER_ONLY=ON

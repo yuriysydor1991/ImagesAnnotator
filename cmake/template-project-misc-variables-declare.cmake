@@ -252,8 +252,8 @@ endif()
 # binary is ignored - so all four must agree on this exact string.
 #
 # It is derived from the resolved toolkit so it lines up with the per-toolkit
-# GResource prefix (/ua/org/kytok/template/gtkmm<N>/...) and, for the GTKmm3
-# flatpak, with the flatpak application id.
+# GResource prefix (/ua/org/kytok/template/gtkmm<N>/...) and with the
+# application id of the flatpak carrying that toolkit.
 #
 # IMPORTANT: defining it here - unconditionally, before add_subdirectory(src)
 # configures project-global-decls.h.in - is also what finally gives the C++
@@ -267,6 +267,16 @@ set(APPLICATION_ID "ua.org.kytok.template.${GUI_TOOLKIT_NAME}.${PROJECT_BINARY_N
 set(FLATPAK_PROJECT_URL "${APPLICATION_ID}")
 
 message(STATUS "Application id: ${APPLICATION_ID}")
+
+# The configuration files of the flatpak and the snap packagers differ per GUI
+# toolkit, each toolkit bringing an SDK and packages of its own along, so they
+# are picked by this name: the GUI_TOOLKIT_NAME of a graphical build, or
+# "converter" for a converter only build, which needs no toolkit at all.
+if(BUILD_IMAGES_ANNOTATOR_CONVERTER_ONLY)
+  set(ANNOTATOR_PACKAGE_FLAVOR "converter")
+else()
+  set(ANNOTATOR_PACKAGE_FLAVOR "${GUI_TOOLKIT_NAME}")
+endif()
 
 set(
   PROJECT_MAINTAINER "Yuriy Sydor"

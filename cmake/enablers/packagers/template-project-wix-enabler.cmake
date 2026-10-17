@@ -85,10 +85,13 @@ if(TEMPLATE_PROJECT_WIX_PRODUCT_ICON)
 endif()
 
 # the CPACK_SYSTEM_NAME of the default file name (win64 or win32) names no CPU,
-# so the destination one takes its place
+# so the destination one takes its place, followed by the name and the version
+# of the destination system
+include(template-project-package-system)
+
 set(
   CPACK_PACKAGE_FILE_NAME
-  ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${TEMPLATE_PROJECT_WIX_ARCHITECTURE}
+  ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${TEMPLATE_PROJECT_WIX_ARCHITECTURE}${TEMPLATE_PROJECT_PACKAGE_SYSTEM_SUFFIX}
 )
 
 include(CPack)

@@ -24,7 +24,9 @@ Finally, execute the `cpack` command inside the template project build directory
 cpack
 ```
 
-The package file should be generated inside the project build root directory. For example, if project name wasn't changed and it's version is `0.12.0` the package name may look like `ImagesAnnotator-0.12.0-amd64.pkg` (the actual architecture suffix depends on the build host).
+The package file should be generated inside the project build root directory. For example, if project name wasn't changed and it's version is `0.12.0` the package name may look like `ImagesAnnotator-0.12.0-amd64-freebsd-14.3.pkg` (the actual architecture and system parts depend on the build host).
+
+Unless the project is cross compiled, the architecture is followed by the name and the version of the destination operating system, that is of the build host itself: the `ID` and the `VERSION_ID` fields of its `/etc/os-release` file, e.g. `freebsd-14.3` (a FreeBSD older than the 13.0 has no such file, so the `CMAKE_SYSTEM_NAME` and the `CMAKE_SYSTEM_VERSION` of the CMake name it, e.g. `freebsd-12.4-release`). The `TEMPLATE_PROJECT_PACKAGE_SYSTEM` cache variable, shared by every packager of the project, holds it. A cross compiled build leaves it empty, so its package names the architecture alone; set it to name the destination system yourself (e.g. `-DTEMPLATE_PROJECT_PACKAGE_SYSTEM=freebsd-14`), or to an empty string to name none.
 
 In order to examine details of the FreeBSD `pkg` package configuration visit the [cmake/enablers/packagers/template-project-freebsd-pkg-enabler.cmake](/cmake/enablers/packagers/template-project-freebsd-pkg-enabler.cmake) file.
 

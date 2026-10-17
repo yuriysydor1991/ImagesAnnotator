@@ -43,10 +43,13 @@ set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE ${TEMPLATE_PROJECT_DEB_PACKAGE_ARCHITECTUR
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "${GTKMM_DEB_RUNTIME_DEPENDS}")
 
 # the CPACK_SYSTEM_NAME of the default file name names the system alone, so the
-# destination CPU takes its place
+# destination CPU takes its place, followed by the name and the version of the
+# destination system
+include(template-project-package-system)
+
 set(
   CPACK_PACKAGE_FILE_NAME
-  ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${TEMPLATE_PROJECT_DEB_PACKAGE_ARCHITECTURE}
+  ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${TEMPLATE_PROJECT_DEB_PACKAGE_ARCHITECTURE}${TEMPLATE_PROJECT_PACKAGE_SYSTEM_SUFFIX}
 )
 
 # ImagesAnnotator specific: the three ImagesAnnotator libraries the binaries are

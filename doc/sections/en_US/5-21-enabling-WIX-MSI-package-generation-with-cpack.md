@@ -24,7 +24,9 @@ Finally, execute the `cpack` command inside the template project build directory
 cpack -C Release
 ```
 
-The package file should be generated inside the project build root directory. For example, if the project name wasn't changed and its version is `0.12.0` the package name may look like `ImagesAnnotator-0.12.0-x64.msi` (the architecture suffix is the `TEMPLATE_PROJECT_WIX_ARCHITECTURE` variable below).
+The package file should be generated inside the project build root directory. For example, if the project name wasn't changed and its version is `0.12.0` the package name may look like `ImagesAnnotator-0.12.0-x64-windows-10.0.26100.msi` (the architecture part is the `TEMPLATE_PROJECT_WIX_ARCHITECTURE` variable below).
+
+Unless the project is cross compiled, the architecture is followed by the name and the version of the destination operating system, that is of the build host itself: the Microsoft Windows has no `/etc/os-release` file, so the `CMAKE_SYSTEM_NAME` and the `CMAKE_SYSTEM_VERSION` of the CMake name it, e.g. `windows-10.0.26100`. The `TEMPLATE_PROJECT_PACKAGE_SYSTEM` cache variable, shared by every packager of the project, holds it. A cross compiled build leaves it empty, so its package names the architecture alone; set it to name the destination system yourself (e.g. `-DTEMPLATE_PROJECT_PACKAGE_SYSTEM=windows-11`), or to an empty string to name none.
 
 In order to examine details of the WIX MSI package configuration visit the [cmake/enablers/packagers/template-project-wix-enabler.cmake](/cmake/enablers/packagers/template-project-wix-enabler.cmake) file.
 
@@ -37,7 +39,7 @@ The following cache variables may optionally be overridden in order to tune the 
 - `TEMPLATE_PROJECT_WIX_CULTURES` - Semicolon-separated list of UI cultures used by the installer (default: `en-US`, e.g. `en-US;uk-UA`).
 - `TEMPLATE_PROJECT_WIX_LICENSE_RTF` - Optional absolute path to a RTF or TXT license file shown by the installer.
 - `TEMPLATE_PROJECT_WIX_PRODUCT_ICON` - Optional absolute path to a `.ico` file used as the MSI product icon.
-- `TEMPLATE_PROJECT_WIX_ARCHITECTURE` - the destination CPU architecture of the installer, which the package file name ends with as well (default: `x64` for a 64-bit build, `x86` otherwise). Set it to `arm64` for the ARM64 build.
+- `TEMPLATE_PROJECT_WIX_ARCHITECTURE` - the destination CPU architecture of the installer, which the package file name carries as well (default: `x64` for a 64-bit build, `x86` otherwise). Set it to `arm64` for the ARM64 build.
 
 In addition to those, the package vendor is taken from `PROJECT_MAINTAINER`, the maintainer contact from `PROJECT_MAINTAINER_EMAIL`, and the description from the project `DESCRIPTION`. The install root under `Program Files` is the `CMAKE_PROJECT_NAME`. There is no need to declare anything new in the project's CMake files in order to start producing installers - just turn the option on.
 

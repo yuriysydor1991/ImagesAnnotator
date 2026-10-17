@@ -52,7 +52,13 @@ set(CPACK_FREEBSD_PACKAGE_CATEGORIES ${TEMPLATE_PROJECT_FREEBSD_PKG_CATEGORIES})
 set(CPACK_FREEBSD_PACKAGE_DEPS "")
 
 # the CPACK_SYSTEM_NAME of the default file name names the system alone, so the
-# destination CPU takes its place (the uname -p one, as in the package ABI)
-set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CMAKE_SYSTEM_PROCESSOR})
+# destination CPU takes its place (the uname -p one, as in the package ABI),
+# followed by the name and the version of the destination system
+include(template-project-package-system)
+
+set(
+  CPACK_PACKAGE_FILE_NAME
+  ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CMAKE_SYSTEM_PROCESSOR}${TEMPLATE_PROJECT_PACKAGE_SYSTEM_SUFFIX}
+)
 
 include(CPack)

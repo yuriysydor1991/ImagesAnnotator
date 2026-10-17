@@ -62,10 +62,13 @@ set(CPACK_RPM_PACKAGE_REQUIRES "")
 set(CPACK_RPM_COMPONENT_INSTALL ON)
 
 # the CPACK_SYSTEM_NAME of the default file name names the system alone, so the
-# destination CPU takes its place
+# destination CPU takes its place, followed by the name and the version of the
+# destination system
+include(template-project-package-system)
+
 set(
   CPACK_PACKAGE_FILE_NAME
-  ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${TEMPLATE_PROJECT_RPM_PACKAGE_ARCHITECTURE}
+  ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${TEMPLATE_PROJECT_RPM_PACKAGE_ARCHITECTURE}${TEMPLATE_PROJECT_PACKAGE_SYSTEM_SUFFIX}
 )
 
 include(CPack)

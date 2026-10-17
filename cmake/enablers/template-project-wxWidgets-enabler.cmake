@@ -17,8 +17,8 @@ if(NOT USE_WXWIDGETS)
 endif()
 
 # wxWidgets ships no pkg-config .pc file; it provides its own CMake find module
-# driven by wx-config, so probe with find_package() (the same idiom OpenCV / CURL
-# use in this project) rather than pkg_check_modules().
+# driven by wx-config, so probe with find_package() (the same idiom CURL uses in
+# this project) rather than pkg_check_modules().
 find_package(wxWidgets REQUIRED COMPONENTS core base)
 
 # wxWidgets_LIBRARIES is a list of raw linker flags (e.g. "-L/usr/lib;;-lwx_...");

@@ -39,8 +39,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # Qt ships no pkg-config .pc files; it provides its own CMake package config, so
-# probe with find_package() (the same idiom the wxWidgets / OpenCV / CURL
-# enablers use) rather than pkg_check_modules().
+# probe with find_package() (the same idiom the wxWidgets / CURL enablers
+# use) rather than pkg_check_modules().
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
 
 # Republish the probe results under the same neutral names the GTKmm and

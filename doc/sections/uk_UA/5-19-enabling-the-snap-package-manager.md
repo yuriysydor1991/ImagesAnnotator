@@ -16,4 +16,18 @@ cmake --build build --target snap
 
 Програма snapcraft називає пакунок `<назва snap>_<версія>_<архітектура>.snap`, де архітектура - це назва Debian центрального процесора, для якого його зібрано (наприклад `amd64` чи `arm64`), а ціль додає до неї назву та версію цільової операційної системи так само, як вони слідують за архітектурою у назві кожного іншого пакунку проекту, - це кеш-змінна `TEMPLATE_PROJECT_PACKAGE_SYSTEM`, описана у секції [Вмикання підтримки генерування DEB-пакетів з cpack](/doc/sections/uk_UA/5-10-enabling-DEB-package-generation-with-cpack.md). Тож із версією проекту `0.13.0` на системі `amd64` з Ubuntu 24.04 пакунок називається `imagesannotator_0.13.0_amd64-ubuntu-24.04.snap`.
 
+### Файл snapcraft.yaml для кожного графічного інструментарію
+
+Як і flatpak, snap збирає проект з його джерельних кодів, тож кожен графічний інструментарій має власний файл `snapcraft.yaml`, який встановлює пакунки, з якими інструментарій збирається, і додає до snap ті, з якими він запускається, а конфігурування обирає файл того інструментарію, який воно збирає (дивись [Розширення](/doc/sections/uk_UA/4-5-extensions.md)):
+
+| Графічний інструментарій | Параметр конфігурування | snapcraft.yaml |
+| --- | --- | --- |
+| GTKmm3 (типовий) | `-DUSE_GTKMM3=ON` | [snapcraft-gtkmm3.yaml.in](/misc/packagers/snapcraft/snapcraft-gtkmm3.yaml.in) |
+| GTKmm4 | `-DUSE_GTKMM4=ON` | [snapcraft-gtkmm4.yaml.in](/misc/packagers/snapcraft/snapcraft-gtkmm4.yaml.in) |
+| Qt6 | `-DUSE_QT6=ON` | [snapcraft-qt6.yaml.in](/misc/packagers/snapcraft/snapcraft-qt6.yaml.in) |
+| wxWidgets | `-DUSE_WXWIDGETS=ON` | [snapcraft-wxwidgets.yaml.in](/misc/packagers/snapcraft/snapcraft-wxwidgets.yaml.in) |
+| жодного, збірка лише конвертера | `-DBUILD_IMAGES_ANNOTATOR_CONVERTER_ONLY=ON` | [snapcraft-converter.yaml.in](/misc/packagers/snapcraft/snapcraft-converter.yaml.in) |
+
+Усі вони збираються на базі `core24` (пакунки Ubuntu 24.04) і перед проектом збирають три бібліотеки ImagesAnnotator, бібліотеки експортерів та імпортерів - з їхнім OpenCV, що дає їм засоби вирізання зображень і визначення їх розміру, які бінарному файлу конвертера нема чим замінити, адже графічного інструментарію він не має (дивись [Виконуваний файл ImagesAnnotatorConverter](/doc/sections/uk_UA/5-40-the-ImagesAnnotatorConverter-binary.md)). Щоб запакувати проект власним файлом `snapcraft.yaml`, передай його кеш-змінною `SNAPCRAFT_CONF_SRC`; якщо вона порожня, як типово, файл слідує за обраним інструментарієм.
+
 Детальніше у файлі [cmake/enablers/packagers/template-project-snap-enabler.cmake](/cmake/enablers/packagers/template-project-snap-enabler.cmake) про ціль `snap`.

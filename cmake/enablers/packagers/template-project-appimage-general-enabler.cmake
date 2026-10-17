@@ -47,10 +47,16 @@ set(
 # converter when it is the only one there.
 set(APPIMAGE_BINARY_NAME ${ANNOTATOR_PRIMARY_APP_TARGET})
 
+# the name and the version of the destination system follow the destination
+# CPU, as in every other package name of the project
+include(template-project-package-system)
+
 set(
-  APPIMAGE_DST_NAME
-  ${APPIMAGE_BINARY_NAME}-${CMAKE_PROJECT_VERSION}-${TEMPLATE_PROJECT_APPIMAGE_ARCHITECTURE}.AppImage
+  APPIMAGE_PACKAGE_NAME
+  ${APPIMAGE_BINARY_NAME}-${CMAKE_PROJECT_VERSION}-${TEMPLATE_PROJECT_APPIMAGE_ARCHITECTURE}${TEMPLATE_PROJECT_PACKAGE_SYSTEM_SUFFIX}
 )
+
+set(APPIMAGE_DST_NAME ${APPIMAGE_PACKAGE_NAME}.AppImage)
 
 # ImagesAnnotator specific: an AppImage is built around a desktop entry naming
 # an icon, and this project already installs exactly such a pair - the

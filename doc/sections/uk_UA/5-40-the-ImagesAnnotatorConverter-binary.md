@@ -84,6 +84,26 @@ YOLO та PyTorch Vision, чиї анотації збережено відно�
 лише головний виконуваний файл застосунку, точно так, як проект будувався до
 появи другої цілі.
 
+### З пакунку
+
+Кожен пакунок проекту містить конвертер поруч з графічною програмою, і кожен
+пакувальник дає власний спосіб його запустити:
+
+| Пакунок | Запуск конвертера |
+| --- | --- |
+| DEB, RPM, FreeBSD pkg | `ImagesAnnotatorConverter`, встановлений поруч з `ImagesAnnotator` |
+| flatpak | `flatpak run --command=ImagesAnnotatorConverter --filesystem=home <ідентифікатор програми>`, а сам конвертер зареєстровано під ідентифікатором `<ідентифікатор програми>.Converter` |
+| snap | `imagesannotator.ImagesAnnotatorConverter` |
+| AppImage | символьне посилання на файл пакунку з назвою `ImagesAnnotatorConverter` |
+
+Збірка лише конвертера пакує сам конвертер: у пакет flatpak з ідентифікатором
+`<ідентифікатор програми>.Converter`, який `flatpak run` запускає напряму, у
+snap `imagesannotatorconverter` і в AppImage `ImagesAnnotatorConverter`. Дивись
+[Вмикання підтримки генерації flatpak
+пакету](/doc/sections/uk_UA/5-11-enabling-the-flatpak-package-generation-support.md),
+[Вмикання пакувальника snap](/doc/sections/uk_UA/5-19-enabling-the-snap-package-manager.md)
+та [Вмикання пакувальника AppImage](/doc/sections/uk_UA/5-41-enabling-the-AppImage-packager.md).
+
 ### Як обидва виконувані файли ділять свій код
 
 Другий виконуваний файл не є копією чогось. Кожен компонент `src` - контролер

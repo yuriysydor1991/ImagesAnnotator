@@ -6,12 +6,13 @@
 sudo apt install -y flatpak flatpak-builder
 ```
 
-Також знадобиться один з цільових SDK який може бути встановленим за допомогою команди подібної на наступну:
+Також знадобляться середовище виконання та SDK, які називає маніфест flatpak обраного графічного інструментарію. Ціль `flatpak` сама встановлює їх з flathub у встановлення користувача, але їх можна встановити й заздалегідь, для типового маніфесту GTKmm3 - командою подібною на наступну:
 
 ```
-flatpak install org.gnome.Platform/x86_64/48 org.gnome.Sdk/x86_64/48
+flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak install --user flathub org.gnome.Platform//48 org.gnome.Sdk//48
 ```
 
-Необіхдно замінити `org.gnome.Platform/x86_64/48 org.gnome.Sdk/x86_64/48` власним варіантом обраного середовища і SDK. У документації до flatpak можна визначити як переглянути усі доступні варіанти.
+Маніфести GTKmm4 та wxWidgets натомість вимагають пари `org.gnome.Platform//49 org.gnome.Sdk//49`, маніфест Qt6 - пари `org.kde.Platform//6.10 org.kde.Sdk//6.10`, а маніфест збірки лише конвертера - пари `org.freedesktop.Platform//24.08 org.freedesktop.Sdk//24.08`. У документації до flatpak можна визначити як переглянути усі доступні варіанти.
 
 Деталі у секції [Вмикання підтримки генерації flatpak пакету](/doc/sections/uk_UA/5-11-enabling-the-flatpak-package-generation-support.md).

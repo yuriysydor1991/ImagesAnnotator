@@ -34,8 +34,9 @@ set(TEMPLATE_APP_IADD_PACKAGE "ImagesAnnotatorDataDrivers-0.14" CACHE STRING "Th
 
 # Where the library comes from. Nothing in this build fetches it - the two
 # variables are what the packager manifests, which have to build it inside
-# their own sandbox, are configured with (misc/packagers/flatpak.conf.json.in,
-# misc/packagers/snapcraft.yaml.in and misc/Dockerfiles/Dockerfile.in).
+# their own sandbox, are configured with (the flatpak manifests and the
+# snapcraft.yaml files of every GUI toolkit under misc/packagers/flatpak and
+# misc/packagers/snapcraft, and misc/Dockerfiles/Dockerfile.in).
 set(TEMPLATE_APP_IADD_GIT "https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers.git" CACHE STRING "The ImagesAnnotator-DataDrivers library git source repository")
 set(TEMPLATE_APP_IADD_GIT_TAG "main" CACHE STRING "The ImagesAnnotator-DataDrivers project git repository tag of interest")
 

@@ -24,16 +24,16 @@ The [scripts/build/build-appimage.sh](/scripts/build/build-appimage.sh) script p
 scripts/build/build-appimage.sh
 ```
 
-The package file is generated inside the project build root directory. Its name carries the packaged binary, the project version and the destination CPU architecture, so with the project version `0.12.0` on an `x86_64` host it is `ImagesAnnotator-0.12.0-x86_64.AppImage`.
+The package file is generated inside the project build root directory. Its name carries the packaged binary, the project version, the destination CPU architecture and the destination operating system, so with the project version `0.13.0` on an `x86_64` Ubuntu 24.04 host it is `ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04.AppImage`. The name and the version of the system follow the architecture the way they follow it in the name of every other package of the project - the `TEMPLATE_PROJECT_PACKAGE_SYSTEM` cache variable described in [Enabling DEB package generation with cpack](/doc/sections/en_US/5-10-enabling-DEB-package-generation-with-cpack.md) - as the package runs on the system it is built on and the ones newer than it, but not necessarily on the older ones (see the runtime note below).
 
 The produced package is a single executable file which needs no installation at all:
 
 ```
 # inside the project build root directory
 
-chmod +x ImagesAnnotator-0.12.0-x86_64.AppImage
+chmod +x ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04.AppImage
 
-./ImagesAnnotator-0.12.0-x86_64.AppImage
+./ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04.AppImage
 ```
 
 ### The two implementations
@@ -60,7 +60,25 @@ The `ImagesAnnotatorConverter` only build (`BUILD_IMAGES_ANNOTATOR_CONVERTER_ONL
 - [appimage.desktop.in](/misc/packagers/appimage/appimage.desktop.in) - the desktop entry the desktop environments integrate the package with;
 - [appimage.icon.svg.in](/misc/packagers/appimage/appimage.icon.svg.in) - the icon the desktop entry names.
 
-The `appimagetool` implementation additionally configures [appimage.AppRun.in](/misc/packagers/appimage/appimage.AppRun.in) into the `AppRun` startup script, which exports the `LD_LIBRARY_PATH` of the packaged libraries and starts the project binary. The CPack one generates its own `AppRun` out of the desktop entry instead.
+Both implementations configure [appimage.AppRun.in](/misc/packagers/appimage/appimage.AppRun.in) into the `AppRun` startup script of the package, which exports the `LD_LIBRARY_PATH` of the packaged libraries and starts the project binary the package is started as (see below). The CPack generator would generate an `AppRun` of its own, which starts the binary the desktop entry names and nothing else, so the CPack implementation places this one at the root of the staged package instead, where the generator takes it rather than generating one.
+
+### Every binary of the package
+
+The package carries every binary the configure builds - the `ImagesAnnotatorConverter` as well, unless it is switched off with the `-DENABLE_IMAGES_ANNOTATOR_CONVERTER=OFF` - and starts the one it is started under the name of. A symbolic link named after a binary therefore starts that binary out of the very same package, while the package file itself, or any other name, starts the graphical one:
+
+```
+# inside the project build root directory
+
+ln -s ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04.AppImage ImagesAnnotatorConverter
+
+./ImagesAnnotatorConverter \
+  --convert-from yolo4 \
+  --convert-src ./the-existing-dataset \
+  --convert-to coco \
+  --convert-dst ./the-wanted-dataset
+```
+
+The AppImage runtime hands the name the package is started with over as the `ARGV0` environment variable, which is what the `AppRun` looks at; an extracted package (`--appimage-extract`) started through a link to its `AppRun` is told apart by the name of that link the same way.
 
 ### Cache variables
 

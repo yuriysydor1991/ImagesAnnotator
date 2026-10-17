@@ -115,7 +115,6 @@ Reading a dataset back is the mirror of that: the thirteen importers the applica
 **Document is under the refinement**
 
 1. [Cloning the ImagesAnnotator project](/doc/sections/en_US/1-cloning-the-cxx-template-project.md)
-1. [Forking and replacing the origin](/doc/sections/en_US/2-forking-and-replacing-the-origin.md)
 1. [Requirements](/doc/sections/en_US/3-requirements.md)
     1. [Required tools for the GNU/Linux based OS](/doc/sections/en_US/3-1-required-tools-for-the-GNU-Linux-based-OS.md)
     1. [Required tools for the MS Windows based OS](/doc/sections/en_US/3-2-required-tools-for-the-MS-Windows-based-OS.md)

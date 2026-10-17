@@ -113,7 +113,6 @@ plantuml -tsvg -o "$(pwd)/build/diagrams" doc/diagrams/plantuml/dependencies.pum
 **Даний документ у процесі покращення**
 
 1. [Клонування проекту ImagesAnnotator](/doc/sections/uk_UA/1-cloning-the-cxx-template-project.md)
-1. [Створення форку і заміна оригінального репозиторію](/doc/sections/uk_UA/2-forking-and-replacing-the-origin.md)
 1. [Вимоги](/doc/sections/uk_UA/3-requirements.md)
     1. [Обов'язкові інструменти для ОС на базі GNU/Лінукс](/doc/sections/uk_UA/3-1-required-tools-for-the-GNU-Linux-based-OS.md)
     1. [Обов'язкові інструменти для ОС на базі MS Windows](/doc/sections/uk_UA/3-2-required-tools-for-the-MS-Windows-based-OS.md)

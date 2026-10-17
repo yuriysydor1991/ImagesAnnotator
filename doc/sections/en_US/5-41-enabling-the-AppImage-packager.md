@@ -24,16 +24,16 @@ The [scripts/build/build-appimage.sh](/scripts/build/build-appimage.sh) script p
 scripts/build/build-appimage.sh
 ```
 
-The package file is generated inside the project build root directory. Its name carries the packaged binary, the project version and the destination CPU architecture, so with the project version `0.12.0` on an `x86_64` host it is `ImagesAnnotator-0.12.0-x86_64.AppImage`.
+The package file is generated inside the project build root directory. Its name carries the packaged binary, the project version, the destination CPU architecture and the destination operating system, so with the project version `0.13.0` on an `x86_64` Ubuntu 24.04 host it is `ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04.AppImage`. The name and the version of the system follow the architecture the way they follow it in the name of every other package of the project - the `TEMPLATE_PROJECT_PACKAGE_SYSTEM` cache variable described in [Enabling DEB package generation with cpack](/doc/sections/en_US/5-10-enabling-DEB-package-generation-with-cpack.md) - as the package runs on the system it is built on and the ones newer than it, but not necessarily on the older ones (see the runtime note below).
 
 The produced package is a single executable file which needs no installation at all:
 
 ```
 # inside the project build root directory
 
-chmod +x ImagesAnnotator-0.12.0-x86_64.AppImage
+chmod +x ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04.AppImage
 
-./ImagesAnnotator-0.12.0-x86_64.AppImage
+./ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04.AppImage
 ```
 
 ### The two implementations

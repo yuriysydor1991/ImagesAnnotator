@@ -1,4 +1,4 @@
-name: ${PROJECT_BINARY_NAME_lower}
+name: ${SNAP_NAME}
 base: core24
 version: '${CMAKE_PROJECT_VERSION}'
 summary: ${CMAKE_PROJECT_DESCRIPTION}
@@ -8,11 +8,9 @@ description: |
 grade: ${TEMPLATE_PROJECT_SNAP_GRADE}
 confinement: ${TEMPLATE_PROJECT_SNAP_CONFINEMENT}
 
-apps:
-  ${PROJECT_BINARY_NAME}:
-    command: ${PROJECT_BINARY_INSTALLATION_DIR}/${PROJECT_BINARY_NAME}
-    plugs:
-      - home
+# an app per binary the configure builds, see the SNAP_APPS of
+# cmake/enablers/packagers/template-project-snap-enabler.cmake
+apps:${SNAP_APPS}
 
 parts:
   # The three libraries the application is built against are not distribution

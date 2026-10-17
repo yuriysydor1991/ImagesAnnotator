@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=@PROJECT_CONVERTER_BINARY_NAME@
+GenericName=Images Annotations Converter
+Comment=The annotations format conversion of @PROJECT_NAME@, with no graphical interface
+Exec=@PROJECT_CONVERTER_BINARY_NAME@
+Icon=@APPLICATION_ID@
+Terminal=true
+NoDisplay=true
+Categories=Graphics;

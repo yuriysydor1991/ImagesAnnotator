@@ -19,14 +19,15 @@ execute_process(
   OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-# ImagesAnnotator specific: the flatpak starts the binary a package starts - the
-# graphical one, or the converter of a converter only build - so its command is
-# the ANNOTATOR_PRIMARY_APP_TARGET of template-project-misc-variables-declare.cmake
-# rather than a hardcoded one. FLATPAK_PROJECT_URL (== APPLICATION_ID) is
-# defined unconditionally by that very file, which runs long before this
-# enabler, so it is reused here as the flatpak application id instead of being
-# re-hardcoded.
-set(FLATPAK_APP_ID ${FLATPAK_PROJECT_URL})
+# ImagesAnnotator specific: the flatpak is the application of the binary a
+# package starts - the graphical one, or the converter of a converter only
+# build - so its id and its command are the ANNOTATOR_PRIMARY_APP_ID and the
+# ANNOTATOR_PRIMARY_APP_TARGET of template-project-misc-variables-declare.cmake
+# rather than a hardcoded pair. Every other binary built beside it lands into
+# the very same flatpak, where the `flatpak run --command=<binary> <id>` starts
+# it, and where the launcher of template-project-desktop-entry-enabler.cmake
+# registers it under an id of its own.
+set(FLATPAK_APP_ID ${ANNOTATOR_PRIMARY_APP_ID})
 set(FLATPAK_COMMAND ${ANNOTATOR_PRIMARY_APP_TARGET})
 
 # ImagesAnnotator specific: each GUI toolkit brings a runtime, an SDK and the

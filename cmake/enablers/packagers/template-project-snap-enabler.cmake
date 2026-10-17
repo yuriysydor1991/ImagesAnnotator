@@ -10,6 +10,8 @@ if(NOT ENABLE_SNAP)
     return()
 endif()
 
+include(GNUInstallDirs)
+
 set(TEMPLATE_PROJECT_SNAP_GRADE "devel" CACHE STRING "The snap package grade")
 set(TEMPLATE_PROJECT_SNAP_CONFINEMENT "strict" CACHE STRING "The snap package confinement")
 
@@ -36,6 +38,48 @@ else()
   )
 endif()
 
+# The snap is named after the binary it starts - the graphical one, or the
+# converter of a converter only build - as the snap names allow no capitals.
+string(TOLOWER ${ANNOTATOR_PRIMARY_APP_TARGET} SNAP_NAME)
+
+# snapcraft installs the part with the DESTDIR set to the part install root, so
+# the binaries land under the install prefix of the snap and the command paths
+# are relative to the snap root
+if(IS_ABSOLUTE "${PROJECT_BINARY_INSTALLATION_DIR}")
+  set(snapBinaryDir "${PROJECT_BINARY_INSTALLATION_DIR}")
+else()
+  set(snapBinaryDir "${CMAKE_INSTALL_PREFIX}/${PROJECT_BINARY_INSTALLATION_DIR}")
+endif()
+
+# ImagesAnnotator specific: an app of the snap per binary built, each started by
+# the `<snap name>.<binary>` command of its own - e.g. the
+# imagesannotator.ImagesAnnotator and the
+# imagesannotator.ImagesAnnotatorConverter. The graphical binary gets its desktop
+# entry and the interfaces of a window, the command line converter the home
+# directory alone.
+set(SNAP_APPS "")
+
+foreach(appTarget IN LISTS ANNOTATOR_APP_TARGETS)
+  file(RELATIVE_PATH snapAppCommand / "${snapBinaryDir}/${appTarget}")
+
+  string(APPEND SNAP_APPS "\n  ${appTarget}:\n    command: ${snapAppCommand}")
+
+  if(appTarget STREQUAL PROJECT_BINARY_NAME)
+    file(
+      RELATIVE_PATH snapDesktopFile /
+      ${CMAKE_INSTALL_FULL_DATAROOTDIR}/applications/${APPLICATION_ID}.desktop
+    )
+
+    string(
+      APPEND SNAP_APPS
+      "\n    desktop: ${snapDesktopFile}"
+      "\n    plugs:\n      - home\n      - desktop\n      - desktop-legacy\n      - wayland\n      - x11\n      - opengl"
+    )
+  else()
+    string(APPEND SNAP_APPS "\n    plugs:\n      - home")
+  endif()
+endforeach()
+
 configure_file(
   ${snapcraftConfSrc}
   ${CMAKE_CURRENT_BINARY_DIR}/snap/snapcraft.yaml
@@ -59,10 +103,10 @@ endif()
 
 include(template-project-package-system)
 
-set(snapcraftDstName ${PROJECT_BINARY_NAME_lower}_${CMAKE_PROJECT_VERSION}_${snapArchitecture}.snap)
+set(snapcraftDstName ${SNAP_NAME}_${CMAKE_PROJECT_VERSION}_${snapArchitecture}.snap)
 set(
   SNAP_DST_NAME
-  ${PROJECT_BINARY_NAME_lower}_${CMAKE_PROJECT_VERSION}_${snapArchitecture}${TEMPLATE_PROJECT_PACKAGE_SYSTEM_SUFFIX}.snap
+  ${SNAP_NAME}_${CMAKE_PROJECT_VERSION}_${snapArchitecture}${TEMPLATE_PROJECT_PACKAGE_SYSTEM_SUFFIX}.snap
 )
 
 find_program(SNAPCRAFT_EXEC snapcraft)

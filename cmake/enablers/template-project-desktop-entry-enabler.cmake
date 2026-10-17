@@ -54,3 +54,26 @@ install(
 )
 
 message(STATUS "Desktop entry: ${APPLICATION_ID}.desktop (icon ${APPLICATION_ID}.png)")
+
+# The converter only binary, built beside the graphical one, gets a launcher of
+# its own under its own id (see CONVERTER_APPLICATION_ID in
+# template-project-misc-variables-declare.cmake). It is a command line program,
+# so the launcher runs it in a terminal and is hidden from the application
+# menus, where a click could only show its help message; what it is there for
+# is the id. A flatpak exports it beside the launcher of the graphical binary
+# and points it at the converter (flatpak run --command=<converter binary>
+# <application id>), so the one installed flatpak registers each binary it
+# carries under an id of its own.
+if(ENABLE_IMAGES_ANNOTATOR_CONVERTER)
+  set(CONVERTER_DESKTOP_ENTRY_SRC "${CMAKE_SOURCE_DIR}/misc/desktop/converter.desktop.in")
+  set(CONVERTER_DESKTOP_ENTRY_DST "${CMAKE_BINARY_DIR}/${CONVERTER_APPLICATION_ID}.desktop")
+
+  configure_file("${CONVERTER_DESKTOP_ENTRY_SRC}" "${CONVERTER_DESKTOP_ENTRY_DST}" @ONLY)
+
+  install(
+    FILES "${CONVERTER_DESKTOP_ENTRY_DST}"
+    DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/applications"
+  )
+
+  message(STATUS "Desktop entry: ${CONVERTER_APPLICATION_ID}.desktop")
+endif()

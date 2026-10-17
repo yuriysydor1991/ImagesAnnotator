@@ -262,11 +262,40 @@ endif()
 # included after src), so the application ran with an empty application id.
 set(APPLICATION_ID "ua.org.kytok.template.${GUI_TOOLKIT_NAME}.${PROJECT_BINARY_NAME}")
 
-# The flatpak application id is the same reverse-DNS name; keep them in sync from
-# this single source instead of re-hardcoding it in the flatpak enabler.
+# The flatpak application id of the graphical binary is the same reverse-DNS
+# name; keep them in sync from this single source instead of re-hardcoding it in
+# the flatpak enabler.
 set(FLATPAK_PROJECT_URL "${APPLICATION_ID}")
 
 message(STATUS "Application id: ${APPLICATION_ID}")
+
+# ---------------------------------------------------------------------------
+# ImagesAnnotator specific: the application id of every binary.
+#
+# The packagers address each binary they carry by an id of its own. The
+# graphical binary keeps the APPLICATION_ID above. The converter only binary
+# gets that id with a .Converter component appended, which is the shape flatpak
+# exports the files of an application under: it exports the <app id>.desktop
+# and the <app id>.<anything>.desktop launchers, but no <app id><anything> one.
+# So a flatpak carrying both binaries registers the converter under an id of
+# its own - the way the org.libreoffice.LibreOffice flatpak registers its
+# org.libreoffice.LibreOffice.writer - and a flatpak carrying the converter
+# alone is that very id.
+#
+# ANNOTATOR_PRIMARY_APP_ID is the id of the ANNOTATOR_PRIMARY_APP_TARGET binary,
+# the one a package starts unless it is asked for another one.
+# ---------------------------------------------------------------------------
+set(CONVERTER_APPLICATION_ID "${APPLICATION_ID}.Converter")
+
+if(BUILD_IMAGES_ANNOTATOR_CONVERTER_ONLY)
+  set(ANNOTATOR_PRIMARY_APP_ID "${CONVERTER_APPLICATION_ID}")
+else()
+  set(ANNOTATOR_PRIMARY_APP_ID "${APPLICATION_ID}")
+endif()
+
+if(ENABLE_IMAGES_ANNOTATOR_CONVERTER)
+  message(STATUS "Converter application id: ${CONVERTER_APPLICATION_ID}")
+endif()
 
 # The configuration files of the flatpak and the snap packagers differ per GUI
 # toolkit, each toolkit bringing an SDK and packages of its own along, so they

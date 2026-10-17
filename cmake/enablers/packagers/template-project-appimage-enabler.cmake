@@ -10,6 +10,10 @@ find_program(APPIMAGETOOL_EXEC appimagetool REQUIRED)
 
 set(APPIMAGE_APPDIR ${CMAKE_BINARY_DIR}/AppDir)
 
+# the install step below places the project under its install prefix inside the
+# AppDir, which is where the AppRun looks the binaries and the libraries up
+set(APPIMAGE_APPDIR_PREFIX ${CMAKE_INSTALL_PREFIX})
+
 configure_file(
   ${CMAKE_SOURCE_DIR}/misc/packagers/appimage/appimage.AppRun.in
   ${CMAKE_BINARY_DIR}/AppRun

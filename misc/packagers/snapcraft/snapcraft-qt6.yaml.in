@@ -1,4 +1,4 @@
-name: ${PROJECT_BINARY_NAME_lower}
+name: ${SNAP_NAME}
 base: core24
 version: '${CMAKE_PROJECT_VERSION}'
 summary: ${CMAKE_PROJECT_DESCRIPTION}
@@ -13,11 +13,9 @@ environment:
   LD_LIBRARY_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
   QT_PLUGIN_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/plugins
 
-apps:
-  ${PROJECT_BINARY_NAME}:
-    command: ${PROJECT_BINARY_INSTALLATION_DIR}/${PROJECT_BINARY_NAME}
-    plugs:
-      - home
+# an app per binary the configure builds, see the SNAP_APPS of
+# cmake/enablers/packagers/template-project-snap-enabler.cmake
+apps:${SNAP_APPS}
 
 parts:
   # The three libraries the application is built against are not distribution

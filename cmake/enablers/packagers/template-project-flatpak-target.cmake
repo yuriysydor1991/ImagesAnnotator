@@ -25,7 +25,6 @@ execute_process(
 # re-hardcoded. The flatpak build forces -DUSE_GTKMM3=ON, so it resolves to the
 # ua.org.kytok.template.gtkmm3.* name the manifest and bundle expect.
 set(FLATPAK_REPO ${PROJECT_BINARY_NAME}-repo)
-set(FLATPAK_DST_NAME ${PROJECT_BINARY_NAME}-${CMAKE_PROJECT_VERSION}-${FLATPAK_TARGET_ARCH}.flatpak)
 set(flatpakConfDst ${CMAKE_BINARY_DIR}/flatpak.conf.json)
 set(
   FLATPAK_CONF_SRC 
@@ -35,9 +34,46 @@ set(
 
 configure_file(${FLATPAK_CONF_SRC} ${flatpakConfDst})
 
+# ImagesAnnotator specific: the very same version of the project may be packed
+# with another manifest (the FLATPAK_CONF_SRC above), and so with another SDK,
+# on the very same system, so the bundle names the SDK it is built with after
+# the CPU and the system: the "sdk" and the "runtime-version" members of the
+# configured manifest (an sdk of the <name>/<arch>/<branch> form names its
+# branch itself).
+file(READ ${flatpakConfDst} flatpakConf)
+
+string(REGEX MATCH "\"sdk\"[ \t\r\n]*:[ \t\r\n]*\"([^\"]*)\"" flatpakSdkMember "${flatpakConf}")
+set(flatpakSdk "${CMAKE_MATCH_1}")
+
+string(REGEX MATCH "\"runtime-version\"[ \t\r\n]*:[ \t\r\n]*\"([^\"]*)\"" flatpakRuntimeVersionMember "${flatpakConf}")
+set(flatpakSdkVersion "${CMAKE_MATCH_1}")
+
+if(flatpakSdk MATCHES "^([^/]+)/[^/]*/([^/]+)$")
+  set(flatpakSdk "${CMAKE_MATCH_1}")
+  set(flatpakSdkVersion "${CMAKE_MATCH_2}")
+endif()
+
+if(NOT flatpakSdk OR NOT flatpakSdkVersion)
+  message(FATAL_ERROR
+    "The flatpak manifest ${FLATPAK_CONF_SRC} names no \"sdk\" and "
+    "\"runtime-version\" pair the flatpak bundle name could carry")
+endif()
+
+set(FLATPAK_SDK_NAME ${flatpakSdk}-${flatpakSdkVersion})
+
+# the name and the version of the destination system follow the destination
+# CPU, as in every other package name of the project, and the SDK follows them
+include(template-project-package-system)
+
+set(
+  FLATPAK_DST_NAME
+  ${PROJECT_BINARY_NAME}-${CMAKE_PROJECT_VERSION}-${FLATPAK_TARGET_ARCH}${TEMPLATE_PROJECT_PACKAGE_SYSTEM_SUFFIX}-${FLATPAK_SDK_NAME}.flatpak
+)
+
 message(STATUS "flatpak-builder: ${FLATPAKB_EXEC}")
 message(STATUS "flatpak: ${FLATPAK_EXEC}")
 message(STATUS "flatpak json conf src: ${FLATPAK_CONF_SRC}")
+message(STATUS "flatpak bundle: ${FLATPAK_DST_NAME}")
 
 add_custom_target(
   flatpak

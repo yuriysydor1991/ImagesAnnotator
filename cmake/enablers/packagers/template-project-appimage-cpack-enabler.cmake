@@ -21,11 +21,9 @@ set(CPACK_PACKAGE_ICON ${APPIMAGE_ICON_NAME})
 set(CPACK_APPIMAGE_DESKTOP_FILE ${APPIMAGE_DESKTOP_NAME})
 
 # the CPACK_SYSTEM_NAME of the default file name names the system alone, so the
-# destination CPU lands into the package name the custom target enabler gives
-set(
-  CPACK_PACKAGE_FILE_NAME
-  ${APPIMAGE_BINARY_NAME}-${CMAKE_PROJECT_VERSION}-${TEMPLATE_PROJECT_APPIMAGE_ARCHITECTURE}
-)
+# destination CPU and the destination system land into the package name the
+# custom target enabler gives
+set(CPACK_PACKAGE_FILE_NAME ${APPIMAGE_PACKAGE_NAME})
 
 include(CPack)
 

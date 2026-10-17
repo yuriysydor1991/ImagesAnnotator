@@ -76,7 +76,7 @@ message(STATUS "ImagesAnnotator-DataDrivers target: ${IADD_LIBRARIES}")
 # events, the annotator controller, the image loaders and every GUI toolkit
 # implementation) compile against. Propagate its usage requirements through
 # link_libraries() to every target built below instead of only to the final
-# executable, exactly as the nlohmann json enabler does, so the object libraries
-# and the test executables compile and link. This is why the enabler is included
-# before add_subdirectory(src) (see the pre feature-enabler).
+# executable, so the object libraries and the test executables compile and
+# link. This is why the enabler is included before add_subdirectory(src) (see
+# the pre feature-enabler).
 link_libraries(${IADD_LIBRARIES})

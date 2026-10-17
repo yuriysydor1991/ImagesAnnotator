@@ -7,8 +7,6 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/compile-options/sanitiz
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/enablers/profilers")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/enablers/dockerers")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/enablers/packagers")
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/enablers/compression")
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/enablers/images")
 
 include(template-project-enabler-function)
 include(template-project-git-enabler)
@@ -50,13 +48,11 @@ include(template-project-desktop-entry-enabler)
 
 endif()
 
-# ImagesAnnotator specific: these libraries are made available before the src
-# subdirectory is added because the project sources consume them while their
-# targets are configured. nlohmann_json is propagated through link_libraries()
-# to every object library, and libcurl exposes the CURL_* variables used by the
-# src/CURL module and the tests. The upstream template enables them in the
-# post step (where they only link against the final executable target).
-include(template-project-nlohmann-json-enabler)
+# ImagesAnnotator specific: the libcurl is made available before the src
+# subdirectory is added because the project sources consume it while their
+# targets are configured: it exposes the CURL_* variables used by the src/CURL
+# module and the tests. The upstream template enables it in the post step
+# (where it only links against the final executable target).
 include(template-project-libcurl-enabler)
 
 # ImagesAnnotator specific: the annotations project files (their parsing, their

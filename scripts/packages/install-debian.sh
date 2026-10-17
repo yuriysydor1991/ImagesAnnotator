@@ -25,9 +25,10 @@ PACKAGES=(
     libgmock-dev
     libgtest-dev
     pkg-config
-    # ENABLE_LIBCURL and ENABLE_NLOHMANN_JSON are ON by default and their
-    # enablers build the missing library from its sources, which every
-    # configure would then pay for.
+    # ENABLE_LIBCURL is ON by default and its enabler builds the missing
+    # library from its sources, which every configure would then pay for. The
+    # three libraries need it as well, and the data drivers one the nlohmann
+    # json it parses the project files with, whose enabler does the same.
     libcurl4-openssl-dev
     nlohmann-json3-dev
     # The zlib the three libraries read and write the gzip compressed imgajz1

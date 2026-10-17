@@ -82,6 +82,26 @@ The `ENABLE_IMAGES_ANNOTATOR_CONVERTER=OFF` case is the mirror of that one: the
 main application binary alone, exactly as the project was built before the
 second target existed.
 
+### Out of a package
+
+Every package of the project carries the converter beside the graphical
+application, and each packager gives it a way of its own to be started by:
+
+| Package | Starting the converter |
+| --- | --- |
+| DEB, RPM, FreeBSD pkg | `ImagesAnnotatorConverter`, installed beside `ImagesAnnotator` |
+| flatpak | `flatpak run --command=ImagesAnnotatorConverter --filesystem=home <application id>`, while the converter itself is registered under the `<application id>.Converter` id |
+| snap | `imagesannotator.ImagesAnnotatorConverter` |
+| AppImage | a symbolic link named `ImagesAnnotatorConverter` to the package file |
+
+A converter only build packs the converter alone: into the flatpak of the
+`<application id>.Converter` id, which `flatpak run` starts directly, into the
+`imagesannotatorconverter` snap and into the `ImagesAnnotatorConverter`
+AppImage. See [Enabling the flatpak package generation
+support](/doc/sections/en_US/5-11-enabling-the-flatpak-package-generation-support.md),
+[Enabling the snap packager](/doc/sections/en_US/5-19-enabling-the-snap-package-manager.md)
+and [Enabling the AppImage packager](/doc/sections/en_US/5-41-enabling-the-AppImage-packager.md).
+
 ### How the two binaries share their code
 
 The second binary is not a copy of anything. Every component of `src` - the

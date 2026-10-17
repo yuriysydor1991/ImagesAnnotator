@@ -52,3 +52,39 @@ flatpak run ua.org.kytok.template.gtkmm3.ImagesAnnotator
 ```
 
 The application id carries the GUI toolkit (the `gtkmm3`, the `gtkmm4`, the `qt6` or the `wxwidgets`), so the flatpaks of different toolkits install side by side.
+
+### Every binary of the flatpak
+
+The flatpak starts the graphical binary, but it carries every binary the configure builds - the `ImagesAnnotatorConverter` as well, unless it is switched off with the `-DENABLE_IMAGES_ANNOTATOR_CONVERTER=OFF`. Each binary has an application id of its own:
+
+| Binary | Application id |
+| --- | --- |
+| `ImagesAnnotator` | `ua.org.kytok.template.<toolkit>.ImagesAnnotator` |
+| `ImagesAnnotatorConverter` | `ua.org.kytok.template.<toolkit>.ImagesAnnotator.Converter` |
+
+The first one is the id of the flatpak itself. The converter is registered under the second one by a launcher of its own - the `<id>.desktop` file the project installs beside the one of the application, which runs it in a terminal and is hidden from the application menus - and the flatpak exports that launcher pointed at the converter, the way the LibreOffice flatpak registers its Writer under the `org.libreoffice.LibreOffice.writer` id. A flatpak starts any binary other than its own command with the `--command` option of the `flatpak run`:
+
+```
+flatpak run --command=ImagesAnnotatorConverter --filesystem=home \
+  ua.org.kytok.template.gtkmm3.ImagesAnnotator \
+  --convert-from yolo4 \
+  --convert-src ~/the-existing-dataset \
+  --convert-to coco \
+  --convert-dst ~/the-wanted-dataset
+```
+
+The `--filesystem=home` grants the converter the home directory for this one run: the graphical application reaches the files of the host through the file chooser portal, which a command line program has no use of, while the sandbox the manifest declares opens no directory of the host to it.
+
+A converter only build (`-DBUILD_IMAGES_ANNOTATOR_CONVERTER_ONLY=ON`) packs the converter alone, with the last manifest of the table above, into the `ImagesAnnotatorConverter-0.13.0-x86_64-ubuntu-24.04-org.freedesktop.Sdk-24.08.flatpak` named after it. The converter id is the id of that flatpak, and its manifest grants it the home directory itself:
+
+```
+flatpak install --user ImagesAnnotatorConverter-0.13.0-x86_64-ubuntu-24.04-org.freedesktop.Sdk-24.08.flatpak
+
+flatpak run ua.org.kytok.template.gtkmm3.ImagesAnnotator.Converter \
+  --convert-from yolo4 \
+  --convert-src ~/the-existing-dataset \
+  --convert-to coco \
+  --convert-dst ~/the-wanted-dataset
+```
+
+The toolkit part of that id is the one the configure resolves, the `gtkmm3` unless another toolkit is asked for, although a converter only build builds none.

@@ -52,3 +52,39 @@ flatpak run ua.org.kytok.template.gtkmm3.ImagesAnnotator
 ```
 
 Ідентифікатор програми містить графічний інструментарій (`gtkmm3`, `gtkmm4`, `qt6` чи `wxwidgets`), тож flatpak пакети різних інструментаріїв встановлюються поруч.
+
+### Кожен бінарний файл пакету flatpak
+
+Пакет flatpak запускає графічний бінарний файл, але містить кожен бінарний файл, який збирає конфігурування, - зокрема й `ImagesAnnotatorConverter`, якщо його не вимкнено параметром `-DENABLE_IMAGES_ANNOTATOR_CONVERTER=OFF`. Кожен бінарний файл має власний ідентифікатор програми:
+
+| Бінарний файл | Ідентифікатор програми |
+| --- | --- |
+| `ImagesAnnotator` | `ua.org.kytok.template.<інструментарій>.ImagesAnnotator` |
+| `ImagesAnnotatorConverter` | `ua.org.kytok.template.<інструментарій>.ImagesAnnotator.Converter` |
+
+Перший з них - ідентифікатор самого пакету flatpak. Конвертер зареєстровано під другим власним ярликом запуску - файлом `<ідентифікатор>.desktop`, який проект встановлює поруч з ярликом програми, який запускає конвертер у терміналі і прихований з меню програм, - і flatpak експортує цей ярлик, спрямувавши його на конвертер, так само як пакет flatpak LibreOffice реєструє свій Writer під ідентифікатором `org.libreoffice.LibreOffice.writer`. Будь-який бінарний файл, окрім власної команди пакету, flatpak запускає параметром `--command` команди `flatpak run`:
+
+```
+flatpak run --command=ImagesAnnotatorConverter --filesystem=home \
+  ua.org.kytok.template.gtkmm3.ImagesAnnotator \
+  --convert-from yolo4 \
+  --convert-src ~/the-existing-dataset \
+  --convert-to coco \
+  --convert-dst ~/the-wanted-dataset
+```
+
+Параметр `--filesystem=home` надає конвертеру домашню директорію на цей один запуск: графічна програма дістається файлів хоста через портал вибору файлів, який програмі командного рядка ні до чого, а пісочниця, яку оголошує маніфест, не відкриває їй жодної директорії хоста.
+
+Збірка лише конвертера (`-DBUILD_IMAGES_ANNOTATOR_CONVERTER_ONLY=ON`) пакує сам конвертер останнім маніфестом таблиці вище у названий за ним файл `ImagesAnnotatorConverter-0.13.0-x86_64-ubuntu-24.04-org.freedesktop.Sdk-24.08.flatpak`. Ідентифікатор конвертера є ідентифікатором цього пакету flatpak, а його маніфест сам надає йому домашню директорію:
+
+```
+flatpak install --user ImagesAnnotatorConverter-0.13.0-x86_64-ubuntu-24.04-org.freedesktop.Sdk-24.08.flatpak
+
+flatpak run ua.org.kytok.template.gtkmm3.ImagesAnnotator.Converter \
+  --convert-from yolo4 \
+  --convert-src ~/the-existing-dataset \
+  --convert-to coco \
+  --convert-dst ~/the-wanted-dataset
+```
+
+Частина інструментарію у цьому ідентифікаторі - та, яку визначає конфігурування, `gtkmm3`, якщо не запитано іншого інструментарію, хоча збірка лише конвертера жодного не збирає.

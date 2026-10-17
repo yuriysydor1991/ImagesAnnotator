@@ -30,4 +30,24 @@ cmake --build build --target snap
 
 Усі вони збираються на базі `core24` (пакунки Ubuntu 24.04) і перед проектом збирають три бібліотеки ImagesAnnotator, бібліотеки експортерів та імпортерів - з їхнім OpenCV, що дає їм засоби вирізання зображень і визначення їх розміру, які бінарному файлу конвертера нема чим замінити, адже графічного інструментарію він не має (дивись [Виконуваний файл ImagesAnnotatorConverter](/doc/sections/uk_UA/5-40-the-ImagesAnnotatorConverter-binary.md)). Щоб запакувати проект власним файлом `snapcraft.yaml`, передай його кеш-змінною `SNAPCRAFT_CONF_SRC`; якщо вона порожня, як типово, файл слідує за обраним інструментарієм.
 
+### Кожен бінарний файл пакунку snap
+
+Пакунок snap містить застосунок для кожного бінарного файлу, який збирає конфігурування, і кожен з них запускається власною командою:
+
+```
+sudo snap install --dangerous imagesannotator_0.13.0_amd64-ubuntu-24.04.snap
+
+# графічна програма
+imagesannotator.ImagesAnnotator
+
+# конвертер
+imagesannotator.ImagesAnnotatorConverter \
+  --convert-from yolo4 \
+  --convert-src ~/the-existing-dataset \
+  --convert-to coco \
+  --convert-dst ~/the-wanted-dataset
+```
+
+Графічний застосунок отримує файл робочого столу програми та інтерфейси, потрібні вікну, конвертер - лише домашню директорію. Збірка лише конвертера пакує названий за конвертером snap `imagesannotatorconverter`, єдиним застосунком якого є `imagesannotatorconverter.ImagesAnnotatorConverter`. Команда `sudo snap alias imagesannotator.ImagesAnnotatorConverter ImagesAnnotatorConverter` дає застосунку просту назву його бінарного файлу.
+
 Детальніше у файлі [cmake/enablers/packagers/template-project-snap-enabler.cmake](/cmake/enablers/packagers/template-project-snap-enabler.cmake) про ціль `snap`.

@@ -60,7 +60,25 @@ chmod +x ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04.AppImage
 - [appimage.desktop.in](/misc/packagers/appimage/appimage.desktop.in) - файл робочого столу, яким середовища робочого столу інтегрують пакунок;
 - [appimage.icon.svg.in](/misc/packagers/appimage/appimage.icon.svg.in) - піктограма, яку називає файл робочого столу.
 
-Реалізація з `appimagetool` додатково конфігурує [appimage.AppRun.in](/misc/packagers/appimage/appimage.AppRun.in) у скрипт запуску `AppRun`, який експортує `LD_LIBRARY_PATH` запакованих бібліотек і запускає бінарний файл проекту. Реалізація CPack натомість генерує власний `AppRun` з файлу робочого столу.
+Обидві реалізації конфігурують [appimage.AppRun.in](/misc/packagers/appimage/appimage.AppRun.in) у скрипт запуску пакунку `AppRun`, який експортує `LD_LIBRARY_PATH` запакованих бібліотек і запускає той бінарний файл проекту, під назвою якого запущено пакунок (дивись нижче). Генератор CPack згенерував би власний `AppRun`, який запускає лише бінарний файл, названий файлом робочого столу, тож реалізація CPack натомість розміщує цей скрипт у корені підготовленого пакунку, де генератор бере його замість того, щоб генерувати власний.
+
+### Кожен бінарний файл пакунку
+
+Пакунок містить кожен бінарний файл, який збирає конфігурування, - зокрема й `ImagesAnnotatorConverter`, якщо його не вимкнено параметром `-DENABLE_IMAGES_ANNOTATOR_CONVERTER=OFF`, - і запускає той, під назвою якого його запущено. Тож символьне посилання, назване за бінарним файлом, запускає цей бінарний файл з того самого пакунку, тоді як сам файл пакунку чи будь-яка інша назва запускає графічний:
+
+```
+# у кореневому каталозі побудови проекту
+
+ln -s ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04.AppImage ImagesAnnotatorConverter
+
+./ImagesAnnotatorConverter \
+  --convert-from yolo4 \
+  --convert-src ./the-existing-dataset \
+  --convert-to coco \
+  --convert-dst ./the-wanted-dataset
+```
+
+Середовище виконання AppImage передає назву, під якою запущено пакунок, змінною середовища `ARGV0`, на яку і зважає `AppRun`; розпакований пакунок (`--appimage-extract`), запущений через посилання на його `AppRun`, так само розрізняє назву цього посилання.
 
 ### Змінні кешу
 

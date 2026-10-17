@@ -30,4 +30,24 @@ Like the flatpak, the snap builds the project from its sources, so each GUI tool
 
 All of them build on the `core24` base (the Ubuntu 24.04 packages) and build the three ImagesAnnotator libraries ahead of the project, the exporters and the importers ones with their OpenCV, which gives them the image cropper and the size reader the converter binary has no GUI toolkit to stand in for (see [The ImagesAnnotatorConverter binary](/doc/sections/en_US/5-40-the-ImagesAnnotatorConverter-binary.md)). To pack the project with a `snapcraft.yaml` of your own, hand it with the `SNAPCRAFT_CONF_SRC` cache variable; left empty, the default, the file follows the selected toolkit.
 
+### Every binary of the snap
+
+The snap carries an app per binary the configure builds, each started by a command of its own:
+
+```
+sudo snap install --dangerous imagesannotator_0.13.0_amd64-ubuntu-24.04.snap
+
+# the graphical application
+imagesannotator.ImagesAnnotator
+
+# the converter
+imagesannotator.ImagesAnnotatorConverter \
+  --convert-from yolo4 \
+  --convert-src ~/the-existing-dataset \
+  --convert-to coco \
+  --convert-dst ~/the-wanted-dataset
+```
+
+The graphical app gets the desktop entry of the application and the interfaces a window needs, the converter the home directory alone. A converter only build packs the `imagesannotatorconverter` snap, named after the converter, whose one app is the `imagesannotatorconverter.ImagesAnnotatorConverter`. The `sudo snap alias imagesannotator.ImagesAnnotatorConverter ImagesAnnotatorConverter` command gives an app the plain name of its binary.
+
 Visit the [cmake/enablers/packagers/template-project-snap-enabler.cmake](/cmake/enablers/packagers/template-project-snap-enabler.cmake) file to examine the details.

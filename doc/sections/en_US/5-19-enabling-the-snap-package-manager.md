@@ -14,7 +14,7 @@ cmake --build build --target snap
 
 The [scripts/build/build-snap.sh](/scripts/build/build-snap.sh) script performs both steps at once (see [Quick build scripts](/doc/sections/en_US/5-38-quick-build-scripts.md)). The `snapcraft` and the container manager it builds in are described in [Optional for the snap packager](/doc/sections/en_US/3-11-optional-for-snap-packager.md).
 
-The snapcraft names the package `<snap name>_<version>_<architecture>.snap`, the architecture being the Debian name of the CPU it is built for (e.g. `amd64` or `arm64`), and the target appends the name and the version of the destination operating system to it the way they follow the architecture in the name of every other package of the project - the `TEMPLATE_PROJECT_PACKAGE_SYSTEM` cache variable described in [Enabling DEB package generation with cpack](/doc/sections/en_US/5-10-enabling-DEB-package-generation-with-cpack.md). So with the project version `0.13.0` on an `amd64` Ubuntu 24.04 host the package is `imagesannotator_0.13.0_amd64-ubuntu-24.04.snap`.
+The snapcraft names the package `<snap name>_<version>_<architecture>.snap`, the architecture being the Debian name of the CPU it is built for (e.g. `amd64` or `arm64`), and the target appends the name and the version of the destination operating system and the GUI toolkit to it the way they follow the architecture in the name of every other package of the project - the `TEMPLATE_PROJECT_PACKAGE_SYSTEM` cache variable described in [Enabling DEB package generation with cpack](/doc/sections/en_US/5-10-enabling-DEB-package-generation-with-cpack.md). So with the project version `0.13.0` of the default GTKmm3 GUI on an `amd64` Ubuntu 24.04 host the package is `imagesannotator_0.13.0_amd64-ubuntu-24.04-gtkmm3.snap`.
 
 ### A snapcraft.yaml per GUI toolkit
 
@@ -35,7 +35,7 @@ All of them build on the `core24` base (the Ubuntu 24.04 packages) and build the
 The snap carries an app per binary the configure builds, each started by a command of its own:
 
 ```
-sudo snap install --dangerous imagesannotator_0.13.0_amd64-ubuntu-24.04.snap
+sudo snap install --dangerous imagesannotator_0.13.0_amd64-ubuntu-24.04-gtkmm3.snap
 
 # the graphical application
 imagesannotator.ImagesAnnotator

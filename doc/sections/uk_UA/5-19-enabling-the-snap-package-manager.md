@@ -14,7 +14,7 @@ cmake --build build --target snap
 
 Скрипт [scripts/build/build-snap.sh](/scripts/build/build-snap.sh) виконує обидва кроки одразу (дивись [Швидкі скрипти побудови](/doc/sections/uk_UA/5-38-quick-build-scripts.md)). Програму `snapcraft` і менеджер контейнерів, у якому вона збирає пакунок, описано у секції [Необов'язкові пакети для snap пакувальника](/doc/sections/uk_UA/3-11-optional-for-snap-packager.md).
 
-Програма snapcraft називає пакунок `<назва snap>_<версія>_<архітектура>.snap`, де архітектура - це назва Debian центрального процесора, для якого його зібрано (наприклад `amd64` чи `arm64`), а ціль додає до неї назву та версію цільової операційної системи так само, як вони слідують за архітектурою у назві кожного іншого пакунку проекту, - це кеш-змінна `TEMPLATE_PROJECT_PACKAGE_SYSTEM`, описана у секції [Вмикання підтримки генерування DEB-пакетів з cpack](/doc/sections/uk_UA/5-10-enabling-DEB-package-generation-with-cpack.md). Тож із версією проекту `0.13.0` на системі `amd64` з Ubuntu 24.04 пакунок називається `imagesannotator_0.13.0_amd64-ubuntu-24.04.snap`.
+Програма snapcraft називає пакунок `<назва snap>_<версія>_<архітектура>.snap`, де архітектура - це назва Debian центрального процесора, для якого його зібрано (наприклад `amd64` чи `arm64`), а ціль додає до неї назву та версію цільової операційної системи та інструментарій графічного інтерфейсу так само, як вони слідують за архітектурою у назві кожного іншого пакунку проекту, - це кеш-змінна `TEMPLATE_PROJECT_PACKAGE_SYSTEM`, описана у секції [Вмикання підтримки генерування DEB-пакетів з cpack](/doc/sections/uk_UA/5-10-enabling-DEB-package-generation-with-cpack.md). Тож із версією проекту `0.13.0` типового графічного інтерфейсу GTKmm3 на системі `amd64` з Ubuntu 24.04 пакунок називається `imagesannotator_0.13.0_amd64-ubuntu-24.04-gtkmm3.snap`.
 
 ### Файл snapcraft.yaml для кожного графічного інструментарію
 
@@ -35,7 +35,7 @@ cmake --build build --target snap
 Пакунок snap містить застосунок для кожного бінарного файлу, який збирає конфігурування, і кожен з них запускається власною командою:
 
 ```
-sudo snap install --dangerous imagesannotator_0.13.0_amd64-ubuntu-24.04.snap
+sudo snap install --dangerous imagesannotator_0.13.0_amd64-ubuntu-24.04-gtkmm3.snap
 
 # графічна програма
 imagesannotator.ImagesAnnotator

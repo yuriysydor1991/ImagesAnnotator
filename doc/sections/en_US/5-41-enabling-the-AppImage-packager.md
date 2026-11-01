@@ -24,16 +24,16 @@ The [scripts/build/build-appimage.sh](/scripts/build/build-appimage.sh) script p
 scripts/build/build-appimage.sh
 ```
 
-The package file is generated inside the project build root directory. Its name carries the packaged binary, the project version, the destination CPU architecture and the destination operating system, so with the project version `0.13.0` on an `x86_64` Ubuntu 24.04 host it is `ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04.AppImage`. The name and the version of the system follow the architecture the way they follow it in the name of every other package of the project - the `TEMPLATE_PROJECT_PACKAGE_SYSTEM` cache variable described in [Enabling DEB package generation with cpack](/doc/sections/en_US/5-10-enabling-DEB-package-generation-with-cpack.md) - as the package runs on the system it is built on and the ones newer than it, but not necessarily on the older ones (see the runtime note below).
+The package file is generated inside the project build root directory. Its name carries the packaged binary, the project version, the destination CPU architecture, the destination operating system and the GUI toolkit, so with the project version `0.13.0` of the default GTKmm3 GUI on an `x86_64` Ubuntu 24.04 host it is `ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04-gtkmm3.AppImage`. The name and the version of the system follow the architecture the way they follow it in the name of every other package of the project - the `TEMPLATE_PROJECT_PACKAGE_SYSTEM` cache variable described in [Enabling DEB package generation with cpack](/doc/sections/en_US/5-10-enabling-DEB-package-generation-with-cpack.md) - as the package runs on the system it is built on and the ones newer than it, but not necessarily on the older ones (see the runtime note below). The GUI toolkit follows the system the way it does in the name of every other package of the project as well (see the same section).
 
 The produced package is a single executable file which needs no installation at all:
 
 ```
 # inside the project build root directory
 
-chmod +x ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04.AppImage
+chmod +x ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04-gtkmm3.AppImage
 
-./ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04.AppImage
+./ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04-gtkmm3.AppImage
 ```
 
 ### The two implementations
@@ -69,7 +69,7 @@ The package carries every binary the configure builds - the `ImagesAnnotatorConv
 ```
 # inside the project build root directory
 
-ln -s ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04.AppImage ImagesAnnotatorConverter
+ln -s ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04-gtkmm3.AppImage ImagesAnnotatorConverter
 
 ./ImagesAnnotatorConverter \
   --convert-from yolo4 \

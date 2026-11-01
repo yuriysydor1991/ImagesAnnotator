@@ -18,7 +18,7 @@ cmake -B build -S . -DENABLE_FLATPAK=ON
 cmake --build build --target flatpak
 ```
 
-У разі успішної побудови цілі у кореневій директорії побудови проекту буде створено файл, названий за бінарним файлом, який запускає flatpak, версією проекту, архітектурою центрального процесора, назвою та версією цільової операційної системи і SDK, яким зібрано пакет, наприклад `ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04-org.gnome.Sdk-48.flatpak`. Архітектура - це та, яку виводить команда `flatpak --default-arch` (наприклад `x86_64` чи `aarch64`). Назва та версія цільової системи слідують за нею так само, як за архітектурою у назві кожного іншого пакету проекту, - це кеш-змінна `TEMPLATE_PROJECT_PACKAGE_SYSTEM`, описана у секції [Вмикання підтримки генерування DEB-пакетів з cpack](/doc/sections/uk_UA/5-10-enabling-DEB-package-generation-with-cpack.md), - а завершує назву SDK, як його називають члени `sdk` та `runtime-version` маніфесту flatpak, адже одну й ту саму версію проекту на одній і тій самій системі можна запакувати у flatpak для кожного графічного інструментарію (див. нижче). Для того щоб преглянути або/і змінити ціль побудови пакету flatpak необхідно відвідати файл [cmake/enablers/packagers/template-project-flatpak-target.cmake](/cmake/enablers/packagers/template-project-flatpak-target.cmake) або маніфести директорії [misc/packagers/flatpak](/misc/packagers/flatpak).
+У разі успішної побудови цілі у кореневій директорії побудови проекту буде створено файл, названий за бінарним файлом, який запускає flatpak, версією проекту, архітектурою центрального процесора, назвою та версією цільової операційної системи, інструментарієм графічного інтерфейсу і SDK, яким зібрано пакет, наприклад `ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04-gtkmm3-org.gnome.Sdk-48.flatpak`. Архітектура - це та, яку виводить команда `flatpak --default-arch` (наприклад `x86_64` чи `aarch64`). Назва та версія цільової системи слідують за нею так само, як за архітектурою у назві кожного іншого пакету проекту, - це кеш-змінна `TEMPLATE_PROJECT_PACKAGE_SYSTEM`, описана у секції [Вмикання підтримки генерування DEB-пакетів з cpack](/doc/sections/uk_UA/5-10-enabling-DEB-package-generation-with-cpack.md), - так само, як і інструментарій графічного інтерфейсу (див. нижче), адже одну й ту саму версію проекту на одній і тій самій системі можна запакувати у flatpak для кожного інструментарію, а завершує назву SDK, як його називають члени `sdk` та `runtime-version` маніфесту flatpak. Для того щоб преглянути або/і змінити ціль побудови пакету flatpak необхідно відвідати файл [cmake/enablers/packagers/template-project-flatpak-target.cmake](/cmake/enablers/packagers/template-project-flatpak-target.cmake) або маніфести директорії [misc/packagers/flatpak](/misc/packagers/flatpak).
 
 ### Маніфест для кожного графічного інструментарію
 
@@ -45,7 +45,7 @@ cmake --build build --target flatpak
 ```
 # для встановлення (версія може змінитись)
 # всередині директорії побудови проекту 
-flatpak install --user ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04-org.gnome.Sdk-48.flatpak
+flatpak install --user ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04-gtkmm3-org.gnome.Sdk-48.flatpak
 
 # для запуску встановленої програми
 flatpak run ua.org.kytok.template.gtkmm3.ImagesAnnotator
@@ -75,10 +75,10 @@ flatpak run --command=ImagesAnnotatorConverter --filesystem=home \
 
 Параметр `--filesystem=home` надає конвертеру домашню директорію на цей один запуск: графічна програма дістається файлів хоста через портал вибору файлів, який програмі командного рядка ні до чого, а пісочниця, яку оголошує маніфест, не відкриває їй жодної директорії хоста.
 
-Збірка лише конвертера (`-DBUILD_IMAGES_ANNOTATOR_CONVERTER_ONLY=ON`) пакує сам конвертер останнім маніфестом таблиці вище у названий за ним файл `ImagesAnnotatorConverter-0.13.0-x86_64-ubuntu-24.04-org.freedesktop.Sdk-24.08.flatpak`. Ідентифікатор конвертера є ідентифікатором цього пакету flatpak, а його маніфест сам надає йому домашню директорію:
+Збірка лише конвертера (`-DBUILD_IMAGES_ANNOTATOR_CONVERTER_ONLY=ON`) пакує сам конвертер останнім маніфестом таблиці вище у названий за ним файл `ImagesAnnotatorConverter-0.13.0-x86_64-ubuntu-24.04-converter-org.freedesktop.Sdk-24.08.flatpak`. Ідентифікатор конвертера є ідентифікатором цього пакету flatpak, а його маніфест сам надає йому домашню директорію:
 
 ```
-flatpak install --user ImagesAnnotatorConverter-0.13.0-x86_64-ubuntu-24.04-org.freedesktop.Sdk-24.08.flatpak
+flatpak install --user ImagesAnnotatorConverter-0.13.0-x86_64-ubuntu-24.04-converter-org.freedesktop.Sdk-24.08.flatpak
 
 flatpak run ua.org.kytok.template.gtkmm3.ImagesAnnotator.Converter \
   --convert-from yolo4 \

@@ -18,7 +18,7 @@ And finally to generate the flatpak package run the `flatpak` target for the bui
 cmake --build build --target flatpak
 ```
 
-In case of the success target build, there will be created the flatpak file under the root build directory, named after the binary the flatpak starts, the project version, the destination CPU architecture, the destination operating system and the flatpak SDK the bundle is built with, for example the `ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04-org.gnome.Sdk-48.flatpak`. The CPU architecture is the one the `flatpak --default-arch` command prints (e.g. `x86_64` or `aarch64`). The name and the version of the destination system follow it the way they follow the architecture in the name of every other package of the project - the `TEMPLATE_PROJECT_PACKAGE_SYSTEM` cache variable described in [Enabling DEB package generation with cpack](/doc/sections/en_US/5-10-enabling-DEB-package-generation-with-cpack.md) - and the SDK closes the name, as the `sdk` and the `runtime-version` members of the flatpak manifest name it, since the very same version of the project may be packed into a flatpak per GUI toolkit (see below) on the very same system. In order to examine and/or change the flatpak generation target parameters visit the [cmake/enablers/packagers/template-project-flatpak-target.cmake](/cmake/enablers/packagers/template-project-flatpak-target.cmake) file or the manifests of the [misc/packagers/flatpak](/misc/packagers/flatpak) directory.
+In case of the success target build, there will be created the flatpak file under the root build directory, named after the binary the flatpak starts, the project version, the destination CPU architecture, the destination operating system, the GUI toolkit and the flatpak SDK the bundle is built with, for example the `ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04-gtkmm3-org.gnome.Sdk-48.flatpak`. The CPU architecture is the one the `flatpak --default-arch` command prints (e.g. `x86_64` or `aarch64`). The name and the version of the destination system follow it the way they follow the architecture in the name of every other package of the project - the `TEMPLATE_PROJECT_PACKAGE_SYSTEM` cache variable described in [Enabling DEB package generation with cpack](/doc/sections/en_US/5-10-enabling-DEB-package-generation-with-cpack.md) - and so does the GUI toolkit (see below), since the very same version of the project may be packed into a flatpak per toolkit on the very same system, while the SDK closes the name, as the `sdk` and the `runtime-version` members of the flatpak manifest name it. In order to examine and/or change the flatpak generation target parameters visit the [cmake/enablers/packagers/template-project-flatpak-target.cmake](/cmake/enablers/packagers/template-project-flatpak-target.cmake) file or the manifests of the [misc/packagers/flatpak](/misc/packagers/flatpak) directory.
 
 ### A manifest per GUI toolkit
 
@@ -45,7 +45,7 @@ Refer to the flatpak documentation on how to install and run applications distri
 ```
 # to install (version may change)
 # inside the project build directory
-flatpak install --user ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04-org.gnome.Sdk-48.flatpak
+flatpak install --user ImagesAnnotator-0.13.0-x86_64-ubuntu-24.04-gtkmm3-org.gnome.Sdk-48.flatpak
 
 # to run the application
 flatpak run ua.org.kytok.template.gtkmm3.ImagesAnnotator
@@ -75,10 +75,10 @@ flatpak run --command=ImagesAnnotatorConverter --filesystem=home \
 
 The `--filesystem=home` grants the converter the home directory for this one run: the graphical application reaches the files of the host through the file chooser portal, which a command line program has no use of, while the sandbox the manifest declares opens no directory of the host to it.
 
-A converter only build (`-DBUILD_IMAGES_ANNOTATOR_CONVERTER_ONLY=ON`) packs the converter alone, with the last manifest of the table above, into the `ImagesAnnotatorConverter-0.13.0-x86_64-ubuntu-24.04-org.freedesktop.Sdk-24.08.flatpak` named after it. The converter id is the id of that flatpak, and its manifest grants it the home directory itself:
+A converter only build (`-DBUILD_IMAGES_ANNOTATOR_CONVERTER_ONLY=ON`) packs the converter alone, with the last manifest of the table above, into the `ImagesAnnotatorConverter-0.13.0-x86_64-ubuntu-24.04-converter-org.freedesktop.Sdk-24.08.flatpak` named after it. The converter id is the id of that flatpak, and its manifest grants it the home directory itself:
 
 ```
-flatpak install --user ImagesAnnotatorConverter-0.13.0-x86_64-ubuntu-24.04-org.freedesktop.Sdk-24.08.flatpak
+flatpak install --user ImagesAnnotatorConverter-0.13.0-x86_64-ubuntu-24.04-converter-org.freedesktop.Sdk-24.08.flatpak
 
 flatpak run ua.org.kytok.template.gtkmm3.ImagesAnnotator.Converter \
   --convert-from yolo4 \

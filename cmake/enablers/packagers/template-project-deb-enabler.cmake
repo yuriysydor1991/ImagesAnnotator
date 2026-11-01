@@ -86,6 +86,10 @@ if(ENABLE_DEB_IMAGES_ANNOTATOR_LIBRARIES)
   # CPack add the ldconfig call to the postinst and the postrm scripts of the
   # package, which carries shared objects under /usr/lib now.
   set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+
+  # The scan names the GUI runtime of the build system itself, e.g. the
+  # libwxgtk3.2-1 a Debian 12 has instead of the fixed libwxgtk3.2-1t64.
+  set(CPACK_DEBIAN_PACKAGE_DEPENDS "")
 endif()
 
 include(CPack)

@@ -71,4 +71,27 @@ set(
   ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${TEMPLATE_PROJECT_RPM_PACKAGE_ARCHITECTURE}${TEMPLATE_PROJECT_PACKAGE_SYSTEM_SUFFIX}
 )
 
+# ImagesAnnotator specific: the RPM counterpart of the
+# ENABLE_DEB_IMAGES_ANNOTATOR_LIBRARIES option, packing the three libraries into
+# the lib64 a 64-bit Fedora loads them from. The rpmbuild finds the rest of the
+# dependencies by itself.
+option(
+  ENABLE_RPM_IMAGES_ANNOTATOR_LIBRARIES
+  "Set to ON to pack the three ImagesAnnotator libraries the binaries are linked against into the RPM package"
+  OFF
+)
+
+if(ENABLE_RPM_IMAGES_ANNOTATOR_LIBRARIES)
+  include(GNUInstallDirs)
+
+  foreach(IA_LIBRARY IN LISTS IADD_LIBRARIES IADE_LIBRARIES IADI_LIBRARIES)
+    install(
+      FILES $<TARGET_FILE:${IA_LIBRARY}> $<TARGET_SONAME_FILE:${IA_LIBRARY}>
+      DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    )
+
+    message(STATUS "RPM package carries the ${IA_LIBRARY} library")
+  endforeach()
+endif()
+
 include(CPack)

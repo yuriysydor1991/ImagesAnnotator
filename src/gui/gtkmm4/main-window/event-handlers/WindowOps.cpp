@@ -760,7 +760,7 @@ WindowOps::get_list_row_name_searcher_op(const std::string& name)
     const auto* label =
         dynamic_cast<const AllAnnotationsLabel*>(listRow->get_child());
 
-    return label != nullptr && label->get_text() == name;
+    return label != nullptr && label->get_text() == Glib::ustring(name);
   };
 }
 

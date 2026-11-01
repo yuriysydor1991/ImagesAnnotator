@@ -42,3 +42,15 @@ cpack
 Окрім цього, поле `URL` пакунку береться з `HOMEPAGE_URL`, оголошеного у верхньорівневому `CMakeLists.txt`, контактна адреса супровідника - з `PROJECT_MAINTAINER_EMAIL`, видавця - з `PROJECT_MAINTAINER`, а коротке резюме та опис - з `DESCRIPTION` проекту. Жодних додаткових оголошень у CMake-файлах проекту вносити не потрібно - достатньо просто увімкнути опцію.
 
 > **Зауваження щодо запуску.** Подібно до генератора `DEB`, який делегує роботу `dpkg-deb`, генератор `RPM` у CPack покладається на інструмент `rpmbuild(8)` зі складу системи `rpm`. Тому пакування очікувано виконується на RPM-сумісному дистрибутиві (Fedora, RHEL, openSUSE тощо) або на будь-якому хості, де встановлено пакет `rpm` (на Debian/Ubuntu: `sudo apt install rpm`). Сам CMake-модуль є платформо-незалежним - він лише налаштовує CPack і не викликає жодних сторонніх програм безпосередньо.
+
+### Пакування бібліотек ImagesAnnotator
+
+Три бібліотеки ImagesAnnotator, з якими збирається проект, - [ImagesAnnotator-DataDrivers](https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers.git), [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git) та [ImagesAnnotator-DataImporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataImporters.git) - не є пакунками дистрибутиву, тому пакунок вище не оголошує залежності від них, і його виконувані файли запускаються лише в системі, де ці три бібліотеки вже встановлено. Параметр `ENABLE_RPM_IMAGES_ANNOTATOR_LIBRARIES` натомість пакує їх у сам пакунок - це відповідник параметра `ENABLE_DEB_IMAGES_ANNOTATOR_LIBRARIES` секції [Вмикання підтримки генерування DEB-пакетів з cpack](/doc/sections/uk_UA/5-10-enabling-DEB-package-generation-with-cpack.md), - а кроки побудови та `cpack` вище лишаються тими самими:
+
+```
+# всередині кореневої директорії проекту
+
+cmake -B build -S . -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_RPM=ON -DENABLE_RPM_IMAGES_ANNOTATOR_LIBRARIES=ON
+```
+
+Тоді пакунок містить саме ті файли спільних бібліотек, які знайшла конфігурація, кожен зі своїм посиланням SONAME, у директорії бібліотек цільової системи - `/usr/lib64` 64-бітної Fedora, де їх шукає її динамічний завантажувач, а не `/usr/lib`, яку використовує їхній власний крок встановлення. Більше нічого оголошувати не потрібно: `rpmbuild` сам знаходить залежності кожного виконуваного файлу пакунку - `libcurl`, `zlib` та `OpenCV`, з якими скомпоновано запаковані бібліотеки, і середовище виконання інтерфейсу графічного виконуваного файлу, - а запаковані бібліотеки надає сам пакунок, тож власних залежностей вони не додають. Команда `sudo dnf install ./<пакунок>.rpm` встановлює пакунок разом з усіма ними.

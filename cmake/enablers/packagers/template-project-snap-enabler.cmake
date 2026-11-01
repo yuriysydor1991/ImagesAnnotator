@@ -88,8 +88,9 @@ configure_file(
 # The snapcraft names the package <name>_<version>_<arch>.snap itself, the arch
 # being the Debian name of the CPU it is built for - the one of the build host,
 # as the snapcraft.yaml declares no other platform. The name and the version of
-# the destination system follow the CPU, as in every other package name of the
-# project, so the target renames the package it packs.
+# the destination system and the GUI toolkit of the packaged binary follow the
+# CPU, as in every other package name of the project, so the target renames the
+# package it packs.
 execute_process(
   COMMAND dpkg --print-architecture
   OUTPUT_VARIABLE snapArchitecture
@@ -106,7 +107,7 @@ include(template-project-package-system)
 set(snapcraftDstName ${SNAP_NAME}_${CMAKE_PROJECT_VERSION}_${snapArchitecture}.snap)
 set(
   SNAP_DST_NAME
-  ${SNAP_NAME}_${CMAKE_PROJECT_VERSION}_${snapArchitecture}${TEMPLATE_PROJECT_PACKAGE_SYSTEM_SUFFIX}.snap
+  ${SNAP_NAME}_${CMAKE_PROJECT_VERSION}_${snapArchitecture}${TEMPLATE_PROJECT_PACKAGE_SYSTEM_SUFFIX}${ANNOTATOR_PACKAGE_FLAVOR_SUFFIX}.snap
 )
 
 find_program(SNAPCRAFT_EXEC snapcraft)

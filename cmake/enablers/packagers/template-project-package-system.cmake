@@ -48,3 +48,7 @@ if(TEMPLATE_PROJECT_PACKAGE_SYSTEM)
 else()
   set(TEMPLATE_PROJECT_PACKAGE_SYSTEM_SUFFIX "")
 endif()
+
+# ImagesAnnotator specific: the GUI toolkit (or converter) follows the system,
+# telling apart the packages of every toolkit built on the same system.
+set(ANNOTATOR_PACKAGE_FLAVOR_SUFFIX -${ANNOTATOR_PACKAGE_FLAVOR})

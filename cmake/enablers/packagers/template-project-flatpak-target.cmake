@@ -94,13 +94,14 @@ endif()
 
 set(FLATPAK_SDK_NAME ${flatpakSdk}-${flatpakSdkVersion})
 
-# the name and the version of the destination system follow the destination
-# CPU, as in every other package name of the project, and the SDK follows them
+# the name and the version of the destination system and the GUI toolkit of
+# the packaged binary follow the destination CPU, as in every other package name
+# of the project, and the SDK follows them
 include(template-project-package-system)
 
 set(
   FLATPAK_DST_NAME
-  ${FLATPAK_COMMAND}-${CMAKE_PROJECT_VERSION}-${FLATPAK_TARGET_ARCH}${TEMPLATE_PROJECT_PACKAGE_SYSTEM_SUFFIX}-${FLATPAK_SDK_NAME}.flatpak
+  ${FLATPAK_COMMAND}-${CMAKE_PROJECT_VERSION}-${FLATPAK_TARGET_ARCH}${TEMPLATE_PROJECT_PACKAGE_SYSTEM_SUFFIX}${ANNOTATOR_PACKAGE_FLAVOR_SUFFIX}-${FLATPAK_SDK_NAME}.flatpak
 )
 
 message(STATUS "flatpak-builder: ${FLATPAKB_EXEC}")

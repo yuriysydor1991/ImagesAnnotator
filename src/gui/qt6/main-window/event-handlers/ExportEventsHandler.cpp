@@ -70,6 +70,9 @@ bool ExportEventsHandler::subscribe()
   QObject::connect(mwctx->wloader->get_export_ultralytics_segment_folder_mi(),
                    &QAction::triggered, window,
                    [this]() { handle_export_ultralytics_segment(); });
+  QObject::connect(mwctx->wloader->get_export_yolo26_segment_folder_mi(),
+                   &QAction::triggered, window,
+                   [this]() { handle_export_yolo26_segment(); });
   QObject::connect(mwctx->wloader->get_export_coco_folder_mi(),
                    &QAction::triggered, window,
                    [this]() { handle_export_coco(); });
@@ -299,6 +302,26 @@ void ExportEventsHandler::handle_export_ultralytics_segment()
 
         mwctx->actx->eventer->submit(
             efactory->create_ultralytics_segment_export_request(folder));
+      });
+}
+
+void ExportEventsHandler::handle_export_yolo26_segment()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->cwFactory != nullptr);
+
+  handle_folder_export(
+      [this](std::string& out) {
+        return mwctx->cwFactory->ask_yolo26_segment_export_folder(
+            mwctx->wloader->get_window(), out);
+      },
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_yolo26_segment_export_request(folder));
       });
 }
 

@@ -117,6 +117,8 @@ class WindowDataContext
       "previous_image_button";
   inline static constexpr const char* const next_image_button_id =
       "next_image_button";
+  inline static constexpr const char* const segmentation_annotations_toggle_id =
+      "segmentation_annotations_toggle";
   inline static constexpr const char* const main_window_status_bar_id =
       "main_window_status_bar";
   inline static constexpr const char* const duplicate_current_annotation_id =
@@ -148,6 +150,9 @@ class WindowDataContext
   inline static constexpr const char* const
       annotations_export_ultralytics_segment_2_folder_id =
           "annotations_export_ultralytics_segment_2_folder";
+  inline static constexpr const char* const
+      annotations_export_yolo26_segment_2_folder_id =
+          "annotations_export_yolo26_segment_2_folder";
   inline static constexpr const char* const
       annotations_export_coco_2_folder_id = "annotations_export_coco_2_folder";
   inline static constexpr const char* const

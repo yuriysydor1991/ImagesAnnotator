@@ -39,8 +39,9 @@ namespace imagesAnnotatorQt6::window::event_handlers
 {
 
 /**
- * @brief Handles the canvas mouse events: rectangle drawing, resizing and the
- * resize cursor feedback - the Qt analogue of GTKmm's MouseDrawEventsHandler.
+ * @brief Handles the canvas mouse events: the drawing of a rectangle, or of a
+ * segment polygon while the segmentation is toggled on, resizing and the resize
+ * cursor feedback - the Qt analogue of GTKmm's MouseDrawEventsHandler.
  *
  * The coordinates arrive already in image space: the canvas widget is sized to
  * the scaled image inside the window's QScrollArea, so its widget coordinates

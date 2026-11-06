@@ -82,6 +82,7 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual QLineEdit* get_edit_current_rect_entry();
   virtual QPushButton* get_prev_file_button();
   virtual QPushButton* get_next_file_button();
+  virtual QCheckBox* get_segmentation_toggle();
   virtual QStatusBar* get_window_status_bar();
   virtual QPushButton* get_copy_current_annotation_button();
   virtual QScrollArea* get_central_scrolled_window();
@@ -103,6 +104,7 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual QAction* get_export_ultralytics_detect_folder_mi();
   virtual QAction* get_export_ultralytics_obb_folder_mi();
   virtual QAction* get_export_ultralytics_segment_folder_mi();
+  virtual QAction* get_export_yolo26_segment_folder_mi();
   virtual QAction* get_export_coco_folder_mi();
   virtual QAction* get_export_pascal_voc_folder_mi();
   virtual QAction* get_export_createml_folder_mi();

@@ -45,12 +45,13 @@ namespace
 {
 /// @brief The annotations project files filters, shared by the open and save
 /// dialogs (the Qt analogue of the Gtk::FileFilter the GTKmm factory attaches):
-/// both project file formats first, then the JSON and the gzip compressed
-/// imgajz1 ones alone. The file name extension of the path tells the format
-/// the project is read and written in.
+/// the project file formats first, then the JSON, the gzip compressed imgajz1
+/// and the imgajz2 one of the segments alone. The file name extension of the
+/// path tells the format the project is read and written in.
 const char* const projectFileFilter =
-    "ImagesAnnotator projects (*.json *.imgajz1);;JSON files (*.json);;"
-    "imgajz1 compressed projects (*.imgajz1);;All files (*)";
+    "ImagesAnnotator projects (*.json *.imgajz1 *.imgajz2);;"
+    "JSON files (*.json);;imgajz1 compressed projects (*.imgajz1);;"
+    "imgajz2 projects of the segments (*.imgajz2);;All files (*)";
 /// @brief The filters of the two darknetxx project import dialogs.
 const char* const dxxwjz2pProjectFilter =
     "darknetxx dxxwjz2p projects (*.dxxwjz2p);;All files (*)";
@@ -261,6 +262,13 @@ bool CustomWidgetsFactory::ask_ultralytics_segment_export_folder(
 {
   return ask_folder(
       parent, "Select Ultralytics YOLO segmentation export directory", out);
+}
+
+bool CustomWidgetsFactory::ask_yolo26_segment_export_folder(QWidget* parent,
+                                                            std::string& out)
+{
+  return ask_folder(
+      parent, "Select Ultralytics YOLO26 segmentation export directory", out);
 }
 
 bool CustomWidgetsFactory::ask_coco_export_folder(QWidget* parent,

@@ -291,6 +291,10 @@ void WindowLoader::build_menu_bar()
   add_menu_action(
       project, QStringLiteral("Export Ultralytics YOLO segmentation to folder"),
       WindowDataContext::annotations_export_ultralytics_segment_2_folder_id);
+  add_menu_action(
+      project,
+      QStringLiteral("Export Ultralytics YOLO26 segmentation to folder"),
+      WindowDataContext::annotations_export_yolo26_segment_2_folder_id);
   add_menu_action(project, QStringLiteral("Export COCO JSON to folder"),
                   WindowDataContext::annotations_export_coco_2_folder_id);
   add_menu_action(project, QStringLiteral("Export Pascal VOC XML to folder"),
@@ -440,10 +444,17 @@ QWidget* WindowLoader::build_center_panel(QWidget* parent)
   nextFileB->setObjectName(
       QString::fromUtf8(WindowDataContext::next_image_button_id));
 
+  auto* segmentationC = new QCheckBox{QStringLiteral("Segmentation"), panel};
+  segmentationC->setObjectName(
+      QString::fromUtf8(WindowDataContext::segmentation_annotations_toggle_id));
+  segmentationC->setToolTip(
+      QStringLiteral("Draw the new annotations as the segmentation polygons"));
+
   toolbar->addWidget(zoomInB);
   toolbar->addWidget(zoomOutB);
   toolbar->addWidget(prevFileB);
   toolbar->addWidget(nextFileB);
+  toolbar->addWidget(segmentationC);
   toolbar->addStretch(1);
 
   auto* scrolled = new QScrollArea{panel};
@@ -656,6 +667,12 @@ QPushButton* WindowLoader::get_next_file_button()
   return get_object<QPushButton>(WindowDataContext::next_image_button_id);
 }
 
+QCheckBox* WindowLoader::get_segmentation_toggle()
+{
+  return get_object<QCheckBox>(
+      WindowDataContext::segmentation_annotations_toggle_id);
+}
+
 QStatusBar* WindowLoader::get_window_status_bar()
 {
   return get_object<QStatusBar>(WindowDataContext::main_window_status_bar_id);
@@ -747,6 +764,12 @@ QAction* WindowLoader::get_export_ultralytics_segment_folder_mi()
 {
   return get_object<QAction>(
       WindowDataContext::annotations_export_ultralytics_segment_2_folder_id);
+}
+
+QAction* WindowLoader::get_export_yolo26_segment_folder_mi()
+{
+  return get_object<QAction>(
+      WindowDataContext::annotations_export_yolo26_segment_2_folder_id);
 }
 
 QAction* WindowLoader::get_export_coco_folder_mi()

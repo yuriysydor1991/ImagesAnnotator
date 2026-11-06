@@ -117,7 +117,13 @@ void CentralWorkingCanvas::draw_rectangle(QPainter& painter,
   const int tw = toI(toD(rptr->width) * is);
   const int th = toI(toD(rptr->height) * is);
 
-  painter.drawRect(tx, ty, tw, th);
+  QPolygonF polygon;
+
+  for (const auto& [px, py] : rptr->outline()) {
+    polygon.emplace_back(px * is, py * is);
+  }
+
+  painter.drawPolygon(polygon);
 
   static const int minSize = cornersPixelSize * 2 + 2;
 

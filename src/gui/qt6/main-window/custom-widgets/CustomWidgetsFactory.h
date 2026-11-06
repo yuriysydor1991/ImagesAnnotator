@@ -125,6 +125,8 @@ class CustomWidgetsFactory
                                                  std::string& out);
   virtual bool ask_ultralytics_segment_export_folder(QWidget* parent,
                                                      std::string& out);
+  virtual bool ask_yolo26_segment_export_folder(QWidget* parent,
+                                                std::string& out);
   virtual bool ask_coco_export_folder(QWidget* parent, std::string& out);
   virtual bool ask_pascal_voc_export_folder(QWidget* parent, std::string& out);
   virtual bool ask_createml_export_folder(QWidget* parent, std::string& out);

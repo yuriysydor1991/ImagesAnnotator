@@ -66,6 +66,18 @@ TEST(UTEST_Qt6WindowDataContext, get_ids_contains_the_darknetxx_export_ids)
       1U);
 }
 
+TEST(UTEST_Qt6WindowDataContext, get_ids_contains_the_segmentation_ids)
+{
+  const auto& ids = WindowDataContext::get_ids();
+
+  EXPECT_EQ(ids.count(WindowDataContext::segmentation_annotations_toggle_id),
+            1U);
+  EXPECT_EQ(
+      ids.count(
+          WindowDataContext::annotations_export_yolo26_segment_2_folder_id),
+      1U);
+}
+
 TEST(UTEST_Qt6WindowDataContext, get_ids_contains_every_import_id)
 {
   const auto& ids = WindowDataContext::get_ids();

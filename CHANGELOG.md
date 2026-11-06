@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Draw the segmentation annotations: the new `Segmentation` check box of the top buttons bar of every GUI toolkit makes a drag of the left mouse button draw the polygon outlining the object instead of a rectangle - the `ImageRecordSegment` of the [ImagesAnnotator-DataDrivers](https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers.git) library, whose rectangle is the bounding box of its polygon, so the resize corners carry the polygon along - and the canvas strokes the outline of every annotation. A project of the segments is saved into the new imgajz2 project file (`*.imgajz2`) of the library, which the project file dialogs list beside the JSON and the imgajz1 ones, while a save of it into one of those two fails instead of dropping the polygons.
+
+- Export the Ultralytics YOLO26 segmentation dataset through the new Ultralytics YOLO26 segmentation entry of the export submenu of every GUI toolkit: the Ultralytics layout the YOLO26 `-seg` models train on, one line of the polygon of every segment and of the four corners of every rectangle, written by the `Yolo26SegmentExportContext` of the [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git) library.
+
 - Follow the three libraries to the installable names of their next development versions: `ImagesAnnotatorDataDrivers-0.15` with `ImagesAnnotatorDataDrivers015`, `ImagesAnnotatorDataExporters-0.15` with `ImagesAnnotatorDataExporters015` and `ImagesAnnotatorDataImporters-0.17` with `ImagesAnnotatorDataImporters017`.
 
 - Let the GTKmm4 GUI build with the glibmm 2.78 of the Ubuntu 24.04, which has no comparison of a `Glib::ustring` with a `std::string`: the annotations list searcher compares two `Glib::ustring` objects instead ([WindowOps.cpp](/src/gui/gtkmm4/main-window/event-handlers/WindowOps.cpp)).

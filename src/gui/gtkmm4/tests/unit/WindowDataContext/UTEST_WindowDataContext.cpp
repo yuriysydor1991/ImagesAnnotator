@@ -63,6 +63,19 @@ TEST(UTEST_WindowDataContext, get_ids_contains_the_darknetxx_import_ids)
   EXPECT_EQ(ids.count(WindowDataContext::dxxwjz3p_import_file_dialog_id), 1U);
 }
 
+// The segmentation toggle and the YOLO26 segmentation export directory chooser
+// are looked up by these ids, so the window loader resolves them only once
+// listed here.
+TEST(UTEST_WindowDataContext, get_ids_contains_the_segmentation_ids)
+{
+  const auto& ids = WindowDataContext::get_ids();
+
+  EXPECT_EQ(ids.count(WindowDataContext::segmentation_annotations_toggle_id),
+            1U);
+  EXPECT_EQ(
+      ids.count(WindowDataContext::yolo26_segment_export_folder_dialog_id), 1U);
+}
+
 TEST(UTEST_WindowDataContext, get_ids_contains_every_import_id)
 {
   const auto& ids = WindowDataContext::get_ids();

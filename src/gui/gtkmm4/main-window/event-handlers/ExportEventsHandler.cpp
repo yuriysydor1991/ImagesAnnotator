@@ -81,6 +81,10 @@ bool ExportEventsHandler::subscribe()
       .connect([this]([[maybe_unused]] const Glib::VariantBase& param) {
         handle_export_ultralytics_segment();
       });
+  mwctx->wloader->get_export_yolo26_segment_action()->signal_activate().connect(
+      [this]([[maybe_unused]] const Glib::VariantBase& param) {
+        handle_export_yolo26_segment();
+      });
   mwctx->wloader->get_export_coco_action()->signal_activate().connect(
       [this]([[maybe_unused]] const Glib::VariantBase& param) {
         handle_export_coco();
@@ -329,6 +333,23 @@ void ExportEventsHandler::handle_export_ultralytics_segment()
 
         mwctx->actx->eventer->submit(
             efactory->create_ultralytics_segment_export_request(folder));
+      });
+}
+
+void ExportEventsHandler::handle_export_yolo26_segment()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->wloader != nullptr);
+
+  handle_folder_export(
+      mwctx->wloader->get_yolo26_segment_export_folder_dialog(),
+      [this](const std::string& folder) {
+        auto efactory = mwctx->actx->eventer->get_events_factory();
+
+        assert(efactory != nullptr);
+
+        mwctx->actx->eventer->submit(
+            efactory->create_yolo26_segment_export_request(folder));
       });
 }
 

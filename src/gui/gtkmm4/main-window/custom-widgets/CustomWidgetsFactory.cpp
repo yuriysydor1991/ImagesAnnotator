@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -116,16 +116,17 @@ void add_file_filters(Gtk::FileChooserDialog& dialog,
   dialog.add_filter(filter_all);
 }
 
-// The file filters of the annotations project choosers: both project file
-// formats first, then the JSON and the gzip compressed imgajz1 ones alone and
-// the "All files" fallback. The file name extension of the path tells the
-// format the project is read and written in.
+// The file filters of the annotations project choosers: the project file
+// formats first, then the JSON, the gzip compressed imgajz1 and the imgajz2 one
+// of the segments alone and the "All files" fallback. The file name extension
+// of the path tells the format the project is read and written in.
 void add_project_file_filters(Gtk::FileChooserDialog& dialog)
 {
   auto filter_projects = Gtk::FileFilter::create();
   filter_projects->set_name("ImagesAnnotator projects");
   filter_projects->add_pattern("*.json");
   filter_projects->add_pattern("*.imgajz1");
+  filter_projects->add_pattern("*.imgajz2");
   dialog.add_filter(filter_projects);
 
   auto filter_json = Gtk::FileFilter::create();
@@ -137,6 +138,11 @@ void add_project_file_filters(Gtk::FileChooserDialog& dialog)
   filter_imgajz1->set_name("imgajz1 compressed projects");
   filter_imgajz1->add_pattern("*.imgajz1");
   dialog.add_filter(filter_imgajz1);
+
+  auto filter_imgajz2 = Gtk::FileFilter::create();
+  filter_imgajz2->set_name("imgajz2 projects of the segments");
+  filter_imgajz2->add_pattern("*.imgajz2");
+  dialog.add_filter(filter_imgajz2);
 
   auto filter_all = Gtk::FileFilter::create();
   filter_all->set_name("All files");
@@ -201,7 +207,7 @@ void CustomWidgetsFactory::add_button_icon(Gtk::Button& button,
 void CustomWidgetsFactory::reset_file_chooser(Gtk::FileChooserDialog& dialog)
 {
   // Re-activate the first filter. The project choosers add the "ImagesAnnotator
-  // projects" one of both project formats first and the darknetxx project ones
+  // projects" one of the project formats first and the darknetxx project ones
   // their project type, so this restores the default the fresh-per-call
   // dialogs always opened with; a folder chooser has no filters, making this a
   // no-op there.

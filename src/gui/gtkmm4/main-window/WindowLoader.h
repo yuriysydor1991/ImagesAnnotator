@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -70,6 +70,7 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual Gtk::Entry* get_edit_current_rect_entry();
   virtual Gtk::Button* get_prev_file_button();
   virtual Gtk::Button* get_next_file_button();
+  virtual Gtk::CheckButton* get_segmentation_toggle();
   virtual Gtk::Statusbar* get_window_status_bar();
   virtual Gtk::Button* get_copy_current_annotation_button();
   virtual Gtk::Overlay* get_main_overlay();
@@ -96,6 +97,7 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual Gtk::FileChooserDialog* get_ultralytics_obb_export_folder_dialog();
   virtual Gtk::FileChooserDialog*
   get_ultralytics_segment_export_folder_dialog();
+  virtual Gtk::FileChooserDialog* get_yolo26_segment_export_folder_dialog();
   virtual Gtk::FileChooserDialog* get_coco_export_folder_dialog();
   virtual Gtk::FileChooserDialog* get_pascal_voc_export_folder_dialog();
   virtual Gtk::FileChooserDialog* get_createml_export_folder_dialog();
@@ -141,6 +143,7 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual Glib::RefPtr<Gio::SimpleAction> get_export_ultralytics_obb_action();
   virtual Glib::RefPtr<Gio::SimpleAction>
   get_export_ultralytics_segment_action();
+  virtual Glib::RefPtr<Gio::SimpleAction> get_export_yolo26_segment_action();
   virtual Glib::RefPtr<Gio::SimpleAction> get_export_coco_action();
   virtual Glib::RefPtr<Gio::SimpleAction> get_export_pascal_voc_action();
   virtual Glib::RefPtr<Gio::SimpleAction> get_export_createml_action();
@@ -219,6 +222,7 @@ class WindowLoader : virtual public ComponentTypesAliases
   Glib::RefPtr<Gio::SimpleAction> action_export_ultralytics_detect;
   Glib::RefPtr<Gio::SimpleAction> action_export_ultralytics_obb;
   Glib::RefPtr<Gio::SimpleAction> action_export_ultralytics_segment;
+  Glib::RefPtr<Gio::SimpleAction> action_export_yolo26_segment;
   Glib::RefPtr<Gio::SimpleAction> action_export_coco;
   Glib::RefPtr<Gio::SimpleAction> action_export_pascal_voc;
   Glib::RefPtr<Gio::SimpleAction> action_export_createml;

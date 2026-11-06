@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -99,9 +99,10 @@ class CustomWidgetsFactory
 
   /**
    * @brief Decorate a builder-defined annotations project file-chooser dialog
-   * (the open or the save one) with the "ImagesAnnotator projects" (*.json and
-   * *.imgajz1) / "JSON files" / "imgajz1 compressed projects" / "All files"
-   * filters and the localized, icon-decorated Cancel / Select action buttons.
+   * (the open or the save one) with the "ImagesAnnotator projects" (*.json,
+   * *.imgajz1 and *.imgajz2) / "JSON files" / "imgajz1 compressed projects" /
+   * "imgajz2 projects of the segments" / "All files" filters and the localized,
+   * icon-decorated Cancel / Select action buttons.
    * GtkBuilder cannot express either from the .ui file, so WindowLoader
    * applies this once at load. Idempotent - re-invoking it on an already
    * prepared dialog is a no-op.

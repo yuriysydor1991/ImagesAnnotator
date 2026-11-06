@@ -58,6 +58,7 @@ class ExportEventsHandler : public AbstractWindowEventHandler
   void handle_export_ultralytics_detect();
   void handle_export_ultralytics_obb();
   void handle_export_ultralytics_segment();
+  void handle_export_yolo26_segment();
   void handle_export_coco();
   void handle_export_pascal_voc();
   void handle_export_createml();

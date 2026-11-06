@@ -38,6 +38,8 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm4::window::WindowLoader
             Gio::SimpleAction::create("export-ultralytics-obb")},
         export_ultralytics_segment_a_{
             Gio::SimpleAction::create("export-ultralytics-segment")},
+        export_yolo26_segment_a_{
+            Gio::SimpleAction::create("export-yolo26-segment")},
         export_coco_a_{Gio::SimpleAction::create("export-coco")},
         export_pascal_voc_a_{Gio::SimpleAction::create("export-pascal-voc")},
         export_createml_a_{Gio::SimpleAction::create("export-createml")},
@@ -73,6 +75,10 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm4::window::WindowLoader
 
   Gtk::Button* get_prev_file_button() override { return &prev_; }
   Gtk::Button* get_next_file_button() override { return &next_; }
+  Gtk::CheckButton* get_segmentation_toggle() override
+  {
+    return &segmentation_;
+  }
 
   Gtk::ListBox* get_images_list() override { return &images_list_; }
   Gtk::SearchEntry* get_images_search_entry() override
@@ -167,6 +173,10 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm4::window::WindowLoader
       override
   {
     return export_ultralytics_segment_a_;
+  }
+  Glib::RefPtr<Gio::SimpleAction> get_export_yolo26_segment_action() override
+  {
+    return export_yolo26_segment_a_;
   }
   Glib::RefPtr<Gio::SimpleAction> get_export_coco_action() override
   {
@@ -266,6 +276,7 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm4::window::WindowLoader
   Gtk::Button zoom_out_;
   Gtk::Button prev_;
   Gtk::Button next_;
+  Gtk::CheckButton segmentation_;
   Gtk::Button del_image_;
   Gtk::Button del_ann_;
   Gtk::Button copy_name_;
@@ -294,6 +305,7 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm4::window::WindowLoader
   Glib::RefPtr<Gio::SimpleAction> export_ultralytics_detect_a_;
   Glib::RefPtr<Gio::SimpleAction> export_ultralytics_obb_a_;
   Glib::RefPtr<Gio::SimpleAction> export_ultralytics_segment_a_;
+  Glib::RefPtr<Gio::SimpleAction> export_yolo26_segment_a_;
   Glib::RefPtr<Gio::SimpleAction> export_coco_a_;
   Glib::RefPtr<Gio::SimpleAction> export_pascal_voc_a_;
   Glib::RefPtr<Gio::SimpleAction> export_createml_a_;

@@ -79,6 +79,11 @@
             <attribute name="icon">folder-symbolic</attribute>
           </item>
           <item>
+            <attribute name="label" translatable="yes">Ultralytics YOLO26 segmentation folder</attribute>
+            <attribute name="action">win.export-yolo26-segment</attribute>
+            <attribute name="icon">folder-symbolic</attribute>
+          </item>
+          <item>
             <attribute name="label" translatable="yes">COCO JSON folder</attribute>
             <attribute name="action">win.export-coco</attribute>
             <attribute name="icon">folder-symbolic</attribute>
@@ -309,6 +314,12 @@
                                     <property name="label" translatable="yes">Next</property>
                                   </object>
                                 </child>
+                                <child>
+                                  <object class="GtkCheckButton" id="segmentation_annotations_toggle">
+                                    <property name="label" translatable="yes">Segmentation</property>
+                                    <property name="tooltip-text" translatable="yes">Draw the new annotations as the segmentation polygons</property>
+                                  </object>
+                                </child>
                               </object>
                             </child>
                             <child>
@@ -494,6 +505,12 @@
   </object>
   <object class="GtkFileChooserDialog" id="ultralytics_segment_export_folder_dialog">
     <property name="title" translatable="yes">Select Ultralytics YOLO segmentation export directory</property>
+    <property name="action">select-folder</property>
+    <property name="modal">true</property>
+    <property name="hide-on-close">true</property>
+  </object>
+  <object class="GtkFileChooserDialog" id="yolo26_segment_export_folder_dialog">
+    <property name="title" translatable="yes">Select Ultralytics YOLO26 segmentation export directory</property>
     <property name="action">select-folder</property>
     <property name="modal">true</property>
     <property name="hide-on-close">true</property>

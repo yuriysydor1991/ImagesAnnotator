@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -193,6 +193,7 @@ bool WindowLoader::prepare_dialogs()
   auto* ultralyticsObbFolder = get_ultralytics_obb_export_folder_dialog();
   auto* ultralyticsSegmentFolder =
       get_ultralytics_segment_export_folder_dialog();
+  auto* yolo26SegmentFolder = get_yolo26_segment_export_folder_dialog();
   auto* cocoFolder = get_coco_export_folder_dialog();
   auto* pascalVocFolder = get_pascal_voc_export_folder_dialog();
   auto* createMLFolder = get_createml_export_folder_dialog();
@@ -223,6 +224,7 @@ bool WindowLoader::prepare_dialogs()
         static_cast<Gtk::Window*>(ultralyticsDetectFolder),
         static_cast<Gtk::Window*>(ultralyticsObbFolder),
         static_cast<Gtk::Window*>(ultralyticsSegmentFolder),
+        static_cast<Gtk::Window*>(yolo26SegmentFolder),
         static_cast<Gtk::Window*>(cocoFolder),
         static_cast<Gtk::Window*>(pascalVocFolder),
         static_cast<Gtk::Window*>(createMLFolder),
@@ -259,6 +261,7 @@ bool WindowLoader::prepare_dialogs()
   factory.prepare_folder_choose_dialog(ultralyticsDetectFolder);
   factory.prepare_folder_choose_dialog(ultralyticsObbFolder);
   factory.prepare_folder_choose_dialog(ultralyticsSegmentFolder);
+  factory.prepare_folder_choose_dialog(yolo26SegmentFolder);
   factory.prepare_folder_choose_dialog(cocoFolder);
   factory.prepare_folder_choose_dialog(pascalVocFolder);
   factory.prepare_folder_choose_dialog(createMLFolder);
@@ -380,6 +383,8 @@ bool WindowLoader::create_actions()
       actionGroup->add_action(WindowDataContext::action_export_ultralytics_obb);
   action_export_ultralytics_segment = actionGroup->add_action(
       WindowDataContext::action_export_ultralytics_segment);
+  action_export_yolo26_segment =
+      actionGroup->add_action(WindowDataContext::action_export_yolo26_segment);
   action_export_coco =
       actionGroup->add_action(WindowDataContext::action_export_coco);
   action_export_pascal_voc =
@@ -651,6 +656,11 @@ WindowLoader::get_export_ultralytics_segment_action()
   return action_export_ultralytics_segment;
 }
 
+Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_export_yolo26_segment_action()
+{
+  return action_export_yolo26_segment;
+}
+
 Glib::RefPtr<Gio::SimpleAction> WindowLoader::get_export_coco_action()
 {
   return action_export_coco;
@@ -807,6 +817,14 @@ Gtk::Button* WindowLoader::get_next_file_button()
   return get_widget<Gtk::Button>(mwctx->wctx->next_image_button_id);
 }
 
+Gtk::CheckButton* WindowLoader::get_segmentation_toggle()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::CheckButton>(
+      mwctx->wctx->segmentation_annotations_toggle_id);
+}
+
 Gtk::Statusbar* WindowLoader::get_window_status_bar()
 {
   assert(mwctx->wctx != nullptr);
@@ -941,6 +959,14 @@ WindowLoader::get_ultralytics_segment_export_folder_dialog()
 
   return get_widget<Gtk::FileChooserDialog>(
       mwctx->wctx->ultralytics_segment_export_folder_dialog_id);
+}
+
+Gtk::FileChooserDialog* WindowLoader::get_yolo26_segment_export_folder_dialog()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::FileChooserDialog>(
+      mwctx->wctx->yolo26_segment_export_folder_dialog_id);
 }
 
 Gtk::FileChooserDialog* WindowLoader::get_coco_export_folder_dialog()

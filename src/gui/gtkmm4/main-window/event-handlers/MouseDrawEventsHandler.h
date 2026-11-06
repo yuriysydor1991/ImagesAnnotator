@@ -39,8 +39,9 @@ namespace imagesAnnotatorGtkmm4::window::event_handlers
 {
 
 /**
- * @brief Handles the central canvas mouse events: rectangle drawing, resizing
- * and the resize cursor feedback.
+ * @brief Handles the central canvas mouse events: the drawing of a rectangle,
+ * or of a segment polygon while the segmentation is toggled on, resizing and
+ * the resize cursor feedback.
  *
  * GTK4 delivers pointer input through event controllers instead of the removed
  * signal_button_press_event()/signal_motion_notify_event() signals, so the

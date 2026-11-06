@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -57,6 +57,7 @@ const std::set<std::string>& WindowDataContext::get_ids()
       copy_annotation_name_to_current_rect_id,
       previous_image_button_id,
       next_image_button_id,
+      segmentation_annotations_toggle_id,
       main_window_status_bar_id,
       duplicate_current_annotation_id,
       spinner_id,
@@ -77,6 +78,7 @@ const std::set<std::string>& WindowDataContext::get_ids()
       ultralytics_detect_export_folder_dialog_id,
       ultralytics_obb_export_folder_dialog_id,
       ultralytics_segment_export_folder_dialog_id,
+      yolo26_segment_export_folder_dialog_id,
       coco_export_folder_dialog_id,
       pascal_voc_export_folder_dialog_id,
       createml_export_folder_dialog_id,

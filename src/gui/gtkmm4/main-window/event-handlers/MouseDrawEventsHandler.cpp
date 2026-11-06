@@ -130,7 +130,14 @@ bool MouseDrawEventsHandler::handle_rectangle_draw_start(double x, double y)
     return true;
   }
 
-  ir->current_rect = efactory->create_image_rect_record(ir);
+  if (mwctx->wloader->get_segmentation_toggle()->get_active()) {
+    ops->segment = efactory->create_image_segment_record(ir);
+    ir->current_rect = ops->segment;
+  } else {
+    ops->segment.reset();
+    ir->current_rect = efactory->create_image_rect_record(ir);
+  }
+
   ir->rects.emplace_back(ir->current_rect);
 
   assert(ir->current_rect != nullptr);
@@ -145,6 +152,10 @@ bool MouseDrawEventsHandler::handle_rectangle_draw_start(double x, double y)
 
   ir->current_rect->x = toI(x / imageScale);
   ir->current_rect->y = toI(y / imageScale);
+
+  if (ops->segment != nullptr) {
+    ops->segment->add_point(x / imageScale, y / imageScale);
+  }
 
   ops->update_current_rects_list();
 
@@ -182,6 +193,7 @@ bool MouseDrawEventsHandler::handle_rectangle_draw_end(
   }
 
   ops->dragging = false;
+  ops->segment.reset();
 
   assert(mwctx->centralCanvas != nullptr);
 
@@ -397,6 +409,14 @@ bool MouseDrawEventsHandler::handle_rectangle_size_change(double x, double y)
   assert(pixbuf);
 
   const auto& imageScale = ir->imageScale;
+
+  if (ops->segment != nullptr && pixbuf) {
+    ops->segment->add_point(
+        std::clamp(x, 0.0, toD(pixbuf->get_width())) / imageScale,
+        std::clamp(y, 0.0, toD(pixbuf->get_height())) / imageScale);
+    mwctx->centralCanvas->queue_draw();
+    return true;
+  }
 
   double start_x = toD(ir->current_rect->x);
   double start_y = toD(ir->current_rect->y);

@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -103,6 +103,8 @@ class WindowDataContext
       "previous_image_button";
   inline static constexpr const char* const next_image_button_id =
       "next_image_button";
+  inline static constexpr const char* const segmentation_annotations_toggle_id =
+      "segmentation_annotations_toggle";
   inline static constexpr const char* const main_window_status_bar_id =
       "main_window_status_bar";
   inline static constexpr const char* const duplicate_current_annotation_id =
@@ -171,6 +173,9 @@ class WindowDataContext
   inline static constexpr const char* const
       ultralytics_segment_export_folder_dialog_id =
           "ultralytics_segment_export_folder_dialog";
+  inline static constexpr const char* const
+      yolo26_segment_export_folder_dialog_id =
+          "yolo26_segment_export_folder_dialog";
   inline static constexpr const char* const coco_export_folder_dialog_id =
       "coco_export_folder_dialog";
   inline static constexpr const char* const pascal_voc_export_folder_dialog_id =
@@ -258,6 +263,8 @@ class WindowDataContext
       "export-ultralytics-obb";
   inline static constexpr const char* const action_export_ultralytics_segment =
       "export-ultralytics-segment";
+  inline static constexpr const char* const action_export_yolo26_segment =
+      "export-yolo26-segment";
   inline static constexpr const char* const action_export_coco = "export-coco";
   inline static constexpr const char* const action_export_pascal_voc =
       "export-pascal-voc";

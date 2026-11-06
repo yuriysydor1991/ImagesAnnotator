@@ -113,6 +113,8 @@ wxMenuBar* WindowLoader::build_menu_bar()
                   "Export Ultralytics YOLO oriented boxes to folder");
   project->Append(WindowDataContext::ID_EXPORT_ULTRALYTICS_SEGMENT,
                   "Export Ultralytics YOLO segmentation to folder");
+  project->Append(WindowDataContext::ID_EXPORT_YOLO26_SEGMENT,
+                  "Export Ultralytics YOLO26 segmentation to folder");
   project->Append(WindowDataContext::ID_EXPORT_COCO,
                   "Export COCO JSON to folder");
   project->Append(WindowDataContext::ID_EXPORT_PASCAL_VOC,
@@ -220,10 +222,14 @@ wxWindow* WindowLoader::build_center_panel(wxWindow* parent)
   zoomOutB = new wxButton(panel, wxID_ANY, "Zoom out");
   prevFileB = new wxButton(panel, wxID_ANY, "Previous");
   nextFileB = new wxButton(panel, wxID_ANY, "Next");
+  segmentationCB = new wxCheckBox(panel, wxID_ANY, "Segmentation");
+  segmentationCB->SetToolTip(
+      "Draw the new annotations as the segmentation polygons");
   toolbar->Add(zoomInB, 0, wxALL, kBorder);
   toolbar->Add(zoomOutB, 0, wxALL, kBorder);
   toolbar->Add(prevFileB, 0, wxALL, kBorder);
   toolbar->Add(nextFileB, 0, wxALL, kBorder);
+  toolbar->Add(segmentationCB, 0, wxALIGN_CENTER_VERTICAL | wxALL, kBorder);
 
   canvasHost = panel;
   mwctx->centralCanvas =
@@ -310,7 +316,7 @@ bool WindowLoader::all_widget_are_valid()
       imagesSearchE != nullptr && annotationSearchE != nullptr &&
       imagesList != nullptr && annotationsDbList != nullptr &&
       currentImageAnnotations != nullptr && rectEditEntry != nullptr &&
-      statusBar != nullptr &&
+      statusBar != nullptr && segmentationCB != nullptr &&
       (mwctx == nullptr || mwctx->centralCanvas != nullptr);
 
   if (!ok) {
@@ -351,6 +357,7 @@ wxTextCtrl* WindowLoader::get_edit_current_rect_entry()
 }
 wxButton* WindowLoader::get_prev_file_button() { return prevFileB; }
 wxButton* WindowLoader::get_next_file_button() { return nextFileB; }
+wxCheckBox* WindowLoader::get_segmentation_toggle() { return segmentationCB; }
 wxStatusBar* WindowLoader::get_window_status_bar() { return statusBar; }
 wxButton* WindowLoader::get_copy_current_annotation_button()
 {

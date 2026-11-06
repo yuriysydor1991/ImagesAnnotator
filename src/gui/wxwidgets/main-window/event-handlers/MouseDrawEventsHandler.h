@@ -39,8 +39,9 @@ namespace imagesAnnotatorWx::window::event_handlers
 {
 
 /**
- * @brief Handles the canvas mouse events: rectangle drawing, resizing and the
- * resize cursor feedback - the wx analogue of GTKmm's MouseDrawEventsHandler.
+ * @brief Handles the canvas mouse events: the drawing of a rectangle, or of a
+ * segment polygon while the segmentation is toggled on, resizing and the resize
+ * cursor feedback - the wx analogue of GTKmm's MouseDrawEventsHandler.
  * Mouse coordinates are converted from viewport to image (unscrolled) space
  * before use, matching the GTK drawing-area coordinate space.
  */

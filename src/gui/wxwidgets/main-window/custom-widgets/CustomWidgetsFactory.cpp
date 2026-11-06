@@ -44,13 +44,15 @@ using imagesAnnotatorWx::u8;
 namespace
 {
 /// @brief The annotations project files wildcard, shared by the open and save
-/// dialogs: both project file formats first, then the JSON and the gzip
-/// compressed imgajz1 ones alone. The file name extension of the path tells the
-/// format the project is read and written in.
+/// dialogs: the project file formats first, then the JSON, the gzip compressed
+/// imgajz1 and the imgajz2 one of the segments alone. The file name extension
+/// of the path tells the format the project is read and written in.
 const char* const projectFileWildcard =
-    "ImagesAnnotator projects (*.json;*.imgajz1)|*.json;*.imgajz1|"
+    "ImagesAnnotator projects (*.json;*.imgajz1;*.imgajz2)|"
+    "*.json;*.imgajz1;*.imgajz2|"
     "JSON files (*.json)|*.json|"
     "imgajz1 compressed projects (*.imgajz1)|*.imgajz1|"
+    "imgajz2 projects of the segments (*.imgajz2)|*.imgajz2|"
     "All files (*)|*";
 }  // namespace
 
@@ -241,6 +243,13 @@ bool CustomWidgetsFactory::ask_ultralytics_segment_export_folder(
 {
   return ask_folder(
       parent, "Select Ultralytics YOLO segmentation export directory", out);
+}
+
+bool CustomWidgetsFactory::ask_yolo26_segment_export_folder(wxWindow* parent,
+                                                            std::string& out)
+{
+  return ask_folder(
+      parent, "Select Ultralytics YOLO26 segmentation export directory", out);
 }
 
 bool CustomWidgetsFactory::ask_coco_export_folder(wxWindow* parent,

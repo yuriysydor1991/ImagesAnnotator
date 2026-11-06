@@ -28,6 +28,7 @@
 #include "src/gui/wxwidgets/main-window/custom-widgets/CentralWorkingCanvas.h"
 
 #include <cassert>
+#include <vector>
 
 #include "src/log/log.h"
 
@@ -113,7 +114,13 @@ void CentralWorkingCanvas::draw_rectangle(wxDC& dc,
   const int tw = toI(toD(rptr->width) * is);
   const int th = toI(toD(rptr->height) * is);
 
-  dc.DrawRectangle(tx, ty, tw, th);
+  std::vector<wxPoint> polygon;
+
+  for (const auto& [px, py] : rptr->outline()) {
+    polygon.emplace_back(toI(px * is), toI(py * is));
+  }
+
+  dc.DrawPolygon(toI(polygon.size()), polygon.data());
 
   static const int minSize = cornersPixelSize * 2 + 2;
 

@@ -72,6 +72,7 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual wxTextCtrl* get_edit_current_rect_entry();
   virtual wxButton* get_prev_file_button();
   virtual wxButton* get_next_file_button();
+  virtual wxCheckBox* get_segmentation_toggle();
   virtual wxStatusBar* get_window_status_bar();
   virtual wxButton* get_copy_current_annotation_button();
   virtual wxSearchCtrl* get_images_search_entry();
@@ -98,6 +99,7 @@ class WindowLoader : virtual public ComponentTypesAliases
   wxButton* zoomOutB{nullptr};
   wxButton* prevFileB{nullptr};
   wxButton* nextFileB{nullptr};
+  wxCheckBox* segmentationCB{nullptr};
   wxButton* deleteImageB{nullptr};
   wxButton* deleteAnnotationB{nullptr};
   wxButton* copyAnnotationNameB{nullptr};

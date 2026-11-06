@@ -44,6 +44,7 @@ const std::set<int>& WindowDataContext::get_ids()
                                  ID_EXPORT_ULTRALYTICS_DETECT,
                                  ID_EXPORT_ULTRALYTICS_OBB,
                                  ID_EXPORT_ULTRALYTICS_SEGMENT,
+                                 ID_EXPORT_YOLO26_SEGMENT,
                                  ID_EXPORT_COCO,
                                  ID_EXPORT_PASCAL_VOC,
                                  ID_EXPORT_CREATEML,

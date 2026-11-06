@@ -33,6 +33,13 @@ TEST(UTEST_WxWindowDataContext, get_ids_contains_the_darknetxx_export_menu_ids)
   EXPECT_EQ(ids.count(WindowDataContext::ID_EXPORT_DXXWJZ3P), 1U);
 }
 
+TEST(UTEST_WxWindowDataContext, get_ids_contains_the_yolo26_export_menu_id)
+{
+  const auto& ids = WindowDataContext::get_ids();
+
+  EXPECT_EQ(ids.count(WindowDataContext::ID_EXPORT_YOLO26_SEGMENT), 1U);
+}
+
 TEST(UTEST_WxWindowDataContext, get_ids_contains_every_import_menu_id)
 {
   const auto& ids = WindowDataContext::get_ids();

@@ -117,7 +117,14 @@ bool MouseDrawEventsHandler::handle_rectangle_draw_start(int x, int y)
     return false;
   }
 
-  ir->current_rect = efactory->create_image_rect_record(ir);
+  if (mwctx->wloader->get_segmentation_toggle()->IsChecked()) {
+    ops->segment = efactory->create_image_segment_record(ir);
+    ir->current_rect = ops->segment;
+  } else {
+    ops->segment.reset();
+    ir->current_rect = efactory->create_image_rect_record(ir);
+  }
+
   ir->rects.emplace_back(ir->current_rect);
 
   assert(ir->current_rect != nullptr);
@@ -132,6 +139,10 @@ bool MouseDrawEventsHandler::handle_rectangle_draw_start(int x, int y)
 
   ir->current_rect->x = toI(toD(x) / imageScale);
   ir->current_rect->y = toI(toD(y) / imageScale);
+
+  if (ops->segment != nullptr) {
+    ops->segment->add_point(toD(x) / imageScale, toD(y) / imageScale);
+  }
 
   ops->update_current_rects_list();
 
@@ -162,6 +173,7 @@ void MouseDrawEventsHandler::handle_rectangle_draw_end()
   }
 
   ops->dragging = false;
+  ops->segment.reset();
 
   mwctx->centralCanvas->Refresh();
 }
@@ -329,6 +341,15 @@ void MouseDrawEventsHandler::handle_rectangle_size_change(int x, int y)
   }
 
   const double imageScale = ir->imageScale;
+
+  if (ops->segment != nullptr) {
+    const wxBitmap bitmap = mwctx->centralCanvas->get_bitmap();
+    ops->segment->add_point(
+        std::clamp(toD(x), 0.0, toD(bitmap.GetWidth())) / imageScale,
+        std::clamp(toD(y), 0.0, toD(bitmap.GetHeight())) / imageScale);
+    mwctx->centralCanvas->Refresh();
+    return;
+  }
 
   double start_x = toD(ir->current_rect->x);
   double start_y = toD(ir->current_rect->y);

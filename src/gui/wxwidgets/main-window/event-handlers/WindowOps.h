@@ -32,6 +32,7 @@
 #include <memory>
 #include <string>
 
+#include "src/annotator-events/events/ImageRecordSegment.h"
 #include "src/gui/wxwidgets/ComponentTypesAliases.h"
 #include "src/gui/wxwidgets/wx_includes.h"
 #include "src/helpers/TypeHelper.h"
@@ -120,6 +121,8 @@ class WindowOps : virtual public ComponentTypesAliases,
   AnnotationsVisualList displayedAnnotations;
 
   bool dragging{false};
+  /// @brief The segment the drag draws, while the segmentation is toggled on
+  events::events::ImageRecordSegmentPtr segment;
   bool isOverResize{false};
   bool lastChangedStatus{false};
   bool spinnerOn{false};

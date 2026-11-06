@@ -23,6 +23,7 @@
 #include "src/annotator-events/events/ExportUltralyticsDetectRequest.h"
 #include "src/annotator-events/events/ExportUltralyticsObbRequest.h"
 #include "src/annotator-events/events/ExportUltralyticsSegmentRequest.h"
+#include "src/annotator-events/events/ExportYolo26SegmentRequest.h"
 #include "src/annotator-events/events/ExportYolo4FolderRequest.h"
 #include "src/app/ApplicationContext.h"
 #include "src/log/log.h"
@@ -216,6 +217,28 @@ TEST_F(CTEST_Exporters,
 {
   controller->handle(
       std::make_shared<ExportUltralyticsSegmentRequest>(export_dir.string()));
+
+  EXPECT_TRUE(fs::is_directory(export_dir / "images/train"));
+  EXPECT_TRUE(fs::is_directory(export_dir / "labels/train"));
+
+  ASSERT_TRUE(fs::is_regular_file(export_dir / "data.yaml"));
+
+  const std::string yaml = read_file(export_dir / "data.yaml");
+
+  EXPECT_NE(yaml.find("train: images/train"), std::string::npos);
+  EXPECT_NE(yaml.find(known_annotation_name), std::string::npos);
+
+  // neither of the two layouts the sibling cases ask for
+  EXPECT_FALSE(fs::is_directory(export_dir / "cfg"));
+  EXPECT_FALSE(
+      fs::is_regular_file(export_dir / (known_annotation_name + ".txt")));
+}
+
+TEST_F(CTEST_Exporters,
+       yolo26_segment_request_writes_the_ultralytics_layout)
+{
+  controller->handle(
+      std::make_shared<ExportYolo26SegmentRequest>(export_dir.string()));
 
   EXPECT_TRUE(fs::is_directory(export_dir / "images/train"));
   EXPECT_TRUE(fs::is_directory(export_dir / "labels/train"));

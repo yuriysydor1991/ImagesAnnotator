@@ -179,6 +179,26 @@ TEST(UTEST_EventsFactory,
             "/out");
 }
 
+TEST(UTEST_EventsFactory, create_yolo26_segment_export_request_carries_folder)
+{
+  EXPECT_EQ(factory()
+                ->create_yolo26_segment_export_request("/out")
+                ->dst_folder_path,
+            "/out");
+}
+
+TEST(UTEST_EventsFactory, create_image_segment_record_is_named_like_a_rect)
+{
+  auto ir = ImageRecord::create("a.png", "/d");
+  ir->rects.emplace_back(std::make_shared<ImageRecordRect>());
+
+  auto s = factory()->create_image_segment_record(ir);
+
+  ASSERT_NE(s, nullptr);
+  EXPECT_EQ(s->name, EventsFactory::default_numbered_name_record_prefix + "1");
+  EXPECT_TRUE(s->points.empty());
+}
+
 TEST(UTEST_EventsFactory, create_coco_export_request_carries_folder)
 {
   EXPECT_EQ(factory()->create_coco_export_request("/out")->dst_folder_path,

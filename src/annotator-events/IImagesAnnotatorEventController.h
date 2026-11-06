@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -65,6 +65,8 @@
 #include "src/annotator-events/events/ExportUltralyticsObbRequestHandler.h"
 #include "src/annotator-events/events/ExportUltralyticsSegmentRequest.h"
 #include "src/annotator-events/events/ExportUltralyticsSegmentRequestHandler.h"
+#include "src/annotator-events/events/ExportYolo26SegmentRequest.h"
+#include "src/annotator-events/events/ExportYolo26SegmentRequestHandler.h"
 #include "src/annotator-events/events/ExportYolo4FolderRequest.h"
 #include "src/annotator-events/events/ExportYolo4FolderRequestHandler.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
@@ -177,6 +179,10 @@ class IImagesAnnotatorEventController
   virtual void submit(events::ExportUltralyticsSegmentRequestPtr event) = 0;
   virtual void subscribe(
       events::ExportUltralyticsSegmentRequestHandlerPtr handler) = 0;
+
+  virtual void submit(events::ExportYolo26SegmentRequestPtr event) = 0;
+  virtual void subscribe(
+      events::ExportYolo26SegmentRequestHandlerPtr handler) = 0;
 
   virtual void submit(events::ExportCocoRequestPtr event) = 0;
   virtual void subscribe(events::ExportCocoRequestHandlerPtr handler) = 0;

@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -139,6 +139,12 @@ std::shared_ptr<ImageRecordRect> EventsFactory::create_image_rect_record(
                                                      nheight);
 }
 
+ImageRecordSegmentPtr EventsFactory::create_image_segment_record(
+    const ImageRecordPtr& ir)
+{
+  return records_factory()->create_image_segment_record(ir);
+}
+
 std::shared_ptr<ImageRecord> EventsFactory::create_image_record(
     const std::string& nirpath, const std::string& nabsPath)
 {
@@ -194,6 +200,13 @@ EventsFactory::create_ultralytics_segment_export_request(
     const std::string& exportDirPath)
 {
   return std::make_shared<ExportUltralyticsSegmentRequest>(exportDirPath);
+}
+
+ExportYolo26SegmentRequestPtr
+EventsFactory::create_yolo26_segment_export_request(
+    const std::string& exportDirPath)
+{
+  return std::make_shared<ExportYolo26SegmentRequest>(exportDirPath);
 }
 
 ExportCocoRequestPtr EventsFactory::create_coco_export_request(

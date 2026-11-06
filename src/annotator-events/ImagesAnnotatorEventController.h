@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -130,6 +130,10 @@ class ImagesAnnotatorEventController
   virtual void subscribe(
       events::ExportUltralyticsSegmentRequestHandlerPtr handler) override;
 
+  virtual void submit(events::ExportYolo26SegmentRequestPtr event) override;
+  virtual void subscribe(
+      events::ExportYolo26SegmentRequestHandlerPtr handler) override;
+
   virtual void submit(events::ExportCocoRequestPtr event) override;
   virtual void subscribe(events::ExportCocoRequestHandlerPtr handler) override;
 
@@ -247,6 +251,8 @@ class ImagesAnnotatorEventController
       std::set<events::ExportUltralyticsObbRequestHandlerPtr>;
   using ultralyticsSegmentExportersSet =
       std::set<events::ExportUltralyticsSegmentRequestHandlerPtr>;
+  using yolo26SegmentExportersSet =
+      std::set<events::ExportYolo26SegmentRequestHandlerPtr>;
   using cocoExportersSet = std::set<events::ExportCocoRequestHandlerPtr>;
   using pascalVocExportersSet =
       std::set<events::ExportPascalVocRequestHandlerPtr>;
@@ -304,6 +310,7 @@ class ImagesAnnotatorEventController
   ultralyticsDetectExportersSet ultralyticsDetectExporters_handlers;
   ultralyticsObbExportersSet ultralyticsObbExporters_handlers;
   ultralyticsSegmentExportersSet ultralyticsSegmentExporters_handlers;
+  yolo26SegmentExportersSet yolo26SegmentExporters_handlers;
   cocoExportersSet cocoExporters_handlers;
   pascalVocExportersSet pascalVocExporters_handlers;
   createMLExportersSet createMLExporters_handlers;

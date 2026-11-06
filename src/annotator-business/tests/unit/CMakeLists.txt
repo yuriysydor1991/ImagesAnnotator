@@ -23,6 +23,7 @@ set(ANNOTATOR_EVENTS_SRC
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportUltralyticsDetectRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportUltralyticsObbRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportUltralyticsSegmentRequest.cpp
+  ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportYolo26SegmentRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportCocoRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportPascalVocRequest.cpp
   ${CMAKE_SOURCE_DIR}/src/annotator-events/events/ExportCreateMLRequest.cpp

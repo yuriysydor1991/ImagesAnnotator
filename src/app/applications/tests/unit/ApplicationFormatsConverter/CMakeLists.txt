@@ -23,6 +23,7 @@ add_executable(
   ${EVENTS_SRC}/ExportUltralyticsDetectRequest.cpp
   ${EVENTS_SRC}/ExportUltralyticsObbRequest.cpp
   ${EVENTS_SRC}/ExportUltralyticsSegmentRequest.cpp
+  ${EVENTS_SRC}/ExportYolo26SegmentRequest.cpp
   ${EVENTS_SRC}/ExportCocoRequest.cpp
   ${EVENTS_SRC}/ExportPascalVocRequest.cpp
   ${EVENTS_SRC}/ExportCreateMLRequest.cpp

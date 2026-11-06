@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -249,6 +249,18 @@ void ImagesAnnotatorEventController::subscribe(
     events::ExportUltralyticsSegmentRequestHandlerPtr handler)
 {
   ultralyticsSegmentExporters_handlers.insert(handler);
+}
+
+void ImagesAnnotatorEventController::submit(
+    events::ExportYolo26SegmentRequestPtr event)
+{
+  unified_submit(yolo26SegmentExporters_handlers, event);
+}
+
+void ImagesAnnotatorEventController::subscribe(
+    events::ExportYolo26SegmentRequestHandlerPtr handler)
+{
+  yolo26SegmentExporters_handlers.insert(handler);
 }
 
 void ImagesAnnotatorEventController::submit(events::ExportCocoRequestPtr event)

@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -62,6 +62,8 @@
 #include "src/annotator-events/events/ExportUltralyticsObbRequestHandler.h"
 #include "src/annotator-events/events/ExportUltralyticsSegmentRequest.h"
 #include "src/annotator-events/events/ExportUltralyticsSegmentRequestHandler.h"
+#include "src/annotator-events/events/ExportYolo26SegmentRequest.h"
+#include "src/annotator-events/events/ExportYolo26SegmentRequestHandler.h"
 #include "src/annotator-events/events/ExportYolo4FolderRequest.h"
 #include "src/annotator-events/events/ExportYolo4FolderRequestHandler.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
@@ -140,6 +142,8 @@ class AnnotatorTypeAliases
       iade::UltralyticsObbExportContext;
   using UltralyticsSegmentExportContext =
       iade::UltralyticsSegmentExportContext;
+  using Yolo26SegmentExportContext =
+      iade::Yolo26SegmentExportContext;
   using CocoExportContext = iade::CocoExportContext;
   using PascalVocExportContext = iade::PascalVocExportContext;
   using CreateMLExportContext = iade::CreateMLExportContext;
@@ -191,6 +195,10 @@ class AnnotatorTypeAliases
       events::events::ExportUltralyticsSegmentRequestPtr;
   using ExportUltralyticsSegmentRequestHandlerPtr =
       events::events::ExportUltralyticsSegmentRequestHandlerPtr;
+  using ExportYolo26SegmentRequestPtr =
+      events::events::ExportYolo26SegmentRequestPtr;
+  using ExportYolo26SegmentRequestHandlerPtr =
+      events::events::ExportYolo26SegmentRequestHandlerPtr;
   using ExportCocoRequestPtr = events::events::ExportCocoRequestPtr;
   using ExportCocoRequestHandlerPtr =
       events::events::ExportCocoRequestHandlerPtr;

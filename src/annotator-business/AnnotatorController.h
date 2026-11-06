@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -62,6 +62,8 @@
 #include "src/annotator-events/events/ExportUltralyticsObbRequestHandler.h"
 #include "src/annotator-events/events/ExportUltralyticsSegmentRequest.h"
 #include "src/annotator-events/events/ExportUltralyticsSegmentRequestHandler.h"
+#include "src/annotator-events/events/ExportYolo26SegmentRequest.h"
+#include "src/annotator-events/events/ExportYolo26SegmentRequestHandler.h"
 #include "src/annotator-events/events/ExportYolo4FolderRequest.h"
 #include "src/annotator-events/events/ExportYolo4FolderRequestHandler.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
@@ -124,6 +126,7 @@ class AnnotatorController
       virtual public events::events::ExportUltralyticsDetectRequestHandler,
       virtual public events::events::ExportUltralyticsObbRequestHandler,
       virtual public events::events::ExportUltralyticsSegmentRequestHandler,
+      virtual public events::events::ExportYolo26SegmentRequestHandler,
       virtual public events::events::ExportCocoRequestHandler,
       virtual public events::events::ExportPascalVocRequestHandler,
       virtual public events::events::ExportCreateMLRequestHandler,
@@ -166,6 +169,7 @@ class AnnotatorController
   virtual void handle(ExportUltralyticsDetectRequestPtr event) override;
   virtual void handle(ExportUltralyticsObbRequestPtr event) override;
   virtual void handle(ExportUltralyticsSegmentRequestPtr event) override;
+  virtual void handle(ExportYolo26SegmentRequestPtr event) override;
   virtual void handle(ExportCocoRequestPtr event) override;
   virtual void handle(ExportPascalVocRequestPtr event) override;
   virtual void handle(ExportCreateMLRequestPtr event) override;

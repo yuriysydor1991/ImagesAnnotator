@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -50,9 +50,11 @@
 #include "src/annotator-events/events/ExportUltralyticsDetectRequest.h"
 #include "src/annotator-events/events/ExportUltralyticsObbRequest.h"
 #include "src/annotator-events/events/ExportUltralyticsSegmentRequest.h"
+#include "src/annotator-events/events/ExportYolo26SegmentRequest.h"
 #include "src/annotator-events/events/ExportYolo4FolderRequest.h"
 #include "src/annotator-events/events/ImageRecord.h"
 #include "src/annotator-events/events/ImageRecordRect.h"
+#include "src/annotator-events/events/ImageRecordSegment.h"
 #include "src/annotator-events/events/ImagesDirChanged.h"
 #include "src/annotator-events/events/ImagesDirChangedIHandler.h"
 #include "src/annotator-events/events/ImagesDirProviderChanged.h"
@@ -117,6 +119,9 @@ class EventsFactory : public std::enable_shared_from_this<EventsFactory>
       const std::string& npath, const int& nx, const int& ny, const int& nwidth,
       const int& nheight);
 
+  virtual ImageRecordSegmentPtr create_image_segment_record(
+      const ImageRecordPtr& ir = nullptr);
+
   virtual std::shared_ptr<ImageRecord> create_image_record(
       const std::string& nirpath = "", const std::string& nabsPath = "");
 
@@ -142,6 +147,9 @@ class EventsFactory : public std::enable_shared_from_this<EventsFactory>
 
   virtual ExportUltralyticsSegmentRequestPtr
   create_ultralytics_segment_export_request(const std::string& exportDirPath);
+
+  virtual ExportYolo26SegmentRequestPtr create_yolo26_segment_export_request(
+      const std::string& exportDirPath);
 
   virtual ExportCocoRequestPtr create_coco_export_request(
       const std::string& exportDirPath);

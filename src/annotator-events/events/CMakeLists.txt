@@ -19,6 +19,7 @@ add_library(
   ExportUltralyticsDetectRequest.cpp
   ExportUltralyticsObbRequest.cpp
   ExportUltralyticsSegmentRequest.cpp
+  ExportYolo26SegmentRequest.cpp
   ExportCocoRequest.cpp
   ExportPascalVocRequest.cpp
   ExportCreateMLRequest.cpp

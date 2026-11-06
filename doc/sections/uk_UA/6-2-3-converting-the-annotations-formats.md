@@ -45,7 +45,7 @@ ImagesAnnotatorConverter](/doc/sections/uk_UA/5-40-the-ImagesAnnotatorConverter-
 
 | `FORMAT` | Анотації, які він позначає |
 | --- | --- |
-| `imagesannotator` | файл проекту анотацій самого застосунку: стиснений gzip файл imgajz1 або файл JSON |
+| `imagesannotator` | файл проекту анотацій самого застосунку: один зі стиснених gzip файлів imgajz2 та imgajz1 або файл JSON |
 | `plain-txt` | текстові файли з одним рядком на прямокутник |
 | `yolo4` | тренувальна директорія darknet YOLO v4 |
 | `ultralytics-detect` | набір даних виявлення Ultralytics YOLO |
@@ -67,8 +67,9 @@ ImagesAnnotatorConverter](/doc/sections/uk_UA/5-40-the-ImagesAnnotatorConverter-
 
 Формат файлу проекту для шляху `imagesannotator` визначає розширення імені
 файлу, з обох боків конвертації: шлях з розширенням `.imgajz1` - це файл
-проекту imgajz1, рідний для застосунку, - стиснений gzip файл проекту JSON, - а
-будь-який інший шлях - звичайний файл проекту JSON. Тож рідний проект
+проекту imgajz1, рідний для застосунку, - стиснений gzip файл проекту JSON, -
+шлях з розширенням `.imgajz2` - файл проекту imgajz2, єдиний, що зберігає
+сегменти, а будь-який інший шлях - звичайний файл проекту JSON. Тож рідний проект
 конвертується і між двома своїми файлами:
 
 ```

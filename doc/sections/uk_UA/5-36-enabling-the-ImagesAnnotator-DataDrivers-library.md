@@ -51,7 +51,7 @@ cmake -S . -B build -DTEMPLATE_APP_IADD_PACKAGE=ImagesAnnotatorDataDrivers-0
 
 ### Що проект бере з бібліотеки
 
-- `ImageRecord` та `ImageRecordRect` - об'єкти-значення записів, які передаються по всьому проекту, включно з графічним інтерфейсом. Заголовки з такими назвами у `src/annotator-events/events/` тепер є псевдонімами типів бібліотеки.
+- `ImageRecord`, `ImageRecordRect` та його нащадок `ImageRecordSegment` багатокутників сегментації - об'єкти-значення записів, які передаються по всьому проекту, включно з графічним інтерфейсом. Заголовки з такими назвами у `src/annotator-events/events/` тепер є псевдонімами типів бібліотеки.
 - `IAnnotationsDB` - база даних проекту анотацій, яку тримає `AnnotatorController` та створює через `IADataDriversFacade::create_annotations_db()`.
 - `IImagesPathsDBProvider` - інтерфейс доступу до записів тільки для читання, який споживає графічний інтерфейс та реалізує `AnnotatorController`.
 - `IRecordsFactory` - фабрика записів, до якої `EventsFactory` проекту делегує свої методи створення записів.

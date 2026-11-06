@@ -51,7 +51,7 @@ cmake -S . -B build -DTEMPLATE_APP_IADD_PACKAGE=ImagesAnnotatorDataDrivers-0
 
 ### What the project takes from the library
 
-- `ImageRecord` and `ImageRecordRect` - the record value objects the whole project, the GUI included, passes around. The `src/annotator-events/events/` headers of those names are aliases onto the library types now.
+- `ImageRecord`, `ImageRecordRect` and its `ImageRecordSegment` descendant of the segmentation polygons - the record value objects the whole project, the GUI included, passes around. The `src/annotator-events/events/` headers of those names are aliases onto the library types now.
 - `IAnnotationsDB` - the annotations project database the `AnnotatorController` holds, created through `IADataDriversFacade::create_annotations_db()`.
 - `IImagesPathsDBProvider` - the read only records access interface the GUI consumes, which the `AnnotatorController` implements.
 - `IRecordsFactory` - the records factory the project `EventsFactory` delegates its record creating methods to.

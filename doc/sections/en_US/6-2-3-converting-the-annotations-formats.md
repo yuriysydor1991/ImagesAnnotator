@@ -43,7 +43,7 @@ libraries, the same ones the import and the export submenus offer:
 
 | `FORMAT` | The annotations it names |
 | --- | --- |
-| `imagesannotator` | the annotations project file of the application: the gzip compressed imgajz1 one or the JSON one |
+| `imagesannotator` | the annotations project file of the application: one of the gzip compressed imgajz2 and imgajz1 ones or the JSON one |
 | `plain-txt` | the plain text files of one line per rectangle |
 | `yolo4` | the darknet YOLO v4 training directory |
 | `ultralytics-detect` | the Ultralytics YOLO detection dataset |
@@ -66,7 +66,9 @@ well. A destination that does not exist yet is created.
 The file name extension of the `imagesannotator` path tells the project file
 format, on either side of a conversion: a path of the `.imgajz1` extension is
 the imgajz1 project file, the native one of the application - the JSON project
-file gzip compressed - and any other path is the plain JSON project file. So
+file gzip compressed - a path of the `.imgajz2` one the imgajz2 project file,
+the only one to keep the segments, and any other path is the plain JSON project
+file. So
 the native project converts between its two files as well:
 
 ```

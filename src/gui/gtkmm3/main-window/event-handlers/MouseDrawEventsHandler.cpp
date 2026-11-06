@@ -127,7 +127,14 @@ bool MouseDrawEventsHandler::handle_rectangle_draw_start(GdkEventButton* event)
     return true;
   }
 
-  ir->current_rect = efactory->create_image_rect_record(ir);
+  if (mwctx->wloader->get_segmentation_toggle()->get_active()) {
+    ops->segment = efactory->create_image_segment_record(ir);
+    ir->current_rect = ops->segment;
+  } else {
+    ops->segment.reset();
+    ir->current_rect = efactory->create_image_rect_record(ir);
+  }
+
   ir->rects.emplace_back(ir->current_rect);
 
   assert(ir->current_rect != nullptr);
@@ -142,6 +149,11 @@ bool MouseDrawEventsHandler::handle_rectangle_draw_start(GdkEventButton* event)
 
   ir->current_rect->x = toI(toD(event->x) / imageScale);
   ir->current_rect->y = toI(toD(event->y) / imageScale);
+
+  if (ops->segment != nullptr) {
+    ops->segment->add_point(toD(event->x) / imageScale,
+                            toD(event->y) / imageScale);
+  }
 
   ops->update_current_rects_list();
 
@@ -179,6 +191,7 @@ bool MouseDrawEventsHandler::handle_rectangle_draw_end(GdkEventButton* event)
   }
 
   ops->dragging = false;
+  ops->segment.reset();
 
   assert(mwctx->centralCanvas != nullptr);
 
@@ -407,6 +420,14 @@ bool MouseDrawEventsHandler::handle_rectangle_size_change(GdkEventMotion* event)
   assert(pixbuf);
 
   const auto& imageScale = ir->imageScale;
+
+  if (ops->segment != nullptr && pixbuf) {
+    ops->segment->add_point(
+        std::clamp(event->x, 0.0, toD(pixbuf->get_width())) / imageScale,
+        std::clamp(event->y, 0.0, toD(pixbuf->get_height())) / imageScale);
+    mwctx->centralCanvas->queue_draw();
+    return true;
+  }
 
   double start_x = toD(ir->current_rect->x);
   double start_y = toD(ir->current_rect->y);

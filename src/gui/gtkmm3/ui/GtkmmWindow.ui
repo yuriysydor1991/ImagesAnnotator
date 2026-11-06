@@ -149,6 +149,11 @@
     <property name="can-focus">False</property>
     <property name="icon-name">folder-symbolic</property>
   </object>
+  <object class="GtkImage" id="image35">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">folder-symbolic</property>
+  </object>
   <object class="GtkImage" id="image2">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -366,6 +371,16 @@
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
                                     <property name="image">image14</property>
+                                    <property name="use-stock">False</property>
+                                    <property name="always-show-image">True</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkImageMenuItem" id="annotations_export_yolo26_segment_2_folder">
+                                    <property name="label" translatable="yes">Ultralytics YOLO26 segmentation folder</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="image">image35</property>
                                     <property name="use-stock">False</property>
                                     <property name="always-show-image">True</property>
                                   </object>
@@ -849,6 +864,21 @@
                                     <property name="expand">False</property>
                                     <property name="fill">True</property>
                                     <property name="position">3</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkCheckButton" id="segmentation_annotations_toggle">
+                                    <property name="label" translatable="yes">Segmentation</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">True</property>
+                                    <property name="receives-default">False</property>
+                                    <property name="tooltip-text" translatable="yes">Draw the new annotations as the segmentation polygons</property>
+                                    <property name="draw-indicator">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">4</property>
                                   </packing>
                                 </child>
                               </object>

@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -70,6 +70,7 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual Gtk::Entry* get_edit_current_rect_entry();
   virtual Gtk::Button* get_prev_file_button();
   virtual Gtk::Button* get_next_file_button();
+  virtual Gtk::CheckButton* get_segmentation_toggle();
   virtual Gtk::Statusbar* get_window_status_bar();
   virtual Gtk::Button* get_copy_current_annotation_button();
   virtual Gtk::Overlay* get_main_overlay();
@@ -95,6 +96,7 @@ class WindowLoader : virtual public ComponentTypesAliases
   virtual Gtk::ImageMenuItem* get_export_ultralytics_detect_folder_mi();
   virtual Gtk::ImageMenuItem* get_export_ultralytics_obb_folder_mi();
   virtual Gtk::ImageMenuItem* get_export_ultralytics_segment_folder_mi();
+  virtual Gtk::ImageMenuItem* get_export_yolo26_segment_folder_mi();
   virtual Gtk::ImageMenuItem* get_export_coco_folder_mi();
   virtual Gtk::ImageMenuItem* get_export_pascal_voc_folder_mi();
   virtual Gtk::ImageMenuItem* get_export_createml_folder_mi();

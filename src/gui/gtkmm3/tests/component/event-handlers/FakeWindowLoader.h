@@ -28,6 +28,7 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm3::window::WindowLoader
 
   Gtk::Button* get_prev_file_button() override { return &prev_; }
   Gtk::Button* get_next_file_button() override { return &next_; }
+  Gtk::CheckButton* get_segmentation_toggle() override { return &segmentation_; }
 
   Gtk::ListBox* get_images_list() override { return &images_list_; }
   Gtk::SearchEntry* get_images_search_entry() override
@@ -115,6 +116,10 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm3::window::WindowLoader
   Gtk::ImageMenuItem* get_export_ultralytics_segment_folder_mi() override
   {
     return &export_ultralytics_segment_mi_;
+  }
+  Gtk::ImageMenuItem* get_export_yolo26_segment_folder_mi() override
+  {
+    return &export_yolo26_segment_mi_;
   }
   Gtk::ImageMenuItem* get_export_coco_folder_mi() override
   {
@@ -208,6 +213,7 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm3::window::WindowLoader
   Gtk::Window window_;
 
   Gtk::Button zoom_in_;
+  Gtk::CheckButton segmentation_;
   Gtk::Button zoom_out_;
   Gtk::Button prev_;
   Gtk::Button next_;
@@ -239,6 +245,7 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm3::window::WindowLoader
   Gtk::ImageMenuItem export_ultralytics_detect_mi_;
   Gtk::ImageMenuItem export_ultralytics_obb_mi_;
   Gtk::ImageMenuItem export_ultralytics_segment_mi_;
+  Gtk::ImageMenuItem export_yolo26_segment_mi_;
   Gtk::ImageMenuItem export_coco_mi_;
   Gtk::ImageMenuItem export_pascal_voc_mi_;
   Gtk::ImageMenuItem export_createml_mi_;

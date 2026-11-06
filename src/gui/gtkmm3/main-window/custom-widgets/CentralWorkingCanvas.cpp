@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -108,8 +108,11 @@ void CentralWorkingCanvas::draw_rectangle(
   const int tw = toI(toD(rptr->width) * is);
   const int th = toI(toD(rptr->height) * is);
 
-  cr->rectangle(tx, ty, tw, th);
+  for (const auto& [px, py] : rptr->outline()) {
+    cr->line_to(px * is, py * is);
+  }
 
+  cr->close_path();
   cr->stroke();
 
   static const int minSize = cornersPixelSize * 2 + 2;

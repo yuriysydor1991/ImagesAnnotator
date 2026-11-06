@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -132,6 +132,13 @@ class CustomWidgetsFactory
   virtual std::shared_ptr<Gtk::FileChooserDialog>
   create_ultralytics_segment_export_folder_choose_dialog(
       Gtk::Window* parentWindow);
+
+  /**
+   * @brief Creates the directory chooser of the Ultralytics YOLO26
+   * segmentation dataset export.
+   */
+  virtual std::shared_ptr<Gtk::FileChooserDialog>
+  create_yolo26_segment_export_folder_choose_dialog(Gtk::Window* parentWindow);
   /**
    * @brief Creates the directory chooser of the COCO object detection dataset
    * export.

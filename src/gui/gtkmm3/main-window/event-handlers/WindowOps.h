@@ -32,6 +32,7 @@
 #include <memory>
 #include <string>
 
+#include "src/annotator-events/events/ImageRecordSegment.h"
 #include "src/gui/gtkmm3/ComponentTypesAliases.h"
 #include "src/gui/gtkmm3/gtkmm_includes.h"
 #include "src/helpers/TypeHelper.h"
@@ -127,6 +128,8 @@ class WindowOps : virtual public ComponentTypesAliases,
   std::shared_ptr<MainWindowContext> mwctx;
 
   bool dragging{false};
+  /// @brief The segment the drag draws, while the segmentation is toggled on
+  events::events::ImageRecordSegmentPtr segment;
   bool isOverResize{false};
   bool lastChangedStatus{false};
 

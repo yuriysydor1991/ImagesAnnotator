@@ -39,8 +39,9 @@ namespace imagesAnnotatorGtkmm3::window::event_handlers
 {
 
 /**
- * @brief Handles the central canvas mouse events: rectangle drawing, resizing
- * and the resize cursor feedback.
+ * @brief Handles the central canvas mouse events: the drawing of a rectangle,
+ * or of a segment polygon while the segmentation is toggled on, resizing and
+ * the resize cursor feedback.
  */
 class MouseDrawEventsHandler : public AbstractWindowEventHandler,
                                virtual public ::helpers::TypeHelper

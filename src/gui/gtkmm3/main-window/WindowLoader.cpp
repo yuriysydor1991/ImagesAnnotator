@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -463,6 +463,14 @@ Gtk::Button* WindowLoader::get_next_file_button()
   return get_widget<Gtk::Button>(mwctx->wctx->next_image_button_id);
 }
 
+Gtk::CheckButton* WindowLoader::get_segmentation_toggle()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::CheckButton>(
+      mwctx->wctx->segmentation_annotations_toggle_id);
+}
+
 Gtk::Statusbar* WindowLoader::get_window_status_bar()
 {
   assert(mwctx->wctx != nullptr);
@@ -551,6 +559,14 @@ Gtk::ImageMenuItem* WindowLoader::get_export_ultralytics_segment_folder_mi()
 
   return get_widget<Gtk::ImageMenuItem>(
       mwctx->wctx->annotations_export_ultralytics_segment_2_folder_id);
+}
+
+Gtk::ImageMenuItem* WindowLoader::get_export_yolo26_segment_folder_mi()
+{
+  assert(mwctx->wctx != nullptr);
+
+  return get_widget<Gtk::ImageMenuItem>(
+      mwctx->wctx->annotations_export_yolo26_segment_2_folder_id);
 }
 
 Gtk::ImageMenuItem* WindowLoader::get_export_coco_folder_mi()

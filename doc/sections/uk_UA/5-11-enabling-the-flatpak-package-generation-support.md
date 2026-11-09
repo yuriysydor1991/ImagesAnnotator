@@ -26,7 +26,7 @@ cmake --build build --target flatpak
 
 | Графічний інструментарій | Параметр конфігурування | Маніфест | Середовище виконання та SDK | Збирається у пісочниці |
 | --- | --- | --- | --- | --- |
-| GTKmm3 (типовий) | `-DUSE_GTKMM3=ON` | [flatpak-gtkmm3.conf.json.in](/misc/packagers/flatpak/flatpak-gtkmm3.conf.json.in) | `org.gnome.Platform` та `org.gnome.Sdk` 48 | graphviz, mm-common, GTKmm 3.24.8 |
+| GTKmm3 (типовий) | `-DUSE_GTKMM3=ON` | [flatpak-gtkmm3.conf.json.in](/misc/packagers/flatpak/flatpak-gtkmm3.conf.json.in) | `org.gnome.Platform` та `org.gnome.Sdk` 48 | libsigc++ 2.12, glibmm 2.66, cairomm 1.14, pangomm 2.46, atkmm 2.28, GTKmm 3.24 |
 | GTKmm4 | `-DUSE_GTKMM4=ON` | [flatpak-gtkmm4.conf.json.in](/misc/packagers/flatpak/flatpak-gtkmm4.conf.json.in) | `org.gnome.Platform` та `org.gnome.Sdk` 49 | libsigc++ 3.6, glibmm 2.86, cairomm 1.18, pangomm 2.56, GTKmm 4.20 |
 | Qt6 | `-DUSE_QT6=ON` | [flatpak-qt6.conf.json.in](/misc/packagers/flatpak/flatpak-qt6.conf.json.in) | `org.kde.Platform` та `org.kde.Sdk` 6.10 | нічого, Qt6 входить до середовища виконання |
 | wxWidgets | `-DUSE_WXWIDGETS=ON` | [flatpak-wxwidgets.conf.json.in](/misc/packagers/flatpak/flatpak-wxwidgets.conf.json.in) | `org.gnome.Platform` та `org.gnome.Sdk` 49 | wxWidgets 3.2.9 |
@@ -35,6 +35,10 @@ cmake --build build --target flatpak
 Кожен маніфест додатково збирає бібліотеку nlohmann json, модулі core, imgproc та imgcodecs бібліотеки OpenCV і три бібліотеки ImagesAnnotator та конфігурує проект з параметром свого рядка. OpenCV дає бібліотекам експортерів та імпортерів власні засоби вирізання зображень і визначення їх розміру, які бінарному файлу конвертера нема чим замінити, адже графічного інструментарію він не має (див. [Виконуваний файл ImagesAnnotatorConverter](/doc/sections/uk_UA/5-40-the-ImagesAnnotatorConverter-binary.md)).
 
 Ціль `flatpak` сама встановлює з flathub середовище виконання та SDK, які називає обраний маніфест (параметр `--install-deps-from=flathub` команди `flatpak-builder`), і додає віддалене сховище flathub до встановлення користувача, якщо його там немає, тож зміна інструментарію не потребує жодної іншої підготовки. Див. [Необов'язковий програми для генерації пакету flatpak](/doc/sections/uk_UA/3-9-optional-for-the-flatpak-packager.md).
+
+Ціль запускає команду `flatpak-builder` з параметром `--disable-rofiles-fuse`, тож зібрані раніше модулі `flatpak-builder` копіює до директорії `flatpak-build`, а не підставляє туди жорсткими посиланнями на свій кеш під FUSE-монтуванням `rofiles-fuse`. Це монтування лягає всередину директорії `.flatpak-builder` директорії побудови, а профіль AppArmor команди `fusermount3` в Ubuntu 25.04 і новіших дозволяє його лише всередині домашньої директорії та директорій `/tmp`, `/mnt`, `/media` і `/run/user/<uid>`: з директорією побудови будь-де інде - скажімо, на зовнішньому диску під `/run/media` - кожна збірка flatpak завершувалася помилками `fusermount3: mount failed: Permission denied` та `Failure spawning rofiles-fuse`. Так само flatpak збирається і в контейнері без `/dev/fuse`.
+
+Сервер cairographics.org, з якого маніфести GTKmm3 та GTKmm4 завантажують cairomm, час від часу скидає з'єднання, тож серед `mirror-urls` джерела cairomm названо кеш вихідних кодів Fedora (lookaside cache), який зберігає той самий архів: якщо cairographics.org не віддає архів, `flatpak-builder` завантажує його звідти і перевіряє тією самою контрольною сумою.
 
 Щоб запакувати проект власним маніфестом, передай його кеш-змінною `FLATPAK_CONF_SRC` (наприклад `-DFLATPAK_CONF_SRC=/path/to/manifest.json.in`): він конфігурується так само, а його члени `sdk` та `runtime-version` називають пакет. Якщо змінна порожня, як типово, маніфест слідує за обраним інструментарієм, зокрема й під час переконфігурування, яке змінює інструментарій.
 

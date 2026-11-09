@@ -113,12 +113,25 @@ message(STATUS "flatpak bundle: ${FLATPAK_DST_NAME}")
 # The runtime and the SDK the manifest names are installed from the flathub on
 # demand, as every toolkit asks for a pair of its own, and the --force-clean
 # lets a repeated build reuse the flatpak-build directory of the previous one.
+#
+# ImagesAnnotator specific: the --disable-rofiles-fuse keeps the flatpak-builder
+# from mounting the rofiles-fuse inside the .flatpak-builder directory of the
+# build directory, which is a FUSE mount the build directory may not be allowed
+# to have: the fusermount3 AppArmor profile of the Ubuntu 25.04 and newer allows
+# the FUSE mounts under the home, the /tmp, the /mnt, the /media and the
+# /run/user/<uid> directories alone, so a build directory anywhere else - an
+# external drive under the /run/media, say - fails every build with
+# "fusermount3: mount failed: Permission denied" and "Failure spawning
+# rofiles-fuse", and a container without the /dev/fuse cannot mount it at all.
+# Without it the flatpak-builder copies the cached modules into the
+# flatpak-build directory instead of hard linking them, which costs a few
+# seconds per build.
 add_custom_target(
   flatpak
   COMMAND
     ${FLATPAK_EXEC} remote-add --user --if-not-exists ${FLATPAK_DEPS_REMOTE} ${FLATPAK_DEPS_REMOTE_URL} &&
     ${FLATPAKB_EXEC} --user --install-deps-from=${FLATPAK_DEPS_REMOTE} --assumeyes --force-clean
-      --repo=${FLATPAK_REPO} "${CMAKE_BINARY_DIR}/flatpak-build" ${flatpakConfDst} &&
+      --disable-rofiles-fuse --repo=${FLATPAK_REPO} "${CMAKE_BINARY_DIR}/flatpak-build" ${flatpakConfDst} &&
     ${FLATPAK_EXEC} build-bundle ${FLATPAK_REPO} ${FLATPAK_DST_NAME} ${FLATPAK_APP_ID}
   WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
   COMMENT "Executing the flatpak-builder command to generate the ${FLATPAK_DST_NAME} flatpak package."

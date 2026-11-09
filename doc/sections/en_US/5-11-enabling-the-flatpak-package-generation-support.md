@@ -26,7 +26,7 @@ Each GUI toolkit is built against a runtime and modules of its own, so each has 
 
 | GUI toolkit | Configure option | Manifest | Runtime and SDK | Built inside the sandbox |
 | --- | --- | --- | --- | --- |
-| GTKmm3 (the default) | `-DUSE_GTKMM3=ON` | [flatpak-gtkmm3.conf.json.in](/misc/packagers/flatpak/flatpak-gtkmm3.conf.json.in) | `org.gnome.Platform` and `org.gnome.Sdk` 48 | graphviz, mm-common, GTKmm 3.24.8 |
+| GTKmm3 (the default) | `-DUSE_GTKMM3=ON` | [flatpak-gtkmm3.conf.json.in](/misc/packagers/flatpak/flatpak-gtkmm3.conf.json.in) | `org.gnome.Platform` and `org.gnome.Sdk` 48 | libsigc++ 2.12, glibmm 2.66, cairomm 1.14, pangomm 2.46, atkmm 2.28, GTKmm 3.24 |
 | GTKmm4 | `-DUSE_GTKMM4=ON` | [flatpak-gtkmm4.conf.json.in](/misc/packagers/flatpak/flatpak-gtkmm4.conf.json.in) | `org.gnome.Platform` and `org.gnome.Sdk` 49 | libsigc++ 3.6, glibmm 2.86, cairomm 1.18, pangomm 2.56, GTKmm 4.20 |
 | Qt6 | `-DUSE_QT6=ON` | [flatpak-qt6.conf.json.in](/misc/packagers/flatpak/flatpak-qt6.conf.json.in) | `org.kde.Platform` and `org.kde.Sdk` 6.10 | nothing, the runtime carries the Qt6 |
 | wxWidgets | `-DUSE_WXWIDGETS=ON` | [flatpak-wxwidgets.conf.json.in](/misc/packagers/flatpak/flatpak-wxwidgets.conf.json.in) | `org.gnome.Platform` and `org.gnome.Sdk` 49 | wxWidgets 3.2.9 |
@@ -35,6 +35,10 @@ Each GUI toolkit is built against a runtime and modules of its own, so each has 
 Every manifest additionally builds the nlohmann json library, the core, the imgproc and the imgcodecs modules of the OpenCV and the three ImagesAnnotator libraries, and configures the project with the option of its row. The OpenCV gives the exporters and the importers libraries the image cropper and the size reader of their own, which the converter binary has no GUI toolkit to stand in for (see [The ImagesAnnotatorConverter binary](/doc/sections/en_US/5-40-the-ImagesAnnotatorConverter-binary.md)).
 
 The `flatpak` target installs the runtime and the SDK the picked manifest names from the flathub by itself (the `--install-deps-from=flathub` of the `flatpak-builder`), adding the flathub remote to the user installation when it has none, so switching the toolkit needs no other preparation. See [Optional for the flatpak packager](/doc/sections/en_US/3-9-optional-for-the-flatpak-packager.md).
+
+The target starts the `flatpak-builder` with the `--disable-rofiles-fuse`, so it copies the modules it has built before into the `flatpak-build` directory rather than hard linking them out of its cache under the `rofiles-fuse`. That FUSE mount lands inside the `.flatpak-builder` directory of the build directory, and the `fusermount3` AppArmor profile of the Ubuntu 25.04 and newer allows it under the home, the `/tmp`, the `/mnt`, the `/media` and the `/run/user/<uid>` directories alone: a build directory anywhere else - on an external drive under the `/run/media`, say - failed every flatpak with the `fusermount3: mount failed: Permission denied` and the `Failure spawning rofiles-fuse` errors. A container without the `/dev/fuse` builds the flatpak the same way.
+
+The cairographics.org, which the GTKmm3 and the GTKmm4 manifests download the cairomm from, resets a connection now and then, so the source of the cairomm names the Fedora lookaside cache, which keeps the very same tarball, among its `mirror-urls`: the `flatpak-builder` downloads it from there when the cairographics.org fails, and checks it against the same checksum.
 
 To pack the project with a manifest of your own, hand it with the `FLATPAK_CONF_SRC` cache variable (e.g. `-DFLATPAK_CONF_SRC=/path/to/manifest.json.in`): it is configured the same way, and its `sdk` and `runtime-version` members name the bundle. Left empty, the default, the manifest follows the selected toolkit, a reconfigure switching the toolkit included.
 

@@ -467,7 +467,7 @@ jobs:
   # ---------------------------------------------------------------------------
   # Jenkins: "flatpak package" (RUN_FLATPAK_PACKAGER).
   #
-  # flatpak-builder compiles graphviz, mm-common, GTKmm 3.24.8 and OpenCV from
+  # flatpak-builder compiles the GTKmm 3.24 C++ bindings and OpenCV from
   # source inside the sandbox (see misc/packagers/flatpak/flatpak-gtkmm3.conf.json.in,
   # the manifest of the default GTKmm3 toolkit), so this job is by far the
   # longest one of the pipeline.

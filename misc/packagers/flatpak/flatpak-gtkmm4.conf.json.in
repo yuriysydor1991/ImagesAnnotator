@@ -48,6 +48,9 @@
         {
           "type": "archive",
           "url": "https://www.cairographics.org/releases/cairomm-1.18.1.tar.xz",
+          "mirror-urls": [
+            "https://src.fedoraproject.org/repo/pkgs/cairomm1.16/cairomm-1.18.1.tar.xz/sha512/ff23565dba657b45658613971429b5f06a60c585b467e9a302bda8ded7cf33dc3d4290b1699bd2bde907f5cbd3c8b4219d4e7f8442d65f61712767db6cb21874/cairomm-1.18.1.tar.xz"
+          ],
           "sha256": "e0e996a979ee52c840dca3ee74f5d005e3259b94ddce58f255d3b6f47c8cb41d"
         }
       ]

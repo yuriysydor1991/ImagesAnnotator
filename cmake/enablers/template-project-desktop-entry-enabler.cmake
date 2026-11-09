@@ -38,14 +38,16 @@ install(
   DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/applications"
 )
 
-# The themed icon. The single shared logo GResource asset is reused as the app
-# icon, renamed to the icon-theme name (<APPLICATION_ID>.png) on install. It is
-# placed in a standard hicolor size directory; the icon loader scales it to
-# whatever size the panel requests. (The asset is currently portrait 410x500,
-# so it renders proportionally rather than filling the square - swap in a square
-# multi-size icon later for a more polished look.)
-set(APP_ICON_SRC
-  "${CMAKE_SOURCE_DIR}/src/gui/gtkmm-common/ui/resources/images/kytok.org.ua-logo.png")
+# The themed icon: the single shared logo GResource asset, padded to a square
+# with transparent sides and scaled down to the 256x256 of the hicolor size
+# directory it is installed into, renamed to the icon-theme name
+# (<APPLICATION_ID>.png) on install; the icon loader scales it to whatever size
+# the panel requests. The asset itself is a portrait 410x500 one, which the
+# flatpak build-export rejects ("Expected a square icon but got: 410x500"), as
+# an exported icon has to be a square no larger than 512x512, and which did not
+# fit the size directory either. (Swap in a multi-size icon later for a more
+# polished look.)
+set(APP_ICON_SRC "${CMAKE_SOURCE_DIR}/misc/desktop/kytok.org.ua-logo-256x256.png")
 
 install(
   FILES "${APP_ICON_SRC}"

@@ -3,7 +3,9 @@ cmake_minimum_required(VERSION 3.13)
 # The name and the version of the destination operating system, which the
 # package file names of the CPack packagers carry after the destination CPU
 # (e.g. the -amd64-ubuntu-24.04 of a DEB package). Every such packager includes
-# this file and appends the TEMPLATE_PROJECT_PACKAGE_SYSTEM_SUFFIX it sets.
+# this file and appends the TEMPLATE_PROJECT_PACKAGE_SYSTEM_SUFFIX it sets, but
+# the AppImage one, whose name carries no system: it includes the file for the
+# ANNOTATOR_PACKAGE_FLAVOR_SUFFIX below alone.
 
 set(packageSystem "")
 
@@ -49,6 +51,7 @@ else()
   set(TEMPLATE_PROJECT_PACKAGE_SYSTEM_SUFFIX "")
 endif()
 
-# ImagesAnnotator specific: the GUI toolkit (or converter) follows the system,
-# telling apart the packages of every toolkit built on the same system.
+# ImagesAnnotator specific: the GUI toolkit (or converter) follows the system -
+# the CPU in the AppImage name - telling apart the packages of every toolkit
+# built on the same system.
 set(ANNOTATOR_PACKAGE_FLAVOR_SUFFIX -${ANNOTATOR_PACKAGE_FLAVOR})

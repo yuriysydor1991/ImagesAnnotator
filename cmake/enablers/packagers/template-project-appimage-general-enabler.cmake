@@ -47,14 +47,18 @@ set(
 # converter when it is the only one there.
 set(APPIMAGE_BINARY_NAME ${ANNOTATOR_PRIMARY_APP_TARGET})
 
-# the name and the version of the destination system and the GUI toolkit of
-# the packaged binary follow the destination CPU, as in every other package name
-# of the project
+# the GUI toolkit of the packaged binary follows the destination CPU, as in
+# every other package name of the project, while the destination system does
+# not: an AppImage is installed by the package manager of no particular system,
+# and the appimagetool and the linuxdeploy name one after the application, its
+# version and the CPU alone - the systems it runs on depend on the glibc it is
+# built with and on the libraries it carries or expects instead. The
+# package-system file is included for the ANNOTATOR_PACKAGE_FLAVOR_SUFFIX alone.
 include(template-project-package-system)
 
 set(
   APPIMAGE_PACKAGE_NAME
-  ${APPIMAGE_BINARY_NAME}-${CMAKE_PROJECT_VERSION}-${TEMPLATE_PROJECT_APPIMAGE_ARCHITECTURE}${TEMPLATE_PROJECT_PACKAGE_SYSTEM_SUFFIX}${ANNOTATOR_PACKAGE_FLAVOR_SUFFIX}
+  ${APPIMAGE_BINARY_NAME}-${CMAKE_PROJECT_VERSION}-${TEMPLATE_PROJECT_APPIMAGE_ARCHITECTURE}${ANNOTATOR_PACKAGE_FLAVOR_SUFFIX}
 )
 
 set(APPIMAGE_DST_NAME ${APPIMAGE_PACKAGE_NAME}.AppImage)

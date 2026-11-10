@@ -27,9 +27,11 @@
 
 #include "src/gui/wxwidgets/main-window/custom-widgets/CentralWorkingCanvas.h"
 
+#include <algorithm>
 #include <cassert>
 #include <vector>
 
+#include "src/helpers/SegmentPathHelper.h"
 #include "src/log/log.h"
 
 namespace imagesAnnotatorWx::window::custom_widgets
@@ -45,7 +47,9 @@ const wxColour normalColour(0, 51, 204);
 
 CentralWorkingCanvas::CentralWorkingCanvas(wxWindow* parent,
                                            std::shared_ptr<ImagePathLabel>& nci)
-    : wxScrolledWindow(parent, wxID_ANY), current_image{nci}
+    : wxScrolledWindow(parent, wxID_ANY),
+      current_image{nci},
+      pointMouseOver{helpers::SegmentPathHelper::npos}
 {
   SetScrollRate(10, 10);
   SetBackgroundStyle(wxBG_STYLE_PAINT);
@@ -114,6 +118,13 @@ void CentralWorkingCanvas::draw_rectangle(wxDC& dc,
   const int tw = toI(toD(rptr->width) * is);
   const int th = toI(toD(rptr->height) * is);
 
+  const auto segment = helpers::SegmentPathHelper::as_segment(rptr);
+
+  if (segment != nullptr && segment == drawnSegment) {
+    draw_segment_path(dc, segment, ir);
+    return;
+  }
+
   std::vector<wxPoint> polygon;
 
   for (const auto& [px, py] : rptr->outline()) {
@@ -121,6 +132,11 @@ void CentralWorkingCanvas::draw_rectangle(wxDC& dc,
   }
 
   dc.DrawPolygon(toI(polygon.size()), polygon.data());
+
+  if (segment != nullptr &&
+      (selected || is_inside_or_near_by(x, y, rptr, ir))) {
+    draw_segment_points(dc, segment, ir);
+  }
 
   static const int minSize = cornersPixelSize * 2 + 2;
 
@@ -152,6 +168,69 @@ void CentralWorkingCanvas::draw_rectangle(wxDC& dc,
   // down right corner
   dc.DrawRectangle(tx + tw - cornersPixelSize, ty + th - cornersPixelSize,
                    cornersPixelSize, cornersPixelSize);
+}
+
+void CentralWorkingCanvas::draw_segment_path(
+    wxDC& dc, const ImageRecordSegmentPtr& segment, ImageRecordPtr ir)
+{
+  assert(segment != nullptr);
+  assert(ir != nullptr);
+
+  const double& is = ir->imageScale;
+
+  const auto image = helpers::SegmentPathHelper::image_points(*segment);
+
+  std::vector<wxPoint> path;
+
+  for (const auto& [px, py] : image) {
+    path.emplace_back(toI(px * is), toI(py * is));
+  }
+
+  if (path.size() >= 2U) {
+    dc.DrawLines(toI(path.size()), path.data());
+  }
+
+  if (helpers::SegmentPathHelper::is_closable(*segment)) {
+    // The edge the Shift key release loops the path with
+    const wxPen pen = dc.GetPen();
+    wxPen dashed{pen};
+
+    dashed.SetStyle(wxPENSTYLE_SHORT_DASH);
+
+    dc.SetPen(dashed);
+    dc.DrawLine(path.back(), path.front());
+    dc.SetPen(pen);
+  }
+
+  draw_segment_points(dc, segment, ir);
+}
+
+void CentralWorkingCanvas::draw_segment_points(
+    wxDC& dc, const ImageRecordSegmentPtr& segment, ImageRecordPtr ir)
+{
+  assert(segment != nullptr);
+  assert(ir != nullptr);
+
+  const double& is = ir->imageScale;
+  const int half = pointPixelSize / 2;
+  const wxColour col = dc.GetPen().GetColour();
+
+  dc.SetPen(wxPen(col, 1));
+
+  const auto image = helpers::SegmentPathHelper::image_points(*segment);
+
+  for (std::size_t index = 0U; index < image.size(); ++index) {
+    const auto& [px, py] = image[index];
+
+    const bool selected =
+        segment == segmentMouseOver && index == pointMouseOver;
+
+    dc.SetBrush(selected ? wxBrush(col) : *wxTRANSPARENT_BRUSH);
+    dc.DrawRectangle(toI(px * is) - half, toI(py * is) - half, pointPixelSize,
+                     pointPixelSize);
+  }
+
+  dc.SetBrush(*wxTRANSPARENT_BRUSH);
 }
 
 bool CentralWorkingCanvas::set_bitmap(const wxBitmap& npb)
@@ -207,6 +286,11 @@ bool CentralWorkingCanvas::mouse_is_over_resize(const int& dx, const int& dy)
   }
 
   for (auto& rptr : ir->rects) {
+    // The segment being drawn has no resize corners drawn
+    if (rptr == drawnSegment) {
+      continue;
+    }
+
     if (!is_in_one_of_resize_rects(dx, dy, rptr, ir)) {
       continue;
     }
@@ -335,6 +419,78 @@ CentralWorkingCanvas::ImageRecordRectPtr
 CentralWorkingCanvas::get_mouse_over_rect()
 {
   return rectMouseOver;
+}
+
+bool CentralWorkingCanvas::mouse_is_over_point(const int& dx, const int& dy)
+{
+  using helpers::SegmentPathHelper;
+
+  const auto lastSegment = segmentMouseOver;
+  const auto lastPoint = pointMouseOver;
+
+  segmentMouseOver.reset();
+  pointMouseOver = SegmentPathHelper::npos;
+
+  auto ir = current_image != nullptr ? current_image->get_image_rec() : nullptr;
+
+  bool found = false;
+
+  if (ir != nullptr) {
+    const auto is_over = [&](const ImageRecordRectPtr& rptr) -> bool {
+      const auto segment = SegmentPathHelper::as_segment(rptr);
+
+      if (segment == nullptr || segment == drawnSegment) {
+        return false;
+      }
+
+      const auto index = SegmentPathHelper::find_point(*segment, toD(dx),
+                                                       toD(dy), ir->imageScale);
+
+      if (index == SegmentPathHelper::npos) {
+        return false;
+      }
+
+      segmentMouseOver = segment;
+      pointMouseOver = index;
+
+      return true;
+    };
+
+    found = is_over(ir->current_rect) ||
+            std::any_of(ir->rects.rbegin(), ir->rects.rend(), is_over);
+  }
+
+  if (lastSegment != segmentMouseOver || lastPoint != pointMouseOver) {
+    LOGT("Need to redraw since the selected segment point changed");
+    Refresh();
+  }
+
+  return found;
+}
+
+CentralWorkingCanvas::ImageRecordSegmentPtr
+CentralWorkingCanvas::get_mouse_over_segment()
+{
+  return segmentMouseOver;
+}
+
+std::size_t CentralWorkingCanvas::get_mouse_over_point()
+{
+  return pointMouseOver;
+}
+
+void CentralWorkingCanvas::set_drawn_segment(
+    const ImageRecordSegmentPtr& nsegment)
+{
+  drawnSegment = nsegment;
+
+  Refresh();
+}
+
+CentralWorkingCanvas::ImageRecordSegmentPtr
+CentralWorkingCanvas::get_drawn_segment()
+{
+  return drawnSegment;
 }
 
 }  // namespace imagesAnnotatorWx::window::custom_widgets

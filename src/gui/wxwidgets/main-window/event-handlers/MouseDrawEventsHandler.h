@@ -39,11 +39,20 @@ namespace imagesAnnotatorWx::window::event_handlers
 {
 
 /**
- * @brief Handles the canvas mouse events: the drawing of a rectangle, or of a
- * segment polygon while the segmentation is toggled on, resizing and the resize
- * cursor feedback - the wx analogue of GTKmm's MouseDrawEventsHandler.
+ * @brief Handles the canvas mouse events: the drawing of a rectangle, resizing
+ * and the resize cursor feedback, the drawing of a segment polygon and the
+ * dragging of its points - the wx analogue of GTKmm's MouseDrawEventsHandler.
  * Mouse coordinates are converted from viewport to image (unscrolled) space
  * before use, matching the GTK drawing-area coordinate space.
+ *
+ * Every left mouse button click made while the Shift key is held appends a
+ * point to the path of the segment being drawn, and the release of the Shift
+ * key loops the path into the polygon (a path of less than three points is
+ * dropped). A press over a point of a segment path selects the point and the
+ * drag moves it. wx delivers the key release to the focused window alone, so
+ * such a click focuses the canvas, which then gets the Shift key release; the
+ * canvas losing the focus, a click without the Shift key or a pointer motion
+ * without it finish the segment too, as the release may happen elsewhere.
  */
 class MouseDrawEventsHandler : public AbstractWindowEventHandler,
                                virtual public ::helpers::TypeHelper
@@ -58,6 +67,8 @@ class MouseDrawEventsHandler : public AbstractWindowEventHandler,
   void handle_motion_end(wxMouseEvent& event);
   void handle_motion_event(wxMouseEvent& event);
   void handle_capture_lost(wxMouseCaptureLostEvent& event);
+  void handle_key_release(wxKeyEvent& event);
+  void handle_focus_lost(wxFocusEvent& event);
 
   bool handle_rectangle_draw_start(int x, int y);
   void handle_rectangle_draw_end();
@@ -69,7 +80,21 @@ class MouseDrawEventsHandler : public AbstractWindowEventHandler,
 
   void normalize_current_rect();
 
+  /// @brief Appends the canvas position to the path of the drawn segment, which
+  /// starts first unless the current image has one being drawn
+  bool handle_segment_point_add(int x, int y);
+  /// @brief Starts a new segment of the current image
+  bool start_segment();
+  /// @brief Loops the path of the drawn segment into the polygon, or drops the
+  /// path too short to loop
+  void finish_segment();
+
+  void handle_point_drag_start();
+  void handle_point_drag(int x, int y);
+  void handle_point_drag_end();
+
   void set_resize_cursor();
+  void set_point_cursor();
   void reset_cursor();
 
   void update_tooltip();

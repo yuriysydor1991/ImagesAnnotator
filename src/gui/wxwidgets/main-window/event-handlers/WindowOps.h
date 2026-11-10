@@ -28,6 +28,7 @@
 #ifndef IMAGES_ANNOTATOR_PROJECT_WX_EVENTHANDLERS_WINDOWOPS_CLASS_H
 #define IMAGES_ANNOTATOR_PROJECT_WX_EVENTHANDLERS_WINDOWOPS_CLASS_H
 
+#include <cstddef>
 #include <functional>
 #include <memory>
 #include <string>
@@ -76,6 +77,10 @@ class WindowOps : virtual public ComponentTypesAliases,
   void update_statuses();
   void update_image_zoom();
 
+  /// @brief Forgets the segment being drawn and the point being dragged
+  /// without finishing them, as the closed project takes them along.
+  void reset_segment_editing();
+
   std::string compute_title(const bool changes);
 
   void show_spinner();
@@ -121,8 +126,15 @@ class WindowOps : virtual public ComponentTypesAliases,
   AnnotationsVisualList displayedAnnotations;
 
   bool dragging{false};
-  /// @brief The segment the drag draws, while the segmentation is toggled on
+  /// @brief The segment whose path the left mouse button clicks made while
+  /// the Shift key is held draw, until the Shift key release loops it
   events::events::ImageRecordSegmentPtr segment;
+  /// @brief The image the drawn segment belongs to
+  ImagePathLabelPtr segmentImage;
+  /// @brief The segment the dragged point belongs to
+  events::events::ImageRecordSegmentPtr pointSegment;
+  /// @brief The index of the dragged point in the path of pointSegment
+  std::size_t pointIndex{0U};
   bool isOverResize{false};
   bool lastChangedStatus{false};
   bool spinnerOn{false};

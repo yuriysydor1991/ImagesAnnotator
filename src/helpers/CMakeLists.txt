@@ -4,6 +4,7 @@ add_library(
   ImagesAnnotatorHelpersObj OBJECT
   TypeHelper.cpp
   SortHelper.cpp
+  SegmentPathHelper.cpp
   ImageRecordUrlAndPathHelper.cpp
   ImageLoader.cpp
 )

@@ -1,0 +1,28 @@
+cmake_minimum_required(VERSION 3.13)
+
+add_executable(
+  UTEST_SegmentPathHelper
+  UTEST_SegmentPathHelper.cpp
+  ${CMAKE_SOURCE_DIR}/src/helpers/SegmentPathHelper.cpp
+)
+
+target_include_directories(
+  UTEST_SegmentPathHelper
+  PRIVATE ${GENERAL_MOCKS_ROOT}/log
+  PRIVATE ${CMAKE_SOURCE_DIR}
+)
+
+target_link_libraries(
+  UTEST_SegmentPathHelper
+  GTest::gtest_main GTest::gmock
+)
+
+include(GoogleTest)
+
+gtest_add_tests(
+  TARGET UTEST_SegmentPathHelper
+  TEST_SUFFIX .noArgs
+  TEST_LIST noArgsTests
+)
+
+set_tests_properties(${noArgsTests} PROPERTIES TIMEOUT 600)

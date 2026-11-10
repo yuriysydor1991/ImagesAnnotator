@@ -161,6 +161,7 @@ void ProjectFileEventsHandler::handle_menu_project_close()
   }
 
   ops->dragging = false;
+  ops->reset_segment_editing();
   ops->lastChangedStatus = false;
 
   auto ef = mwctx->actx->eventer->get_events_factory();

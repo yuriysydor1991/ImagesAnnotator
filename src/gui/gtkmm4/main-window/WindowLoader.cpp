@@ -817,14 +817,6 @@ Gtk::Button* WindowLoader::get_next_file_button()
   return get_widget<Gtk::Button>(mwctx->wctx->next_image_button_id);
 }
 
-Gtk::CheckButton* WindowLoader::get_segmentation_toggle()
-{
-  assert(mwctx->wctx != nullptr);
-
-  return get_widget<Gtk::CheckButton>(
-      mwctx->wctx->segmentation_annotations_toggle_id);
-}
-
 Gtk::Statusbar* WindowLoader::get_window_status_bar()
 {
   assert(mwctx->wctx != nullptr);

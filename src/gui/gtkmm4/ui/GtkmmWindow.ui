@@ -314,12 +314,6 @@
                                     <property name="label" translatable="yes">Next</property>
                                   </object>
                                 </child>
-                                <child>
-                                  <object class="GtkCheckButton" id="segmentation_annotations_toggle">
-                                    <property name="label" translatable="yes">Segmentation</property>
-                                    <property name="tooltip-text" translatable="yes">Draw the new annotations as the segmentation polygons</property>
-                                  </object>
-                                </child>
                               </object>
                             </child>
                             <child>

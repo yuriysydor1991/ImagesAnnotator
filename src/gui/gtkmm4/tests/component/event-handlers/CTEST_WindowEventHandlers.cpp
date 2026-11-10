@@ -1,14 +1,24 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include <cstddef>
 #include <memory>
+#include <string>
+#include <tuple>
 
 #include "FakeWindowLoader.h"
 #include "GtkInitFixture.h"
+#include "src/annotator-events/ImagesAnnotatorEventController.h"
 #include "src/annotator-events/events/ImageRecord.h"
+#include "src/annotator-events/events/ImageRecordSegment.h"
+#include "src/annotator-events/events/ImagesPathsDBProvider.h"
+#include "src/app/ApplicationContext.h"
 #include "src/gui/gtkmm4/MainWindowContext.h"
+#include "src/gui/gtkmm4/main-window/WindowDataContext.h"
+#include "src/gui/gtkmm4/main-window/WindowEventsHandler.h"
 #include "src/gui/gtkmm4/main-window/custom-widgets/AllAnnotationsLabel.h"
 #include "src/gui/gtkmm4/main-window/custom-widgets/CentralWorkingCanvas.h"
+#include "src/gui/gtkmm4/main-window/custom-widgets/CustomWidgetsFactory.h"
 #include "src/gui/gtkmm4/main-window/custom-widgets/ImagePathLabel.h"
 #include "src/gui/gtkmm4/main-window/custom-widgets/ImageRectsLabel.h"
 #include "src/gui/gtkmm4/main-window/event-handlers/AboutEventsHandler.h"
@@ -24,11 +34,15 @@
 #include "src/gui/gtkmm4/main-window/event-handlers/WindowOps.h"
 #include "src/gui/gtkmm4/main-window/event-handlers/WindowSystemEventsHandler.h"
 #include "src/gui/gtkmm4/main-window/event-handlers/ZoomEventsHandler.h"
+#include "src/helpers/SegmentPathHelper.h"
 
 using namespace testing;
 using imagesAnnotatorGtkmm4::MainWindowContext;
+using imagesAnnotatorGtkmm4::window::WindowDataContext;
+using imagesAnnotatorGtkmm4::window::WindowEventsHandler;
 using imagesAnnotatorGtkmm4::window::custom_widgets::AllAnnotationsLabel;
 using imagesAnnotatorGtkmm4::window::custom_widgets::CentralWorkingCanvas;
+using imagesAnnotatorGtkmm4::window::custom_widgets::CustomWidgetsFactory;
 using imagesAnnotatorGtkmm4::window::custom_widgets::ImagePathLabel;
 using imagesAnnotatorGtkmm4::window::custom_widgets::ImageRectsLabel;
 namespace eh = imagesAnnotatorGtkmm4::window::event_handlers;
@@ -416,4 +430,320 @@ TEST_F(CTEST_WindowEventHandlers, navigation_sensitive_when_nothing_selected)
 
   EXPECT_TRUE(mwctx->wloader->get_prev_file_button()->get_sensitive());
   EXPECT_TRUE(mwctx->wloader->get_next_file_button()->get_sensitive());
+}
+
+namespace
+{
+
+/// @brief The images provider double the window operations refresh the title,
+/// the status bar and the all annotations list from.
+class FakeImagesProvider : public events::events::ImagesPathsDBProvider
+{
+ public:
+  events::events::ImageRecordsSet& get_images_db() override { return images; }
+  std::string get_db_path() override { return "project.imgajz2"; }
+  AnnotationsList get_available_annotations() override { return {}; }
+  bool changed() override { return true; }
+  bool delete_image_record([[maybe_unused]] const std::string& path) override
+  {
+    return false;
+  }
+
+ private:
+  events::events::ImageRecordsSet images;
+};
+
+/// @brief Exposes the protected event handlers of the mouse draw handler.
+class TestableMouseDrawEventsHandler : public eh::MouseDrawEventsHandler
+{
+ public:
+  using eh::MouseDrawEventsHandler::handle_key_release;
+  using eh::MouseDrawEventsHandler::handle_motion_end;
+  using eh::MouseDrawEventsHandler::handle_motion_event;
+  using eh::MouseDrawEventsHandler::handle_motion_start;
+  using eh::MouseDrawEventsHandler::handle_window_active_change;
+  using eh::MouseDrawEventsHandler::MouseDrawEventsHandler;
+};
+
+/// @brief The image pixel space position of a segment path point
+std::tuple<double, double> point_of(
+    const events::events::ImageRecordSegmentPtr& segment,
+    const std::size_t& index)
+{
+  return helpers::SegmentPathHelper::image_points(*segment).at(index);
+}
+
+}  // namespace
+
+/**
+ * @brief Drives the drawing of a segment by the Shift-held clicks and the
+ * dragging of its points through the MouseDrawEventsHandler over a 200x200
+ * image shown unscaled. Self-skips headlessly.
+ */
+class CTEST_SegmentEditing : public CTEST_WindowEventHandlers
+{
+ protected:
+  int argc{0};
+  char** argv{nullptr};
+  std::shared_ptr<TestableMouseDrawEventsHandler> handler;
+  events::events::ImageRecordPtr ir;
+
+  void SetUp() override
+  {
+    CTEST_WindowEventHandlers::SetUp();
+
+    if (IsSkipped()) {
+      return;
+    }
+
+    // Every member the window operations validate the context of
+    mwctx->wctx = std::make_shared<WindowDataContext>();
+    mwctx->mweHandler = std::make_shared<WindowEventsHandler>();
+    mwctx->actx = std::make_shared<app::ApplicationContext>(argc, argv);
+    mwctx->actx->eventer =
+        std::make_shared<events::ImagesAnnotatorEventController>(mwctx->actx);
+    mwctx->cwFactory = std::make_shared<CustomWidgetsFactory>();
+    mwctx->images_provider = std::make_shared<FakeImagesProvider>();
+
+    ir = events::events::ImageRecord::create("a.png", "/d");
+    ir->imageScale = 1.0;
+
+    mwctx->current_image = std::make_shared<ImagePathLabel>(ir);
+    mwctx->imagesVDB.push_back(mwctx->current_image);
+
+    mwctx->centralCanvas =
+        std::make_shared<CentralWorkingCanvas>(mwctx->current_image);
+
+    auto pixbuf = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, false, 8, 200, 200);
+
+    mwctx->centralCanvas->set_pixbuf(pixbuf);
+
+    handler = std::make_shared<TestableMouseDrawEventsHandler>(ops);
+  }
+
+  events::events::ImageRecordSegmentPtr segment_at(const std::size_t& index)
+  {
+    return helpers::SegmentPathHelper::as_segment(ir->rects.at(index));
+  }
+
+  void draw_triangle()
+  {
+    click(20, 20, true);
+    click(80, 20, true);
+    click(50, 70, true);
+    release_shift();
+  }
+
+  void press(const double& x, const double& y, const bool& shift)
+  {
+    handler->handle_motion_start(1, x, y, shift);
+  }
+
+  void release(const double& x, const double& y,
+               [[maybe_unused]] const bool& shift)
+  {
+    handler->handle_motion_end(1, x, y);
+  }
+
+  void click(const double& x, const double& y, const bool& shift)
+  {
+    press(x, y, shift);
+    release(x, y, shift);
+  }
+
+  void move(const double& x, const double& y, const bool& shift)
+  {
+    handler->handle_motion_event(x, y, shift);
+  }
+
+  void release_shift()
+  {
+    handler->handle_key_release(GDK_KEY_Shift_L, 0U,
+                                Gdk::ModifierType::SHIFT_MASK);
+  }
+
+  // The never shown window of the FakeWindowLoader is an inactive one
+  void lose_focus() { handler->handle_window_active_change(); }
+};
+
+TEST_F(CTEST_SegmentEditing, shift_clicks_draw_the_path_the_shift_release_loops)
+{
+  click(20, 20, true);
+  click(80, 20, true);
+  click(50, 70, true);
+
+  ASSERT_EQ(ir->rects.size(), 1U);
+
+  auto segment = segment_at(0U);
+
+  ASSERT_NE(segment, nullptr);
+  EXPECT_EQ(ops->segment, segment);
+  EXPECT_EQ(ir->current_rect, segment);
+  EXPECT_EQ(mwctx->centralCanvas->get_drawn_segment(), segment);
+  EXPECT_EQ(segment->points.size(), 3U);
+
+  release_shift();
+
+  EXPECT_EQ(ops->segment, nullptr);
+  EXPECT_EQ(mwctx->centralCanvas->get_drawn_segment(), nullptr);
+  ASSERT_EQ(ir->rects.size(), 1U);
+  EXPECT_EQ(ir->current_rect, segment);
+  EXPECT_EQ(segment->outline().size(), 3U);
+  EXPECT_EQ(segment->x, 20);
+  EXPECT_EQ(segment->y, 20);
+  EXPECT_EQ(segment->width, 60);
+  EXPECT_EQ(segment->height, 50);
+}
+
+TEST_F(CTEST_SegmentEditing, the_shift_release_drops_a_path_of_two_points)
+{
+  click(20, 20, true);
+  click(80, 20, true);
+
+  ASSERT_EQ(ir->rects.size(), 1U);
+
+  release_shift();
+
+  EXPECT_EQ(ops->segment, nullptr);
+  EXPECT_TRUE(ir->rects.empty());
+  EXPECT_EQ(ir->current_rect, nullptr);
+}
+
+TEST_F(CTEST_SegmentEditing, the_next_shift_clicks_draw_another_segment)
+{
+  draw_triangle();
+
+  click(120, 120, true);
+  click(180, 120, true);
+  click(150, 170, true);
+  release_shift();
+
+  ASSERT_EQ(ir->rects.size(), 2U);
+  EXPECT_NE(segment_at(0U), segment_at(1U));
+  EXPECT_EQ(segment_at(1U)->x, 120);
+  EXPECT_EQ(ir->current_rect, segment_at(1U));
+}
+
+TEST_F(CTEST_SegmentEditing, a_click_without_shift_finishes_the_drawn_segment)
+{
+  click(20, 20, true);
+  click(80, 20, true);
+  click(50, 70, true);
+
+  click(150, 150, false);
+
+  EXPECT_EQ(ops->segment, nullptr);
+  ASSERT_EQ(ir->rects.size(), 2U);
+  EXPECT_EQ(segment_at(0U)->outline().size(), 3U);
+  EXPECT_EQ(segment_at(1U), nullptr);  // the rectangle the click draws
+}
+
+TEST_F(CTEST_SegmentEditing, a_motion_without_shift_finishes_the_drawn_segment)
+{
+  click(20, 20, true);
+  click(80, 20, true);
+  click(50, 70, true);
+
+  move(100, 100, true);
+
+  EXPECT_NE(ops->segment, nullptr);
+
+  move(100, 100, false);
+
+  EXPECT_EQ(ops->segment, nullptr);
+  EXPECT_EQ(ir->rects.size(), 1U);
+}
+
+TEST_F(CTEST_SegmentEditing, losing_the_focus_finishes_the_drawn_segment)
+{
+  click(20, 20, true);
+  click(80, 20, true);
+  click(50, 70, true);
+
+  lose_focus();
+
+  EXPECT_EQ(ops->segment, nullptr);
+  EXPECT_EQ(mwctx->centralCanvas->get_drawn_segment(), nullptr);
+  EXPECT_EQ(ir->rects.size(), 1U);
+}
+
+TEST_F(CTEST_SegmentEditing, the_shift_clicks_stay_inside_the_image)
+{
+  click(-30, 20, true);
+  click(280, 20, true);
+  click(50, 270, true);
+  release_shift();
+
+  ASSERT_EQ(ir->rects.size(), 1U);
+
+  auto segment = segment_at(0U);
+
+  EXPECT_EQ(point_of(segment, 0U), std::make_tuple(0.0, 20.0));
+  EXPECT_EQ(point_of(segment, 1U), std::make_tuple(200.0, 20.0));
+  EXPECT_EQ(point_of(segment, 2U), std::make_tuple(50.0, 200.0));
+}
+
+TEST_F(CTEST_SegmentEditing, dragging_a_point_moves_it_alone)
+{
+  draw_triangle();
+
+  auto segment = segment_at(0U);
+
+  ir->current_rect.reset();
+
+  press(81, 21, false);
+
+  EXPECT_EQ(ops->pointSegment, segment);
+  EXPECT_EQ(ops->pointIndex, 1U);
+  EXPECT_EQ(ir->current_rect, segment);
+  EXPECT_FALSE(ops->dragging);
+
+  move(120, 90, false);
+  release(120, 90, false);
+
+  EXPECT_EQ(ops->pointSegment, nullptr);
+  ASSERT_EQ(ir->rects.size(), 1U);
+  EXPECT_EQ(point_of(segment, 0U), std::make_tuple(20.0, 20.0));
+  EXPECT_EQ(point_of(segment, 1U), std::make_tuple(120.0, 90.0));
+  EXPECT_EQ(point_of(segment, 2U), std::make_tuple(50.0, 70.0));
+  EXPECT_EQ(segment->x, 20);
+  EXPECT_EQ(segment->y, 20);
+  EXPECT_EQ(segment->width, 100);
+  EXPECT_EQ(segment->height, 70);
+}
+
+TEST_F(CTEST_SegmentEditing, a_dragged_point_stays_inside_the_image)
+{
+  draw_triangle();
+
+  press(50, 70, false);
+  move(260, -40, false);
+  release(260, -40, false);
+
+  EXPECT_EQ(point_of(segment_at(0U), 2U), std::make_tuple(200.0, 0.0));
+}
+
+TEST_F(CTEST_SegmentEditing, a_press_away_from_the_points_draws_a_rectangle)
+{
+  draw_triangle();
+
+  press(50, 35, false);
+
+  EXPECT_EQ(ops->pointSegment, nullptr);
+  EXPECT_TRUE(ops->dragging);
+
+  release(60, 45, false);
+
+  EXPECT_EQ(ir->rects.size(), 2U);
+}
+
+TEST_F(CTEST_SegmentEditing, closing_the_project_forgets_the_drawn_segment)
+{
+  click(20, 20, true);
+
+  ops->reset_segment_editing();
+
+  EXPECT_EQ(ops->segment, nullptr);
+  EXPECT_EQ(ops->segmentImage, nullptr);
+  EXPECT_EQ(mwctx->centralCanvas->get_drawn_segment(), nullptr);
 }

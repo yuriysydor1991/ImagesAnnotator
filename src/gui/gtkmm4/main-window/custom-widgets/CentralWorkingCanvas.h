@@ -28,9 +28,11 @@
 #ifndef YOUR_CPP_APP_TEMPLATE_PROJECT_GTKMM4_CUSTOM_WIDGETS_CENTRALWORKINGCANVAS_CLASS_H
 #define YOUR_CPP_APP_TEMPLATE_PROJECT_GTKMM4_CUSTOM_WIDGETS_CENTRALWORKINGCANVAS_CLASS_H
 
+#include <cstddef>
 #include <memory>
 
 #include "src/annotator-events/events/ImageRecord.h"
+#include "src/annotator-events/events/ImageRecordSegment.h"
 #include "src/gui/gtkmm4/gtkmm_includes.h"
 #include "src/gui/gtkmm4/main-window/custom-widgets/ImagePathLabel.h"
 #include "src/helpers/TypeHelper.h"
@@ -55,6 +57,7 @@ class CentralWorkingCanvas
   using ImageRecord = events::events::ImageRecord;
   using ImageRecordRectPtr = events::events::ImageRecordRectPtr;
   using ImageRecordPtr = events::events::ImageRecordPtr;
+  using ImageRecordSegmentPtr = events::events::ImageRecordSegmentPtr;
 
   virtual ~CentralWorkingCanvas() = default;
   explicit CentralWorkingCanvas(std::shared_ptr<ImagePathLabel>& nci);
@@ -74,6 +77,26 @@ class CentralWorkingCanvas
 
   virtual ImageRecordRectPtr get_mouse_over_rect();
 
+  /**
+   * @brief Tells whether the mouse is over a point of a segment path, looked
+   * for in the current annotation first and in the others from the topmost
+   * drawn one down, and remembers the point for the get_mouse_over_segment()
+   * and the get_mouse_over_point(). The point is drawn filled as the
+   * selected one.
+   */
+  virtual bool mouse_is_over_point(const int& dx, const int& dy);
+
+  /// @brief The segment of the point the mouse was over last, or nullptr
+  virtual ImageRecordSegmentPtr get_mouse_over_segment();
+  /// @brief The index of the point the mouse was over last, or
+  /// helpers::SegmentPathHelper::npos
+  virtual std::size_t get_mouse_over_point();
+
+  /// @brief Sets the segment whose path the Shift-held clicks are drawing,
+  /// which is drawn open with the closing edge dashed; nullptr for none.
+  virtual void set_drawn_segment(const ImageRecordSegmentPtr& nsegment);
+  virtual ImageRecordSegmentPtr get_drawn_segment();
+
  private:
   // GTK4 draw callback installed through set_draw_func(); the width/height are
   // the current widget allocation and are unused (the image sets the size).
@@ -82,6 +105,16 @@ class CentralWorkingCanvas
   virtual void draw_rectangle(const Cairo::RefPtr<Cairo::Context>& cr,
                               const ImageRecordRectPtr& rptr,
                               ImageRecordPtr ir);
+
+  /// @brief Draws the open path of the segment being drawn
+  virtual void draw_segment_path(const Cairo::RefPtr<Cairo::Context>& cr,
+                                 const ImageRecordSegmentPtr& segment,
+                                 ImageRecordPtr ir);
+
+  /// @brief Draws the handles of the segment path points
+  virtual void draw_segment_points(const Cairo::RefPtr<Cairo::Context>& cr,
+                                   const ImageRecordSegmentPtr& segment,
+                                   ImageRecordPtr ir);
 
   virtual bool is_in_one_of_resize_rects(const int& dx, const int& dy,
                                          const ImageRecordRectPtr& rptr,
@@ -99,10 +132,15 @@ class CentralWorkingCanvas
 
   inline static constexpr const int cornersPixelSize = 10;
   inline static constexpr const int nearByDistPixelSize = cornersPixelSize;
+  /// @brief The side of the square handle of a segment path point
+  inline static constexpr const int pointPixelSize = 6;
 
   std::shared_ptr<ImagePathLabel>& current_image;
   Glib::RefPtr<Gdk::Pixbuf> pixbuf;
   ImageRecordRectPtr rectMouseOver;
+  ImageRecordSegmentPtr drawnSegment;
+  ImageRecordSegmentPtr segmentMouseOver;
+  std::size_t pointMouseOver;
 
   // up left corner
   bool isUL{false};

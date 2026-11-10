@@ -103,8 +103,6 @@ class WindowDataContext
       "previous_image_button";
   inline static constexpr const char* const next_image_button_id =
       "next_image_button";
-  inline static constexpr const char* const segmentation_annotations_toggle_id =
-      "segmentation_annotations_toggle";
   inline static constexpr const char* const main_window_status_bar_id =
       "main_window_status_bar";
   inline static constexpr const char* const duplicate_current_annotation_id =

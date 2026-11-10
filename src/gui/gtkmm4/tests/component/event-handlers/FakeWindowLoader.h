@@ -69,16 +69,16 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm4::window::WindowLoader
   }
 
   Gtk::Window* get_window() override { return &window_; }
+  Gtk::Statusbar* get_window_status_bar() override { return &status_bar_; }
+
+  // Every widget above is a member of the double, so none is ever absent.
+  bool all_widget_are_valid() override { return true; }
 
   Gtk::Button* get_current_image_zoom_in() override { return &zoom_in_; }
   Gtk::Button* get_current_image_zoom_out() override { return &zoom_out_; }
 
   Gtk::Button* get_prev_file_button() override { return &prev_; }
   Gtk::Button* get_next_file_button() override { return &next_; }
-  Gtk::CheckButton* get_segmentation_toggle() override
-  {
-    return &segmentation_;
-  }
 
   Gtk::ListBox* get_images_list() override { return &images_list_; }
   Gtk::SearchEntry* get_images_search_entry() override
@@ -271,12 +271,12 @@ class FakeWindowLoader : public imagesAnnotatorGtkmm4::window::WindowLoader
 
  private:
   Gtk::Window window_;
+  Gtk::Statusbar status_bar_;
 
   Gtk::Button zoom_in_;
   Gtk::Button zoom_out_;
   Gtk::Button prev_;
   Gtk::Button next_;
-  Gtk::CheckButton segmentation_;
   Gtk::Button del_image_;
   Gtk::Button del_ann_;
   Gtk::Button copy_name_;

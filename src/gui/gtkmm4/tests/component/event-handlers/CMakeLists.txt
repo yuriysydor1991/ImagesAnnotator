@@ -7,6 +7,9 @@ cmake_minimum_required(VERSION 3.13)
 add_executable(
   CTEST_WindowEventHandlers
   CTEST_WindowEventHandlers.cpp
+  # The segment drawing cases give the handlers an application context with
+  # the events controller, and no object library carries the context.
+  ${CMAKE_SOURCE_DIR}/src/app/ApplicationContext.cpp
 )
 
 target_include_directories(

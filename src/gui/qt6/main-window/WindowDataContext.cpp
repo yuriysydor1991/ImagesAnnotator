@@ -52,7 +52,6 @@ const std::set<std::string>& WindowDataContext::get_ids()
       copy_annotation_name_to_current_rect_id,
       previous_image_button_id,
       next_image_button_id,
-      segmentation_annotations_toggle_id,
       main_window_status_bar_id,
       duplicate_current_annotation_id,
       central_canvas_scrolled_window_id,

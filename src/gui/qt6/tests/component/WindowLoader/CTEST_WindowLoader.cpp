@@ -68,7 +68,6 @@ TEST_F(CTEST_Qt6WindowLoader, every_typed_getter_resolves)
   EXPECT_NE(wl.get_edit_current_rect_entry(), nullptr);
   EXPECT_NE(wl.get_prev_file_button(), nullptr);
   EXPECT_NE(wl.get_next_file_button(), nullptr);
-  EXPECT_NE(wl.get_segmentation_toggle(), nullptr);
   EXPECT_NE(wl.get_window_status_bar(), nullptr);
   EXPECT_NE(wl.get_copy_current_annotation_button(), nullptr);
   EXPECT_NE(wl.get_central_scrolled_window(), nullptr);

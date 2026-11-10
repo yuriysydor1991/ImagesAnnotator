@@ -746,4 +746,16 @@ void WindowOps::clear_all_lists()
   }
 }
 
+void WindowOps::reset_segment_editing()
+{
+  segment.reset();
+  segmentImage.reset();
+  pointSegment.reset();
+  pointIndex = 0U;
+
+  if (mwctx != nullptr && mwctx->centralCanvas != nullptr) {
+    mwctx->centralCanvas->set_drawn_segment(nullptr);
+  }
+}
+
 }  // namespace imagesAnnotatorQt6::window::event_handlers

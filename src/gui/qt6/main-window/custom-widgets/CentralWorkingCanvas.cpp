@@ -27,8 +27,10 @@
 
 #include "src/gui/qt6/main-window/custom-widgets/CentralWorkingCanvas.h"
 
+#include <algorithm>
 #include <cassert>
 
+#include "src/helpers/SegmentPathHelper.h"
 #include "src/log/log.h"
 
 namespace imagesAnnotatorQt6::window::custom_widgets
@@ -52,7 +54,9 @@ constexpr qreal normalWidth = 1.0;
 
 CentralWorkingCanvas::CentralWorkingCanvas(QWidget* parent,
                                            std::shared_ptr<ImagePathLabel>& nci)
-    : QWidget{parent}, current_image{nci}
+    : QWidget{parent},
+      current_image{nci},
+      pointMouseOver{helpers::SegmentPathHelper::npos}
 {
   // Without mouse tracking Qt only delivers move events while a button is held,
   // and the resize-handle cursor feedback (which the GTKmm/wx canvases give on
@@ -117,6 +121,13 @@ void CentralWorkingCanvas::draw_rectangle(QPainter& painter,
   const int tw = toI(toD(rptr->width) * is);
   const int th = toI(toD(rptr->height) * is);
 
+  const auto segment = helpers::SegmentPathHelper::as_segment(rptr);
+
+  if (segment != nullptr && segment == drawnSegment) {
+    draw_segment_path(painter, segment, ir);
+    return;
+  }
+
   QPolygonF polygon;
 
   for (const auto& [px, py] : rptr->outline()) {
@@ -124,6 +135,11 @@ void CentralWorkingCanvas::draw_rectangle(QPainter& painter,
   }
 
   painter.drawPolygon(polygon);
+
+  if (segment != nullptr &&
+      (selected || is_inside_or_near_by(x, y, rptr, ir))) {
+    draw_segment_points(painter, segment, ir);
+  }
 
   static const int minSize = cornersPixelSize * 2 + 2;
 
@@ -157,6 +173,72 @@ void CentralWorkingCanvas::draw_rectangle(QPainter& painter,
                    cornersPixelSize, cornersPixelSize);
 }
 
+void CentralWorkingCanvas::draw_segment_path(
+    QPainter& painter, const ImageRecordSegmentPtr& segment, ImageRecordPtr ir)
+{
+  assert(segment != nullptr);
+  assert(ir != nullptr);
+
+  const double& is = ir->imageScale;
+
+  const auto image = helpers::SegmentPathHelper::image_points(*segment);
+
+  if (image.empty()) {
+    LOGT("The drawn segment has no points yet");
+    return;
+  }
+
+  QPolygonF path;
+
+  for (const auto& [px, py] : image) {
+    path.emplace_back(px * is, py * is);
+  }
+
+  painter.drawPolyline(path);
+
+  if (helpers::SegmentPathHelper::is_closable(*segment)) {
+    // The edge the Shift key release loops the path with
+    const QPen pen = painter.pen();
+    QPen dashed{pen};
+
+    dashed.setStyle(Qt::DashLine);
+
+    painter.setPen(dashed);
+    painter.drawLine(path.back(), path.front());
+    painter.setPen(pen);
+  }
+
+  draw_segment_points(painter, segment, ir);
+}
+
+void CentralWorkingCanvas::draw_segment_points(
+    QPainter& painter, const ImageRecordSegmentPtr& segment, ImageRecordPtr ir)
+{
+  assert(segment != nullptr);
+  assert(ir != nullptr);
+
+  const double& is = ir->imageScale;
+  const double half = pointPixelSize / 2.0;
+  const QColor col = painter.pen().color();
+
+  painter.setPen(QPen{col, normalWidth});
+
+  const auto image = helpers::SegmentPathHelper::image_points(*segment);
+
+  for (std::size_t index = 0U; index < image.size(); ++index) {
+    const auto& [px, py] = image[index];
+
+    const QRectF handle{px * is - half, py * is - half, toD(pointPixelSize),
+                        toD(pointPixelSize)};
+
+    if (segment == segmentMouseOver && index == pointMouseOver) {
+      painter.fillRect(handle, col);
+    } else {
+      painter.drawRect(handle);
+    }
+  }
+}
+
 void CentralWorkingCanvas::mousePressEvent(QMouseEvent* event)
 {
   assert(event != nullptr);
@@ -168,7 +250,8 @@ void CentralWorkingCanvas::mousePressEvent(QMouseEvent* event)
 
   const QPoint p = event->position().toPoint();
 
-  emit mousePressedAt(p.x(), p.y());
+  emit mousePressedAt(p.x(), p.y(),
+                      event->modifiers().testFlag(Qt::ShiftModifier));
 }
 
 void CentralWorkingCanvas::mouseMoveEvent(QMouseEvent* event)
@@ -177,7 +260,8 @@ void CentralWorkingCanvas::mouseMoveEvent(QMouseEvent* event)
 
   const QPoint p = event->position().toPoint();
 
-  emit mouseMovedAt(p.x(), p.y());
+  emit mouseMovedAt(p.x(), p.y(),
+                    event->modifiers().testFlag(Qt::ShiftModifier));
 }
 
 void CentralWorkingCanvas::mouseReleaseEvent(QMouseEvent* event)
@@ -277,6 +361,11 @@ bool CentralWorkingCanvas::mouse_is_over_resize(const int& dx, const int& dy)
   }
 
   for (auto& rptr : ir->rects) {
+    // The segment being drawn has no resize corners drawn
+    if (rptr == drawnSegment) {
+      continue;
+    }
+
     if (!is_in_one_of_resize_rects(dx, dy, rptr, ir)) {
       continue;
     }
@@ -405,6 +494,78 @@ CentralWorkingCanvas::ImageRecordRectPtr
 CentralWorkingCanvas::get_mouse_over_rect()
 {
   return rectMouseOver;
+}
+
+bool CentralWorkingCanvas::mouse_is_over_point(const int& dx, const int& dy)
+{
+  using helpers::SegmentPathHelper;
+
+  const auto lastSegment = segmentMouseOver;
+  const auto lastPoint = pointMouseOver;
+
+  segmentMouseOver.reset();
+  pointMouseOver = SegmentPathHelper::npos;
+
+  auto ir = current_image != nullptr ? current_image->get_image_rec() : nullptr;
+
+  bool found = false;
+
+  if (ir != nullptr) {
+    const auto is_over = [&](const ImageRecordRectPtr& rptr) -> bool {
+      const auto segment = SegmentPathHelper::as_segment(rptr);
+
+      if (segment == nullptr || segment == drawnSegment) {
+        return false;
+      }
+
+      const auto index = SegmentPathHelper::find_point(*segment, toD(dx),
+                                                       toD(dy), ir->imageScale);
+
+      if (index == SegmentPathHelper::npos) {
+        return false;
+      }
+
+      segmentMouseOver = segment;
+      pointMouseOver = index;
+
+      return true;
+    };
+
+    found = is_over(ir->current_rect) ||
+            std::any_of(ir->rects.rbegin(), ir->rects.rend(), is_over);
+  }
+
+  if (lastSegment != segmentMouseOver || lastPoint != pointMouseOver) {
+    LOGT("Need to redraw since the selected segment point changed");
+    update();
+  }
+
+  return found;
+}
+
+CentralWorkingCanvas::ImageRecordSegmentPtr
+CentralWorkingCanvas::get_mouse_over_segment()
+{
+  return segmentMouseOver;
+}
+
+std::size_t CentralWorkingCanvas::get_mouse_over_point()
+{
+  return pointMouseOver;
+}
+
+void CentralWorkingCanvas::set_drawn_segment(
+    const ImageRecordSegmentPtr& nsegment)
+{
+  drawnSegment = nsegment;
+
+  update();
+}
+
+CentralWorkingCanvas::ImageRecordSegmentPtr
+CentralWorkingCanvas::get_drawn_segment()
+{
+  return drawnSegment;
 }
 
 }  // namespace imagesAnnotatorQt6::window::custom_widgets

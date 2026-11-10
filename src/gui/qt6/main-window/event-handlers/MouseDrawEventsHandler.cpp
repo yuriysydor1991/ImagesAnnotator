@@ -30,14 +30,55 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <functional>
+#include <utility>
 
 #include "src/gui/qt6/MainWindowContext.h"
 #include "src/gui/qt6/main-window/event-handlers/WindowOps.h"
 #include "src/gui/qt6/qt_str_utils.h"
+#include "src/helpers/SegmentPathHelper.h"
 #include "src/log/log.h"
 
 namespace imagesAnnotatorQt6::window::event_handlers
 {
+
+namespace
+{
+/**
+ * @brief Reports the release of the Shift key wherever the keyboard focus is.
+ *
+ * Qt delivers a key to the focused widget alone (and to its parents while
+ * they ignore it), so the filter watches the whole application. It is a plain
+ * QObject (no signals or slots of its own, so no Q_OBJECT / moc needed)
+ * parented to the canvas, which therefore destroys it, and a destroyed filter
+ * leaves the application filters on its own.
+ */
+class ShiftReleaseFilter : public QObject
+{
+ public:
+  ShiftReleaseFilter(QObject* parent, std::function<void()> nreleased)
+      : QObject{parent}, released{std::move(nreleased)}
+  {
+  }
+
+ protected:
+  bool eventFilter(QObject* watched, QEvent* event) override
+  {
+    if (event->type() == QEvent::KeyRelease && released) {
+      const auto* key = static_cast<QKeyEvent*>(event);
+
+      if (key->key() == Qt::Key_Shift && !key->isAutoRepeat()) {
+        released();
+      }
+    }
+
+    return QObject::eventFilter(watched, event);
+  }
+
+ private:
+  std::function<void()> released;
+};
+}  // namespace
 
 MouseDrawEventsHandler::MouseDrawEventsHandler(std::shared_ptr<WindowOps> nops)
     : AbstractWindowEventHandler(nops)
@@ -53,20 +94,54 @@ bool MouseDrawEventsHandler::subscribe()
 
   using custom_widgets::CentralWorkingCanvas;
 
-  QObject::connect(canvas, &CentralWorkingCanvas::mousePressedAt, canvas,
-                   [this](int x, int y) { handle_motion_start(x, y); });
-  QObject::connect(canvas, &CentralWorkingCanvas::mouseMovedAt, canvas,
-                   [this](int x, int y) { handle_motion_event(x, y); });
+  QObject::connect(
+      canvas, &CentralWorkingCanvas::mousePressedAt, canvas,
+      [this](int x, int y, bool shift) { handle_motion_start(x, y, shift); });
+  QObject::connect(
+      canvas, &CentralWorkingCanvas::mouseMovedAt, canvas,
+      [this](int x, int y, bool shift) { handle_motion_event(x, y, shift); });
   QObject::connect(canvas, &CentralWorkingCanvas::mouseReleased, canvas,
                    [this]() { handle_motion_end(); });
+
+  // The Shift key release which loops the drawn segment path is reported
+  // wherever the keyboard focus is, and an application turning inactive will
+  // not see the release at all.
+  auto* app = QCoreApplication::instance();
+
+  if (app != nullptr) {
+    app->installEventFilter(
+        new ShiftReleaseFilter{canvas, [this]() { finish_segment(); }});
+  }
+
+  if (qGuiApp != nullptr) {
+    QObject::connect(qGuiApp, &QGuiApplication::applicationStateChanged, canvas,
+                     [this](Qt::ApplicationState state) {
+                       if (state != Qt::ApplicationActive) {
+                         finish_segment();
+                       }
+                     });
+  }
 
   return true;
 }
 
-void MouseDrawEventsHandler::handle_motion_start(int x, int y)
+void MouseDrawEventsHandler::handle_motion_start(int x, int y, bool shift)
 {
   assert(mwctx != nullptr);
   assert(mwctx->centralCanvas != nullptr);
+
+  if (shift) {
+    handle_segment_point_add(x, y);
+    return;
+  }
+
+  // The Shift key was released where the application did not see it
+  finish_segment();
+
+  if (mwctx->centralCanvas->mouse_is_over_point(x, y)) {
+    handle_point_drag_start();
+    return;
+  }
 
   ops->isOverResize = mwctx->centralCanvas->mouse_is_over_resize(x, y) &&
                       mwctx->centralCanvas->get_mouse_over_rect() != nullptr;
@@ -105,14 +180,7 @@ bool MouseDrawEventsHandler::handle_rectangle_draw_start(int x, int y)
     return false;
   }
 
-  if (mwctx->wloader->get_segmentation_toggle()->isChecked()) {
-    ops->segment = efactory->create_image_segment_record(ir);
-    ir->current_rect = ops->segment;
-  } else {
-    ops->segment.reset();
-    ir->current_rect = efactory->create_image_rect_record(ir);
-  }
-
+  ir->current_rect = efactory->create_image_rect_record(ir);
   ir->rects.emplace_back(ir->current_rect);
 
   assert(ir->current_rect != nullptr);
@@ -127,10 +195,6 @@ bool MouseDrawEventsHandler::handle_rectangle_draw_start(int x, int y)
 
   ir->current_rect->x = toI(toD(x) / imageScale);
   ir->current_rect->y = toI(toD(y) / imageScale);
-
-  if (ops->segment != nullptr) {
-    ops->segment->add_point(toD(x) / imageScale, toD(y) / imageScale);
-  }
 
   ops->update_current_rects_list();
 
@@ -161,7 +225,6 @@ void MouseDrawEventsHandler::handle_rectangle_draw_end()
   }
 
   ops->dragging = false;
-  ops->segment.reset();
 
   mwctx->centralCanvas->update();
 }
@@ -254,6 +317,11 @@ void MouseDrawEventsHandler::handle_motion_end()
 {
   assert(mwctx != nullptr);
 
+  if (ops->pointSegment != nullptr) {
+    handle_point_drag_end();
+    return;
+  }
+
   if (ops->dragging) {
     handle_rectangle_draw_end();
     return;
@@ -263,12 +331,22 @@ void MouseDrawEventsHandler::handle_motion_end()
   ops->update_statuses();
 }
 
-void MouseDrawEventsHandler::handle_motion_event(int x, int y)
+void MouseDrawEventsHandler::handle_motion_event(int x, int y, bool shift)
 {
   assert(mwctx != nullptr);
   assert(mwctx->centralCanvas != nullptr);
 
   update_tooltip();
+
+  if (ops->segment != nullptr && !shift) {
+    // The Shift key was released where the application did not see it
+    finish_segment();
+  }
+
+  if (ops->pointSegment != nullptr) {
+    handle_point_drag(x, y);
+    return;
+  }
 
   if (ops->dragging) {
     handle_rectangle_size_change(x, y);
@@ -280,7 +358,15 @@ void MouseDrawEventsHandler::handle_motion_event(int x, int y)
     return;
   }
 
-  if (mwctx->centralCanvas->mouse_is_over_resize(x, y)) {
+  const bool currentlyIsOverPoint =
+      mwctx->centralCanvas->mouse_is_over_point(x, y);
+  const bool currentlyIsOverResize =
+      mwctx->centralCanvas->mouse_is_over_resize(x, y);
+
+  if (currentlyIsOverPoint) {
+    LOGT("Setting the segment point cursor");
+    set_point_cursor();
+  } else if (currentlyIsOverResize) {
     LOGT("Setting the resize cursor");
     set_resize_cursor();
   } else {
@@ -312,15 +398,6 @@ void MouseDrawEventsHandler::handle_rectangle_size_change(int x, int y)
   }
 
   const double imageScale = ir->imageScale;
-
-  if (ops->segment != nullptr) {
-    const QPixmap pixmap = mwctx->centralCanvas->get_pixmap();
-    ops->segment->add_point(
-        std::clamp(toD(x), 0.0, toD(pixmap.width())) / imageScale,
-        std::clamp(toD(y), 0.0, toD(pixmap.height())) / imageScale);
-    mwctx->centralCanvas->update();
-    return;
-  }
 
   double start_x = toD(ir->current_rect->x);
   double start_y = toD(ir->current_rect->y);
@@ -393,6 +470,11 @@ void MouseDrawEventsHandler::set_resize_cursor()
   mwctx->centralCanvas->setCursor(QCursor{Qt::SizeAllCursor});
 }
 
+void MouseDrawEventsHandler::set_point_cursor()
+{
+  mwctx->centralCanvas->setCursor(QCursor{Qt::CrossCursor});
+}
+
 void MouseDrawEventsHandler::reset_cursor()
 {
   mwctx->centralCanvas->unsetCursor();
@@ -420,6 +502,207 @@ void MouseDrawEventsHandler::update_tooltip()
   // An empty tool tip string removes the tip, which is what Qt documents for
   // setToolTip("") - the analogue of the wx UnsetToolTip().
   mwctx->centralCanvas->setToolTip(u8(textUsed));
+}
+
+bool MouseDrawEventsHandler::handle_segment_point_add(int x, int y)
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->centralCanvas != nullptr);
+
+  if (mwctx->current_image == nullptr) {
+    LOGT("No current image available");
+    return false;
+  }
+
+  const QPixmap pixmap = mwctx->centralCanvas->get_pixmap();
+
+  if (pixmap.isNull()) {
+    LOGE("Canvas doesn't contain an image pixmap");
+    return false;
+  }
+
+  if (ops->segment != nullptr && ops->segmentImage != mwctx->current_image) {
+    LOGD("The image changed while the segment path was drawn");
+    finish_segment();
+  }
+
+  if (ops->segment == nullptr && !start_segment()) {
+    return false;
+  }
+
+  auto ir = mwctx->current_irecord();
+
+  assert(ir != nullptr);
+
+  const auto [px, py] = helpers::SegmentPathHelper::to_image_point(
+      toD(x), toD(y), toD(pixmap.width()), toD(pixmap.height()),
+      ir->imageScale);
+
+  LOGT("Appending the segment path point [" << px << "," << py << "]");
+
+  ops->segment->add_point(px, py);
+
+  mwctx->centralCanvas->update();
+
+  return true;
+}
+
+bool MouseDrawEventsHandler::start_segment()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->current_image != nullptr);
+
+  auto ir = mwctx->current_irecord();
+
+  assert(ir != nullptr);
+
+  auto efactory = mwctx->actx->eventer->get_events_factory();
+
+  assert(efactory != nullptr);
+
+  if (efactory == nullptr) {
+    LOGE("No factory available");
+    return false;
+  }
+
+  ops->segment = efactory->create_image_segment_record(ir);
+  ops->segmentImage = mwctx->current_image;
+
+  assert(ops->segment != nullptr);
+
+  if (mwctx->current_annotation_name != nullptr) {
+    LOGT("Setting text to the currently selected "
+         << mwctx->current_annotation_name->get_text());
+    ops->segment->name = mwctx->current_annotation_name->get_text();
+  }
+
+  mwctx->current_image->mark_as_has_records();
+  ops->update_current_image_row_marking();
+
+  ir->current_rect = ops->segment;
+  ir->rects.emplace_back(ir->current_rect);
+
+  mwctx->centralCanvas->set_drawn_segment(ops->segment);
+
+  ops->update_current_rects_list();
+
+  if (mwctx->current_annotation_name == nullptr) {
+    ops->update_annotations_list();
+  }
+
+  ops->update_statuses();
+
+  return true;
+}
+
+void MouseDrawEventsHandler::finish_segment()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->centralCanvas != nullptr);
+
+  if (ops->segment == nullptr) {
+    return;
+  }
+
+  const auto segment = ops->segment;
+  const auto image = ops->segmentImage;
+
+  ops->segment.reset();
+  ops->segmentImage.reset();
+
+  mwctx->centralCanvas->set_drawn_segment(nullptr);
+
+  const auto ir = image != nullptr ? image->get_image_rec() : nullptr;
+
+  if (helpers::SegmentPathHelper::finish(ir, segment)) {
+    LOGD("The segment path is looped into a polygon");
+    ops->update_statuses();
+    return;
+  }
+
+  LOGD("The segment path is too short to loop, dropping it");
+
+  if (ir != nullptr && ir->rects.empty()) {
+    image->remove_has_records_mark();
+  }
+
+  if (image == mwctx->current_image) {
+    ops->update_current_image_row_marking();
+    ops->update_current_rects_list();
+    ops->update_annotations_list();
+    ops->update_rect_edit_entry();
+  }
+
+  ops->update_statuses();
+}
+
+void MouseDrawEventsHandler::handle_point_drag_start()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->centralCanvas != nullptr);
+
+  auto segment = mwctx->centralCanvas->get_mouse_over_segment();
+  const auto index = mwctx->centralCanvas->get_mouse_over_point();
+
+  if (segment == nullptr || index == helpers::SegmentPathHelper::npos) {
+    LOGE("No mouse over segment point was provided");
+    return;
+  }
+
+  ops->pointSegment = segment;
+  ops->pointIndex = index;
+
+  auto ir = mwctx->current_irecord();
+
+  assert(ir != nullptr);
+
+  ir->current_rect = segment;
+
+  mwctx->currentVisualRect = mwctx->find_current_image_current_visual_rect();
+
+  ops->update_current_annotations_selection();
+  ops->update_statuses();
+
+  mwctx->centralCanvas->update();
+}
+
+void MouseDrawEventsHandler::handle_point_drag(int x, int y)
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->centralCanvas != nullptr);
+
+  auto ir = mwctx->current_irecord();
+  const QPixmap pixmap = mwctx->centralCanvas->get_pixmap();
+
+  if (ir == nullptr || pixmap.isNull() ||
+      std::find(ir->rects.cbegin(), ir->rects.cend(), ops->pointSegment) ==
+          ir->rects.cend()) {
+    LOGD("The dragged point is not of the current image anymore");
+    handle_point_drag_end();
+    return;
+  }
+
+  const auto [px, py] = helpers::SegmentPathHelper::to_image_point(
+      toD(x), toD(y), toD(pixmap.width()), toD(pixmap.height()),
+      ir->imageScale);
+
+  helpers::SegmentPathHelper::move_point(*ops->pointSegment, ops->pointIndex,
+                                         px, py);
+
+  mwctx->centralCanvas->update();
+}
+
+void MouseDrawEventsHandler::handle_point_drag_end()
+{
+  assert(mwctx != nullptr);
+  assert(mwctx->centralCanvas != nullptr);
+
+  ops->pointSegment.reset();
+  ops->pointIndex = 0U;
+
+  ops->update_statuses();
+
+  mwctx->centralCanvas->update();
 }
 
 }  // namespace imagesAnnotatorQt6::window::event_handlers

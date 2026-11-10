@@ -47,6 +47,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QPoint>
 #include <QtCore/QRect>
+#include <QtCore/QRectF>
 #include <QtCore/QSize>
 #include <QtCore/QString>
 #include <QtGui/QAction>
@@ -57,6 +58,7 @@
 #include <QtGui/QGuiApplication>
 #include <QtGui/QIcon>
 #include <QtGui/QImage>
+#include <QtGui/QKeyEvent>
 #include <QtGui/QKeySequence>
 #include <QtGui/QMouseEvent>
 #include <QtGui/QPainter>
@@ -67,7 +69,6 @@
 #include <QtGui/QWheelEvent>
 #include <QtWidgets/QAbstractItemView>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QInputDialog>

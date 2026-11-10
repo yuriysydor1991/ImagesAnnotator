@@ -752,4 +752,16 @@ WindowOps::get_annotated_images_op()
   };
 }
 
+void WindowOps::reset_segment_editing()
+{
+  segment.reset();
+  segmentImage.reset();
+  pointSegment.reset();
+  pointIndex = 0U;
+
+  if (mwctx != nullptr && mwctx->centralCanvas != nullptr) {
+    mwctx->centralCanvas->set_drawn_segment(nullptr);
+  }
+}
+
 }  // namespace imagesAnnotatorGtkmm3::window::event_handlers

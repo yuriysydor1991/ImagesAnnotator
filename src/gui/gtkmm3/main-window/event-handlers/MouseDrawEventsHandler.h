@@ -40,8 +40,17 @@ namespace imagesAnnotatorGtkmm3::window::event_handlers
 
 /**
  * @brief Handles the central canvas mouse events: the drawing of a rectangle,
- * or of a segment polygon while the segmentation is toggled on, resizing and
- * the resize cursor feedback.
+ * resizing and the resize cursor feedback, the drawing of a segment polygon and
+ * the dragging of its points.
+ *
+ * Every left mouse button click made while the Shift key is held appends a
+ * point to the path of the segment being drawn, and the release of the Shift
+ * key loops the path into the polygon (a path of less than three points is
+ * dropped). A press over a point of a segment path selects the point and the
+ * drag moves it. The Shift key release is caught by the main window, which
+ * sees every key before its focused widget; the window losing the focus, a
+ * click without the Shift key or a pointer motion without it finish the segment
+ * too, as the release may happen out of the window.
  */
 class MouseDrawEventsHandler : public AbstractWindowEventHandler,
                                virtual public ::helpers::TypeHelper
@@ -55,6 +64,8 @@ class MouseDrawEventsHandler : public AbstractWindowEventHandler,
   bool handle_motion_start(GdkEventButton* event);
   bool handle_motion_end(GdkEventButton* event);
   bool handle_motion_event(GdkEventMotion* event);
+  bool handle_key_release(GdkEventKey* event);
+  bool handle_focus_out(GdkEventFocus* event);
 
   bool handle_rectangle_draw_start(GdkEventButton* event);
   bool handle_rectangle_draw_end(GdkEventButton* event);
@@ -66,7 +77,21 @@ class MouseDrawEventsHandler : public AbstractWindowEventHandler,
 
   void normalize_current_rect();
 
+  /// @brief Appends the canvas position to the path of the drawn segment, which
+  /// starts first unless the current image has one being drawn
+  bool handle_segment_point_add(const double& x, const double& y);
+  /// @brief Starts a new segment of the current image
+  bool start_segment();
+  /// @brief Loops the path of the drawn segment into the polygon, or drops the
+  /// path too short to loop
+  void finish_segment();
+
+  bool handle_point_drag_start();
+  bool handle_point_drag(const double& x, const double& y);
+  bool handle_point_drag_end();
+
   void set_resize_cursor();
+  void set_point_cursor();
   void reset_cursor();
 
   std::function<bool(const int& x, const int& y, bool keyboard_tooltip,

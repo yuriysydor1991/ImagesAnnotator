@@ -27,20 +27,23 @@
 
 #include "src/gui/gtkmm3/main-window/custom-widgets/CentralWorkingCanvas.h"
 
+#include <algorithm>
 #include <cassert>
 #include <memory>
+#include <vector>
 
 #include "src/annotator-events/events/ImageRecord.h"
 #include "src/gui/gtkmm3/MainWindowContext.h"
 #include "src/gui/gtkmm3/gtkmm_includes.h"
 #include "src/gui/gtkmm3/main-window/WindowDataContext.h"
+#include "src/helpers/SegmentPathHelper.h"
 #include "src/log/log.h"
 
 namespace imagesAnnotatorGtkmm3::window::custom_widgets
 {
 
 CentralWorkingCanvas::CentralWorkingCanvas(std::shared_ptr<ImagePathLabel>& nci)
-    : current_image{nci}
+    : current_image{nci}, pointMouseOver{helpers::SegmentPathHelper::npos}
 {
 }
 
@@ -108,12 +111,24 @@ void CentralWorkingCanvas::draw_rectangle(
   const int tw = toI(toD(rptr->width) * is);
   const int th = toI(toD(rptr->height) * is);
 
+  const auto segment = helpers::SegmentPathHelper::as_segment(rptr);
+
+  if (segment != nullptr && segment == drawnSegment) {
+    draw_segment_path(cr, segment, ir);
+    return;
+  }
+
   for (const auto& [px, py] : rptr->outline()) {
     cr->line_to(px * is, py * is);
   }
 
   cr->close_path();
   cr->stroke();
+
+  if (segment != nullptr &&
+      (ir->current_rect == rptr || is_inside_or_near_by(x, y, rptr, ir))) {
+    draw_segment_points(cr, segment, ir);
+  }
 
   static const int minSize = cornersPixelSize * 2 + 2;
 
@@ -147,6 +162,74 @@ void CentralWorkingCanvas::draw_rectangle(
                 cornersPixelSize, cornersPixelSize);
 
   cr->stroke();
+}
+
+void CentralWorkingCanvas::draw_segment_path(
+    const Cairo::RefPtr<Cairo::Context>& cr,
+    const ImageRecordSegmentPtr& segment, ImageRecordPtr ir)
+{
+  assert(cr);
+  assert(segment != nullptr);
+  assert(ir != nullptr);
+
+  const double& is = ir->imageScale;
+
+  const auto image = helpers::SegmentPathHelper::image_points(*segment);
+
+  if (image.empty()) {
+    LOGT("The drawn segment has no points yet");
+    return;
+  }
+
+  for (const auto& [px, py] : image) {
+    cr->line_to(px * is, py * is);
+  }
+
+  cr->stroke();
+
+  if (helpers::SegmentPathHelper::is_closable(*segment)) {
+    // The edge the Shift key release loops the path with
+    const auto& [fx, fy] = image.front();
+    const auto& [lx, ly] = image.back();
+
+    cr->save();
+    cr->set_dash(std::vector<double>{4.0, 4.0}, 0.0);
+    cr->move_to(lx * is, ly * is);
+    cr->line_to(fx * is, fy * is);
+    cr->stroke();
+    cr->restore();
+  }
+
+  draw_segment_points(cr, segment, ir);
+}
+
+void CentralWorkingCanvas::draw_segment_points(
+    const Cairo::RefPtr<Cairo::Context>& cr,
+    const ImageRecordSegmentPtr& segment, ImageRecordPtr ir)
+{
+  assert(cr);
+  assert(segment != nullptr);
+  assert(ir != nullptr);
+
+  const double& is = ir->imageScale;
+  const double half = pointPixelSize / 2.0;
+
+  const auto image = helpers::SegmentPathHelper::image_points(*segment);
+
+  cr->set_line_width(1.0);
+
+  for (std::size_t index = 0U; index < image.size(); ++index) {
+    const auto& [px, py] = image[index];
+
+    cr->rectangle(px * is - half, py * is - half, pointPixelSize,
+                  pointPixelSize);
+
+    if (segment == segmentMouseOver && index == pointMouseOver) {
+      cr->fill();
+    } else {
+      cr->stroke();
+    }
+  }
 }
 
 bool CentralWorkingCanvas::set_pixbuf(Glib::RefPtr<Gdk::Pixbuf>& npb)
@@ -203,6 +286,11 @@ bool CentralWorkingCanvas::mouse_is_over_resize(const int& dx, const int& dy)
   }
 
   for (auto& rptr : ir->rects) {
+    // The segment being drawn has no resize corners drawn
+    if (rptr == drawnSegment) {
+      continue;
+    }
+
     if (!is_in_one_of_resize_rects(dx, dy, rptr, ir)) {
       continue;
     }
@@ -334,6 +422,78 @@ CentralWorkingCanvas::ImageRecordRectPtr
 CentralWorkingCanvas::get_mouse_over_rect()
 {
   return rectMouseOver;
+}
+
+bool CentralWorkingCanvas::mouse_is_over_point(const int& dx, const int& dy)
+{
+  using helpers::SegmentPathHelper;
+
+  const auto lastSegment = segmentMouseOver;
+  const auto lastPoint = pointMouseOver;
+
+  segmentMouseOver.reset();
+  pointMouseOver = SegmentPathHelper::npos;
+
+  auto ir = current_image != nullptr ? current_image->get_image_rec() : nullptr;
+
+  bool found = false;
+
+  if (ir != nullptr) {
+    const auto is_over = [&](const ImageRecordRectPtr& rptr) -> bool {
+      const auto segment = SegmentPathHelper::as_segment(rptr);
+
+      if (segment == nullptr || segment == drawnSegment) {
+        return false;
+      }
+
+      const auto index = SegmentPathHelper::find_point(*segment, toD(dx),
+                                                       toD(dy), ir->imageScale);
+
+      if (index == SegmentPathHelper::npos) {
+        return false;
+      }
+
+      segmentMouseOver = segment;
+      pointMouseOver = index;
+
+      return true;
+    };
+
+    found = is_over(ir->current_rect) ||
+            std::any_of(ir->rects.rbegin(), ir->rects.rend(), is_over);
+  }
+
+  if (lastSegment != segmentMouseOver || lastPoint != pointMouseOver) {
+    LOGT("Need to redraw since the selected segment point changed");
+    queue_draw();
+  }
+
+  return found;
+}
+
+CentralWorkingCanvas::ImageRecordSegmentPtr
+CentralWorkingCanvas::get_mouse_over_segment()
+{
+  return segmentMouseOver;
+}
+
+std::size_t CentralWorkingCanvas::get_mouse_over_point()
+{
+  return pointMouseOver;
+}
+
+void CentralWorkingCanvas::set_drawn_segment(
+    const ImageRecordSegmentPtr& nsegment)
+{
+  drawnSegment = nsegment;
+
+  queue_draw();
+}
+
+CentralWorkingCanvas::ImageRecordSegmentPtr
+CentralWorkingCanvas::get_drawn_segment()
+{
+  return drawnSegment;
 }
 
 }  // namespace imagesAnnotatorGtkmm3::window::custom_widgets
